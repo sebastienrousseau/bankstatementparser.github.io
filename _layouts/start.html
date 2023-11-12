@@ -122,13 +122,12 @@ content="default-src 'self';
             </li>
             <li class="nav-item">
               <a
-              class="nav-link  {{menu}}"
-              aria-current="page"
+              class="nav-link text-info"
               href="/about/index.html">About</a>
             </li>
             <li class="nav-item">
               <a
-                class="nav-link text-info"
+                class="nav-link {{menu}}"
                 aria-current="page"
                 href="/getting-started/index.html">Getting Started</a>
             </li>
@@ -158,7 +157,7 @@ content="default-src 'self';
             </li>
             <li class="nav-item">
               <a
-                class="button btn btn-info rounded-pill text-white {{menu}}"
+                class="button btn btn-info rounded-pill text-white"
                 aria-current="page"
                 href="/contact/index.html">Contact</a>
             </li>
@@ -168,126 +167,27 @@ content="default-src 'self';
     </nav>
     <!-- # End Responsive navbar -->
 
-    <!-- Header-->
-    <header class="w-100 py-5 position-relative">
-      <img
-        alt="{{banner_alt}}"
-        aria-hidden="false"
-        class="fade-in position-absolute top-0 start-0 w-100 h-100"
-        data-has-animated="true"
-        data-show-type="fade-in"
-        height="{{banner_height}}"
-        loading="lazy"
-        src="{{banner}}"
-        style="object-fit: cover; z-index: -1;"
-        title="{{banner_alt}}"
-        width="{{banner_width}}"
-      />
-      <div class="text-center text-white center mx-auto rounded rounded-3 p-5"
-        style="
-          background-color: rgba(0, 16, 28, 0.618);
-          width: 61vw;
-          height: auto;
-          z-index: 1;">
-          <p class="display-2">{{name}}</p>
-            <p class="lead fs-3 text-info">{{subtitle}}</p>
-      </div>
-    </header>
-    <!-- # End Header-->
-
     <!-- Main content-->
-    <main id="main" class="bd-masthead container fs-5 p-5" aria-label="main">
-      <div
-        class="align-items-md-stretch text-start justify-content-between row g-5 py-5"
-      >
-      <form action="https://formspree.io/f/{{form-id}}" method="POST" class="bg-transparent form-control border-0">
-          <div class="row g-3">
-            <div class="row">{{content}}</div>
-            <div class="col-12">
-              <label for="sender" class="form-label">Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="sender"
-                autocomplete="name"
-                placeholder=""
-                value=""
-                required=""
-              />
-              <div class="invalid-feedback">A valid name is required.</div>
-            </div>
-            <div class="col-12">
-              <label for="email" class="form-label">Email</label>
-              <input
-                autocomplete="email"
-                name="email"
-                type="email"
-                id="email"
-                class="form-control"
-                placeholder=""
-                required=""
-              />
-              <div class="invalid-feedback">
-                A valid email address is required.
-              </div>
-            </div>
-            <div class="col-12">
-              <label for="subject" class="form-label">Subject</label><br />
-              <select
-                name="subject"
-                id="subject"
-                class="form-select"
-                required
-                aria-label="General Questions"
-              >
-                <option value="">Select a subject</option>
-                <option value="press">Advertising / Press Enquiries</option>
-                <option value="business">Business Enquiries</option>
-                <option value="feedback">Feedback / Feature Request</option>
-                <option value="general">General Questions</option>
-                <option value="product">Product Questions</option>
-                <option value="support">Product Support</option>
-              </select>
-            </div>
-            <div class="col-12">
-              <label for="message" class="form-label">Message</label>
-              <textarea
-                cols="47"
-                rows="8"
-                class="form-control"
-                id="message"
-                name="message"
-                placeholder="Message"
-                required=""
-                style="height: 168px"
-              ></textarea>
-              <div class="invalid-feedback">Please enter your message.</div>
-            </div>
-            <div class="col-12">
-              <button
-                title="Send Message"
-                type="submit"
-                class="btn btn-lg btn-info text-white"
-              >
-                Send Message
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
+    <main id="main" class="bd-masthead fs-5 p-5" aria-label="main">
+      <div class="text-start justify-content-between">{{content}}</div>
     </main>
 
     <!-- Footer-->
-    <footer id="footer" aria-label="footer" class="footer mt-auto py-3 bg-transparent">
+    <footer id="footer" aria-label="footer" class="footer border-top mt-auto py-3">
+      <img
+        alt="{{subtitle}}"
+        height="32"
+        src="{{cdn}}/{{short_name}}/images/logos/{{short_name}}.webp"
+        width="32"
+      />
       <span class="px-2">{{copyright}}</span>
       <p class="mb-0">
-        <span class="px-2 text-shadow"><a href="/contact/index.html" title="Contact Us">Contact Us</a></span>
-        <span class="px-2"><a href="/privacy/index.html" title="Privacy Policy">Privacy Policy</a></span>
-        <span class="px-2 text-shadow"><a href="/terms/index.html">Terms & Conditions</a></span>
+        <span class="px-2"><a href="/contact/index.html">Contact</a></span>
+        <span class="px-2"><a href="/privacy/index.html">Privacy & Cookie Policy</a></span>
+        <span class="px-2"><a href="/terms/index.html">Terms of Use</a></span>
       </p>
     </footer>
 
-    <!-- # Start Scripts -->
     <script
       async
       crossorigin="anonymous"
@@ -379,6 +279,4 @@ content="default-src 'self';
       gtag('config', '{{measurementID}}');
     </script>
   </body>
-  <!-- # End Body -->
 </html>
-<!-- # End HTML -->

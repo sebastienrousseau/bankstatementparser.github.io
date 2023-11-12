@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta itemprop="datePublished" content="2023-11-12T18:21:18+00:00" id="date">
+    <meta itemprop="dateModified" content="2023-11-12T18:21:18+00:00" id="last-modified">
+    <title>Bank Statement Parser: Installation Prerequisites</title>
+
+    <!-- # Start Primary Meta Tags -->
+    <meta content="Sebastien Rousseau" name="author"><meta content="Welcome to the Bank Statement Parser User Guide. Get started with our Python library for easy CAMT and SEPA file parsing and streamline your financial analysis." name="description"><meta content="telephone=no" name="format-detection"><meta content="Shokunin 🦀 (version 0.0.20)" name="generator"><meta content="bank statement parser, financial analysis, CAMT, SEPA, parsing, automation, efficiency, accuracy, decision-making, workflow" name="keywords"><meta content="en-GB" name="language"><meta content="https://bankstatementparser.com/getting-started/index.html" name="permalink"><meta content="general" name="rating"><meta content="no-referrer" name="referrer"><meta content="7 days" name="revisit-after"><meta content="index, follow" name="robots"><meta content="" name="theme-color"><meta content="Bank Statement Parser: Installation Prerequisites" name="title"><meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <!-- # End Primary Meta Tags -->
+
+    <!-- # Start Open Graph / Facebook Meta Tags -->
+    <meta name="og:description" content="Welcome to the Bank Statement Parser User Guide. Get started with our Python library for easy CAMT and SEPA file parsing and streamline your financial analysis.">
+<meta name="og:image" content="https://kura.pro/bankstatementparser/images/logos/bankstatementparser.webp">
+<meta name="og:image:alt" content="Logo of Bank Statement Parser, a powerful Python tool designed for quick, accurate financial data processing and insights extraction.">
+<meta name="og:image:height" content="100vh">
+<meta name="og:image:width" content="100vw">
+<meta name="og:locale" content="en_GB">
+<meta name="og:title" content="Bank Statement Parser: Installation Prerequisites">
+<meta name="og:type" content="website">
+<meta name="og:url" content="https://bankstatementparser.com/getting-started/index.html">
+    <!-- # End Open Graph / Facebook Meta Tags -->
+
+    <!-- # Start Accessibility Meta Tags -->
+    <meta name="accessibility" content="ARIA, fullKeyboardControl, noFlashingHazard" />
+    <!-- # End Accessibility Meta Tags -->
+
+    <!-- # Start Apple Meta Tags -->
+    <meta content="portrait" name="apple_mobile_web_app_orientations"><meta content="192x192" name="apple_touch_icon_sizes"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-inset"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="Bank Statement Parser: Installation Prerequisites" name="apple-mobile-web-app-title"><meta content="yes" name="apple-touch-fullscreen">
+    <!-- # End Apple Meta Tags -->
+
+<!-- # Start Content Security Policy Meta Tags -->
+<meta http-equiv="Content-Security-Policy"
+content="default-src 'self';
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com;
+  connect-src 'self' www.googletagmanager.com https://region1.google-analytics.com;
+  img-src 'self' data: https: kura.pro www.googletagmanager.com;
+  style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com;
+  font-src 'self' https://fonts.gstatic.com;
+  media-src 'self';" />
+<!-- # End Content Security Policy Meta Tags -->
+
+
+
+    <!-- # Start Microsoft Meta Tags -->
+    <meta content="" name="msapplication-navbutton-color">
+    <!-- # End Microsoft Meta Tags -->
+
+    <!-- # Start Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@wwdseb">
+<meta name="twitter:description" content="Welcome to the Bank Statement Parser User Guide. Get started with our Python library for easy CAMT and SEPA file parsing and streamline your financial analysis.">
+<meta name="twitter:image" content="https://kura.pro/bankstatementparser/images/logos/bankstatementparser.webp">
+<meta name="twitter:image:alt" content="Logo of Bank Statement Parser, a powerful Python tool designed for quick, accurate financial data processing and insights extraction.">
+<meta name="twitter:image:height" content="100vh">
+<meta name="twitter:image:width" content="100vw">
+<meta name="twitter:site" content="https://bankstatementparser.com">
+<meta name="twitter:title" content="Bank Statement Parser: Installation Prerequisites">
+<meta name="twitter:url" content="https://bankstatementparser.com">
+    <!-- # End Twitter Meta Tags -->
+
+    <!-- # Start Links -->
+    <link rel="alternate" href="https://bankstatementparser.com" hreflang="en" />
+    <link rel="preload" as="image" href="https://kura.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp">
+    <link rel="canonical" href="https://bankstatementparser.com" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://kura.pro/bankstatementparser/images/favicon.ico"
+      sizes="16x16 32x32"
+    />
+    <link
+      as="style"
+      crossorigin="anonymous"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      onload="this.onload=null;this.rel='stylesheet'"
+      rel="preload"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="https://kura.pro/bankstatementparser/images/icons/192x192.png"
+      sizes="192x192"
+    />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
+    <!-- # End Links -->
+
+    <!-- # Start Styles -->
+    <style>
+      @keyframes dropDown{from{transform:translateY(-.618rem)}to{transform:translateY(0)}}@keyframes fadeIn{from{opacity:0}to{opacity:1}}.active,h1,h2,h3,h4,h5,h6,strong{font-weight:400}.article-info{color:var(--theme-color);font-weight:400}.blur-light{backdrop-filter:saturate(180%) blur(20px);background-color:rgba(255,255,255,.618)}.card{overflow:hidden}.drop-down,.fade-in{animation-fill-mode:forwards}.drop-down{animation:dropDown 1.618s ease}.fade-in{animation:fadeIn 3s ease}h1,h2,h3,h4,h5,h6{color:var(--theme-color)}:root{--theme-color:rgb(73, 214, 251)}*{font-weight:300}a{color:var(--theme-color);text-decoration:none}a:hover{text-decoration:underline}pre{background:#f9f9f9;border:1px solid #ddd;border-left:3px solid var(--theme-color);color:#666;display:block;font-family:monospace;font-size:15px;line-height:1.618;margin-bottom:1.618em;max-width:100%;overflow:auto;padding:1em 1.618em;page-break-inside:avoid;word-wrap:break-word}.zoom-in{transition:transform .618s cubic-bezier(.618,1,.618,1)}.zoom-in:hover{transform:scale(1.0618)}.zoom-out{transition:transform .618s cubic-bezier(.618,1,.618,1)}.zoom-out:hover{transform:scale(.618)}
+    </style>
+    <!-- # End Styles -->
+  </head>
+  <body
+    id="page-top"
+    itemscope
+    itemtype="http://schema.org/WebPage"
+    class="fw-light text-center bg-white text-start fs-6"
+  >
+    <!-- # Start Responsive navbar -->
+    <nav
+      class="navbar navbar-expand-lg bd-navbar sticky-top shadow-small border-bottom blur-light"
+      id="mainNav"
+      itemscope
+      itemtype="http://schema.org/SiteNavigationElement"
+    >
+    <div class="container-xxl p-3">
+      <a class="navbar-brand p-0 me-0 me-lg-2" href="/" aria-label="logo">
+        <img
+          class="d-inline-block align-top"
+          width="44"
+          height="44"
+          src="https://kura.pro/bankstatementparser/images/logos/bankstatementparser.webp"
+          alt="Logo of Bank Statement Parser, a powerful Python tool designed for quick, accurate financial data processing and insights extraction."
+          title="Logo of Bank Statement Parser, a powerful Python tool designed for quick, accurate financial data processing and insights extraction."
+          loading="lazy"
+        />
+      </a>
+      <span class="fs-4" itemprop="name"><a href="/" itemprop="url" title="Getting Started - Welcome to the Bank Statement Parser User Guide. Get started with our Python library for easy CAMT and SEPA file parsing and streamline your financial analysis." class="text-decoration-none text-dark">Getting Started</a></span>
+      <button
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+          class="navbar-toggler"
+          data-bs-target="#navbarSupportedContent"
+          data-bs-toggle="collapse"
+          type="button"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav navbar-white ms-auto mb-2 bg-transparent">
+            <li class="nav-item">
+              <a
+                class="nav-link text-info"
+                href="/index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a
+              class="nav-link text-info"
+              href="/about/index.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="/getting-started/index.html">Getting Started</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link text-info dropdown-toggle"
+                id="navbarDropdown"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                >Resources</a>
+              <ul
+                class="dropdown-menu dropdown-menu-end border border-info bg-black"
+                aria-labelledby="resourcesDropdown"
+              >
+                <li>
+                  <a class="bg-transparent dropdown-item text-info" href="/contribute/index.html">Contribute</a>
+                </li>
+                <li>
+                  <a class="bg-transparent dropdown-item text-info" href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank">GitHub ⧉</a>
+                </li>
+                <li>
+                  <a class="bg-transparent dropdown-item text-info" href="/tags/index.html">Tags</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a
+                class="button btn btn-info rounded-pill text-white"
+                aria-current="page"
+                href="/contact/index.html">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- # End Responsive navbar -->
+
+    <!-- Main content-->
+    <main id="main" class="bd-masthead fs-5 p-5" aria-label="main">
+      <div class="text-start justify-content-between"><h1 id="h1-bank" tabindex="0" itemprop="headline" id="" tabindex="0" itemprop="headline" class="bank">Bank Statement Parser: Installation Prerequisites</h1><p>Welcome to the Bank Statement Parser User Guide. Get started with our Python library for easy CAMT and SEPA file parsing and streamline your financial analysis.</p><p></p><p><img src="https://kura.pro/stock/images/banners/christoph-duschl-CE_TvPHF3lA.webp" alt="Bank Statement Parser:  Setup and Usage Guide"  class="img-fluid fade-in p-3"/></p>
+<h2 id="h2-system" tabindex="0" itemprop="subheadline" class="system">System Requirements</h2>
+<p>Before beginning, ensure your system meets the following criteria:</p>
+<ul>
+<li>Python 3.6 or newer installed.</li>
+<li>Command-line interface (CLI) access, such as Terminal or Command Prompt.</li>
+</ul>
+<h2 id="h2-installation" tabindex="0" itemprop="subheadline" class="installation">Installation</h2>
+<h3 id="h3-create" tabindex="0" itemprop="subheadline" class="create">Create a Virtual Environment</h3>
+<p>We recommend creating a virtual environment to install the Bank Statement Parser. This will ensure that the package is installed in an isolated environment and will not affect other projects.</p>
+<p><img src="https://kura.pro/stock/images/banners/adrien-olichon-3137055.webp" alt="Bank Statement Parser: Installation Prerequisites"  class="w-25 fade-in py-0 px-3 float-start"/></p>
+<pre lang="bash"><code>python3 -m venv venv
+source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+</code></pre>
+<h3 id="h3-installing" tabindex="0" itemprop="subheadline" class="installing">Installing the Bank Statement Parser</h3>
+<p>Install <code>bankstatementparser</code> with just one command:</p>
+<pre lang="bash"><code>pip install bankstatementparser
+</code></pre>
+<h3 id="h3-installing" tabindex="0" itemprop="subheadline" class="installing">Installing Dependencies</h3>
+<p>Open your CLI and navigate to the library’s directory, then execute the following:</p>
+<pre lang="bash"><code>pip install -r requirements.txt
+</code></pre>
+<p><img src="https://kura.pro/common/images/elements/divider.svg" alt="divider" title="Divider"  class="m-10 w-100"/></p>
+<h2 id="h2-get" tabindex="0" itemprop="subheadline" class="get">Get the Source Code on GitHub</h2>
+<p>You can access the source code for the Bank Statement Parser by downloading releases, browsing or even contributing to its development on <a href="https://github.com/sebastienrousseau/bankstatementparser" title="Bank Statement Parser on GitHub">GitHub ⧉</a>. You can also <a href="https://github.com/sebastienrousseau/bankstatementparser/issues" title="Bank Statement Parser Issues">report issues</a> and <a href="https://github.com/sebastienrousseau/bankstatementparser/issues" title="Bank Statement Parser Issues">request new features</a>, which we will review and address as soon as possible.</p>
+<p><img src="https://kura.pro/common/images/elements/divider.svg" alt="divider" title="Divider"  class="m-10 w-100"/></p>
+<h2 id="h2-usage" tabindex="0" itemprop="subheadline" class="usage">Usage</h2>
+<h3 id="h3-camt" tabindex="0" itemprop="subheadline" class="camt">CAMT Files</h3>
+<p><img src="https://kura.pro/stock/images/banners/airam-datoon-12303543.webp" alt="Bank Statement Parser:  Usage"  class="w-25 fade-in py-2 px-3 float-end"/></p>
+<pre lang="python"><code>from bankstatementparser import CamtParser
+
+# Initialize the parser with the CAMT file path
+camt_parser = CamtParser('path/to/camt/file.xml')
+
+# Parse the file and get the results
+results = camt_parser.parse()
+</code></pre>
+<h3 id="h3-pain" tabindex="0" itemprop="subheadline" class="pain">PAIN.001 Files</h3>
+<pre lang="python"><code>from bankstatementparser import Pain001Parser
+
+# Initialize the parser with the PAIN.001 file path
+pain_parser = Pain001Parser('path/to/pain/file.xml')
+
+# Parse the file and get the results
+results = pain_parser.parse()
+</code></pre>
+<p><img src="https://kura.pro/common/images/elements/divider.svg" alt="divider" title="Divider"  class="m-10 w-100"/></p>
+<h2 id="h2-command" tabindex="0" itemprop="subheadline" class="command">Command Line Interface (CLI) Guide</h2>
+<p>Leverage the CLI for quick parsing tasks with the following commands:</p>
+<h3 id="h3-basic" tabindex="0" itemprop="subheadline" class="basic">Basic Command</h3>
+<pre lang="bash"><code>python cli.py --type &lt;file_type&gt; --input &lt;input_file&gt; [--output &lt;output_file&gt;]
+</code></pre>
+<ul>
+<li><code>--type</code>: Type of the bank statement file. Currently supported types are “camt” and “pain001”.</li>
+<li><code>--input</code>: Path to the bank statement file.</li>
+<li><code>--output</code>: (Optional) Path to save the parsed data. If not provided, data is printed to the console.</li>
+</ul>
+<h3 id="h3-examples" tabindex="0" itemprop="subheadline" class="examples">Examples for CAMT Files</h3>
+<ol>
+<li>
+<p>Parse a CAMT file and print the results to the console:</p>
+<pre lang="bash"><code>python cli.py --type camt --input path/to/camt/camt_file.xml
+</code></pre>
+<p>Using the test data:</p>
+<pre lang="bash"><code>python ./bankstatementparser/cli.py --type camt --input ./tests/test_data/camt.053.001.02.xml
+</code></pre>
+</li>
+<li>
+<p>Parse a CAMT file and save the results to a CSV file:</p>
+<pre lang="bash"><code>python cli.py --type camt --input path/to/camt/file.xml --output path/to/output/file.csv
+</code></pre>
+<p>Using the test data:</p>
+<pre lang="bash"><code>python ./bankstatementparser/cli.py --type camt --input ./tests/test_data/camt.053.001.02.xml --output ./tests/test_data/camt_file.csv
+</code></pre>
+</li>
+</ol>
+<h3 id="h3-examples" tabindex="0" itemprop="subheadline" class="examples">Examples for PAIN.001 Files</h3>
+<ol>
+<li>Parse a PAIN.001.001.03 file and print the results to the console:</li>
+</ol>
+<pre lang="bash"><code>python cli.py --type pain001 --input path/to/pain.001.001.03.xml
+</code></pre>
+<p>Using the test data:</p>
+<pre lang="bash"><code>python ./bankstatementparser/cli.py --type pain001 --input ./tests/test_data/pain.001.001.03.xml
+</code></pre>
+<ol start="2">
+<li>Parse a PAIN.001.001.03 file and save the results to a CSV file:</li>
+</ol>
+<pre lang="bash"><code>python cli.py --type pain001 --input path/to/pain.001.001.03.xml --output path/to/output/file.csv
+</code></pre>
+<p>Using the test data:</p>
+<pre lang="bash"><code>python ./bankstatementparser/cli.py --type pain001 --input ./tests/test_data/pain.001.001.03.xml --output ./tests/test_data/pain_file.csv
+</code></pre>
+</div>
+    </main>
+
+    <!-- Footer-->
+    <footer id="footer" aria-label="footer" class="footer border-top mt-auto py-3">
+      <img
+        alt="Start Building Secure Applications with Bank Statement Parser"
+        height="32"
+        src="https://kura.pro/bankstatementparser/images/logos/bankstatementparser.webp"
+        width="32"
+      />
+      <span class="px-2">© 2023 Bank Statement Parser. All rights reserved.</span>
+      <p class="mb-0">
+        <span class="px-2"><a href="/contact/index.html">Contact</a></span>
+        <span class="px-2"><a href="/privacy/index.html">Privacy & Cookie Policy</a></span>
+        <span class="px-2"><a href="/terms/index.html">Terms of Use</a></span>
+      </p>
+    </footer>
+
+    <script
+      async
+      crossorigin="anonymous"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      defer
+    ></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org/",
+        "@type": "WebPage",
+        "author": {
+          "@type": "Person",
+          "@id": "Sebastien Rousseau"
+        },
+        "copyrightHolder": {
+          "@type": "Person",
+          "@id": "Sebastien Rousseau"
+        },
+        "copyrightYear": "© 2023 Bank Statement Parser. All rights reserved.",
+        "creator": {
+          "@type": "Person",
+          "@id": "Sebastien Rousseau"
+        },
+        "dateModified": "2023-11-12T18:21:18+00:00",
+        "datePublished": "2023-11-12T18:21:18+00:00",
+        "description": "Welcome to the Bank Statement Parser User Guide. Get started with our Python library for easy CAMT and SEPA file parsing and streamline your financial analysis.",
+        "headline": "Start Building Secure Applications with Bank Statement Parser",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://kura.pro/bankstatementparser/images/logos/bankstatementparser.webp"
+        },
+        "inLanguage": "en-GB",
+        "mainEntityOfPage": "https://bankstatementparser.com/getting-started/index.html",
+        "name": "Getting Started",
+        "publisher": {
+          "@type": "Person",
+          "@id": "Sebastien Rousseau"
+        }
+      }
+    </script>
+    <script type="module" defer>
+      // This is an Immediately Invoked Function Expression (IIFE) which helps
+      // to avoid declaring any globals.
+      (function () {
+        // Create a new script element
+        var script = document.createElement("script");
+
+        // Set the source of the script element to "/main.js".
+        // A timestamp is appended as a query string to ensure the browser
+        // always fetches the latest version of the script, bypassing the
+        // cache.
+        script.src = "/main.js";
+
+        // The script is of type "text/javascript"
+
+        // The script is set to execute asynchronously as soon as it's
+        //available
+
+        // Append the script element to the head of the document
+        document.head.appendChild(script);
+      })(); // The function is immediately invoked
+    </script>
+    <script>
+      // JavaScript code
+      var dropDownElements = document.querySelectorAll('.drop-down');
+      dropDownElements.forEach(function(element) {
+        element.classList.add('animate');
+      });
+
+      window.addEventListener('scroll', function() {
+        var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        dropDownElements.forEach(function(element) {
+          if (scrollTop === 0) {
+            element.classList.add('animate');
+          } else {
+            element.classList.remove('animate');
+          }
+        });
+      });
+    </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VN18SSQLM6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VN18SSQLM6');
+    </script>
+  </body>
+</html>

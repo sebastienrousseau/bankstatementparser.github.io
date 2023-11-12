@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<!-- # Start HTML -->
+<html lang="{{language}}" data-bs-theme="dark">
+  <head>
+
+    <title>{{title}}</title>
+
+    <!-- # Start Meta Tags -->
+    <meta charset="{{charset}}" />
+    <meta itemprop="datePublished" content="{{item_pub_date}}" id="date">
+    <meta itemprop="dateModified" content="{{last_build_date}}" id="last-modified">
+    <!-- # End Meta Tags -->
+
+    <!-- # Start Primary Meta Tags -->
+    {{primary}}
+    <!-- # End Primary Meta Tags -->
+
+    <!-- # Start Open Graph / Facebook Meta Tags -->
+    {{opengraph}}
+    <!-- # End Open Graph / Facebook Meta Tags -->
+
+    <!-- # Start Accessibility Meta Tags -->
+    <meta name="accessibility" content="ARIA, fullKeyboardControl, noFlashingHazard" />
+    <!-- # End Accessibility Meta Tags -->
+
+    <!-- # Start Apple Meta Tags -->
+    {{apple}}
+    <!-- # End Apple Meta Tags -->
+
+    <!-- # Start Content Security Policy Meta Tags -->
+    <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self';
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com;
+      connect-src 'self' www.googletagmanager.com https://region1.google-analytics.com;
+      img-src 'self' data: https: kura.pro www.googletagmanager.com;
+      style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com;
+      media-src 'self' https://kura.pro;" />
+    <!-- # End Content Security Policy Meta Tags -->
+
+    <!-- # Start Microsoft Meta Tags -->
+    {{microsoft}}
+    <!-- # End Microsoft Meta Tags -->
+
+    <!-- # Start Twitter Meta Tags -->
+    {{twitter}}
+    <!-- # End Twitter Meta Tags -->
+
+    <!-- # Start Links -->
+    <link rel="alternate" href="{{url}}" hreflang="{{hreflang}}" />
+    <link rel="preload" as="image" href="{{banner}}">
+    <link rel="canonical" href="{{url}}" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{icon}}"
+      sizes="16x16 32x32 48x48 64x64"
+    />
+    <link
+      as="style"
+      crossorigin="anonymous"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      onload="this.onload=null;this.rel='stylesheet'"
+      rel="preload"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="{{cdn}}/{{short_name}}/images/icons/{{apple_touch_icon_sizes}}.png"
+      sizes="{{apple_touch_icon_sizes}}"
+    />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
+    <!-- # End Links -->
+
+    <!-- # Start Styles -->
+    <style>
+      @keyframes dropDown{from{transform:translateY(-.618rem)}to{transform:translateY(0)}}@keyframes fadeIn{from{opacity:0}to{opacity:1}}.active,h1,h2,h3,h4,h5,h6,strong{font-weight:400}.article-info{color:var(--theme-color);font-weight:400}.blur-light{backdrop-filter:saturate(180%) blur(20px);background-color:rgba(255,255,255,.618)}.card{overflow:hidden}.drop-down,.fade-in{animation-fill-mode:forwards}.drop-down{animation:dropDown 1.618s ease}.fade-in{animation:fadeIn 3s ease}h1,h2,h3,h4,h5,h6{color:var(--theme-color)}:root{--theme-color:{{theme_color}}}*{font-weight:300}a{color:var(--theme-color);text-decoration:none}a:hover{text-decoration:underline}pre{background:#f9f9f9;border:1px solid #ddd;border-left:3px solid var(--theme-color);color:#666;display:block;font-family:monospace;font-size:15px;line-height:1.618;margin-bottom:1.618em;max-width:100%;overflow:auto;padding:1em 1.618em;page-break-inside:avoid;word-wrap:break-word}.zoom-in{transition:transform .618s cubic-bezier(.618,1,.618,1)}.zoom-in:hover{transform:scale(1.0618)}.zoom-out{transition:transform .618s cubic-bezier(.618,1,.618,1)}.zoom-out:hover{transform:scale(.618)}.text-shadow{text-shadow:1px 1px 2px black}body{background-color: black!important; }
+    </style>
+    <!-- # End Styles -->
+  </head>
+
+  <!-- # Start Body -->
+  <body
+    id="page-top"
+    itemscope
+    itemtype="http://schema.org/WebPage"
+    class="bg-black text-white text-center text-start fs-6"
+  >
+    <!-- # Start Responsive navbar -->
+    <nav
+      class="navbar navbar-expand-lg bd-navbar sticky-top blur-light"
+      id="mainNav"
+      itemscope
+      itemtype="http://schema.org/SiteNavigationElement"
+      style="background-color: transparent;"
+    >
+    <div class="container-xxl py-3">
+      <a class="navbar-brand p-0 me-0 me-lg-2" href="/" aria-label="logo">
+        <img
+          class="d-inline-block align-top fade-in"
+          width="{{logo_width}}"
+          height="{{logo_height}}"
+          src="{{logo}}"
+          alt="{{logo_alt}}"
+          title="{{logo_alt}}"
+          loading="lazy"
+        />
+      </a>
+      <button
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+          class="navbar-toggler bg-info border-0"
+          data-bs-target="#navbarSupportedContent"
+          data-bs-toggle="collapse"
+          type="button"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav navbar-white ms-auto mb-2 bg-transparent">
+            <li class="nav-link {{menu}}">
+              <a
+              class="text-light {{menu}}"
+                aria-current="page"
+                href="/index.html">Home</a>
+            </li>
+            <li class="nav-link middle">
+              <a
+                class=""
+                aria-current="page"
+                href="/getting-started/index.html">Getting Started</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link text-info dropdown-toggle"
+                id="navbarDropdown"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                >Resources</a>
+              <ul
+                class="dropdown-menu dropdown-menu-end border border-info bg-black"
+                aria-labelledby="resourcesDropdown"
+              >
+                <li>
+                  <a class="bg-transparent dropdown-item text-info" href="/contribute/index.html">Contribute</a>
+                </li>
+                <li>
+                  <a class="bg-transparent dropdown-item text-info" href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank">GitHub ⧉</a>
+                </li>
+                <li>
+                  <a class="bg-transparent dropdown-item text-info" href="/tags/index.html">Tags</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-link">
+              <a
+                class="button btn btn-info rounded-pill text-white"
+                aria-current="page"
+                href="/contact/index.html">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- # End Responsive navbar -->
+    <!-- Header-->
+    <header class="bg-black text-white text-center shadow-lg position-relative py-3">
+      <img
+        alt="{{banner_alt}}"
+        aria-hidden="false"
+        class="fade-in position-absolute top-0 start-0 w-100 h-100"
+        data-has-animated="true"
+        data-show-type="fade-in"
+        height="{{banner_height}}"
+        loading="lazy"
+        src="{{banner}}"
+        style="object-fit: cover; z-index: -1;"
+        title="{{banner_alt}}"
+        width="{{banner_width}}"
+      />
+        <div class="text-center text-white mx-auto p-5"
+        style="
+          margin-top:50px;
+          width: 50vw;
+          height: auto;
+          z-index: 1;">
+          <p class="display-3 text-shadow">{{short_name}}</p>
+          <p class="fs-3 text-shadow">{{subtitle}}</p>
+        </div>
+    </header>
+
+    <!-- Main content-->
+    <main id="main" class="bd-masthead fs-5 p-5" aria-label="main">
+      <div class="text-start justify-content-between">{{content}}</div>
+    </main>
+
+    <!-- Footer-->
+    <footer id="footer" aria-label="footer" class="footer mt-auto py-3 bg-dark">
+      <span class="px-2">{{copyright}}</span>
+      <p class="mb-0">
+        <span class="px-2 text-shadow"><a href="/contact/index.html" title="Contact Us">Contact Us</a></span>
+        <span class="px-2"><a href="/privacy/index.html" title="Privacy Policy">Privacy Policy</a></span>
+        <span class="px-2 text-shadow"><a href="/terms/index.html">Terms & Conditions</a></span>
+      </p>
+    </footer>
+    <!-- # End Footer -->
+
+    <!-- # Start Scripts -->
+    <script
+      async
+      crossorigin="anonymous"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      defer
+    ></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org/",
+        "@type": "WebPage",
+        "author": {
+          "@type": "Person",
+          "@id": "{{author}}"
+        },
+        "copyrightHolder": {
+          "@type": "Person",
+          "@id": "{{author}}"
+        },
+        "copyrightYear": "{{copyright}}",
+        "creator": {
+          "@type": "Person",
+          "@id": "{{author}}"
+        },
+        "dateModified": "{{last_build_date}}",
+        "datePublished": "{{item_pub_date}}",
+        "description": "{{description}}",
+        "headline": "{{subtitle}}",
+        "image": {
+          "@type": "ImageObject",
+          "url": "{{image}}"
+        },
+        "inLanguage": "{{language}}",
+        "mainEntityOfPage": "{{permalink}}",
+        "name": "{{name}}",
+        "publisher": {
+          "@type": "Person",
+          "@id": "{{author}}"
+        }
+      }
+    </script>
+    <script type="module" defer>
+      // This is an Immediately Invoked Function Expression (IIFE) which helps
+      // to avoid declaring any globals.
+      (function () {
+        // Create a new script element
+        var script = document.createElement("script");
+
+        // Set the source of the script element to "/main.js".
+        // A timestamp is appended as a query string to ensure the browser
+        // always fetches the latest version of the script, bypassing the
+        // cache.
+        script.src = "/main.js";
+
+        // The script is of type "text/javascript"
+
+        // The script is set to execute asynchronously as soon as it's
+        //available
+
+        // Append the script element to the head of the document
+        document.head.appendChild(script);
+      })(); // The function is immediately invoked
+    </script>
+    <script>
+      // JavaScript code
+      var dropDownElements = document.querySelectorAll('.drop-down');
+      dropDownElements.forEach(function(element) {
+        element.classList.add('animate');
+      });
+
+      window.addEventListener('scroll', function() {
+        var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        dropDownElements.forEach(function(element) {
+          if (scrollTop === 0) {
+            element.classList.add('animate');
+          } else {
+            element.classList.remove('animate');
+          }
+        });
+      });
+    </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{measurementID}}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', '{{measurementID}}');
+    </script>
+  </body>
+  <!-- # End Body -->
+</html>
+<!-- # End HTML -->

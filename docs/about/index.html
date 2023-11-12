@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta itemprop="datePublished" content="2023-11-12T18:21:18+00:00" id="date">
+    <meta itemprop="dateModified" content="2023-11-12T18:21:18+00:00" id="last-modified">
+    <title>Bank Statement Parser: Automating Bank Statement Processing.</title>
+
+    <!-- # Start Primary Meta Tags -->
+    <meta content="Sebastien Rousseau" name="author"><meta content="Streamline financial analysis with Bank Statement Parser, a Python library for automating bank statement processing. Supports CAMT and SEPA formats." name="description"><meta content="telephone=no" name="format-detection"><meta content="Shokunin 🦀 (version 0.0.20)" name="generator"><meta content="bank statement parser, financial analysis, Python library, automate, CAMT, SEPA, data extraction, efficiency, accuracy, cost-effective" name="keywords"><meta content="en-GB" name="language"><meta content="https://bankstatementparser.com/about/index.html" name="permalink"><meta content="general" name="rating"><meta content="no-referrer" name="referrer"><meta content="7 days" name="revisit-after"><meta content="index, follow" name="robots"><meta content="" name="theme-color"><meta content="Bank Statement Parser: Automating Bank Statement Processing." name="title"><meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <!-- # End Primary Meta Tags -->
+
+    <!-- # Start Open Graph / Facebook Meta Tags -->
+    <meta name="og:description" content="Streamline financial analysis with Bank Statement Parser, a Python library for automating bank statement processing. Supports CAMT and SEPA formats.">
+<meta name="og:image" content="https://kura.pro/bankstatementparser/images/logos/bankstatementparser.webp">
+<meta name="og:image:alt" content="Logo of Bank Statement Parser, Empower Your Financial Analysis with Seamless Data Extraction">
+<meta name="og:image:height" content="100vh">
+<meta name="og:image:width" content="100vw">
+<meta name="og:locale" content="en_GB">
+<meta name="og:title" content="Bank Statement Parser: Automating Bank Statement Processing.">
+<meta name="og:type" content="website">
+<meta name="og:url" content="https://bankstatementparser.com/about/index.html">
+    <!-- # End Open Graph / Facebook Meta Tags -->
+
+    <!-- # Start Accessibility Meta Tags -->
+    <meta name="accessibility" content="ARIA, fullKeyboardControl, noFlashingHazard" />
+    <!-- # End Accessibility Meta Tags -->
+
+    <!-- # Start Apple Meta Tags -->
+    <meta content="portrait" name="apple_mobile_web_app_orientations"><meta content="192x192" name="apple_touch_icon_sizes"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-inset"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="Bank Statement Parser: Automating Bank Statement Processing." name="apple-mobile-web-app-title"><meta content="yes" name="apple-touch-fullscreen">
+    <!-- # End Apple Meta Tags -->
+
+<!-- # Start Content Security Policy Meta Tags -->
+<meta http-equiv="Content-Security-Policy"
+content="default-src 'self';
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com;
+  connect-src 'self' www.googletagmanager.com https://region1.google-analytics.com;
+  img-src 'self' data: https: kura.pro www.googletagmanager.com;
+  style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com;
+  font-src 'self' https://fonts.gstatic.com;
+  media-src 'self';" />
+<!-- # End Content Security Policy Meta Tags -->
+
+
+
+    <!-- # Start Microsoft Meta Tags -->
+    <meta content="" name="msapplication-navbutton-color">
+    <!-- # End Microsoft Meta Tags -->
+
+    <!-- # Start Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@wwdseb">
+<meta name="twitter:description" content="Streamline financial analysis with Bank Statement Parser, a Python library for automating bank statement processing. Supports CAMT and SEPA formats.">
+<meta name="twitter:image" content="https://kura.pro/bankstatementparser/images/logos/bankstatementparser.webp">
+<meta name="twitter:image:alt" content="Logo of Bank Statement Parser, Empower Your Financial Analysis with Seamless Data Extraction">
+<meta name="twitter:image:height" content="100vh">
+<meta name="twitter:image:width" content="100vw">
+<meta name="twitter:site" content="https://bankstatementparser.com">
+<meta name="twitter:title" content="Bank Statement Parser: Automating Bank Statement Processing.">
+<meta name="twitter:url" content="https://bankstatementparser.com">
+    <!-- # End Twitter Meta Tags -->
+
+    <!-- # Start Links -->
+    <link rel="alternate" href="https://bankstatementparser.com" hreflang="en" />
+    <link rel="preload" as="image" href="https://kura.pro/stock/images/banners/corporate-finance.webp">
+    <link rel="canonical" href="https://bankstatementparser.com" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://kura.pro/bankstatementparser/images/favicon.ico"
+      sizes="16x16 32x32"
+    />
+    <link
+      as="style"
+      crossorigin="anonymous"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      onload="this.onload=null;this.rel='stylesheet'"
+      rel="preload"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="https://kura.pro/bankstatementparser/images/icons/192x192.png"
+      sizes="192x192"
+    />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
+    <!-- # End Links -->
+
+    <!-- # Start Styles -->
+    <style>
+      @keyframes dropDown{from{transform:translateY(-.618rem)}to{transform:translateY(0)}}@keyframes fadeIn{from{opacity:0}to{opacity:1}}.active,h1,h2,h3,h4,h5,h6,strong{font-weight:400}.article-info{color:var(--theme-color);font-weight:400}.blur-light{backdrop-filter:saturate(180%) blur(20px);background-color:rgba(255,255,255,.618)}.card{overflow:hidden}.drop-down,.fade-in{animation-fill-mode:forwards}.drop-down{animation:dropDown 1.618s ease}.fade-in{animation:fadeIn 3s ease}h1,h2,h3,h4,h5,h6{color:var(--theme-color)}:root{--theme-color:rgb(73, 214, 251)}*{font-weight:300}a{color:var(--theme-color);text-decoration:none}a:hover{text-decoration:underline}pre{background:#f9f9f9;border:1px solid #ddd;border-left:3px solid var(--theme-color);color:#666;display:block;font-family:monospace;font-size:15px;line-height:1.618;margin-bottom:1.618em;max-width:100%;overflow:auto;padding:1em 1.618em;page-break-inside:avoid;word-wrap:break-word}.zoom-in{transition:transform .618s cubic-bezier(.618,1,.618,1)}.zoom-in:hover{transform:scale(1.0618)}.zoom-out{transition:transform .618s cubic-bezier(.618,1,.618,1)}.zoom-out:hover{transform:scale(.618)}
+    </style>
+    <!-- # End Styles -->
+  </head>
+  <body
+    id="page-top"
+    itemscope
+    itemtype="http://schema.org/WebPage"
+    class="fw-light text-center bg-white text-start fs-6"
+  >
+    <!-- # Start Responsive navbar -->
+    <nav
+      class="navbar navbar-expand-lg bd-navbar sticky-top shadow-small border-bottom blur-light"
+      id="mainNav"
+      itemscope
+      itemtype="http://schema.org/SiteNavigationElement"
+    >
+    <div class="container-xxl p-3">
+      <a class="navbar-brand p-0 me-0 me-lg-2" href="/" aria-label="logo">
+        <img
+          class="d-inline-block align-top"
+          width="44"
+          height="44"
+          src="https://kura.pro/bankstatementparser/images/logos/bankstatementparser.webp"
+          alt="Logo of Bank Statement Parser, Empower Your Financial Analysis with Seamless Data Extraction"
+          title="Logo of Bank Statement Parser, Empower Your Financial Analysis with Seamless Data Extraction"
+          loading="lazy"
+        />
+      </a>
+      <span class="fs-4" itemprop="name"><a href="/" itemprop="url" title="About the Bank Statement Parser - Streamline financial analysis with Bank Statement Parser, a Python library for automating bank statement processing. Supports CAMT and SEPA formats." class="text-decoration-none text-dark">About the Bank Statement Parser</a></span>
+      <button
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+          class="navbar-toggler"
+          data-bs-target="#navbarSupportedContent"
+          data-bs-toggle="collapse"
+          type="button"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav navbar-white ms-auto mb-2 bg-transparent">
+            <li class="nav-item">
+              <a
+                class="nav-link text-info"
+                href="/index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a
+              class="nav-link  active"
+              aria-current="page"
+              href="/about/index.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link text-info"
+                aria-current="page"
+                href="/getting-started/index.html">Getting Started</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link text-info dropdown-toggle"
+                id="navbarDropdown"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                >Resources</a>
+              <ul
+                class="dropdown-menu dropdown-menu-end border border-info bg-black"
+                aria-labelledby="resourcesDropdown"
+              >
+                <li>
+                  <a class="bg-transparent dropdown-item text-info" href="/contribute/index.html">Contribute</a>
+                </li>
+                <li>
+                  <a class="bg-transparent dropdown-item text-info" href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank">GitHub ⧉</a>
+                </li>
+                <li>
+                  <a class="bg-transparent dropdown-item text-info" href="/tags/index.html">Tags</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a
+                class="button btn btn-info rounded-pill text-white"
+                aria-current="page"
+                href="/contact/index.html">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- # End Responsive navbar -->
+
+    <!-- Header-->
+    <header class="w-100 py-5 position-relative">
+      <img
+        alt="Bank Statement Parser: Automating Bank Statement Processing"
+        aria-hidden="false"
+        class="fade-in position-absolute top-0 start-0 w-100 h-100"
+        data-has-animated="true"
+        data-show-type="fade-in"
+        height="100vh"
+        loading="lazy"
+        src="https://kura.pro/stock/images/banners/corporate-finance.webp"
+        style="object-fit: cover; z-index: -1;"
+        title="Bank Statement Parser: Automating Bank Statement Processing"
+        width="100vw"
+      />
+      <div class="text-center text-white center mx-auto rounded rounded-3 p-5"
+        style="
+          background-color: rgba(0, 16, 28, 0.618);
+          width: 61vw;
+          height: auto;
+          z-index: 1;">
+          <p class="display-2">About the Bank Statement Parser</p>
+            <p class="lead fs-3 text-info">Empower Your Financial Analysis with Seamless Data Extraction.</p>
+      </div>
+    </header>
+    <!-- # End Header-->
+
+    <!-- Main content-->
+    <main id="main" class="bd-masthead fs-5 p-5" aria-label="main">
+      <div class="text-start justify-content-between"><h1 id="h1-bank" tabindex="0" itemprop="headline" id="" tabindex="0" itemprop="headline" class="bank">Bank Statement Parser: Automating Bank Statement Processing.</h1><p>Streamline financial analysis with Bank Statement Parser, a Python library for automating bank statement processing. Supports CAMT and SEPA formats.</p><p></p><p>Welcome to Bank Statement Parser, your one-stop solution for effortlessly automating the complex task of parsing bank statements. Our robust Python library is meticulously designed to cater to the needs of finance professionals, streamlining the process of extracting crucial information from intricate transaction files such as CAMT and SEPA.</p>
+<p><img src="https://kura.pro/common/images/elements/divider.svg" alt="divider" title="Divider"  class="m-10 w-100"/></p>
+<h2 id="h2-revolutionising" tabindex="0" itemprop="subheadline" class="revolutionising">Revolutionising Financial Data Management</h2>
+<p>Parsing bank statements can be a tedious and time-consuming endeavor, often hindering finance professionals from focusing on critical aspects of financial analysis. Bank Statement Parser addresses this challenge head-on, adeptly extracting key data points, including names, account details, and transaction information from bank statements.</p>
+<h3 id="h3-key" tabindex="0" itemprop="subheadline" class="key">Key Benefits of Bank Statement Parser</h3>
+<ul>
+<li><strong>Streamlined Data Extraction</strong>: Our library’s intelligent parsers identify and extract essential information from your bank statements, eliminating the need for manual data entry and ensuring efficiency.</li>
+<li><strong>Reduced Manual Processing</strong>: Automate the data extraction process and significantly reduce the need for manual intervention, minimising the risk of human errors and freeing up time for value-added tasks.</li>
+<li><strong>Minimised Setup Costs</strong>: Enjoy a cost-efficient solution with minimal setup requirements, ensuring a smooth and budget-friendly implementation.</li>
+<li><strong>Accelerated Deployment</strong>: Rapidly integrate Bank Statement Parser into your existing workflows and systems, benefiting from its features without extensive training or complex configuration.</li>
+</ul>
+<h3 id="h3-how" tabindex="0" itemprop="subheadline" class="how">How Bank Statement Parser Simplifies Your Workflow</h3>
+<p>Bank Statement Parser utilises advanced parsing algorithms to make sense of complex financial documents. Here’s a simplified overview of how our library works:</p>
+<ul>
+<li><strong>Input</strong>: Provide your bank statement documents in various formats, including CAMT and SEPA.</li>
+<li><strong>Parsing</strong>: Our advanced parsing algorithms analyse the documents, identifying key information such as names, account details, and transaction data.</li>
+<li><strong>Data Extraction</strong>: The extracted information is compiled into structured data that you can easily work with.</li>
+<li><strong>Automation</strong>: The entire process is automated, minimising the need for manual intervention and reducing the risk of errors.</li>
+<li><strong>Integration</strong>: Seamlessly integrate Bank Statement Parser into your existing workflows and systems, enhancing your financial analysis capabilities.</li>
+</ul>
+<p><img src="https://kura.pro/common/images/elements/divider.svg" alt="divider" title="Divider"  class="m-10 w-100"/></p>
+<h2 id="h2-embrace" tabindex="0" itemprop="subheadline" class="embrace">Embrace Efficiency, Accuracy, and Cost-Effectiveness</h2>
+<p>Bank Statement Parser is your gateway to enhanced financial analysis, offering a combination of efficiency, accuracy, and cost-effectiveness:</p>
+<ul>
+<li><strong>Efficiency</strong>: Allocate your time and resources more efficiently by automating the parsing process, focusing on high-value financial analysis tasks rather than data entry.</li>
+<li><strong>Accuracy</strong>: Our parsers are meticulously designed to deliver precise results, ensuring the utmost accuracy in data extraction and organisation.</li>
+<li><strong>Cost-Effectiveness</strong>: Enjoy a cost-effective solution that empowers you to streamline your financial data management without breaking the bank.</li>
+<li><strong>Rapid Deployment</strong>: Benefit from swift integration and start utilising Bank Statement Parser’s features without lengthy setup periods.</li>
+<li><strong>Enhanced Analytics</strong>: Make informed decisions with structured data that equips you to elevate your financial analytics capabilities.</li>
+</ul>
+<p><img src="https://kura.pro/common/images/elements/divider.svg" alt="divider" title="Divider"  class="m-10 w-100"/></p>
+<h2 id="h2-take" tabindex="0" itemprop="subheadline" class="take">Take the First Step Towards Streamlined Financial Data Management</h2>
+<p>Join the growing community of finance professionals who rely on Bank Statement Parser to simplify their data management processes and enhance their financial analysis capabilities. Get started today by downloading our easy-to-install and user-friendly library.</p>
+<p><a href="/getting-started/index.html" title="Getting Started">Start using Bank Statement Parser today!</a> It’s easy to install and use, and it’s free for personal and commercial use.</p>
+</div>
+    </main>
+
+    <!-- Footer-->
+    <footer id="footer" aria-label="footer" class="footer border-top mt-auto py-3">
+      <img
+        alt="Empower Your Financial Analysis with Seamless Data Extraction."
+        height="32"
+        src="https://kura.pro/bankstatementparser/images/logos/bankstatementparser.webp"
+        width="32"
+      />
+      <span class="px-2">© 2023 Bank Statement Parser. All rights reserved.</span>
+      <p class="mb-0">
+        <span class="px-2"><a href="/contact/index.html">Contact</a></span>
+        <span class="px-2"><a href="/privacy/index.html">Privacy & Cookie Policy</a></span>
+        <span class="px-2"><a href="/terms/index.html">Terms of Use</a></span>
+      </p>
+    </footer>
+
+    <script
+      async
+      crossorigin="anonymous"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      defer
+    ></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org/",
+        "@type": "WebPage",
+        "author": {
+          "@type": "Person",
+          "@id": "Sebastien Rousseau"
+        },
+        "copyrightHolder": {
+          "@type": "Person",
+          "@id": "Sebastien Rousseau"
+        },
+        "copyrightYear": "© 2023 Bank Statement Parser. All rights reserved.",
+        "creator": {
+          "@type": "Person",
+          "@id": "Sebastien Rousseau"
+        },
+        "dateModified": "2023-11-12T18:21:18+00:00",
+        "datePublished": "2023-11-12T18:21:18+00:00",
+        "description": "Streamline financial analysis with Bank Statement Parser, a Python library for automating bank statement processing. Supports CAMT and SEPA formats.",
+        "headline": "Empower Your Financial Analysis with Seamless Data Extraction.",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://kura.pro/bankstatementparser/images/logos/bankstatementparser.webp"
+        },
+        "inLanguage": "en-GB",
+        "mainEntityOfPage": "https://bankstatementparser.com/about/index.html",
+        "name": "About the Bank Statement Parser",
+        "publisher": {
+          "@type": "Person",
+          "@id": "Sebastien Rousseau"
+        }
+      }
+    </script>
+    <script type="module" defer>
+      // This is an Immediately Invoked Function Expression (IIFE) which helps
+      // to avoid declaring any globals.
+      (function () {
+        // Create a new script element
+        var script = document.createElement("script");
+
+        // Set the source of the script element to "/main.js".
+        // A timestamp is appended as a query string to ensure the browser
+        // always fetches the latest version of the script, bypassing the
+        // cache.
+        script.src = "/main.js";
+
+        // The script is of type "text/javascript"
+
+        // The script is set to execute asynchronously as soon as it's
+        //available
+
+        // Append the script element to the head of the document
+        document.head.appendChild(script);
+      })(); // The function is immediately invoked
+    </script>
+    <script>
+      // JavaScript code
+      var dropDownElements = document.querySelectorAll('.drop-down');
+      dropDownElements.forEach(function(element) {
+        element.classList.add('animate');
+      });
+
+      window.addEventListener('scroll', function() {
+        var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        dropDownElements.forEach(function(element) {
+          if (scrollTop === 0) {
+            element.classList.add('animate');
+          } else {
+            element.classList.remove('animate');
+          }
+        });
+      });
+    </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VN18SSQLM6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VN18SSQLM6');
+    </script>
+  </body>
+</html>

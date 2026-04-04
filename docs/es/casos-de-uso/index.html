@@ -173,12 +173,12 @@
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">create_parser, detect_statement_format
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#65737e;"># Procesar extractos de múltiples bancos
+</span><span style="color:#8f9aa5;"># Procesar extractos de múltiples bancos
 </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">file </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">daily_statement_files:
 </span><span style="color:#c0c5ce;">    fmt = </span><span style="color:#8fa1b3;">detect_statement_format</span><span style="color:#c0c5ce;">(file)
 </span><span style="color:#c0c5ce;">    parser = </span><span style="color:#8fa1b3;">create_parser</span><span style="color:#c0c5ce;">(file, fmt)
 </span><span style="color:#c0c5ce;">    df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()
-</span><span style="color:#c0c5ce;">    </span><span style="color:#8fa1b3;">reconcile_with_erp</span><span style="color:#c0c5ce;">(df)  </span><span style="color:#65737e;"># Mismo código para todos los formatos
+</span><span style="color:#c0c5ce;">    </span><span style="color:#8fa1b3;">reconcile_with_erp</span><span style="color:#c0c5ce;">(df)  </span><span style="color:#8f9aa5;"># Mismo código para todos los formatos
 </span></pre>
 </code></pre>
 <p>Funcionalidades relevantes: detección automática de formato, API unificada, procesamiento en paralelo, deduplicación con puntuaciones de confianza.</p>
@@ -187,7 +187,7 @@
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#c0c5ce;">parser = </span><span style="color:#8fa1b3;">CamtParser</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">daily_statement.xml</span><span style="color:#c0c5ce;">&quot;)
 </span><span style="color:#c0c5ce;">parser.</span><span style="color:#8fa1b3;">export_csv</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">transactions_for_accounting.csv</span><span style="color:#c0c5ce;">&quot;)
-</span><span style="color:#65737e;"># O exporte a JSON o Excel
+</span><span style="color:#8f9aa5;"># O exporte a JSON o Excel
 </span><span style="color:#c0c5ce;">parser.</span><span style="color:#8fa1b3;">export_json</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">transactions.json</span><span style="color:#c0c5ce;">&quot;)
 </span></pre>
 </code></pre>
@@ -198,7 +198,7 @@
 <span style="color:#c0c5ce;">parser = </span><span style="color:#8fa1b3;">CamtParser</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;)
 </span><span style="color:#c0c5ce;">df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#65737e;"># Análisis de anomalías sobre datos estructurados
+</span><span style="color:#8f9aa5;"># Análisis de anomalías sobre datos estructurados
 </span><span style="color:#c0c5ce;">large_transactions = df[df[&#39;</span><span style="color:#a3be8c;">Amount</span><span style="color:#c0c5ce;">&#39;].</span><span style="color:#8fa1b3;">abs</span><span style="color:#c0c5ce;">() &gt; threshold]
 </span><span style="color:#c0c5ce;">duplicate_check = </span><span style="color:#8fa1b3;">Deduplicator</span><span style="color:#c0c5ce;">().</span><span style="color:#8fa1b3;">deduplicate</span><span style="color:#c0c5ce;">(
 </span><span style="color:#c0c5ce;">    </span><span style="color:#8fa1b3;">Deduplicator</span><span style="color:#c0c5ce;">().</span><span style="color:#8fa1b3;">from_dataframe</span><span style="color:#c0c5ce;">(df)
@@ -214,11 +214,11 @@
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">Mt940Parser, CamtParser
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#65737e;"># Comparar salidas durante la migración
+</span><span style="color:#8f9aa5;"># Comparar salidas durante la migración
 </span><span style="color:#c0c5ce;">mt940_df = </span><span style="color:#8fa1b3;">Mt940Parser</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.mt940</span><span style="color:#c0c5ce;">&quot;).</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()
 </span><span style="color:#c0c5ce;">camt_df = </span><span style="color:#8fa1b3;">CamtParser</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;).</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#65737e;"># Validar que ambos producen resultados equivalentes
+</span><span style="color:#8f9aa5;"># Validar que ambos producen resultados equivalentes
 </span><span style="color:#8fa1b3;">compare_dataframes</span><span style="color:#c0c5ce;">(mt940_df, camt_df)
 </span></pre>
 </code></pre>
@@ -227,7 +227,7 @@
 <p>Ingeste extractos directamente desde SFTP sin escribir en disco, usando análisis en memoria.</p>
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#c0c5ce;">xml_bytes = sftp_client.</span><span style="color:#8fa1b3;">download</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">daily_statement.xml</span><span style="color:#c0c5ce;">&quot;)
-</span><span style="color:#c0c5ce;">parser = CamtParser.</span><span style="color:#8fa1b3;">from_bytes</span><span style="color:#c0c5ce;">(xml_bytes, </span><span style="color:#bf616a;">source_name</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">daily.xml</span><span style="color:#c0c5ce;">&quot;)
+</span><span style="color:#c0c5ce;">parser = CamtParser.</span><span style="color:#8fa1b3;">from_bytes</span><span style="color:#c0c5ce;">(xml_bytes, </span><span style="color:#d9848a;">source_name</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">daily.xml</span><span style="color:#c0c5ce;">&quot;)
 </span><span style="color:#c0c5ce;">df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()
 </span></pre>
 </code></pre>

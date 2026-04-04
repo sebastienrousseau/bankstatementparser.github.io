@@ -220,9 +220,9 @@
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">create_parser, detect_statement_format
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#c0c5ce;">fmt = </span><span style="color:#8fa1b3;">detect_statement_format</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;)  </span><span style="color:#65737e;"># or .mt940
+</span><span style="color:#c0c5ce;">fmt = </span><span style="color:#8fa1b3;">detect_statement_format</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;)  </span><span style="color:#8f9aa5;"># or .mt940
 </span><span style="color:#c0c5ce;">parser = </span><span style="color:#8fa1b3;">create_parser</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;, fmt)
-</span><span style="color:#c0c5ce;">df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()  </span><span style="color:#65737e;"># Same DataFrame schema regardless of format
+</span><span style="color:#c0c5ce;">df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()  </span><span style="color:#8f9aa5;"># Same DataFrame schema regardless of format
 </span></pre>
 </code></pre>
 <p>Awọn<code>detect_statement_format()</code>iṣẹ n ṣe idanimọ boya faili naa jẹ MT940, CAMT.053, PAIN.001, tabi ọna kika atilẹyin miiran. Awọn<code>create_parser()</code>iṣẹ pada awọn ti o tọ parser. Koodu isale rẹ n ṣiṣẹ bakanna laibikita ọna kika orisun.</p>
@@ -288,12 +288,12 @@
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">create_parser, detect_statement_format
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#65737e;"># Works with MT940 today, CAMT.053 tomorrow
+</span><span style="color:#8f9aa5;"># Works with MT940 today, CAMT.053 tomorrow
 </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">file </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">bank_statement_files:
 </span><span style="color:#c0c5ce;">    fmt = </span><span style="color:#8fa1b3;">detect_statement_format</span><span style="color:#c0c5ce;">(file)
 </span><span style="color:#c0c5ce;">    parser = </span><span style="color:#8fa1b3;">create_parser</span><span style="color:#c0c5ce;">(file, fmt)
 </span><span style="color:#c0c5ce;">    df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()
-</span><span style="color:#c0c5ce;">    </span><span style="color:#8fa1b3;">process</span><span style="color:#c0c5ce;">(df)  </span><span style="color:#65737e;"># Your code doesn&#39;t change
+</span><span style="color:#c0c5ce;">    </span><span style="color:#8fa1b3;">process</span><span style="color:#c0c5ce;">(df)  </span><span style="color:#8f9aa5;"># Your code doesn&#39;t change
 </span></pre>
 </code></pre>
 <p>[Ka iwe kikun] (/getting-started/index.html)</p>

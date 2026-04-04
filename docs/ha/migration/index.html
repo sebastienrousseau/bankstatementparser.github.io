@@ -220,9 +220,9 @@
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">create_parser, detect_statement_format
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#c0c5ce;">fmt = </span><span style="color:#8fa1b3;">detect_statement_format</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;)  </span><span style="color:#65737e;"># ko .mt940
+</span><span style="color:#c0c5ce;">fmt = </span><span style="color:#8fa1b3;">detect_statement_format</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;)  </span><span style="color:#8f9aa5;"># ko .mt940
 </span><span style="color:#c0c5ce;">parser = </span><span style="color:#8fa1b3;">create_parser</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;, fmt)
-</span><span style="color:#c0c5ce;">df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()  </span><span style="color:#65737e;"># Tsarin DataFrame ɗaya komai tushen tsari
+</span><span style="color:#c0c5ce;">df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()  </span><span style="color:#8f9aa5;"># Tsarin DataFrame ɗaya komai tushen tsari
 </span></pre>
 </code></pre>
 <p>Aikin <code>detect_statement_format()</code> yana gano ko fayilin MT940 ne, CAMT.053, PAIN.001, ko kowane tsari da ake tallafawa. Aikin <code>create_parser()</code> yana mayar da mai binciken da ya dace. Lambar ku ta ƙasa tana aiki daidai ba tare da la'akari da tsarin tushen ba.</p>
@@ -284,12 +284,12 @@
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">create_parser, detect_statement_format
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#65737e;"># Yana aiki tare da MT940 yau, CAMT.053 gobe
+</span><span style="color:#8f9aa5;"># Yana aiki tare da MT940 yau, CAMT.053 gobe
 </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">file </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">bank_statement_files:
 </span><span style="color:#c0c5ce;">    fmt = </span><span style="color:#8fa1b3;">detect_statement_format</span><span style="color:#c0c5ce;">(file)
 </span><span style="color:#c0c5ce;">    parser = </span><span style="color:#8fa1b3;">create_parser</span><span style="color:#c0c5ce;">(file, fmt)
 </span><span style="color:#c0c5ce;">    df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()
-</span><span style="color:#c0c5ce;">    </span><span style="color:#8fa1b3;">process</span><span style="color:#c0c5ce;">(df)  </span><span style="color:#65737e;"># Lambar ku ba ta canzawa
+</span><span style="color:#c0c5ce;">    </span><span style="color:#8fa1b3;">process</span><span style="color:#c0c5ce;">(df)  </span><span style="color:#8f9aa5;"># Lambar ku ba ta canzawa
 </span></pre>
 </code></pre>
 <p><a href="/getting-started/index.html">Karanta cikakken takaddun bayani</a></p>

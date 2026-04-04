@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Ṣe afiwe Parser Gbólóhùn Bank pẹlu mt-940, ofxparse, pycamt, pyiso20022, ati awọn irinṣẹ SaaS bii Ocrolus ati Parseur. I",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Atupale alaye banki",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

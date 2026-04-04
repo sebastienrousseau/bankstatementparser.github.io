@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "দেখে মনে হচ্ছে আপনি যে ওয়েব পৃষ্ঠাটি অ্যাক্সেস করার চেষ্টা করছেন তা হয় সরানো হয়েছে, নাম পরিবর্তন করা হয়েছে বা বর্তমা",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "ব্যাঙ্ক স্টেটমেন্ট পার্সার",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

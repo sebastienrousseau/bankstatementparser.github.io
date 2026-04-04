@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "How treasury teams, fintech developers, and compliance officers use Bank Statement Parser for MT940-to-CAMT migration, r",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Use Cases",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

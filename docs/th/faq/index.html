@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="th-TH">
+  <head>
+    <meta charset="utf-8" />
+    <meta itemprop="datePublished" content="2026-04-01T00:00:00+00:00" id="date">
+    <meta itemprop="dateModified" content="2026-04-01T00:00:00+00:00" id="last-modified">
+    <title>คำถามที่พบบ่อยเกี่ยวกับตัวแยกวิเคราะห์ใบแจ้งยอดธนาคาร: ความเป็นส่วนตัว ประสิทธิภาพ และการใช้งาน</title>
+    <meta name="theme-color" content="rgb(73, 214, 251)" />
+    <meta name="measurement-id" content="G-FL9DEBFHN1" />
+    <meta name="author" content="Sebastien Rousseau">
+<meta name="description" content="คำตอบสำหรับคำถามทั่วไปเกี่ยวกับ ตัวแยกวิเคราะห์ใบแจ้งยอดธนาคาร: ความเป็นส่วนตัวของข้อมูล การแก้ไข PII ประสิทธิภาพ การสนับสนุน ISO 20022 การสตรีม การปฏิบัติตามข้อกำหนด และเวิร์กโฟลว์คลัง">
+<meta name="keywords" content="คำถามที่พบบ่อยเกี่ยวกับตัวแยกวิเคราะห์ใบแจ้งยอดธนาคาร, คำถามเกี่ยวกับตัวแยกวิเคราะห์ CAMT, คำถามที่พบบ่อยเกี่ยวกับ PAIN.001, คำถามที่พบบ่อยเกี่ยวกับงูหลาม ISO 20022, การธนาคารเพื่อแก้ไข PII, ประสิทธิภาพการทำงานของตัวแยกวิเคราะห์ธนาคาร, ความเป็นส่วนตัวของข้อมูลทางการเงิน, คำถามที่พบบ่อยเกี่ยวกับตัวแยกวิเคราะห์ MT940, ตัวแยกวิเคราะห์การสตรีมหลาม, การปฏิบัติตามใบแจ้งยอดธนาคาร">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="accessibility" content="ARIA, fullKeyboardControl, noFlashingHazard" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="คำถามที่พบบ่อยเกี่ยวกับตัวแยกวิเคราะห์ใบแจ้งยอดธนาคาร: ความเป็นส่วนตัว ประสิทธิภาพ และการใช้งาน">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: cloudcdn.pro kura.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
+    <meta name="msapplication-TileColor" content="rgb(73, 214, 251)">
+    
+    <link rel="alternate" href="https://bankstatementparser.com/th/faq/index.html" hreflang="th" />
+    <link rel="canonical" href="https://bankstatementparser.com/th/faq/index.html" />
+    <link rel="icon" type="image/x-icon" href="https://cloudcdn.pro/bankstatementparser/images/favicon.ico" sizes="16x16 32x32" />
+    <link rel="preconnect" href="https://cloudcdn.pro" crossorigin />
+    <link rel="stylesheet" href="/bootstrap.min.css" />
+    <link rel="apple-touch-icon" href="https://cloudcdn.pro/bankstatementparser/images/icons/192x192.png" sizes="192x192" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
+    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#b0b8c1"}})});</script>
+    <style>
+      :root{--theme-color:rgb(73, 214, 251)}*{font-weight:400;box-sizing:border-box;margin:0}
+      pre{margin:1.5rem 0;max-width:100%;overflow:auto;border-radius:.5rem;padding:1rem 1.25rem;background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);color:var(--c-code);display:block;font-family:'SF Mono',SFMono-Regular,Consolas,monospace;font-size:.8125rem;line-height:1.7;margin:1.5rem 0;max-width:100%;overflow:auto;padding:1rem 1.25rem;border-radius:.5rem}
+    </style>
+    
+    <style>
+      :root{--c-bg:#fff;--c-text:#1a1a1a;--c-heading:#0a0a0a;--c-secondary:#52525b;--c-accent:#3b33c0;--c-accent-hover:#2d2799;--c-surface:#f4f4f5;--c-border:#e4e4e7;--c-nav-bg:#fff;--c-nav-text:#1a1a1a;--c-nav-muted:#52525b;--c-footer-bg:#18181b;--c-footer-text:#d4d4d8;--c-code:#3a3a4a}
+      @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--c-bg:#09090b;--c-text:#e4e4e7;--c-heading:#fafafa;--c-secondary:#a1a1aa;--c-accent:#a5b4fc;--c-accent-hover:#c7d2fe;--c-surface:#18181b;--c-border:#27272a;--c-nav-bg:#09090b;--c-nav-text:#fafafa;--c-nav-muted:#a1a1aa;--c-footer-bg:#09090b;--c-footer-text:#d4d4d8;--c-code:#c8c8d8}}
+      [data-theme="dark"]{--c-bg:#09090b;--c-text:#e4e4e7;--c-heading:#fafafa;--c-secondary:#a1a1aa;--c-accent:#a5b4fc;--c-accent-hover:#c7d2fe;--c-surface:#18181b;--c-border:#27272a;--c-nav-bg:#09090b;--c-nav-text:#fafafa;--c-nav-muted:#a1a1aa;--c-footer-bg:#09090b;--c-footer-text:#d4d4d8;--c-code:#c8c8d8}
+      
+      [data-theme="dark"] .site-hero{background:linear-gradient(180deg,#1a0a0a 0%,#120808 30%,#0d0606 60%,var(--c-bg) 100%)}
+      [data-theme="dark"] .site-hero h1{color:var(--c-heading)}
+      [data-theme="dark"] .site-hero p{color:var(--c-secondary)}
+      [data-theme="dark"] .site-nav{background:rgba(9,9,11,.9);border-bottom-color:rgba(255,255,255,.06)}[data-theme="dark"] .nav-cta{background:var(--c-accent)}
+      @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .site-hero{background:linear-gradient(180deg,#1a0a0a 0%,#120808 30%,#0d0606 60%,#09090b 100%)}:root:not([data-theme="light"]) .site-hero h1{color:#fafafa}:root:not([data-theme="light"]) .site-hero p{color:#a1a1aa}:root:not([data-theme="light"]) .site-nav{background:rgba(9,9,11,.9);border-bottom-color:rgba(255,255,255,.06)}:root:not([data-theme="light"]) .nav-cta{background:#818cf8}}
+      body{color:var(--c-text);background:var(--c-bg);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:17px;line-height:1.47059;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+      h1,h2,h3,h4,h5,h6{color:var(--c-heading);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;letter-spacing:-.022em;line-height:1.08}
+      a{color:var(--c-accent);text-decoration:underline;text-underline-offset:.15em}a:hover{color:var(--c-accent-hover);text-decoration:underline}
+      strong{font-weight:600}
+      code{background:var(--c-surface);padding:.125rem .375rem;border-radius:.25rem;font-size:.8125em;color:var(--c-code);font-family:'SF Mono',SFMono-Regular,Consolas,monospace}
+      pre code{background:none;padding:0;font-size:inherit;color:inherit}
+      .site-nav{background:#fff;border-bottom:1px solid var(--c-border);position:sticky;top:0;z-index:1000}
+      .site-nav .nav-inner{max-width:1200px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;height:3.75rem}
+      .nav-brand{display:flex;align-items:center;gap:.5rem;text-decoration:none;flex-shrink:0}
+      .nav-brand img{height:32px;width:32px}
+      .nav-brand span{color:var(--c-heading);font-weight:600;font-size:14px;letter-spacing:-.01em}
+      .nav-center{display:flex;align-items:center;gap:.125rem;list-style:none;margin:0 auto;padding:0}
+      .nav-center a,.nav-center button{display:inline-flex;align-items:center;line-height:1.5;color:var(--c-nav-muted);font-size:12px;font-weight:400;text-decoration:none;padding:.4375rem .875rem;border-radius:.375rem;text-decoration:none;transition:color .15s,background .15s;border:none;background:none;cursor:pointer}
+      .nav-center a:hover,.nav-center button:hover{color:var(--c-nav-text);background:var(--c-surface);text-decoration:none}
+      .nav-center .dropdown-toggle::after{display:inline-block;margin-left:.25em;vertical-align:.15em;content:"";border-top:.3em solid;border-right:.3em solid transparent;border-left:.3em solid transparent}
+      .nav-center .dropdown-menu{background:var(--c-bg);border:1px solid var(--c-border);border-radius:.5rem;padding:.375rem;margin-top:.25rem;min-width:10rem;box-shadow:0 4px 24px rgba(0,0,0,.08)}
+      .nav-center .dropdown-item{color:var(--c-nav-muted);font-size:.8125rem;padding:.5rem .75rem;border-radius:.25rem;display:block;text-decoration:none;transition:color .15s,background .15s}
+      .nav-center .dropdown-item:hover{color:var(--c-nav-text);background:var(--c-surface)}
+      .nav-right{display:flex;align-items:center;gap:.75rem;flex-shrink:0}
+      .theme-toggle{color:var(--c-secondary);font-size:12px;font-weight:500;padding:.375rem .625rem;border:1px solid var(--c-border);border-radius:6rem;background:transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.3125rem;transition:border-color .2s;outline:none}
+      .theme-toggle:hover{border-color:var(--c-secondary);color:var(--c-heading)}
+      .theme-toggle svg{width:.875rem;height:.875rem;fill:currentColor}
+      .nav-cta{background:#0a0a0a;color:#fff!important;border-radius:6rem;padding:.4375rem 1rem;font-size:12px;font-weight:400;text-decoration:none!important;transition:opacity .2s}
+      .nav-cta:hover{opacity:.85;color:#fff!important;text-decoration:none!important}
+      .nav-hamburger{display:none;background:none;border:none;color:var(--c-heading);padding:.25rem;cursor:pointer}
+      .nav-hamburger svg{width:1.5rem;height:1.5rem;fill:currentColor}
+      
+      @media(max-width:991px){.site-nav{position:relative!important;background:var(--c-bg)!important;border-bottom:1px solid var(--c-border)}.nav-center{display:none}.nav-right{display:none}.nav-hamburger{display:flex;margin-left:auto;align-items:center}.site-nav.open .nav-center{display:block;position:absolute;top:100%;left:0;right:0;background:var(--c-bg);border-bottom:1px solid var(--c-border);z-index:999;box-shadow:0 4px 12px rgba(0,0,0,.08)}.site-nav.open .nav-center li{list-style:none}.site-nav.open .nav-center>li>a,.site-nav.open .nav-center>li>button{display:block;font-size:16px;padding:.875rem 1.5rem;text-align:left;color:var(--c-text);text-decoration:none;width:100%;background:none;border:none;border-bottom:1px solid var(--c-border);cursor:pointer}.site-nav.open .nav-center>li>a:hover,.site-nav.open .nav-center>li>button:hover{background:var(--c-surface)}.site-nav.open .nav-center .dropdown-menu{position:static;box-shadow:none;border:none;padding:0;margin:0;border-radius:0;background:var(--c-surface);min-width:100%;display:block}.site-nav.open .nav-center .dropdown-item{padding:.75rem 2.5rem;font-size:15px;color:var(--c-secondary);display:block;border-bottom:1px solid var(--c-border)}.site-nav.open .nav-center .dropdown-item:hover{color:var(--c-text);background:var(--c-border)}}
+      .site-hero{background:linear-gradient(180deg,#fef2f2 0%,#fff5f5 30%,#fffafa 60%,#fff 100%);padding:7rem 1.5rem 4rem;text-align:center}
+      .site-hero h1{color:#1a1a1a;font-size:clamp(2.5rem,5vw,3.5rem);font-weight:600;margin-bottom:1.5rem;letter-spacing:-.015em;line-height:1.07143}
+      .site-hero p{color:#58585e;font-size:clamp(1rem,2vw,1.125rem);max-width:580px;margin:0 auto 2rem;line-height:1.6}
+      .site-hero .hero-cta{display:inline-flex;align-items:center;background:#312e81;color:#fff;border-radius:6rem;padding:.75rem 2rem;font-size:1rem;font-weight:500;text-decoration:none;transition:background .2s,transform .1s}
+      .site-hero .hero-cta:hover{background:var(--c-accent-hover);transform:translateY(-1px);text-decoration:none}
+      .site-main{max-width:800px;margin:0 auto;padding:3rem 1.5rem 4rem;font-size:17px;line-height:1.47059}
+      .site-main>div>h1:first-child,.site-main>div>h1:first-child+p,.site-main>div>h1:first-child+p+p:empty{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+      .site-main h2{font-size:28px;font-weight:600;margin:2.5rem 0 .8rem;letter-spacing:.007em;line-height:1.14286}
+      .site-main h3{font-size:22px;font-weight:600;margin:1.8rem 0 .4rem;letter-spacing:.01em;line-height:1.18182}
+      .site-main h4{font-size:19px;font-weight:600;margin:1.5rem 0 .4rem;line-height:1.21053}
+      .site-main table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.875rem}
+      .site-main thead{background:var(--c-surface)}
+      .site-main th,.site-main td{padding:.75rem 1rem;border-bottom:1px solid var(--c-border);text-align:left}
+      .site-main th{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--c-secondary)}
+      .site-main tbody tr:hover{background:var(--c-surface)}
+      .site-main ul,.site-main ol{padding-left:1.5rem;margin:.75rem 0}
+      .site-main li{margin-bottom:.375rem}
+      .site-main li:last-child{margin-bottom:0}
+      .site-main>div>p:last-child{margin-top:2rem}
+      .lang-menu{display:none;position:absolute;right:0;top:100%;margin-top:.375rem;background:var(--c-bg);border:1px solid var(--c-border);border-radius:.5rem;box-shadow:0 4px 24px rgba(0,0,0,.1);padding:.5rem;z-index:1000;width:max-content;max-width:90vw}
+.lang-menu-grid{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:0;min-width:500px}
+@media(max-width:768px){.lang-menu-grid{grid-template-columns:repeat(2,1fr)}}
+.lang-menu-grid a{display:block;padding:.375rem .625rem;font-size:12px;color:var(--c-nav-muted);text-decoration:none;border-radius:.25rem;white-space:nowrap}
+.lang-menu-grid a:hover{background:var(--c-surface);color:var(--c-text)}
+.lang-menu-grid a.active{color:var(--c-text);font-weight:600}.lang-switcher button:hover{border-color:var(--c-secondary)}.site-footer{background:var(--c-footer-bg);padding:2.5rem 1.5rem 2rem;color:var(--c-footer-text);font-size:.8125rem}
+      .site-footer .footer-inner{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem}
+      .site-footer a{color:var(--c-footer-text);text-decoration:none;transition:color .15s}
+      .site-footer a:hover{color:#fff}
+      .site-footer .footer-links{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;list-style:none;margin:0;padding:0}
+      .skip-link{position:absolute;left:-9999px;top:0;z-index:1100;padding:.5rem 1rem;background:#fff;color:var(--c-accent);border:2px solid var(--c-accent);border-radius:.25rem}
+      .skip-link:focus{left:1rem;top:1rem}
+      :focus-visible{outline:2px solid var(--c-accent);outline-offset:2px}
+      @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+      @media print{body{color:#000!important;background:#fff!important}.site-nav,.site-footer,.skip-link{display:none!important}a{color:#000!important}a[href]::after{content:" (" attr(href) ")"}}
+    </style>
+    
+    <style>
+      .accordion{--bs-accordion-color:var(--c-text);--bs-accordion-bg:var(--c-bg);--bs-accordion-transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out,border-radius .15s ease;--bs-accordion-border-color:var(--c-border);--bs-accordion-border-width:0;--bs-accordion-border-radius:0;--bs-accordion-inner-border-radius:0;--bs-accordion-btn-padding-x:0;--bs-accordion-btn-padding-y:1rem;--bs-accordion-btn-color:var(--c-text);--bs-accordion-btn-bg:transparent;--bs-accordion-btn-icon:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2371717a'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");--bs-accordion-btn-icon-width:1.25rem;--bs-accordion-btn-icon-transform:rotate(-180deg);--bs-accordion-btn-icon-transition:transform .2s ease-in-out;--bs-accordion-btn-active-icon:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%235046e5'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");--bs-accordion-btn-focus-box-shadow:0 0 0 .25rem rgba(80,70,229,.15)}
+      .accordion-button{position:relative;display:flex;align-items:center;width:100%;padding:var(--bs-accordion-btn-padding-y) var(--bs-accordion-btn-padding-x);font-size:1rem;color:var(--bs-accordion-btn-color);text-align:left;background-color:var(--bs-accordion-btn-bg);border:0;border-radius:0;overflow-anchor:none;transition:var(--bs-accordion-transition)}
+      .accordion-button:not(.collapsed){color:var(--c-accent);background-color:transparent;box-shadow:none}
+      .accordion-button:not(.collapsed)::after{background-image:var(--bs-accordion-btn-active-icon);transform:var(--bs-accordion-btn-icon-transform)}
+      .accordion-button::after{flex-shrink:0;width:var(--bs-accordion-btn-icon-width);height:var(--bs-accordion-btn-icon-width);margin-left:auto;content:"";background-image:var(--bs-accordion-btn-icon);background-repeat:no-repeat;background-size:var(--bs-accordion-btn-icon-width);transition:var(--bs-accordion-btn-icon-transition)}
+      .accordion-button:hover{z-index:2}
+      .accordion-button:focus{z-index:3;outline:0;box-shadow:var(--bs-accordion-btn-focus-box-shadow)}
+      .accordion-header{margin-bottom:0}
+      .accordion-item{color:var(--bs-accordion-color);background-color:var(--bs-accordion-bg);border:none;border-bottom:1px solid var(--c-border)}
+      .accordion-item:first-of-type{border-top:1px solid var(--c-border)}
+      .accordion-body{padding:0 0 1.25rem 0}
+      .accordion-collapse{transition:height .35s ease}
+      .collapsing{height:0;overflow:hidden;transition:height .35s ease}
+      @media(prefers-reduced-motion:reduce){.accordion-button::after{transition:none}.accordion-collapse,.collapsing{transition:none}}
+      .faq-raw-content{display:none}
+      .faq-container{display:block;max-width:800px;margin:0 auto;min-height:50vh}
+      .faq-container>h1:first-child,.faq-container>h1:first-child+p,.faq-container>p:empty{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+      .faq-category-header{font-size:1.375rem;font-weight:600;color:var(--c-heading);margin:3rem 0 .75rem;letter-spacing:-.02em}
+      .faq-category-header:first-of-type{margin-top:0}
+      .faq-container .accordion{margin-bottom:1.5rem}
+      .faq-container .accordion-button{font-size:.9375rem;font-weight:500;color:var(--c-text);padding:1rem 0}
+      .faq-container .accordion-button:not(.collapsed){color:var(--c-heading);font-weight:600}
+      .faq-container .accordion-button:focus{box-shadow:none;outline:2px solid var(--c-accent);outline-offset:2px;border-radius:.25rem}
+      .faq-container .accordion-body{font-size:.9375rem;line-height:1.8;color:var(--c-text)}
+      .faq-container .accordion-body p:last-child{margin-bottom:0}
+      .faq-container .accordion-body table{width:100%;margin:1rem 0;border-collapse:collapse;font-size:.8125rem}
+      .faq-container .accordion-body th,.faq-container .accordion-body td{padding:.5rem .75rem;border-bottom:1px solid var(--c-border);text-align:left}
+      .faq-container .accordion-body th{font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--c-secondary);font-size:.75rem}
+      .faq-container .accordion-body pre{margin:1rem 0;border-radius:.5rem}
+      .faq-container .accordion-body ul,.faq-container .accordion-body ol{margin:.75rem 0}
+    </style>
+  </head>
+  <body id="page-top" itemscope itemtype="http://schema.org/WebPage">
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <nav class="site-nav" aria-label="Main navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+      <div class="nav-inner">
+        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="https://cloudcdn.pro/bankstatementparser/images/logos/bankstatementparser.webp" alt="" /><span itemprop="name">ตัวแยกวิเคราะห์ใบแจ้งยอดธนาคาร</span></a>
+        <ul class="nav-center">
+          <li><a href="/th/index.html">หน้าแรก</a></li>
+          <li><a href="/th/a-propos/index.html">เกี่ยวกับ</a></li>
+          <li><a href="/th/premiers-pas/index.html">เอกสาร</a></li>
+          <li><a href="/th/faq/index.html">FAQ</a></li>
+          <li class="nav-item dropdown"><button class="dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" type="button">ทรัพยากร</button><ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown"><li><a class="dropdown-item" href="/th/cas-utilisation/index.html">Use Cases</a></li><li><a class="dropdown-item" href="/th/migration/index.html">ISO 20022 Migration</a></li><li><a class="dropdown-item" href="/th/securite/index.html">Security</a></li><li><a class="dropdown-item" href="/th/alternatives/index.html">Alternatives</a></li><li><a class="dropdown-item" href="/th/journal-des-modifications/index.html">Changelog</a></li><li><a class="dropdown-item" href="/th/contribuer/index.html">Contribute</a></li><li><a class="dropdown-item" href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a class="dropdown-item" href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li></ul></li>
+        </ul>
+        <div class="nav-right">
+          <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">มืด</span></button>
+          <div style="position:relative;display:inline-block" class="lang-switcher">
+            <button type="button" aria-label="Change language" aria-expanded="false" style="color:var(--c-nav-muted);font-size:12px;font-weight:400;padding:.375rem .625rem;border:1px solid var(--c-border);border-radius:6rem;background:transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.25rem;outline:none">
+              <span style="font-size:14px">🌐</span> TH
+            </button>
+            <div class="lang-menu" style="display:none;max-height:80vh;overflow-y:auto">
+              <div class="lang-menu-grid">
+              <a href="/index.html">🇬🇧 English</a>
+              <a href="/fr/index.html">🇫🇷 Français</a>
+              <a href="/ar/index.html">🇸🇦 العربية</a>
+              <a href="/bn/index.html">🇧🇩 বাংলা</a>
+              <a href="/cs/index.html">🇨🇿 Čeština</a>
+              <a href="/de/index.html">🇩🇪 Deutsch</a>
+              <a href="/es/index.html">🇪🇸 Español</a>
+              <a href="/ha/index.html">🇳🇬 Hausa</a>
+              <a href="/he/index.html">🇮🇱 עברית</a>
+              <a href="/hi/index.html">🇮🇳 हिन्दी</a>
+              <a href="/id/index.html">🇮🇩 Indonesia</a>
+              <a href="/it/index.html">🇮🇹 Italiano</a>
+              <a href="/ja/index.html">🇯🇵 日本語</a>
+              <a href="/ko/index.html">🇰🇷 한국어</a>
+              <a href="/nl/index.html">🇳🇱 Nederlands</a>
+              <a href="/pl/index.html">🇵🇱 Polski</a>
+              <a href="/pt/index.html">🇧🇷 Português</a>
+              <a href="/ro/index.html">🇷🇴 Română</a>
+              <a href="/ru/index.html">🇷🇺 Русский</a>
+              <a href="/sv/index.html">🇸🇪 Svenska</a>
+              <a href="/th/index.html" class="active">🇹🇭 ไทย</a>
+              <a href="/tl/index.html">🇵🇭 Filipino</a>
+              <a href="/tr/index.html">🇹🇷 Türkçe</a>
+              <a href="/uk/index.html">🇺🇦 Українська</a>
+              <a href="/vi/index.html">🇻🇳 Tiếng Việt</a>
+              <a href="/yo/index.html">🇳🇬 Yorùbá</a>
+              <a href="/zh/index.html">🇨🇳 简体中文</a>
+              <a href="/zh-tw/index.html">🇹🇼 繁體中文</a>
+              </div>
+            </div>
+          </div>
+          <a href="/th/contact/index.html" style="background:#0a0a0a;color:#fff;border-radius:6rem;padding:.4375rem 1rem;font-size:12px;font-weight:400;text-decoration:none;display:inline-block">Contact</a>
+        </div>
+        <button class="nav-hamburger" id="navToggle" aria-label="Toggle menu" type="button"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/></svg></button>
+      </div>
+      </nav>
+    <header class="site-hero" style="padding:6rem 1.5rem 3rem">
+      <h1 style="font-size:clamp(2rem,4vw,2.75rem)">ตัวแยกวิเคราะห์ใบแจ้งยอดธนาคาร</h1>
+      <p>คำถามทั่วไปเกี่ยวกับตัวแยกวิเคราะห์ใบแจ้งยอดบัญชีธนาคาร</p>
+    </header>
+    <main id="main" class="site-main" tabindex="-1" aria-label="Page content">
+      <div class="text-start">
+        <div id="faq-raw" class="faq-raw-content"><h2>ความเป็นส่วนตัวของข้อมูลและการปฏิบัติตามข้อกำหนด</h2>
+<h3>มีข้อมูลใดออกจากโครงสร้างพื้นฐานของฉันหรือไม่</h3>
+<p><strong>ไม่ใช่</strong> ตัวแยกวิเคราะห์ใบแจ้งยอดธนาคาร ทำงานเหมือนห้องสมุดไร้สัญชาติ การประมวลผลทั้งหมด - การแยกวิเคราะห์ การแก้ไข PII การแยกไฟล์เก็บถาวร - เกิดขึ้นภายในหน่วยความจำรันไทม์ในเครื่องของคุณ ไม่มีการเรียก API ไม่มีบริการคลาวด์ ไม่มีการวัดและส่งข้อมูลทางไกล ตัวแยกวิเคราะห์ XML นั้นแข็งแกร่งขึ้นด้วย<code>no_network=True</code>ปิดกั้นการเข้าถึงขาออกทั้งหมดในระดับ parser ข้อมูลทางการเงินของคุณจะไม่ละทิ้งสภาพแวดล้อมของคุณ</p>
+<h3>การแก้ไข PII ทำงานอย่างไร</h3>
+<p>ฟิลด์ที่ละเอียดอ่อนจะถูกมาสก์ก่อนที่จะถึงตรรกะของแอปพลิเคชันของคุณ parser ระบุชื่อลูกหนี้ ชื่อเจ้าหนี้ IBAN และที่อยู่ทางไปรษณีย์ โดยแทนที่ด้วย<code>***REDACTED***</code>ในเอาต์พุตคอนโซลและโหมดสตรีมมิ่ง</p>
+<ul>
+<li><strong>การปกปิดเปิดอยู่ตามค่าเริ่มต้น</strong> ในเอาต์พุต CLI และโหมดสตรีมมิ่ง</li>
+<li><strong>การส่งออกไฟล์</strong> (CSV, JSON, Excel) จะเก็บข้อมูลที่ยังไม่ได้แก้ไขสำหรับการประมวลผลดาวน์สตรีม</li>
+<li><strong>เลือกรับ</strong> ข้อมูลให้ครบถ้วนด้วย<code>--show-pii</code>บน CLI หรือ<code>redact_pii=False</code>ใน API</li>
+</ul>
+<h3>กระบวนการสกัดมีการกำหนดหรือไม่?</h3>
+<p><strong>ใช่ -- เอาต์พุตที่เหมือนกันแบบไบต์ทุกครั้งที่รัน</strong> เนื่องจากไฟล์อินพุตเดียวกัน parser จะให้ผลลัพธ์ที่เหมือนกันทุกครั้ง ไม่มีการสุ่ม ไม่มีการอนุมานแบบจำลอง ไม่มีการสุ่มตัวอย่างแบบฮิวริสติก CI บังคับใช้การกำหนดด้วยการทดสอบ 467 รายการที่ครอบคลุมสาขา 100% รวมถึงการคลุมเครือตามคุณสมบัติผ่านสมมติฐาน</p>
+<h3>โครงการปฏิบัติตามมาตรฐานการปฏิบัติตามข้อกำหนดอะไรบ้าง</h3>
+<p>โครงการดูแลรักษาเอกสารตามมาตรฐาน ISO 13485 พร้อมสามารถตรวจสอบย้อนกลับได้อย่างสมบูรณ์:</p>
+<ul>
+<li><strong>การลงทะเบียนความเสี่ยง</strong> เชิงปริมาณพร้อมการให้คะแนนความรุนแรง/ความน่าจะเป็นและการประเมินความเสี่ยงคงเหลือ</li>
+<li><strong>แผนการตรวจสอบและการตรวจสอบความถูกต้อง</strong> พร้อมด้วยขั้นตอนที่มีรั้วรอบขอบชิด 19 ขั้นใน 5 เฟส</li>
+<li><strong>ขั้นตอนการควบคุมการเปลี่ยนแปลง</strong> พร้อมการประเมินผลกระทบและโปรโตคอลการย้อนกลับ</li>
+<li><strong>SOUP Register</strong> ครอบคลุมการขึ้นต่อกันทั้งหมดพร้อมระดับความเสี่ยงและการติดตาม EOL</li>
+<li>การออกแบบแผนที่ <strong>เมทริกซ์ความสามารถในการตรวจสอบย้อนกลับ</strong> เป็นปัจจัยอินพุตสำหรับการนำไปปฏิบัติและการตรวจสอบ</li>
+</ul>
+<p>ทุกการเปิดตัวจะมี CycloneDX SBOM, Checksums SHA-256 และการรับรองแหล่งที่มาของบิวด์ GitHub</p>
+<h2>ประสิทธิภาพและความสามารถในการขยายขนาด</h2>
+<h3>ตัวแยกวิเคราะห์ใบแจ้งยอดบัญชีธนาคารเร็วแค่ไหน?</h3>
+<p>เกณฑ์ประสิทธิภาพได้รับการตรวจสอบใน CI ในทุกคอมมิต:</p>
+<div class="table-responsive"><table class="table">
+<thead>
+<tr>
+<th>เมตริก</th>
+<th>ค่า</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="text-left">ปริมาณงาน CAMT.053</td>
+<td class="text-left">27,000+ ธุรกรรม/วินาที</td>
+</tr>
+<tr>
+<td class="text-left">ปริมาณงาน PAIN.001</td>
+<td class="text-left">52,000+ ธุรกรรม/วินาที</td>
+</tr>
+<tr>
+<td class="text-left">เวลาแฝงต่อธุรกรรม (CAMT)</td>
+<td class="text-left">37 ไมโครวินาที</td>
+</tr>
+<tr>
+<td class="text-left">เวลาแฝงต่อธุรกรรม (PAIN.001)</td>
+<td class="text-left">19 ไมโครวินาที</td>
+</tr>
+<tr>
+<td class="text-left">ถึงเวลาผลลัพธ์ครั้งแรก</td>
+<td class="text-left">&lt; 2 มิลลิวินาที</td>
+</tr>
+</tbody>
+</table></div>
+<h3>ไฟล์ขนาดใหญ่จัดการอย่างไร?</h3>
+<p><strong>การสตรีมด้วยหน่วยความจำแบบจำกัด -- ทดสอบที่ธุรกรรม 50,000 รายการต่อไฟล์</strong> การใช้งาน<code>parse_streaming()</code>เพื่อประมวลผลไฟล์ XML แบบค่อยเป็นค่อยไป แต่ละธุรกรรมจะให้ผลเป็นพจนานุกรม องค์ประกอบจะถูกล้างหลังการประมวลผลเพื่อป้องกันการเติบโตของหน่วยความจำ หน่วยความจำไม่ได้ปรับขนาดตามขนาดไฟล์ -- การทดสอบธุรกรรม 50K (25+ MB) ใช้หน่วยความจำน้อยกว่า 2 เท่าของการทดสอบธุรกรรม 10K</p>
+<p>สำหรับไฟล์ที่มีขนาดเกิน 50 MB (เช่น ชุดงาน PAIN.001 จากโฮสต์ถึงโฮสต์ที่มีการชำระเงินมากกว่า 100,000 รายการ) ตัวแยกวิเคราะห์จะสตรีมผ่านไฟล์ชั่วคราวที่มีการแยกเนมสเปซแบบก้อน เอกสารฉบับเต็มจะไม่ถูกโหลดลงในหน่วยความจำ</p>
+<h3>ไฟล์ ZIP ได้รับการประมวลผลอย่างปลอดภัยอย่างไร</h3>
+<p><code>iter_secure_xml_entries()</code>ตรวจสอบสมาชิกแต่ละคนก่อนทำการแยก:</p>
+<ul>
+<li><strong>ขนาดรายการสูงสุด</strong> (ค่าเริ่มต้น 10 MB ต่อรายการ)</li>
+<li><strong>ขนาดสูงสุดที่ไม่มีการบีบอัดทั้งหมด</strong> (ค่าเริ่มต้นคือ 50 MB)</li>
+<li><strong>ขีดจำกัดอัตราส่วนการบีบอัด</strong> (ค่าเริ่มต้น 100:1) เพื่อป้องกันการระเบิด ZIP</li>
+<li><strong>การปฏิเสธรายการเข้ารหัส</strong></li>
+</ul>
+<p>ไม่มีไฟล์ถูกเขียนลงดิสก์ ไบต์ XML ส่งผ่านไปยัง parser โดยตรงผ่าน<code>from_bytes()</code>.</p>
+<h3>ฉันสามารถแยกวิเคราะห์หลายไฟล์พร้อมกันได้หรือไม่</h3>
+<p><strong>ใช่</strong> การใช้งาน<code>parse_files_parallel()</code>ซึ่งกระจายงานไปทั่ว<code>ProcessPoolExecutor</code>:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">parse_files_parallel
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">results = </span><span style="color:#8fa1b3;">parse_files_parallel</span><span style="color:#c0c5ce;">([
+</span><span style="color:#c0c5ce;">    &quot;</span><span style="color:#a3be8c;">statements/jan.xml</span><span style="color:#c0c5ce;">&quot;,
+</span><span style="color:#c0c5ce;">    &quot;</span><span style="color:#a3be8c;">statements/feb.xml</span><span style="color:#c0c5ce;">&quot;,
+</span><span style="color:#c0c5ce;">    &quot;</span><span style="color:#a3be8c;">statements/mar.xml</span><span style="color:#c0c5ce;">&quot;,
+</span><span style="color:#c0c5ce;">])
+</span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">r </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">results:
+</span><span style="color:#c0c5ce;">    </span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(r.path, r.status, </span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(r.transactions), &quot;</span><span style="color:#a3be8c;">rows</span><span style="color:#c0c5ce;">&quot;)
+</span></pre>
+</code></pre>
+<h2>รูปแบบที่รองรับ</h2>
+<h3>รองรับรูปแบบใบแจ้งยอดธนาคารรูปแบบใดบ้าง</h3>
+<table>
+<thead>
+<tr>
+<th>รูปแบบ</th>
+<th>มาตรฐาน</th>
+<th>ประเภทไฟล์</th>
+<th>พาร์เซอร์คลาส</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="text-left">บมจ.053</td>
+<td class="text-left">ใบแจ้งยอดธนาคารต่อลูกค้า ISO 20022</td>
+<td class="text-left"><code>.xml</code></td>
+<td class="text-left"><code>CamtParser</code></td>
+</tr>
+<tr>
+<td class="text-left">เพน.001</td>
+<td class="text-left">การเริ่มต้นการโอนเครดิต ISO 20022</td>
+<td class="text-left"><code>.xml</code></td>
+<td class="text-left"><code>Pain001Parser</code></td>
+</tr>
+<tr>
+<td class="text-left">ซีเอสวี</td>
+<td class="text-left">การส่งออกของธนาคารทั่วไป</td>
+<td class="text-left"><code>.csv</code></td>
+<td class="text-left"><code>CsvStatementParser</code></td>
+</tr>
+<tr>
+<td class="text-left">โอเอฟเอ็กซ์</td>
+<td class="text-left">เปิดการแลกเปลี่ยนทางการเงิน</td>
+<td class="text-left"><code>.ofx</code></td>
+<td class="text-left"><code>OfxParser</code></td>
+</tr>
+<tr>
+<td class="text-left">คิวเอฟเอ็กซ์</td>
+<td class="text-left">เร่งการแลกเปลี่ยนทางการเงิน</td>
+<td class="text-left"><code>.qfx</code></td>
+<td class="text-left"><code>QfxParser</code></td>
+</tr>
+<tr>
+<td class="text-left">MT940</td>
+<td class="text-left">มาตรฐานสวิฟท์</td>
+<td class="text-left"><code>.mt940</code>, <code>.sta</code></td>
+<td class="text-left"><code>Mt940Parser</code></td>
+</tr>
+</tbody>
+</table>
+<h3>parser จัดการภาษาเฉพาะของธนาคารของ CAMT.053 หรือไม่</h3>
+<p><strong>ใช่ -- ไม่เชื่อเรื่องเนมสเปซตามการออกแบบ</strong> ตัวแยกวิเคราะห์จะแยกเนมสเปซ XML ก่อนประมวลผล โดยจัดการตัวแปร CAMT.053 ใดๆ (<code>camt.053.001.02</code>, <code>camt.053.001.04</code>หรือเครื่องห่อธนาคารที่เป็นกรรมสิทธิ์) โดยไม่มีการกำหนดค่าเฉพาะเนมสเปซ XPath สืบค้นโครงสร้างองค์ประกอบเป้าหมาย ไม่ใช่ URI เนมสเปซ</p>
+<p>สำหรับธนาคารที่ห่อ CAMT ในซองจดหมายแบบกำหนดเอง ให้ใช้<code>from_string()</code>หรือ<code>from_bytes()</code>เพื่อป้อนเอกสารภายในโดยตรง</p>
+<h3>ฉันสามารถแมปส่วนหัวคอลัมน์ CSV ที่กำหนดเองกับสคีมามาตรฐานได้หรือไม่</h3>
+<p><strong>ใช่ -- การทำให้เป็นมาตรฐานอัตโนมัติ การกำหนดค่าเป็นศูนย์</strong><code>CsvStatementParser</code>รู้จักรูปแบบส่วนหัวทั่วไป:<code>&quot;Date&quot;</code>, <code>&quot;Transaction Date&quot;</code>, <code>&quot;Booking Date&quot;</code>แผนที่ทั้งหมดไปที่<code>date</code>สนาม.<code>&quot;Amount&quot;</code>, <code>&quot;Value&quot;</code>, <code>&quot;Sum&quot;</code>แผนที่ไปที่<code>amount</code>. แยกคอลัมน์เครดิต/เดบิต (เช่น<code>&quot;Credit&quot;</code>และ<code>&quot;Debit&quot;</code>) จะถูกตรวจพบและรวมเป็นจำนวนเงินที่ลงนามเพียงครั้งเดียวโดยอัตโนมัติ</p>
+<h3>รูปแบบผลลัพธ์คืออะไร?</h3>
+<p>ตัวแยกวิเคราะห์ทั้งหมดสร้าง DataFrames แพนด้ามาตรฐานพร้อมประเภทคอลัมน์ที่สอดคล้องกัน:</p>
+<table>
+<thead>
+<tr>
+<th>รูปแบบ</th>
+<th>คอลัมน์สำคัญ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="text-left"><strong>แคมท์</strong></td>
+<td class="text-left"><code>Amount</code>, <code>Currency</code>, <code>DrCr</code>, <code>Debtor</code>, <code>Creditor</code>, <code>Reference</code>, <code>ValDt</code>, <code>BookgDt</code>, <code>AccountId</code></td>
+</tr>
+<tr>
+<td class="text-left"><strong>เพน.001</strong></td>
+<td class="text-left"><code>PmtInfId</code>, <code>PmtMtd</code>, <code>InstdAmt</code>, <code>Currency</code>, <code>CdtrNm</code>, <code>EndToEndId</code>, <code>MsgId</code>, <code>CreDtTm</code>, <code>NbOfTxs</code></td>
+</tr>
+<tr>
+<td class="text-left"><strong>CSV/OFX/QFX/MT940</strong></td>
+<td class="text-left"><code>date</code>, <code>description</code>, <code>amount</code>(ทำให้เป็นมาตรฐาน)</td>
+</tr>
+</tbody>
+</table>
+<p>คุณยังสามารถส่งออกเป็น CSV, JSON, Excel หรือแปลงเป็น Polars DataFrames</p>
+<h2>ขั้นตอนการทำงานของกระทรวงการคลัง</h2>
+<h3>parser จัดการกับคำสั่งหลายสกุลเงินอย่างไร</h3>
+<p><strong>ธุรกรรมแต่ละรายการจะคงสกุลเงินเดิมไว้ -- ไม่มีการแปลงโดยนัย</strong><code>Currency</code>ฟิลด์ถูกแยกออกจาก XML<code>Ccy</code>คุณลักษณะต่อธุรกรรม ใบแจ้งยอดหลายสกุลเงินจะยังคงเหมือนเดิม ที่<code>get_account_balances()</code>วิธีการคืนยอดคงเหลือเปิดและปิดต่อบัญชีด้วยรหัสสกุลเงินเดิม การกระทบยอดข้ามสกุลเงินจะเหลืออยู่ที่ลอจิกดาวน์สตรีมของคุณ ซึ่งคุณสามารถควบคุมแหล่งที่มาของอัตราแลกเปลี่ยนได้</p>
+<h3>parser รองรับทั้งรูปแบบขาออกและขาเข้าหรือไม่</h3>
+<p><strong>ใช่.</strong><code>Pain001Parser</code>จัดการไฟล์เริ่มต้นการโอนเครดิต ISO 20022 PAIN.001 (การชำระเงินขาออก)<code>CamtParser</code>จัดการไฟล์ใบแจ้งยอดระหว่างธนาคารกับลูกค้า CAMT.053 (การรายงานขาเข้า) ทั้งรองรับการสตรีม การแก้ไข PII และส่งออกเป็น CSV, JSON และ Excel ใช้<code>detect_statement_format()</code>เพื่อระบุรูปแบบโดยอัตโนมัติ</p>
+<h3>จะเกิดอะไรขึ้นเมื่อรายการธุรกรรมมีรูปแบบไม่ถูกต้อง?</h3>
+<p>ลักษณะการทำงานขึ้นอยู่กับโหมดการแยกวิเคราะห์:</p>
+<ul>
+<li><strong><code>parse()</code>(โหมดแบตช์)</strong> -- รายการที่มีรูปแบบไม่ถูกต้องไม่มีฟิลด์บังคับ (<code>Amount</code>, <code>Currency</code>, หรือ<code>CdtDbtInd</code>) จะถูกข้ามไปพร้อมกับบันทึกคำเตือน คำสั่งที่เหลือจะแยกวิเคราะห์ตามปกติ</li>
+<li><strong><code>parse_streaming()</code>(โหมดสตรีมมิ่ง)</strong> -- ข้อผิดพลาดในการแยกวิเคราะห์จะเผยแพร่ทันทีเป็นข้อยกเว้น ไม่มีการสูญเสียข้อมูลอย่างเงียบ ๆ พฤติกรรมที่ล้มเหลวอย่างรวดเร็วนี้มีไว้สำหรับขั้นตอนการทำงานทางการเงินซึ่งทุกธุรกรรมจะต้องถูกนำมาพิจารณา</li>
+</ul>
+<h3>การขจัดข้อมูลซ้ำซ้อนทำงานอย่างไร</h3>
+<p>ที่<code>Deduplicator</code>คลาสตรวจจับรายการที่ซ้ำกันทุกประการและการจับคู่ที่ต้องสงสัยพร้อมคะแนนความมั่นใจที่อธิบายได้:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">CamtParser, Deduplicator
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">parser = </span><span style="color:#8fa1b3;">CamtParser</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;)
+</span><span style="color:#c0c5ce;">dedup = </span><span style="color:#8fa1b3;">Deduplicator</span><span style="color:#c0c5ce;">()
+</span><span style="color:#c0c5ce;">result = dedup.</span><span style="color:#8fa1b3;">deduplicate</span><span style="color:#c0c5ce;">(dedup.</span><span style="color:#8fa1b3;">from_dataframe</span><span style="color:#c0c5ce;">(parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()))
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Unique: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(result.unique_transactions)}&quot;)
+</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Exact duplicates: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(result.exact_duplicates)}&quot;)
+</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Suspected matches: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(result.suspected_matches)}&quot;)
+</span></pre>
+</code></pre>
+<h2>การติดตั้งและความเข้ากันได้</h2>
+<h3>ฉันจะติดตั้ง ตัวแยกวิเคราะห์ใบแจ้งยอดธนาคาร ได้อย่างไร</h3>
+<pre><code class="language-bash"><pre style="background-color:#2b303b;">
+<span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser
+</span></pre>
+</code></pre>
+<p>สำหรับการสนับสนุน Polars DataFrame ซึ่งเป็นอุปกรณ์เสริม:</p>
+<pre><code class="language-bash"><pre style="background-color:#2b303b;">
+<span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser</span><span style="color:#b48ead;">[</span><span style="color:#c0c5ce;">polars</span><span style="color:#b48ead;">]
+</span></pre>
+</code></pre>
+<h3>รองรับ Python เวอร์ชันใด</h3>
+<p>หลาม 3.9 ถึง 3.14 ทุกเวอร์ชันได้รับการทดสอบใน CI โดยมีการทดสอบ 467 ครั้งที่ครอบคลุมสาขา 100%</p>
+<h3>การพึ่งพาอาศัยกันคืออะไร?</h3>
+<p>ไลบรารีมีการขึ้นต่อกันโดยตรง 5 ประการ:</p>
+<ul>
+<li><code>lxml</code>-- การแยกวิเคราะห์ XML พร้อมการเสริมความปลอดภัย
+-<code>pandas</code>-- DataFrames และการจัดการข้อมูล
+-<code>openpyxl</code>- การส่งออก Excel
+-<code>pydantic</code>-- การตรวจสอบข้อมูลและแบบจำลอง
+-<code>defusedxml</code>-- การป้องกัน XXE</li>
+</ul>
+<p>การอ้างอิงทั้งหมดมีเวอร์ชันที่ล็อคแฮช SHA-256 CycloneDX SBOM แมปทุกองค์ประกอบรันไทม์</p>
+<h3>ใช้งานได้บน macOS, Linux และ Windows หรือไม่</h3>
+<p><strong>ใช่</strong> ไลบรารีใช้งานได้บน macOS, Linux และ Windows (ผ่าน WSL) ไม่มีการพึ่งพาเฉพาะแพลตฟอร์ม</p>
+<h2>ความสามารถในการทำซ้ำและความปลอดภัย</h2>
+<h3>ฉันจะตรวจสอบความสามารถในการทำซ้ำได้อย่างไร</h3>
+<pre><code class="language-bash"><pre style="background-color:#2b303b;">
+<span style="color:#8fa1b3;">python</span><span style="color:#bf616a;"> -m</span><span style="color:#c0c5ce;"> pytest                              </span><span style="color:#65737e;"># 467 tests, 100% branch coverage
+</span><span style="color:#8fa1b3;">python</span><span style="color:#c0c5ce;"> scripts/verify_locked_hashes.py        </span><span style="color:#65737e;"># SHA-256 hash verification
+</span><span style="color:#8fa1b3;">git</span><span style="color:#c0c5ce;"> log</span><span style="color:#bf616a;"> --show-signature -1                   </span><span style="color:#65737e;"># Verify commit signature
+</span></pre>
+</code></pre>
+<h3>มีการป้องกันความปลอดภัยอะไรบ้าง?</h3>
+<ul>
+<li><strong>ความคุ้มครอง XXE</strong>:<code>resolve_entities=False</code>, <code>no_network=True</code>, <code>load_dtd=False</code></li>
+<li><strong>การป้องกัน ZIP Bomb</strong>: ขีดจำกัดอัตราส่วนการบีบอัด ขีดจำกัดขนาดรายการ การปฏิเสธรายการที่เข้ารหัส</li>
+<li><strong>การป้องกันการข้ามเส้นทาง</strong>: รายการบล็อกรูปแบบที่เป็นอันตรายและความละเอียดของลิงก์สัญลักษณ์</li>
+<li><strong>การตรวจสอบอินพุต</strong>: ขีดจำกัดขนาดไฟล์ (ค่าเริ่มต้น 100 MB) การตรวจสอบส่วนขยาย/รูปแบบ</li>
+<li><strong>ห่วงโซ่อุปทาน</strong>: การขึ้นต่อกันแบบแฮชล็อค SHA-256, CycloneDX SBOM, การรับรองแหล่งที่มาของการสร้าง</li>
+<li><strong>ข้อผูกพันที่ลงนาม</strong>: บังคับใช้ใน CI</li>
+</ul>
+<h3>ตัวแยกวิเคราะห์ใบแจ้งยอดธนาคาร เปรียบเทียบกับ pyiso20022 อย่างไร</h3>
+<p>pyiso20022 เป็นชุดเครื่องมือ ISO 20022 แบบกว้างที่สร้างคลาสข้อมูล Python จากสกีมา ISO XML ครอบคลุมข้อความ ISO 20022 หลายประเภท (PACS, PAIN, CAMT, ADMI) พร้อมการตรวจสอบความถูกต้องของสคีมา ตัวแยกวิเคราะห์ใบแจ้งยอดธนาคาร สร้างขึ้นโดยเฉพาะสำหรับการแยกวิเคราะห์ใบแจ้งยอดธนาคารด้วยการสนับสนุนการสตรีม การแก้ไข PII การขจัดข้อมูลซ้ำซ้อน และ API แบบรวมในหกรูปแบบ รวมถึงรูปแบบที่ไม่ใช่ ISO (CSV, OFX, QFX, MT940) หากคุณต้องการแยกวิเคราะห์ใบแจ้งยอดธนาคารลงใน DataFrames ที่มีการรักษาความปลอดภัยระดับการใช้งานจริง ให้ใช้ ตัวแยกวิเคราะห์ใบแจ้งยอดธนาคาร หากคุณต้องการทำงานกับแค็ตตาล็อกข้อความ ISO 20022 แบบเต็ม ให้ใช้ pyiso20022</p>
+<h3>กำหนดเวลาการย้ายข้อมูล SWIFT ISO 20022 คืออะไร</h3>
+<p>SWIFT ได้เผยแพร่ไทม์ไลน์การโยกย้ายแบบเป็นขั้นตอน:</p>
+<ul>
+<li><strong>พฤศจิกายน 2026</strong>: ที่อยู่แบบมีโครงสร้างและแบบผสมมีผลบังคับใช้ ข้อความคำสั่งหลายคำสั่ง MT101 จะถูกปฏิเสธ การจัดการเคสระยะที่ 1 เริ่มต้นขึ้น</li>
+<li><strong>พฤศจิกายน 2027</strong>: สถาบันการเงินทุกแห่งจะต้องสามารถรับใบแจ้งยอด CAMT.053 ได้ SWIFT จะหยุดแปลง MT เป็นรูปแบบ ISO</li>
+<li><strong>พฤศจิกายน 2028</strong>: การเลิกใช้งาน MT940, MT942, MT950, MT900 และ MT910 โดยสมบูรณ์ สิ่งเหล่านี้จะถูกแทนที่ด้วย CAMT.052, CAMT.053 และ CAMT.054 ที่เทียบเท่า</li>
+</ul>
+<p>ตัวแยกวิเคราะห์ใบแจ้งยอดธนาคาร รองรับทั้งรูปแบบ MT940 ดั้งเดิมและรูปแบบ CAMT.053/PAIN.001 ที่ทันสมัย ​​ทำให้เหมาะสำหรับช่วงการเปลี่ยนแปลง</p>
+</div>
+        <div id="faq-accordion" class="faq-container"></div>
+      </div>
+    </main>
+    <footer class="site-footer" aria-label="footer">
+      <div class="footer-inner">
+        <span>© 2023-2026 ตัวแยกวิเคราะห์ใบแจ้งยอดบัญชีธนาคาร สงวนลิขสิทธิ์.</span>
+        <ul class="footer-links">
+          <li><a href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          <li><a href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li>
+          <li><a href="/th/contact/index.html">Contact</a></li>
+          <li><a href="/th/confidentialite/index.html">Privacy</a></li>
+          <li><a href="/th/conditions/index.html">Terms</a></li>
+        </ul>
+      </div>
+    </footer>
+    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"คำตอบสำหรับคำถามทั่วไปเกี่ยวกับ ตัวแยกวิเคราะห์ใบแจ้งยอดธนาคาร: ความเป็นส่วนตัวของข้อมูล การแก้ไข PII ประสิทธิภาพ การสนับสนุน ISO 20022 การสตรีม การปฏิบัติตามข้อกำหนด และเวิร์กโฟลว์คลัง","headline":"คำถามทั่วไปเกี่ยวกับตัวแยกวิเคราะห์ใบแจ้งยอดบัญชีธนาคาร","image":{"@type":"ImageObject","url":"https://cloudcdn.pro/bankstatementparser/images/logos/bankstatementparser.webp"},"inLanguage":"th-TH","mainEntityOfPage":"https://bankstatementparser.com/th/faq/index.html","name":"ตัวแยกวิเคราะห์ใบแจ้งยอดธนาคาร","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
+    <script>
+    // FAQ accordion builder
+    (function(){
+      // Language switcher toggle
+      document.querySelectorAll('.lang-switcher').forEach(function(sw){
+        var btn=sw.querySelector('button');
+        var menu=sw.querySelector('.lang-menu');
+        if(!btn||!menu)return;
+        btn.addEventListener('click',function(e){
+          e.stopPropagation();
+          var open=menu.style.display==='block';
+          menu.style.display=open?'none':'block';
+          btn.setAttribute('aria-expanded',String(!open));
+        });
+        document.addEventListener('click',function(){menu.style.display='none';btn.setAttribute('aria-expanded','false')});
+        menu.addEventListener('click',function(e){e.stopPropagation()});
+      });
+    })();
+    (function(){
+      function buildFaqAccordion(){
+        var raw=document.getElementById("faq-raw");
+        var target=document.getElementById("faq-accordion");
+        if(!raw||!target)return;
+        var nodes=Array.from(raw.children);
+        var catIdx=0,itemIdx=0;
+        var html=[],intro=[];
+        var inCat=false,inAcc=false,firstInCat=false;
+        for(var i=0;i<nodes.length;i++){
+          var n=nodes[i],tag=n.tagName;
+          if(!inCat&&tag!=="H2"){intro.push(n.outerHTML);continue}
+          if(tag==="H2"){
+            if(inAcc)html.push("</div>");
+            catIdx++;firstInCat=true;inCat=true;inAcc=false;
+            html.push('<h2 class="faq-category-header" id="faq-cat-'+catIdx+'">'+n.textContent+"</h2>");
+            html.push('<div class="accordion" id="accordionCat'+catIdx+'">');
+            inAcc=true;continue;
+          }
+          if(tag==="H3"){
+            itemIdx++;
+            var cid="faqC"+itemIdx,hid="faqH"+itemIdx,pid="accordionCat"+catIdx;
+            var exp=firstInCat,show=exp?" show":"",col=exp?"":" collapsed",aria=exp?"true":"false";
+            var parts=[];
+            for(var j=i+1;j<nodes.length;j++){
+              var nt=nodes[j].tagName;
+              if(nt==="H2"||nt==="H3")break;
+              parts.push(nodes[j].outerHTML);
+            }
+            html.push(
+              '<div class="accordion-item">'+
+              '<h2 class="accordion-header" id="'+hid+'">'+
+              '<button class="accordion-button'+col+'" type="button" data-bs-toggle="collapse" data-bs-target="#'+cid+'" aria-expanded="'+aria+'" aria-controls="'+cid+'">'+
+              n.textContent+'</button></h2>'+
+              '<div id="'+cid+'" class="accordion-collapse collapse'+show+'" aria-labelledby="'+hid+'" data-bs-parent="#'+pid+'">'+
+              '<div class="accordion-body">'+parts.join("")+'</div></div></div>'
+            );
+            i=j-1;firstInCat=false;continue;
+          }
+        }
+        if(inAcc)html.push("</div>");
+        html.push('<p style="margin-top:2rem;font-size:.9375rem">Have more questions? <a href="/th/contact/index.html">Get in touch</a></p>');
+        target.innerHTML=intro.join("")+html.join("");
+        var qs=target.querySelectorAll(".accordion-button");
+        var as=target.querySelectorAll(".accordion-body");
+        var items=[];
+        for(var k=0;k<qs.length;k++){
+          items.push({"@type":"Question","name":qs[k].textContent.trim(),"acceptedAnswer":{"@type":"Answer","text":as[k]?as[k].textContent.trim():""}});
+        }
+        if(items.length){
+          var ld=document.createElement("script");
+          ld.type="application/ld+json";
+          ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"FAQPage","mainEntity":items});
+          document.head.appendChild(ld);
+        }
+      }
+      function ensureBootstrap(){
+        if(window.bootstrap)return;
+        var s=document.createElement("script");
+        s.src="/bootstrap.bundle.min.js";
+        s.onload=function(){if(window.serviceWorkerSetup)window.serviceWorkerSetup.bootstrapLoaded=true};
+        document.head.appendChild(s);
+      }
+      function init(){buildFaqAccordion();ensureBootstrap()}
+      if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",init)}else{init()}
+      var hb=document.getElementById("navToggle");
+      if(hb){hb.addEventListener("click",function(){
+        var nav=document.querySelector(".site-nav");
+        if(nav){var open=nav.classList.toggle("open");hb.setAttribute("aria-expanded",String(open))}
+      })}
+    })();
+    </script>
+    <script>
+    (function(){
+      function setTheme(theme){
+        document.documentElement.setAttribute("data-theme",theme);localStorage.setItem("theme",theme);
+        document.querySelectorAll(".theme-icon-dark,.theme-icon-dark-m").forEach(function(e){e.style.display=theme==="dark"?"none":""});
+        document.querySelectorAll(".theme-icon-light,.theme-icon-light-m").forEach(function(e){e.style.display=theme==="dark"?"":"none"});
+        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"Light":"Dark"});
+        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"Switch to light mode":"Switch to dark mode")});
+      }
+      var saved=localStorage.getItem("theme");
+      if(saved){setTheme(saved)}else if(window.matchMedia("(prefers-color-scheme:dark)").matches){setTheme("dark")}
+      document.querySelectorAll("#themeToggle").forEach(function(btn){
+        btn.addEventListener("click",function(){setTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark")});
+      });
+    })();
+    </script>
+    <script defer src="/main.js"></script>
+  </body>
+</html>

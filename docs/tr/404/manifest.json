@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Erişmeye çalıştığınız web sayfası kaldırılmış, yeniden adlandırılmış veya şu anda kullanılamıyor gibi görünüyor.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Banka Ekstresi Ayrıştırıcı",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

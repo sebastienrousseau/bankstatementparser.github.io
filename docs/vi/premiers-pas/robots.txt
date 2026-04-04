@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://bankstatementparser.com/vi/premiers-pas/index.html/sitemap.xml

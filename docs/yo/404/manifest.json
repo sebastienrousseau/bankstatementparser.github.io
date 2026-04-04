@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "O dabi pe oju-iwe wẹẹbu ti o n gbiyanju lati wọle si ti yọkuro, tunrukọ, tabi ko si lọwọlọwọ.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Parser Gbólóhùn Bank",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

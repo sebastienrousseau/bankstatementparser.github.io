@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Chúng tôi vừa nhận được tin nhắn của bạn và đánh giá cao sự quan tâm và truy vấn của bạn. Chúng tôi đang làm việc theo y",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Trình phân tích báo cáo ngân hàng",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

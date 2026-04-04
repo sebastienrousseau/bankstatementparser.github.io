@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Sembra che la pagina web a cui stai tentando di accedere sia stata rimossa, rinominata o al momento non disponibile.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Analizzatore di estratti conto bancari",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

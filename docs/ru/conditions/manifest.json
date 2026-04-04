@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Заходя на этот веб-сайт, вы признаете и соглашаетесь соблюдать настоящие Условия использования, а также все применимые з",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Парсер банковских выписок",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

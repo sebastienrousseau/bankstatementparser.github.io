@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Risposte alle domande comuni sull'Analizzatore di estratti conto: privacy dei dati, mascheramento PII, prestazioni, supp",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Domande frequenti",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

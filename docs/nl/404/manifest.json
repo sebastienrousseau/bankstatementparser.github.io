@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Het lijkt erop dat de webpagina die u probeert te openen, is verwijderd, hernoemd of momenteel niet beschikbaar is.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Parser voor bankafschriften",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

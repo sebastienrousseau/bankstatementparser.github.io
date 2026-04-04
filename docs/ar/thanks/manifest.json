@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "لقد تلقينا للتو رسالتك ونقدر اهتمامك واستفسارك. نحن نعمل على طلبك وسنتواصل معك في أقرب وقت ممكن.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "محلل كشف الحساب البنكي",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

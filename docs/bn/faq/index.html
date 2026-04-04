@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="bn-BD">
+  <head>
+    <meta charset="utf-8" />
+    <meta itemprop="datePublished" content="2026-04-01T00:00:00+00:00" id="date">
+    <meta itemprop="dateModified" content="2026-04-01T00:00:00+00:00" id="last-modified">
+    <title>ব্যাংক স্টেটমেন্ট পার্সার FAQ: গোপনীয়তা, পারফরম্যান্স এবং ব্যবহার</title>
+    <meta name="theme-color" content="rgb(73, 214, 251)" />
+    <meta name="measurement-id" content="G-FL9DEBFHN1" />
+    <meta name="author" content="Sebastien Rousseau">
+<meta name="description" content="ব্যাংক স্টেটমেন্ট পার্সার সম্পর্কে সাধারণ প্রশ্নের উত্তর: ডেটা গোপনীয়তা, PII মাস্কিং, পারফরম্যান্স, ISO 20022 সমর্থন, স্ট্রিমিং, কমপ্লায়েন্স এবং ট্রেজারি ওয়ার্কফ্লো।">
+<meta name="keywords" content="ব্যাংক স্টেটমেন্ট পার্সার FAQ, CAMT পার্সার প্রশ্ন, PAIN.001 FAQ, ISO 20022 python FAQ, PII মাস্কিং ব্যাংকিং, পারফরম্যান্স, আর্থিক ডেটা গোপনীয়তা, MT940 পার্সার FAQ, স্ট্রিমিং পার্সার python, কমপ্লায়েন্স">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="accessibility" content="ARIA, fullKeyboardControl, noFlashingHazard" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ব্যাংক স্টেটমেন্ট পার্সার FAQ: গোপনীয়তা, পারফরম্যান্স এবং ব্যবহার">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: cloudcdn.pro kura.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
+    <meta name="msapplication-TileColor" content="rgb(73, 214, 251)">
+    
+    <link rel="alternate" href="https://bankstatementparser.com/bn/faq/index.html" hreflang="bn" />
+    <link rel="canonical" href="https://bankstatementparser.com/bn/faq/index.html" />
+    <link rel="icon" type="image/x-icon" href="https://cloudcdn.pro/bankstatementparser/images/favicon.ico" sizes="16x16 32x32" />
+    <link rel="preconnect" href="https://cloudcdn.pro" crossorigin />
+    <link rel="stylesheet" href="/bootstrap.min.css" />
+    <link rel="apple-touch-icon" href="https://cloudcdn.pro/bankstatementparser/images/icons/192x192.png" sizes="192x192" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
+    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#b0b8c1"}})});</script>
+    <style>
+      :root{--theme-color:rgb(73, 214, 251)}*{font-weight:400;box-sizing:border-box;margin:0}
+      pre{margin:1.5rem 0;max-width:100%;overflow:auto;border-radius:.5rem;padding:1rem 1.25rem;background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);color:var(--c-code);display:block;font-family:'SF Mono',SFMono-Regular,Consolas,monospace;font-size:.8125rem;line-height:1.7;margin:1.5rem 0;max-width:100%;overflow:auto;padding:1rem 1.25rem;border-radius:.5rem}
+    </style>
+    
+    <style>
+      :root{--c-bg:#fff;--c-text:#1a1a1a;--c-heading:#0a0a0a;--c-secondary:#52525b;--c-accent:#3b33c0;--c-accent-hover:#2d2799;--c-surface:#f4f4f5;--c-border:#e4e4e7;--c-nav-bg:#fff;--c-nav-text:#1a1a1a;--c-nav-muted:#52525b;--c-footer-bg:#18181b;--c-footer-text:#d4d4d8;--c-code:#3a3a4a}
+      @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--c-bg:#09090b;--c-text:#e4e4e7;--c-heading:#fafafa;--c-secondary:#a1a1aa;--c-accent:#a5b4fc;--c-accent-hover:#c7d2fe;--c-surface:#18181b;--c-border:#27272a;--c-nav-bg:#09090b;--c-nav-text:#fafafa;--c-nav-muted:#a1a1aa;--c-footer-bg:#09090b;--c-footer-text:#d4d4d8;--c-code:#c8c8d8}}
+      [data-theme="dark"]{--c-bg:#09090b;--c-text:#e4e4e7;--c-heading:#fafafa;--c-secondary:#a1a1aa;--c-accent:#a5b4fc;--c-accent-hover:#c7d2fe;--c-surface:#18181b;--c-border:#27272a;--c-nav-bg:#09090b;--c-nav-text:#fafafa;--c-nav-muted:#a1a1aa;--c-footer-bg:#09090b;--c-footer-text:#d4d4d8;--c-code:#c8c8d8}
+      
+      [data-theme="dark"] .site-hero{background:linear-gradient(180deg,#1a0a0a 0%,#120808 30%,#0d0606 60%,var(--c-bg) 100%)}
+      [data-theme="dark"] .site-hero h1{color:var(--c-heading)}
+      [data-theme="dark"] .site-hero p{color:var(--c-secondary)}
+      [data-theme="dark"] .site-nav{background:rgba(9,9,11,.9);border-bottom-color:rgba(255,255,255,.06)}[data-theme="dark"] .nav-cta{background:var(--c-accent)}
+      @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .site-hero{background:linear-gradient(180deg,#1a0a0a 0%,#120808 30%,#0d0606 60%,#09090b 100%)}:root:not([data-theme="light"]) .site-hero h1{color:#fafafa}:root:not([data-theme="light"]) .site-hero p{color:#a1a1aa}:root:not([data-theme="light"]) .site-nav{background:rgba(9,9,11,.9);border-bottom-color:rgba(255,255,255,.06)}:root:not([data-theme="light"]) .nav-cta{background:#818cf8}}
+      body{color:var(--c-text);background:var(--c-bg);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:17px;line-height:1.47059;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+      h1,h2,h3,h4,h5,h6{color:var(--c-heading);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;letter-spacing:-.022em;line-height:1.08}
+      a{color:var(--c-accent);text-decoration:underline;text-underline-offset:.15em}a:hover{color:var(--c-accent-hover);text-decoration:underline}
+      strong{font-weight:600}
+      code{background:var(--c-surface);padding:.125rem .375rem;border-radius:.25rem;font-size:.8125em;color:var(--c-code);font-family:'SF Mono',SFMono-Regular,Consolas,monospace}
+      pre code{background:none;padding:0;font-size:inherit;color:inherit}
+      .site-nav{background:#fff;border-bottom:1px solid var(--c-border);position:sticky;top:0;z-index:1000}
+      .site-nav .nav-inner{max-width:1200px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;height:3.75rem}
+      .nav-brand{display:flex;align-items:center;gap:.5rem;text-decoration:none;flex-shrink:0}
+      .nav-brand img{height:32px;width:32px}
+      .nav-brand span{color:var(--c-heading);font-weight:600;font-size:14px;letter-spacing:-.01em}
+      .nav-center{display:flex;align-items:center;gap:.125rem;list-style:none;margin:0 auto;padding:0}
+      .nav-center a,.nav-center button{display:inline-flex;align-items:center;line-height:1.5;color:var(--c-nav-muted);font-size:12px;font-weight:400;text-decoration:none;padding:.4375rem .875rem;border-radius:.375rem;text-decoration:none;transition:color .15s,background .15s;border:none;background:none;cursor:pointer}
+      .nav-center a:hover,.nav-center button:hover{color:var(--c-nav-text);background:var(--c-surface);text-decoration:none}
+      .nav-center .dropdown-toggle::after{display:inline-block;margin-left:.25em;vertical-align:.15em;content:"";border-top:.3em solid;border-right:.3em solid transparent;border-left:.3em solid transparent}
+      .nav-center .dropdown-menu{background:var(--c-bg);border:1px solid var(--c-border);border-radius:.5rem;padding:.375rem;margin-top:.25rem;min-width:10rem;box-shadow:0 4px 24px rgba(0,0,0,.08)}
+      .nav-center .dropdown-item{color:var(--c-nav-muted);font-size:.8125rem;padding:.5rem .75rem;border-radius:.25rem;display:block;text-decoration:none;transition:color .15s,background .15s}
+      .nav-center .dropdown-item:hover{color:var(--c-nav-text);background:var(--c-surface)}
+      .nav-right{display:flex;align-items:center;gap:.75rem;flex-shrink:0}
+      .theme-toggle{color:var(--c-secondary);font-size:12px;font-weight:500;padding:.375rem .625rem;border:1px solid var(--c-border);border-radius:6rem;background:transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.3125rem;transition:border-color .2s;outline:none}
+      .theme-toggle:hover{border-color:var(--c-secondary);color:var(--c-heading)}
+      .theme-toggle svg{width:.875rem;height:.875rem;fill:currentColor}
+      .nav-cta{background:#0a0a0a;color:#fff!important;border-radius:6rem;padding:.4375rem 1rem;font-size:12px;font-weight:400;text-decoration:none!important;transition:opacity .2s}
+      .nav-cta:hover{opacity:.85;color:#fff!important;text-decoration:none!important}
+      .nav-hamburger{display:none;background:none;border:none;color:var(--c-heading);padding:.25rem;cursor:pointer}
+      .nav-hamburger svg{width:1.5rem;height:1.5rem;fill:currentColor}
+      
+      @media(max-width:991px){.site-nav{position:relative!important;background:var(--c-bg)!important;border-bottom:1px solid var(--c-border)}.nav-center{display:none}.nav-right{display:none}.nav-hamburger{display:flex;margin-left:auto;align-items:center}.site-nav.open .nav-center{display:block;position:absolute;top:100%;left:0;right:0;background:var(--c-bg);border-bottom:1px solid var(--c-border);z-index:999;box-shadow:0 4px 12px rgba(0,0,0,.08)}.site-nav.open .nav-center li{list-style:none}.site-nav.open .nav-center>li>a,.site-nav.open .nav-center>li>button{display:block;font-size:16px;padding:.875rem 1.5rem;text-align:left;color:var(--c-text);text-decoration:none;width:100%;background:none;border:none;border-bottom:1px solid var(--c-border);cursor:pointer}.site-nav.open .nav-center>li>a:hover,.site-nav.open .nav-center>li>button:hover{background:var(--c-surface)}.site-nav.open .nav-center .dropdown-menu{position:static;box-shadow:none;border:none;padding:0;margin:0;border-radius:0;background:var(--c-surface);min-width:100%;display:block}.site-nav.open .nav-center .dropdown-item{padding:.75rem 2.5rem;font-size:15px;color:var(--c-secondary);display:block;border-bottom:1px solid var(--c-border)}.site-nav.open .nav-center .dropdown-item:hover{color:var(--c-text);background:var(--c-border)}}
+      .site-hero{background:linear-gradient(180deg,#fef2f2 0%,#fff5f5 30%,#fffafa 60%,#fff 100%);padding:7rem 1.5rem 4rem;text-align:center}
+      .site-hero h1{color:#1a1a1a;font-size:clamp(2.5rem,5vw,3.5rem);font-weight:600;margin-bottom:1.5rem;letter-spacing:-.015em;line-height:1.07143}
+      .site-hero p{color:#58585e;font-size:clamp(1rem,2vw,1.125rem);max-width:580px;margin:0 auto 2rem;line-height:1.6}
+      .site-hero .hero-cta{display:inline-flex;align-items:center;background:#312e81;color:#fff;border-radius:6rem;padding:.75rem 2rem;font-size:1rem;font-weight:500;text-decoration:none;transition:background .2s,transform .1s}
+      .site-hero .hero-cta:hover{background:var(--c-accent-hover);transform:translateY(-1px);text-decoration:none}
+      .site-main{max-width:800px;margin:0 auto;padding:3rem 1.5rem 4rem;font-size:17px;line-height:1.47059}
+      .site-main>div>h1:first-child,.site-main>div>h1:first-child+p,.site-main>div>h1:first-child+p+p:empty{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+      .site-main h2{font-size:28px;font-weight:600;margin:2.5rem 0 .8rem;letter-spacing:.007em;line-height:1.14286}
+      .site-main h3{font-size:22px;font-weight:600;margin:1.8rem 0 .4rem;letter-spacing:.01em;line-height:1.18182}
+      .site-main h4{font-size:19px;font-weight:600;margin:1.5rem 0 .4rem;line-height:1.21053}
+      .site-main table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.875rem}
+      .site-main thead{background:var(--c-surface)}
+      .site-main th,.site-main td{padding:.75rem 1rem;border-bottom:1px solid var(--c-border);text-align:left}
+      .site-main th{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--c-secondary)}
+      .site-main tbody tr:hover{background:var(--c-surface)}
+      .site-main ul,.site-main ol{padding-left:1.5rem;margin:.75rem 0}
+      .site-main li{margin-bottom:.375rem}
+      .site-main li:last-child{margin-bottom:0}
+      .site-main>div>p:last-child{margin-top:2rem}
+      .lang-menu{display:none;position:absolute;right:0;top:100%;margin-top:.375rem;background:var(--c-bg);border:1px solid var(--c-border);border-radius:.5rem;box-shadow:0 4px 24px rgba(0,0,0,.1);padding:.5rem;z-index:1000;width:max-content;max-width:90vw}
+.lang-menu-grid{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:0;min-width:500px}
+@media(max-width:768px){.lang-menu-grid{grid-template-columns:repeat(2,1fr)}}
+.lang-menu-grid a{display:block;padding:.375rem .625rem;font-size:12px;color:var(--c-nav-muted);text-decoration:none;border-radius:.25rem;white-space:nowrap}
+.lang-menu-grid a:hover{background:var(--c-surface);color:var(--c-text)}
+.lang-menu-grid a.active{color:var(--c-text);font-weight:600}.lang-switcher button:hover{border-color:var(--c-secondary)}.site-footer{background:var(--c-footer-bg);padding:2.5rem 1.5rem 2rem;color:var(--c-footer-text);font-size:.8125rem}
+      .site-footer .footer-inner{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem}
+      .site-footer a{color:var(--c-footer-text);text-decoration:none;transition:color .15s}
+      .site-footer a:hover{color:#fff}
+      .site-footer .footer-links{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;list-style:none;margin:0;padding:0}
+      .skip-link{position:absolute;left:-9999px;top:0;z-index:1100;padding:.5rem 1rem;background:#fff;color:var(--c-accent);border:2px solid var(--c-accent);border-radius:.25rem}
+      .skip-link:focus{left:1rem;top:1rem}
+      :focus-visible{outline:2px solid var(--c-accent);outline-offset:2px}
+      @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+      @media print{body{color:#000!important;background:#fff!important}.site-nav,.site-footer,.skip-link{display:none!important}a{color:#000!important}a[href]::after{content:" (" attr(href) ")"}}
+    </style>
+    
+    <style>
+      .accordion{--bs-accordion-color:var(--c-text);--bs-accordion-bg:var(--c-bg);--bs-accordion-transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out,border-radius .15s ease;--bs-accordion-border-color:var(--c-border);--bs-accordion-border-width:0;--bs-accordion-border-radius:0;--bs-accordion-inner-border-radius:0;--bs-accordion-btn-padding-x:0;--bs-accordion-btn-padding-y:1rem;--bs-accordion-btn-color:var(--c-text);--bs-accordion-btn-bg:transparent;--bs-accordion-btn-icon:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2371717a'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");--bs-accordion-btn-icon-width:1.25rem;--bs-accordion-btn-icon-transform:rotate(-180deg);--bs-accordion-btn-icon-transition:transform .2s ease-in-out;--bs-accordion-btn-active-icon:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%235046e5'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");--bs-accordion-btn-focus-box-shadow:0 0 0 .25rem rgba(80,70,229,.15)}
+      .accordion-button{position:relative;display:flex;align-items:center;width:100%;padding:var(--bs-accordion-btn-padding-y) var(--bs-accordion-btn-padding-x);font-size:1rem;color:var(--bs-accordion-btn-color);text-align:left;background-color:var(--bs-accordion-btn-bg);border:0;border-radius:0;overflow-anchor:none;transition:var(--bs-accordion-transition)}
+      .accordion-button:not(.collapsed){color:var(--c-accent);background-color:transparent;box-shadow:none}
+      .accordion-button:not(.collapsed)::after{background-image:var(--bs-accordion-btn-active-icon);transform:var(--bs-accordion-btn-icon-transform)}
+      .accordion-button::after{flex-shrink:0;width:var(--bs-accordion-btn-icon-width);height:var(--bs-accordion-btn-icon-width);margin-left:auto;content:"";background-image:var(--bs-accordion-btn-icon);background-repeat:no-repeat;background-size:var(--bs-accordion-btn-icon-width);transition:var(--bs-accordion-btn-icon-transition)}
+      .accordion-button:hover{z-index:2}
+      .accordion-button:focus{z-index:3;outline:0;box-shadow:var(--bs-accordion-btn-focus-box-shadow)}
+      .accordion-header{margin-bottom:0}
+      .accordion-item{color:var(--bs-accordion-color);background-color:var(--bs-accordion-bg);border:none;border-bottom:1px solid var(--c-border)}
+      .accordion-item:first-of-type{border-top:1px solid var(--c-border)}
+      .accordion-body{padding:0 0 1.25rem 0}
+      .accordion-collapse{transition:height .35s ease}
+      .collapsing{height:0;overflow:hidden;transition:height .35s ease}
+      @media(prefers-reduced-motion:reduce){.accordion-button::after{transition:none}.accordion-collapse,.collapsing{transition:none}}
+      .faq-raw-content{display:none}
+      .faq-container{display:block;max-width:800px;margin:0 auto;min-height:50vh}
+      .faq-container>h1:first-child,.faq-container>h1:first-child+p,.faq-container>p:empty{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+      .faq-category-header{font-size:1.375rem;font-weight:600;color:var(--c-heading);margin:3rem 0 .75rem;letter-spacing:-.02em}
+      .faq-category-header:first-of-type{margin-top:0}
+      .faq-container .accordion{margin-bottom:1.5rem}
+      .faq-container .accordion-button{font-size:.9375rem;font-weight:500;color:var(--c-text);padding:1rem 0}
+      .faq-container .accordion-button:not(.collapsed){color:var(--c-heading);font-weight:600}
+      .faq-container .accordion-button:focus{box-shadow:none;outline:2px solid var(--c-accent);outline-offset:2px;border-radius:.25rem}
+      .faq-container .accordion-body{font-size:.9375rem;line-height:1.8;color:var(--c-text)}
+      .faq-container .accordion-body p:last-child{margin-bottom:0}
+      .faq-container .accordion-body table{width:100%;margin:1rem 0;border-collapse:collapse;font-size:.8125rem}
+      .faq-container .accordion-body th,.faq-container .accordion-body td{padding:.5rem .75rem;border-bottom:1px solid var(--c-border);text-align:left}
+      .faq-container .accordion-body th{font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--c-secondary);font-size:.75rem}
+      .faq-container .accordion-body pre{margin:1rem 0;border-radius:.5rem}
+      .faq-container .accordion-body ul,.faq-container .accordion-body ol{margin:.75rem 0}
+    </style>
+  </head>
+  <body id="page-top" itemscope itemtype="http://schema.org/WebPage">
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <nav class="site-nav" aria-label="Main navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+      <div class="nav-inner">
+        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="https://cloudcdn.pro/bankstatementparser/images/logos/bankstatementparser.webp" alt="" /><span itemprop="name">ব্যাংক স্টেটমেন্ট পার্সার</span></a>
+        <ul class="nav-center">
+          <li><a href="/bn/index.html">হোম</a></li>
+          <li><a href="/bn/a-propos/index.html">সম্পর্কে</a></li>
+          <li><a href="/bn/premiers-pas/index.html">ডক্স</a></li>
+          <li><a href="/bn/faq/index.html">FAQ</a></li>
+          <li class="nav-item dropdown"><button class="dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" type="button">রিসোর্স</button><ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown"><li><a class="dropdown-item" href="/bn/cas-utilisation/index.html">Use Cases</a></li><li><a class="dropdown-item" href="/bn/migration/index.html">ISO 20022 Migration</a></li><li><a class="dropdown-item" href="/bn/securite/index.html">Security</a></li><li><a class="dropdown-item" href="/bn/alternatives/index.html">Alternatives</a></li><li><a class="dropdown-item" href="/bn/journal-des-modifications/index.html">Changelog</a></li><li><a class="dropdown-item" href="/bn/contribuer/index.html">Contribute</a></li><li><a class="dropdown-item" href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a class="dropdown-item" href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li></ul></li>
+        </ul>
+        <div class="nav-right">
+          <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">ডার্ক</span></button>
+          <div style="position:relative;display:inline-block" class="lang-switcher">
+            <button type="button" aria-label="Change language" aria-expanded="false" style="color:var(--c-nav-muted);font-size:12px;font-weight:400;padding:.375rem .625rem;border:1px solid var(--c-border);border-radius:6rem;background:transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.25rem;outline:none">
+              <span style="font-size:14px">🌐</span> BN
+            </button>
+            <div class="lang-menu" style="display:none;max-height:80vh;overflow-y:auto">
+              <div class="lang-menu-grid">
+              <a href="/index.html">🇬🇧 English</a>
+              <a href="/fr/index.html">🇫🇷 Français</a>
+              <a href="/ar/index.html">🇸🇦 العربية</a>
+              <a href="/bn/index.html" class="active">🇧🇩 বাংলা</a>
+              <a href="/cs/index.html">🇨🇿 Čeština</a>
+              <a href="/de/index.html">🇩🇪 Deutsch</a>
+              <a href="/es/index.html">🇪🇸 Español</a>
+              <a href="/ha/index.html">🇳🇬 Hausa</a>
+              <a href="/he/index.html">🇮🇱 עברית</a>
+              <a href="/hi/index.html">🇮🇳 हिन्दी</a>
+              <a href="/id/index.html">🇮🇩 Indonesia</a>
+              <a href="/it/index.html">🇮🇹 Italiano</a>
+              <a href="/ja/index.html">🇯🇵 日本語</a>
+              <a href="/ko/index.html">🇰🇷 한국어</a>
+              <a href="/nl/index.html">🇳🇱 Nederlands</a>
+              <a href="/pl/index.html">🇵🇱 Polski</a>
+              <a href="/pt/index.html">🇧🇷 Português</a>
+              <a href="/ro/index.html">🇷🇴 Română</a>
+              <a href="/ru/index.html">🇷🇺 Русский</a>
+              <a href="/sv/index.html">🇸🇪 Svenska</a>
+              <a href="/th/index.html">🇹🇭 ไทย</a>
+              <a href="/tl/index.html">🇵🇭 Filipino</a>
+              <a href="/tr/index.html">🇹🇷 Türkçe</a>
+              <a href="/uk/index.html">🇺🇦 Українська</a>
+              <a href="/vi/index.html">🇻🇳 Tiếng Việt</a>
+              <a href="/yo/index.html">🇳🇬 Yorùbá</a>
+              <a href="/zh/index.html">🇨🇳 简体中文</a>
+              <a href="/zh-tw/index.html">🇹🇼 繁體中文</a>
+              </div>
+            </div>
+          </div>
+          <a href="/bn/contact/index.html" style="background:#0a0a0a;color:#fff;border-radius:6rem;padding:.4375rem 1rem;font-size:12px;font-weight:400;text-decoration:none;display:inline-block">Contact</a>
+        </div>
+        <button class="nav-hamburger" id="navToggle" aria-label="Toggle menu" type="button"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/></svg></button>
+      </div>
+      </nav>
+    <header class="site-hero" style="padding:6rem 1.5rem 3rem">
+      <h1 style="font-size:clamp(2rem,4vw,2.75rem)">প্রশ্নোত্তর</h1>
+      <p>ব্যাংক স্টেটমেন্ট পার্সার সম্পর্কে সাধারণ প্রশ্ন</p>
+    </header>
+    <main id="main" class="site-main" tabindex="-1" aria-label="Page content">
+      <div class="text-start">
+        <div id="faq-raw" class="faq-raw-content"><h2>ডেটা গোপনীয়তা ও কমপ্লায়েন্স</h2>
+<h3>কোনো ডেটা কি আমার ইনফ্রাস্ট্রাকচার ছেড়ে যায়?</h3>
+<p><strong>না।</strong> ব্যাংক স্টেটমেন্ট পার্সার একটি স্টেটলেস লাইব্রেরি হিসেবে কাজ করে। সকল প্রক্রিয়াকরণ -- বিশ্লেষণ, PII মাস্কিং, আর্কাইভ নিষ্কাশন -- আপনার স্থানীয় রানটাইম মেমরিতে ঘটে। কোনো API কল নেই, কোনো ক্লাউড সেবা নেই, কোনো টেলিমেট্রি নেই। XML পার্সারগুলি <code>no_network=True</code> দিয়ে শক্তিশালী করা হয়েছে, পার্সার স্তরে সকল আউটবাউন্ড অ্যাক্সেস ব্লক করে। আপনার আর্থিক ডেটা কখনও আপনার পরিবেশ ছেড়ে যায় না।</p>
+<h3>PII মাস্কিং কীভাবে কাজ করে?</h3>
+<p>সংবেদনশীল ক্ষেত্রগুলি আপনার অ্যাপ্লিকেশন লজিকে পৌঁছানোর আগেই মাস্ক করা হয়। পার্সার ডেবিটরের নাম, ক্রেডিটরের নাম, IBAN এবং পোস্টাল ঠিকানা শনাক্ত করে, কনসোল আউটপুট এবং স্ট্রিমিং মোডে সেগুলি <code>***REDACTED***</code> দিয়ে প্রতিস্থাপন করে।</p>
+<ul>
+<li><strong>মাস্কিং ডিফল্টে চালু</strong> CLI আউটপুট এবং স্ট্রিমিং মোডে।</li>
+<li><strong>ফাইল রপ্তানি</strong> (CSV, JSON, Excel) ডাউনস্ট্রিম প্রক্রিয়াকরণের জন্য মাস্ক না করা ডেটা ধরে রাখে।</li>
+<li>CLI-তে <code>--show-pii</code> বা API-তে <code>redact_pii=False</code> দিয়ে সম্পূর্ণ ডেটা <strong>দেখুন</strong>।</li>
+</ul>
+<h3>নিষ্কাশন প্রক্রিয়া কি ডিটারমিনিস্টিক?</h3>
+<p><strong>হ্যাঁ -- প্রতিটি রানে বাইট-অভিন্ন আউটপুট।</strong> একই ইনপুট ফাইল দিলে, পার্সার প্রতিবার একই ফলাফল তৈরি করে। কোনো এলোমেলোতা নেই, কোনো মডেল ইনফারেন্স নেই, কোনো হিউরিস্টিক স্যাম্পলিং নেই। CI ৪৬৭ টেস্ট দিয়ে ১০০% ব্রাঞ্চ কভারেজে ডিটারমিনিজম প্রয়োগ করে, Hypothesis-এর মাধ্যমে প্রপার্টি-বেসড ফাজিংসহ।</p>
+<h3>প্রকল্পটি কোন কমপ্লায়েন্স স্ট্যান্ডার্ড অনুসরণ করে?</h3>
+<p>প্রকল্পটি সম্পূর্ণ ট্রেসেবিলিটিসহ ISO 13485-সারিবদ্ধ ডকুমেন্টেশন বজায় রাখে:</p>
+<ul>
+<li>তীব্রতা/সম্ভাবনা স্কোরিং এবং অবশিষ্ট ঝুঁকি মূল্যায়নসহ একটি পরিমাণগত <strong>ঝুঁকি রেজিস্টার</strong>।</li>
+<li>৫টি পর্যায়ে ১৯টি গেটেড ধাপসহ একটি <strong>যাচাই ও বৈধতা পরিকল্পনা</strong>।</li>
+<li>প্রভাব মূল্যায়ন এবং রোলব্যাক প্রোটোকলসহ একটি <strong>পরিবর্তন নিয়ন্ত্রণ পদ্ধতি</strong>।</li>
+<li>ঝুঁকি স্তর এবং EOL ট্র্যাকিংসহ সকল ডিপেন্ডেন্সি কভার করে একটি <strong>SOUP রেজিস্টার</strong>।</li>
+<li>ডিজাইন ইনপুট থেকে বাস্তবায়ন এবং যাচাই পর্যন্ত ম্যাপ করে একটি <strong>ট্রেসেবিলিটি ম্যাট্রিক্স</strong>।</li>
+</ul>
+<p>প্রতিটি রিলিজে একটি CycloneDX SBOM, SHA-256 চেকসাম, এবং GitHub বিল্ড প্রোভেন্যান্স অ্যাটেস্টেশন অন্তর্ভুক্ত।</p>
+<h2>পারফরম্যান্স ও স্কেলেবিলিটি</h2>
+<h3>ব্যাংক স্টেটমেন্ট পার্সার কতটা দ্রুত?</h3>
+<p>প্রতিটি কমিটে CI-তে পারফরম্যান্স থ্রেশহোল্ড যাচাই করা হয়:</p>
+<div class="table-responsive"><table class="table">
+<thead>
+<tr>
+<th>মেট্রিক</th>
+<th>মান</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="text-left">CAMT.053 থ্রুপুট</td>
+<td class="text-left">২৭,০০০+ লেনদেন/সেকেন্ড</td>
+</tr>
+<tr>
+<td class="text-left">PAIN.001 থ্রুপুট</td>
+<td class="text-left">৫২,০০০+ লেনদেন/সেকেন্ড</td>
+</tr>
+<tr>
+<td class="text-left">প্রতি-লেনদেন লেটেন্সি (CAMT)</td>
+<td class="text-left">৩৭ মাইক্রোসেকেন্ড</td>
+</tr>
+<tr>
+<td class="text-left">প্রতি-লেনদেন লেটেন্সি (PAIN.001)</td>
+<td class="text-left">১৯ মাইক্রোসেকেন্ড</td>
+</tr>
+<tr>
+<td class="text-left">প্রথম ফলাফলের সময়</td>
+<td class="text-left">&lt; ২ ms</td>
+</tr>
+</tbody>
+</table></div>
+<h3>বড় ফাইলগুলি কীভাবে পরিচালনা করা হয়?</h3>
+<p><strong>সীমিত মেমরিসহ স্ট্রিমিং -- প্রতি ফাইলে ৫০,০০০ লেনদেনে পরীক্ষিত।</strong> XML ফাইলগুলি ক্রমবর্ধমানভাবে প্রক্রিয়া করতে <code>parse_streaming()</code> ব্যবহার করুন। প্রতিটি লেনদেন একটি ডিকশনারি হিসেবে ইয়েল্ড করা হয়; প্রক্রিয়াকরণের পর এলিমেন্টগুলি ক্লিয়ার করা হয় মেমরি বৃদ্ধি রোধ করতে। ফাইল সাইজের সাথে মেমরি বাড়ে না -- ৫০K-লেনদেন টেস্ট (২৫+ MB) ১০K-লেনদেন টেস্টের ২x-এর কম মেমরি ব্যবহার করে।</p>
+<p>৫০ MB-এর বেশি ফাইলের জন্য (যেমন, ১০০K+ পেমেন্টসহ host-to-host PAIN.001 ব্যাচ), পার্সার চাঙ্ক-ভিত্তিক নেমস্পেস স্ট্রিপিংসহ একটি অস্থায়ী ফাইলের মাধ্যমে স্ট্রিম করে -- সম্পূর্ণ ডকুমেন্ট কখনও মেমরিতে লোড হয় না।</p>
+<h3>ZIP আর্কাইভগুলি কীভাবে নিরাপদে প্রক্রিয়া করা হয়?</h3>
+<p><code>iter_secure_xml_entries()</code> নিষ্কাশনের আগে প্রতিটি সদস্য যাচাই করে:</p>
+<ul>
+<li><strong>এন্ট্রি সাইজ ক্যাপ</strong> (ডিফল্ট প্রতি এন্ট্রিতে ১০ MB)</li>
+<li><strong>মোট আনকম্প্রেসড সাইজ ক্যাপ</strong> (ডিফল্ট ৫০ MB)</li>
+<li>ZIP বম্ব প্রতিরোধে <strong>কম্প্রেশন অনুপাত সীমা</strong> (ডিফল্ট ১০০:১)</li>
+<li><strong>এনক্রিপ্টেড এন্ট্রি প্রত্যাখ্যান</strong></li>
+</ul>
+<p>কোনো ফাইল ডিস্কে লেখা হয় না। XML বাইটগুলি <code>from_bytes()</code> এর মাধ্যমে সরাসরি পার্সারে যায়।</p>
+<h3>আমি কি একসাথে একাধিক ফাইল বিশ্লেষণ করতে পারি?</h3>
+<p><strong>হ্যাঁ।</strong> <code>parse_files_parallel()</code> ব্যবহার করুন যা একটি <code>ProcessPoolExecutor</code> জুড়ে কাজ বিতরণ করে:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">parse_files_parallel
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">results = </span><span style="color:#8fa1b3;">parse_files_parallel</span><span style="color:#c0c5ce;">([
+</span><span style="color:#c0c5ce;">    &quot;</span><span style="color:#a3be8c;">statements/jan.xml</span><span style="color:#c0c5ce;">&quot;,
+</span><span style="color:#c0c5ce;">    &quot;</span><span style="color:#a3be8c;">statements/feb.xml</span><span style="color:#c0c5ce;">&quot;,
+</span><span style="color:#c0c5ce;">    &quot;</span><span style="color:#a3be8c;">statements/mar.xml</span><span style="color:#c0c5ce;">&quot;,
+</span><span style="color:#c0c5ce;">])
+</span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">r </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">results:
+</span><span style="color:#c0c5ce;">    </span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(r.path, r.status, </span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(r.transactions), &quot;</span><span style="color:#a3be8c;">rows</span><span style="color:#c0c5ce;">&quot;)
+</span></pre>
+</code></pre>
+<h2>সমর্থিত ফরম্যাট</h2>
+<h3>কোন ব্যাংক স্টেটমেন্ট ফরম্যাটগুলি সমর্থিত?</h3>
+<table>
+<thead>
+<tr>
+<th>ফরম্যাট</th>
+<th>স্ট্যান্ডার্ড</th>
+<th>ফাইল টাইপ</th>
+<th>পার্সার ক্লাস</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="text-left">CAMT.053</td>
+<td class="text-left">ISO 20022 Bank-to-Customer Statement</td>
+<td class="text-left"><code>.xml</code></td>
+<td class="text-left"><code>CamtParser</code></td>
+</tr>
+<tr>
+<td class="text-left">PAIN.001</td>
+<td class="text-left">ISO 20022 Credit Transfer Initiation</td>
+<td class="text-left"><code>.xml</code></td>
+<td class="text-left"><code>Pain001Parser</code></td>
+</tr>
+<tr>
+<td class="text-left">CSV</td>
+<td class="text-left">সাধারণ ব্যাংক এক্সপোর্ট</td>
+<td class="text-left"><code>.csv</code></td>
+<td class="text-left"><code>CsvStatementParser</code></td>
+</tr>
+<tr>
+<td class="text-left">OFX</td>
+<td class="text-left">Open Financial Exchange</td>
+<td class="text-left"><code>.ofx</code></td>
+<td class="text-left"><code>OfxParser</code></td>
+</tr>
+<tr>
+<td class="text-left">QFX</td>
+<td class="text-left">Quicken Financial Exchange</td>
+<td class="text-left"><code>.qfx</code></td>
+<td class="text-left"><code>QfxParser</code></td>
+</tr>
+<tr>
+<td class="text-left">MT940</td>
+<td class="text-left">SWIFT স্ট্যান্ডার্ড</td>
+<td class="text-left"><code>.mt940</code>, <code>.sta</code></td>
+<td class="text-left"><code>Mt940Parser</code></td>
+</tr>
+</tbody>
+</table>
+<h3>পার্সার কি CAMT.053-এর ব্যাংক-নির্দিষ্ট ডায়ালেক্ট পরিচালনা করে?</h3>
+<p><strong>হ্যাঁ -- ডিজাইনে নেমস্পেস-অজ্ঞেয়বাদী।</strong> পার্সার প্রক্রিয়াকরণের আগে XML নেমস্পেস স্ট্রিপ করে, নেমস্পেস-নির্দিষ্ট কনফিগারেশন ছাড়াই যেকোনো CAMT.053 ভেরিয়েন্ট (<code>camt.053.001.02</code>, <code>camt.053.001.04</code>, বা মালিকানাধীন ব্যাংক র‍্যাপার) পরিচালনা করে। XPath কোয়েরি এলিমেন্ট কাঠামো টার্গেট করে, নেমস্পেস URI নয়।</p>
+<p>যেসব ব্যাংক CAMT কে কাস্টম এনভেলপে র‍্যাপ করে, তাদের জন্য ভেতরের ডকুমেন্ট সরাসরি ফিড করতে <code>from_string()</code> বা <code>from_bytes()</code> ব্যবহার করুন।</p>
+<h3>আমি কি কাস্টম CSV কলাম হেডারগুলি স্ট্যান্ডার্ড স্কিমায় ম্যাপ করতে পারি?</h3>
+<p><strong>হ্যাঁ -- স্বয়ংক্রিয় নরমালাইজেশন, শূন্য কনফিগারেশন।</strong> <code>CsvStatementParser</code> সাধারণ হেডার ভেরিয়েশন চিনতে পারে: <code>&quot;Date&quot;</code>, <code>&quot;Transaction Date&quot;</code>, <code>&quot;Booking Date&quot;</code> সবই <code>date</code> ক্ষেত্রে ম্যাপ করে। <code>&quot;Amount&quot;</code>, <code>&quot;Value&quot;</code>, <code>&quot;Sum&quot;</code> <code>amount</code>-এ ম্যাপ করে। বিভক্ত ক্রেডিট/ডেবিট কলাম (যেমন, <code>&quot;Credit&quot;</code> এবং <code>&quot;Debit&quot;</code>) স্বয়ংক্রিয়ভাবে সনাক্ত করা হয় এবং একটি একক সাইনড পরিমাণে একত্রিত করা হয়।</p>
+<h3>আউটপুট ফরম্যাট কী?</h3>
+<p>সকল পার্সার সামঞ্জস্যপূর্ণ কলাম টাইপসহ স্ট্যান্ডার্ডাইজড pandas DataFrames তৈরি করে:</p>
+<table>
+<thead>
+<tr>
+<th>ফরম্যাট</th>
+<th>প্রধান কলাম</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="text-left"><strong>CAMT</strong></td>
+<td class="text-left"><code>Amount</code>, <code>Currency</code>, <code>DrCr</code>, <code>Debtor</code>, <code>Creditor</code>, <code>Reference</code>, <code>ValDt</code>, <code>BookgDt</code>, <code>AccountId</code></td>
+</tr>
+<tr>
+<td class="text-left"><strong>PAIN.001</strong></td>
+<td class="text-left"><code>PmtInfId</code>, <code>PmtMtd</code>, <code>InstdAmt</code>, <code>Currency</code>, <code>CdtrNm</code>, <code>EndToEndId</code>, <code>MsgId</code>, <code>CreDtTm</code>, <code>NbOfTxs</code></td>
+</tr>
+<tr>
+<td class="text-left"><strong>CSV/OFX/QFX/MT940</strong></td>
+<td class="text-left"><code>date</code>, <code>description</code>, <code>amount</code> (নরমালাইজড)</td>
+</tr>
+</tbody>
+</table>
+<p>আপনি CSV, JSON, Excel-এ রপ্তানি বা Polars DataFrames-এ রূপান্তরও করতে পারেন।</p>
+<h2>ট্রেজারি ওয়ার্কফ্লো</h2>
+<h3>পার্সার কীভাবে বহু-মুদ্রা স্টেটমেন্ট পরিচালনা করে?</h3>
+<p><strong>প্রতিটি লেনদেন তার মূল মুদ্রা সংরক্ষণ করে -- কোনো অন্তর্নিহিত রূপান্তর নেই।</strong> <code>Currency</code> ক্ষেত্রটি প্রতি লেনদেনে XML <code>Ccy</code> অ্যাট্রিবিউট থেকে বের করা হয়। বহু-মুদ্রা স্টেটমেন্ট যেমন আছে তেমনই থাকে। <code>get_account_balances()</code> মেথড মূল মুদ্রা কোডসহ প্রতি অ্যাকাউন্টের ওপেনিং এবং ক্লোজিং ব্যালেন্স রিটার্ন করে। ক্রস-কারেন্সি রিকনসিলিয়েশন আপনার ডাউনস্ট্রিম লজিকে ছেড়ে দেওয়া হয়, যেখানে আপনি এক্সচেঞ্জ রেটের উৎস নিয়ন্ত্রণ করেন।</p>
+<h3>পার্সার কি আউটগোয়িং এবং ইনকামিং উভয় ফরম্যাট সমর্থন করে?</h3>
+<p><strong>হ্যাঁ।</strong> <code>Pain001Parser</code> ISO 20022 PAIN.001 ক্রেডিট ট্রান্সফার ইনিশিয়েশন ফাইল (আউটগোয়িং পেমেন্ট) পরিচালনা করে। <code>CamtParser</code> CAMT.053 bank-to-customer স্টেটমেন্ট ফাইল (ইনকামিং রিপোর্টিং) পরিচালনা করে। উভয়ই স্ট্রিমিং, PII মাস্কিং, এবং CSV, JSON ও Excel-এ রপ্তানি সমর্থন করে। ফরম্যাট স্বয়ংক্রিয়ভাবে শনাক্ত করতে <code>detect_statement_format()</code> ব্যবহার করুন।</p>
+<h3>একটি লেনদেন এন্ট্রি ত্রুটিপূর্ণ হলে কী ঘটে?</h3>
+<p>আচরণ বিশ্লেষণ মোডের উপর নির্ভর করে:</p>
+<ul>
+<li><strong><code>parse()</code> (ব্যাচ মোড)</strong> -- প্রয়োজনীয় ক্ষেত্র (<code>Amount</code>, <code>Currency</code>, বা <code>CdtDbtInd</code>) অনুপস্থিত ত্রুটিপূর্ণ এন্ট্রিগুলি একটি সতর্কতা লগসহ এড়িয়ে যাওয়া হয়। বাকি স্টেটমেন্ট স্বাভাবিকভাবে বিশ্লেষিত হয়।</li>
+<li><strong><code>parse_streaming()</code> (স্ট্রিমিং মোড)</strong> -- বিশ্লেষণ ত্রুটিগুলি অবিলম্বে এক্সেপশন হিসেবে প্রচারিত হয়। কোনো নীরব ডেটা হারানো হয় না। এই ফেইল-ফাস্ট আচরণ আর্থিক ওয়ার্কফ্লোর জন্য ইচ্ছাকৃত যেখানে প্রতিটি লেনদেনের হিসাব রাখতে হয়।</li>
+</ul>
+<h3>ডিডুপ্লিকেশন কীভাবে কাজ করে?</h3>
+<p><code>Deduplicator</code> ক্লাস ব্যাখ্যাযোগ্য কনফিডেন্স স্কোরসহ সঠিক ডুপ্লিকেট এবং সন্দেহভাজন মিল সনাক্ত করে:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">CamtParser, Deduplicator
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">parser = </span><span style="color:#8fa1b3;">CamtParser</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;)
+</span><span style="color:#c0c5ce;">dedup = </span><span style="color:#8fa1b3;">Deduplicator</span><span style="color:#c0c5ce;">()
+</span><span style="color:#c0c5ce;">result = dedup.</span><span style="color:#8fa1b3;">deduplicate</span><span style="color:#c0c5ce;">(dedup.</span><span style="color:#8fa1b3;">from_dataframe</span><span style="color:#c0c5ce;">(parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()))
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Unique: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(result.unique_transactions)}&quot;)
+</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Exact duplicates: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(result.exact_duplicates)}&quot;)
+</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Suspected matches: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(result.suspected_matches)}&quot;)
+</span></pre>
+</code></pre>
+<h2>ইনস্টলেশন ও সামঞ্জস্যতা</h2>
+<h3>আমি কীভাবে ব্যাংক স্টেটমেন্ট পার্সার ইনস্টল করব?</h3>
+<pre><code class="language-bash"><pre style="background-color:#2b303b;">
+<span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser
+</span></pre>
+</code></pre>
+<p>ঐচ্ছিক Polars DataFrame সমর্থনের জন্য:</p>
+<pre><code class="language-bash"><pre style="background-color:#2b303b;">
+<span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser</span><span style="color:#b48ead;">[</span><span style="color:#c0c5ce;">polars</span><span style="color:#b48ead;">]
+</span></pre>
+</code></pre>
+<h3>কোন Python সংস্করণগুলি সমর্থিত?</h3>
+<p>Python 3.9 থেকে 3.14। সকল সংস্করণ CI-তে ৪৬৭ টেস্টে ১০০% ব্রাঞ্চ কভারেজে পরীক্ষিত।</p>
+<h3>ডিপেন্ডেন্সিগুলি কী কী?</h3>
+<p>লাইব্রেরিতে ৫টি সরাসরি ডিপেন্ডেন্সি রয়েছে:</p>
+<ul>
+<li><code>lxml</code> -- নিরাপত্তা সুরক্ষাসহ XML বিশ্লেষণ</li>
+<li><code>pandas</code> -- DataFrames এবং ডেটা ম্যানিপুলেশন</li>
+<li><code>openpyxl</code> -- Excel রপ্তানি</li>
+<li><code>pydantic</code> -- ডেটা যাচাই এবং মডেল</li>
+<li><code>defusedxml</code> -- XXE সুরক্ষা</li>
+</ul>
+<p>সকল ডিপেন্ডেন্সিতে SHA-256 হ্যাশ-লকড সংস্করণ রয়েছে। CycloneDX SBOM প্রতিটি রানটাইম কম্পোনেন্ট ম্যাপ করে।</p>
+<h3>এটি কি macOS, Linux এবং Windows-এ কাজ করে?</h3>
+<p><strong>হ্যাঁ।</strong> লাইব্রেরিটি macOS, Linux এবং Windows-এ (WSL-এর মাধ্যমে) কাজ করে। এর কোনো প্ল্যাটফর্ম-নির্দিষ্ট ডিপেন্ডেন্সি নেই।</p>
+<h2>পুনরুৎপাদনযোগ্যতা ও নিরাপত্তা</h2>
+<h3>আমি কীভাবে পুনরুৎপাদনযোগ্যতা যাচাই করতে পারি?</h3>
+<pre><code class="language-bash"><pre style="background-color:#2b303b;">
+<span style="color:#8fa1b3;">python</span><span style="color:#bf616a;"> -m</span><span style="color:#c0c5ce;"> pytest                              </span><span style="color:#65737e;"># 467 tests, 100% branch coverage
+</span><span style="color:#8fa1b3;">python</span><span style="color:#c0c5ce;"> scripts/verify_locked_hashes.py        </span><span style="color:#65737e;"># SHA-256 hash verification
+</span><span style="color:#8fa1b3;">git</span><span style="color:#c0c5ce;"> log</span><span style="color:#bf616a;"> --show-signature -1                   </span><span style="color:#65737e;"># Verify commit signature
+</span></pre>
+</code></pre>
+<h3>কোন নিরাপত্তা সুরক্ষা বিল্ট-ইন?</h3>
+<ul>
+<li><strong>XXE সুরক্ষা</strong>: <code>resolve_entities=False</code>, <code>no_network=True</code>, <code>load_dtd=False</code></li>
+<li><strong>ZIP বম্ব সুরক্ষা</strong>: কম্প্রেশন অনুপাত সীমা, এন্ট্রি সাইজ ক্যাপ, এনক্রিপ্টেড এন্ট্রি প্রত্যাখ্যান</li>
+<li><strong>পাথ ট্রাভার্সাল প্রতিরোধ</strong>: বিপজ্জনক প্যাটার্ন ব্লকলিস্ট এবং সিমলিংক রেজোলিউশন</li>
+<li><strong>ইনপুট যাচাই</strong>: ফাইল সাইজ সীমা (ডিফল্ট ১০০ MB), এক্সটেনশন/ফরম্যাট যাচাই</li>
+<li><strong>সাপ্লাই চেইন</strong>: SHA-256 হ্যাশ-লকড ডিপেন্ডেন্সি, CycloneDX SBOM, বিল্ড প্রোভেন্যান্স অ্যাটেস্টেশন</li>
+<li><strong>সাইনড কমিট</strong>: CI-তে প্রয়োগকৃত</li>
+</ul>
+<h3>ব্যাংক স্টেটমেন্ট পার্সার pyiso20022-এর সাথে কীভাবে তুলনা করে?</h3>
+<p>pyiso20022 হলো একটি ব্যাপক ISO 20022 টুলকিট যা ISO XML স্কিমা থেকে Python dataclasses তৈরি করে। এটি স্কিমা যাচাইসহ বিস্তৃত ISO 20022 মেসেজ টাইপ (PACS, PAIN, CAMT, ADMI) কভার করে। ব্যাংক স্টেটমেন্ট পার্সার স্ট্রিমিং সমর্থন, PII মাস্কিং, ডিডুপ্লিকেশন, এবং নন-ISO ফরম্যাট (CSV, OFX, QFX, MT940) সহ ছয়টি ফরম্যাটে একটি সমন্বিত API সহ ব্যাংক স্টেটমেন্ট বিশ্লেষণের জন্য বিশেষভাবে তৈরি। প্রোডাকশন-গ্রেড নিরাপত্তাসহ ব্যাংক স্টেটমেন্ট DataFrames-এ বিশ্লেষণ করতে হলে ব্যাংক স্টেটমেন্ট পার্সার ব্যবহার করুন। সম্পূর্ণ ISO 20022 মেসেজ ক্যাটালগ নিয়ে কাজ করতে হলে pyiso20022 ব্যবহার করুন।</p>
+<h3>SWIFT ISO 20022 মাইগ্রেশনের সময়সীমা কী?</h3>
+<p>SWIFT একটি পর্যায়ক্রমিক মাইগ্রেশন সময়রেখা প্রকাশ করেছে:</p>
+<ul>
+<li><strong>নভেম্বর ২০২৬</strong>: কাঠামোগত ও হাইব্রিড ঠিকানা বাধ্যতামূলক হবে। MT101 মাল্টি-ইনস্ট্রাকশন মেসেজ প্রত্যাখ্যাত হবে। কেস ম্যানেজমেন্ট ফেজ ১ শুরু হবে।</li>
+<li><strong>নভেম্বর ২০২৭</strong>: সকল আর্থিক প্রতিষ্ঠানকে স্থানীয়ভাবে CAMT.053 স্টেটমেন্ট গ্রহণ করতে সক্ষম হতে হবে। SWIFT MT থেকে ISO ফরম্যাটে রূপান্তর বন্ধ করবে।</li>
+<li><strong>নভেম্বর ২০২৮</strong>: MT940, MT942, MT950, MT900 এবং MT910-এর সম্পূর্ণ অবসর। এগুলি CAMT.052, CAMT.053 এবং CAMT.054 সমতুল্য দ্বারা প্রতিস্থাপিত হবে।</li>
+</ul>
+<p>ব্যাংক স্টেটমেন্ট পার্সার পুরানো MT940 ফরম্যাট এবং আধুনিক CAMT.053/PAIN.001 ফরম্যাট উভয়ই সমর্থন করে, যা এটিকে রূপান্তর সময়কালের জন্য আদর্শ করে তোলে।</p>
+</div>
+        <div id="faq-accordion" class="faq-container"></div>
+      </div>
+    </main>
+    <footer class="site-footer" aria-label="footer">
+      <div class="footer-inner">
+        <span>© 2023-2026 ব্যাংক স্টেটমেন্ট পার্সার. সর্বস্বত্ব সংরক্ষিত।</span>
+        <ul class="footer-links">
+          <li><a href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          <li><a href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li>
+          <li><a href="/bn/contact/index.html">Contact</a></li>
+          <li><a href="/bn/confidentialite/index.html">Privacy</a></li>
+          <li><a href="/bn/conditions/index.html">Terms</a></li>
+        </ul>
+      </div>
+    </footer>
+    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"ব্যাংক স্টেটমেন্ট পার্সার সম্পর্কে সাধারণ প্রশ্নের উত্তর: ডেটা গোপনীয়তা, PII মাস্কিং, পারফরম্যান্স, ISO 20022 সমর্থন, স্ট্রিমিং, কমপ্লায়েন্স এবং ট্রেজারি ওয়ার্কফ্লো।","headline":"ব্যাংক স্টেটমেন্ট পার্সার সম্পর্কে সাধারণ প্রশ্ন","image":{"@type":"ImageObject","url":"https://cloudcdn.pro/bankstatementparser/images/logos/bankstatementparser.webp"},"inLanguage":"bn-BD","mainEntityOfPage":"https://bankstatementparser.com/bn/faq/index.html","name":"প্রশ্নোত্তর","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
+    <script>
+    // FAQ accordion builder
+    (function(){
+      // Language switcher toggle
+      document.querySelectorAll('.lang-switcher').forEach(function(sw){
+        var btn=sw.querySelector('button');
+        var menu=sw.querySelector('.lang-menu');
+        if(!btn||!menu)return;
+        btn.addEventListener('click',function(e){
+          e.stopPropagation();
+          var open=menu.style.display==='block';
+          menu.style.display=open?'none':'block';
+          btn.setAttribute('aria-expanded',String(!open));
+        });
+        document.addEventListener('click',function(){menu.style.display='none';btn.setAttribute('aria-expanded','false')});
+        menu.addEventListener('click',function(e){e.stopPropagation()});
+      });
+    })();
+    (function(){
+      function buildFaqAccordion(){
+        var raw=document.getElementById("faq-raw");
+        var target=document.getElementById("faq-accordion");
+        if(!raw||!target)return;
+        var nodes=Array.from(raw.children);
+        var catIdx=0,itemIdx=0;
+        var html=[],intro=[];
+        var inCat=false,inAcc=false,firstInCat=false;
+        for(var i=0;i<nodes.length;i++){
+          var n=nodes[i],tag=n.tagName;
+          if(!inCat&&tag!=="H2"){intro.push(n.outerHTML);continue}
+          if(tag==="H2"){
+            if(inAcc)html.push("</div>");
+            catIdx++;firstInCat=true;inCat=true;inAcc=false;
+            html.push('<h2 class="faq-category-header" id="faq-cat-'+catIdx+'">'+n.textContent+"</h2>");
+            html.push('<div class="accordion" id="accordionCat'+catIdx+'">');
+            inAcc=true;continue;
+          }
+          if(tag==="H3"){
+            itemIdx++;
+            var cid="faqC"+itemIdx,hid="faqH"+itemIdx,pid="accordionCat"+catIdx;
+            var exp=firstInCat,show=exp?" show":"",col=exp?"":" collapsed",aria=exp?"true":"false";
+            var parts=[];
+            for(var j=i+1;j<nodes.length;j++){
+              var nt=nodes[j].tagName;
+              if(nt==="H2"||nt==="H3")break;
+              parts.push(nodes[j].outerHTML);
+            }
+            html.push(
+              '<div class="accordion-item">'+
+              '<h2 class="accordion-header" id="'+hid+'">'+
+              '<button class="accordion-button'+col+'" type="button" data-bs-toggle="collapse" data-bs-target="#'+cid+'" aria-expanded="'+aria+'" aria-controls="'+cid+'">'+
+              n.textContent+'</button></h2>'+
+              '<div id="'+cid+'" class="accordion-collapse collapse'+show+'" aria-labelledby="'+hid+'" data-bs-parent="#'+pid+'">'+
+              '<div class="accordion-body">'+parts.join("")+'</div></div></div>'
+            );
+            i=j-1;firstInCat=false;continue;
+          }
+        }
+        if(inAcc)html.push("</div>");
+        html.push('<p style="margin-top:2rem;font-size:.9375rem">Have more questions? <a href="/bn/contact/index.html">Get in touch</a></p>');
+        target.innerHTML=intro.join("")+html.join("");
+        var qs=target.querySelectorAll(".accordion-button");
+        var as=target.querySelectorAll(".accordion-body");
+        var items=[];
+        for(var k=0;k<qs.length;k++){
+          items.push({"@type":"Question","name":qs[k].textContent.trim(),"acceptedAnswer":{"@type":"Answer","text":as[k]?as[k].textContent.trim():""}});
+        }
+        if(items.length){
+          var ld=document.createElement("script");
+          ld.type="application/ld+json";
+          ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"FAQPage","mainEntity":items});
+          document.head.appendChild(ld);
+        }
+      }
+      function ensureBootstrap(){
+        if(window.bootstrap)return;
+        var s=document.createElement("script");
+        s.src="/bootstrap.bundle.min.js";
+        s.onload=function(){if(window.serviceWorkerSetup)window.serviceWorkerSetup.bootstrapLoaded=true};
+        document.head.appendChild(s);
+      }
+      function init(){buildFaqAccordion();ensureBootstrap()}
+      if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",init)}else{init()}
+      var hb=document.getElementById("navToggle");
+      if(hb){hb.addEventListener("click",function(){
+        var nav=document.querySelector(".site-nav");
+        if(nav){var open=nav.classList.toggle("open");hb.setAttribute("aria-expanded",String(open))}
+      })}
+    })();
+    </script>
+    <script>
+    (function(){
+      function setTheme(theme){
+        document.documentElement.setAttribute("data-theme",theme);localStorage.setItem("theme",theme);
+        document.querySelectorAll(".theme-icon-dark,.theme-icon-dark-m").forEach(function(e){e.style.display=theme==="dark"?"none":""});
+        document.querySelectorAll(".theme-icon-light,.theme-icon-light-m").forEach(function(e){e.style.display=theme==="dark"?"":"none"});
+        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"Light":"Dark"});
+        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"Switch to light mode":"Switch to dark mode")});
+      }
+      var saved=localStorage.getItem("theme");
+      if(saved){setTheme(saved)}else if(window.matchMedia("(prefers-color-scheme:dark)").matches){setTheme("dark")}
+      document.querySelectorAll("#themeToggle").forEach(function(btn){
+        btn.addEventListener("click",function(){setTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark")});
+      });
+    })();
+    </script>
+    <script defer src="/main.js"></script>
+  </body>
+</html>

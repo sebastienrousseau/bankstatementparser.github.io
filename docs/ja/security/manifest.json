@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "銀行取引明細書パーサーのセキュリティ機能：XXE保護、ZIP爆弾防御、PIIマスキング、サプライチェーンセキュリティ、決定論的出力、署名付きビルド。",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "セキュリティ",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

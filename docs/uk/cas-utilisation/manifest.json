@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Як команди казначейства, розробники фінтехів і спеціалісти з відповідності використовують аналізатор банківських виписок",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Парсер банківських виписок",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

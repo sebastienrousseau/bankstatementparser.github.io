@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Tìm hiểu sâu hơn về trang web này bằng cách khám phá các chủ đề và thẻ, đồng thời tìm đến những chủ đề quan trọng nhất đ",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Thẻ",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

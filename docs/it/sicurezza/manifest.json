@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Funzionalità di sicurezza dell'Analizzatore di estratti conto: protezione XXE, difesa ZIP bomb, mascheramento PII, sicur",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Sicurezza",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

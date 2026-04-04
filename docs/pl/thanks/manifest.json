@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Właśnie otrzymaliśmy Twoją wiadomość i dziękujemy za zainteresowanie i zapytanie. Pracujemy nad Twoją prośbą i skontaktu",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Parser wyciągów bankowych",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

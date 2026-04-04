@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Svar på vanliga frågor om Kontoutdragsparser: datasekretess, PII-redigering, prestanda, ISO 20022-stöd, streaming, efter",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Kontoutdragsparser",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

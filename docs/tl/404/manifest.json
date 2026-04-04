@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Mukhang ang web page na sinusubukan mong i-access ay maaaring inalis, pinalitan ng pangalan, o kasalukuyang hindi availa",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Parser ng Bank Statement",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

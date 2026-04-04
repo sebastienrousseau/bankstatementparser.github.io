@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "このウェブサイトにアクセスすることにより、これらの利用規約およびすべての適用法規に拘束されることに同意するものとします。",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "利用規約",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

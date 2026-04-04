@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Tôi xin lỗi vì sự bất tiện này. Để tiếp tục, vui lòng kết nối với mạng Wi-Fi hoặc bật dữ liệu di động",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Rất tiếc, bạn đang ngoại tuyến!",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

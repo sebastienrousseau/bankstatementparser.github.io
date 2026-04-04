@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Ponořte se hlouběji do tohoto webu prozkoumáním témat a značek a dostaňte se k tématům, která jsou pro vás nejdůležitějš",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Tagy",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

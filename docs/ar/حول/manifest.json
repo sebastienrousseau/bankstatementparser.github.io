@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "محلل كشوف الحسابات البنكية هو مكتبة Python مفتوحة المصدر لتحليل CAMT.053 وPAIN.001 وCSV وOFX وQFX وMT940 إلى DataFrames ",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "نبذة عن محلل كشوف الحسابات البنكية",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "מדריך מעשי ללוח הזמנים של מעבר SWIFT ISO 20022 (2026-2028), מעבר MT940 ל-CAMT.053, וכיצד מנתח דפי חשבון בנק עוזר לצוותי ",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "מדריך מעבר ISO 20022",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

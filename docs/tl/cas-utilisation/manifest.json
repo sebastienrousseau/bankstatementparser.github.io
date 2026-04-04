@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Paano ginagamit ng mga treasury team, fintech developer, at mga opisyal ng pagsunod ang Bank Statement Parser para sa MT",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Bank Statement Parser",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

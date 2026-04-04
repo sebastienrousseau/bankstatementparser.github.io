@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Parser Bank Statement — це бібліотека Python із відкритим вихідним кодом для синтаксичного аналізу CAMT.053, PAIN.001, C",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Парсер банківських виписок",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

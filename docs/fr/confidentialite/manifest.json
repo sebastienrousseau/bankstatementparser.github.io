@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Cette page vous informe de nos politiques concernant la collecte, l'utilisation et la divulgation des donn&eacute;es per",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Politique de confidentialit&eacute;",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

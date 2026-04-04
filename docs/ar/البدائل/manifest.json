@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "قارن محلل كشوف الحسابات البنكية مع mt-940 وofxparse وpycamt وpyiso20022 وأدوات SaaS مثل Ocrolus وParseur.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "البدائل",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

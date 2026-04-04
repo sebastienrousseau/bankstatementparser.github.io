@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "有关银行对账单解析器的常见问题的解答：数据隐私、PII 编辑、性能、ISO 20022 支持、流式传输、合规性和财务工作流程。",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "银行对账单解析器",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

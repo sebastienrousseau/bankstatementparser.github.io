@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Parece que a página da web que você está tentando acessar foi removida, renomeada ou está indisponível no momento.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Analisador de extrato bancário",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

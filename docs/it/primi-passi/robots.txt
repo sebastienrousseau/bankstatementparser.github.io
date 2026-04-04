@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://bankstatementparser.com/it/primi-passi/index.html/sitemap.xml

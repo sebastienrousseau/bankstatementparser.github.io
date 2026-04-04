@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Comment les &eacute;quipes de tr&eacute;sorerie, les d&eacute;veloppeurs fintech et les responsables conformit&eacute; u",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Cas d'utilisation",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

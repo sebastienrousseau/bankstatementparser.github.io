@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://bankstatementparser.com/ja/hajimeni/index.html/sitemap.xml

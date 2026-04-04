@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "주제와 태그를 탐색하여 이 웹사이트를 더 깊이 탐구하고 가장 중요한 주제에 접근하세요.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "태그",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

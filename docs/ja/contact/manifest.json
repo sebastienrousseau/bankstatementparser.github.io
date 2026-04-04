@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "銀行取引明細書パーサーが銀行取引明細書の複雑な解析プロセスをどのように簡素化できるかについて、今日お問い合わせください。",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "お問い合わせ",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

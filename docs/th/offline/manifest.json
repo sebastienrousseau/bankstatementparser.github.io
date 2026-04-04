@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "ฉันขออภัยในความไม่สะดวก หากต้องการดำเนินการต่อ โปรดเชื่อมต่อกับเครือข่าย Wi-Fi หรือเปิดใช้งานข้อมูลมือถือ",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "อ๊ะ คุณออฟไลน์อยู่!",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

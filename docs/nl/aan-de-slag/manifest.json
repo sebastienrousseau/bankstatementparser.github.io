@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Aan de slag met Bankafschrift-parser voor Python: installeer, parseer CAMT/PAIN.001/CSV/OFX/QFX/MT940-bestanden en gebru",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Aan de slag",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

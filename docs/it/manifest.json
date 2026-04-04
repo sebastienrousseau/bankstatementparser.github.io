@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Libreria Python open source per l'analisi di estratti conto CAMT.053, PAIN.001, CSV, OFX, QFX e MT940 in DataFrames pand",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Analizzatore di estratti conto",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

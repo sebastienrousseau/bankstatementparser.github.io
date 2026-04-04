@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "은행 명세서 파서는 CAMT.053, PAIN.001, CSV, OFX, QFX, MT940을 pandas DataFrame으로 파싱하는 오픈소스 Python 라이브러리입니다. 100% 로컬, PII 마스킹, 27K",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "소개",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "プロジェクトに参加しませんか？オープンソースソフトウェアの開発と使用のスキルを持つ方を常に探しています。",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "貢献する",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

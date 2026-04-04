@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Open-source Python knihovna pro analýzu bankovních výpisů CAMT.053, PAIN.001, CSV, OFX, QFX a MT940 do pandas DataFrames",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Analyzátor bankovních výpisů",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Bankafschrift-parser is een open source Python-bibliotheek voor het parsen van CAMT.053, PAIN.001, CSV, OFX, QFX en MT94",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Over ons",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

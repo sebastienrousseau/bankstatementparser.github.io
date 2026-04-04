@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Bagaimana tim perbendaharaan, pengembang fintech, dan petugas kepatuhan menggunakan Parser Laporan Bank untuk migrasi MT",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Kasus Penggunaan",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

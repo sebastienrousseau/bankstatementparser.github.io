@@ -15,7 +15,7 @@ class ServiceWorkerManager {
     /**
      * Version of the cache used for cache management.
      */
-    this.CACHE_VERSION = "v1";
+    this.CACHE_VERSION = "v3";
 
     /**
      * Array of cache keys that the service worker should care about, used to keep track and delete old caches.
@@ -97,7 +97,82 @@ class ServiceWorkerManager {
    * @param {FetchEvent} event - The fetch event.
    */
   onFetch(event) {
-    // The rest of the fetch event handling code...
+    if (event.request.method !== "GET") return;
+
+    const requestUrl = new URL(event.request.url);
+    if (requestUrl.origin !== self.location.origin) return;
+
+    const isManifestOrIcon =
+      requestUrl.pathname.endsWith("/manifest.json") ||
+      requestUrl.pathname.endsWith("/icon-192.png") ||
+      requestUrl.pathname.endsWith("/icon-512.png");
+
+    if (isManifestOrIcon) {
+      event.respondWith(
+        fetch(event.request)
+          .then((networkResponse) => {
+            if (
+              networkResponse &&
+              networkResponse.status === 200 &&
+              networkResponse.type === "basic"
+            ) {
+              const responseClone = networkResponse.clone();
+              caches
+                .open(this.CACHE_VERSION)
+                .then((cache) => cache.put(event.request, responseClone))
+                .catch((error) =>
+                  this.debug(`Cache write failed for ${event.request.url}: ${error}`)
+                );
+            }
+            return networkResponse;
+          })
+          .catch(() =>
+            caches.match(event.request).then(
+              (cachedResponse) =>
+                cachedResponse ||
+                new Response("", {
+                  status: 503,
+                  statusText: "Service Unavailable",
+                })
+            )
+          )
+      );
+      return;
+    }
+
+    if (event.request.mode === "navigate") {
+      event.respondWith(
+        fetch(event.request).catch((error) =>
+          this.handleFetchError(event.request, error)
+        )
+      );
+      return;
+    }
+
+    event.respondWith(
+      caches.match(event.request).then((cachedResponse) => {
+        if (cachedResponse) return cachedResponse;
+
+        return fetch(event.request)
+          .then((networkResponse) => {
+            if (
+              networkResponse &&
+              networkResponse.status === 200 &&
+              networkResponse.type === "basic"
+            ) {
+              const responseClone = networkResponse.clone();
+              caches
+                .open(this.CACHE_VERSION)
+                .then((cache) => cache.put(event.request, responseClone))
+                .catch((error) =>
+                  this.debug(`Cache write failed for ${event.request.url}: ${error}`)
+                );
+            }
+            return networkResponse;
+          })
+          .catch((error) => this.handleFetchError(event.request, error));
+      })
+    );
   }
 
   /**
@@ -119,7 +194,20 @@ class ServiceWorkerManager {
    * @param {Error} error - The error that caused the fetch to fail.
    */
   handleFetchError(request, error) {
-    // The rest of the fetch error handling code...
+    this.debug(`Fetch error for ${request.url}: ${error}`);
+
+    if (request.mode === "navigate") {
+      return caches.match(this.offlinePage).then((offlineResponse) => {
+        if (offlineResponse) return offlineResponse;
+        return new Response("Offline", {
+          status: 503,
+          statusText: "Service Unavailable",
+          headers: { "Content-Type": "text/plain; charset=utf-8" },
+        });
+      });
+    }
+
+    return new Response("", { status: 503, statusText: "Service Unavailable" });
   }
 
   /**

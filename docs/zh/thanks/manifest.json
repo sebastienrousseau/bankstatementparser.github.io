@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "我们刚刚收到您的消息，感谢您的兴趣和询问。我们正在处理您的请求，并将尽快与您联系。",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "银行对账单解析器",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

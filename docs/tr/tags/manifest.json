@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Konuları ve etiketleri keşfederek bu web sitesini daha derinlemesine inceleyin ve sizin için en önemli konulara ulaşın.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Etiketler",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

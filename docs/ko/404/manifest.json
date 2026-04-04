@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "액세스하려는 웹페이지가 제거되었거나 이름이 바뀌었거나 현재 사용할 수 없는 것 같습니다.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "은행 명세서 파서",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

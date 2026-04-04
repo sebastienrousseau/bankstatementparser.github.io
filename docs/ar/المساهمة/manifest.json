@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "هل ترغب في الانضمام للمشروع؟ نبحث دائماً عن أشخاص يمتلكون مهارات في تطوير واستخدام البرمجيات مفتوحة المصدر.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "المساهمة",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

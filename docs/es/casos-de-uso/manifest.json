@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Aplicaciones del mundo real del Analizador de extractos bancarios: conciliación de tesorería, automatización contable, d",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Casos de uso",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

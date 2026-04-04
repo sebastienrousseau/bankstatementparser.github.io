@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://bankstatementparser.com/tl/migration/index.html/sitemap.xml

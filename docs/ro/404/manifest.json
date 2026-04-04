@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Se pare că pagina web pe care încercați să o accesați a fost fie eliminată, redenumită, fie nu este disponibilă în preze",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Analizator extras de cont",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

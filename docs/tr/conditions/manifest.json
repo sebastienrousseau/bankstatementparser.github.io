@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Bu web sitesine erişerek, bu Kullanım Hüküm ve Koşullarına ve yürürlükteki tüm yasa ve düzenlemelere bağlı kalmayı kabul",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Banka Hesap Özeti Ayrıştırıcı",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

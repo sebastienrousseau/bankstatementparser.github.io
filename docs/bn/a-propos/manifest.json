@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "ব্যাংক স্টেটমেন্ট CAMT.053, PAIN.001, CSV, OFX, QFX এবং MT940 বিশ্লেষণের জন্য ওপেন-সোর্স Python লাইব্রেরি। সকল প্রক্রিয়",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "সম্পর্কে",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Ich entschuldige mich für die Unannehmlichkeiten. Um fortzufahren, stellen Sie bitte eine Verbindung zu einem Wi-Fi-Netz",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Ups, du bist offline!",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

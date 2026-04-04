@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Parser Gbólóhùn Banki jẹ ile-ikawe Python orisun-ìmọ fun sisọ CAMT.053, PAIN.001, CSV, OFX, QFX, ati MT940 sinu pandas D",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Atupale alaye banki",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

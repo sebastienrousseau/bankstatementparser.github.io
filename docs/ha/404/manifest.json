@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Ga alama shafin yanar gizon da kuke ƙoƙarin shiga an cire shi, an sake masa suna, ko kuma babu shi a halin yanzu.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Fassarar Bayanin Banki",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

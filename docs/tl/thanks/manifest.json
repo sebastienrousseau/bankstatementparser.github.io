@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Natanggap lang namin ang iyong mensahe at pinahahalagahan ang iyong interes at tanong. Ginagawa namin ang iyong kahiling",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Parser ng Bank Statement",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

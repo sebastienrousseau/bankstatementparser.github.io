@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "您想加入該專案嗎？我們一直在尋找具有開發和使用開源軟體技能的人才。",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "銀行對帳單解析器",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

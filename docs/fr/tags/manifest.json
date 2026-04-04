@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Plongez plus profondément dans ce site Web en explorant les sujets et les balises, et accédez aux sujets qui vous intére",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Balises",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

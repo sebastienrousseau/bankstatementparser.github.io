@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Doriți să vă alăturați proiectului? Căutăm mereu persoane cu abilități atât în dezvoltarea, cât și în utilizarea softwar",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Contribuiți",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

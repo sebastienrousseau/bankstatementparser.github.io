@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Awọn idahun si awọn ibeere ti o wọpọ nipa Parser Gbólóhùn Bank: Aṣiri data, atunṣe PII, iṣẹ ṣiṣe, atilẹyin ISO 20022, ṣi",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Atupale alaye banki",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

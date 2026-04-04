@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "このページは、当社のウェブサイトをご利用の際の個人データの収集、使用、開示に関するポリシーについてお知らせします。",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "プライバシーポリシー",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

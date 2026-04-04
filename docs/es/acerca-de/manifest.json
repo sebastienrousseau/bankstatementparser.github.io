@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Biblioteca Python de código abierto para analizar extractos bancarios de seis formatos en DataFrames de pandas estructur",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Acerca de",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

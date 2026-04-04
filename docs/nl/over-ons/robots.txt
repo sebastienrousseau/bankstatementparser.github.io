@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://bankstatementparser.com/nl/over-ons/index.html/sitemap.xml

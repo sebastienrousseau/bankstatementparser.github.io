@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Gå djupare in på den här webbplatsen genom att utforska ämnen och taggar och komma till de ämnen som betyder mest för di",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Taggar",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

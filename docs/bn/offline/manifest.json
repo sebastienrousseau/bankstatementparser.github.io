@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "আমি অসুবিধার জন্য ক্ষমাপ্রার্থী. চালিয়ে যেতে, অনুগ্রহ করে একটি Wi-Fi নেটওয়ার্কের সাথে সংযোগ করুন বা সেলুলার ডেটা সক্ষম",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "ওহো, আপনি অফলাইনে আছেন!",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

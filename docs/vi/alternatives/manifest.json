@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "So sánh Trình phân tích sao kê ngân hàng với các công cụ mt-940, ofxparse, pycamt, pyiso20022 và SaaS như Ocrolus và Par",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Trình phân tích sao kê ngân hàng",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

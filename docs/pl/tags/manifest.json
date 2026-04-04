@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Zagłęb się w tę witrynę, eksplorując tematy i tagi, aby dotrzeć do tematów, które są dla Ciebie najważniejsze.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Tagi",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Il semble que la page Web à laquelle vous tentez d'accéder a été supprimée, renommée ou est actuellement indisponible.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Analyseur de relevé bancaire",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

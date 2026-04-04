@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "ব্যাংক স্টেটমেন্ট পার্সার কীভাবে আপনার আর্থিক ডেটা রক্ষা করে: XXE সুরক্ষা, ZIP বম্ব প্রতিরোধ, PII মাস্কিং, সাপ্লাই চেইন ",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "নিরাপত্তা",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Trang này thông báo cho bạn về các chính sách của chúng tôi về việc thu thập, sử dụng và tiết lộ dữ liệu cá nhân khi bạn",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Trình phân tích sao kê ngân hàng",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

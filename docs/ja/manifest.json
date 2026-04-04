@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "CAMT.053、PAIN.001、CSV、OFX、QFX、MT940の銀行取引明細書をpandas DataFrameに解析するオープンソースPythonライブラリ。27K+トランザクション/秒、ストリーミング、PIIマスキング、100%",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "銀行取引明細書パーサー",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

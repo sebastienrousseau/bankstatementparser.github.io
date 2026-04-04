@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "开始使用 Python 银行对账单解析器：安装、解析 CAMT/PAIN.001/CSV/OFX/QFX/MT940 文件，并使用流式处理或 CLI 工作流程。",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "银行对账单解析器",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

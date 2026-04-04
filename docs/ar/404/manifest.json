@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "يبدو أن صفحة الويب التي تحاول الوصول إليها قد تمت إزالتها أو إعادة تسميتها أو أنها غير متوفرة حاليًا.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "محلل كشف الحساب البنكي",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

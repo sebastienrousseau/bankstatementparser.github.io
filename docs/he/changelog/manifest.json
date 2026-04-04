@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "היסטוריית גרסאות ויומן שינויים של מנתח דפי חשבון בנק. עקוב אחר תכונות חדשות, שיפורים ותיקוני באגים בכל הגרסאות.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "יומן שינויים",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

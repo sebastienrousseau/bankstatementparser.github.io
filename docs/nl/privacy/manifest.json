@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Deze pagina informeert u over ons beleid met betrekking tot het verzamelen, gebruiken en openbaar maken van persoonsgege",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Privacybeleid",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

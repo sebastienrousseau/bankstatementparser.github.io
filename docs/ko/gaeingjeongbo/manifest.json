@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "이 페이지는 귀하가 당사 웹사이트를 사용할 때 개인 데이터의 수집, 사용 및 공개에 관한 정책을 알려드립니다.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "개인정보 보호정책",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

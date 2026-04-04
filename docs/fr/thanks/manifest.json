@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Nous venons de recevoir votre message et apprécions votre intérêt et votre requête. Nous travaillons sur votre demande e",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Analyseur de relevé bancaire",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

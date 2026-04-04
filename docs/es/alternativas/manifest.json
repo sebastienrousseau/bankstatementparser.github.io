@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Compare el Analizador de extractos bancarios con mt-940, ofxparse, pycamt, pyiso20022 y herramientas SaaS como Ocrolus y",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Alternativas",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

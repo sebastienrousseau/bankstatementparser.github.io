@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "A kan gba ifiranṣẹ rẹ ati riri iwulo ati ibeere rẹ. A n ṣiṣẹ lori ibeere rẹ ati pe yoo kan si ni kete bi o ti ṣee.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Parser Gbólóhùn Bank",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

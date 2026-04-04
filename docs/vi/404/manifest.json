@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Có vẻ như trang web bạn đang cố truy cập đã bị xóa, đổi tên hoặc hiện không khả dụng.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Trình phân tích báo cáo ngân hàng",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

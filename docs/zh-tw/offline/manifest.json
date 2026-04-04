@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "對於造成您的不便，我深表歉意。若要繼續，請連接至 Wi-Fi 網路或啟用蜂窩數據",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "糟糕，您已離線！",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

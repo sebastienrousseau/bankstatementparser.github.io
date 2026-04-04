@@ -1,0 +1,61 @@
+{
+  "ci": {
+    "collect": {
+      "numberOfRuns": 3,
+      "startServerCommand": "python3 -m http.server 9000 --directory docs",
+      "startServerReadyPattern": "Serving HTTP",
+      "url": [
+        "http://localhost:9000/index.html",
+        "http://localhost:9000/about/index.html",
+        "http://localhost:9000/getting-started/index.html",
+        "http://localhost:9000/faq/index.html",
+        "http://localhost:9000/contact/index.html",
+        "http://localhost:9000/privacy/index.html",
+        "http://localhost:9000/terms/index.html",
+        "http://localhost:9000/contribute/index.html",
+        "http://localhost:9000/changelog/index.html",
+        "http://localhost:9000/migration/index.html",
+        "http://localhost:9000/security/index.html",
+        "http://localhost:9000/comparison/index.html",
+        "http://localhost:9000/use-cases/index.html"
+      ]
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": [
+          "error",
+          {
+            "minScore": 1
+          }
+        ],
+        "categories:accessibility": [
+          "error",
+          {
+            "minScore": 1
+          }
+        ],
+        "categories:best-practices": [
+          "error",
+          {
+            "minScore": 1
+          }
+        ],
+        "categories:seo": [
+          "error",
+          {
+            "minScore": 1
+          }
+        ],
+        "errors-in-console": [
+          "error",
+          {
+            "maxLength": 0
+          }
+        ]
+      }
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Jag ber om ursäkt för besväret. För att fortsätta, anslut till ett Wi-Fi-nätverk eller aktivera mobildata",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Hoppsan, du är offline!",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

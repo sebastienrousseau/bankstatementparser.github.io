@@ -1,1 +1,19 @@
-{"background_color":"#ffffff","description":"Streamline financial analysis with Bank Statement Parser, a Python library for automating bank statement processing. Supports CAMT and SEPA formats.","display":"standalone","icons":[{"purpose":"any maskable","sizes":"512x512","src":"https://kura.pro/shokunin/images/favicon.ico","icon_type":"image/svg+xml"}],"name":"About the Bank Statement Parser","orientation":"portrait-primary","scope":"/","short_name":"bankstatementparser","start_url":".","theme_color":""}
+{
+  "background_color": "#ffffff",
+  "description": "Bank Statement Parser is an open-source Python library for parsing CAMT.053, PAIN.001, CSV, OFX, QFX, and MT940 into pan",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "About the Bank Statement Parser",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

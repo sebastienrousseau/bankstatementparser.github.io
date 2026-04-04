@@ -12,7 +12,7 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="accessibility" content="ARIA, fullKeyboardControl, noFlashingHazard" />
     {{apple}}
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: cloudcdn.pro kura.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: kura.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
     {{microsoft}}
     {{twitter}}
     <meta property="og:title" content="{{title}}" />
@@ -29,10 +29,9 @@
     <meta name="twitter:site" content="{{twitter_site}}" />
     <link rel="alternate" href="{{url}}" hreflang="{{hreflang}}" />
     <link rel="canonical" href="{{url}}" />
-    <link rel="icon" type="image/x-icon" href="{{cdn}}/{{short_name}}/images/favicon.ico" sizes="16x16 32x32" />
-    <link rel="preconnect" href="https://cloudcdn.pro" crossorigin />
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico" sizes="16x16 32x32" />
     <link rel="stylesheet" href="/bootstrap.min.css" />
-    <link rel="apple-touch-icon" href="{{cdn}}/{{short_name}}/images/icons/{{apple_touch_icon_sizes}}.png" sizes="{{apple_touch_icon_sizes}}" />
+    <link rel="apple-touch-icon" href="/images/icons/{{apple_touch_icon_sizes}}.png" sizes="{{apple_touch_icon_sizes}}" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
     <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#b0b8c1"}});document.querySelectorAll("pre").forEach(function(pre){var btn=document.createElement("button");btn.className="copy-btn";btn.textContent="Copy";btn.setAttribute("aria-label","Copy code to clipboard");btn.addEventListener("click",function(){var text=pre.textContent.replace(/^Copy(ed!)?/,"").trim();if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){btn.textContent="Copied!";setTimeout(function(){btn.textContent="Copy"},2000)}).catch(function(){fallbackCopy(text,btn)})}else{fallbackCopy(text,btn)}});pre.appendChild(btn)});function fallbackCopy(text,btn){var ta=document.createElement("textarea");ta.value=text;ta.style.cssText="position:fixed;left:-9999px";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");btn.textContent="Copied!";setTimeout(function(){btn.textContent="Copy"},2000)}catch(e){}document.body.removeChild(ta)}});</script>

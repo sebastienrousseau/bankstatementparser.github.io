@@ -220,9 +220,9 @@
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">create_parser, detect_statement_format
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#c0c5ce;">fmt = </span><span style="color:#8fa1b3;">detect_statement_format</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;)  </span><span style="color:#65737e;"># ou .mt940
+</span><span style="color:#c0c5ce;">fmt = </span><span style="color:#8fa1b3;">detect_statement_format</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;)  </span><span style="color:#8f9aa5;"># ou .mt940
 </span><span style="color:#c0c5ce;">parser = </span><span style="color:#8fa1b3;">create_parser</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;, fmt)
-</span><span style="color:#c0c5ce;">df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()  </span><span style="color:#65737e;"># Meme schema DataFrame quel que soit le format
+</span><span style="color:#c0c5ce;">df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()  </span><span style="color:#8f9aa5;"># Meme schema DataFrame quel que soit le format
 </span></pre>
 </code></pre>
 <p>La fonction <code>detect_statement_format()</code> identifie si le fichier est MT940, CAMT.053, PAIN.001 ou tout autre format pris en charge. La fonction <code>create_parser()</code> renvoie le bon parseur. Votre code en aval fonctionne de manière identique quel que soit le format source.</p>
@@ -284,12 +284,12 @@
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">create_parser, detect_statement_format
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#65737e;"># Fonctionne avec MT940 aujourd&#39;hui, CAMT.053 demain
+</span><span style="color:#8f9aa5;"># Fonctionne avec MT940 aujourd&#39;hui, CAMT.053 demain
 </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">file </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">bank_statement_files:
 </span><span style="color:#c0c5ce;">    fmt = </span><span style="color:#8fa1b3;">detect_statement_format</span><span style="color:#c0c5ce;">(file)
 </span><span style="color:#c0c5ce;">    parser = </span><span style="color:#8fa1b3;">create_parser</span><span style="color:#c0c5ce;">(file, fmt)
 </span><span style="color:#c0c5ce;">    df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()
-</span><span style="color:#c0c5ce;">    </span><span style="color:#8fa1b3;">process</span><span style="color:#c0c5ce;">(df)  </span><span style="color:#65737e;"># Votre code ne change pas
+</span><span style="color:#c0c5ce;">    </span><span style="color:#8fa1b3;">process</span><span style="color:#c0c5ce;">(df)  </span><span style="color:#8f9aa5;"># Votre code ne change pas
 </span></pre>
 </code></pre>
 <p><a href="/fr/premiers-pas/index.html">Lire la documentation complète</a></p>

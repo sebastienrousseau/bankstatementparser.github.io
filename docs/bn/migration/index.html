@@ -220,9 +220,9 @@
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">create_parser, detect_statement_format
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#c0c5ce;">fmt = </span><span style="color:#8fa1b3;">detect_statement_format</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;)  </span><span style="color:#65737e;"># or .mt940
+</span><span style="color:#c0c5ce;">fmt = </span><span style="color:#8fa1b3;">detect_statement_format</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;)  </span><span style="color:#8f9aa5;"># or .mt940
 </span><span style="color:#c0c5ce;">parser = </span><span style="color:#8fa1b3;">create_parser</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;, fmt)
-</span><span style="color:#c0c5ce;">df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()  </span><span style="color:#65737e;"># ফরম্যাট নির্বিশেষে একই DataFrame স্কিমা
+</span><span style="color:#c0c5ce;">df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()  </span><span style="color:#8f9aa5;"># ফরম্যাট নির্বিশেষে একই DataFrame স্কিমা
 </span></pre>
 </code></pre>
 <p><code>detect_statement_format()</code> ফাংশন ফাইলটি MT940, CAMT.053, PAIN.001 বা অন্য কোনো সমর্থিত ফরম্যাট কিনা তা শনাক্ত করে। <code>create_parser()</code> ফাংশন সঠিক পার্সার রিটার্ন করে। উৎস ফরম্যাট নির্বিশেষে আপনার ডাউনস্ট্রিম কোড অভিন্নভাবে কাজ করে।</p>
@@ -284,12 +284,12 @@
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">create_parser, detect_statement_format
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#65737e;"># আজ MT940 দিয়ে কাজ করে, আগামীকাল CAMT.053 দিয়ে
+</span><span style="color:#8f9aa5;"># আজ MT940 দিয়ে কাজ করে, আগামীকাল CAMT.053 দিয়ে
 </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">file </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">bank_statement_files:
 </span><span style="color:#c0c5ce;">    fmt = </span><span style="color:#8fa1b3;">detect_statement_format</span><span style="color:#c0c5ce;">(file)
 </span><span style="color:#c0c5ce;">    parser = </span><span style="color:#8fa1b3;">create_parser</span><span style="color:#c0c5ce;">(file, fmt)
 </span><span style="color:#c0c5ce;">    df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()
-</span><span style="color:#c0c5ce;">    </span><span style="color:#8fa1b3;">process</span><span style="color:#c0c5ce;">(df)  </span><span style="color:#65737e;"># আপনার কোড পরিবর্তন হয় না
+</span><span style="color:#c0c5ce;">    </span><span style="color:#8fa1b3;">process</span><span style="color:#c0c5ce;">(df)  </span><span style="color:#8f9aa5;"># আপনার কোড পরিবর্তন হয় না
 </span></pre>
 </code></pre>
 <p><a href="/getting-started/index.html">সম্পূর্ণ ডকুমেন্টেশন পড়ুন</a></p>

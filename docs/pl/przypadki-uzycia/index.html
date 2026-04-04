@@ -173,7 +173,7 @@
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">create_parser, detect_statement_format
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#65737e;"># Przetwarzaj zarowno MT940, jak i CAMT.053 tym samym kodem
+</span><span style="color:#8f9aa5;"># Przetwarzaj zarowno MT940, jak i CAMT.053 tym samym kodem
 </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">file </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">daily_statement_files:
 </span><span style="color:#c0c5ce;">    fmt = </span><span style="color:#8fa1b3;">detect_statement_format</span><span style="color:#c0c5ce;">(file)
 </span><span style="color:#c0c5ce;">    parser = </span><span style="color:#8fa1b3;">create_parser</span><span style="color:#c0c5ce;">(file, fmt)
@@ -189,12 +189,12 @@
 </span><span style="color:#c0c5ce;">parser = </span><span style="color:#8fa1b3;">CamtParser</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">bank_statement.xml</span><span style="color:#c0c5ce;">&quot;)
 </span><span style="color:#c0c5ce;">bank_txns = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#65737e;"># Deduplikacja przed reconcyliacja
+</span><span style="color:#8f9aa5;"># Deduplikacja przed reconcyliacja
 </span><span style="color:#c0c5ce;">dedup = </span><span style="color:#8fa1b3;">Deduplicator</span><span style="color:#c0c5ce;">()
 </span><span style="color:#c0c5ce;">result = dedup.</span><span style="color:#8fa1b3;">deduplicate</span><span style="color:#c0c5ce;">(dedup.</span><span style="color:#8fa1b3;">from_dataframe</span><span style="color:#c0c5ce;">(bank_txns))
 </span><span style="color:#c0c5ce;">clean_txns = result.unique_transactions
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#65737e;"># Dopasowanie do rekordow wewnetrznych
+</span><span style="color:#8f9aa5;"># Dopasowanie do rekordow wewnetrznych
 </span><span style="color:#c0c5ce;">unmatched = </span><span style="color:#8fa1b3;">reconcile</span><span style="color:#c0c5ce;">(clean_txns, internal_ledger)
 </span></pre>
 </code></pre>
@@ -205,11 +205,11 @@
 </span><span style="color:#c0c5ce;">
 </span><span style="color:#c0c5ce;">parser = </span><span style="color:#8fa1b3;">CamtParser</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;)
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#65737e;"># Streaming z maskowanymi PII dla logow audytu
-</span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">txn </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">parser.</span><span style="color:#8fa1b3;">parse_streaming</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">redact_pii</span><span style="color:#c0c5ce;">=</span><span style="color:#d08770;">True</span><span style="color:#c0c5ce;">):
+</span><span style="color:#8f9aa5;"># Streaming z maskowanymi PII dla logow audytu
+</span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">txn </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">parser.</span><span style="color:#8fa1b3;">parse_streaming</span><span style="color:#c0c5ce;">(</span><span style="color:#d9848a;">redact_pii</span><span style="color:#c0c5ce;">=</span><span style="color:#d08770;">True</span><span style="color:#c0c5ce;">):
 </span><span style="color:#c0c5ce;">    audit_log.</span><span style="color:#8fa1b3;">write</span><span style="color:#c0c5ce;">(txn)
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#65737e;"># Eksport pelnych danych do bezpiecznego przetwarzania wewnetrznego
+</span><span style="color:#8f9aa5;"># Eksport pelnych danych do bezpiecznego przetwarzania wewnetrznego
 </span><span style="color:#c0c5ce;">parser.</span><span style="color:#8fa1b3;">export_csv</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">archive/statement.csv</span><span style="color:#c0c5ce;">&quot;)
 </span></pre>
 </code></pre>
@@ -219,7 +219,7 @@
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">CamtParser
 </span><span style="color:#c0c5ce;">
 </span><span style="color:#c0c5ce;">xml_bytes = sftp_client.</span><span style="color:#8fa1b3;">read</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">daily_statement.xml</span><span style="color:#c0c5ce;">&quot;)
-</span><span style="color:#c0c5ce;">parser = CamtParser.</span><span style="color:#8fa1b3;">from_bytes</span><span style="color:#c0c5ce;">(xml_bytes, </span><span style="color:#bf616a;">source_name</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">daily.xml</span><span style="color:#c0c5ce;">&quot;)
+</span><span style="color:#c0c5ce;">parser = CamtParser.</span><span style="color:#8fa1b3;">from_bytes</span><span style="color:#c0c5ce;">(xml_bytes, </span><span style="color:#d9848a;">source_name</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">daily.xml</span><span style="color:#c0c5ce;">&quot;)
 </span><span style="color:#c0c5ce;">df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()
 </span></pre>
 </code></pre>
@@ -244,7 +244,7 @@
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">iter_secure_xml_entries, CamtParser
 </span><span style="color:#c0c5ce;">
 </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">entry </span><span style="color:#b48ead;">in </span><span style="color:#8fa1b3;">iter_secure_xml_entries</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">monthly_statements.zip</span><span style="color:#c0c5ce;">&quot;):
-</span><span style="color:#c0c5ce;">    parser = CamtParser.</span><span style="color:#8fa1b3;">from_bytes</span><span style="color:#c0c5ce;">(entry.xml_bytes, </span><span style="color:#bf616a;">source_name</span><span style="color:#c0c5ce;">=entry.source_name)
+</span><span style="color:#c0c5ce;">    parser = CamtParser.</span><span style="color:#8fa1b3;">from_bytes</span><span style="color:#c0c5ce;">(entry.xml_bytes, </span><span style="color:#d9848a;">source_name</span><span style="color:#c0c5ce;">=entry.source_name)
 </span><span style="color:#c0c5ce;">    df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()
 </span><span style="color:#c0c5ce;">    </span><span style="color:#8fa1b3;">save_to_warehouse</span><span style="color:#c0c5ce;">(entry.source_name, df)
 </span></pre>

@@ -189,20 +189,20 @@
 </span><span style="color:#c0c5ce;">
 </span><span style="color:#c0c5ce;">fmt = </span><span style="color:#8fa1b3;">detect_statement_format</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">transactions.ofx</span><span style="color:#c0c5ce;">&quot;)
 </span><span style="color:#c0c5ce;">parser = </span><span style="color:#8fa1b3;">create_parser</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">transactions.ofx</span><span style="color:#c0c5ce;">&quot;, fmt)
-</span><span style="color:#c0c5ce;">df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()  </span><span style="color:#65737e;"># pandas DataFrame
+</span><span style="color:#c0c5ce;">df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()  </span><span style="color:#8f9aa5;"># pandas DataFrame
 </span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(df.</span><span style="color:#8fa1b3;">head</span><span style="color:#c0c5ce;">())
 </span></pre>
 </code></pre>
 <h2>Streaming di file di grandi dimensioni</h2>
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#c0c5ce;">parser = </span><span style="color:#8fa1b3;">CamtParser</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">large_statement.xml</span><span style="color:#c0c5ce;">&quot;)
-</span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">transaction </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">parser.</span><span style="color:#8fa1b3;">parse_streaming</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">redact_pii</span><span style="color:#c0c5ce;">=</span><span style="color:#d08770;">True</span><span style="color:#c0c5ce;">):
-</span><span style="color:#c0c5ce;">    </span><span style="color:#8fa1b3;">process</span><span style="color:#c0c5ce;">(transaction)  </span><span style="color:#65737e;"># La memoria rimane costante
+</span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">transaction </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">parser.</span><span style="color:#8fa1b3;">parse_streaming</span><span style="color:#c0c5ce;">(</span><span style="color:#d9848a;">redact_pii</span><span style="color:#c0c5ce;">=</span><span style="color:#d08770;">True</span><span style="color:#c0c5ce;">):
+</span><span style="color:#c0c5ce;">    </span><span style="color:#8fa1b3;">process</span><span style="color:#c0c5ce;">(transaction)  </span><span style="color:#8f9aa5;"># La memoria rimane costante
 </span></pre>
 </code></pre>
 <h2>Uso della CLI</h2>
 <pre><code class="language-bash"><pre style="background-color:#2b303b;">
-<span style="color:#8fa1b3;">python</span><span style="color:#bf616a;"> -m</span><span style="color:#c0c5ce;"> bankstatementparser.cli</span><span style="color:#bf616a;"> --type</span><span style="color:#c0c5ce;"> camt</span><span style="color:#bf616a;"> --input</span><span style="color:#c0c5ce;"> statement.xml
+<span style="color:#8fa1b3;">python</span><span style="color:#d9848a;"> -m</span><span style="color:#c0c5ce;"> bankstatementparser.cli</span><span style="color:#d9848a;"> --type</span><span style="color:#c0c5ce;"> camt</span><span style="color:#d9848a;"> --input</span><span style="color:#c0c5ce;"> statement.xml
 </span></pre>
 </code></pre>
 </div>

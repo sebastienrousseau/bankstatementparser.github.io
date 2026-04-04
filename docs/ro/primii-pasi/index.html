@@ -190,7 +190,7 @@
 </span><span style="color:#c0c5ce;">
 </span><span style="color:#c0c5ce;">fmt = </span><span style="color:#8fa1b3;">detect_statement_format</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">transactions.ofx</span><span style="color:#c0c5ce;">&quot;)
 </span><span style="color:#c0c5ce;">parser = </span><span style="color:#8fa1b3;">create_parser</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">transactions.ofx</span><span style="color:#c0c5ce;">&quot;, fmt)
-</span><span style="color:#c0c5ce;">df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()  </span><span style="color:#65737e;"># pandas DataFrame
+</span><span style="color:#c0c5ce;">df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()  </span><span style="color:#8f9aa5;"># pandas DataFrame
 </span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(df.</span><span style="color:#8fa1b3;">head</span><span style="color:#c0c5ce;">())
 </span></pre>
 </code></pre>
@@ -215,15 +215,15 @@
 <p>Pentru fișiere cu mii de tranzacții, utilizați streaming pentru a menține memoria limitată:</p>
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#c0c5ce;">parser = </span><span style="color:#8fa1b3;">CamtParser</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">large_statement.xml</span><span style="color:#c0c5ce;">&quot;)
-</span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">transaction </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">parser.</span><span style="color:#8fa1b3;">parse_streaming</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">redact_pii</span><span style="color:#c0c5ce;">=</span><span style="color:#d08770;">True</span><span style="color:#c0c5ce;">):
-</span><span style="color:#c0c5ce;">    </span><span style="color:#8fa1b3;">process</span><span style="color:#c0c5ce;">(transaction)  </span><span style="color:#65737e;"># Memoria rămâne constantă
+</span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">transaction </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">parser.</span><span style="color:#8fa1b3;">parse_streaming</span><span style="color:#c0c5ce;">(</span><span style="color:#d9848a;">redact_pii</span><span style="color:#c0c5ce;">=</span><span style="color:#d08770;">True</span><span style="color:#c0c5ce;">):
+</span><span style="color:#c0c5ce;">    </span><span style="color:#8fa1b3;">process</span><span style="color:#c0c5ce;">(transaction)  </span><span style="color:#8f9aa5;"># Memoria rămâne constantă
 </span></pre>
 </code></pre>
 <h2>Analiză în memorie</h2>
 <p>Analizați din octeți fără operațiuni I/O pe disc -- util pentru fluxuri SFTP sau API:</p>
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#c0c5ce;">xml_bytes = </span><span style="color:#8fa1b3;">download_from_sftp</span><span style="color:#c0c5ce;">()
-</span><span style="color:#c0c5ce;">parser = CamtParser.</span><span style="color:#8fa1b3;">from_bytes</span><span style="color:#c0c5ce;">(xml_bytes, </span><span style="color:#bf616a;">source_name</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">daily.xml</span><span style="color:#c0c5ce;">&quot;)
+</span><span style="color:#c0c5ce;">parser = CamtParser.</span><span style="color:#8fa1b3;">from_bytes</span><span style="color:#c0c5ce;">(xml_bytes, </span><span style="color:#d9848a;">source_name</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">daily.xml</span><span style="color:#c0c5ce;">&quot;)
 </span><span style="color:#c0c5ce;">transactions = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()
 </span></pre>
 </code></pre>
@@ -261,7 +261,7 @@
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">iter_secure_xml_entries, CamtParser
 </span><span style="color:#c0c5ce;">
 </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">entry </span><span style="color:#b48ead;">in </span><span style="color:#8fa1b3;">iter_secure_xml_entries</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statements.zip</span><span style="color:#c0c5ce;">&quot;):
-</span><span style="color:#c0c5ce;">    parser = CamtParser.</span><span style="color:#8fa1b3;">from_bytes</span><span style="color:#c0c5ce;">(entry.xml_bytes, </span><span style="color:#bf616a;">source_name</span><span style="color:#c0c5ce;">=entry.source_name)
+</span><span style="color:#c0c5ce;">    parser = CamtParser.</span><span style="color:#8fa1b3;">from_bytes</span><span style="color:#c0c5ce;">(entry.xml_bytes, </span><span style="color:#d9848a;">source_name</span><span style="color:#c0c5ce;">=entry.source_name)
 </span><span style="color:#c0c5ce;">    </span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;{entry.source_name}</span><span style="color:#a3be8c;">: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">())}</span><span style="color:#a3be8c;"> tranzacții</span><span style="color:#c0c5ce;">&quot;)
 </span></pre>
 </code></pre>
@@ -271,20 +271,20 @@
 </span><span style="color:#c0c5ce;">parser.</span><span style="color:#8fa1b3;">export_csv</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">output.csv</span><span style="color:#c0c5ce;">&quot;)
 </span><span style="color:#c0c5ce;">parser.</span><span style="color:#8fa1b3;">export_json</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">output.json</span><span style="color:#c0c5ce;">&quot;)
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#65737e;"># Polars (necesită bankstatementparser[polars])
+</span><span style="color:#8f9aa5;"># Polars (necesită bankstatementparser[polars])
 </span><span style="color:#c0c5ce;">polars_df = parser.</span><span style="color:#8fa1b3;">to_polars</span><span style="color:#c0c5ce;">()
 </span></pre>
 </code></pre>
 <h2>Utilizare CLI</h2>
 <pre><code class="language-bash"><pre style="background-color:#2b303b;">
-<span style="color:#65737e;"># Analizare și afișare
-</span><span style="color:#8fa1b3;">python</span><span style="color:#bf616a;"> -m</span><span style="color:#c0c5ce;"> bankstatementparser.cli</span><span style="color:#bf616a;"> --type</span><span style="color:#c0c5ce;"> camt</span><span style="color:#bf616a;"> --input</span><span style="color:#c0c5ce;"> statement.xml
+<span style="color:#8f9aa5;"># Analizare și afișare
+</span><span style="color:#8fa1b3;">python</span><span style="color:#d9848a;"> -m</span><span style="color:#c0c5ce;"> bankstatementparser.cli</span><span style="color:#d9848a;"> --type</span><span style="color:#c0c5ce;"> camt</span><span style="color:#d9848a;"> --input</span><span style="color:#c0c5ce;"> statement.xml
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#65737e;"># Export în CSV
-</span><span style="color:#8fa1b3;">python</span><span style="color:#bf616a;"> -m</span><span style="color:#c0c5ce;"> bankstatementparser.cli</span><span style="color:#bf616a;"> --type</span><span style="color:#c0c5ce;"> camt</span><span style="color:#bf616a;"> --input</span><span style="color:#c0c5ce;"> statement.xml</span><span style="color:#bf616a;"> --output</span><span style="color:#c0c5ce;"> transactions.csv
+</span><span style="color:#8f9aa5;"># Export în CSV
+</span><span style="color:#8fa1b3;">python</span><span style="color:#d9848a;"> -m</span><span style="color:#c0c5ce;"> bankstatementparser.cli</span><span style="color:#d9848a;"> --type</span><span style="color:#c0c5ce;"> camt</span><span style="color:#d9848a;"> --input</span><span style="color:#c0c5ce;"> statement.xml</span><span style="color:#d9848a;"> --output</span><span style="color:#c0c5ce;"> transactions.csv
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#65737e;"># Streaming cu PII vizibile
-</span><span style="color:#8fa1b3;">python</span><span style="color:#bf616a;"> -m</span><span style="color:#c0c5ce;"> bankstatementparser.cli</span><span style="color:#bf616a;"> --type</span><span style="color:#c0c5ce;"> camt</span><span style="color:#bf616a;"> --input</span><span style="color:#c0c5ce;"> statement.xml</span><span style="color:#bf616a;"> --streaming --show-pii
+</span><span style="color:#8f9aa5;"># Streaming cu PII vizibile
+</span><span style="color:#8fa1b3;">python</span><span style="color:#d9848a;"> -m</span><span style="color:#c0c5ce;"> bankstatementparser.cli</span><span style="color:#d9848a;"> --type</span><span style="color:#c0c5ce;"> camt</span><span style="color:#d9848a;"> --input</span><span style="color:#c0c5ce;"> statement.xml</span><span style="color:#d9848a;"> --streaming --show-pii
 </span></pre>
 </code></pre>
 <p>Opțiuni CLI:</p>
@@ -300,8 +300,8 @@
 <pre><code class="language-bash"><pre style="background-color:#2b303b;">
 <span style="color:#8fa1b3;">git</span><span style="color:#c0c5ce;"> clone https://github.com/sebastienrousseau/bankstatementparser.git
 </span><span style="color:#96b5b4;">cd</span><span style="color:#c0c5ce;"> bankstatementparser
-</span><span style="color:#8fa1b3;">python3</span><span style="color:#bf616a;"> -m</span><span style="color:#c0c5ce;"> venv .venv &amp;&amp; </span><span style="color:#96b5b4;">source</span><span style="color:#c0c5ce;"> .venv/bin/activate
-</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install poetry &amp;&amp; </span><span style="color:#8fa1b3;">poetry</span><span style="color:#c0c5ce;"> install</span><span style="color:#bf616a;"> --with</span><span style="color:#c0c5ce;"> dev
+</span><span style="color:#8fa1b3;">python3</span><span style="color:#d9848a;"> -m</span><span style="color:#c0c5ce;"> venv .venv &amp;&amp; </span><span style="color:#96b5b4;">source</span><span style="color:#c0c5ce;"> .venv/bin/activate
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install poetry &amp;&amp; </span><span style="color:#8fa1b3;">poetry</span><span style="color:#c0c5ce;"> install</span><span style="color:#d9848a;"> --with</span><span style="color:#c0c5ce;"> dev
 </span></pre>
 </code></pre>
 <p>Rulați suita de teste:</p>

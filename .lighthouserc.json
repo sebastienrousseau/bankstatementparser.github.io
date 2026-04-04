@@ -2,8 +2,8 @@
   "ci": {
     "collect": {
       "numberOfRuns": 3,
-      "startServerCommand": "python3 -m http.server 9000 --directory docs",
-      "startServerReadyPattern": "Serving HTTP",
+      "startServerCommand": "npx serve docs -l 9000",
+      "startServerReadyPattern": "Accepting connections",
       "url": [
         "http://localhost:9000/index.html",
         "http://localhost:9000/about/index.html",

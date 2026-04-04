@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "หน้านี้แจ้งให้คุณทราบนโยบายของเราเกี่ยวกับการรวบรวม การใช้ และการเปิดเผยข้อมูลส่วนบุคคลเมื่อคุณใช้เว็บไซต์ของเรา",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "ตัวแยกวิเคราะห์ใบแจ้งยอดธนาคาร",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

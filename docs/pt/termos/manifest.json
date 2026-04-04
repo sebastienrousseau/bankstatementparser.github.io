@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Ao acessar este site, voce reconhece e concorda em ficar vinculado a estes Termos e Condicoes de Uso e a todas as leis e",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Termos de uso",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

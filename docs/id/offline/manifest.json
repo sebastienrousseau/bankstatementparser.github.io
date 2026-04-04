@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Saya mohon maaf atas ketidaknyamanan ini. Untuk melanjutkan, sambungkan ke jaringan Wi-Fi atau aktifkan data seluler",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Ups, Anda sedang offline!",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

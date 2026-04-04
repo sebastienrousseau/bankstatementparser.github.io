@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "ご迷惑をおかけして申し訳ございません。続行するには、Wi-Fi ネットワークに接続するか、モバイルデータを有効にしてください",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "おっと、オフラインです。",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

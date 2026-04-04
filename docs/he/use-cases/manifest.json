@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "כיצד צוותי אוצר, מפתחי פינטק ואנשי ציות משתמשים ב-מנתח דפי חשבון בנק למעבר MT940-ל-CAMT, התאמה, צינורות ביקורת וקונסוליד",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "מקרי שימוש",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

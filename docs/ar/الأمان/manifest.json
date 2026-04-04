@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "ميزات أمان محلل كشوف الحسابات البنكية: حماية XXE، تقوية ضد ZIP bombs، إخفاء PII، أمان سلسلة التوريد، نتائج حتمية، وبنيات",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "الأمان",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

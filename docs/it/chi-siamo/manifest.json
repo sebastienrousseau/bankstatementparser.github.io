@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "L'Analizzatore di estratti conto è una libreria Python open source per l'analisi di CAMT.053, PAIN.001, CSV, OFX, QFX e ",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Chi siamo",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

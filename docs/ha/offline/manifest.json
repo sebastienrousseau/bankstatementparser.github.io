@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Ina neman afuwar rashin jin dadi. Don ci gaba, da fatan za a haɗa zuwa cibiyar sadarwar Wi-Fi ko kunna bayanan salula",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Kash, kuna layi!",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

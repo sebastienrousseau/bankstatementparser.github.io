@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Kompletní historie verzí a novinky Analyzátoru bankovních výpisů. Sledujte všechny změny, nové funkce, opravy chyb a vyl",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Protokol změn",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

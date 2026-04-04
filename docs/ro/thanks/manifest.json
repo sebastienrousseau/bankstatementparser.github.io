@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Tocmai am primit mesajul dvs. și apreciem interesul și întrebarea dvs. Lucrăm la solicitarea dumneavoastră și vă vom con",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Analizator extras de cont",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

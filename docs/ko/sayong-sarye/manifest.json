@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "자금 관리 팀, 핀테크 개발자 및 컴플라이언스 담당자가 MT940-CAMT 마이그레이션, 조정, 감사 파이프라인 및 멀티뱅크 통합에 은행 명세서 파서를 사용하는 방법.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "사용 사례",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

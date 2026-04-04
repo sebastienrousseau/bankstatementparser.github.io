@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Historique des versions et journal des modifications de Analyseur de relevés bancaires. Suivez les nouvelles fonctionnal",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Journal des modifications",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

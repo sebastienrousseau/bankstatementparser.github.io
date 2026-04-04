@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "אני מתנצל על אי הנוחות. כדי להמשיך, התחבר לרשת Wi-Fi או הפעל נתונים סלולריים",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "אופס, אתה לא מקוון!",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

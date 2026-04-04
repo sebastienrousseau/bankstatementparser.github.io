@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Hãy liên hệ với chúng tôi ngay hôm nay để tìm hiểu thêm về cách Trình phân tích báo cáo ngân hàng có thể giúp bạn đơn gi",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Trình phân tích sao kê ngân hàng",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://bankstatementparser.com/id/terms/index.html/sitemap.xml

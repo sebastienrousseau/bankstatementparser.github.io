@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "이 웹사이트에 접속함으로써 귀하는 이 이용약관 및 모든 관련 법률과 규정에 구속되는 것에 동의합니다.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "이용약관",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

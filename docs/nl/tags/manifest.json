@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Duik dieper in deze website door onderwerpen en tags te verkennen en kom bij de onderwerpen die voor u het belangrijkst ",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Labels",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

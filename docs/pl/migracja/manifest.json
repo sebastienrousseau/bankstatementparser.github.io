@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Praktyczny przewodnik po harmonogramie migracji SWIFT ISO 20022 (2026-2028), przejsciu z MT940 do CAMT.053 i tym, jak Pa",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Przewodnik migracji ISO 20022",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

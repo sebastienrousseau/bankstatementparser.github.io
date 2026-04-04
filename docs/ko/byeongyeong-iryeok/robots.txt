@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://bankstatementparser.com/ko/byeongyeong-iryeok/index.html/sitemap.xml

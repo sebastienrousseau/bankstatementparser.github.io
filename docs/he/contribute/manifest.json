@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "האם תרצה להצטרף לפרויקט? אנחנו תמיד מחפשים אנשים עם כישורים בפיתוח ושימוש בתוכנת קוד פתוח.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "תרום",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

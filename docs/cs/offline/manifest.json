@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "omlouvám se za nepříjemnosti. Chcete-li pokračovat, připojte se k síti Wi-Fi nebo povolte mobilní data",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Jejda, jste offline!",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

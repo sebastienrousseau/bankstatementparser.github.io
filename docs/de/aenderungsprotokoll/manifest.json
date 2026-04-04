@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Versionshistorie und Änderungsprotokoll des Kontoauszug-Parsers. Verfolgen Sie neue Funktionen, Verbesserungen und Fehle",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Änderungsprotokoll",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

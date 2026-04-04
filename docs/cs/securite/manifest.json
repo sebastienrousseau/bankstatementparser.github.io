@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Zjistěte, jak Analyzátor bankovních výpisů chrání vaše finanční data: ochrana před XXE, zabezpečení ZIP, maskování PII, ",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Bezpečnost",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

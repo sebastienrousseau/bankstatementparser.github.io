@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Chcialbyś dolaczyc do projektu? Zawsze szukamy osob z umiejetnosciami zarowno w tworzeniu, jak i uzytkowaniu oprogramowa",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Wspoltworzenie",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

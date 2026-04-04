@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Porovnejte Analyzátor bankovních výpisů s mt-940, ofxparse, pycamt, pyiso20022 a SaaS nástroji jako Ocrolus a Parseur. S",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Alternativy",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

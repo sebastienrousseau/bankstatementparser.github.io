@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "프로젝트에 참여하시겠습니까? 오픈소스 소프트웨어 개발 및 사용 기술을 가진 분들을 항상 찾고 있습니다.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "기여하기",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

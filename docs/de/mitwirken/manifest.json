@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Möchten Sie am Projekt mitwirken? Wir suchen immer nach Personen mit Fähigkeiten in der Entwicklung und Nutzung von Open",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Mitwirken",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

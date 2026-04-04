@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Diese Seite informiert Sie über unsere Richtlinien zur Erhebung, Nutzung und Offenlegung personenbezogener Daten bei der",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Datenschutz",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

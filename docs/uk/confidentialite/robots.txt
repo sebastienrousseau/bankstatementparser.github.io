@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://bankstatementparser.com/uk/confidentialite/index.html/sitemap.xml

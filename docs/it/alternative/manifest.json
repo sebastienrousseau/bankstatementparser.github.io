@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Confronta l'Analizzatore di estratti conto con mt-940, ofxparse, pycamt, pyiso20022 e strumenti SaaS come Ocrolus e Pars",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Alternative",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

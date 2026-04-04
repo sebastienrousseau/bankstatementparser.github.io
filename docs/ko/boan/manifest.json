@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "은행 명세서 파서의 보안 기능: XXE 보호, ZIP 폭탄 방어, PII 마스킹, 공급망 보안, 결정론적 출력, 서명된 빌드.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "보안",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "क्या आप प्रोजेक्ट में शामिल होना चाहेंगे? हम हमेशा ओपन सोर्स सॉफ्टवेयर विकसित करने और उपयोग करने में कुशल लोगों की तलाश ",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "योगदान दें",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

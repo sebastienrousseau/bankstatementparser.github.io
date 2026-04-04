@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "השוואת מנתח דפי חשבון בנק עם mt-940, ofxparse, pycamt, pyiso20022 וכלי SaaS כמו Ocrolus ו-Parseur. השוואת תכונות, מחירים",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "חלופות",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

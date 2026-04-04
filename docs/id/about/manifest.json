@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Parser Laporan Bank adalah pustaka Python open source untuk menganalisis CAMT.053, PAIN.001, CSV, OFX, QFX, dan MT940 ke",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Tentang Parser Laporan Bank",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

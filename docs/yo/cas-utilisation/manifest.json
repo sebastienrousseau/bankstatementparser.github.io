@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Bawo ni awọn ẹgbẹ iṣura, awọn olupilẹṣẹ fintech, ati awọn oṣiṣẹ ibamu ṣe lo Parser Gbólóhùn Banki fun ijira MT940-si-CAM",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Atupale alaye banki",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

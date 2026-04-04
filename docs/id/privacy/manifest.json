@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Halaman ini menginformasikan Anda tentang kebijakan kami mengenai pengumpulan, penggunaan, dan pengungkapan data pribadi",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Kebijakan Privasi",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

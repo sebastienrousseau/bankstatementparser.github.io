@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Lịch sử phát hành và nhật ký thay đổi của Trình phân tích sao kê ngân hàng. Theo dõi các tính năng mới, cải tiến và sửa ",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Trình phân tích sao kê ngân hàng",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Det verkar som om webbsidan du försöker komma åt antingen har tagits bort, bytt namn eller är otillgänglig för närvarand",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Bankutdrag Parser",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

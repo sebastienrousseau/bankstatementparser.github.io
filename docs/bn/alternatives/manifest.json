@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "ব্যাংক স্টেটমেন্ট পার্সারকে mt-940, ofxparse, pycamt, pyiso20022 এবং Ocrolus ও Parseur-এর মতো SaaS টুলের সাথে তুলনা করুন",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "বিকল্প",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

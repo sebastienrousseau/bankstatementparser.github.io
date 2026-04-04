@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Python के लिए बैंक स्टेटमेंट पार्सर के साथ शुरुआत करें: इंस्टॉल करें, CAMT/PAIN.001/CSV/OFX/QFX/MT940 फाइलें पार्स करें,",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "शुरू करें",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

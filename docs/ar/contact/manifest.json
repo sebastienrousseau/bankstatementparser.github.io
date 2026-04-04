@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "تواصل معنا لمعرفة المزيد عن كيفية مساعدة محلل كشوف الحسابات البنكية في تبسيط عملية تحليل كشوف الحسابات البنكية.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "اتصل بنا",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

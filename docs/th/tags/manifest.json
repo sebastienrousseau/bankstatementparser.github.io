@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "เจาะลึกเข้าไปในเว็บไซต์นี้โดยการสำรวจหัวข้อและแท็ก และเข้าถึงหัวข้อที่สำคัญที่สุดสำหรับคุณ",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "แท็ก",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

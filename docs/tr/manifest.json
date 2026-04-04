@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "CAMT.053, PAIN.001, CSV, OFX, QFX ve MT940 banka ekstrelerini panda DataFrames'e ayrıştırmak için açık kaynaklı Python k",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Banka Hesap Özeti Ayrıştırıcı",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

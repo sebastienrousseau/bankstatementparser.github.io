@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "हमें अभी आपका संदेश प्राप्त हुआ और हम आपकी रुचि और प्रश्न की सराहना करते हैं। हम आपके अनुरोध पर काम कर रहे हैं और यथाशीघ",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "बैंक स्टेटमेंट पार्सर",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

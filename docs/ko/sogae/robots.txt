@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://bankstatementparser.com/ko/sogae/index.html/sitemap.xml

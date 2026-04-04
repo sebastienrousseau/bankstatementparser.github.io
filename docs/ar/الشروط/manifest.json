@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "بالوصول إلى هذا الموقع، فإنك تقر وتوافق على الالتزام بشروط وأحكام الاستخدام هذه وجميع القوانين واللوائح المعمول بها.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "شروط الاستخدام",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

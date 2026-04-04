@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Cum echipele de trezorerie, dezvoltatorii fintech și ofițerii de conformitate utilizează Analizorul de extrase bancare p",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Cazuri de utilizare",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

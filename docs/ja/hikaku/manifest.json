@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "銀行取引明細書パーサーをmt-940、ofxparse、pycamt、pyiso20022、OcrolusやParseurなどのSaaSツールと比較します。",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "代替製品",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

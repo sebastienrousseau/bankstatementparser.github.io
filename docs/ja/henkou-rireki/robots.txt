@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://bankstatementparser.com/ja/henkou-rireki/index.html/sitemap.xml

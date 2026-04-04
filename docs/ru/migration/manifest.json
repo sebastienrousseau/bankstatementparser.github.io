@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Практическое руководство по срокам перехода на SWIFT ISO 20022 (2026–2028 гг.), переходу с MT940 на CAMT.053, а также по",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Парсер банковских выписок",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

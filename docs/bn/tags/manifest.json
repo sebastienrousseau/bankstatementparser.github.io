@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "বিষয় এবং ট্যাগগুলি অন্বেষণ করে এই ওয়েবসাইটের আরও গভীরে প্রবেশ করুন এবং আপনার কাছে সবচেয়ে গুরুত্বপূর্ণ বিষয়গুলিতে যান",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "ট্যাগ",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

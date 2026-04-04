@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Itọsọna to wulo si akoko ijira SWIFT ISO 20022 (2026-2028), MT940 si CAMT.053 iyipada, ati bii Parser Gbólóhùn Bank ṣe i",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Atupale alaye banki",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

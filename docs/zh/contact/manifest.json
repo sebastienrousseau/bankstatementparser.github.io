@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "请立即联系我们，详细了解银行对账单解析器如何帮助您简化解析银行对账单的复杂过程。",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "银行对账单解析器",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Riwayat rilis dan catatan perubahan untuk Parser Laporan Bank. Lacak fitur baru, peningkatan, dan perbaikan bug di semua",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Catatan Perubahan",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "불편을 끼쳐드려 죄송합니다. 계속하려면 Wi-Fi 네트워크에 연결하거나 모바일 데이터를 활성화하세요.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "이런, 오프라인 상태입니다!",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

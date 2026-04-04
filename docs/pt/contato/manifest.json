@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Entre em contato conosco hoje para saber mais sobre como o Analisador de extratos bancarios pode ajuda-lo a simplificar ",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Contato",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

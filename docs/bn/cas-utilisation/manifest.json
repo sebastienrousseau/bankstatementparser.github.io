@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "ব্যাংক স্টেটমেন্ট পার্সারের বাস্তব-বিশ্বের ব্যবহারের ক্ষেত্র: ট্রেজারি ম্যানেজমেন্ট, রিকনসিলিয়েশন, কমপ্লায়েন্স অডিট এব",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "ব্যবহারের ক্ষেত্র",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

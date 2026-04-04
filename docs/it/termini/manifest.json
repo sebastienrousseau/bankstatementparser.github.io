@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Accedendo a questo sito web, riconosci e accetti di essere vincolato da questi Termini e Condizioni di Utilizzo e da tut",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Termini di utilizzo",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

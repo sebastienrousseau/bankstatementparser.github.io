@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Câu trả lời cho các câu hỏi phổ biến về Trình phân tích bảng sao kê ngân hàng: quyền riêng tư dữ liệu, biên tập PII, hiệ",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Trình phân tích sao kê ngân hàng",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

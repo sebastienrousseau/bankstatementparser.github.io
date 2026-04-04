@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Kontaktujte nás ještě dnes a zjistěte více o tom, jak vám Analyzátor bankovních výpisů může pomoci zjednodušit složitý p",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Kontakt",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

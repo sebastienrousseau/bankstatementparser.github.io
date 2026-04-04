@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Parser wyciagow bankowych to biblioteka Python open source do analizy wyciagow CAMT.053, PAIN.001, CSV, OFX, QFX i MT940",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "O nas",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

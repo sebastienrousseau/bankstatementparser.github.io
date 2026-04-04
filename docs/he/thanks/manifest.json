@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "זה עתה קיבלנו את הודעתך ומעריכים את ההתעניינות והשאילתה שלך. אנו עובדים על בקשתך וניצור איתך קשר בהקדם האפשרי.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "מנתח דפי בנק",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

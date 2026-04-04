@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "은행 명세서 파서를 mt-940, ofxparse, pycamt, pyiso20022 및 Ocrolus, Parseur 같은 SaaS 도구와 비교합니다. 기능 비교, 가격 및 마이그레이션 가이드.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "대안",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Comece com o Analisador de extratos bancarios para Python: instale, analise arquivos CAMT/PAIN.001/CSV/OFX/QFX/MT940 e u",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Primeiros passos",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

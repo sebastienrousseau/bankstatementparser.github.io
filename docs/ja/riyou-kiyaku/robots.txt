@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://bankstatementparser.com/ja/riyou-kiyaku/index.html/sitemap.xml

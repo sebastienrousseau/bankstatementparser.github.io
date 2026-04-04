@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "ব্যাংক স্টেটমেন্ট পার্সার সম্পর্কে সাধারণ প্রশ্নের উত্তর: ডেটা গোপনীয়তা, PII মাস্কিং, পারফরম্যান্স, ISO 20022 সমর্থন, স",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "প্রশ্নোত্তর",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

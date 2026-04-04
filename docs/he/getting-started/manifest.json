@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "התחל עם מנתח דפי חשבון בנק ל-Python: התקן, נתח קבצי CAMT/PAIN.001/CSV/OFX/QFX/MT940, והשתמש בזרמי עבודה של סטרימינג או C",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "התחלה מהירה",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

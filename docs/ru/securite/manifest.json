@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Функции безопасности анализатора банковских выписок: защита XXE, защита от бомб ZIP, редактирование личных данных, безоп",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Парсер банковских выписок",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

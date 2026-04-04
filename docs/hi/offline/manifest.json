@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "असुविधा के लिए मुझे खेद है. जारी रखने के लिए, कृपया वाई-फ़ाई नेटवर्क से कनेक्ट करें या सेल्युलर डेटा सक्षम करें",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "उफ़, आप ऑफ़लाइन हैं!",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

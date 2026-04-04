@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Come i team di tesoreria, gli sviluppatori fintech e i responsabili della compliance usano l'Analizzatore di estratti co",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Casi d'uso",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

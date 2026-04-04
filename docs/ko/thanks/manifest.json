@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "방금 귀하의 메시지를 받았습니다. 귀하의 관심과 문의에 감사드립니다. 귀하의 요청을 처리하는 중이며 최대한 빨리 연락드리겠습니다.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "은행 명세서 파서",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

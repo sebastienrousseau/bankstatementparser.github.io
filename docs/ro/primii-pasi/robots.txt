@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://bankstatementparser.com/ro/primii-pasi/index.html/sitemap.xml

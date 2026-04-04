@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+  <head>
+    <meta charset="utf-8" />
+    <meta itemprop="datePublished" content="2026-04-01T00:00:00+00:00" id="date">
+    <meta itemprop="dateModified" content="2026-04-01T00:00:00+00:00" id="last-modified">
+    <title>Часто задаваемые вопросы по анализатору банковских выписок: конфиденциальность, производительность и использование</title>
+    <meta name="theme-color" content="rgb(73, 214, 251)" />
+    <meta name="measurement-id" content="G-FL9DEBFHN1" />
+    <meta name="author" content="Sebastien Rousseau">
+<meta name="description" content="Ответы на распространенные вопросы о анализаторе банковских выписок: конфиденциальность данных, редактирование личных данных, производительность, поддержка ISO 20022, потоковая передача, соответствие требованиям и рабочие процессы казначейства.">
+<meta name="keywords" content="Часто задаваемые вопросы по анализатору банковских выписок, Вопросы по анализатору CAMT, Часто задаваемые вопросы по PAIN.001, Часто задаваемые вопросы по Python ISO 20022, Банковское редактирование PII, производительность банковского анализатора, конфиденциальность финансовых данных, Часто задаваемые вопросы по анализатору MT940, потоковый анализатор Python, соответствие банковских выписок">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="accessibility" content="ARIA, fullKeyboardControl, noFlashingHazard" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Часто задаваемые вопросы по анализатору банковских выписок: конфиденциальность, производительность и использование">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: cloudcdn.pro kura.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
+    <meta name="msapplication-TileColor" content="rgb(73, 214, 251)">
+    
+    <link rel="alternate" href="https://bankstatementparser.com/ru/faq/index.html" hreflang="ru" />
+    <link rel="canonical" href="https://bankstatementparser.com/ru/faq/index.html" />
+    <link rel="icon" type="image/x-icon" href="https://cloudcdn.pro/bankstatementparser/images/favicon.ico" sizes="16x16 32x32" />
+    <link rel="preconnect" href="https://cloudcdn.pro" crossorigin />
+    <link rel="stylesheet" href="/bootstrap.min.css" />
+    <link rel="apple-touch-icon" href="https://cloudcdn.pro/bankstatementparser/images/icons/192x192.png" sizes="192x192" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
+    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#b0b8c1"}})});</script>
+    <style>
+      :root{--theme-color:rgb(73, 214, 251)}*{font-weight:400;box-sizing:border-box;margin:0}
+      pre{margin:1.5rem 0;max-width:100%;overflow:auto;border-radius:.5rem;padding:1rem 1.25rem;background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);color:var(--c-code);display:block;font-family:'SF Mono',SFMono-Regular,Consolas,monospace;font-size:.8125rem;line-height:1.7;margin:1.5rem 0;max-width:100%;overflow:auto;padding:1rem 1.25rem;border-radius:.5rem}
+    </style>
+    
+    <style>
+      :root{--c-bg:#fff;--c-text:#1a1a1a;--c-heading:#0a0a0a;--c-secondary:#52525b;--c-accent:#3b33c0;--c-accent-hover:#2d2799;--c-surface:#f4f4f5;--c-border:#e4e4e7;--c-nav-bg:#fff;--c-nav-text:#1a1a1a;--c-nav-muted:#52525b;--c-footer-bg:#18181b;--c-footer-text:#d4d4d8;--c-code:#3a3a4a}
+      @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--c-bg:#09090b;--c-text:#e4e4e7;--c-heading:#fafafa;--c-secondary:#a1a1aa;--c-accent:#a5b4fc;--c-accent-hover:#c7d2fe;--c-surface:#18181b;--c-border:#27272a;--c-nav-bg:#09090b;--c-nav-text:#fafafa;--c-nav-muted:#a1a1aa;--c-footer-bg:#09090b;--c-footer-text:#d4d4d8;--c-code:#c8c8d8}}
+      [data-theme="dark"]{--c-bg:#09090b;--c-text:#e4e4e7;--c-heading:#fafafa;--c-secondary:#a1a1aa;--c-accent:#a5b4fc;--c-accent-hover:#c7d2fe;--c-surface:#18181b;--c-border:#27272a;--c-nav-bg:#09090b;--c-nav-text:#fafafa;--c-nav-muted:#a1a1aa;--c-footer-bg:#09090b;--c-footer-text:#d4d4d8;--c-code:#c8c8d8}
+      
+      [data-theme="dark"] .site-hero{background:linear-gradient(180deg,#1a0a0a 0%,#120808 30%,#0d0606 60%,var(--c-bg) 100%)}
+      [data-theme="dark"] .site-hero h1{color:var(--c-heading)}
+      [data-theme="dark"] .site-hero p{color:var(--c-secondary)}
+      [data-theme="dark"] .site-nav{background:rgba(9,9,11,.9);border-bottom-color:rgba(255,255,255,.06)}[data-theme="dark"] .nav-cta{background:var(--c-accent)}
+      @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .site-hero{background:linear-gradient(180deg,#1a0a0a 0%,#120808 30%,#0d0606 60%,#09090b 100%)}:root:not([data-theme="light"]) .site-hero h1{color:#fafafa}:root:not([data-theme="light"]) .site-hero p{color:#a1a1aa}:root:not([data-theme="light"]) .site-nav{background:rgba(9,9,11,.9);border-bottom-color:rgba(255,255,255,.06)}:root:not([data-theme="light"]) .nav-cta{background:#818cf8}}
+      body{color:var(--c-text);background:var(--c-bg);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:17px;line-height:1.47059;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+      h1,h2,h3,h4,h5,h6{color:var(--c-heading);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;letter-spacing:-.022em;line-height:1.08}
+      a{color:var(--c-accent);text-decoration:underline;text-underline-offset:.15em}a:hover{color:var(--c-accent-hover);text-decoration:underline}
+      strong{font-weight:600}
+      code{background:var(--c-surface);padding:.125rem .375rem;border-radius:.25rem;font-size:.8125em;color:var(--c-code);font-family:'SF Mono',SFMono-Regular,Consolas,monospace}
+      pre code{background:none;padding:0;font-size:inherit;color:inherit}
+      .site-nav{background:#fff;border-bottom:1px solid var(--c-border);position:sticky;top:0;z-index:1000}
+      .site-nav .nav-inner{max-width:1200px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;height:3.75rem}
+      .nav-brand{display:flex;align-items:center;gap:.5rem;text-decoration:none;flex-shrink:0}
+      .nav-brand img{height:32px;width:32px}
+      .nav-brand span{color:var(--c-heading);font-weight:600;font-size:14px;letter-spacing:-.01em}
+      .nav-center{display:flex;align-items:center;gap:.125rem;list-style:none;margin:0 auto;padding:0}
+      .nav-center a,.nav-center button{display:inline-flex;align-items:center;line-height:1.5;color:var(--c-nav-muted);font-size:12px;font-weight:400;text-decoration:none;padding:.4375rem .875rem;border-radius:.375rem;text-decoration:none;transition:color .15s,background .15s;border:none;background:none;cursor:pointer}
+      .nav-center a:hover,.nav-center button:hover{color:var(--c-nav-text);background:var(--c-surface);text-decoration:none}
+      .nav-center .dropdown-toggle::after{display:inline-block;margin-left:.25em;vertical-align:.15em;content:"";border-top:.3em solid;border-right:.3em solid transparent;border-left:.3em solid transparent}
+      .nav-center .dropdown-menu{background:var(--c-bg);border:1px solid var(--c-border);border-radius:.5rem;padding:.375rem;margin-top:.25rem;min-width:10rem;box-shadow:0 4px 24px rgba(0,0,0,.08)}
+      .nav-center .dropdown-item{color:var(--c-nav-muted);font-size:.8125rem;padding:.5rem .75rem;border-radius:.25rem;display:block;text-decoration:none;transition:color .15s,background .15s}
+      .nav-center .dropdown-item:hover{color:var(--c-nav-text);background:var(--c-surface)}
+      .nav-right{display:flex;align-items:center;gap:.75rem;flex-shrink:0}
+      .theme-toggle{color:var(--c-secondary);font-size:12px;font-weight:500;padding:.375rem .625rem;border:1px solid var(--c-border);border-radius:6rem;background:transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.3125rem;transition:border-color .2s;outline:none}
+      .theme-toggle:hover{border-color:var(--c-secondary);color:var(--c-heading)}
+      .theme-toggle svg{width:.875rem;height:.875rem;fill:currentColor}
+      .nav-cta{background:#0a0a0a;color:#fff!important;border-radius:6rem;padding:.4375rem 1rem;font-size:12px;font-weight:400;text-decoration:none!important;transition:opacity .2s}
+      .nav-cta:hover{opacity:.85;color:#fff!important;text-decoration:none!important}
+      .nav-hamburger{display:none;background:none;border:none;color:var(--c-heading);padding:.25rem;cursor:pointer}
+      .nav-hamburger svg{width:1.5rem;height:1.5rem;fill:currentColor}
+      
+      @media(max-width:991px){.site-nav{position:relative!important;background:var(--c-bg)!important;border-bottom:1px solid var(--c-border)}.nav-center{display:none}.nav-right{display:none}.nav-hamburger{display:flex;margin-left:auto;align-items:center}.site-nav.open .nav-center{display:block;position:absolute;top:100%;left:0;right:0;background:var(--c-bg);border-bottom:1px solid var(--c-border);z-index:999;box-shadow:0 4px 12px rgba(0,0,0,.08)}.site-nav.open .nav-center li{list-style:none}.site-nav.open .nav-center>li>a,.site-nav.open .nav-center>li>button{display:block;font-size:16px;padding:.875rem 1.5rem;text-align:left;color:var(--c-text);text-decoration:none;width:100%;background:none;border:none;border-bottom:1px solid var(--c-border);cursor:pointer}.site-nav.open .nav-center>li>a:hover,.site-nav.open .nav-center>li>button:hover{background:var(--c-surface)}.site-nav.open .nav-center .dropdown-menu{position:static;box-shadow:none;border:none;padding:0;margin:0;border-radius:0;background:var(--c-surface);min-width:100%;display:block}.site-nav.open .nav-center .dropdown-item{padding:.75rem 2.5rem;font-size:15px;color:var(--c-secondary);display:block;border-bottom:1px solid var(--c-border)}.site-nav.open .nav-center .dropdown-item:hover{color:var(--c-text);background:var(--c-border)}}
+      .site-hero{background:linear-gradient(180deg,#fef2f2 0%,#fff5f5 30%,#fffafa 60%,#fff 100%);padding:7rem 1.5rem 4rem;text-align:center}
+      .site-hero h1{color:#1a1a1a;font-size:clamp(2.5rem,5vw,3.5rem);font-weight:600;margin-bottom:1.5rem;letter-spacing:-.015em;line-height:1.07143}
+      .site-hero p{color:#58585e;font-size:clamp(1rem,2vw,1.125rem);max-width:580px;margin:0 auto 2rem;line-height:1.6}
+      .site-hero .hero-cta{display:inline-flex;align-items:center;background:#312e81;color:#fff;border-radius:6rem;padding:.75rem 2rem;font-size:1rem;font-weight:500;text-decoration:none;transition:background .2s,transform .1s}
+      .site-hero .hero-cta:hover{background:var(--c-accent-hover);transform:translateY(-1px);text-decoration:none}
+      .site-main{max-width:800px;margin:0 auto;padding:3rem 1.5rem 4rem;font-size:17px;line-height:1.47059}
+      .site-main>div>h1:first-child,.site-main>div>h1:first-child+p,.site-main>div>h1:first-child+p+p:empty{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+      .site-main h2{font-size:28px;font-weight:600;margin:2.5rem 0 .8rem;letter-spacing:.007em;line-height:1.14286}
+      .site-main h3{font-size:22px;font-weight:600;margin:1.8rem 0 .4rem;letter-spacing:.01em;line-height:1.18182}
+      .site-main h4{font-size:19px;font-weight:600;margin:1.5rem 0 .4rem;line-height:1.21053}
+      .site-main table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.875rem}
+      .site-main thead{background:var(--c-surface)}
+      .site-main th,.site-main td{padding:.75rem 1rem;border-bottom:1px solid var(--c-border);text-align:left}
+      .site-main th{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--c-secondary)}
+      .site-main tbody tr:hover{background:var(--c-surface)}
+      .site-main ul,.site-main ol{padding-left:1.5rem;margin:.75rem 0}
+      .site-main li{margin-bottom:.375rem}
+      .site-main li:last-child{margin-bottom:0}
+      .site-main>div>p:last-child{margin-top:2rem}
+      .lang-menu{display:none;position:absolute;right:0;top:100%;margin-top:.375rem;background:var(--c-bg);border:1px solid var(--c-border);border-radius:.5rem;box-shadow:0 4px 24px rgba(0,0,0,.1);padding:.5rem;z-index:1000;width:max-content;max-width:90vw}
+.lang-menu-grid{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:0;min-width:500px}
+@media(max-width:768px){.lang-menu-grid{grid-template-columns:repeat(2,1fr)}}
+.lang-menu-grid a{display:block;padding:.375rem .625rem;font-size:12px;color:var(--c-nav-muted);text-decoration:none;border-radius:.25rem;white-space:nowrap}
+.lang-menu-grid a:hover{background:var(--c-surface);color:var(--c-text)}
+.lang-menu-grid a.active{color:var(--c-text);font-weight:600}.lang-switcher button:hover{border-color:var(--c-secondary)}.site-footer{background:var(--c-footer-bg);padding:2.5rem 1.5rem 2rem;color:var(--c-footer-text);font-size:.8125rem}
+      .site-footer .footer-inner{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem}
+      .site-footer a{color:var(--c-footer-text);text-decoration:none;transition:color .15s}
+      .site-footer a:hover{color:#fff}
+      .site-footer .footer-links{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;list-style:none;margin:0;padding:0}
+      .skip-link{position:absolute;left:-9999px;top:0;z-index:1100;padding:.5rem 1rem;background:#fff;color:var(--c-accent);border:2px solid var(--c-accent);border-radius:.25rem}
+      .skip-link:focus{left:1rem;top:1rem}
+      :focus-visible{outline:2px solid var(--c-accent);outline-offset:2px}
+      @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+      @media print{body{color:#000!important;background:#fff!important}.site-nav,.site-footer,.skip-link{display:none!important}a{color:#000!important}a[href]::after{content:" (" attr(href) ")"}}
+    </style>
+    
+    <style>
+      .accordion{--bs-accordion-color:var(--c-text);--bs-accordion-bg:var(--c-bg);--bs-accordion-transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out,border-radius .15s ease;--bs-accordion-border-color:var(--c-border);--bs-accordion-border-width:0;--bs-accordion-border-radius:0;--bs-accordion-inner-border-radius:0;--bs-accordion-btn-padding-x:0;--bs-accordion-btn-padding-y:1rem;--bs-accordion-btn-color:var(--c-text);--bs-accordion-btn-bg:transparent;--bs-accordion-btn-icon:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2371717a'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");--bs-accordion-btn-icon-width:1.25rem;--bs-accordion-btn-icon-transform:rotate(-180deg);--bs-accordion-btn-icon-transition:transform .2s ease-in-out;--bs-accordion-btn-active-icon:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%235046e5'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");--bs-accordion-btn-focus-box-shadow:0 0 0 .25rem rgba(80,70,229,.15)}
+      .accordion-button{position:relative;display:flex;align-items:center;width:100%;padding:var(--bs-accordion-btn-padding-y) var(--bs-accordion-btn-padding-x);font-size:1rem;color:var(--bs-accordion-btn-color);text-align:left;background-color:var(--bs-accordion-btn-bg);border:0;border-radius:0;overflow-anchor:none;transition:var(--bs-accordion-transition)}
+      .accordion-button:not(.collapsed){color:var(--c-accent);background-color:transparent;box-shadow:none}
+      .accordion-button:not(.collapsed)::after{background-image:var(--bs-accordion-btn-active-icon);transform:var(--bs-accordion-btn-icon-transform)}
+      .accordion-button::after{flex-shrink:0;width:var(--bs-accordion-btn-icon-width);height:var(--bs-accordion-btn-icon-width);margin-left:auto;content:"";background-image:var(--bs-accordion-btn-icon);background-repeat:no-repeat;background-size:var(--bs-accordion-btn-icon-width);transition:var(--bs-accordion-btn-icon-transition)}
+      .accordion-button:hover{z-index:2}
+      .accordion-button:focus{z-index:3;outline:0;box-shadow:var(--bs-accordion-btn-focus-box-shadow)}
+      .accordion-header{margin-bottom:0}
+      .accordion-item{color:var(--bs-accordion-color);background-color:var(--bs-accordion-bg);border:none;border-bottom:1px solid var(--c-border)}
+      .accordion-item:first-of-type{border-top:1px solid var(--c-border)}
+      .accordion-body{padding:0 0 1.25rem 0}
+      .accordion-collapse{transition:height .35s ease}
+      .collapsing{height:0;overflow:hidden;transition:height .35s ease}
+      @media(prefers-reduced-motion:reduce){.accordion-button::after{transition:none}.accordion-collapse,.collapsing{transition:none}}
+      .faq-raw-content{display:none}
+      .faq-container{display:block;max-width:800px;margin:0 auto;min-height:50vh}
+      .faq-container>h1:first-child,.faq-container>h1:first-child+p,.faq-container>p:empty{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+      .faq-category-header{font-size:1.375rem;font-weight:600;color:var(--c-heading);margin:3rem 0 .75rem;letter-spacing:-.02em}
+      .faq-category-header:first-of-type{margin-top:0}
+      .faq-container .accordion{margin-bottom:1.5rem}
+      .faq-container .accordion-button{font-size:.9375rem;font-weight:500;color:var(--c-text);padding:1rem 0}
+      .faq-container .accordion-button:not(.collapsed){color:var(--c-heading);font-weight:600}
+      .faq-container .accordion-button:focus{box-shadow:none;outline:2px solid var(--c-accent);outline-offset:2px;border-radius:.25rem}
+      .faq-container .accordion-body{font-size:.9375rem;line-height:1.8;color:var(--c-text)}
+      .faq-container .accordion-body p:last-child{margin-bottom:0}
+      .faq-container .accordion-body table{width:100%;margin:1rem 0;border-collapse:collapse;font-size:.8125rem}
+      .faq-container .accordion-body th,.faq-container .accordion-body td{padding:.5rem .75rem;border-bottom:1px solid var(--c-border);text-align:left}
+      .faq-container .accordion-body th{font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--c-secondary);font-size:.75rem}
+      .faq-container .accordion-body pre{margin:1rem 0;border-radius:.5rem}
+      .faq-container .accordion-body ul,.faq-container .accordion-body ol{margin:.75rem 0}
+    </style>
+  </head>
+  <body id="page-top" itemscope itemtype="http://schema.org/WebPage">
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <nav class="site-nav" aria-label="Main navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+      <div class="nav-inner">
+        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="https://cloudcdn.pro/bankstatementparser/images/logos/bankstatementparser.webp" alt="" /><span itemprop="name">Парсер банковских выписок</span></a>
+        <ul class="nav-center">
+          <li><a href="/ru/index.html">Главная</a></li>
+          <li><a href="/ru/a-propos/index.html">О проекте</a></li>
+          <li><a href="/ru/premiers-pas/index.html">Документация</a></li>
+          <li><a href="/ru/faq/index.html">FAQ</a></li>
+          <li class="nav-item dropdown"><button class="dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" type="button">Ресурсы</button><ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown"><li><a class="dropdown-item" href="/ru/cas-utilisation/index.html">Use Cases</a></li><li><a class="dropdown-item" href="/ru/migration/index.html">ISO 20022 Migration</a></li><li><a class="dropdown-item" href="/ru/securite/index.html">Security</a></li><li><a class="dropdown-item" href="/ru/alternatives/index.html">Alternatives</a></li><li><a class="dropdown-item" href="/ru/journal-des-modifications/index.html">Changelog</a></li><li><a class="dropdown-item" href="/ru/contribuer/index.html">Contribute</a></li><li><a class="dropdown-item" href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a class="dropdown-item" href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li></ul></li>
+        </ul>
+        <div class="nav-right">
+          <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">Тёмная</span></button>
+          <div style="position:relative;display:inline-block" class="lang-switcher">
+            <button type="button" aria-label="Change language" aria-expanded="false" style="color:var(--c-nav-muted);font-size:12px;font-weight:400;padding:.375rem .625rem;border:1px solid var(--c-border);border-radius:6rem;background:transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.25rem;outline:none">
+              <span style="font-size:14px">🌐</span> RU
+            </button>
+            <div class="lang-menu" style="display:none;max-height:80vh;overflow-y:auto">
+              <div class="lang-menu-grid">
+              <a href="/index.html">🇬🇧 English</a>
+              <a href="/fr/index.html">🇫🇷 Français</a>
+              <a href="/ar/index.html">🇸🇦 العربية</a>
+              <a href="/bn/index.html">🇧🇩 বাংলা</a>
+              <a href="/cs/index.html">🇨🇿 Čeština</a>
+              <a href="/de/index.html">🇩🇪 Deutsch</a>
+              <a href="/es/index.html">🇪🇸 Español</a>
+              <a href="/ha/index.html">🇳🇬 Hausa</a>
+              <a href="/he/index.html">🇮🇱 עברית</a>
+              <a href="/hi/index.html">🇮🇳 हिन्दी</a>
+              <a href="/id/index.html">🇮🇩 Indonesia</a>
+              <a href="/it/index.html">🇮🇹 Italiano</a>
+              <a href="/ja/index.html">🇯🇵 日本語</a>
+              <a href="/ko/index.html">🇰🇷 한국어</a>
+              <a href="/nl/index.html">🇳🇱 Nederlands</a>
+              <a href="/pl/index.html">🇵🇱 Polski</a>
+              <a href="/pt/index.html">🇧🇷 Português</a>
+              <a href="/ro/index.html">🇷🇴 Română</a>
+              <a href="/ru/index.html" class="active">🇷🇺 Русский</a>
+              <a href="/sv/index.html">🇸🇪 Svenska</a>
+              <a href="/th/index.html">🇹🇭 ไทย</a>
+              <a href="/tl/index.html">🇵🇭 Filipino</a>
+              <a href="/tr/index.html">🇹🇷 Türkçe</a>
+              <a href="/uk/index.html">🇺🇦 Українська</a>
+              <a href="/vi/index.html">🇻🇳 Tiếng Việt</a>
+              <a href="/yo/index.html">🇳🇬 Yorùbá</a>
+              <a href="/zh/index.html">🇨🇳 简体中文</a>
+              <a href="/zh-tw/index.html">🇹🇼 繁體中文</a>
+              </div>
+            </div>
+          </div>
+          <a href="/ru/contact/index.html" style="background:#0a0a0a;color:#fff;border-radius:6rem;padding:.4375rem 1rem;font-size:12px;font-weight:400;text-decoration:none;display:inline-block">Contact</a>
+        </div>
+        <button class="nav-hamburger" id="navToggle" aria-label="Toggle menu" type="button"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/></svg></button>
+      </div>
+      </nav>
+    <header class="site-hero" style="padding:6rem 1.5rem 3rem">
+      <h1 style="font-size:clamp(2rem,4vw,2.75rem)">Парсер банковских выписок</h1>
+      <p>Общие вопросы о парсере банковских выписок</p>
+    </header>
+    <main id="main" class="site-main" tabindex="-1" aria-label="Page content">
+      <div class="text-start">
+        <div id="faq-raw" class="faq-raw-content"><h2>Конфиденциальность данных и соответствие требованиям</h2>
+<h3>Покидают ли какие-либо данные мою инфраструктуру?</h3>
+<p><strong>Нет.</strong> Анализатор банковских выписок работает как библиотека без сохранения состояния. Вся обработка — анализ, редактирование PII, извлечение архива — происходит в вашей локальной памяти времени выполнения. Никаких вызовов API, облачных сервисов и телеметрии. XML-парсеры усилены<code>no_network=True</code>, блокируя весь исходящий доступ на уровне парсера. Ваши финансовые данные никогда не покидают вашу среду.</p>
+<h3>Как работает редактирование личных данных?</h3>
+<p>Чувствительные поля маскируются до того, как они достигнут логики вашего приложения. Парсер идентифицирует имена должников, имена кредиторов, номера IBAN и почтовые адреса, заменяя их на<code>***REDACTED***</code>в режиме консольного вывода и потоковой передачи.</p>
+<ul>
+<li><strong>Редактирование включено по умолчанию</strong> в режиме вывода CLI и потоковой передачи.</li>
+<li><strong>Экспорт файлов</strong> (CSV, JSON, Excel) сохраняет неотредактированные данные для последующей обработки.</li>
+<li><strong>Включите</strong> получение полных данных с помощью<code>--show-pii</code>в CLI или<code>redact_pii=False</code>в API.</li>
+</ul>
+<h3>Является ли процесс извлечения детерминированным?</h3>
+<p><strong>Да — при каждом запуске выводятся идентичные байты.</strong> Учитывая один и тот же входной файл, синтаксический анализатор каждый раз выдает один и тот же результат. Никакой случайности, никакого модельного вывода, никакой эвристической выборки. CI обеспечивает детерминизм с помощью 467 тестов при 100% покрытии ветвей, включая фаззинг на основе свойств с помощью гипотезы.</p>
+<h3>Каким стандартам соответствия соответствует проект?</h3>
+<p>В рамках проекта ведется документация, соответствующая стандарту ISO 13485, с полной отслеживаемостью:</p>
+<ul>
+<li>Количественный <strong>Реестр рисков</strong> с оценкой тяжести/вероятности и оценкой остаточного риска.</li>
+<li><strong>План проверки и валидации</strong>, состоящий из 19 этапов и 5 этапов.</li>
+<li><strong>Процедура контроля изменений</strong> с протоколами оценки воздействия и отката.</li>
+<li><strong>Регистр SOUP</strong>, охватывающий все зависимости с уровнями риска и отслеживанием EOL.</li>
+<li><strong>Матрица прослеживаемости</strong>, отображающая входные данные проекта для реализации и проверки.</li>
+</ul>
+<p>Каждый выпуск включает в себя SBOM CycloneDX, контрольные суммы SHA-256 и подтверждение происхождения сборки GitHub.</p>
+<h2>Производительность и масштабируемость</h2>
+<h3>Насколько быстро работает анализатор банковских выписок?</h3>
+<p>Пороги производительности проверяются в CI при каждом коммите:</p>
+<div class="table-responsive"><table class="table">
+<thead>
+<tr>
+<th>Метрика</th>
+<th>Ценить</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="text-left">CAMT.053 пропускная способность</td>
+<td class="text-left">27 000+ транзакций в секунду</td>
+</tr>
+<tr>
+<td class="text-left">Пропускная способность PAIN.001</td>
+<td class="text-left">52 000+ транзакций в секунду</td>
+</tr>
+<tr>
+<td class="text-left">Задержка каждой транзакции (CAMT)</td>
+<td class="text-left">37 микросекунд</td>
+</tr>
+<tr>
+<td class="text-left">Задержка каждой транзакции (PAIN.001)</td>
+<td class="text-left">19 микросекунд</td>
+</tr>
+<tr>
+<td class="text-left">Время первого результата</td>
+<td class="text-left">&lt; 2 мс</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Как обрабатываются большие файлы?</h3>
+<p><strong>Потоковая передача с ограниченной памятью — протестировано при 50 000 транзакций на файл.</strong> Использование<code>parse_streaming()</code>для постепенной обработки XML-файлов. Каждая транзакция выдается в виде словаря; элементы очищаются после обработки, чтобы предотвратить рост памяти. Память не масштабируется в зависимости от размера файла: тест с транзакциями 50 КБ (более 25 МБ) использует менее чем в два раза больше памяти, чем тест с транзакциями 10 КБ.</p>
+<p>Для файлов, размер которых превышает 50 МБ (например, пакеты PAIN.001 между хостами с более чем 100 тысячами платежей), анализатор обрабатывает временный файл с разделением пространства имен на основе фрагментов — полный документ никогда не загружается в память.</p>
+<h3>Как безопасно обрабатываются ZIP-архивы?</h3>
+<p><code>iter_secure_xml_entries()</code>проверяет каждого члена перед извлечением:</p>
+<ul>
+<li><strong>Ограничение размера записи</strong> (по умолчанию 10 МБ на запись)</li>
+<li><strong>Общий максимальный размер несжатого изображения</strong> (по умолчанию 50 МБ)</li>
+<li><strong>Предельная степень сжатия</strong> (по умолчанию 100:1) для предотвращения ZIP-бомбы.</li>
+<li><strong>Отклонение зашифрованного ввода</strong></li>
+</ul>
+<p>Ни один файл не записывается на диск. Байты XML передаются непосредственно в анализатор через<code>from_bytes()</code>.</p>
+<h3>Могу ли я анализировать несколько файлов параллельно?</h3>
+<p><strong>Да.</strong> Используйте<code>parse_files_parallel()</code>который распределяет работу по<code>ProcessPoolExecutor</code>:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">parse_files_parallel
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">results = </span><span style="color:#8fa1b3;">parse_files_parallel</span><span style="color:#c0c5ce;">([
+</span><span style="color:#c0c5ce;">    &quot;</span><span style="color:#a3be8c;">statements/jan.xml</span><span style="color:#c0c5ce;">&quot;,
+</span><span style="color:#c0c5ce;">    &quot;</span><span style="color:#a3be8c;">statements/feb.xml</span><span style="color:#c0c5ce;">&quot;,
+</span><span style="color:#c0c5ce;">    &quot;</span><span style="color:#a3be8c;">statements/mar.xml</span><span style="color:#c0c5ce;">&quot;,
+</span><span style="color:#c0c5ce;">])
+</span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">r </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">results:
+</span><span style="color:#c0c5ce;">    </span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(r.path, r.status, </span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(r.transactions), &quot;</span><span style="color:#a3be8c;">rows</span><span style="color:#c0c5ce;">&quot;)
+</span></pre>
+</code></pre>
+<h2>Поддерживаемые форматы</h2>
+<h3>Какие форматы банковских выписок поддерживаются?</h3>
+<table>
+<thead>
+<tr>
+<th>Формат</th>
+<th>Стандартный</th>
+<th>Типы файлов</th>
+<th>Класс парсера</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="text-left">CAMT.053</td>
+<td class="text-left">Заявление банка к клиенту ISO 20022</td>
+<td class="text-left"><code>.xml</code></td>
+<td class="text-left"><code>CamtParser</code></td>
+</tr>
+<tr>
+<td class="text-left">БОЛЬ.001</td>
+<td class="text-left">Инициирование кредитного перевода ISO 20022</td>
+<td class="text-left"><code>.xml</code></td>
+<td class="text-left"><code>Pain001Parser</code></td>
+</tr>
+<tr>
+<td class="text-left">CSV-файл</td>
+<td class="text-left">Общий банковский экспорт</td>
+<td class="text-left"><code>.csv</code></td>
+<td class="text-left"><code>CsvStatementParser</code></td>
+</tr>
+<tr>
+<td class="text-left">ОФКС</td>
+<td class="text-left">Открытая финансовая биржа</td>
+<td class="text-left"><code>.ofx</code></td>
+<td class="text-left"><code>OfxParser</code></td>
+</tr>
+<tr>
+<td class="text-left">QFX</td>
+<td class="text-left">Ускорить финансовый обмен</td>
+<td class="text-left"><code>.qfx</code></td>
+<td class="text-left"><code>QfxParser</code></td>
+</tr>
+<tr>
+<td class="text-left">МТ940</td>
+<td class="text-left">Стандарт СВИФТ</td>
+<td class="text-left"><code>.mt940</code>, <code>.sta</code></td>
+<td class="text-left"><code>Mt940Parser</code></td>
+</tr>
+</tbody>
+</table>
+<h3>Обрабатывает ли анализатор диалекты CAMT.053, специфичные для банка?</h3>
+<p><strong>Да — по своей конструкции не зависит от пространства имен.</strong> Перед обработкой анализатор удаляет пространства имен XML, обрабатывая любой вариант CAMT.053 (<code>camt.053.001.02</code>, <code>camt.053.001.04</code>или проприетарные банковские оболочки) без настройки для конкретного пространства имен. XPath запрашивает структуру целевого элемента, а не URI пространства имен.</p>
+<p>Для банков, которые упаковывают CAMT в индивидуальный конверт, используйте<code>from_string()</code>или<code>from_bytes()</code>для подачи внутреннего документа напрямую.</p>
+<h3>Могу ли я сопоставить собственные заголовки столбцов CSV со стандартной схемой?</h3>
+<p><strong>Да — автоматическая нормализация, нулевая конфигурация.</strong><code>CsvStatementParser</code>распознает распространенные варианты заголовков:<code>&quot;Date&quot;</code>, <code>&quot;Transaction Date&quot;</code>, <code>&quot;Booking Date&quot;</code>все карты в<code>date</code>поле.<code>&quot;Amount&quot;</code>, <code>&quot;Value&quot;</code>, <code>&quot;Sum&quot;</code>сопоставить с<code>amount</code>. Разделить столбцы кредита/дебета (например,<code>&quot;Credit&quot;</code>и<code>&quot;Debit&quot;</code>) обнаруживаются и объединяются в одну подписанную сумму автоматически.</p>
+<h3>Какой формат вывода?</h3>
+<p>Все парсеры создают стандартизированные DataFrames pandas с согласованными типами столбцов:</p>
+<table>
+<thead>
+<tr>
+<th>Формат</th>
+<th>Ключевые столбцы</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="text-left"><strong>КАМТ</strong></td>
+<td class="text-left"><code>Amount</code>, <code>Currency</code>, <code>DrCr</code>, <code>Debtor</code>, <code>Creditor</code>, <code>Reference</code>, <code>ValDt</code>, <code>BookgDt</code>, <code>AccountId</code></td>
+</tr>
+<tr>
+<td class="text-left"><strong>БОЛЬ.001</strong></td>
+<td class="text-left"><code>PmtInfId</code>, <code>PmtMtd</code>, <code>InstdAmt</code>, <code>Currency</code>, <code>CdtrNm</code>, <code>EndToEndId</code>, <code>MsgId</code>, <code>CreDtTm</code>, <code>NbOfTxs</code></td>
+</tr>
+<tr>
+<td class="text-left"><strong>CSV/OFX/QFX/MT940</strong></td>
+<td class="text-left"><code>date</code>, <code>description</code>, <code>amount</code>(нормализованный)</td>
+</tr>
+</tbody>
+</table>
+<p>Вы также можете экспортировать в CSV, JSON, Excel или конвертировать в Polars DataFrames.</p>
+<h2>Рабочие процессы казначейства</h2>
+<h3>Как парсер обрабатывает мультивалютные операторы?</h3>
+<p><strong>Каждая транзакция сохраняет свою исходную валюту — без неявной конвертации.</strong><code>Currency</code>поле извлекается из XML<code>Ccy</code>атрибут каждой транзакции. Мультивалютные выписки остаются без изменений.<code>get_account_balances()</code>Метод возвращает начальные и конечные балансы по счету с исходными кодами валют. Межвалютная сверка остается на усмотрение вашей последующей логики, где вы контролируете источник обменного курса.</p>
+<h3>Поддерживает ли парсер исходящие и входящие форматы?</h3>
+<p><strong>Да.</strong><code>Pain001Parser</code>обрабатывает файлы инициации кредитного перевода ISO 20022 PAIN.001 (исходящие платежи).<code>CamtParser</code>обрабатывает файлы выписок банка-клиента CAMT.053 (входящая отчетность). Оба поддерживают потоковую передачу, редактирование личных данных и экспорт в CSV, JSON и Excel. Использовать<code>detect_statement_format()</code>для автоматического определения формата.</p>
+<h3>Что происходит, если запись транзакции имеет неправильный формат?</h3>
+<p>Поведение зависит от режима синтаксического анализа:</p>
+<ul>
+<li><strong><code>parse()</code>(пакетный режим)</strong> -- Неверные записи, в которых отсутствуют обязательные поля (<code>Amount</code>, <code>Currency</code>, или<code>CdtDbtInd</code>) пропускаются с журналом предупреждений. Остальная часть оператора анализируется нормально.</li>
+<li><strong><code>parse_streaming()</code>(режим потоковой передачи)</strong> -- Ошибки анализа распространяются немедленно как исключения. Никакой тихой потери данных. Такое отказоустойчивое поведение предназначено для финансовых рабочих процессов, где необходимо учитывать каждую транзакцию.</li>
+</ul>
+<h3>Как работает дедупликация?</h3>
+<p><code>Deduplicator</code>класс обнаруживает точные дубликаты и предполагаемые совпадения с объяснимыми показателями достоверности:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">CamtParser, Deduplicator
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">parser = </span><span style="color:#8fa1b3;">CamtParser</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;)
+</span><span style="color:#c0c5ce;">dedup = </span><span style="color:#8fa1b3;">Deduplicator</span><span style="color:#c0c5ce;">()
+</span><span style="color:#c0c5ce;">result = dedup.</span><span style="color:#8fa1b3;">deduplicate</span><span style="color:#c0c5ce;">(dedup.</span><span style="color:#8fa1b3;">from_dataframe</span><span style="color:#c0c5ce;">(parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()))
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Unique: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(result.unique_transactions)}&quot;)
+</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Exact duplicates: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(result.exact_duplicates)}&quot;)
+</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Suspected matches: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(result.suspected_matches)}&quot;)
+</span></pre>
+</code></pre>
+<h2>Установка и совместимость</h2>
+<h3>Как установить анализатор банковских выписок?</h3>
+<pre><code class="language-bash"><pre style="background-color:#2b303b;">
+<span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser
+</span></pre>
+</code></pre>
+<p>Для дополнительной поддержки Polars DataFrame:</p>
+<pre><code class="language-bash"><pre style="background-color:#2b303b;">
+<span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser</span><span style="color:#b48ead;">[</span><span style="color:#c0c5ce;">polars</span><span style="color:#b48ead;">]
+</span></pre>
+</code></pre>
+<h3>Какие версии Python поддерживаются?</h3>
+<p>Python версий с 3.9 по 3.14. Все версии проверены в CI 467 тестами при 100% покрытии ветвей.</p>
+<h3>Каковы зависимости?</h3>
+<p>Библиотека имеет 5 прямых зависимостей:</p>
+<ul>
+<li><code>lxml</code>-- Анализ XML с усилением безопасности
+-<code>pandas</code>-- DataFrames и манипулирование данными
+-<code>openpyxl</code>-- Экспорт в Excel
+-<code>pydantic</code>-- Проверка данных и модели
+-<code>defusedxml</code>-- XXE-защита</li>
+</ul>
+<p>Все зависимости имеют версии с хеш-блокировкой SHA-256. CycloneDX SBOM отображает каждый компонент времени выполнения.</p>
+<h3>Работает ли он на macOS, Linux и Windows?</h3>
+<p><strong>Да.</strong> Библиотека работает в macOS, Linux и Windows (через WSL). Он не имеет зависимостей от конкретной платформы.</p>
+<h2>Воспроизводимость и безопасность</h2>
+<h3>Как проверить воспроизводимость?</h3>
+<pre><code class="language-bash"><pre style="background-color:#2b303b;">
+<span style="color:#8fa1b3;">python</span><span style="color:#bf616a;"> -m</span><span style="color:#c0c5ce;"> pytest                              </span><span style="color:#65737e;"># 467 tests, 100% branch coverage
+</span><span style="color:#8fa1b3;">python</span><span style="color:#c0c5ce;"> scripts/verify_locked_hashes.py        </span><span style="color:#65737e;"># SHA-256 hash verification
+</span><span style="color:#8fa1b3;">git</span><span style="color:#c0c5ce;"> log</span><span style="color:#bf616a;"> --show-signature -1                   </span><span style="color:#65737e;"># Verify commit signature
+</span></pre>
+</code></pre>
+<h3>Какие встроенные средства защиты?</h3>
+<ul>
+<li><strong>Защита XXE</strong>:<code>resolve_entities=False</code>, <code>no_network=True</code>, <code>load_dtd=False</code></li>
+<li><strong>Защита от ZIP-бомбы</strong>: ограничения степени сжатия, ограничения размера записи, отклонение зашифрованной записи.</li>
+<li><strong>Предотвращение обхода пути</strong>: черный список опасных шаблонов и разрешение символических ссылок.</li>
+<li><strong>Проверка ввода</strong>: ограничения на размер файла (по умолчанию 100 МБ), проверка расширения/формата.</li>
+<li><strong>Цепочка поставок</strong>: зависимости с хеш-блокировкой SHA-256, CycloneDX SBOM, подтверждение происхождения сборки.</li>
+<li><strong>Подписанные коммиты</strong>: принудительно в CI.</li>
+</ul>
+<h3>Чем анализатор банковских выписок отличается от pyiso20022?</h3>
+<p>pyiso20022 — это обширный набор инструментов ISO 20022, который генерирует классы данных Python из XML-схем ISO. Он охватывает широкий спектр типов сообщений ISO 20022 (PACS, PAIN, CAMT, ADMI) с проверкой схемы. Анализатор банковских выписок специально создан для анализа банковских выписок с поддержкой потоковой передачи, редактирования PII, дедупликации и унифицированного API для шести форматов, включая форматы, отличные от ISO (CSV, OFX, QFX, MT940). Если вам необходимо проанализировать банковские выписки в DataFrames с безопасностью производственного уровня, используйте анализатор банковских выписок. Если вам нужно работать с полным каталогом сообщений ISO 20022, используйте pyiso20022.</p>
+<h3>Каковы сроки перехода на SWIFT ISO 20022?</h3>
+<p>SWIFT опубликовал график поэтапной миграции:</p>
+<ul>
+<li><strong>Ноябрь 2026 г.</strong>: структурированные и гибридные адреса станут обязательными. Сообщения с несколькими инструкциями MT101 будут отклонены. Начинается Фаза 1 управления делами.</li>
+<li><strong>Ноябрь 2027 г.</strong>: все финансовые учреждения должны иметь возможность получать выписки CAMT.053 в исходном виде. SWIFT прекратит преобразование MT в формат ISO.</li>
+<li><strong>Ноябрь 2028 г.</strong>: полное прекращение поддержки MT940, MT942, MT950, MT900 и MT910. Они будут заменены эквивалентами CAMT.052, CAMT.053 и CAMT.054.</li>
+</ul>
+<p>Анализатор банковских выписок поддерживает как устаревший формат MT940, так и современные форматы CAMT.053/PAIN.001, что делает его идеальным для переходного периода.</p>
+</div>
+        <div id="faq-accordion" class="faq-container"></div>
+      </div>
+    </main>
+    <footer class="site-footer" aria-label="footer">
+      <div class="footer-inner">
+        <span>© 2023-2026 Парсер банковских выписок. Все права защищены.</span>
+        <ul class="footer-links">
+          <li><a href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          <li><a href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li>
+          <li><a href="/ru/contact/index.html">Contact</a></li>
+          <li><a href="/ru/confidentialite/index.html">Privacy</a></li>
+          <li><a href="/ru/conditions/index.html">Terms</a></li>
+        </ul>
+      </div>
+    </footer>
+    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"Ответы на распространенные вопросы о анализаторе банковских выписок: конфиденциальность данных, редактирование личных данных, производительность, поддержка ISO 20022, потоковая передача, соответствие требованиям и рабочие процессы казначейства.","headline":"Общие вопросы о парсере банковских выписок","image":{"@type":"ImageObject","url":"https://cloudcdn.pro/bankstatementparser/images/logos/bankstatementparser.webp"},"inLanguage":"ru-RU","mainEntityOfPage":"https://bankstatementparser.com/ru/faq/index.html","name":"Парсер банковских выписок","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
+    <script>
+    // FAQ accordion builder
+    (function(){
+      // Language switcher toggle
+      document.querySelectorAll('.lang-switcher').forEach(function(sw){
+        var btn=sw.querySelector('button');
+        var menu=sw.querySelector('.lang-menu');
+        if(!btn||!menu)return;
+        btn.addEventListener('click',function(e){
+          e.stopPropagation();
+          var open=menu.style.display==='block';
+          menu.style.display=open?'none':'block';
+          btn.setAttribute('aria-expanded',String(!open));
+        });
+        document.addEventListener('click',function(){menu.style.display='none';btn.setAttribute('aria-expanded','false')});
+        menu.addEventListener('click',function(e){e.stopPropagation()});
+      });
+    })();
+    (function(){
+      function buildFaqAccordion(){
+        var raw=document.getElementById("faq-raw");
+        var target=document.getElementById("faq-accordion");
+        if(!raw||!target)return;
+        var nodes=Array.from(raw.children);
+        var catIdx=0,itemIdx=0;
+        var html=[],intro=[];
+        var inCat=false,inAcc=false,firstInCat=false;
+        for(var i=0;i<nodes.length;i++){
+          var n=nodes[i],tag=n.tagName;
+          if(!inCat&&tag!=="H2"){intro.push(n.outerHTML);continue}
+          if(tag==="H2"){
+            if(inAcc)html.push("</div>");
+            catIdx++;firstInCat=true;inCat=true;inAcc=false;
+            html.push('<h2 class="faq-category-header" id="faq-cat-'+catIdx+'">'+n.textContent+"</h2>");
+            html.push('<div class="accordion" id="accordionCat'+catIdx+'">');
+            inAcc=true;continue;
+          }
+          if(tag==="H3"){
+            itemIdx++;
+            var cid="faqC"+itemIdx,hid="faqH"+itemIdx,pid="accordionCat"+catIdx;
+            var exp=firstInCat,show=exp?" show":"",col=exp?"":" collapsed",aria=exp?"true":"false";
+            var parts=[];
+            for(var j=i+1;j<nodes.length;j++){
+              var nt=nodes[j].tagName;
+              if(nt==="H2"||nt==="H3")break;
+              parts.push(nodes[j].outerHTML);
+            }
+            html.push(
+              '<div class="accordion-item">'+
+              '<h2 class="accordion-header" id="'+hid+'">'+
+              '<button class="accordion-button'+col+'" type="button" data-bs-toggle="collapse" data-bs-target="#'+cid+'" aria-expanded="'+aria+'" aria-controls="'+cid+'">'+
+              n.textContent+'</button></h2>'+
+              '<div id="'+cid+'" class="accordion-collapse collapse'+show+'" aria-labelledby="'+hid+'" data-bs-parent="#'+pid+'">'+
+              '<div class="accordion-body">'+parts.join("")+'</div></div></div>'
+            );
+            i=j-1;firstInCat=false;continue;
+          }
+        }
+        if(inAcc)html.push("</div>");
+        html.push('<p style="margin-top:2rem;font-size:.9375rem">Have more questions? <a href="/ru/contact/index.html">Get in touch</a></p>');
+        target.innerHTML=intro.join("")+html.join("");
+        var qs=target.querySelectorAll(".accordion-button");
+        var as=target.querySelectorAll(".accordion-body");
+        var items=[];
+        for(var k=0;k<qs.length;k++){
+          items.push({"@type":"Question","name":qs[k].textContent.trim(),"acceptedAnswer":{"@type":"Answer","text":as[k]?as[k].textContent.trim():""}});
+        }
+        if(items.length){
+          var ld=document.createElement("script");
+          ld.type="application/ld+json";
+          ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"FAQPage","mainEntity":items});
+          document.head.appendChild(ld);
+        }
+      }
+      function ensureBootstrap(){
+        if(window.bootstrap)return;
+        var s=document.createElement("script");
+        s.src="/bootstrap.bundle.min.js";
+        s.onload=function(){if(window.serviceWorkerSetup)window.serviceWorkerSetup.bootstrapLoaded=true};
+        document.head.appendChild(s);
+      }
+      function init(){buildFaqAccordion();ensureBootstrap()}
+      if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",init)}else{init()}
+      var hb=document.getElementById("navToggle");
+      if(hb){hb.addEventListener("click",function(){
+        var nav=document.querySelector(".site-nav");
+        if(nav){var open=nav.classList.toggle("open");hb.setAttribute("aria-expanded",String(open))}
+      })}
+    })();
+    </script>
+    <script>
+    (function(){
+      function setTheme(theme){
+        document.documentElement.setAttribute("data-theme",theme);localStorage.setItem("theme",theme);
+        document.querySelectorAll(".theme-icon-dark,.theme-icon-dark-m").forEach(function(e){e.style.display=theme==="dark"?"none":""});
+        document.querySelectorAll(".theme-icon-light,.theme-icon-light-m").forEach(function(e){e.style.display=theme==="dark"?"":"none"});
+        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"Light":"Dark"});
+        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"Switch to light mode":"Switch to dark mode")});
+      }
+      var saved=localStorage.getItem("theme");
+      if(saved){setTheme(saved)}else if(window.matchMedia("(prefers-color-scheme:dark)").matches){setTheme("dark")}
+      document.querySelectorAll("#themeToggle").forEach(function(btn){
+        btn.addEventListener("click",function(){setTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark")});
+      });
+    })();
+    </script>
+    <script defer src="/main.js"></script>
+  </body>
+</html>

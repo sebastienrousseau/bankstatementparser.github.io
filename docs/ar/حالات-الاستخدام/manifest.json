@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "كيف تستخدم فرق الخزينة ومطورو التكنولوجيا المالية ومسؤولو الامتثال محلل كشوف الحسابات البنكية لترحيل MT940 إلى CAMT والم",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "حالات الاستخدام",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

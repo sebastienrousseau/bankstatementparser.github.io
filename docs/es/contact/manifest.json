@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Contáctenos hoy para obtener más información sobre cómo el Analizador de extractos bancarios puede ayudarle a simplifica",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Contacto",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

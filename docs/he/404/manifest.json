@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "נראה שדף האינטרנט שאליו אתה מנסה לגשת הוסר, שונה שם או אינו זמין כעת.",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "מנתח דפי בנק",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

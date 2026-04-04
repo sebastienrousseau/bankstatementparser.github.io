@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Der Kontoauszug-Parser ist eine Open-Source Python-Bibliothek zur Analyse von CAMT.053, PAIN.001, CSV, OFX, QFX und MT94",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Über uns",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

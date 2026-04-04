@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Vergelijk Bankafschrift-parser met mt-940, ofxparse, pycamt, pyiso20022 en SaaS-tools zoals Ocrolus en Parseur. Functiev",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Alternatieven",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

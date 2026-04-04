@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://bankstatementparser.com/ko/sayong-sarye/index.html/sitemap.xml

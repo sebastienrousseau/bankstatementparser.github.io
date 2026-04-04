@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Jawaban atas pertanyaan umum tentang Parser Laporan Bank: privasi data, penyembunyian PII, performa, dukungan ISO 20022,",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Pertanyaan yang Sering Diajukan",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

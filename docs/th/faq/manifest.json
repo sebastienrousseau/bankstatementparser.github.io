@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "คำตอบสำหรับคำถามทั่วไปเกี่ยวกับ ตัวแยกวิเคราะห์ใบแจ้งยอดธนาคาร: ความเป็นส่วนตัวของข้อมูล การแก้ไข PII ประสิทธิภาพ การสนั",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "ตัวแยกวิเคราะห์ใบแจ้งยอดธนาคาร",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

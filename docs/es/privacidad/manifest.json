@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Esta página le informa sobre nuestras políticas de recopilación, uso y divulgación de datos personales cuando utiliza nu",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Política de privacidad",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

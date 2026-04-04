@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Porownaj Parser wyciagow bankowych z mt-940, ofxparse, pycamt, pyiso20022 i narzedziami SaaS takimi jak Ocrolus i Parseu",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Alternatywy",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

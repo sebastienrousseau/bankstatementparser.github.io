@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "คุณลักษณะด้านความปลอดภัยของ ตัวแยกวิเคราะห์ใบแจ้งยอดธนาคาร: การป้องกัน XXE, การทำให้ ZIP Bomb แข็งขึ้น, การแก้ไข PII, คว",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "ตัวแยกวิเคราะห์ใบแจ้งยอดธนาคาร",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

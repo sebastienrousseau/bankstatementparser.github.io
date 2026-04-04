@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Answers to common questions about Bank Statement Parser: data privacy, PII redaction, performance, ISO 20022 support, st",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "FAQ",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

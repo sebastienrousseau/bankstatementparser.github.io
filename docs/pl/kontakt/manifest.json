@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Skontaktuj sie z nami dzisiaj, aby dowiedziec sie wiecej o tym, jak Parser wyciagow bankowych moze pomoc Ci uproscic zlo",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Kontakt",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

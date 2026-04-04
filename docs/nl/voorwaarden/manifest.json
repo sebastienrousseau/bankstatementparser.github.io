@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Door deze website te bezoeken, erkent u en stemt u ermee in gebonden te zijn aan deze gebruiksvoorwaarden en alle toepas",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Gebruiksvoorwaarden",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

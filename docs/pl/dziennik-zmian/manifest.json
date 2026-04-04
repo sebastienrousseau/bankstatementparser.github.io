@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Historia wydanien i dziennik zmian Parsera wyciagow bankowych. Sledz nowe funkcjonalnosci, usprawnienia i poprawki bledo",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Dziennik zmian",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

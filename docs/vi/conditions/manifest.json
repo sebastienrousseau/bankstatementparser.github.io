@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Bằng cách truy cập trang web này, bạn thừa nhận và đồng ý bị ràng buộc bởi các Điều khoản và Điều kiện sử dụng này cũng ",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Trình phân tích sao kê ngân hàng",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Wilt u aan het project deelnemen? Wij zijn altijd op zoek naar mensen met vaardigheden in zowel het ontwikkelen als het ",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Bijdragen",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

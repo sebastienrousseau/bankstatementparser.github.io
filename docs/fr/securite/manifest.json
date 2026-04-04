@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Fonctionnalit&eacute;s de s&eacute;curit&eacute; de Analyseur de relevés bancaires : protection XXE, renforcement ZIP, m",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "S&eacute;curit&eacute;",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

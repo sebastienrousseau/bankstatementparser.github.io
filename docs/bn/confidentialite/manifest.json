@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "এই পৃষ্ঠাটি আপনাকে আমাদের ওয়েবসাইট ব্যবহার করার সময় ব্যক্তিগত ডেটা সংগ্রহ, ব্যবহার এবং প্রকাশ সম্পর্কিত আমাদের নীতি সম",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "গোপনীয়তা নীতি",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

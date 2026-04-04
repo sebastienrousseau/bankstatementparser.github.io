@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "ابدأ باستخدام محلل كشوف الحسابات البنكية لـ Python: التثبيت، وتحليل ملفات CAMT/PAIN.001/CSV/OFX/QFX/MT940، واستخدام سير ",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "البدء",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

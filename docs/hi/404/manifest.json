@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "ऐसा लगता है कि आप जिस वेब पेज तक पहुंचने का प्रयास कर रहे हैं उसे या तो हटा दिया गया है, उसका नाम बदल दिया गया है, या वर",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "बैंक स्टेटमेंट पार्सर",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

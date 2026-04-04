@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "Kontaktieren Sie uns, um mehr darüber zu erfahren, wie der Kontoauszug-Parser Ihnen bei der Analyse von Kontoauszügen he",
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "sizes": "512x512",
+      "src": "https://cloudcdn.pro/bankstatementparser/images/favicon.ico",
+      "type": "image/svg+xml"
+    }
+  ],
+  "name": "Kontakt",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "bankstatemen",
+  "start_url": ".",
+  "theme_color": null
+}

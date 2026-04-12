@@ -4,20 +4,20 @@
     <meta charset="utf-8" />
     <meta itemprop="datePublished" content="2026-04-01T00:00:00+00:00" id="date">
     <meta itemprop="dateModified" content="2026-04-01T00:00:00+00:00" id="last-modified">
-    <title>ব্যাংক স্টেটমেন্ট পার্সার নিরাপত্তা: ডেটা সুরক্ষা ও সাপ্লাই চেইন</title>
+    <title>ব্যাঙ্ক স্টেটমেন্ট পার্সার সিকিউরিটি: ডেটা প্রোটেকশন এবং সাপ্লাই চেইন</title>
     <meta name="theme-color" content="rgb(73, 214, 251)" />
     <meta name="measurement-id" content="G-FL9DEBFHN1" />
     <meta name="author" content="Sebastien Rousseau">
-<meta name="description" content="ব্যাংক স্টেটমেন্ট পার্সার কীভাবে আপনার আর্থিক ডেটা রক্ষা করে: XXE সুরক্ষা, ZIP বম্ব প্রতিরোধ, PII মাস্কিং, সাপ্লাই চেইন নিরাপত্তা এবং আরও অনেক কিছু।">
-<meta name="keywords" content="ব্যাংক স্টেটমেন্ট পার্সার নিরাপত্তা, XXE সুরক্ষা, ZIP বম্ব প্রতিরোধ, PII মাস্কিং, সাপ্লাই চেইন নিরাপত্তা, SBOM, আর্থিক ডেটা সুরক্ষা">
+<meta name="description" content="ব্যাঙ্ক স্টেটমেন্ট পার্সারের নিরাপত্তা বৈশিষ্ট্য: XXE সুরক্ষা, জিপ বোমা হার্ডেনিং, PII রিডাকশন, সাপ্লাই চেইন সিকিউরিটি, ডিটারমিনিস্টিক আউটপুট এবং সাইনড বিল্ড।">
+<meta name="keywords" content="ব্যাঙ্ক স্টেটমেন্ট সিকিউরিটি, PII রিডাকশন পাইথন, XXE সুরক্ষা, জিপ বোমা সুরক্ষা, সাপ্লাই চেইন সিকিউরিটি SBOM, ডিটারমিনিস্টিক পার্সিং, আর্থিক ডেটা নিরাপত্তা">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="accessibility" content="ARIA, fullKeyboardControl, noFlashingHazard" />
     <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="ব্যাংক স্টেটমেন্ট পার্সার নিরাপত্তা: ডেটা সুরক্ষা ও সাপ্লাই চেইন">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: kura.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
+<meta name="apple-mobile-web-app-title" content="ব্যাঙ্ক স্টেটমেন্ট পার্সার সিকিউরিটি: ডেটা প্রোটেকশন এবং সাপ্লাই চেইন">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: cloudcdn.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
     <meta name="msapplication-TileColor" content="rgb(73, 214, 251)">
     
     <link rel="alternate" href="https://bankstatementparser.com/bn/securite/index.html" hreflang="bn" />
@@ -27,7 +27,7 @@
     <link rel="apple-touch-icon" href="/images/icons/192x192.png" sizes="192x192" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
-    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#b0b8c1"}})});</script>
+    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#8f9aa5"}})});</script>
     <style>
       :root{--theme-color:rgb(73, 214, 251)}*{font-weight:400;box-sizing:border-box;margin:0}
       pre{margin:1.5rem 0;max-width:100%;overflow:auto;border-radius:.5rem;padding:1rem 1.25rem;background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);color:var(--c-code);display:block;font-family:'SF Mono',SFMono-Regular,Consolas,monospace;font-size:.8125rem;line-height:1.7;margin:1.5rem 0;max-width:100%;overflow:auto;padding:1rem 1.25rem;border-radius:.5rem}
@@ -105,13 +105,26 @@
       :focus-visible{outline:2px solid var(--c-accent);outline-offset:2px}
       @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
       @media print{body{color:#000!important;background:#fff!important}.site-nav,.site-footer,.skip-link{display:none!important}a{color:#000!important}a[href]::after{content:" (" attr(href) ")"}}
+          .search-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:flex-start;justify-content:center;padding:15vh 1rem 1rem}
+.search-overlay.open{display:flex}
+.search-box{background:var(--c-bg);border:1px solid var(--c-border);border-radius:.75rem;width:100%;max-width:560px;box-shadow:0 25px 50px -12px rgba(0,0,0,.25);overflow:hidden}
+.search-input{width:100%;padding:.875rem 1rem;border:none;background:transparent;color:var(--c-text);font-size:1rem;font-family:inherit;outline:none}
+.search-input::placeholder{color:var(--c-secondary)}
+.search-results{max-height:50vh;overflow-y:auto;border-top:1px solid var(--c-border)}
+.search-result{display:block;padding:.75rem 1rem;color:var(--c-text);text-decoration:none;border-bottom:1px solid var(--c-border)}
+.search-result:hover,.search-result.active{background:var(--c-surface);color:var(--c-accent);text-decoration:none}
+.search-result-title{font-weight:600;font-size:.9375rem}
+.search-result-desc{font-size:.8125rem;color:var(--c-secondary);margin-top:.125rem}
+.search-empty{padding:1.5rem 1rem;text-align:center;color:var(--c-secondary);font-size:.875rem}
+.search-footer{padding:.5rem 1rem;border-top:1px solid var(--c-border);font-size:.75rem;color:var(--c-secondary);display:flex;gap:1rem}
+.search-footer kbd{background:var(--c-surface);padding:.125rem .375rem;border-radius:.25rem;font-size:.6875rem;border:1px solid var(--c-border)}
     </style>
   </head>
   <body id="page-top" itemscope itemtype="http://schema.org/WebPage">
-    <a class="skip-link" href="#main">Skip to main content</a>
-    <nav class="site-nav" aria-label="Main navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+    <a class="skip-link" href="#main">মূল বিষয়বস্তুতে যান</a>
+    <nav class="site-nav" aria-label="প্রধান নেভিগেশন" itemscope itemtype="http://schema.org/SiteNavigationElement">
       <div class="nav-inner">
-        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="" /><span itemprop="name">ব্যাংক স্টেটমেন্ট পার্সার</span></a>
+        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="Bank Statement Parser logo" /><span itemprop="name">ব্যাংক স্টেটমেন্ট পার্সার</span></a>
         <ul class="nav-center">
           <li><a href="/bn/index.html">হোম</a></li>
           <li><a href="/bn/a-propos/index.html">সম্পর্কে</a></li>
@@ -120,7 +133,8 @@
           <li class="nav-item dropdown"><button class="dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" type="button">রিসোর্স</button><ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown"><li><a class="dropdown-item" href="/bn/cas-utilisation/index.html">Use Cases</a></li><li><a class="dropdown-item" href="/bn/migration/index.html">ISO 20022 Migration</a></li><li><a class="dropdown-item" href="/bn/securite/index.html">Security</a></li><li><a class="dropdown-item" href="/bn/alternatives/index.html">Alternatives</a></li><li><a class="dropdown-item" href="/bn/journal-des-modifications/index.html">Changelog</a></li><li><a class="dropdown-item" href="/bn/contribuer/index.html">Contribute</a></li><li><a class="dropdown-item" href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a class="dropdown-item" href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li></ul></li>
         </ul>
         <div class="nav-right">
-          <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">ডার্ক</span></button>
+          <button id="searchTrigger" class="theme-toggle" aria-label="Search" style="margin-right:.25rem"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> <span class="search-shortcut" aria-hidden="true" style="font-size:.6875rem;opacity:.8"></span></button>
+          <button class="theme-toggle" id="themeToggle" aria-label="ডার্ক মোডে যান" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">ডার্ক</span></button>
           <div style="position:relative;display:inline-block" class="lang-switcher">
             <button type="button" aria-label="BN, Change language" aria-expanded="false" style="color:var(--c-nav-muted);font-size:12px;font-weight:400;padding:.375rem .625rem;border:1px solid var(--c-border);border-radius:6rem;background:transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.25rem;outline:none">
               <span style="font-size:14px">🌐</span> BN
@@ -165,72 +179,75 @@
       </nav>
     <header class="site-hero" style="padding:6rem 1.5rem 3rem">
       <h1 style="font-size:clamp(2rem,4vw,2.75rem)">নিরাপত্তা</h1>
-      <p>আমরা কীভাবে আপনার আর্থিক ডেটা রক্ষা করি</p>
+      <p>কিভাবে আমরা আপনার আর্থিক ডেটা রক্ষা করি</p>
     </header>
     <main id="main" class="site-main" tabindex="-1" aria-label="Page content">
-      <div class="text-start"><h2>নকশায় নিরাপত্তা</h2>
-<p>ব্যাংক স্টেটমেন্ট পার্সার সংবেদনশীল আর্থিক ডেটা প্রক্রিয়াকরণের জন্য তৈরি। প্রতিটি নকশা সিদ্ধান্ত নিরাপত্তা, গোপনীয়তা এবং নিরীক্ষণযোগ্যতাকে অগ্রাধিকার দেয়।</p>
-<h2>শূন্য নেটওয়ার্ক অ্যাক্সেস</h2>
-<p>সমস্ত প্রক্রিয়াকরণ আপনার রানটাইমের মধ্যে স্থানীয়ভাবে ঘটে। লাইব্রেরি শূন্য API কল, শূন্য ক্লাউড সংযোগ এবং শূন্য টেলিমেট্রি সংগ্রহ করে। XML পার্সারগুলি স্পষ্টভাবে <code>no_network=True</code>, <code>resolve_entities=False</code> এবং <code>load_dtd=False</code> দিয়ে কনফিগার করা হয়েছে যাতে কোনো বহির্গামী অ্যাক্সেস প্রতিরোধ করা যায়।</p>
+      <div class="text-start"><p><strong>TL;DR:</strong> Bank Statement Parser সমস্ত ডেটা স্থানীয়ভাবে প্রক্রিয়া করে, ডিফল্টরূপে PII রিডাক্ট করে, XXE আক্রমণের বিরুদ্ধে XML পার্সিং শক্তিশালী করে, Ollama-র মাধ্যমে স্থানীয়ভাবে LLM চালায়, এবং SHA-256 hash-locked ডিপেন্ডেন্সি ও CycloneDX SBOM সহ আসে।</p>
+<h2>ডিজাইন অনুসারে নিরাপত্তা</h2>
+<p>Bank Statement Parser সংবেদনশীল আর্থিক ডেটা প্রক্রিয়াকরণের জন্য তৈরি। প্রতিটি ডিজাইন সিদ্ধান্ত নিরাপত্তা, গোপনীয়তা এবং অডিটযোগ্যতাকে অগ্রাধিকার দেয়।</p>
+<h2>শূন্য Cloud নির্ভরতা</h2>
+<p>সমস্ত প্রক্রিয়াকরণ আপনার runtime-এর মধ্যে স্থানীয়ভাবে ঘটে। নির্ধারক পার্সার শূন্য নেটওয়ার্ক কল করে। Hybrid PDF pipeline স্থানীয় LLM inference-এর জন্য Ollama ব্যবহার করে — কোনো ডেটা cloud API-তে পাঠানো হয় না। XML পার্সার স্পষ্টভাবে <code>no_network=True</code>, <code>resolve_entities=False</code>, এবং <code>load_dtd=False</code> দিয়ে কনফিগার করা যা যেকোনো আউটবাউন্ড অ্যাক্সেস প্রতিরোধ করে।</p>
 <h2>PII রিডাকশন</h2>
-<p>ব্যক্তিগতভাবে শনাক্তযোগ্য তথ্য (নাম, IBAN, ডাক ঠিকানা) CLI আউটপুট এবং স্ট্রিমিং মোডে স্বয়ংক্রিয়ভাবে রিডাক্ট করা হয়। এটি ডিফল্টভাবে চালু।</p>
+<p>ব্যক্তিগতভাবে শনাক্তযোগ্য তথ্য (নাম, IBAN, ডাক ঠিকানা) CLI আউটপুট ও streaming মোডে স্বয়ংক্রিয়ভাবে রিডাক্ট হয়। এটি ডিফল্টরূপে চালু।</p>
 <ul>
-<li><strong>CLI</strong>: সংবেদনশীল ক্ষেত্রগুলি <code>***REDACTED***</code> হিসেবে দেখায়</li>
-<li><strong>স্ট্রিমিং</strong>: <code>parse_streaming(redact_pii=True)</code> (ডিফল্ট)</li>
-<li><strong>এক্সপোর্ট</strong>: CSV/JSON/Excel ডাউনস্ট্রিম প্রক্রিয়াকরণের জন্য সম্পূর্ণ ডেটা ধরে রাখে</li>
-<li><strong>অপ্ট-ইন</strong>: আনরিডাক্টেড আউটপুট প্রয়োজন হলে <code>--show-pii</code> বা <code>redact_pii=False</code> ব্যবহার করুন</li>
+<li><strong>CLI</strong>: সংবেদনশীল ক্ষেত্র <code>***REDACTED***</code> হিসেবে দেখায়</li>
+<li><strong>Streaming</strong>: <code>parse_streaming(redact_pii=True)</code> (ডিফল্ট)</li>
+<li><strong>Export</strong>: CSV/JSON/Excel ডাউনস্ট্রিম প্রক্রিয়াকরণের জন্য সম্পূর্ণ ডেটা রাখে</li>
+<li><strong>Opt-in</strong>: অসংশোধিত আউটপুট প্রয়োজন হলে <code>--show-pii</code> বা <code>redact_pii=False</code> ব্যবহার করুন</li>
 </ul>
 <h2>XML নিরাপত্তা (XXE সুরক্ষা)</h2>
-<p>সমস্ত XML পার্সিং হার্ডেনড সেটিংস সহ <code>lxml</code> ব্যবহার করে:</p>
+<p>সমস্ত XML পার্সিং শক্তিশালী সেটিংস সহ <code>lxml</code> ব্যবহার করে:</p>
 <ul>
-<li><code>resolve_entities=False</code> -- XML এন্টিটি এক্সপ্যানশন আক্রমণ প্রতিরোধ করে</li>
-<li><code>no_network=True</code> -- পার্সার থেকে সমস্ত বহির্গামী নেটওয়ার্ক অ্যাক্সেস ব্লক করে</li>
+<li><code>resolve_entities=False</code> -- XML entity expansion আক্রমণ প্রতিরোধ করে</li>
+<li><code>no_network=True</code> -- পার্সার থেকে সমস্ত আউটবাউন্ড নেটওয়ার্ক অ্যাক্সেস ব্লক করে</li>
 <li><code>load_dtd=False</code> -- DTD-ভিত্তিক আক্রমণ প্রতিরোধ করে</li>
-<li>প্রক্রিয়াকরণের আগে নেমস্পেস স্ট্রিপিং -- যেকোনো CAMT.053 ভ্যারিয়েন্ট নিরাপদে পরিচালনা করে</li>
+<li>প্রক্রিয়াকরণের আগে namespace stripping -- যেকোনো CAMT.053 variant নিরাপদে পরিচালনা করে</li>
 </ul>
 <h2>ZIP আর্কাইভ নিরাপত্তা</h2>
-<p><code>iter_secure_xml_entries()</code> এক্সট্রাকশনের আগে প্রতিটি ZIP সদস্য যাচাই করে:</p>
+<p><code>iter_secure_xml_entries()</code> extraction-এর আগে প্রতিটি ZIP member যাচাই করে:</p>
 <ul>
-<li><strong>এন্ট্রি সাইজ ক্যাপ</strong>: প্রতি এন্ট্রি ১০ MB (কনফিগারযোগ্য)</li>
-<li><strong>মোট সাইজ ক্যাপ</strong>: মোট ৫০ MB আনকম্প্রেসড (কনফিগারযোগ্য)</li>
-<li><strong>কম্প্রেশন রেশিও সীমা</strong>: ১০০:১ ডিফল্ট -- ZIP বম্ব সনাক্ত করে</li>
-<li><strong>এনক্রিপ্টেড এন্ট্রি প্রত্যাখ্যান</strong>: এনক্রিপ্টেড এন্ট্রি সতর্কতা সহ বাদ দেওয়া হয়</li>
-<li><strong>কোনো ডিস্ক রাইট নেই</strong>: XML বাইট সরাসরি <code>from_bytes()</code>-এর মাধ্যমে পার্সারে যায়</li>
+<li><strong>Entry size cap</strong>: প্রতি entry 10 MB (কনফিগারযোগ্য)</li>
+<li><strong>Total size cap</strong>: 50 MB মোট uncompressed (কনফিগারযোগ্য)</li>
+<li><strong>Compression ratio limit</strong>: 100:1 ডিফল্ট -- ZIP bomb শনাক্ত করে</li>
+<li><strong>Encrypted entry rejection</strong>: Encrypted entry সতর্কতা সহ skip করা হয়</li>
+<li><strong>কোনো disk write নেই</strong>: XML বাইট <code>from_bytes()</code>-এর মাধ্যমে সরাসরি পার্সারে পাস হয়</li>
 </ul>
-<h2>পাথ ট্রাভার্সাল প্রতিরোধ</h2>
-<p>ইনপুট ভ্যালিডেশন বিপজ্জনক ফাইল পাথ ব্লক করে:</p>
+<h2>Path Traversal প্রতিরোধ</h2>
+<p>Input validation বিপজ্জনক ফাইল path ব্লক করে:</p>
 <ul>
-<li>নাল বাইট, ডিরেক্টরি ট্রাভার্সাল প্যাটার্ন (<code>../</code>) এবং সিমলিংক প্রত্যাখ্যান করা হয়</li>
-<li>প্রত্যাশিত ফরম্যাটের বিরুদ্ধে ফাইল এক্সটেনশন যাচাই</li>
-<li>ফাইল সাইজ সীমা (১০০ MB ডিফল্ট, কনফিগারযোগ্য)</li>
+<li>Null byte, directory traversal pattern (<code>../</code>), এবং symlink প্রত্যাখ্যান করা হয়</li>
+<li>প্রত্যাশিত ফর্ম্যাটের বিরুদ্ধে ফাইল extension validation</li>
+<li>ফাইল size limit (100 MB ডিফল্ট, কনফিগারযোগ্য)</li>
 </ul>
-<h2>ডিটারমিনিস্টিক আউটপুট</h2>
-<p>একই ইনপুট ফাইল দেওয়া হলে, পার্সার প্রতিবার বাইট-অভিন্ন আউটপুট তৈরি করে। কোনো র‍্যান্ডমনেস নেই, কোনো মডেল ইনফারেন্স নেই, কোনো হিউরিস্টিক স্যাম্পলিং নেই। এটি গুরুত্বপূর্ণ:</p>
+<h2>Balance Verification (Golden Rule)</h2>
+<p>প্রতিটি PDF extraction এই সমীকরণ দিয়ে যাচাই করা হয়: <code>opening balance + credits − debits == closing balance</code>। ফলাফল VERIFIED, DISCREPANCY, বা FAILED হিসেবে ট্যাগ করা হয়। অসঙ্গতি <code>--type review</code> দিয়ে ইন্টারেক্টিভভাবে পর্যালোচনা করা যায়।</p>
+<h2>নির্ধারক আউটপুট</h2>
+<p>স্ট্রাকচার্ড ফর্ম্যাটের (CAMT, PAIN.001, CSV, OFX, QFX, MT940) জন্য, একই ইনপুট ফাইল দিলে পার্সার প্রতিটি রানে বাইট-অভিন্ন আউটপুট তৈরি করে। কোনো randomness, কোনো model inference, কোনো heuristic sampling নেই। এটি গুরুত্বপূর্ণ:</p>
 <ul>
-<li><strong>অডিট পুনরুৎপাদনযোগ্যতা</strong>: একই ফাইল দুবার চালান এবং আউটপুট diff করুন</li>
-<li><strong>নিয়ন্ত্রক সম্মতি</strong>: সামঞ্জস্যপূর্ণ প্রক্রিয়াকরণ প্রদর্শন করুন</li>
-<li><strong>CI যাচাই</strong>: ৪৬৭টি টেস্ট ১০০% ব্রাঞ্চ কভারেজ সহ ডিটারমিনিজম নিশ্চিত করে</li>
+<li><strong>অডিট পুনরুত্পাদনযোগ্যতা</strong>: একই ফাইল দুবার চালান এবং আউটপুট diff করুন</li>
+<li><strong>নিয়ন্ত্রক কমপ্লায়েন্স</strong>: সামঞ্জস্যপূর্ণ প্রক্রিয়াকরণ প্রদর্শন করুন</li>
+<li><strong>CI verification</strong>: 718 টেস্ট 100% branch coverage সহ নির্ধারকতা প্রয়োগ করে</li>
 </ul>
-<h2>সাপ্লাই চেইন নিরাপত্তা</h2>
+<h2>Supply Chain Security</h2>
 <ul>
-<li><strong>SHA-256 হ্যাশ-লকড ডিপেন্ডেন্সি</strong>: <code>poetry.lock</code>-এ প্রতিটি প্যাকেজের যাচাইকৃত ফাইল হ্যাশ রয়েছে</li>
-<li><strong>CycloneDX SBOM</strong>: প্রতিটি রিলিজে একটি সফটওয়্যার বিল অফ ম্যাটেরিয়ালস অন্তর্ভুক্ত</li>
-<li><strong>GitHub বিল্ড প্রোভেন্যান্স</strong>: অ্যাটেস্টেশন প্রতিটি আর্টিফ্যাক্টকে তার সোর্স কমিটের সাথে লিঙ্ক করে</li>
-<li><strong>সাইনড কমিট</strong>: সমস্ত কমিট SSH-সাইনড এবং CI-তে যাচাই করা হয়</li>
-<li><strong>ডিপেন্ডেন্সি যাচাই</strong>: <code>scripts/verify_locked_hashes.py</code> স্থানীয়ভাবে সমস্ত হ্যাশ যাচাই করে</li>
+<li><strong>SHA-256 hash-locked ডিপেন্ডেন্সি</strong>: <code>poetry.lock</code>-এ প্রতিটি প্যাকেজের verified file hash আছে</li>
+<li><strong>CycloneDX SBOM</strong>: প্রতিটি রিলিজে Software Bill of Materials অন্তর্ভুক্ত</li>
+<li><strong>GitHub build provenance</strong>: Attestation প্রতিটি artifact তার source commit-এ সংযুক্ত করে</li>
+<li><strong>Signed commits</strong>: সমস্ত commit SSH-signed এবং CI-তে verified</li>
+<li><strong>Dependency verification</strong>: <code>scripts/verify_locked_hashes.py</code> স্থানীয়ভাবে সমস্ত hash যাচাই করে</li>
 </ul>
 <h2>স্থানীয়ভাবে যাচাই করুন</h2>
 <pre><code class="language-bash"><pre style="background-color:#2b303b;">
-<span style="color:#8fa1b3;">python</span><span style="color:#d9848a;"> -m</span><span style="color:#c0c5ce;"> pytest                          </span><span style="color:#8f9aa5;"># ৪৬৭টি টেস্ট, ১০০% ব্রাঞ্চ কভারেজ
-</span><span style="color:#8fa1b3;">python</span><span style="color:#c0c5ce;"> scripts/verify_locked_hashes.py    </span><span style="color:#8f9aa5;"># SHA-256 হ্যাশ যাচাই
-</span><span style="color:#8fa1b3;">git</span><span style="color:#c0c5ce;"> log</span><span style="color:#d9848a;"> --show-signature -1               </span><span style="color:#8f9aa5;"># কমিট স্বাক্ষর যাচাই
+<span style="color:#8fa1b3;">python</span><span style="color:#bf616a;"> -m</span><span style="color:#c0c5ce;"> pytest                          </span><span style="color:#65737e;"># 718 tests, 100% branch coverage
+</span><span style="color:#8fa1b3;">python</span><span style="color:#c0c5ce;"> scripts/verify_locked_hashes.py    </span><span style="color:#65737e;"># SHA-256 hash verification
+</span><span style="color:#8fa1b3;">git</span><span style="color:#c0c5ce;"> log</span><span style="color:#bf616a;"> --show-signature -1               </span><span style="color:#65737e;"># Verify commit signature
 </span></pre>
 </code></pre>
 </div>
     </main>
     <footer class="site-footer" aria-label="footer">
       <div class="footer-inner">
-        <span>© 2023-2026 ব্যাংক স্টেটমেন্ট পার্সার. সর্বস্বত্ব সংরক্ষিত।</span>
+        <span>© 2023-2026 ব্যাঙ্ক স্টেটমেন্ট পার্সার। সর্বস্বত্ব সংরক্ষিত</span>
         <ul class="footer-links">
           <li><a href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li>
           <li><a href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li>
@@ -240,7 +257,7 @@
         </ul>
       </div>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"ব্যাংক স্টেটমেন্ট পার্সার কীভাবে আপনার আর্থিক ডেটা রক্ষা করে: XXE সুরক্ষা, ZIP বম্ব প্রতিরোধ, PII মাস্কিং, সাপ্লাই চেইন নিরাপত্তা এবং আরও অনেক কিছু।","headline":"আমরা কীভাবে আপনার আর্থিক ডেটা রক্ষা করি","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"bn-BD","mainEntityOfPage":"https://bankstatementparser.com/bn/securite/index.html","name":"নিরাপত্তা","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"ব্যাঙ্ক স্টেটমেন্ট পার্সারের নিরাপত্তা বৈশিষ্ট্য: XXE সুরক্ষা, জিপ বোমা হার্ডেনিং, PII রিডাকশন, সাপ্লাই চেইন সিকিউরিটি, ডিটারমিনিস্টিক আউটপুট এবং সাইনড বিল্ড।","headline":"কিভাবে আমরা আপনার আর্থিক ডেটা রক্ষা করি","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"bn-BD","mainEntityOfPage":"https://bankstatementparser.com/bn/securite/index.html","name":"নিরাপত্তা","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
     <script>
     (function(){
       // Language switcher toggle
@@ -263,8 +280,8 @@
         document.documentElement.setAttribute("data-theme",theme);localStorage.setItem("theme",theme);
         document.querySelectorAll(".theme-icon-dark,.theme-icon-dark-m").forEach(function(e){e.style.display=theme==="dark"?"none":""});
         document.querySelectorAll(".theme-icon-light,.theme-icon-light-m").forEach(function(e){e.style.display=theme==="dark"?"":"none"});
-        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"Light":"Dark"});
-        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"Switch to light mode":"Switch to dark mode")});
+        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"হালকা":"গাঢ়"});
+        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"লাইট মোডে যান":"ডার্ক মোডে যান")});
       }
       var saved=localStorage.getItem("theme");
       if(saved){setTheme(saved)}else if(window.matchMedia("(prefers-color-scheme:dark)").matches){setTheme("dark")}
@@ -279,5 +296,57 @@
     })();
     </script>
     <script defer src="/main.js"></script>
-  </body>
+      <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="অনুসন্ধান...">
+      <div class="search-box">
+        <input class="search-input" id="searchInput" type="search" placeholder="অনুসন্ধান..." autocomplete="off" aria-label="অনুসন্ধান..." />
+        <div class="search-results" id="searchResults"></div>
+        <div class="search-footer"><span><kbd>&uarr;</kbd><kbd>&darr;</kbd> Navigate</span><span><kbd>&crarr;</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var pages=[{t:"Home",d:"Parse 7 bank statement formats including PDF, 100% local",u:"/bn/index.html",k:"accounting apache bank beancount branch bulk camt category closing cloud coverage credits currency cyclonedx dataframe debits deterministic endpoint enrichment excel export extraction fastapi getting github golden hash hledger hybrid idempotent json "},{t:"About",d:"Features, formats, hybrid PDF pipeline, performance overview",u:"/bn/a-propos/index.html",k:"accepteditskipdelete account accounting attestation। bank beancount branch build bulk camt category chain coverage credit currency customer cyclonedx dataframe deduplication endpoint enrichment excel exchange export fastapi financial fingerprint gett"},{t:"Getting Started",d:"Installation, extras, PDF pipeline, REST API, CLI reference",u:"/bn/premiers-pas/index.html",k:"account accounting balance beancount bulk camt camtpain categorisation check csvjsonexcel currency deduplication directory endpoints enrichment exact exception exceptions export extraction extras fastapi golden hash health hledger hybrid idempotent i"},{t:"FAQ",d:"Privacy, hybrid PDF, Golden Rule, performance, compliance",u:"/bn/faq/index.html",k:"abstraction account accounting admi agnostic। amount attestation attribute balance bank based batch beancount blocklist bomb branch bridge build bulk call camt camtpain case catalogue categorisation categorise category chain change check checksum chu"},{t:"Use Cases",d:"Treasury, PDF ingestion, reconciliation, ledger export, REST API",u:"/bn/cas-utilisation/index.html",k:"accounting bank barclays beancount bomb bulk camt chase cloud dataframe extraction golden hledger hsbc http hybrid json parallel parser parsing pipeline plaintext processing rest revolut rule scanning sftp statement swift wise অজ্ঞেয় অডিট অনুপাত অভ্"},{t:"Migration",d:"ISO 20022 timeline, MT940 to CAMT.053, PDF fallback",u:"/bn/migration/index.html",k:"accounting agnostic auto balance bank beancount camt case character charset currency dataframe detection downstream exchange export flat golden group hledger hybrid instruction ledger legacy management message migration mtmtmtmtmt multi namespace nat"},{t:"Security",d:"XXE protection, PII redaction, local LLMs, Golden Rule",u:"/bn/securite/index.html",k:"artifact attestation balance bank bill bomb branch build byte camt chain cloud commit commits compression coverage csvjsonexcel cyclonedx dependency diff directory discrepancy disk encrypted entity entry expansion export extension extraction failed f"},{t:"Comparison",d:"vs mt-940, ofxparse, pyiso20022, SaaS, hybrid LLM pipeline",u:"/bn/alternatives/index.html",k:"admi apache apple bank beancount blueprints camt categorisation chase cloud currency dataclass dataframe deduplication deterministic enrichment export extraction fastapi golden hash hledger hybrid idempotent infrastructure inscribe interactive langua"},{t:"Changelog",d:"Release history: v0.0.8, v0.0.7, v0.0.6, v0.0.5, v0.0.4",u:"/bn/journal-des-modifications/index.html",k:"account across applicationcategory balance bands batch beancount bounding bridge bulk bypasses camt changed command config currency deduplicates deduplication dense deterministictext digital direct directory downloadurl dropped endpoints enrichment e"},{t:"Contribute",d:"Report issues, submit code, documentation, sponsorship",u:"/bn/contribuer/index.html",k:"অনুগ্রহ অনুরোধ অনুসরণ অন্তর্ভুক্ত অপারেটিং অবদান অবদানকে অবশ্যই আগ্রহী আপনার আপনি আবশ্যকlinting আমরা আমাদের আর্থিক উদাহরণ উন্নত উন্নতি উন্নয়ন একটি এবংটাইপ কভারেজ করতে করুন করুন। করে। কিভাবে কোডে গেছে চালান চেকিং। জন্য জানাই জানাই। টাইপোস ডকস্ট্রিং ড"},{t:"Contact",d:"GitHub issues for open-source, form for business inquiries",u:"/bn/contact/index.html",k:"অংশীদারিত্বের অনুরোধ অনুসন্ধান আপনার আমরা উপকার ওপেন করুন করুন৷ কাছে চ্যানেলটি জন্য ট্র্যাক থাকুক থেকে দয়া নিন। নিশ্চিত নীচের প্রতিক্রিয়া প্রযুক্তিগত প্রশ্ন প্রশ্নগুলির প্রশ্নের ফর্মটি বেছে বৈশিষ্ট্য ব্যবসায়িক ব্যবহার যোগাযোগ রিপোর্ট লাইব্রেরি শুন"},{t:"Privacy",d:"Privacy policy, analytics, GDPR, cookies",u:"/bn/confidentialite/index.html",k:"analytics bankstatementparsercom clarity clid fldebfhn formspree google microsoft muid অধিকার অধিকারগুলির অধীনে অনুগ্রহ অনুযায়ী অনুরোধ অনুলিপি অনুসন্ধানের অনুসারে অবজেক্ট অবস্থিত অভিজ্ঞতা অর্থপ্রদানের অ্যাক্সেসের অ্যানালিটিক্সের আইডি আপডেট আপত্তি। আ"},{t:"Terms",d:"Terms of use, Apache 2.0 license, disclaimers",u:"/bn/conditions/index.html",k:"apache bankstatementparsercom github google microsoft pypi অংশীদারিত্বের অংশে অখণ্ডতা৷ অধীন অধীনে অননুমোদিত অনুমতি অনুলিপি অনুশীলনের অনুসারে অবদানকারীরা অস্বীকার অস্বীকৃতি অ্যাক্সেস আকস্মিক আক্রমণ আদালতের আপডেট আপনার আপনি আবদ্ধ আমরা আমাদের আর্থিক ইংল"}];
+      var overlay=document.getElementById("searchOverlay");
+      var input=document.getElementById("searchInput");
+      var results=document.getElementById("searchResults");
+      var trigger=document.getElementById("searchTrigger");
+      var activeIdx=-1;
+      var isMac=/Mac|iPhone|iPad|iPod/.test(navigator.platform||navigator.userAgent||"");
+      var shortcutSpans=document.querySelectorAll(".search-shortcut");
+      for(var s=0;s<shortcutSpans.length;s++){shortcutSpans[s].textContent=isMac?"⌘K":"Ctrl+K"}
+      function openSearch(){overlay.classList.add("open");input.value="";input.focus();activeIdx=-1;renderResults("")}
+      function closeSearch(){overlay.classList.remove("open");input.value="";results.innerHTML="";activeIdx=-1}
+      function fuzzy(q,text){q=q.toLowerCase();text=text.toLowerCase();if(text.indexOf(q)!==-1)return true;var qi=0;for(var ti=0;ti<text.length&&qi<q.length;ti++){if(text[ti]===q[qi])qi++}return qi===q.length}
+      function renderResults(q){
+        var filtered=[];
+        if(q.length>0){for(var i=0;i<pages.length;i++){var p=pages[i];if(fuzzy(q,p.t)||fuzzy(q,p.d)||(p.k&&fuzzy(q,p.k)))filtered.push(p)}}
+        if(q.length===0){results.innerHTML="";activeIdx=-1;return}
+        if(filtered.length===0){results.innerHTML='<div class="search-empty">No results for "'+q.replace(/</g,"&lt;")+'"</div>';activeIdx=-1;return}
+        var html="";
+        for(var j=0;j<filtered.length;j++){
+          html+='<a class="search-result'+(j===0?" active":"")+'" href="'+filtered[j].u+'" data-idx="'+j+'"><div class="search-result-title">'+filtered[j].t+'</div><div class="search-result-desc">'+filtered[j].d+'</div></a>';
+        }
+        results.innerHTML=html;
+        activeIdx=0;
+      }
+      function updateActive(){
+        var items=results.querySelectorAll(".search-result");
+        for(var i=0;i<items.length;i++){items[i].classList.toggle("active",i===activeIdx)}
+        if(items[activeIdx]){items[activeIdx].scrollIntoView({block:"nearest"})}
+      }
+      if(trigger){trigger.addEventListener("click",function(e){e.preventDefault();openSearch()})}
+      document.addEventListener("keydown",function(e){
+        if((isMac?e.metaKey:e.ctrlKey)&&e.key==="k"){e.preventDefault();if(overlay.classList.contains("open")){closeSearch()}else{openSearch()};return}
+        if(!overlay.classList.contains("open"))return;
+        if(e.key==="Escape"){e.preventDefault();closeSearch();return}
+        var items=results.querySelectorAll(".search-result");
+        if(e.key==="ArrowDown"){e.preventDefault();if(items.length){activeIdx=(activeIdx+1)%items.length;updateActive()};return}
+        if(e.key==="ArrowUp"){e.preventDefault();if(items.length){activeIdx=(activeIdx-1+items.length)%items.length;updateActive()};return}
+        if(e.key==="Enter"){e.preventDefault();if(items[activeIdx]){window.location.href=items[activeIdx].getAttribute("href")};return}
+      });
+      input.addEventListener("input",function(){activeIdx=-1;renderResults(input.value.trim())});
+      overlay.addEventListener("click",function(e){if(e.target===overlay)closeSearch()});
+    })();
+    </script>
+<script defer src="/bootstrap.bundle.min.js"></script></body>
 </html>

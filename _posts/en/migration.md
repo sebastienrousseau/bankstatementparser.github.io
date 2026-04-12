@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "ISO 20022 Migration Guide"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Bank Statement Parser. All rights reserved."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "A practical guide to the SWIFT ISO 20022 migration timeline (2026-2028), MT940 to CAMT.053 transition, and how Bank Statement Parser helps treasury teams migrate."
 download: ""
 format-detection: "telephone=no"
@@ -56,11 +56,11 @@ generator: "Shokunin 🦀 (version 0.0.20)"
 item_description: "A practical guide to the SWIFT ISO 20022 migration timeline (2026-2028), MT940 to CAMT.053 transition, and how Bank Statement Parser helps treasury teams migrate."
 item_guid: "https://bankstatementparser.com/migration/rss.xml"
 item_link: "https://bankstatementparser.com/migration/rss.xml"
-item_pub_date: "2026-04-01T00:00:00+00:00"
+item_pub_date: "2026-04-11T00:00:00+00:00"
 item_title: "ISO 20022 Migration Guide: MT940 to CAMT.053 Transition"
-last_build_date: "2026-04-01T00:00:00+00:00"
+last_build_date: "2026-04-11T00:00:00+00:00"
 managing_editor: "contact@bankstatementparser.com"
-pub_date: "2026-04-01T00:00:00+00:00"
+pub_date: "2026-04-11T00:00:00+00:00"
 ttl: "60"
 type: "website"
 webmaster: "contact@bankstatementparser.com"
@@ -100,7 +100,7 @@ author_website: "https://bankstatementparser.com"
 author_twitter: "@wwdseb"
 author_location: "London, UK"
 thanks: "Thanks for reading!"
-site_last_updated: "2026-04-01"
+site_last_updated: "2026-04-11"
 site_standards: "HTML5, CSS3, RSS, Atom, JSON, XML, YAML, Markdown, TOML"
 site_components: "Shokunin SSG, Shokunin CLI, Shokunin Templates, Shokunin Themes, Kaishi SSG, Kaishi CLI, Kaishi Templates, Kaishi Themes"
 site_software: "Shokunin, Rust"
@@ -159,10 +159,13 @@ The `detect_statement_format()` function identifies whether the file is MT940, C
 
 ## How Bank Statement Parser Helps
 
-- **Unified API**: Parse both MT940 and CAMT.053 with the same `parse()` method, producing identical DataFrame schemas.
+- **Unified API**: Parse MT940, CAMT.053, and PDF statements with the same workflow, producing consistent DataFrame output.
 - **Auto-detection**: No need to know the format in advance. `detect_statement_format()` identifies it automatically.
+- **Hybrid PDF pipeline**: Banks that provide PDF-only statements during the transition are handled by `smart_ingest()` with automatic balance verification.
 - **Namespace-agnostic**: Handles any CAMT.053 variant (001.02, 001.04, or bank-specific wrappers) without configuration.
+- **Multi-currency verification**: `verify_balance_multi_currency()` runs the Golden Rule per currency group — essential for multi-currency CAMT statements.
 - **Streaming**: Process large CAMT files (50 MB+, 50K+ transactions) with bounded memory.
+- **Ledger export**: Export directly to hledger or beancount journal format for treasury accounting.
 - **Migration testing**: Run both parsers side-by-side on the same date range to verify output consistency before switching.
 
 ## Getting Started
@@ -174,12 +177,21 @@ pip install bankstatementparser
 ```python
 from bankstatementparser import create_parser, detect_statement_format
 
-# Works with MT940 today, CAMT.053 tomorrow
+# Works with MT940 today, CAMT.053 tomorrow, PDF anytime
 for file in bank_statement_files:
     fmt = detect_statement_format(file)
     parser = create_parser(file, fmt)
     df = parser.parse()
     process(df)  # Your code doesn't change
+```
+
+For PDF statements from banks that don't yet offer structured CAMT exports:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+assert result.verification.status == "VERIFIED"
 ```
 
 [Read the full documentation](/getting-started/index.html)

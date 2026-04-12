@@ -4,20 +4,20 @@
     <meta charset="utf-8" />
     <meta itemprop="datePublished" content="2026-04-01T00:00:00+00:00" id="date">
     <meta itemprop="dateModified" content="2026-04-01T00:00:00+00:00" id="last-modified">
-    <title>אודות מנתח דפי חשבון בנק: תכונות, פורמטים וביצועים</title>
+    <title>אודות מנתח חשבונות בנק: תכונות, פורמטים וביצועים</title>
     <meta name="theme-color" content="rgb(73, 214, 251)" />
     <meta name="measurement-id" content="G-FL9DEBFHN1" />
     <meta name="author" content="Sebastien Rousseau">
-<meta name="description" content="מנתח דפי חשבון בנק היא ספריית Python בקוד פתוח לניתוח CAMT.053, PAIN.001, CSV, OFX, QFX ו-MT940 ל-DataFrames של pandas. מקומי 100%, מיסוך PII, 27K+ עסקאות/שנייה.">
-<meta name="keywords" content="מנתח דפי חשבון בנק python, מנתח CAMT.053, מנתח PAIN.001, ספריית python ISO 20022, מנתח MT940, מנתח OFX QFX, מנתח בנק קוד פתוח, עיבוד נתונים פיננסיים מקומי, מיסוך PII בנקאות, מעבר MT940 ל-CAMT">
+<meta name="description" content="Bank Statement Parser היא ספריית Python בקוד פתוח לניתוח CAMT.053, PAIN.001, CSV, OFX, QFX ו-MT940 לתוך DataFrames של פנדה. 100% מק��מי, עריכת PII, 27K+ tx/s.">
+<meta name="keywords" content="מנתח דף חשבון בנק python, מנתח CAMT.053, מנתח PAIN.001, ספריית פיתון ISO 20022, מנתח MT940, מנתח OFX QFX, מנתח בנק קוד פתוח, עיבוד נתונים פיננסיים מקומיים, בנקאות עריכת PII, העברת MT940 ל-CAMT">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="accessibility" content="ARIA, fullKeyboardControl, noFlashingHazard" />
     <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="אודות מנתח דפי חשבון בנק: תכונות, פורמטים וביצועים">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: kura.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
+<meta name="apple-mobile-web-app-title" content="אודות מנתח חשבונות בנק: תכונות, פורמטים וביצועים">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: cloudcdn.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
     <meta name="msapplication-TileColor" content="rgb(73, 214, 251)">
     
     <link rel="alternate" href="https://bankstatementparser.com/he/about/index.html" hreflang="he" />
@@ -27,7 +27,7 @@
     <link rel="apple-touch-icon" href="/images/icons/192x192.png" sizes="192x192" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
-    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#b0b8c1"}})});</script>
+    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#8f9aa5"}})});</script>
     <style>
       :root{--theme-color:rgb(73, 214, 251)}*{font-weight:400;box-sizing:border-box;margin:0}
       pre{margin:1.5rem 0;max-width:100%;overflow:auto;border-radius:.5rem;padding:1rem 1.25rem;background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);color:var(--c-code);display:block;font-family:'SF Mono',SFMono-Regular,Consolas,monospace;font-size:.8125rem;line-height:1.7;margin:1.5rem 0;max-width:100%;overflow:auto;padding:1rem 1.25rem;border-radius:.5rem}
@@ -105,13 +105,26 @@
       :focus-visible{outline:2px solid var(--c-accent);outline-offset:2px}
       @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
       @media print{body{color:#000!important;background:#fff!important}.site-nav,.site-footer,.skip-link{display:none!important}a{color:#000!important}a[href]::after{content:" (" attr(href) ")"}}
+          .search-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:flex-start;justify-content:center;padding:15vh 1rem 1rem}
+.search-overlay.open{display:flex}
+.search-box{background:var(--c-bg);border:1px solid var(--c-border);border-radius:.75rem;width:100%;max-width:560px;box-shadow:0 25px 50px -12px rgba(0,0,0,.25);overflow:hidden}
+.search-input{width:100%;padding:.875rem 1rem;border:none;background:transparent;color:var(--c-text);font-size:1rem;font-family:inherit;outline:none}
+.search-input::placeholder{color:var(--c-secondary)}
+.search-results{max-height:50vh;overflow-y:auto;border-top:1px solid var(--c-border)}
+.search-result{display:block;padding:.75rem 1rem;color:var(--c-text);text-decoration:none;border-bottom:1px solid var(--c-border)}
+.search-result:hover,.search-result.active{background:var(--c-surface);color:var(--c-accent);text-decoration:none}
+.search-result-title{font-weight:600;font-size:.9375rem}
+.search-result-desc{font-size:.8125rem;color:var(--c-secondary);margin-top:.125rem}
+.search-empty{padding:1.5rem 1rem;text-align:center;color:var(--c-secondary);font-size:.875rem}
+.search-footer{padding:.5rem 1rem;border-top:1px solid var(--c-border);font-size:.75rem;color:var(--c-secondary);display:flex;gap:1rem}
+.search-footer kbd{background:var(--c-surface);padding:.125rem .375rem;border-radius:.25rem;font-size:.6875rem;border:1px solid var(--c-border)}
     </style>
   </head>
   <body id="page-top" itemscope itemtype="http://schema.org/WebPage">
-    <a class="skip-link" href="#main">Skip to main content</a>
-    <nav class="site-nav" aria-label="Main navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+    <a class="skip-link" href="#main">דלג לתוכן הראשי</a>
+    <nav class="site-nav" aria-label="ניווט ראשי" itemscope itemtype="http://schema.org/SiteNavigationElement">
       <div class="nav-inner">
-        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="" /><span itemprop="name">מנתח דפי חשבון בנק</span></a>
+        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="Bank Statement Parser logo" /><span itemprop="name">מנתח דפי חשבון בנק</span></a>
         <ul class="nav-center">
           <li><a href="/he/index.html">בית</a></li>
           <li><a href="/he/a-propos/index.html">אודות</a></li>
@@ -120,7 +133,8 @@
           <li class="nav-item dropdown"><button class="dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" type="button">משאבים</button><ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown"><li><a class="dropdown-item" href="/he/cas-utilisation/index.html">Use Cases</a></li><li><a class="dropdown-item" href="/he/migration/index.html">ISO 20022 Migration</a></li><li><a class="dropdown-item" href="/he/securite/index.html">Security</a></li><li><a class="dropdown-item" href="/he/alternatives/index.html">Alternatives</a></li><li><a class="dropdown-item" href="/he/journal-des-modifications/index.html">Changelog</a></li><li><a class="dropdown-item" href="/he/contribuer/index.html">Contribute</a></li><li><a class="dropdown-item" href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a class="dropdown-item" href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li></ul></li>
         </ul>
         <div class="nav-right">
-          <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">כהה</span></button>
+          <button id="searchTrigger" class="theme-toggle" aria-label="Search" style="margin-right:.25rem"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> <span class="search-shortcut" aria-hidden="true" style="font-size:.6875rem;opacity:.8"></span></button>
+          <button class="theme-toggle" id="themeToggle" aria-label="עבור למצב כהה" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">כהה</span></button>
           <div style="position:relative;display:inline-block" class="lang-switcher">
             <button type="button" aria-label="HE, Change language" aria-expanded="false" style="color:var(--c-nav-muted);font-size:12px;font-weight:400;padding:.375rem .625rem;border:1px solid var(--c-border);border-radius:6rem;background:transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.25rem;outline:none">
               <span style="font-size:14px">🌐</span> HE
@@ -164,17 +178,19 @@
       </div>
       </nav>
     <header class="site-hero" style="padding:6rem 1.5rem 3rem">
-      <h1 style="font-size:clamp(2rem,4vw,2.75rem)">אודות מנתח דפי חשבון בנק</h1>
-      <p>ספרייה אחת. שישה פורמטים. אפס קריאות רשת.</p>
+      <h1 style="font-size:clamp(2rem,4vw,2.75rem)">על מנתח הצהרות הבנק</h1>
+      <p>ספרייה אחת. שישה פורמטים. אפס שיחות רשת.</p>
     </header>
     <main id="main" class="site-main" tabindex="-1" aria-label="Page content">
-      <div class="text-start"><p>מנתח דפי חשבון בנק היא ספריית Python בקוד פתוח שמנתחת דפי חשבון בנק משישה פורמטים ל-DataFrames מובנים של pandas. כל העיבוד מתבצע מקומית -- אפס קריאות רשת, פלט דטרמיניסטי ומיסוך PII אוטומטי.</p>
-<h2>למי זה מיועד?</h2>
+      <div class="text-start"><p><strong>בקצרה:</strong> Bank Statement Parser היא ספריית Python בקוד פתוח שמנתחת שבעה פורמטים של דפי חשבון בנק (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940 ו-PDF) לתוך DataFrames של pandas. Pipeline היברידי ל-PDF עם אימות יתרה, REST API, העשרה, ייצוא ל-ledger, תפוקה של 27K+ tx/s.</p>
+<p>Bank Statement Parser היא ספריית Python בקוד פתוח שמנתחת דפי חשבון בנק משבעה פורמטים לתוך DataFrames מובנים של pandas. הליבה הדטרמיניסטית מעבדת פורמטים מובנים מקומית ללא שיחות רשת. ה-pipeline ההיברידי האופציונלי ל-PDF מנתב דרך LLMs מקומיים (דרך Ollama) עבור דפי חשבון דיגיטליים וסרוקים.</p>
+<h2>למי זה מיו��ד?</h2>
 <ul>
-<li><strong>צוותי אוצר</strong> שעוברים מ-MT940 ל-CAMT.053 וצריכים מנתח שמטפל בפורמטים הישנים והחדשים במהלך המעבר.</li>
-<li><strong>מפתחי פינטק</strong> שבונים צינורות התאמה, דיווח או הנהלת חשבונות ורוצים תלות יחידה במקום לחבר mt940 + ofxparse + לוגיקת CSV מותאמת.</li>
-<li><strong>צוותי ציות</strong> שצריכים מיסוך PII כברירת מחדל ופלט דטרמיניסטי מוכן לביקורת שלעולם לא שולח נתונים לשירותים חיצוניים.</li>
-<li><strong>כל מי</strong> שמסרב לשלוח נתונים פיננסיים רגישים ל-SaaS צד שלישי כשכלי מקומי בקוד פתוח יכול לעשות את העבודה.</li>
+<li><strong>צוותי אוצר</strong> שעוברים מ-MT940 ל-CAMT.053 וזקוקים למנתח שמטפל בפורמטים ישנים וחדשים במהלך המעבר, בנוסף לדפי חשבון PDF מבנקים שלא מציעים ייצוא מובנה.</li>
+<li><strong>מפתחי פינטק</strong> שבונים pipelines של התאמה, דיווח או חשבונאות ורוצים תלות אחת עם אימות יתרה מובנה, סיווג וייצוא ל-ledger.</li>
+<li><strong>צוותי ציות</strong> שזקוקים לעריכת PII כברירת מחדל, פלט דטרמיניסטי, ואימות כלל הזהב שמסמן אי-התאמות לפני שהן מגיעות ל-ledger.</li>
+<li><strong>משתמשי חשבונאות בטקסט</strong> שרוצים קליטה אוטומטית מדפי חשבון PDF ישירות לתוך יומנים של hledger או beancount.</li>
+<li><strong>כל מי</strong> שמסרב לשלוח נתונים פיננסיים רגישים ל-SaaS של צד שלישי כשכלי מקומי בקוד פתוח יכול לעשות את העבודה.</li>
 </ul>
 <h2>פורמטים נתמכים</h2>
 <div class="table-responsive"><table class="table">
@@ -183,19 +199,19 @@
 <th>פורמט</th>
 <th>תקן</th>
 <th>סוגי קבצים</th>
-<th>מחלקת מנתח</th>
+<th>מנתח/שיטה</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="text-left">CAMT.053</td>
-<td class="text-left">ISO 20022 Bank-to-Customer Statement</td>
+<td class="text-left">ISO 20022 דף חשבון בנק ללקוח</td>
 <td class="text-left"><code>.xml</code></td>
 <td class="text-left"><code>CamtParser</code></td>
 </tr>
 <tr>
 <td class="text-left">PAIN.001</td>
-<td class="text-left">ISO 20022 Credit Transfer Initiation</td>
+<td class="text-left">ISO 20022 ייזום העברת אשראי</td>
 <td class="text-left"><code>.xml</code></td>
 <td class="text-left"><code>Pain001Parser</code></td>
 </tr>
@@ -223,16 +239,94 @@
 <td class="text-left"><code>.mt940</code>, <code>.sta</code></td>
 <td class="text-left"><code>Mt940Parser</code></td>
 </tr>
+<tr>
+<td class="text-left">PDF</td>
+<td class="text-left">דפי חשבון דיגיטליים וסרוקים</td>
+<td class="text-left"><code>.pdf</code></td>
+<td class="text-left"><code>smart_ingest()</code></td>
+</tr>
 </tbody>
 </table></div>
-<p>כל הפורמטים מייצרים DataFrames מנורמלים של pandas עם שמות עמודות עקביים, מה שהופך את העיבוד במורד הזרם לאגנוסטי לפורמט.</p>
+<p>כל הפורמטים מייצרים DataFrames מנורמלים של pandas עם שמות עמודות עקביים, מה שהופך את העיבוד למטה לאגנוסטי לפורמט.</p>
+<h2>יכולות מפתח</h2>
+<ul>
+<li><strong>Pipeline היברידי ל-PDF</strong>: <code>smart_ingest()</code> מנתב קבצי PDF דרך שלושה נתיבים — חילוץ טבלאות דטרמיניסטי, text-LLM, או vision-LLM — עם אימות יתרה אוטומטי לפי כלל הזהב.</li>
+<li><strong>זיהוי אוטומטי של פורמט</strong>: <code>detect_statement_format()</code> מזהה את הפורמט; <code>create_parser()</code> יוצר את המנתח המתאים.</li>
+<li><strong>אימות יתרה</strong>: בדיקת כלל הזהב (<code>opening + credits − debits == closing</code>) עם סטטוס VERIFIED/DISCREPANCY/FAILED.</li>
+<li><strong>אימות רב-מטבעי</strong>: <code>verify_balance_multi_currency()</code> מקבץ עסקאות לפי מטבע לאימות עצמאי.</li>
+<li><strong>REST API</strong>: שירות FastAPI עם endpoints <code>/ingest</code> ו-<code>/health</code> לפריסות ייצור.</li>
+<li><strong>העשרה</strong>: סיווג עסקאות מונע LLM עם סכמות ניתנות לחיבור (ברירת מחדל: 13 קטגוריות של Plaid).</li>
+<li><strong>סקירה אינטראקטיבית</strong>: עברו על אי-התאמות עם פעולות accept/edit/skip/delete דרך <code>--type review</code>.</li>
+<li><strong>ייצוא ל-Ledger</strong>: <code>to_hledger()</code> ו-<code>to_beancount()</code> לתהליכי חשבונאות בטקסט.</li>
+<li><strong>סריקה בכמות גדולה</strong>: <code>scan_and_ingest()</code> מעבד עצי תיקיות עם מניעת כפילויות אוטומטית בין קבצים.</li>
+<li><strong>מיפוי חשבונות</strong>: כללי מיפוי חשבונות מבוססי regex מקובץ JSON לייצוא ל-ledger.</li>
+<li><strong>ניתוח streaming</strong>: עיבוד קבצים גדולים (50 MB+, 50K+ עסקאות) עם זיכרון מוגבל באמצעות <code>parse_streaming()</code>.</li>
+<li><strong>עיבוד מקבילי</strong>: ניתוח מספר קבצים בו-זמנית עם <code>parse_files_parallel()</code> באמצעות ProcessPoolExecutor.</li>
+<li><strong>מניעת כפילויות</strong>: <code>transaction_hash</code> אידמפוטנטי (טביעת אצבע MD5) לקליטה מצטברת בטוחה.</li>
+<li><strong>ניתוח בזיכרון</strong>: <code>from_string()</code> ו-<code>from_bytes()</code> לתהליכי SFTP ו-API ללא קלט/פלט לדיסק.</li>
+<li><strong>עיבוד ZIP מאובטח</strong>: <code>iter_secure_xml_entries()</code> עם מגבלות יחס דחיסה, תקרות גודל ודחיית ערכים מוצפנים.</li>
+<li><strong>ייצוא</strong>: CSV, JSON, Excel (<code>.xlsx</code>), DataFrames של Polars, יומני hledger ו-beancount.</li>
+</ul>
+<h2>אבטחה ופרטיות</h2>
+<ul>
+<li><strong>עריכת PII</strong>: שמות, IBANs וכתובות מוסוים כברירת מחדל בפלט CLI. הפעלה עם <code>--show-pii</code>.</li>
+<li><strong>הגנת XXE</strong>: ניתוח XML משתמש ב-<code>resolve_entities=False</code>, <code>no_network=True</code>, <code>load_dtd=False</code>.</li>
+<li><strong>הגנת פצצות ZIP</strong>: מגבלות יחס דחיסה (ברירת מחדל 100:1), תקרות גודל ערך (10 MB), דחיית ערכים מוצפנים.</li>
+<li><strong>מניעת חציית נתיבים</strong>: רשימת חסימות של דפוסים מסוכנים ורזולוציית symlinks.</li>
+<li><strong>אבטחת שרשרת אספקה</strong>: תלויות נעולות ב-SHA-256 hash, CycloneDX SBOM, אישור מקור בנייה.</li>
+<li><strong>LLMs מקומיים בלבד</strong>: ה-pipeline ההיברידי ל-PDF משתמש ב-Ollama להסקה מקומית — שום נתון לא נשלח ל-APIs בענן.</li>
+</ul>
+<h2>ביצועים</h2>
+<table>
+<thead>
+<tr>
+<th>מדד</th>
+<th>ערך</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="text-left">תפוקת CAMT.053</td>
+<td class="text-left">27,000+ tx/s</td>
+</tr>
+<tr>
+<td class="text-left">תפוקת PAIN.001</td>
+<td class="text-left">52,000+ tx/s</td>
+</tr>
+<tr>
+<td class="text-left">זמן אחזור לעסקה (CAMT)</td>
+<td class="text-left">37 מיקרושניות</td>
+</tr>
+<tr>
+<td class="text-left">זמן אחזור לעסקה (PAIN.001)</td>
+<td class="text-left">19 מיקרושניות</td>
+</tr>
+<tr>
+<td class="text-left">זמן עד לתוצאה ראשונה</td>
+<td class="text-left">&lt; 2 מילישניות</td>
+</tr>
+<tr>
+<td class="text-left">שימוש בזיכרון (1K-50K tx)</td>
+<td class="text-left">קבוע (streaming)</td>
+</tr>
+<tr>
+<td class="text-left">כיסוי בדיקות</td>
+<td class="text-left">100% כיסוי branches</td>
+</tr>
+<tr>
+<td class="text-left">בדיקות</td>
+<td class="text-left">718 על פני 29 קבצי בדיקה</td>
+</tr>
+</tbody>
+</table>
 <h2>התחל לבנות</h2>
-<p><a href="/getting-started/index.html" title="התחלה מהירה">התחל עם התקנה ודוגמאות ❯</a></p>
+<p><a href="/getting-started/index.html" title="תחילת העבודה">התחל עם התקנה ודוגמאות ❯</a></p>
+<p>&quot;מאגר GitHub&quot;</p>
 </div>
     </main>
     <footer class="site-footer" aria-label="footer">
       <div class="footer-inner">
-        <span>© 2023-2026 מנתח דפי חשבון בנק. כל הזכויות שמורות.</span>
+        <span>© 2023-2026 מנתח חשבונות בנק. כֹּל הַזְכוּיוֹת שְׁמוּרוֹת.</span>
         <ul class="footer-links">
           <li><a href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li>
           <li><a href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li>
@@ -242,7 +336,7 @@
         </ul>
       </div>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"מנתח דפי חשבון בנק היא ספריית Python בקוד פתוח לניתוח CAMT.053, PAIN.001, CSV, OFX, QFX ו-MT940 ל-DataFrames של pandas. מקומי 100%, מיסוך PII, 27K+ עסקאות/שנייה.","headline":"ספרייה אחת. שישה פורמטים. אפס קריאות רשת.","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"he-IL","mainEntityOfPage":"https://bankstatementparser.com/he/about/index.html","name":"אודות מנתח דפי חשבון בנק","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"Bank Statement Parser היא ספריית Python בקוד פתוח לניתוח CAMT.053, PAIN.001, CSV, OFX, QFX ו-MT940 לתוך DataFrames של פנדה. 100% מק��מי, עריכת PII, 27K+ tx/s.","headline":"ספרייה אחת. שישה פורמטים. אפס שיחות רשת.","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"he-IL","mainEntityOfPage":"https://bankstatementparser.com/he/about/index.html","name":"על מנתח הצהרות הבנק","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
     <script>
     (function(){
       // Language switcher toggle
@@ -265,8 +359,8 @@
         document.documentElement.setAttribute("data-theme",theme);localStorage.setItem("theme",theme);
         document.querySelectorAll(".theme-icon-dark,.theme-icon-dark-m").forEach(function(e){e.style.display=theme==="dark"?"none":""});
         document.querySelectorAll(".theme-icon-light,.theme-icon-light-m").forEach(function(e){e.style.display=theme==="dark"?"":"none"});
-        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"Light":"Dark"});
-        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"Switch to light mode":"Switch to dark mode")});
+        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"בהיר":"כהה"});
+        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"עבור למצב בהיר":"עבור למצב כהה")});
       }
       var saved=localStorage.getItem("theme");
       if(saved){setTheme(saved)}else if(window.matchMedia("(prefers-color-scheme:dark)").matches){setTheme("dark")}
@@ -281,5 +375,57 @@
     })();
     </script>
     <script defer src="/main.js"></script>
-  </body>
+      <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="חיפוש...">
+      <div class="search-box">
+        <input class="search-input" id="searchInput" type="search" placeholder="חיפוש..." autocomplete="off" aria-label="חיפוש..." />
+        <div class="search-results" id="searchResults"></div>
+        <div class="search-footer"><span><kbd>&uarr;</kbd><kbd>&darr;</kbd> Navigate</span><span><kbd>&crarr;</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var pages=[{t:"דף הבית",d:"Parse 7 bank statement formats including PDF, 100% local",u:"/he/index.html",k:"apache bank beancount branches camt cyclonedx dataframes endpoints excel fastapi getting github hash hledger json ledger litellmollama llms mtmtmt ocrolus ofxparse ollama pain pandas parser parseur pipeline pipelines plaid polars pypi python rest saa"},{t:"אודות",d:"Features, formats, hybrid PDF pipeline, performance overview",u:"/he/a-propos/index.html"},{t:"התחלה",d:"Installation, extras, PDF pipeline, REST API, CLI reference",u:"/he/premiers-pas/index.html"},{t:"שאלות נפוצות",d:"Privacy, hybrid PDF, Golden Rule, performance, compliance",u:"/he/faq/index.html",k:"admi apis bank beancount branches camt camtpain checksums chunks commit commits creditdebit csvofxqfxmt cyclonedx dataclasses dataframes dictionary discrepancy endpoints excel exchange fail failed fast financial fuzzing github hash hashes hledger hos"},{t:"שימושים",d:"Treasury, PDF ingestion, reconciliation, ledger export, REST API",u:"/he/cas-utilisation/index.html"},{t:"מיגרציה",d:"ISO 20022 timeline, MT940 to CAMT.053, PDF fallback",u:"/he/migration/index.html",k:"bank beancount camt dataframe hledger ledger mtmtmtmtmt namespace namespaces pacs pain parser pipeline pipelines statement streaming swift unicode אגנוסטי אוטומטי אוטומטית אומר אוצר אותו אחרי אימות באופן בדיקת בלבד במהלך במורד במטבעות בנקים בסיסי בקו"},{t:"אבטחה",d:"XXE protection, PII redaction, local LLMs, Golden Rule",u:"/he/securite/index.html"},{t:"חלופות",d:"vs mt-940, ofxparse, pyiso20022, SaaS, hybrid LLM pipeline",u:"/he/alternatives/index.html"},{t:"יומן שינויים",d:"Release history: v0.0.8, v0.0.7, v0.0.6, v0.0.5, v0.0.4",u:"/he/journal-des-modifications/index.html"},{t:"תרומה",d:"Report issues, submit code, documentation, sponsorship",u:"/he/contribuer/index.html"},{t:"צור קשר",d:"GitHub issues for open-source, form for business inquiries",u:"/he/contact/index.html",k:"באגים בטופס ביותר בקוד בקשות הזדמנויות הטוב הספרייה הערוץ השתמש ושאלות ושנעשה טכניות טכנית כלליות כראוי לדיווחי למטה לקהילה לשאלות לשותפות לשמוע לתכונות מבטיח מעקב משוב נשמח עסקיות עסקית פתוח שאלה שאלות שהשאלה תועיל תמיכה"},{t:"פרטיות",d:"Privacy policy, analytics, GDPR, cookies",u:"/he/confidentialite/index.html"},{t:"תנאים",d:"Terms of use, Apache 2.0 license, disclaimers",u:"/he/conditions/index.html"}];
+      var overlay=document.getElementById("searchOverlay");
+      var input=document.getElementById("searchInput");
+      var results=document.getElementById("searchResults");
+      var trigger=document.getElementById("searchTrigger");
+      var activeIdx=-1;
+      var isMac=/Mac|iPhone|iPad|iPod/.test(navigator.platform||navigator.userAgent||"");
+      var shortcutSpans=document.querySelectorAll(".search-shortcut");
+      for(var s=0;s<shortcutSpans.length;s++){shortcutSpans[s].textContent=isMac?"⌘K":"Ctrl+K"}
+      function openSearch(){overlay.classList.add("open");input.value="";input.focus();activeIdx=-1;renderResults("")}
+      function closeSearch(){overlay.classList.remove("open");input.value="";results.innerHTML="";activeIdx=-1}
+      function fuzzy(q,text){q=q.toLowerCase();text=text.toLowerCase();if(text.indexOf(q)!==-1)return true;var qi=0;for(var ti=0;ti<text.length&&qi<q.length;ti++){if(text[ti]===q[qi])qi++}return qi===q.length}
+      function renderResults(q){
+        var filtered=[];
+        if(q.length>0){for(var i=0;i<pages.length;i++){var p=pages[i];if(fuzzy(q,p.t)||fuzzy(q,p.d)||(p.k&&fuzzy(q,p.k)))filtered.push(p)}}
+        if(q.length===0){results.innerHTML="";activeIdx=-1;return}
+        if(filtered.length===0){results.innerHTML='<div class="search-empty">No results for "'+q.replace(/</g,"&lt;")+'"</div>';activeIdx=-1;return}
+        var html="";
+        for(var j=0;j<filtered.length;j++){
+          html+='<a class="search-result'+(j===0?" active":"")+'" href="'+filtered[j].u+'" data-idx="'+j+'"><div class="search-result-title">'+filtered[j].t+'</div><div class="search-result-desc">'+filtered[j].d+'</div></a>';
+        }
+        results.innerHTML=html;
+        activeIdx=0;
+      }
+      function updateActive(){
+        var items=results.querySelectorAll(".search-result");
+        for(var i=0;i<items.length;i++){items[i].classList.toggle("active",i===activeIdx)}
+        if(items[activeIdx]){items[activeIdx].scrollIntoView({block:"nearest"})}
+      }
+      if(trigger){trigger.addEventListener("click",function(e){e.preventDefault();openSearch()})}
+      document.addEventListener("keydown",function(e){
+        if((isMac?e.metaKey:e.ctrlKey)&&e.key==="k"){e.preventDefault();if(overlay.classList.contains("open")){closeSearch()}else{openSearch()};return}
+        if(!overlay.classList.contains("open"))return;
+        if(e.key==="Escape"){e.preventDefault();closeSearch();return}
+        var items=results.querySelectorAll(".search-result");
+        if(e.key==="ArrowDown"){e.preventDefault();if(items.length){activeIdx=(activeIdx+1)%items.length;updateActive()};return}
+        if(e.key==="ArrowUp"){e.preventDefault();if(items.length){activeIdx=(activeIdx-1+items.length)%items.length;updateActive()};return}
+        if(e.key==="Enter"){e.preventDefault();if(items[activeIdx]){window.location.href=items[activeIdx].getAttribute("href")};return}
+      });
+      input.addEventListener("input",function(){activeIdx=-1;renderResults(input.value.trim())});
+      overlay.addEventListener("click",function(e){if(e.target===overlay)closeSearch()});
+    })();
+    </script>
+<script defer src="/bootstrap.bundle.min.js"></script></body>
 </html>

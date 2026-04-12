@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "التصوير المعماري للمباني الزجاجية"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: "bankstatementparser.com"
 copyright: "© 2023-2026 محلل كشف الحساب البنكي. جميع الحقوق محفوظة."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "مكتبة Python مفتوحة المصدر لتحليل كشوفات الحساب البنكية CAMT.053 وPAIN.001 وCSV وOFX وQFX وMT940 إلى إطارات بيانات الباندا. 27 ألف+ إرسال/ثانية، بث مباشر، تنقيح معلومات تحديد الهوية الشخصية (PII)، محلي 100%."
 download_url: "https://pypi.org/project/bankstatementparser/"
 download_title: "نقطة تثبيت Bankstatementparser"
@@ -109,7 +109,7 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**محلل كشف الحساب البنكي** عبارة عن مكتبة Python مفتوحة المصدر تقوم بتحليل كشوفات الحساب البنكية من ستة تنسيقات (CAMT.053، PAIN.001، CSV، OFX، QFX، MT940) إلى DataFrames الباندا المنظمة. يتم تشغيل كافة عمليات المعالجة محليًا - بدون مكالمات شبكة، وإخراج محدد، وتنقيح معلومات تحديد الهوية الشخصية (PII) تلقائيًا.
+**Bank Statement Parser** هي مكتبة Python مفتوحة المصدر تحلل كشوفات الحساب البنكية من سبعة تنسيقات (CAMT.053، PAIN.001، CSV، OFX، QFX، MT940، وPDF) إلى DataFrames منظمة من pandas. تتم جميع العمليات محليًا — مخرجات حتمية، تنقيح تلقائي لمعلومات تحديد الهوية الشخصية (PII)، وخط أنابيب هجين اختياري لملفات PDF يمر عبر نماذج LLM المحلية عند الحاجة.
 
 ## ابدأ في ثوانٍ
 
@@ -125,62 +125,90 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # pandas DataFrame, ready to use
 ```
 
+```python
+# Parse PDFs with the hybrid pipeline (v0.0.5+)
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+```
+
 <img src="https://img.shields.io/github/stars/sebastienrousseau/bankstatementparser?style=for-the-badge&label=Stars" height="28" alt="GitHub Stars" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/dm/bankstatementparser?style=for-the-badge&label=Downloads" height="28" alt="Monthly Downloads" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/v/bankstatementparser?style=for-the-badge&label=PyPI" height="28" width="119" alt="PyPI Version" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/pyversions/bankstatementparser?style=for-the-badge&label=Python" height="28" width="347" alt="Python" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/l/bankstatementparser?style=for-the-badge&label=License" height="28" width="292" alt="License" loading="lazy" style="margin:0 .25rem .5rem 0" />
-<img src="https://img.shields.io/badge/tests-467%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
+<img src="https://img.shields.io/badge/tests-718%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/badge/coverage-100%25-brightgreen?style=for-the-badge" height="28" width="152" alt="Coverage" loading="lazy" style="margin:0 .25rem .5rem 0" />
 
-## مكتبة واحدة، ستة تنسيقات
+## مكتبة واحدة، سبعة تنسيقات
 
-قم بتحليل CAMT.053، وPAIN.001، وCSV، وOFX، وQFX، وMT940 إلى DataFrames الباندا المنظمة مع واجهة برمجة التطبيقات (API) واحدة وموحدة. لا حاجة لتثبيت حزم منفصلة لكل تنسيق.
+حلل CAMT.053 وPAIN.001 وCSV وOFX وQFX وMT940 وPDF إلى DataFrames منظمة من pandas عبر واجهة برمجة تطبيقات موحدة واحدة. لا حاجة لتثبيت حزم منفصلة لكل تنسيق.
 
-| ميزة | محلل كشف الحساب البنكي | OSS أحادي التنسيق (mt940، ofxparse) | SaaS (أوكرولوس، بارسور) |
+| الميزة | Bank Statement Parser | مكتبات أحادية التنسيق (mt940، ofxparse) | SaaS (Ocrolus، Parseur) |
 |---|---|---|---|
-| التنسيقات المدعومة | 6. واجهة برمجة التطبيقات الموحدة | 1 لكل منهما | كثير (عبر التعرف الضوئي على الحروف) |
-| خصوصية البيانات | 100% محلي، بدون مكالمات عبر الشبكة | محلية 100% | البيانات المرسلة خارجيا |
-| يكلف | مجاني، أباتشي 2.0 | حر | 49 دولارًا - 1000 دولارًا أمريكيًا + / شهرًا |
-| تنقيح معلومات تحديد الهوية الشخصية | مدمج، قيد التشغيل بشكل افتراضي | لا | يختلف |
-| جاري | ذاكرة محدودة | لا | لا يوجد |
-| أمان الرمز البريدي | تصلب مدمج | لا | لا يوجد |
-| إلغاء البيانات المكررة | مدمج مع درجات الثقة | لا | بعض |
+| التنسيقات المدعومة | 7، واجهة موحدة | 1 لكل مكتبة | كثيرة (عبر OCR) |
+| دعم PDF | خط أنابيب هجين (حتمي + LLM + رؤية) | لا | نعم (OCR سحابي) |
+| خصوصية البيانات | 100% محلي (نماذج LLM تعمل محليًا عبر Ollama) | 100% محلي | البيانات تُرسل خارجيًا |
+| التكلفة | مجاني، Apache 2.0 | مجاني | 49$ - 1,000$+/شهر |
+| التحقق من الرصيد | القاعدة الذهبية (رصيد افتتاحي + إيداعات − خصومات = رصيد ختامي) | لا | يختلف |
+| تنقيح PII | مدمج، مفعّل افتراضيًا | لا | يختلف |
+| Streaming | ذاكرة محدودة | لا | غير متاح |
+| REST API | خدمة FastAPI مدمجة | لا | نعم |
+| إزالة التكرار | hash حتمي للمعاملات | لا | جزئي |
+| تصدير دفتر الأستاذ | hledger + beancount | لا | لا |
 
-## مصمم للترحيل وفقًا لمعايير ISO 20022
+## خط أنابيب PDF الهجين
 
-حددت SWIFT مواعيد نهائية ثابتة: يجب أن تتلقى جميع المؤسسات المالية CAMT.053 بحلول نوفمبر 2027، وسيتم إيقاف MT940/MT942/MT950 بالكامل بحلول نوفمبر 2028. يتعامل محلل كشف الحساب البنكي مع كل من تنسيقات MT940 القديمة وتنسيقات ISO 20022 الحديثة (CAMT.053، PAIN.001) في واجهة برمجة التطبيقات (API) واحدة، بحيث يعمل مسار التحليل أثناء الفترة الانتقالية وما بعدها.
+يتضمن Bank Statement Parser v0.0.5+ خط أنابيب هجينًا ثلاثي المسارات لكشوفات PDF البنكية:
 
-## أداء
+- **المسار A (حتمي)**: جداول PDF المنظمة تُحلل مباشرة — مجاني، الأسرع، لا يحتاج LLM.
+- **المسار B (نص + LLM)**: ملفات PDF رقمية بتخطيطات معقدة تُستخرج عبر LLM محلي (LiteLLM/Ollama).
+- **المسار C (رؤية + LLM)**: كشوفات ممسوحة ضوئيًا أو مصورة تُعالج بنماذج رؤية متعددة الوسائط.
 
-- **أكثر من 27,000 معاملة في الثانية** لتحليل CAMT.053
-- **52,000+ معاملة في الثانية** لتحليل PAIN.001
-- **< 2 مللي ثانية ** الوقت للنتيجة الأولى
-- **ذاكرة ثابتة** من 1 ألف إلى 50 ألف+ معاملة عبر البث المباشر
-- **467 اختبارًا** مع تغطية فرعية بنسبة 100% عبر Python 3.9 إلى 3.14
+يُتحقق من كل استخراج بواسطة **القاعدة الذهبية**: `opening balance + credits − debits == closing balance`.
 
-## لماذا محلل كشف الحساب البنكي؟
+## مصمم لترحيل ISO 20022
 
-- **تنسيق الاكتشاف التلقائي**:`detect_statement_format()`يحدد الملفات تلقائيا و`create_parser()`إرجاع المحلل اللغوي الصحيح.
-- **الخصوصية أولاً**: يتم تفعيل تنقيح معلومات تحديد الهوية الشخصية (PII) افتراضيًا. يتم إخفاء الحقول الحساسة (الأسماء وأرقام IBAN والعناوين) في مخرجات واجهة سطر الأوامر (CLI). الاشتراك مع`--show-pii`عند الحاجة.
-- **جاهز للإنتاج**: استيعاب ملفات ZIP الآمنة (الحماية من القنابل، ورفض الإدخال المشفر)، والتحقق من صحة الإدخال، ومنع اجتياز المسار.
-- **إخراج مرن**: تصدير إلى CSV، أو JSON، أو Excel، أو تحويله إلى Polars DataFrames.
-- **المعالجة المتوازية**: تحليل ملفات متعددة بشكل متزامن مع`parse_files_parallel()`.
+حددت SWIFT مواعيد نهائية ثابتة: يجب أن تستقبل جميع المؤسسات المالية CAMT.053 بحلول نوفمبر 2027، وسيُوقف MT940/MT942/MT950 بالكامل بحلول نوفمبر 2028. يتعامل Bank Statement Parser مع كل من تنسيقات MT940 القديمة وتنسيقات ISO 20022 الحديثة (CAMT.053، PAIN.001) في واجهة واحدة، بحيث يعمل خط التحليل أثناء الفترة الانتقالية وما بعدها.
+
+## الأداء
+
+- **أكثر من 27,000 معاملة/ثانية** لتحليل CAMT.053
+- **أكثر من 52,000 معاملة/ثانية** لتحليل PAIN.001
+- **أقل من 2 مللي ثانية** للوصول إلى أول نتيجة
+- **ذاكرة ثابتة** من 1 ألف إلى 50 ألف+ معاملة عبر streaming
+- **718 اختبارًا** بتغطية فرعية 100% عبر Python 3.10 إلى 3.14
+
+## لماذا Bank Statement Parser؟
+
+- **استخراج PDF هجين**: `smart_ingest()` يعالج ملفات PDF الرقمية والممسوحة ضوئيًا مع توجيه تلقائي وتحقق من الرصيد.
+- **اكتشاف تلقائي للتنسيق**: `detect_statement_format()` يحدد الملفات تلقائيًا و`create_parser()` يُعيد المحلل المناسب.
+- **الخصوصية أولًا**: تنقيح PII مفعّل افتراضيًا. نماذج LLM تعمل محليًا عبر Ollama — لا تغادر بياناتك جهازك.
+- **REST API**: انشر كخدمة FastAPI مع نقاط `/ingest` و`/health`.
+- **الإثراء**: تصنيف معاملات مدعوم بـ LLM مع مخططات قابلة للتوصيل (مخطط Plaid ذو 13 فئة افتراضيًا).
+- **تصدير دفتر الأستاذ**: تصدير إلى تنسيقات hledger وbeancount لسير عمل المحاسبة النصية.
+- **مسح مجمّع**: `scan_and_ingest()` يعالج أشجار المجلدات مع إزالة التكرار تلقائيًا عبر الملفات.
+- **متعدد العملات**: `verify_balance_multi_currency()` يُشغّل تحقق القاعدة الذهبية لكل مجموعة عملات.
+- **جاهز للإنتاج**: استيعاب ZIP آمن، تحقق من المدخلات، منع اجتياز المسار، ووضع مراجعة تفاعلي.
+- **إخراج مرن**: تصدير إلى CSV أو JSON أو Excel أو Polars أو hledger أو beancount.
+- **معالجة متوازية**: حلل ملفات متعددة بالتوازي مع `parse_files_parallel()`.
 
 
 ## مصمم للإنتاج
 
-تم تصميم محلل كشف الحساب البنكي لفرق الخزانة ومطوري التكنولوجيا المالية ومسؤولي الامتثال الذين يقومون بمعالجة البيانات المالية الحساسة. يتم استخدام المكتبة في خطوط أنابيب الترحيل من MT940 إلى CAMT، وأنظمة التسوية الآلية، وسير عمل التدقيق التنظيمي عبر المؤسسات المالية.
+صُمم Bank Statement Parser لفرق الخزانة ومطوري التكنولوجيا المالية ومسؤولي الامتثال الذين يعالجون بيانات مالية حساسة. تُستخدم المكتبة في خطوط ترحيل MT940 إلى CAMT، وأنظمة التسوية الآلية، واستيعاب كشوفات PDF، وسير عمل التدقيق التنظيمي في المؤسسات المالية.
 
-- **467 اختبارًا** مع تغطية فرعية بنسبة 100% عبر Python 3.9 إلى 3.14
-- **تبعيات SHA-256 مقفلة بالتجزئة** مع CycloneDX SBOM لكل إصدار
-- **الإخراج الحتمي** — يُنتج الإدخال المتطابق نتائج متطابقة بالبايت، في كل عملية تشغيل
-- **Apache 2.0 مرخص** — يُستخدم بحرية في الأنظمة التجارية والداخلية
+- **718 اختبارًا** بتغطية فرعية 100% عبر Python 3.10 إلى 3.14
+- **تبعيات مقفلة بـ SHA-256 hash** مع CycloneDX SBOM لكل إصدار
+- **مخرجات حتمية** — المدخلات المتطابقة تنتج نتائج متطابقة بالبايت في كل مرة
+- **مرخص بـ Apache 2.0** — استخدمه بحرية في الأنظمة التجارية والداخلية
 
-**تقييم البدائل؟** [انظر كيف يقارن محلل كشف حساب البنك ❯](/comparison/index.html) | [استكشف حالات الاستخدام الواقعية ❯](/use-cases/index.html)
+**تقيّم البدائل؟** [انظر كيف يقارن Bank Statement Parser ❯](/comparison/index.html) | [استكشف حالات الاستخدام الواقعية ❯](/use-cases/index.html)
 
-[ابدأ ❯][01] | [عرض على جيثب ❯][02] | [عرض على PyPI ❯][03]
+[ابدأ ❯][01] | [عرض على GitHub ❯][02] | [عرض على PyPI ❯][03]
 
 [01]: /البدء/index.html
-[02]:https://github.com/sebastienrousseau/bankstatementparser
+[02]: https://github.com/sebastienrousseau/bankstatementparser
 [03]: https://pypi.org/project/bankstatementparser/

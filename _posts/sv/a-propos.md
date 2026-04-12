@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Om Bank Statement Parser: Funktioner, format och prestanda"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Bank Statement Parser. Alla rättigheter reserverade."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Bank Statement Parser är ett Python-bibliotek med öppen källkod för att analysera CAMT.053, PAIN.001, CSV, OFX, QFX och MT940 till pandas DataFrames. 100 % lokal, PII-redigering, 27K+ tx/s."
 download: ""
 format-detection: "telephone=no"
@@ -40,7 +40,7 @@ referrer: "no-referrer"
 revisit-after: "7 days"
 robots: "index, follow"
 short_name: "bankstatementparser"
-subtitle: "Ett bibliotek. Sex format. Noll nätverkssamtal."
+subtitle: "Ett bibliotek. Sju format. Noll nätverkssamtal."
 tags: "bank, kontoutdrag, parser, finans, python, camt, pain001, csv, ofx, qfx, mt940"
 theme_color: "rgb(73, 214, 251)"
 title: "Om Bank Statement Parser: Funktioner, format och prestanda"
@@ -107,64 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Bank Statement Parser är ett Python-bibliotek med öppen källkod som analyserar sex kontoutdragsformat (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) till pandas DataFrames. 100 % lokal bearbetning, PII-redigering som standard, 27K+ tx/s genomströmning.
+**TL;DR:** Bank Statement Parser är ett Python-bibliotek med öppen källkod som analyserar sju kontoutdragsformat (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940 och PDF) till pandas DataFrames. Hybrid-PDF-pipeline med saldoverifiering, REST API, berikande, ledger-export, 27K+ tx/s genomströmning.
 
-Bank Statement Parser är ett Python-bibliotek med öppen källkod som analyserar kontoutdrag från sex format till strukturerade pandas DataFrames. All bearbetning sker lokalt -- noll nätverksanrop, deterministisk utdata och automatisk PII-redaktion.
+Bank Statement Parser är ett Python-bibliotek med öppen källkod som analyserar kontoutdrag från sju format till strukturerade pandas DataFrames. Den deterministiska kärnan bearbetar strukturerade format lokalt utan nätverksanrop. Den valfria hybrid-PDF-pipelinen dirigerar via lokala LLM:er (via Ollama) för digitala och skannade utdrag.
 
 ## Vem är detta till för?
 
-- **Treasury-team** som migrerar från MT940 till CAMT.053 som behöver en parser som hanterar både gamla och nya format under övergången.
-- **Fintech-utvecklare** bygger avstämnings-, rapporterings- eller redovisningspipelines som vill ha ett enda beroende istället för att sammanfoga mt940 + ofxparse + anpassad CSV-logik.
-- **Compliance-team** som behöver PII-redigering som standard och revisionsklar, deterministisk utdata som aldrig skickar data till externa tjänster.
-- **Alla** som vägrar att skicka känslig ekonomisk data till en tredjeparts SaaS när ett lokalt verktyg med öppen källkod kan göra jobbet.
+- **Treasury-team** som migrerar från MT940 till CAMT.053 och behöver en parser som hanterar både gamla och nya format under övergången, plus PDF-utdrag från banker som inte erbjuder strukturerade exporter.
+- **Fintech-utvecklare** som bygger avstämnings-, rapporterings- eller redovisningspipelines och vill ha ett enda beroende med inbyggd saldoverifiering, kategorisering och ledger-export.
+- **Compliance-team** som behöver PII-redaktion som standard, deterministisk utdata och Golden Rule-verifiering som flaggar avvikelser innan de når huvudboken.
+- **Plaintext-accounting-användare** som vill ha automatisk inmatning från PDF-kontoutdrag direkt till hledger- eller beancount-journaler.
+- **Alla** som vägrar skicka känslig finansiell data till en tredjeparts-SaaS när ett lokalt verktyg med öppen källkod kan göra jobbet.
 
 ## Format som stöds
 
-| Formatera | Standard | Filtyper | Parser klass |
+| Format | Standard | Filtyper | Parser/metod |
 |---|---|---|---|
-| CAMT.053 | ISO 20022 bank-till-kund-uttalande | `.xml` | `CamtParser` |
-| PAIN.001 | Initiering av tillgodoräknande enligt ISO 20022 | `.xml` | `Pain001Parser` |
+| CAMT.053 | ISO 20022 Bank-to-Customer Statement | `.xml` | `CamtParser` |
+| PAIN.001 | ISO 20022 Credit Transfer Initiation | `.xml` | `Pain001Parser` |
 | CSV | Generisk bankexport | `.csv` | `CsvStatementParser` |
-| OFX | Öppna finansiell börs | `.ofx` | `OfxParser` |
+| OFX | Open Financial Exchange | `.ofx` | `OfxParser` |
 | QFX | Quicken Financial Exchange | `.qfx` | `QfxParser` |
 | MT940 | SWIFT standard | `.mt940`, `.sta` | `Mt940Parser` |
+| PDF | Digitala och skannade utdrag | `.pdf` | `smart_ingest()` |
 
-Alla format producerar normaliserade pandor DataFrames med konsekventa kolumnnamn, vilket gör nedströms bearbetning formatagnostisk.
+Alla format producerar normaliserade pandas DataFrames med konsekventa kolumnnamn, vilket gör nedströmsbearbetning formatagnostisk.
 
 ## Nyckelfunktioner
 
-- **Format automatisk identifiering**:`detect_statement_format()`identifierar formatet;`create_parser()`instansierar den högra parsern.
-- **Streaming Parsing**: Behandla stora filer (50 MB+, 50K+ transaktioner) med begränsat minne med`parse_streaming()`.
-- **Parallell bearbetning**: Analysera flera filer samtidigt med`parse_files_parallel()`med ProcessPoolExecutor.
-- **Deduplicering**: Upptäck exakta dubbletter och misstänkta matchningar med förklarliga konfidenspoäng.
-- **In-Memory Parsing**:`from_string()`och`from_bytes()`för SFTP- och API-arbetsflöden utan disk I/O.
-- **Säker ZIP-bearbetning**:`iter_secure_xml_entries()`med gränser för kompressionsförhållande, gränser för inträdesstorlekar och krypterad inträdesavvisning.
-- **Export**: CSV, JSON, Excel (`.xlsx`), och valfria Polars DataFrames.
+- **Hybrid-PDF-pipeline**: `smart_ingest()` dirigerar PDF:er genom tre vägar — deterministisk tabellextraktion, text-LLM eller vision-LLM — med automatisk Golden Rule-saldoverifiering.
+- **Automatisk formatdetektering**: `detect_statement_format()` identifierar formatet; `create_parser()` instansierar rätt parser.
+- **Saldoverifiering**: Golden Rule-kontroll (`opening + credits − debits == closing`) med status VERIFIED/DISCREPANCY/FAILED.
+- **Multivaluta-verifiering**: `verify_balance_multi_currency()` grupperar transaktioner per valuta för oberoende verifiering.
+- **REST API**: FastAPI-mikrotjänst med `/ingest`- och `/health`-ändpunkter för produktionsdriftsättning.
+- **Berikande**: LLM-driven transaktionskategorisering med pluggbara scheman (Plaid 13-kategori som standard).
+- **Interaktiv granskning**: Gå igenom avvikelser med accept/edit/skip/delete-åtgärder via `--type review`.
+- **Ledger-export**: `to_hledger()` och `to_beancount()` för plaintext-accounting-arbetsflöden.
+- **Massbearbetning**: `scan_and_ingest()` bearbetar mappträd med automatisk korsfilsdeduplicering.
+- **Kontomappning**: Regex-baserade kontomappningsregler från JSON-konfiguration för ledger-export.
+- **Streaming-tolkning**: Bearbeta stora filer (50 MB+, 50K+ transaktioner) med begränsat minne via `parse_streaming()`.
+- **Parallell bearbetning**: Tolka flera filer samtidigt med `parse_files_parallel()` via ProcessPoolExecutor.
+- **Deduplicering**: Idempotent `transaction_hash` (MD5-fingeravtryck) för säker inkrementell inmatning.
+- **In-Memory-tolkning**: `from_string()` och `from_bytes()` för SFTP- och API-arbetsflöden utan disk-I/O.
+- **Säker ZIP-bearbetning**: `iter_secure_xml_entries()` med kompressionsförhållandegränser, storlekstak per post och avvisning av krypterade poster.
+- **Export**: CSV, JSON, Excel (`.xlsx`), Polars DataFrames, hledger och beancount-journaler.
 
 ## Säkerhet och integritet
 
-- **PII-redaktion**: Namn, IBAN och adresser är maskerade som standard i CLI-utdata. Välj med`--show-pii`.
-- **XXE-skydd**: XML-tolkning används`resolve_entities=False`, `no_network=True`, `load_dtd=False`.
-- **ZIP Bomb Protection**: Kompressionsförhållandegränser (100:1 standard), inträdesstorlekstak (10 MB), krypterad ingångsavvisning.
-- **Path Traversal Prevention**: Spärrlista för farliga mönster och symlinkupplösning.
-- **Supply Chain Security**: SHA-256 hash-låsta beroenden, CycloneDX SBOM, bygg härkomstintyg.
+- **PII-redaktion**: Namn, IBAN och adresser maskeras som standard i CLI-utdata. Aktivera med `--show-pii`.
+- **XXE-skydd**: XML-tolkning använder `resolve_entities=False`, `no_network=True`, `load_dtd=False`.
+- **ZIP-bombskydd**: Kompressionsförhållandegränser (100:1 standard), storlekstak per post (10 MB), avvisning av krypterade poster.
+- **Vägtraverseringsskydd**: Spärrlista för farliga mönster och symlinkupplösning.
+- **Supply-chain-säkerhet**: SHA-256 hash-låsta beroenden, CycloneDX SBOM, härkomstintyg för byggen.
+- **Enbart lokala LLM:er**: Hybrid-PDF-pipelinen använder Ollama för lokal inferens — ingen data skickas till moln-API:er.
 
 ## Prestanda
 
-| Metrisk | Värde |
+| Mått | Värde |
 |---|---|
 | CAMT.053 genomströmning | 27 000+ tx/s |
 | PAIN.001 genomströmning | 52 000+ tx/s |
 | Latens per transaktion (CAMT) | 37 mikrosekunder |
 | Latens per transaktion (PAIN.001) | 19 mikrosekunder |
-| Dags för första resultat | < 2 ms |
-| Minnesskalning (1K-50K tx) | Konstant (streaming) |
-| Testtäckning | 100 % filialtäckning |
-| Tester | 467 över 29 testfiler |
+| Tid till första resultat | < 2 ms |
+| Minnesskalning (1K–50K tx) | Konstant (streaming) |
+| Testtäckning | 100 % grenstäckning |
+| Tester | 718 över 29 testfiler |
 
 ## Börja bygga
 
 [Kom igång med installation och exempel ❯][01]
 
-[01]: /getting-started/index.html "Komma igång"
+[01]: /getting-started/index.html "Kom igång"
  "GitHub Repository"

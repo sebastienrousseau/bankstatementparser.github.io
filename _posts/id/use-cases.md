@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Kasus Penggunaan Parser Laporan Bank"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Pengurai Laporan Bank. Semua hak dilindungi undang-undang."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Bagaimana tim perbendaharaan, pengembang fintech, dan petugas kepatuhan menggunakan Bank Statement Parser untuk migrasi MT940 ke CAMT, rekonsiliasi, jalur audit, dan konsolidasi multi-bank."
 download: ""
 format-detection: "telephone=no"
@@ -107,13 +107,41 @@ site_software: "Shokunin, Rust"
 
 ---
 
-Bank Statement Parser menangani alur kerja keuangan dunia nyata: migrasi MT940 ke CAMT untuk tim treasury, rekonsiliasi otomatis, jalur kepatuhan dengan redaksi PII, penyerapan SFTP, konsolidasi multi-bank, dan pemrosesan batch ZIP yang aman.
+Bank Statement Parser menangani alur kerja keuangan nyata: ingesti laporan bank PDF, migrasi MT940-ke-CAMT, rekonsiliasi otomatis dengan verifikasi saldo, pipeline kepatuhan, ekspor plaintext-accounting, deployment REST API, pemindaian massal, dan konsolidasi multi-bank.
+
+## Ingesti Laporan Bank PDF
+
+**Hasil:** Parsing laporan bank PDF digital dan hasil pindai dengan verifikasi saldo otomatis — tanpa API cloud, tidak ada data yang keluar dari mesin Anda.
+
+Pipeline PDF hibrida merutekan setiap PDF melalui jalur ekstraksi optimal dan memverifikasi setiap hasilnya.
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+
+# Review discrepancies interactively
+# bankstatementparser --type review --input result.json
+```
+
+## Pemrosesan Laporan Massal
+
+**Hasil:** Pindai seluruh pohon folder (ratusan PDF, XML, CSV) dengan deduplikasi lintas-file otomatis dalam satu panggilan.
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Files: {len(batch.results)}, Unique txns: {batch.unique_count}")
+```
 
 ## Perbendaharaan: Migrasi MT940 ke CAMT.053
 
-**Hasil:** Satu panggilan API menangani MT940 dan CAMT.053 selama jendela migrasi SWIFT (November 2025–November 2028), sehingga menghilangkan kebutuhan akan pipeline parsing terpisah.
+**Hasil:** Satu panggilan API menangani MT940 dan CAMT.053 selama jendela migrasi SWIFT (November 2025–November 2028), menghilangkan kebutuhan pipeline parsing terpisah.
 
-Tim Treasury di seluruh dunia bermigrasi dari MT940 ke CAMT.053 sebelum batas waktu SWIFT November 2027. Parser Laporan Bank menangani kedua format dengan satu API, membuat transisi menjadi lancar.
+Tim treasury di seluruh dunia bermigrasi dari MT940 ke CAMT.053 sebelum tenggat waktu SWIFT November 2027. Bank Statement Parser menangani kedua format dengan satu API, membuat transisi menjadi mulus.
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -126,17 +154,23 @@ for file in daily_statement_files:
     load_to_treasury_system(df)
 ```
 
-## Rekonsiliasi Otomatis
+## Rekonsiliasi Otomatis dengan Verifikasi Saldo
 
-**Hasil:** DataFrame format-agnostik dengan deduplikasi bawaan mengurangi upaya pencocokan manual dan menangkap entri duplikat sebelum mencapai buku besar Anda.
+**Hasil:** DataFrame format-agnostik dengan verifikasi Golden Rule dan deduplikasi menangkap kesalahan dan duplikat sebelum masuk ke ledger Anda.
 
-Parsing laporan bank dan cocokkan dengan catatan internal secara otomatis. Output DataFrame terpadu membuat format logika rekonsiliasi menjadi agnostik.
+Parsing laporan bank, verifikasi saldo, dan cocokkan dengan catatan internal secara otomatis.
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
+from bankstatementparser.hybrid import verify_balance_multi_currency
 
 parser = CamtParser("bank_statement.xml")
 bank_txns = parser.parse()
+
+# Verify balances per currency
+verification = verify_balance_multi_currency(bank_txns)
+for ccy, result in verification.items():
+    assert result.status == "VERIFIED", f"{ccy} balance mismatch!"
 
 # Deduplicate before reconciliation
 dedup = Deduplicator()
@@ -147,11 +181,39 @@ clean_txns = result.unique_transactions
 unmatched = reconcile(clean_txns, internal_ledger)
 ```
 
-## Jalur Kepatuhan dan Audit
+## Plaintext Accounting (hledger / beancount)
 
-**Hasil:** Keluaran deterministik dan redaksi PII otomatis menghasilkan log siap audit yang memenuhi persyaratan reproduktifitas peraturan tanpa alat tambahan.
+**Hasil:** Ingesti laporan bank PDF secara otomatis dan ekspor transaksi terkategorisasi ke format jurnal hledger atau beancount.
 
-Bangun saluran yang siap diaudit dengan redaksi PII dan keluaran deterministik. Setiap proses menghasilkan hasil yang identik untuk input yang sama, sehingga memenuhi persyaratan reproduktifitas peraturan.
+```python
+from bankstatementparser.hybrid import smart_ingest
+from bankstatementparser.enrichment import Categorizer
+from bankstatementparser.export import to_hledger
+
+result = smart_ingest("statement.pdf")
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(result.transactions)
+journal = to_hledger(enriched, account="Assets:Bank:Checking")
+```
+
+## Deployment REST API
+
+**Hasil:** Deploy Bank Statement Parser sebagai microservice yang menerima file laporan via HTTP dan mengembalikan JSON terstruktur.
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+```
+
+```bash
+# Ingest a statement
+curl -X POST http://localhost:8000/ingest \
+  -F "file=@statement.pdf"
+```
+
+## Pipeline Kepatuhan dan Audit
+
+**Hasil:** Output deterministik, redaksi PII otomatis, dan verifikasi Golden Rule menghasilkan log siap audit yang memenuhi persyaratan reproduktifitas regulasi.
 
 ```python
 from bankstatementparser import CamtParser
@@ -168,9 +230,7 @@ parser.export_csv("archive/statement.csv")
 
 ## Alur Kerja SFTP-ke-DataFrame
 
-**Hasil:** Parsing langsung dari byte dengan I/O disk nol, yang disesuaikan secara asli dengan alur kerja konektivitas bank berbasis SFTP dan API.
-
-Banyak bank mengirimkan laporan melalui SFTP. Parsing langsung dari byte tanpa menulis ke disk.
+**Hasil:** Parsing langsung dari byte tanpa I/O disk, cocok secara native dengan alur kerja konektivitas bank berbasis SFTP dan API.
 
 ```python
 from bankstatementparser import CamtParser
@@ -182,9 +242,7 @@ df = parser.parse()
 
 ## Konsolidasi Multi-Bank
 
-**Hasil:** Penguraian paralel di HSBC (CAMT), Barclays (MT940), Revolut (CSV), dan Wise (OFX) menghasilkan satu set data yang dinormalisasi dalam satu panggilan.
-
-Gabungkan laporan dari beberapa bank menggunakan format berbeda ke dalam satu kumpulan data yang dinormalisasi.
+**Hasil:** Parsing paralel dari HSBC (CAMT), Barclays (MT940), Revolut (CSV), Wise (OFX), dan Chase (PDF) menghasilkan satu dataset yang dinormalisasi.
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -203,8 +261,6 @@ all_transactions = pd.concat([r.transactions for r in results if r.status == "su
 
 **Hasil:** Perlindungan bom ZIP bawaan (batas rasio 100:1, batas entri 10 MB, penolakan entri terenkripsi) memungkinkan Anda memproses arsip laporan bulanan dengan aman.
 
-Proses arsip pernyataan zip secara aman dengan perlindungan bom ZIP bawaan.
-
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
 
@@ -214,4 +270,4 @@ for entry in iter_secure_xml_entries("monthly_statements.zip"):
     save_to_warehouse(entry.source_name, df)
 ```
 
-[Bandingkan dengan alternatif ❯](/comparison/index.html) | [Rencanakan migrasi ISO 20022 Anda ❯](/migration/index.html) | [Memulai ❯](/getting-started/index.html)
+[Bandingkan dengan alternatif ❯](/comparison/index.html) | [Rencanakan migrasi ISO 20022 Anda ❯](/migration/index.html) | [Mulai ❯](/getting-started/index.html)

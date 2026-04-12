@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "O analyzátoru výpisů z účtu: Funkce, formáty a výkon"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023–2026 Analyzátor bankovních výpisů. Všechna práva vyhrazena."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Bank Statement Parser je open-source Python knihovna pro analýzu CAMT.053, PAIN.001, CSV, OFX, QFX a MT940 do datových rámců pandas. 100% místní, redakce PII, 27K+ tx/s."
 download: ""
 format-detection: "telephone=no"
@@ -107,64 +107,75 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Bank Statement Parser je open-source Python knihovna, která analyzuje šest formátů bankovních výpisů (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) do pandas DataFrames. 100% místní zpracování, ve výchozím nastavení redakce PII, propustnost 27K+ tx/s.
+**TL;DR:** Bank Statement Parser je open-source Python knihovna, která analyzuje sedm formátů bankovních výpisů (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940 a PDF) do pandas DataFrames. Hybridní PDF pipeline s ověřením zůstatku, REST API, obohacení, export do účetnictví, propustnost 27K+ tx/s.
 
-Bank Statement Parser je open-source Python knihovna, která analyzuje bankovní výpisy ze šesti formátů do strukturovaných datových rámců pandy. Veškeré zpracování probíhá lokálně – nulová síťová volání, deterministický výstup a automatická redakce PII.
+Bank Statement Parser je open-source Python knihovna, která analyzuje bankovní výpisy ze sedmi formátů do strukturovaných pandas DataFrames. Deterministické jádro zpracovává strukturované formáty lokálně bez síťových volání. Volitelný hybridní PDF pipeline směruje přes lokální LLM (prostřednictvím Ollama) pro digitální a naskenované výpisy.
 
 ## Pro koho je to určeno?
 
-- **Týmy ministerstva financí** migrující z MT940 na CAMT.053, které potřebují analyzátor, který si během přechodu poradí se starými i novými formáty.
-- **Vývojáři Fintech** vytvářející odsouhlasení, reportování nebo účetní kanály, kteří chtějí jedinou závislost namísto spojování mt940 + ofxparse + vlastní logiku CSV.
-- **Týmy pro dodržování předpisů**, které ve výchozím nastavení potřebují redigování PII a deterministický výstup připravený na audit, který nikdy neodesílá data externím službám.
-- **Kdokoli**, kdo odmítá posílat citlivá finanční data do služby SaaS třetí strany, když to může udělat místní open-source nástroj.
+- **Treasury týmy** migrující z MT940 na CAMT.053, které potřebují parser zvládající oba formáty během přechodu, plus PDF výpisy od bank bez strukturovaných exportů.
+- **Fintech vývojáři** budující pipeline pro odsouhlasení, reporting nebo účetnictví, kteří chtějí jedinou závislost s vestavěným ověřením zůstatku, kategorizací a exportem do účetnictví.
+- **Compliance týmy**, které potřebují výchozí redakci PII, deterministický výstup a ověření Golden Rule, jež odhalí nesrovnalosti dříve, než se dostanou do účetní knihy.
+- **Uživatelé plaintext-accounting**, kteří chtějí automatizované zpracování PDF bankovních výpisů přímo do hledger nebo beancount deníků.
+- **Kdokoli**, kdo odmítá posílat citlivá finanční data třetí straně, když to zvládne lokální open-source nástroj.
 
 ## Podporované formáty
 
-| Formát | Norma | Typy souborů | Třída analyzátoru |
+| Formát | Standard | Typy souborů | Parser/Metoda |
 |---|---|---|---|
-| CAMT.053 | ISO 20022 prohlášení mezi bankami a zákazníky | `.xml` | `CamtParser` |
-| BOLEST.001 | Zahájení převodu kreditu ISO 20022 | `.xml` | `Pain001Parser` |
-| CSV | Generický bankovní export | `.csv` | `CsvStatementParser` |
-| OFX | Otevřená finanční burza | `.ofx` | `OfxParser` |
-| QFX | Quicken finanční směnárna | `.qfx` | `QfxParser` |
-| MT940 | standard SWIFT | `.mt940`, `.sta` | `Mt940Parser` |
+| CAMT.053 | ISO 20022 Bank-to-Customer Statement | `.xml` | `CamtParser` |
+| PAIN.001 | ISO 20022 Credit Transfer Initiation | `.xml` | `Pain001Parser` |
+| CSV | Generické bankovní exporty | `.csv` | `CsvStatementParser` |
+| OFX | Open Financial Exchange | `.ofx` | `OfxParser` |
+| QFX | Quicken Financial Exchange | `.qfx` | `QfxParser` |
+| MT940 | Standard SWIFT | `.mt940`, `.sta` | `Mt940Parser` |
+| PDF | Digitální a naskenované výpisy | `.pdf` | `smart_ingest()` |
 
-Všechny formáty produkují normalizované datové rámce pandas s konzistentními názvy sloupců, díky čemuž je následné zpracování agnostické.
+Všechny formáty produkují normalizované pandas DataFrames s konzistentními názvy sloupců, což činí následné zpracování nezávislým na formátu.
 
-## Klíčové schopnosti
+## Klíčové funkce
 
-- **Automatická detekce formátu**:`detect_statement_format()`identifikuje formát;`create_parser()`vytvoří instanci správného analyzátoru.
-- **Streaming Parsing**: Zpracovávejte velké soubory (50 MB+, 50K+ transakcí) s omezenou pamětí pomocí`parse_streaming()`.
-- **Paralelní zpracování**: Analyzujte více souborů současně`parse_files_parallel()`pomocí ProcessPoolExecutor.
-- **Deduplikace**: Zjistěte přesné duplikáty a podezřelé shody s vysvětlitelným skóre spolehlivosti.
-- **Parsování v paměti**:`from_string()`a`from_bytes()`pro pracovní postupy SFTP a API bez diskových I/O.
-- **Zabezpečené zpracování ZIP**:`iter_secure_xml_entries()`s limity kompresního poměru, omezením velikosti záznamu a odmítnutím šifrovaného záznamu.
-- **Export**: CSV, JSON, Excel (`.xlsx`) a volitelné datové rámce Polars.
+- **Hybridní PDF pipeline**: `smart_ingest()` směruje PDF třemi cestami — deterministická extrakce tabulek, text-LLM nebo vision-LLM — s automatickým ověřením zůstatku Golden Rule.
+- **Automatická detekce formátu**: `detect_statement_format()` identifikuje formát; `create_parser()` vytvoří správný parser.
+- **Ověření zůstatku**: Kontrola Golden Rule (`opening + credits − debits == closing`) se stavem VERIFIED/DISCREPANCY/FAILED.
+- **Multi-měnové ověření**: `verify_balance_multi_currency()` seskupuje transakce podle měny pro nezávislé ověření.
+- **REST API**: FastAPI mikroservis s endpointy `/ingest` a `/health` pro produkční nasazení.
+- **Obohacení**: LLM kategorizace transakcí s připojitelnými schématy (výchozí 13 kategorií Plaid).
+- **Interaktivní kontrola**: Procházení nesrovnalostí s akcemi accept/edit/skip/delete přes `--type review`.
+- **Export do účetnictví**: `to_hledger()` a `to_beancount()` pro plaintext-accounting workflows.
+- **Hromadné skenování**: `scan_and_ingest()` zpracovává adresářové stromy s automatickou deduplikací napříč soubory.
+- **Mapování účtů**: Regex mapovací pravidla účtů z JSON konfigurace pro export do účetnictví.
+- **Streaming parsing**: Zpracování velkých souborů (50 MB+, 50K+ transakcí) s omezenou pamětí pomocí `parse_streaming()`.
+- **Paralelní zpracování**: Parsování více souborů současně pomocí `parse_files_parallel()` s ProcessPoolExecutor.
+- **Deduplikace**: Idempotentní `transaction_hash` (MD5 fingerprint) pro bezpečné inkrementální zpracování.
+- **Parsování v paměti**: `from_string()` a `from_bytes()` pro SFTP a API workflows bez diskových I/O.
+- **Bezpečné zpracování ZIP**: `iter_secure_xml_entries()` s limity kompresního poměru, omezením velikosti záznamů a odmítnutím šifrovaných záznamů.
+- **Export**: CSV, JSON, Excel (`.xlsx`), Polars DataFrames, hledger a beancount deníky.
 
 ## Zabezpečení a soukromí
 
-- **PII Redaction**: Jména, IBAN a adresy jsou ve výstupu CLI ve výchozím nastavení maskovány. Přihlásit se pomocí`--show-pii`.
-- **Ochrana XXE**: Použití analýzy XML`resolve_entities=False`, `no_network=True`, `load_dtd=False`.
-- **ZIP Bomb Protection**: Limity kompresního poměru (výchozí 100:1), omezení velikosti záznamu (10 MB), odmítnutí šifrovaného záznamu.
-- **Prevence procházení cesty**: Seznam blokovaných nebezpečných vzorů a rozlišení symbolických odkazů.
-- **Zabezpečení dodavatelského řetězce**: SHA-256 hašované závislosti, CycloneDX SBOM, osvědčení o původu sestavení.
+- **Redakce PII**: Jména, IBANy a adresy jsou ve výstupu CLI ve výchozím nastavení maskovány. Zapněte zobrazení pomocí `--show-pii`.
+- **Ochrana proti XXE**: XML parsování používá `resolve_entities=False`, `no_network=True`, `load_dtd=False`.
+- **Ochrana proti ZIP bombám**: Limity kompresního poměru (výchozí 100:1), omezení velikosti záznamů (10 MB), odmítnutí šifrovaných záznamů.
+- **Prevence path traversal**: Blocklist nebezpečných vzorů a rozlišení symbolických odkazů.
+- **Zabezpečení dodavatelského řetězce**: SHA-256 hash-locked závislosti, CycloneDX SBOM, attestace o původu sestavení.
+- **Pouze lokální LLM**: Hybridní PDF pipeline používá Ollama pro lokální inferenci — žádná data neodcházejí do cloudových API.
 
 ## Výkon
 
-| Metrický | Hodnota |
+| Metrika | Hodnota |
 |---|---|
-| propustnost CAMT.053 | 27 000+ tx/s |
-| PAIN.001 propustnost | 52 000+ tx/s |
+| Propustnost CAMT.053 | 27 000+ tx/s |
+| Propustnost PAIN.001 | 52 000+ tx/s |
 | Latence na transakci (CAMT) | 37 mikrosekund |
 | Latence na transakci (PAIN.001) | 19 mikrosekund |
-| Čas na první výsledek | < 2 ms |
-| Škálování paměti (1K-50K TX) | Konstantní (streamování) |
-| Testovací pokrytí | 100% pokrytí pobočky |
-| Testy | 467 přes 29 testovacích souborů |
+| Čas do prvního výsledku | < 2 ms |
+| Škálování paměti (1K–50K tx) | Konstantní (streaming) |
+| Pokrytí testy | 100% pokrytí větví |
+| Testy | 718 v 29 testovacích souborech |
 
-## Začněte stavět
+## Začněte tvořit
 
 [Začněte s instalací a příklady ❯][01]
 
 [01]: /getting-started/index.html "Začínáme"
- "úložiště GitHub"

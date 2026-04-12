@@ -2,13 +2,13 @@
 <html lang="en-GB">
   <head>
     <meta charset="utf-8" />
-    <meta itemprop="datePublished" content="2026-04-01T00:00:00+00:00" id="date">
-    <meta itemprop="dateModified" content="2026-04-01T00:00:00+00:00" id="last-modified">
+    <meta itemprop="datePublished" content="2026-04-11T00:00:00+00:00" id="date">
+    <meta itemprop="dateModified" content="2026-04-11T00:00:00+00:00" id="last-modified">
     <title>Bank Statement Parser: Installation and Usage Guide</title>
     <meta name="theme-color" content="rgb(73, 214, 251)" />
     <meta name="measurement-id" content="G-FL9DEBFHN1" />
     <meta name="author" content="Sebastien Rousseau">
-<meta name="description" content="Get started with Bank Statement Parser for Python: install, parse CAMT/PAIN.001/CSV/OFX/QFX/MT940 files, and use streaming or CLI workflows.">
+<meta name="description" content="Get started with Bank Statement Parser for Python: install, parse CAMT/PAIN.001/CSV/OFX/QFX/MT940/PDF files, hybrid pipeline, REST API, and CLI workflows.">
 <meta name="keywords" content="bank statement parser, getting started, python, CAMT, PAIN.001, CSV, OFX, QFX, MT940, financial data">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -17,7 +17,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Bank Statement Parser: Installation and Usage Guide">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: kura.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: cloudcdn.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
     <meta name="msapplication-TileColor" content="rgb(73, 214, 251)">
     
     <link rel="alternate" href="https://bankstatementparser.com/getting-started/index.html" hreflang="en" />
@@ -27,7 +27,7 @@
     <link rel="apple-touch-icon" href="/images/icons/192x192.png" sizes="192x192" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
-    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#b0b8c1"}})});</script>
+    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#8f9aa5"}})});</script>
     <style>
       :root{--theme-color:rgb(73, 214, 251)}*{font-weight:400;box-sizing:border-box;margin:0}
       pre{margin:1.5rem 0;max-width:100%;overflow:auto;border-radius:.5rem;padding:1rem 1.25rem;background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);color:var(--c-code);display:block;font-family:'SF Mono',SFMono-Regular,Consolas,monospace;font-size:.8125rem;line-height:1.7;margin:1.5rem 0;max-width:100%;overflow:auto;padding:1rem 1.25rem;border-radius:.5rem}
@@ -111,7 +111,7 @@
     <a class="skip-link" href="#main">Skip to main content</a>
     <nav class="site-nav" aria-label="Main navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
       <div class="nav-inner">
-        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="" /><span itemprop="name">Bank Statement Parser</span></a>
+        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="Bank Statement Parser logo" /><span itemprop="name">Bank Statement Parser</span></a>
         <ul class="nav-center">
           <li><a href="/index.html">Home</a></li>
           <li><a href="/about/index.html">About</a></li>
@@ -170,27 +170,44 @@
     <main id="main" class="site-main" tabindex="-1" aria-label="Page content">
       <div class="text-start"><h2>Requirements</h2>
 <ul>
-<li>Python 3.9 to 3.14</li>
+<li>Python 3.10 to 3.14</li>
 <li>Terminal access (macOS, Linux, or WSL)</li>
 </ul>
 <h2>Install</h2>
 <pre><code class="language-bash"><pre style="background-color:#2b303b;">
-<span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser
+<span style="color:#65737e;"># Core install (deterministic parsers only)
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser
 </span></pre>
 </code></pre>
-<p>For Polars DataFrame support:</p>
+<p>Optional extras for additional capabilities:</p>
 <pre><code class="language-bash"><pre style="background-color:#2b303b;">
-<span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser</span><span style="color:#b48ead;">[</span><span style="color:#c0c5ce;">polars</span><span style="color:#b48ead;">]
+<span style="color:#65737e;"># Text-LLM path for digital PDFs (litellm + pypdf)
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[hybrid]</span><span style="color:#c0c5ce;">&#39;
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#65737e;"># Higher-fidelity table extraction (adds pdfplumber)
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[hybrid-plus]</span><span style="color:#c0c5ce;">&#39;
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#65737e;"># Vision-LLM path for scanned PDFs (adds pypdfium2)
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[hybrid-vision]</span><span style="color:#c0c5ce;">&#39;
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#65737e;"># LLM-powered transaction categorisation
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[enrichment]</span><span style="color:#c0c5ce;">&#39;
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#65737e;"># REST API microservice (FastAPI + uvicorn)
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[api]</span><span style="color:#c0c5ce;">&#39;
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#65737e;"># Optional Polars DataFrame support
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[polars]</span><span style="color:#c0c5ce;">&#39;
 </span></pre>
 </code></pre>
 <h2>Quick Start</h2>
-<h3>Auto-Detect and Parse Any Format</h3>
+<h3>Auto-Detect and Parse Any Structured Format</h3>
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">create_parser, detect_statement_format
 </span><span style="color:#c0c5ce;">
 </span><span style="color:#c0c5ce;">fmt = </span><span style="color:#8fa1b3;">detect_statement_format</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">transactions.ofx</span><span style="color:#c0c5ce;">&quot;)
 </span><span style="color:#c0c5ce;">parser = </span><span style="color:#8fa1b3;">create_parser</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">transactions.ofx</span><span style="color:#c0c5ce;">&quot;, fmt)
-</span><span style="color:#c0c5ce;">df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()  </span><span style="color:#8f9aa5;"># pandas DataFrame
+</span><span style="color:#c0c5ce;">df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()  </span><span style="color:#65737e;"># pandas DataFrame
 </span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(df.</span><span style="color:#8fa1b3;">head</span><span style="color:#c0c5ce;">())
 </span></pre>
 </code></pre>
@@ -211,19 +228,31 @@
 </span><span style="color:#c0c5ce;">payments = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()
 </span></pre>
 </code></pre>
+<h3>Parse PDF Bank Statements (Hybrid Pipeline)</h3>
+<p>The hybrid pipeline intelligently routes PDFs through three extraction paths:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser.hybrid </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">smart_ingest
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">result = </span><span style="color:#8fa1b3;">smart_ingest</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.pdf</span><span style="color:#c0c5ce;">&quot;)
+</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(result.source_method)         </span><span style="color:#65737e;"># &quot;deterministic&quot; | &quot;llm&quot; | &quot;vision&quot;
+</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(result.verification.status)   </span><span style="color:#65737e;"># VERIFIED | DISCREPANCY | FAILED
+</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(result.transactions)          </span><span style="color:#65737e;"># List of extracted transactions
+</span></pre>
+</code></pre>
+<p>Every extraction is verified with the <strong>Golden Rule</strong>: <code>opening + credits − debits == closing</code>.</p>
 <h2>Streaming Large Files</h2>
 <p>For files with thousands of transactions, use streaming to keep memory bounded:</p>
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#c0c5ce;">parser = </span><span style="color:#8fa1b3;">CamtParser</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">large_statement.xml</span><span style="color:#c0c5ce;">&quot;)
-</span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">transaction </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">parser.</span><span style="color:#8fa1b3;">parse_streaming</span><span style="color:#c0c5ce;">(</span><span style="color:#d9848a;">redact_pii</span><span style="color:#c0c5ce;">=</span><span style="color:#d08770;">True</span><span style="color:#c0c5ce;">):
-</span><span style="color:#c0c5ce;">    </span><span style="color:#8fa1b3;">process</span><span style="color:#c0c5ce;">(transaction)  </span><span style="color:#8f9aa5;"># Memory stays constant
+</span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">transaction </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">parser.</span><span style="color:#8fa1b3;">parse_streaming</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">redact_pii</span><span style="color:#c0c5ce;">=</span><span style="color:#d08770;">True</span><span style="color:#c0c5ce;">):
+</span><span style="color:#c0c5ce;">    </span><span style="color:#8fa1b3;">process</span><span style="color:#c0c5ce;">(transaction)  </span><span style="color:#65737e;"># Memory stays constant
 </span></pre>
 </code></pre>
 <h2>In-Memory Parsing</h2>
 <p>Parse from bytes without disk I/O -- useful for SFTP or API workflows:</p>
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#c0c5ce;">xml_bytes = </span><span style="color:#8fa1b3;">download_from_sftp</span><span style="color:#c0c5ce;">()
-</span><span style="color:#c0c5ce;">parser = CamtParser.</span><span style="color:#8fa1b3;">from_bytes</span><span style="color:#c0c5ce;">(xml_bytes, </span><span style="color:#d9848a;">source_name</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">daily.xml</span><span style="color:#c0c5ce;">&quot;)
+</span><span style="color:#c0c5ce;">parser = CamtParser.</span><span style="color:#8fa1b3;">from_bytes</span><span style="color:#c0c5ce;">(xml_bytes, </span><span style="color:#bf616a;">source_name</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">daily.xml</span><span style="color:#c0c5ce;">&quot;)
 </span><span style="color:#c0c5ce;">transactions = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()
 </span></pre>
 </code></pre>
@@ -241,8 +270,18 @@
 </span><span style="color:#c0c5ce;">    </span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(r.path, r.status, </span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(r.transactions), &quot;</span><span style="color:#a3be8c;">rows</span><span style="color:#c0c5ce;">&quot;)
 </span></pre>
 </code></pre>
+<h2>Bulk Directory Scanning</h2>
+<p>Process entire folder trees with automatic deduplication:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser.hybrid </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">scan_and_ingest
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">batch = </span><span style="color:#8fa1b3;">scan_and_ingest</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statements/2026/</span><span style="color:#c0c5ce;">&quot;, </span><span style="color:#bf616a;">pattern</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">**/*.pdf</span><span style="color:#c0c5ce;">&quot;)
+</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Processed: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(batch.results)}</span><span style="color:#a3be8c;"> files</span><span style="color:#c0c5ce;">&quot;)
+</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Unique transactions: </span><span style="color:#c0c5ce;">{batch.unique_count}&quot;)
+</span></pre>
+</code></pre>
 <h2>Deduplication</h2>
-<p>Detect exact duplicates and suspected matches with confidence scores:</p>
+<p>Idempotent transaction hashes for safe incremental ingestion:</p>
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">CamtParser, Deduplicator
 </span><span style="color:#c0c5ce;">
@@ -255,13 +294,58 @@
 </span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Suspected matches: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(result.suspected_matches)}&quot;)
 </span></pre>
 </code></pre>
+<h2>Transaction Categorisation (Enrichment)</h2>
+<p>Automatically categorise transactions using LLM-powered classification:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser.enrichment </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">Categorizer
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">categorizer = </span><span style="color:#8fa1b3;">Categorizer</span><span style="color:#c0c5ce;">()
+</span><span style="color:#c0c5ce;">enriched = categorizer.</span><span style="color:#8fa1b3;">categorize_batch</span><span style="color:#c0c5ce;">(transactions)
+</span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">txn </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">enriched:
+</span><span style="color:#c0c5ce;">    </span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;{txn.description}</span><span style="color:#a3be8c;">: </span><span style="color:#c0c5ce;">{txn.category}&quot;)
+</span></pre>
+</code></pre>
+<h2>Ledger Export (hledger / beancount)</h2>
+<p>Export transactions to plaintext-accounting journal formats:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser.export </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">to_hledger, to_beancount
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">journal = </span><span style="color:#8fa1b3;">to_hledger</span><span style="color:#c0c5ce;">(transactions, </span><span style="color:#bf616a;">account</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">Assets:Bank:Checking</span><span style="color:#c0c5ce;">&quot;)
+</span><span style="color:#c0c5ce;">beancount_journal = </span><span style="color:#8fa1b3;">to_beancount</span><span style="color:#c0c5ce;">(transactions, </span><span style="color:#bf616a;">account</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">Assets:Bank:Checking</span><span style="color:#c0c5ce;">&quot;)
+</span></pre>
+</code></pre>
+<h2>Multi-Currency Balance Verification</h2>
+<p>Verify balances independently per currency group:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser.hybrid </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">verify_balance_multi_currency
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">results = </span><span style="color:#8fa1b3;">verify_balance_multi_currency</span><span style="color:#c0c5ce;">(transactions)
+</span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">currency, verification </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">results.</span><span style="color:#8fa1b3;">items</span><span style="color:#c0c5ce;">():
+</span><span style="color:#c0c5ce;">    </span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;{currency}</span><span style="color:#a3be8c;">: </span><span style="color:#c0c5ce;">{verification.status}&quot;)
+</span></pre>
+</code></pre>
+<h2>REST API</h2>
+<p>Deploy as a FastAPI microservice:</p>
+<pre><code class="language-bash"><pre style="background-color:#2b303b;">
+<span style="color:#65737e;"># Start the API server
+</span><span style="color:#8fa1b3;">bankstatementparser-api</span><span style="color:#bf616a;"> --port</span><span style="color:#c0c5ce;"> 8000
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#65737e;"># For container deployments
+</span><span style="color:#8fa1b3;">bankstatementparser-api</span><span style="color:#bf616a;"> --host</span><span style="color:#c0c5ce;"> 0.0.0.0</span><span style="color:#bf616a;"> --port</span><span style="color:#c0c5ce;"> 9000
+</span></pre>
+</code></pre>
+<p>Endpoints:</p>
+<ul>
+<li><code>POST /ingest</code> -- Parse a bank statement file</li>
+<li><code>GET /health</code> -- Health check</li>
+</ul>
 <h2>Secure ZIP Processing</h2>
 <p>Process zipped XML files with built-in security checks (bomb protection, encrypted entry rejection):</p>
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">iter_secure_xml_entries, CamtParser
 </span><span style="color:#c0c5ce;">
 </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">entry </span><span style="color:#b48ead;">in </span><span style="color:#8fa1b3;">iter_secure_xml_entries</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statements.zip</span><span style="color:#c0c5ce;">&quot;):
-</span><span style="color:#c0c5ce;">    parser = CamtParser.</span><span style="color:#8fa1b3;">from_bytes</span><span style="color:#c0c5ce;">(entry.xml_bytes, </span><span style="color:#d9848a;">source_name</span><span style="color:#c0c5ce;">=entry.source_name)
+</span><span style="color:#c0c5ce;">    parser = CamtParser.</span><span style="color:#8fa1b3;">from_bytes</span><span style="color:#c0c5ce;">(entry.xml_bytes, </span><span style="color:#bf616a;">source_name</span><span style="color:#c0c5ce;">=entry.source_name)
 </span><span style="color:#c0c5ce;">    </span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;{entry.source_name}</span><span style="color:#a3be8c;">: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">())}</span><span style="color:#a3be8c;"> transactions</span><span style="color:#c0c5ce;">&quot;)
 </span></pre>
 </code></pre>
@@ -271,27 +355,37 @@
 </span><span style="color:#c0c5ce;">parser.</span><span style="color:#8fa1b3;">export_csv</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">output.csv</span><span style="color:#c0c5ce;">&quot;)
 </span><span style="color:#c0c5ce;">parser.</span><span style="color:#8fa1b3;">export_json</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">output.json</span><span style="color:#c0c5ce;">&quot;)
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#8f9aa5;"># Polars (requires bankstatementparser[polars])
+</span><span style="color:#65737e;"># Polars (requires bankstatementparser[polars])
 </span><span style="color:#c0c5ce;">polars_df = parser.</span><span style="color:#8fa1b3;">to_polars</span><span style="color:#c0c5ce;">()
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#65737e;"># Excel
+</span><span style="color:#c0c5ce;">parser.</span><span style="color:#8fa1b3;">camt_to_excel</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">output.xlsx</span><span style="color:#c0c5ce;">&quot;)
 </span></pre>
 </code></pre>
 <h2>CLI Usage</h2>
 <pre><code class="language-bash"><pre style="background-color:#2b303b;">
-<span style="color:#8f9aa5;"># Parse and display
-</span><span style="color:#8fa1b3;">python</span><span style="color:#d9848a;"> -m</span><span style="color:#c0c5ce;"> bankstatementparser.cli</span><span style="color:#d9848a;"> --type</span><span style="color:#c0c5ce;"> camt</span><span style="color:#d9848a;"> --input</span><span style="color:#c0c5ce;"> statement.xml
+<span style="color:#65737e;"># Parse structured formats
+</span><span style="color:#8fa1b3;">bankstatementparser</span><span style="color:#bf616a;"> --type</span><span style="color:#c0c5ce;"> camt</span><span style="color:#bf616a;"> --input</span><span style="color:#c0c5ce;"> statement.xml
+</span><span style="color:#8fa1b3;">bankstatementparser</span><span style="color:#bf616a;"> --type</span><span style="color:#c0c5ce;"> pain001</span><span style="color:#bf616a;"> --input</span><span style="color:#c0c5ce;"> payment.xml
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#8f9aa5;"># Export to CSV
-</span><span style="color:#8fa1b3;">python</span><span style="color:#d9848a;"> -m</span><span style="color:#c0c5ce;"> bankstatementparser.cli</span><span style="color:#d9848a;"> --type</span><span style="color:#c0c5ce;"> camt</span><span style="color:#d9848a;"> --input</span><span style="color:#c0c5ce;"> statement.xml</span><span style="color:#d9848a;"> --output</span><span style="color:#c0c5ce;"> transactions.csv
+</span><span style="color:#65737e;"># Hybrid PDF pipeline
+</span><span style="color:#8fa1b3;">bankstatementparser</span><span style="color:#bf616a;"> --type</span><span style="color:#c0c5ce;"> ingest</span><span style="color:#bf616a;"> --input</span><span style="color:#c0c5ce;"> statement.pdf
+</span><span style="color:#8fa1b3;">bankstatementparser</span><span style="color:#bf616a;"> --type</span><span style="color:#c0c5ce;"> ingest</span><span style="color:#bf616a;"> --input</span><span style="color:#c0c5ce;"> statement.pdf</span><span style="color:#bf616a;"> --output</span><span style="color:#c0c5ce;"> ledger.csv
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#8f9aa5;"># Stream with PII visible
-</span><span style="color:#8fa1b3;">python</span><span style="color:#d9848a;"> -m</span><span style="color:#c0c5ce;"> bankstatementparser.cli</span><span style="color:#d9848a;"> --type</span><span style="color:#c0c5ce;"> camt</span><span style="color:#d9848a;"> --input</span><span style="color:#c0c5ce;"> statement.xml</span><span style="color:#d9848a;"> --streaming --show-pii
+</span><span style="color:#65737e;"># Interactive review mode
+</span><span style="color:#8fa1b3;">bankstatementparser</span><span style="color:#bf616a;"> --type</span><span style="color:#c0c5ce;"> review</span><span style="color:#bf616a;"> --input</span><span style="color:#c0c5ce;"> result.json
+</span><span style="color:#8fa1b3;">bankstatementparser</span><span style="color:#bf616a;"> --type</span><span style="color:#c0c5ce;"> review</span><span style="color:#bf616a;"> --input</span><span style="color:#c0c5ce;"> result.json</span><span style="color:#bf616a;"> --output</span><span style="color:#c0c5ce;"> reviewed.json
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#65737e;"># Export to CSV with streaming
+</span><span style="color:#8fa1b3;">bankstatementparser</span><span style="color:#bf616a;"> --type</span><span style="color:#c0c5ce;"> camt</span><span style="color:#bf616a;"> --input</span><span style="color:#c0c5ce;"> statement.xml</span><span style="color:#bf616a;"> --output</span><span style="color:#c0c5ce;"> transactions.csv
+</span><span style="color:#8fa1b3;">bankstatementparser</span><span style="color:#bf616a;"> --type</span><span style="color:#c0c5ce;"> camt</span><span style="color:#bf616a;"> --input</span><span style="color:#c0c5ce;"> statement.xml</span><span style="color:#bf616a;"> --streaming --show-pii
 </span></pre>
 </code></pre>
 <p>CLI options:</p>
 <ul>
-<li><code>--type {camt,pain001}</code> -- parser type</li>
+<li><code>--type {camt,pain001,ingest,review}</code> -- parser type or mode</li>
 <li><code>--input &lt;path&gt;</code> -- input file</li>
-<li><code>--output &lt;csv_path&gt;</code> -- export to CSV</li>
+<li><code>--output &lt;path&gt;</code> -- export file (CSV or JSON)</li>
 <li><code>--streaming</code> -- stream large files</li>
 <li><code>--show-pii</code> -- show sensitive fields (redacted by default)</li>
 <li><code>--max-size &lt;MB&gt;</code> -- file size limit</li>
@@ -300,8 +394,9 @@
 <pre><code class="language-bash"><pre style="background-color:#2b303b;">
 <span style="color:#8fa1b3;">git</span><span style="color:#c0c5ce;"> clone https://github.com/sebastienrousseau/bankstatementparser.git
 </span><span style="color:#96b5b4;">cd</span><span style="color:#c0c5ce;"> bankstatementparser
-</span><span style="color:#8fa1b3;">python3</span><span style="color:#d9848a;"> -m</span><span style="color:#c0c5ce;"> venv .venv &amp;&amp; </span><span style="color:#96b5b4;">source</span><span style="color:#c0c5ce;"> .venv/bin/activate
-</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install poetry &amp;&amp; </span><span style="color:#8fa1b3;">poetry</span><span style="color:#c0c5ce;"> install</span><span style="color:#d9848a;"> --with</span><span style="color:#c0c5ce;"> dev
+</span><span style="color:#8fa1b3;">python3</span><span style="color:#bf616a;"> -m</span><span style="color:#c0c5ce;"> venv .venv &amp;&amp; </span><span style="color:#96b5b4;">source</span><span style="color:#c0c5ce;"> .venv/bin/activate
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install poetry &amp;&amp; </span><span style="color:#8fa1b3;">poetry</span><span style="color:#c0c5ce;"> install</span><span style="color:#bf616a;"> --with</span><span style="color:#c0c5ce;"> dev
+</span><span style="color:#8fa1b3;">make</span><span style="color:#c0c5ce;"> install-hooks   </span><span style="color:#65737e;"># pre-commit hook runs `make verify` before every commit
 </span></pre>
 </code></pre>
 <p>Run the test suite:</p>
@@ -350,6 +445,11 @@
 <td class="text-left">MT940</td>
 <td class="text-left"><code>from bankstatementparser import Mt940Parser</code></td>
 </tr>
+<tr>
+<td class="text-left"><code>smart_ingest()</code></td>
+<td class="text-left">PDF (hybrid pipeline)</td>
+<td class="text-left"><code>from bankstatementparser.hybrid import smart_ingest</code></td>
+</tr>
 </tbody>
 </table></div>
 <h3>Utility Functions</h3>
@@ -376,6 +476,26 @@
 <tr>
 <td class="text-left"><code>iter_secure_xml_entries(zip_path)</code></td>
 <td class="text-left">Iterate ZIP entries securely</td>
+</tr>
+<tr>
+<td class="text-left"><code>smart_ingest(path)</code></td>
+<td class="text-left">Hybrid PDF extraction with verification</td>
+</tr>
+<tr>
+<td class="text-left"><code>scan_and_ingest(dir, pattern)</code></td>
+<td class="text-left">Bulk directory scanning</td>
+</tr>
+<tr>
+<td class="text-left"><code>verify_balance_multi_currency(txns)</code></td>
+<td class="text-left">Per-currency balance verification</td>
+</tr>
+<tr>
+<td class="text-left"><code>to_hledger(txns, account)</code></td>
+<td class="text-left">Export to hledger journal format</td>
+</tr>
+<tr>
+<td class="text-left"><code>to_beancount(txns, account)</code></td>
+<td class="text-left">Export to beancount journal format</td>
 </tr>
 </tbody>
 </table>
@@ -411,6 +531,22 @@
 <tr>
 <td class="text-left"><code>ZipXMLSource</code></td>
 <td class="text-left">ZIP member wrapper</td>
+</tr>
+<tr>
+<td class="text-left"><code>IngestResult</code></td>
+<td class="text-left">Hybrid pipeline result with verification</td>
+</tr>
+<tr>
+<td class="text-left"><code>VerificationResult</code></td>
+<td class="text-left">Balance verification outcome</td>
+</tr>
+<tr>
+<td class="text-left"><code>Categorizer</code></td>
+<td class="text-left">LLM-powered transaction categorisation</td>
+</tr>
+<tr>
+<td class="text-left"><code>AccountMapper</code></td>
+<td class="text-left">Regex-based account mapping rules</td>
 </tr>
 </tbody>
 </table>
@@ -455,7 +591,7 @@
         </ul>
       </div>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"Get started with Bank Statement Parser for Python: install, parse CAMT/PAIN.001/CSV/OFX/QFX/MT940 files, and use streaming or CLI workflows.","headline":"Start Building Secure Applications with Bank Statement Parser","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"en-GB","mainEntityOfPage":"https://bankstatementparser.com/getting-started/index.html","name":"Getting Started","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-11T00:00:00+00:00","datePublished":"2026-04-11T00:00:00+00:00","description":"Get started with Bank Statement Parser for Python: install, parse CAMT/PAIN.001/CSV/OFX/QFX/MT940/PDF files, hybrid pipeline, REST API, and CLI workflows.","headline":"Start Building Secure Applications with Bank Statement Parser","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"en-GB","mainEntityOfPage":"https://bankstatementparser.com/getting-started/index.html","name":"Getting Started","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
     <script>
     (function(){
       // Language switcher toggle
@@ -494,5 +630,5 @@
     })();
     </script>
     <script defer src="/main.js"></script>
-  </body>
+  <script defer src="/bootstrap.bundle.min.js"></script></body>
 </html>

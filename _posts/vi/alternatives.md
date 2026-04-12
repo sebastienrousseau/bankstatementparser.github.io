@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Trình phân tích báo cáo ngân hàng so với các lựa chọn thay thế"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Trình phân tích báo cáo ngân hàng. Mọi quyền được bảo lưu."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "So sánh Trình phân tích sao kê ngân hàng với các công cụ mt-940, ofxparse, pycamt, pyiso20022 và SaaS như Ocrolus và Parseur. Hướng dẫn so sánh tính năng, giá cả và di chuyển."
 download: ""
 format-detection: "telephone=no"
@@ -109,70 +109,82 @@ site_software: "Shokunin, Rust"
 
 ## Tổng quan
 
-Trình phân tích bảng sao kê ngân hàng là thư viện Python nguồn mở duy nhất phân tích sáu định dạng bảng sao kê ngân hàng bằng một API hợp nhất. Mỗi thư viện một định dạng (mt-940, ofxparse, pycamt) xử lý một định dạng. Các công cụ SaaS (Ocrolus, Parseur) cung cấp OCR cho tệp PDF nhưng yêu cầu gửi dữ liệu ra bên ngoài và có giá từ $49–$1.000+/tháng.
+Bank Statement Parser là thư viện Python mã nguồn mở duy nhất phân tích bảy định dạng sao kê ngân hàng — bao gồm PDF qua pipeline LLM hybrid — với một API thống nhất. Các thư viện đơn định dạng (mt-940, ofxparse, pycamt) mỗi thư viện chỉ xử lý một định dạng. Các công cụ SaaS (Ocrolus, Parseur) cung cấp cloud OCR nhưng yêu cầu gửi dữ liệu ra bên ngoài và có chi phí $49–$1.000+/tháng.
 
-## Các lựa chọn thay thế nguồn mở
+## Các lựa chọn thay thế mã nguồn mở
 
-### Thư viện một định dạng
+### Thư viện đơn định dạng
 
-Hầu hết các trình phân tích bảng sao kê ngân hàng nguồn mở chỉ xử lý một định dạng. Nếu cần nhiều định dạng, bạn phải cài đặt và duy trì các thư viện riêng biệt với các API, lược đồ đầu ra và chu kỳ cập nhật khác nhau.
+Hầu hết các trình phân tích sao kê ngân hàng mã nguồn mở chỉ xử lý một định dạng. Nếu cần nhiều định dạng, bạn phải cài đặt và duy trì các thư viện riêng biệt với API, schema đầu ra, và chu kỳ cập nhật khác nhau.
 
-| Thư viện | Định dạng | đầu ra | Truyền phát | Biên tập PII | Chống trùng lặp |
+| Thư viện | Định dạng | PDF | Đầu ra | Xác minh số dư | Xuất sổ cái |
 |---|---|---|---|---|---|
-| **Trình phân tích sao kê ngân hàng** | 6 định dạng | khung dữ liệu gấu trúc | Đúng | Có (mặc định) | Đúng |
-| mt-940 (WoLpH) | Chỉ MT940 | Đối tượng Python | KHÔNG | KHÔNG | KHÔNG |
-| ofxparse | chỉ OFX | Đối tượng Python | KHÔNG | KHÔNG | KHÔNG |
-| pycamt | Chỉ CAMT.053 | Đối tượng Python | KHÔNG | KHÔNG | KHÔNG |
-| ofxtools | Chỉ OFX v1/v2 | Đối tượng Python | KHÔNG | KHÔNG | KHÔNG |
+| **Bank Statement Parser** | 7 định dạng | Pipeline hybrid | pandas DataFrame | Golden Rule | hledger, beancount |
+| mt-940 (WoLpH) | Chỉ MT940 | Không | Đối tượng Python | Không | Không |
+| ofxparse | Chỉ OFX | Không | Đối tượng Python | Không | Không |
+| pycamt | Chỉ CAMT.053 | Không | Đối tượng Python | Không | Không |
+| ofxtools | Chỉ OFX v1/v2 | Không | Đối tượng Python | Không | Không |
 
-### so với pyiso20022
+### So với pyiso20022
 
-pyiso20022 tạo các lớp dữ liệu Python từ danh mục lược đồ ISO 20022 đầy đủ. Đây là bộ công cụ ISO 20022 có mục đích chung để làm việc với các thông báo PACS, PAIN, CAMT và ADMI.
+pyiso20022 tạo các dataclass Python từ danh mục schema ISO 20022 đầy đủ. Đây là bộ công cụ ISO 20022 đa mục đích để làm việc với các thông báo PACS, PAIN, CAMT và ADMI.
 
-Trình phân tích báo cáo ngân hàng được xây dựng nhằm mục đích phân tích các báo cáo ngân hàng thành DataFrames với các tính năng sản xuất:
+Bank Statement Parser được xây dựng chuyên dụng để phân tích sao kê ngân hàng thành DataFrames với các tính năng production:
 
-| Tính năng | Trình phân tích báo cáo ngân hàng | pyiso20022 |
+| Tính năng | Bank Statement Parser | pyiso20022 |
 |---|---|---|
-| Mục đích | Phân tích câu lệnh + xuất | Bộ công cụ lược đồ ISO 20022 |
-| đầu ra | Khung dữ liệu gấu trúc/Polars | Các lớp dữ liệu Python |
-| Định dạng | 6 (bao gồm cả không phải ISO) | Chỉ ISO 20022 |
-| Truyền phát | Có (bộ nhớ bị giới hạn) | KHÔNG |
-| Biên tập PII | Tích hợp sẵn | KHÔNG |
-| Chống trùng lặp | Tích hợp sẵn | KHÔNG |
-| Bảo mật ZIP | Tích hợp sẵn | KHÔNG |
-| CLI | Đúng | KHÔNG |
+| Mục đích | Phân tích sao kê + trích xuất + xuất dữ liệu | Bộ công cụ schema ISO 20022 |
+| Đầu ra | pandas/Polars DataFrames | Python dataclasses |
+| Định dạng | 7 (bao gồm PDF, không phải ISO) | Chỉ ISO 20022 |
+| Hỗ trợ PDF | Pipeline hybrid (deterministic + LLM + vision) | Không |
+| Xác minh số dư | Golden Rule + đa tiền tệ | Không |
+| REST API | Tích hợp FastAPI | Không |
+| Làm giàu dữ liệu | Phân loại bằng LLM | Không |
+| Xuất sổ cái | hledger + beancount | Không |
+| Streaming | Có (bộ nhớ giới hạn) | Không |
+| Ẩn danh PII | Tích hợp sẵn | Không |
+| Chống trùng lặp | Hash giao dịch idempotent | Không |
+| CLI | Có | Không |
 
-Sử dụng pyiso20022 nếu bạn cần làm việc với danh mục thông báo ISO 20022 đầy đủ. Sử dụng Trình phân tích báo cáo ngân hàng nếu bạn cần phân tích các báo cáo ngân hàng thành dữ liệu có cấu trúc để phân tích, đối chiếu hoặc báo cáo.
+Sử dụng pyiso20022 nếu bạn cần làm việc với danh mục thông báo ISO 20022 đầy đủ. Sử dụng Bank Statement Parser nếu bạn cần phân tích sao kê ngân hàng thành dữ liệu có cấu trúc để phân tích, đối chiếu, hoặc báo cáo.
 
 ## Các lựa chọn thay thế SaaS
 
-Các công cụ SaaS như Ocrolus, Parseur và Sensible cung cấp khả năng phân tích bảng sao kê ngân hàng dưới dạng dịch vụ đám mây. Họ thường sử dụng OCR để xử lý các tệp PDF được quét và hỗ trợ hàng trăm định dạng dành riêng cho ngân hàng.
+Các công cụ SaaS như Ocrolus, Parseur và Sensible cung cấp phân tích sao kê ngân hàng dưới dạng dịch vụ cloud. Họ thường sử dụng OCR để xử lý PDF quét và hỗ trợ hàng trăm định dạng riêng theo ngân hàng.
 
-| Tính năng | Trình phân tích báo cáo ngân hàng | Công cụ SaaS |
+| Tính năng | Bank Statement Parser | Công cụ SaaS |
 |---|---|---|
-| Quyền riêng tư dữ liệu | 100% nội hạt, không có cuộc gọi mạng | Dữ liệu được gửi lên đám mây |
-| Trị giá | Miễn phí (Apache 2.0) | $49–$1.000+/tháng (tính đến Quý 1 năm 2026) |
-| Định dạng | 6 định dạng có cấu trúc | Hàng trăm (thông qua OCR) |
-| Hỗ trợ PDF | Không (chỉ các định dạng có cấu trúc) | Có (dựa trên OCR) |
-| Độ trễ | Kết quả đầu tiên <2 ms | 1-30 giây |
-| Thông lượng | 27.000+ tx/giây | API có tỷ lệ giới hạn |
-| Khóa nhà cung cấp | Không có | Đúng |
-| Sự tuân thủ | Xử lý cục bộ, SBOM | Khác nhau tùy theo nhà cung cấp |
+| Bảo mật dữ liệu | 100% cục bộ (LLM qua Ollama) | Dữ liệu gửi lên cloud |
+| Chi phí | Miễn phí (Apache 2.0) | $49–$1.000+/tháng (tính đến Q1 2026) |
+| Định dạng | 7 (có cấu trúc + PDF) | Hàng trăm (qua OCR) |
+| Hỗ trợ PDF | Có — pipeline hybrid (deterministic + LLM + vision) | Có (cloud OCR) |
+| Xác minh số dư | Golden Rule (tự động) | Thủ công / hạn chế |
+| Độ trễ | <2 ms (có cấu trúc), vài giây (PDF+LLM) | 1-30 giây |
+| Thông lượng | 27.000+ tx/giây (có cấu trúc) | API giới hạn tốc độ |
+| REST API | Tích hợp FastAPI | Độc quyền |
+| Xuất sổ cái | hledger + beancount | Không |
+| Phụ thuộc nhà cung cấp | Không | Có |
+| Tuân thủ | Xử lý cục bộ, SBOM | Tùy nhà cung cấp |
 
-## Trình phân tích cú pháp dựa trên LLM
+## Trình phân tích dựa trên LLM
 
-Ngày càng có nhiều công cụ (bản thiết kế Inscribe, Unstract, Mozilla.ai) sử dụng các mô hình ngôn ngữ lớn để phân tích các báo cáo ngân hàng, bao gồm cả các bản PDF được quét. Khi Chase thiết kế lại định dạng tuyên bố dành cho người tiêu dùng của họ vào cuối năm 2025, các trình phân tích cú pháp dựa trên mẫu đã bị lỗi trong khi các trình phân tích cú pháp LLM tự động điều chỉnh.
+Ngày càng có nhiều công cụ (Inscribe, Unstract, Mozilla.ai blueprints) sử dụng mô hình ngôn ngữ lớn để phân tích sao kê ngân hàng, bao gồm cả PDF quét. Khi Chase thiết kế lại định dạng sao kê khách hàng vào cuối năm 2025, các trình phân tích dựa trên mẫu bị lỗi trong khi trình phân tích LLM tự động thích ứng.
 
-**Khi trình phân tích cú pháp LLM có ý nghĩa**: Bạn nhận được các tệp PDF được quét từ hàng trăm ngân hàng với bố cục không thể đoán trước và có thể chấp nhận trích xuất gần đúng (độ chính xác 95-99%).
+**Bank Statement Parser hiện đã tích hợp pipeline LLM hybrid riêng** (v0.0.5+) chạy hoàn toàn cục bộ qua Ollama. Nó kết hợp ưu điểm của cả hai phương pháp:
 
-**Khi Trình phân tích bảng sao kê ngân hàng là lựa chọn tốt hơn**: Bạn cần kết quả đầu ra có tính xác định, có thể tái tạo để kiểm tra và tuân thủ. Bạn không thể gửi dữ liệu tài chính tới các API bên ngoài. Bạn cần độ trễ dưới một phần nghìn giây (so với 1-30 giây đối với API LLM). Bạn muốn không có chi phí liên tục và không phụ thuộc vào nhà cung cấp.
+- **Định dạng có cấu trúc** (XML, CSV, OFX, MT940): Phân tích xác định — độ chính xác 100%, độ trễ dưới mili giây, không tốn chi phí LLM.
+- **Sao kê PDF**: Định tuyến ba đường dẫn (trích xuất bảng xác định -> text-LLM -> vision-LLM) với tự động xác minh Golden Rule để phát hiện lỗi trích xuất.
 
-Công cụ phân tích báo cáo ngân hàng và LLM giải quyết các vấn đề khác nhau. Sử dụng Trình phân tích bảng sao kê ngân hàng cho các định dạng có cấu trúc (XML, CSV, OFX, MT940) trong đó bạn cần độ chính xác 100%, xử lý cục bộ và khả năng tái tạo kiểm tra. Sử dụng các công cụ LLM cho các tệp PDF không có cấu trúc có thể chấp nhận được việc trích xuất gần đúng.
+Khác với các trình phân tích LLM chỉ dùng cloud, pipeline hybrid của Bank Statement Parser:
+- Chạy 100% cục bộ (Ollama) — không có dữ liệu rời khỏi máy bạn.
+- Xác minh mọi kết quả trích xuất bằng xác minh số dư (Golden Rule).
+- Hỗ trợ chế độ xem xét tương tác cho các sai lệch được gắn cờ.
+- Tạo hash giao dịch idempotent cho nhập dữ liệu gia tăng an toàn.
 
-**Phương pháp điểm chuẩn**: Số liệu hiệu suất được đo trên Apple M2, Python 3.12, sử dụng tệp CAMT.053 5.000 giao dịch (2,1 MB). Kết quả trung bình trên 100 lần chạy. Tái sản xuất tại địa phương:`python -m bankstatementparser.bench`. Độ trễ SaaS dựa trên tài liệu API được xuất bản kể từ tháng 4 năm 2026.
+**Khi nào nên chọn trình phân tích LLM SaaS thay vì Bank Statement Parser**: Bạn nhận sao kê từ hàng trăm ngân hàng với bố cục PDF rất khác nhau và cần khả năng xử lý sẵn có mà không cần chạy hạ tầng cục bộ.
 
-**Khi nào nên chọn Trình phân tích bảng sao kê ngân hàng**: Ngân hàng của bạn cung cấp các bản xuất có cấu trúc (XML, CSV, OFX, MT940), bạn cần xử lý cục bộ để tuân thủ hoặc bạn muốn không có chi phí liên tục.
+**Khi nào nên chọn Bank Statement Parser**: Bạn cần xử lý cục bộ để tuân thủ. Bạn cần xác minh số dư. Bạn cần xuất sổ cái. Bạn muốn không tốn chi phí liên tục.
 
-**Khi nào nên chọn SaaS**: Bạn nhận được bản sao kê PDF được quét, cần OCR cho hàng trăm định dạng dành riêng cho ngân hàng hoặc muốn có giải pháp không cần mã.
+**Phương pháp benchmark**: Số liệu hiệu suất đo trên Apple M2, Python 3.12, sử dụng tệp CAMT.053 5.000 giao dịch (2,1 MB). Kết quả trung bình trên 100 lần chạy. Tái tạo cục bộ: `python -m bankstatementparser.bench`. Độ trễ SaaS dựa trên tài liệu API công bố tính đến tháng 4/2026.
 
-[Xem các trường hợp sử dụng trong thế giới thực ❯](/use-cases/index.html) | [Lập kế hoạch di chuyển MT940 sang CAMT của bạn ❯](/migration/index.html)
+[Xem các trường hợp sử dụng thực tế ❯](/use-cases/index.html) | [Lập kế hoạch chuyển đổi MT940-sang-CAMT ❯](/migration/index.html)

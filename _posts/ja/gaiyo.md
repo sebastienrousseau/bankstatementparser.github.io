@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Bank Statement Parser について: 機能、形式、パフォーマンス"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 銀行取引明細書パーサー。無断転載を禁じます。"
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Bank Statement Parser は、CAMT.053、PAIN.001、CSV、OFX、QFX、MT940 を解析して pandas DataFrame にするためのオープンソース Python ライブラリです。 100% ローカル、PII 秘匿化、27,000 以上の tx/秒。"
 download: ""
 format-detection: "telephone=no"
@@ -107,64 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Bank Statement Parser は、6 つの銀行取引明細書形式 (CAMT.053、PAIN.001、CSV、OFX、QFX、MT940) を解析して pandas DataFrame にするオープンソースの Python ライブラリです。 100% ローカル処理、デフォルトで PII 編集、27,000 以上の tx/s スループット。
+**TL;DR:** Bank Statement Parser は、7 つの銀行取引明細書形式（CAMT.053、PAIN.001、CSV、OFX、QFX、MT940、PDF）を pandas DataFrame に解析するオープンソースの Python ライブラリです。残高検証付きハイブリッド PDF パイプライン、REST API、エンリッチメント、台帳エクスポート、27,000+ tx/s スループット。
 
-Bank Statement Parser は、6 つの形式の銀行取引明細書を構造化パンダ データフレームに解析するオープンソース Python ライブラリです。すべての処理はローカルで行われます。ネットワーク呼び出しはなく、確定的な出力が行われ、PII は自動的に編集されます。
+Bank Statement Parser は、7 つの形式の銀行取引明細書を構造化された pandas DataFrame に解析するオープンソース Python ライブラリです。確定的コアはネットワーク呼び出しなしでローカルに構造化形式を処理します。オプションのハイブリッド PDF パイプラインは、デジタルおよびスキャン明細書をローカル LLM（Ollama 経由）で処理します。
 
-## これは誰に向けたものですか?
+## 対象ユーザー
 
-- MT940 から CAMT.053 に移行する **財務チーム**。移行中に新旧両方の形式を処理するパーサーが必要です。
-- **フィンテック開発者**は、mt940 + ofxparse + カスタム CSV ロジックをつなぎ合わせるのではなく、単一の依存関係を必要とする調整、レポート、または会計パイプラインを構築しています。
-- **コンプライアンス チーム**。デフォルトで PII 編集を必要とし、データを外部サービスに送信しない監査対応の確定的な出力を必要とします。
-- **ローカルのオープンソース ツールで可能な場合に、機密の財務データをサードパーティの SaaS に送信することを拒否する人**。
+- MT940 から CAMT.053 に移行する**財務チーム**。移行中に新旧両方の形式を処理するパーサーが必要であり、構造化エクスポートを提供しない銀行の PDF 明細書も処理する必要があります。
+- 調整、レポート、会計パイプラインを構築する**フィンテック開発者**。残高検証、分類、台帳エクスポートが内蔵された単一の依存関係を求めています。
+- **コンプライアンスチーム**。デフォルトの PII 秘匿化、確定的出力、台帳に到達する前に不一致をフラグするゴールデンルール検証が必要です。
+- PDF 銀行取引明細書から hledger や beancount ジャーナルへの自動取り込みを行いたい**プレーンテキスト会計ユーザー**。
+- ローカルのオープンソースツールで対応できるのに、機密の財務データをサードパーティの SaaS に送信することを拒否する**すべての方**。
 
 ## サポートされている形式
 
-| 形式 | 標準 | ファイルの種類 | パーサークラス |
+| 形式 | 標準 | ファイルの種類 | パーサー/メソッド |
 |---|---|---|---|
-| CAMT.053 | ISO 20022 銀行から顧客への声明 | `.xml` | `CamtParser` |
-| ペイン.001 | ISO 20022 単位認定の開始 | `.xml` | `Pain001Parser` |
-| CSV | 一般的な銀行の輸出 | `.csv` | `CsvStatementParser` |
-| OFX | オープンな金融取引所 | `.ofx` | `OfxParser` |
-| QFX | クイックン金融取引所 | `.qfx` | `QfxParser` |
-| MT940 | SWIFT規格 | `.mt940`, `.sta` | `Mt940Parser` |
+| CAMT.053 | ISO 20022 銀行対顧客明細書 | `.xml` | `CamtParser` |
+| PAIN.001 | ISO 20022 送金指図 | `.xml` | `Pain001Parser` |
+| CSV | 一般的な銀行エクスポート | `.csv` | `CsvStatementParser` |
+| OFX | Open Financial Exchange | `.ofx` | `OfxParser` |
+| QFX | Quicken Financial Exchange | `.qfx` | `QfxParser` |
+| MT940 | SWIFT 標準 | `.mt940`, `.sta` | `Mt940Parser` |
+| PDF | デジタルおよびスキャン明細書 | `.pdf` | `smart_ingest()` |
 
-すべての形式で、一貫した列名を持つ正規化されたパンダ データフレームが生成されるため、ダウンストリームの処理は形式に依存しません。
+すべての形式で、一貫した列名を持つ正規化された pandas DataFrame が生成されるため、後続の処理は形式に依存しません。
 
 ## 主要な機能
 
-- **フォーマットの自動検出**:`detect_statement_format()`フォーマットを識別します。`create_parser()`適切なパーサーをインスタンス化します。
-- **ストリーミング解析**: 制限されたメモリを使用して大きなファイル (50 MB 以上、50K 以上のトランザクション) を処理します。`parse_streaming()`。
-- **並列処理**: 複数のファイルを同時に解析します。`parse_files_parallel()`ProcessPoolExecutor を使用します。
-- **重複排除**: 説明可能な信頼スコアを使用して、正確な重複と疑わしい一致を検出します。
-- **メモリ内解析**:`from_string()`そして`from_bytes()`ディスク I/O を使用しない SFTP および API ワークフロー用。
-- **安全な ZIP 処理**:`iter_secure_xml_entries()`圧縮率の制限、エントリ サイズの上限、暗号化されたエントリの拒否などがあります。
-- **エクスポート**: CSV、JSON、Excel (`.xlsx`)、およびオプションの Polars DataFrame。
+- **ハイブリッド PDF パイプライン**: `smart_ingest()` が PDF を 3 つのパス（確定的テーブル抽出、テキスト LLM、ビジョン LLM）に振り分け、自動ゴールデンルール残高検証を行います。
+- **フォーマット自動検出**: `detect_statement_format()` がフォーマットを識別し、`create_parser()` が適切なパーサーをインスタンス化します。
+- **残高検証**: ゴールデンルールチェック（`opening + credits − debits == closing`）で VERIFIED/DISCREPANCY/FAILED ステータスを返します。
+- **マルチ通貨検証**: `verify_balance_multi_currency()` がトランザクションを通貨ごとにグループ化して独立検証します。
+- **REST API**: FastAPI マイクロサービスの `/ingest` および `/health` エンドポイントで本番デプロイに対応します。
+- **エンリッチメント**: LLM によるトランザクション分類。プラグ可能なスキーマ対応（デフォルトは Plaid 13 カテゴリ）。
+- **インタラクティブレビュー**: `--type review` で不一致を accept/edit/skip/delete アクションで確認します。
+- **台帳エクスポート**: `to_hledger()` および `to_beancount()` でプレーンテキスト会計ワークフローに対応します。
+- **一括スキャン**: `scan_and_ingest()` がフォルダツリーを処理し、ファイル間の自動重複排除を行います。
+- **アカウントマッピング**: JSON 設定による正規表現ベースの台帳エクスポート用アカウントマッピングルール。
+- **ストリーミング解析**: `parse_streaming()` で大きなファイル（50 MB+、50K+ トランザクション）を制限されたメモリで処理します。
+- **並列処理**: ProcessPoolExecutor を使用した `parse_files_parallel()` で複数ファイルを同時に解析します。
+- **重複排除**: べき等な `transaction_hash`（MD5 フィンガープリント）で安全なインクリメンタル取り込みを実現します。
+- **メモリ内解析**: `from_string()` および `from_bytes()` で SFTP や API ワークフローにディスク I/O なしで対応します。
+- **安全な ZIP 処理**: `iter_secure_xml_entries()` で圧縮率制限、エントリサイズ上限、暗号化エントリ拒否に対応します。
+- **エクスポート**: CSV、JSON、Excel（`.xlsx`）、Polars DataFrame、hledger、beancount ジャーナル。
 
 ## セキュリティとプライバシー
 
-- **PII 編集**: 名前、IBAN、およびアドレスは、デフォルトで CLI 出力でマスクされます。オプトインする`--show-pii`。
-- **XXE 保護**: XML 解析には次のものが使用されます。`resolve_entities=False`, `no_network=True`, `load_dtd=False`。
-- **ZIP 爆弾保護**: 圧縮率の制限 (デフォルトは 100:1)、エントリ サイズの上限 (10 MB)、暗号化されたエントリの拒否。
-- **パス トラバーサル防止**: 危険なパターンのブロックリストとシンボリックリンクの解決。
-- **サプライ チェーン セキュリティ**: SHA-256 ハッシュロックされた依存関係、CycloneDX SBOM、ビルド来歴証明書。
+- **PII 秘匿化**: 名前、IBAN、アドレスはデフォルトで CLI 出力でマスクされます。`--show-pii` でオプトインできます。
+- **XXE 保護**: XML 解析は `resolve_entities=False`、`no_network=True`、`load_dtd=False` を使用します。
+- **ZIP 爆弾保護**: 圧縮率制限（デフォルト 100:1）、エントリサイズ上限（10 MB）、暗号化エントリ拒否。
+- **パストラバーサル防止**: 危険なパターンのブロックリストとシンボリックリンク解決。
+- **サプライチェーンセキュリティ**: SHA-256 ハッシュロック依存関係、CycloneDX SBOM、ビルド来歴証明書。
+- **ローカル LLM のみ**: ハイブリッド PDF パイプラインは Ollama を使用してローカル推論を行います。クラウド API にデータが送信されることはありません。
 
-＃＃ パフォーマンス
+## パフォーマンス
 
-| メトリック | 価値 |
+| 指標 | 値 |
 |---|---|
 | CAMT.053 スループット | 27,000+ tx/秒 |
 | PAIN.001 スループット | 52,000+ tx/秒 |
-| トランザクションごとのレイテンシー (CAMT) | 37マイクロ秒 |
-| トランザクションごとのレイテンシー (PAIN.001) | 19マイクロ秒 |
-| 最初の結果が得られるまでの時間 | < 2 ミリ秒 |
-| メモリ スケーリング (1K ～ 50K tx) | 定数（ストリーミング） |
-| テストカバレッジ | 100% の支店カバレッジ |
-| テスト | 29 のテスト ファイル全体で 467 |
+| トランザクションあたりのレイテンシ（CAMT） | 37 マイクロ秒 |
+| トランザクションあたりのレイテンシ（PAIN.001） | 19 マイクロ秒 |
+| 最初の結果が得られるまでの時間 | < 2 ms |
+| メモリスケーリング（1K〜50K tx） | 一定（ストリーミング） |
+| テストカバレッジ | 100% ブランチカバレッジ |
+| テスト数 | 29 テストファイルで 718 |
 
-## 構築を開始
+## 構築を開始する
 
-[インストールと例を始めましょう ❯][01]
+[インストールと使用例を始める ❯][01]
 
 [01]: /getting-started/index.html "はじめに"
- 「GitHubリポジトリ」
+ "GitHub リポジトリ"

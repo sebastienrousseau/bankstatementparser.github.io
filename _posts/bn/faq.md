@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "ব্যাঙ্ক স্টেটমেন্ট পার্সার সম্পর্কে প্রায়শই জিজ্ঞাসিত প্রশ্নাবলী"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 ব্যাঙ্ক স্টেটমেন্ট পার্সার। সর্বস্বত্ব সংরক্ষিত"
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "ব্যাঙ্ক স্টেটমেন্ট পার্সার সম্পর্কে সাধারণ প্রশ্নের উত্তর: ডেটা গোপনীয়তা, PII রিডাকশন, কর্মক্ষমতা, ISO 20022 সমর্থন, স্ট্রিমিং, কমপ্লায়েন্স এবং ট্রেজারি ওয়ার্কফ্লো।"
 download: ""
 format-detection: "telephone=no"
@@ -107,70 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-## ডেটা গোপনীয়তা এবং সম্মতি
+## ডেটা গোপনীয়তা ও কমপ্লায়েন্স
 
-### কোন ডেটা কি আমার পরিকাঠামো ছেড়ে যায়?
+### কোনো ডেটা কি আমার infrastructure ছেড়ে যায়?
 
-**না.** ব্যাঙ্ক স্টেটমেন্ট পার্সার একটি রাষ্ট্রহীন লাইব্রেরি হিসাবে কাজ করে৷ সমস্ত প্রক্রিয়াকরণ -- পার্সিং, PII রিডাকশন, সংরক্ষণাগার নিষ্কাশন -- আপনার স্থানীয় রানটাইম মেমরির মধ্যে ঘটে। কোনো API কল নেই, কোনো ক্লাউড পরিষেবা নেই, কোনো টেলিমেট্রি নেই৷ XML পার্সারদের সাথে শক্ত করা হয়`no_network=True`, পার্সার স্তরে সমস্ত আউটবাউন্ড অ্যাক্সেস ব্লক করা হচ্ছে। আপনার আর্থিক ডেটা কখনই আপনার পরিবেশ ছেড়ে যায় না।
+**না — এমনকি PDF extraction-এর জন্যও না।** Bank Statement Parser একটি stateless লাইব্রেরি হিসেবে কাজ করে। সমস্ত প্রক্রিয়াকরণ -- পার্সিং, PII রিডাকশন, আর্কাইভ extraction -- আপনার স্থানীয় রানটাইম মেমরিতে ঘটে। Hybrid PDF pipeline স্থানীয় LLM inference-এর জন্য Ollama ব্যবহার করে — কোনো cloud API নেই। XML পার্সার `no_network=True` দিয়ে শক্তিশালী করা হয়েছে, পার্সার স্তরে সমস্ত আউটবাউন্ড অ্যাক্সেস ব্লক করে। আপনার আর্থিক ডেটা কখনই আপনার পরিবেশ ছাড়ে না।
 
-### পিআইআই রিডাকশন কীভাবে কাজ করে?
+### PII রিডাকশন কীভাবে কাজ করে?
 
-সংবেদনশীল ক্ষেত্রগুলি আপনার অ্যাপ্লিকেশনের যুক্তিতে পৌঁছানোর আগে মুখোশযুক্ত। পার্সার দেনাদারদের নাম, পাওনাদারের নাম, IBAN এবং ডাক ঠিকানা চিহ্নিত করে, তাদের সাথে প্রতিস্থাপন করে`***REDACTED***`কনসোল আউটপুট এবং স্ট্রিমিং মোডে।
+সংবেদনশীল ক্ষেত্র আপনার অ্যাপ্লিকেশন লজিকে পৌঁছানোর আগেই মাস্ক করা হয়। পার্সার debtor নাম, creditor নাম, IBAN এবং ডাক ঠিকানা চিহ্নিত করে, কনসোল আউটপুট ও streaming মোডে `***REDACTED***` দিয়ে প্রতিস্থাপন করে।
 
-- **সিএলআই আউটপুট এবং স্ট্রিমিং মোডে ডিফল্টরূপে রিডাকশন চালু থাকে।
-- **ফাইল এক্সপোর্ট** (CSV, JSON, Excel) ডাউনস্ট্রিম প্রসেসিংয়ের জন্য অসংশোধিত ডেটা ধরে রাখে।
-- এর সাথে সম্পূর্ণ ডেটাতে **অপ্ট ইন করুন`--show-pii`CLI বা`redact_pii=False`API-এ।
+- **ডিফল্টরূপে রিডাকশন চালু** CLI আউটপুট ও streaming মোডে।
+- **ফাইল এক্সপোর্ট** (CSV, JSON, Excel) ডাউনস্ট্রিম প্রক্রিয়াকরণের জন্য অসংশোধিত ডেটা রাখে।
+- CLI-তে `--show-pii` বা API-তে `redact_pii=False` দিয়ে সম্পূর্ণ ডেটায় **অপ্ট-ইন** করুন।
 
-### নিষ্কাশন প্রক্রিয়া কি নির্ধারক?
+### extraction প্রক্রিয়া কি নির্ধারক?
 
-**হ্যাঁ -- প্রতি রানে বাইট-অভিন্ন আউটপুট।** একই ইনপুট ফাইল দেওয়া হলে, পার্সার প্রতিবার একই ফলাফল দেয়। কোন এলোমেলোতা, কোন মডেল অনুমান, কোন heuristic নমুনা. CI 100% শাখা কভারেজে 467 পরীক্ষার মাধ্যমে নির্ণয়বাদ প্রয়োগ করে, যার মধ্যে হাইপোথিসিসের মাধ্যমে সম্পত্তি-ভিত্তিক অস্পষ্টতা রয়েছে।
+**স্ট্রাকচার্ড ফর্ম্যাটের জন্য হ্যাঁ — প্রতিটি রানে বাইট-অভিন্ন আউটপুট।** একই ইনপুট ফাইল দিলে, নির্ধারক পার্সার (CAMT, PAIN.001, CSV, OFX, QFX, MT940) প্রতিবার একই ফলাফল দেয়। কোনো randomness, কোনো model inference, কোনো heuristic sampling নেই।
+
+Hybrid PDF pipeline-এর জন্য, LLM-ভিত্তিক extraction পথ রানের মধ্যে সামান্য পার্থক্য দেখাতে পারে। এজন্যই প্রতিটি PDF extraction **Golden Rule** (`opening + credits − debits == closing`) দিয়ে যাচাই করা হয় এবং চিহ্নিত অসঙ্গতি ইন্টারেক্টিভভাবে পর্যালোচনা করা যায়।
+
+CI 100% branch coverage-এ 718 টেস্ট দিয়ে নির্ধারকতা প্রয়োগ করে, Hypothesis-এর মাধ্যমে property-based fuzzing সহ।
 
 ### প্রকল্পটি কোন কমপ্লায়েন্স স্ট্যান্ডার্ড অনুসরণ করে?
 
-প্রকল্পটি সম্পূর্ণ সনাক্তযোগ্যতার সাথে ISO 13485-সংযুক্ত ডকুমেন্টেশন বজায় রাখে:
+প্রকল্পটি সম্পূর্ণ traceability সহ ISO 13485-সংযুক্ত ডকুমেন্টেশন বজায় রাখে:
 
-- তীব্রতা/সম্ভাব্যতা স্কোরিং এবং অবশিষ্ট ঝুঁকি মূল্যায়ন সহ একটি পরিমাপযুক্ত **ঝুঁকি নিবন্ধন**।
-- একটি **যাচাই এবং বৈধকরণ পরিকল্পনা** যেখানে 5টি ধাপে 19টি গেটেড ধাপ রয়েছে।
-- প্রভাব মূল্যায়ন এবং রোলব্যাক প্রোটোকল সহ একটি **নিয়ন্ত্রণ পদ্ধতি পরিবর্তন করুন**।
-- একটি **SOUP রেজিস্টার** ঝুঁকির মাত্রা এবং EOL ট্র্যাকিং সহ সমস্ত নির্ভরতা কভার করে৷
-- বাস্তবায়ন এবং যাচাইয়ের জন্য একটি **ট্রেসবিলিটি ম্যাট্রিক্স** ম্যাপিং ডিজাইন ইনপুট।
+- তীব্রতা/সম্ভাব্যতা স্কোরিং ও অবশিষ্ট ঝুঁকি মূল্যায়ন সহ একটি পরিমাণগত **Risk Register**।
+- 5টি পর্যায়ে 19টি gated ধাপ সহ একটি **Verification and Validation Plan**।
+- প্রভাব মূল্যায়ন ও rollback protocol সহ একটি **Change Control Procedure**।
+- ঝুঁকি স্তর ও EOL tracking সহ সমস্ত ডিপেন্ডেন্সি কভার করে একটি **SOUP Register**।
+- implementation ও verification-এ design input ম্যাপিং করে একটি **Traceability Matrix**।
 
-প্রতিটি রিলিজে একটি CycloneDX SBOM, SHA-256 চেকসাম, এবং GitHub বিল্ড প্রোভেনেন্স প্রত্যয়ন অন্তর্ভুক্ত রয়েছে।
+প্রতিটি রিলিজে CycloneDX SBOM, SHA-256 checksum, এবং GitHub build provenance attestation অন্তর্ভুক্ত।
 
-## কর্মক্ষমতা এবং পরিমাপযোগ্যতা
+## পারফরম্যান্স ও স্কেলেবিলিটি
 
-### ব্যাঙ্ক স্টেটমেন্ট পার্সার কত দ্রুত?
+### Bank Statement Parser কত দ্রুত?
 
-পারফরম্যান্স থ্রেশহোল্ড প্রতিটি প্রতিশ্রুতিতে CI-তে যাচাই করা হয়:
+পারফরম্যান্স threshold প্রতিটি commit-এ CI-তে যাচাই করা হয়:
 
 | মেট্রিক | মান |
 |---|---|
 | CAMT.053 থ্রুপুট | 27,000+ লেনদেন/সেকেন্ড |
 | PAIN.001 থ্রুপুট | 52,000+ লেনদেন/সেকেন্ড |
 | প্রতি-লেনদেন লেটেন্সি (CAMT) | 37 মাইক্রোসেকেন্ড |
-| প্রতি-লেনদেন বিলম্বিতা (PAIN.001) | 19 মাইক্রোসেকেন্ড |
+| প্রতি-লেনদেন লেটেন্সি (PAIN.001) | 19 মাইক্রোসেকেন্ড |
 | প্রথম ফলাফলের সময় | < 2 ms |
 
-### বড় ফাইল কিভাবে পরিচালনা করা হয়?
+PDF extraction গতি রাউটিং পথের উপর নির্ভর করে: deterministic (সাব-সেকেন্ড), text-LLM (সেকেন্ড), vision-LLM (প্রতি পৃষ্ঠায় সেকেন্ড)।
 
-**বাউন্ডেড মেমরির সাথে স্ট্রিমিং -- ফাইল প্রতি ৫০,০০০ লেনদেনে পরীক্ষা করা হয়েছে।** ব্যবহার করুন`parse_streaming()`XML ফাইলগুলিকে ক্রমবর্ধমানভাবে প্রক্রিয়া করতে। প্রতিটি লেনদেন একটি অভিধান হিসাবে ফলিত হয়; মেমরি বৃদ্ধি রোধ করতে প্রক্রিয়াকরণের পরে উপাদানগুলি পরিষ্কার করা হয়। মেমরি ফাইলের আকারের সাথে স্কেল করে না -- 50K-লেনদেন পরীক্ষা (25+ MB) 10K-লেনদেন পরীক্ষার মেমরির 2x কম ব্যবহার করে।
+### বড় ফাইল কীভাবে পরিচালনা করা হয়?
 
-50 MB-এর বেশি ফাইলের জন্য (যেমন, 100K+ পেমেন্ট সহ হোস্ট-টু-হোস্ট PAIN.001 ব্যাচ), পার্সার খণ্ড-ভিত্তিক নেমস্পেস স্ট্রিপিং সহ একটি অস্থায়ী ফাইলের মাধ্যমে প্রবাহিত হয় -- সম্পূর্ণ নথি কখনই মেমরিতে লোড হয় না।
+**সীমাবদ্ধ মেমরি সহ streaming — প্রতি ফাইলে 50,000 লেনদেনে পরীক্ষিত।** XML ফাইল ক্রমান্বয়ে প্রক্রিয়া করতে `parse_streaming()` ব্যবহার করুন। প্রতিটি লেনদেন dictionary হিসেবে yield হয়; মেমরি বৃদ্ধি রোধে প্রক্রিয়াকরণের পর element পরিষ্কার করা হয়। মেমরি ফাইলের আকারের সাথে স্কেল করে না — 50K-লেনদেন পরীক্ষা (25+ MB) 10K-লেনদেন পরীক্ষার 2x-এর কম মেমরি ব্যবহার করে।
 
-### জিপ সংরক্ষণাগারগুলি কীভাবে নিরাপদে প্রক্রিয়া করা হয়?
+50 MB-এর বেশি ফাইলের জন্য (যেমন 100K+ পেমেন্ট সহ host-to-host PAIN.001 batch), পার্সার chunk-ভিত্তিক namespace stripping সহ temporary ফাইলের মাধ্যমে stream করে — সম্পূর্ণ ডকুমেন্ট কখনই মেমরিতে লোড হয় না।
 
-`iter_secure_xml_entries()`নিষ্কাশনের আগে প্রতিটি সদস্যকে যাচাই করে:
+### ZIP আর্কাইভ কীভাবে নিরাপদে প্রক্রিয়া করা হয়?
 
-- **এন্ট্রি সাইজ ক্যাপ** (প্রতি এন্ট্রিতে ডিফল্ট 10 এমবি)
-- **মোট আনকম্প্রেস সাইজ ক্যাপ** (ডিফল্ট 50 এমবি)
-- **কম্প্রেশন অনুপাত সীমা** (ডিফল্ট 100:1) জিপ বোমা প্রতিরোধ করতে
-- **এনক্রিপ্ট করা এন্ট্রি প্রত্যাখ্যান**
+`iter_secure_xml_entries()` extraction-এর আগে প্রতিটি member যাচাই করে:
 
-ডিস্কে কোনো ফাইল লেখা হয় না। XML বাইট সরাসরি পার্সারের মাধ্যমে পাস করে`from_bytes()`.
+- **Entry size cap** (প্রতি এন্ট্রিতে ডিফল্ট 10 MB)
+- **মোট uncompressed size cap** (ডিফল্ট 50 MB)
+- **Compression ratio limit** (ডিফল্ট 100:1) ZIP bomb প্রতিরোধে
+- **Encrypted entry rejection**
 
-### আমি কি সমান্তরালে একাধিক ফাইল পার্স করতে পারি?
+ডিস্কে কোনো ফাইল লেখা হয় না। XML বাইট `from_bytes()`-এর মাধ্যমে সরাসরি পার্সারে পাস হয়।
 
-**হ্যাঁ।** ব্যবহার করুন`parse_files_parallel()`যা একটি জুড়ে কাজ বিতরণ করে`ProcessPoolExecutor`:
+### আমি কি parallel-এ একাধিক ফাইল পার্স করতে পারি?
+
+**হ্যাঁ।** `parse_files_parallel()` ব্যবহার করুন যা `ProcessPoolExecutor` জুড়ে কাজ বিতরণ করে:
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -184,61 +190,120 @@ for r in results:
     print(r.path, r.status, len(r.transactions), "rows")
 ```
 
-## সমর্থিত ফরম্যাট
+Bulk PDF ingestion-এর জন্য, `scan_and_ingest()` ব্যবহার করুন যা স্বয়ংক্রিয় ডিডুপ্লিকেশন সহ সম্পূর্ণ ফোল্ডার ট্রি প্রক্রিয়া করে।
 
-### কোন ব্যাঙ্ক স্টেটমেন্ট ফরম্যাট সমর্থিত?
+## সমর্থিত ফর্ম্যাট
 
-| বিন্যাস | স্ট্যান্ডার্ড | ফাইলের ধরন | পার্সার ক্লাস |
+### কোন ব্যাঙ্ক স্টেটমেন্ট ফর্ম্যাট সমর্থিত?
+
+| ফর্ম্যাট | স্ট্যান্ডার্ড | ফাইলের ধরন | পার্সার/মেথড |
 |---|---|---|---|
-| CAMT.053 | ISO 20022 ব্যাঙ্ক-টু-কাস্টমার স্টেটমেন্ট | `.xml` | `CamtParser` |
-| PAIN.001 | ISO 20022 ক্রেডিট ট্রান্সফার সূচনা | `.xml` | `Pain001Parser` |
-| CSV | জেনেরিক ব্যাংক রপ্তানি | `.csv` | `CsvStatementParser` |
-| OFX | ফাইন্যান্সিয়াল এক্সচেঞ্জ খুলুন | `.ofx` | `OfxParser` |
-| QFX | দ্রুত আর্থিক বিনিময় | `.qfx` | `QfxParser` |
-| MT940 | সুইফট স্ট্যান্ডার্ড | `.mt940`, `.sta` | `Mt940Parser` |
+| CAMT.053 | ISO 20022 Bank-to-Customer Statement | `.xml` | `CamtParser` |
+| PAIN.001 | ISO 20022 Credit Transfer Initiation | `.xml` | `Pain001Parser` |
+| CSV | জেনেরিক ব্যাঙ্ক এক্সপোর্ট | `.csv` | `CsvStatementParser` |
+| OFX | Open Financial Exchange | `.ofx` | `OfxParser` |
+| QFX | Quicken Financial Exchange | `.qfx` | `QfxParser` |
+| MT940 | SWIFT standard | `.mt940`, `.sta` | `Mt940Parser` |
+| PDF | ডিজিটাল ও স্ক্যান করা স্টেটমেন্ট | `.pdf` | `smart_ingest()` |
 
-### পার্সার কি CAMT.053-এর ব্যাঙ্ক-নির্দিষ্ট উপভাষাগুলি পরিচালনা করে?
+### Hybrid PDF pipeline কীভাবে কাজ করে?
 
-**হ্যাঁ -- ডিজাইন অনুসারে নেমস্পেস-অজ্ঞেয়বাদী।** পার্সারটি প্রক্রিয়াকরণের আগে XML নেমস্পেসগুলিকে স্ট্রিপ করে, যেকোনো CAMT.053 ভেরিয়েন্ট পরিচালনা করে (`camt.053.001.02`, `camt.053.001.04`, বা মালিকানাধীন ব্যাঙ্কের মোড়ক) নামস্থান-নির্দিষ্ট কনফিগারেশন ছাড়াই। XPath ক্যোয়ারী টার্গেট এলিমেন্ট স্ট্রাকচার, নেমস্পেস ইউআরআই নয়।
+Hybrid pipeline (v0.0.5+) বুদ্ধিমত্তার সাথে PDF তিনটি extraction পথে রাউট করে:
 
-একটি কাস্টম খামে CAMT মোড়ানো ব্যাঙ্কগুলির জন্য, ব্যবহার করুন৷`from_string()`বা`from_bytes()`সরাসরি ভিতরের নথি খাওয়ানোর জন্য।
+- **Path A (Deterministic)**: স্ট্রাকচার্ড PDF টেবিল সরাসরি পার্স করা হয় — বিনামূল্যে, দ্রুততম, কোনো LLM প্রয়োজন নেই।
+- **Path B (Text-LLM)**: জটিল লেআউটের ডিজিটাল PDF স্থানীয় LLM (LiteLLM/Ollama) দিয়ে extract করা হয়।
+- **Path C (Vision-LLM)**: স্ক্যান বা ফটোকপি করা স্টেটমেন্ট multimodal vision model দিয়ে প্রক্রিয়া করা হয়।
 
-### আমি কি কাস্টম CSV কলাম হেডার মান স্কিমাতে ম্যাপ করতে পারি?
+প্রতিটি extraction Golden Rule (`opening + credits − debits == closing`) দিয়ে যাচাই করা হয়। অসঙ্গতি `--type review` দিয়ে ইন্টারেক্টিভভাবে পর্যালোচনা করা যায়।
 
-**হ্যাঁ -- স্বয়ংক্রিয় স্বাভাবিককরণ, শূন্য কনফিগারেশন।**`CsvStatementParser`সাধারণ হেডার বৈচিত্র্য স্বীকার করে:`"Date"`, `"Transaction Date"`, `"Booking Date"`সব মানচিত্র`date`ক্ষেত্র`"Amount"`, `"Value"`, `"Sum"`মানচিত্র`amount`. ক্রেডিট/ডেবিট কলাম বিভক্ত করুন (যেমন,`"Credit"`এবং`"Debit"`) সনাক্ত করা হয় এবং স্বয়ংক্রিয়ভাবে একটি একক স্বাক্ষরিত পরিমাণে মিলিত হয়।
+### পার্সার কি CAMT.053-এর ব্যাঙ্ক-নির্দিষ্ট dialect পরিচালনা করে?
 
-### আউটপুট ফরম্যাট কি?
+**হ্যাঁ — ডিজাইন অনুসারে namespace-agnostic।** পার্সার প্রক্রিয়াকরণের আগে XML namespace strip করে, যেকোনো CAMT.053 variant (`camt.053.001.02`, `camt.053.001.04`, বা proprietary ব্যাঙ্ক wrapper) namespace-নির্দিষ্ট কনফিগারেশন ছাড়াই পরিচালনা করে। XPath query element structure টার্গেট করে, namespace URI নয়।
 
-সমস্ত পার্সার সামঞ্জস্যপূর্ণ কলামের ধরন সহ মানসম্মত পান্ডা ডেটাফ্রেম তৈরি করে:
+কাস্টম envelope-এ CAMT wrap করা ব্যাঙ্কগুলির জন্য, অভ্যন্তরীণ ডকুমেন্ট সরাসরি ফিড করতে `from_string()` বা `from_bytes()` ব্যবহার করুন।
 
-| বিন্যাস | কী কলাম |
+### আমি কি কাস্টম CSV কলাম header স্ট্যান্ডার্ড schema-তে map করতে পারি?
+
+**হ্যাঁ — স্বয়ংক্রিয় normalisation, শূন্য কনফিগারেশন।** `CsvStatementParser` সাধারণ header variation চেনে: `"Date"`, `"Transaction Date"`, `"Booking Date"` সব `date` ক্ষেত্রে map হয়। `"Amount"`, `"Value"`, `"Sum"` `amount`-এ map হয়। Split credit/debit কলাম (যেমন `"Credit"` ও `"Debit"`) শনাক্ত হয় এবং স্বয়ংক্রিয়ভাবে একটি একক signed amount-এ একত্রিত হয়।
+
+### আউটপুট ফর্ম্যাট কী?
+
+সমস্ত পার্সার সামঞ্জস্যপূর্ণ কলাম type সহ standardised pandas DataFrame তৈরি করে:
+
+| ফর্ম্যাট | মূল কলাম |
 |---|---|
 | **CAMT** | `Amount`, `Currency`, `DrCr`, `Debtor`, `Creditor`, `Reference`, `ValDt`, `BookgDt`, `AccountId` |
-| **ব্যথা.001** | `PmtInfId`, `PmtMtd`, `InstdAmt`, `Currency`, `CdtrNm`, `EndToEndId`, `MsgId`, `CreDtTm`, `NbOfTxs` |
-| **CSV/OFX/QFX/MT940** | `date`, `description`, `amount`(স্বাভাবিক) |
+| **PAIN.001** | `PmtInfId`, `PmtMtd`, `InstdAmt`, `Currency`, `CdtrNm`, `EndToEndId`, `MsgId`, `CreDtTm`, `NbOfTxs` |
+| **CSV/OFX/QFX/MT940** | `date`, `description`, `amount` (normalised) |
 
-এছাড়াও আপনি CSV, JSON, Excel এ রপ্তানি করতে পারেন বা পোলারস ডেটাফ্রেমে রূপান্তর করতে পারেন।
+আপনি CSV, JSON, Excel, Polars DataFrame, hledger, বা beancount জার্নাল ফর্ম্যাটেও এক্সপোর্ট করতে পারেন।
+
+## PDF ও LLM বৈশিষ্ট্য
+
+### Hybrid pipeline কোন LLM model সমর্থন করে?
+
+Pipeline model abstraction layer হিসেবে LiteLLM এবং vision prompt-এর জন্য সরাসরি Ollama bridge ব্যবহার করে। প্রস্তাবিত model:
+
+- **Text extraction**: যেকোনো LiteLLM-compatible model (local বা remote)।
+- **Vision extraction**: `ollama/minicpm-v` (প্রস্তাবিত) স্ক্যান করা PDF-এর জন্য।
+- **Categorisation**: যেকোনো LiteLLM-compatible model।
+
+সমস্ত model Ollama-র মাধ্যমে 100% স্থানীয়ভাবে চলতে পারে — কোনো API key প্রয়োজন নেই।
+
+### Golden Rule verification কী?
+
+প্রতিটি PDF extraction এই সমীকরণ দিয়ে যাচাই করা হয়: `opening balance + credits − debits == closing balance`। ফলাফল এভাবে ট্যাগ করা হয়:
+
+- **VERIFIED**: ব্যালেন্স সঠিকভাবে মিলেছে।
+- **DISCREPANCY**: ব্যালেন্স মিলছে না — পর্যালোচনা প্রস্তাবিত।
+- **FAILED**: যাচাই করা সম্ভব হয়নি (ব্যালেন্স ডেটা অনুপস্থিত)।
+
+### আমি কি স্বয়ংক্রিয়ভাবে লেনদেন categorise করতে পারি?
+
+**হ্যাঁ।** Enrichment module (v0.0.6+) LLM-চালিত transaction categorisation প্রদান করে:
+
+```python
+from bankstatementparser.enrichment import Categorizer
+
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(transactions)
+```
+
+ডিফল্ট schema 13টি Plaid-compatible category ব্যবহার করে। আপনি নিজের category schema দিতে পারেন।
+
+### আমি কি hledger বা beancount-এ এক্সপোর্ট করতে পারি?
+
+**হ্যাঁ** (v0.0.8+)। Account mapping সহ plaintext-accounting জার্নাল ফর্ম্যাটে লেনদেন এক্সপোর্ট করুন:
+
+```python
+from bankstatementparser.export import to_hledger, to_beancount
+
+journal = to_hledger(transactions, account="Assets:Bank:Checking")
+```
 
 ## ট্রেজারি ওয়ার্কফ্লো
 
-### কিভাবে পার্সার মাল্টি-কারেন্সি স্টেটমেন্ট পরিচালনা করে?
+### পার্সার কীভাবে multi-currency স্টেটমেন্ট পরিচালনা করে?
 
-**প্রতিটি লেনদেন তার আসল মুদ্রা সংরক্ষণ করে -- কোন অন্তর্নিহিত রূপান্তর নয়।**`Currency`ক্ষেত্রটি XML থেকে বের করা হয়`Ccy`প্রতি লেনদেনের বৈশিষ্ট্য। মাল্টি-কারেন্সি স্টেটমেন্ট যেমন-ই থাকে। দ`get_account_balances()`পদ্ধতি মূল কারেন্সি কোড সহ অ্যাকাউন্ট প্রতি খোলা ও বন্ধ করার ব্যালেন্স ফেরত দেয়। ক্রস-কারেন্সি পুনর্মিলন আপনার ডাউনস্ট্রিম যুক্তিতে ছেড়ে দেওয়া হয়, যেখানে আপনি বিনিময় হারের উৎস নিয়ন্ত্রণ করেন।
+**প্রতিটি লেনদেন তার মূল মুদ্রা সংরক্ষণ করে — কোনো implicit conversion নয়।** `Currency` ক্ষেত্র XML `Ccy` attribute থেকে প্রতি লেনদেনে extract হয়। Multi-currency স্টেটমেন্ট যেমন আছে তেমনই থাকে। `get_account_balances()` method মূল currency code সহ প্রতি account-এ opening ও closing balance ফেরত দেয়।
 
-### পার্সার কি আউটগোয়িং এবং ইনকামিং উভয় ফর্ম্যাট সমর্থন করে?
+v0.0.8 থেকে, `verify_balance_multi_currency()` মুদ্রা অনুযায়ী লেনদেন গোষ্ঠীবদ্ধ করে এবং প্রতি গোষ্ঠীতে স্বতন্ত্রভাবে Golden Rule চালায় — একাধিক মুদ্রা ধারণকারী অ্যাকাউন্টের জন্য উপযোগী।
 
-**হ্যাঁ।**`Pain001Parser`ISO 20022 PAIN.001 ক্রেডিট ট্রান্সফার ইনিশিয়েশন ফাইল (আউটগোয়িং পেমেন্ট) পরিচালনা করে।`CamtParser`CAMT.053 ব্যাঙ্ক-টু-কাস্টমার স্টেটমেন্ট ফাইল (আগত রিপোর্টিং) পরিচালনা করে। উভয়ই স্ট্রিমিং, PII রিডাকশন এবং CSV, JSON এবং Excel এ রপ্তানি সমর্থন করে। ব্যবহার করুন`detect_statement_format()`স্বয়ংক্রিয়ভাবে বিন্যাস সনাক্ত করতে.
+### পার্সার কি outgoing ও incoming উভয় ফর্ম্যাট সমর্থন করে?
 
-### একটি লেনদেন এন্ট্রি ত্রুটিপূর্ণ হলে কি হয়?
+**হ্যাঁ।** `Pain001Parser` ISO 20022 PAIN.001 credit transfer initiation ফাইল (outgoing payment) পরিচালনা করে। `CamtParser` CAMT.053 bank-to-customer statement ফাইল (incoming reporting) পরিচালনা করে। উভয়ই streaming, PII রিডাকশন, এবং CSV, JSON, Excel, hledger, ও beancount-এ এক্সপোর্ট সমর্থন করে। স্বয়ংক্রিয়ভাবে ফর্ম্যাট শনাক্ত করতে `detect_statement_format()` ব্যবহার করুন।
 
-আচরণ পার্সিং মোডের উপর নির্ভর করে:
+### কোনো লেনদেন entry ত্রুটিপূর্ণ হলে কী হয়?
 
-- **`parse()`(ব্যাচ মোড)** -- বিকৃত এন্ট্রি প্রয়োজনীয় ক্ষেত্র অনুপস্থিত (`Amount`, `Currency`, বা`CdtDbtInd`) একটি সতর্কতা লগ দিয়ে এড়িয়ে যাওয়া হয়। বিবৃতি বাকি স্বাভাবিকভাবে পার্স.
--**`parse_streaming()`(স্ট্রিমিং মোড)** -- পার্স ত্রুটিগুলি ব্যতিক্রম হিসাবে অবিলম্বে প্রচারিত হয়। কোন নীরব তথ্য ক্ষতি. এই ব্যর্থ-দ্রুত আচরণটি আর্থিক কর্মপ্রবাহের জন্য ইচ্ছাকৃত যেখানে প্রতিটি লেনদেনের জন্য অ্যাকাউন্ট করা আবশ্যক।
+আচরণ parsing mode-এর উপর নির্ভর করে:
 
-### ডিডুপ্লিকেশন কিভাবে কাজ করে?
+- **`parse()` (batch mode)** -- প্রয়োজনীয় ক্ষেত্র (`Amount`, `Currency`, বা `CdtDbtInd`) অনুপস্থিত ত্রুটিপূর্ণ entry warning log সহ skip করা হয়। বাকি স্টেটমেন্ট স্বাভাবিকভাবে পার্স হয়।
+- **`parse_streaming()` (streaming mode)** -- পার্স error exception হিসেবে তাৎক্ষণিকভাবে propagate হয়। কোনো নীরব ডেটা ক্ষতি নেই। এই fail-fast আচরণ আর্থিক ওয়ার্কফ্লোর জন্য ইচ্ছাকৃত যেখানে প্রতিটি লেনদেনের হিসাব রাখা আবশ্যক।
+- **`smart_ingest()` (hybrid PDF)** -- Extraction error `IngestResult`-এ verification status সহ ক্যাপচার হয়, interactive review-এর সুযোগ দেয়।
 
-দ`Deduplicator`ক্লাস ব্যাখ্যাযোগ্য আত্মবিশ্বাসের স্কোর সহ সঠিক অনুলিপি এবং সন্দেহজনক মিল সনাক্ত করে:
+### Deduplication কীভাবে কাজ করে?
+
+প্রতিটি লেনদেনে key field-এর উপর ভিত্তি করে একটি idempotent `transaction_hash` (MD5 fingerprint) বরাদ্দ করা হয়। এটি নিরাপদ incremental ingestion সক্ষম করে — একই ফাইল পুনরায় প্রক্রিয়া করলে একই hash তৈরি হয়, তাই duplicate স্বয়ংক্রিয়ভাবে শনাক্ত হয়।
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
@@ -252,70 +317,87 @@ print(f"Exact duplicates: {len(result.exact_duplicates)}")
 print(f"Suspected matches: {len(result.suspected_matches)}")
 ```
 
-## ইনস্টলেশন এবং সামঞ্জস্যপূর্ণ
+## ইনস্টলেশন ও সামঞ্জস্যতা
 
-### আমি কিভাবে ব্যাঙ্ক স্টেটমেন্ট পার্সার ইনস্টল করব?
+### আমি কীভাবে Bank Statement Parser ইনস্টল করব?
 
 ```bash
+# Core install (deterministic parsers only)
 pip install bankstatementparser
+
+# PDF hybrid pipeline
+pip install 'bankstatementparser[hybrid]'         # Text-LLM path
+pip install 'bankstatementparser[hybrid-vision]'   # Vision-LLM path
+
+# Extras
+pip install 'bankstatementparser[enrichment]'      # Transaction categorisation
+pip install 'bankstatementparser[api]'             # REST API microservice
+pip install 'bankstatementparser[polars]'          # Polars DataFrame support
 ```
 
-ঐচ্ছিক পোলার ডেটাফ্রেম সমর্থনের জন্য:
+### কোন Python version সমর্থিত?
+
+Python 3.10 থেকে 3.14। Python 3.9 সাপোর্ট v0.0.6-এ বাদ দেওয়া হয়েছে (EOL 2025-10-31)। সমস্ত version 100% branch coverage-এ 718 টেস্ট সহ CI-তে পরীক্ষিত।
+
+### ডিপেন্ডেন্সি কী?
+
+Core লাইব্রেরির 5টি সরাসরি ডিপেন্ডেন্সি আছে:
+
+- `lxml` -- security hardening সহ XML পার্সিং
+- `pandas` -- DataFrame ও ডেটা manipulation
+- `openpyxl` -- Excel export
+- `pydantic` -- ডেটা validation ও model
+- `defusedxml` -- XXE সুরক্ষা
+
+ঐচ্ছিক extras যোগ করে: `litellm`, `pypdf`, `pdfplumber`, `pypdfium2`, `fastapi`, `uvicorn`, `polars`।
+
+সমস্ত ডিপেন্ডেন্সির SHA-256 hash-locked version আছে। CycloneDX SBOM প্রতিটি runtime component map করে।
+
+### এটি কি macOS, Linux ও Windows-এ কাজ করে?
+
+**হ্যাঁ।** লাইব্রেরিটি macOS, Linux, এবং Windows (WSL-এর মাধ্যমে) কাজ করে। কোনো platform-নির্দিষ্ট ডিপেন্ডেন্সি নেই।
+
+### কোনো REST API আছে?
+
+**হ্যাঁ** (v0.0.8+)। `pip install 'bankstatementparser[api]'` দিয়ে ইনস্টল করুন এবং চালান:
 
 ```bash
-pip install bankstatementparser[polars]
+bankstatementparser-api --port 8000
 ```
 
-### কোন পাইথন সংস্করণ সমর্থিত?
+Endpoint: `POST /ingest` (স্টেটমেন্ট পার্স করুন) এবং `GET /health` (health check)।
 
-পাইথন 3.9 থেকে 3.14। সমস্ত সংস্করণ 100% শাখা কভারেজে 467 পরীক্ষা সহ CI-তে পরীক্ষা করা হয়।
+## পুনরুত্পাদনযোগ্যতা ও নিরাপত্তা
 
-### নির্ভরতা কি?
-
-লাইব্রেরির 5টি সরাসরি নির্ভরতা রয়েছে:
-
-- `lxml`-- XML নিরাপত্তা শক্ত করার সাথে পার্সিং
--`pandas`-- ডেটাফ্রেম এবং ডেটা ম্যানিপুলেশন
--`openpyxl`-- এক্সেল এক্সপোর্ট
--`pydantic`-- ডেটা যাচাইকরণ এবং মডেল
--`defusedxml`-- XXE সুরক্ষা
-
-সমস্ত নির্ভরতার SHA-256 হ্যাশ-লক সংস্করণ রয়েছে। CycloneDX SBOM প্রতিটি রানটাইম কম্পোনেন্ট ম্যাপ করে।
-
-### এটি কি macOS, Linux এবং Windows এ কাজ করে?
-
-**হ্যাঁ।** লাইব্রেরিটি macOS, Linux, এবং Windows (WSL এর মাধ্যমে) কাজ করে। এটির কোনো প্ল্যাটফর্ম-নির্দিষ্ট নির্ভরতা নেই।
-
-## প্রজননযোগ্যতা এবং নিরাপত্তা
-
-### আমি কিভাবে প্রজননযোগ্যতা যাচাই করতে পারি?
+### আমি কীভাবে পুনরুত্পাদনযোগ্যতা যাচাই করতে পারি?
 
 ```bash
-python -m pytest                              # 467 tests, 100% branch coverage
+python -m pytest                              # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py        # SHA-256 hash verification
 git log --show-signature -1                   # Verify commit signature
 ```
 
-### কি নিরাপত্তা সুরক্ষা তৈরি করা হয়?
+### কোন নিরাপত্তা সুরক্ষা বিল্ট-ইন?
 
-- **XXE সুরক্ষা**:`resolve_entities=False`, `no_network=True`, `load_dtd=False`
-- **জিপ বোমা সুরক্ষা**: কম্প্রেশন রেশিও লিমিট, এন্ট্রি সাইজ ক্যাপস, এনক্রিপ্টেড এন্ট্রি রিজেকশান
-- **পাথ ট্রাভার্সাল প্রিভেনশন**: বিপজ্জনক প্যাটার্ন ব্লকলিস্ট এবং সিমলিংক রেজোলিউশন
-- **ইনপুট বৈধকরণ**: ফাইলের আকার সীমা (100 MB ডিফল্ট), এক্সটেনশন/ফরম্যাট বৈধতা
-- **সাপ্লাই চেইন**: SHA-256 হ্যাশ-লক ডিপেন্ডেন্সি, সাইক্লোনডিএক্স SBOM, বিল্ড প্রোভেনেন্স অ্যাটেস্টেশন
-- **স্বাক্ষরিত প্রতিশ্রুতি**: CI তে প্রয়োগ করা হয়েছে
+- **XXE সুরক্ষা**: `resolve_entities=False`, `no_network=True`, `load_dtd=False`
+- **ZIP Bomb সুরক্ষা**: Compression ratio limit, entry size cap, encrypted entry rejection
+- **Path Traversal প্রতিরোধ**: বিপজ্জনক pattern blocklist ও symlink resolution
+- **Input Validation**: ফাইল size limit (100 MB ডিফল্ট), extension/format validation
+- **Supply Chain**: SHA-256 hash-locked ডিপেন্ডেন্সি, CycloneDX SBOM, build provenance attestation
+- **Signed Commits**: CI-তে প্রয়োগকৃত
+- **স্থানীয় LLM**: Hybrid PDF pipeline Ollama ব্যবহার করে — কোনো cloud API call নেই
 
-### ব্যাংক স্টেটমেন্ট পার্সার কিভাবে pyiso20022 এর সাথে তুলনা করে?
+### Bank Statement Parser কীভাবে pyiso20022-এর সাথে তুলনা করে?
 
-pyiso20022 হল একটি বিস্তৃত ISO 20022 টুলকিট যা ISO XML স্কিমা থেকে পাইথন ডেটাক্লাস তৈরি করে। এটি স্কিমা বৈধতা সহ ISO 20022 বার্তা প্রকারের (PACS, PAIN, CAMT, ADMI) বিস্তৃত পরিসর কভার করে। ব্যাঙ্ক স্টেটমেন্ট পার্সার উদ্দেশ্য করে তৈরি করা হয়েছে ব্যাঙ্ক স্টেটমেন্ট পার্সিংয়ের জন্য স্ট্রিমিং সাপোর্ট, PII রিডাকশন, ডিডুপ্লিকেশন এবং একটি ইউনিফাইড API সহ ছয়টি ফরম্যাটে নন-আইএসও ফরম্যাট (CSV, OFX, QFX, MT940)। আপনি যদি প্রোডাকশন-গ্রেড সিকিউরিটি সহ ডেটাফ্রেমে ব্যাঙ্ক স্টেটমেন্ট পার্স করতে চান, ব্যাঙ্ক স্টেটমেন্ট পার্সার ব্যবহার করুন। আপনি যদি সম্পূর্ণ ISO 20022 বার্তা ক্যাটালগ নিয়ে কাজ করতে চান, তাহলে pyiso20022 ব্যবহার করুন।
+pyiso20022 একটি বিস্তৃত ISO 20022 টুলকিট যা ISO XML schema থেকে Python dataclass তৈরি করে। এটি schema validation সহ বিস্তৃত ISO 20022 message type (PACS, PAIN, CAMT, ADMI) কভার করে। Bank Statement Parser hybrid PDF সাপোর্ট, balance verification, enrichment, ledger export, এবং নন-ISO ফর্ম্যাট (CSV, OFX, QFX, MT940, PDF) সহ সাতটি ফর্ম্যাটে unified API সহ ব্যাঙ্ক স্টেটমেন্ট পার্সিংয়ের জন্য উদ্দেশ্য-নির্মিত। প্রোডাকশন-গ্রেড security সহ DataFrame-এ ব্যাঙ্ক স্টেটমেন্ট পার্স করতে Bank Statement Parser ব্যবহার করুন। সম্পূর্ণ ISO 20022 message catalogue নিয়ে কাজ করতে pyiso20022 ব্যবহার করুন।
 
-### SWIFT ISO 20022 মাইগ্রেশনের সময়সীমা কি কি?
+### SWIFT ISO 20022 মাইগ্রেশনের সময়সীমা কী?
 
-SWIFT একটি পর্যায়ক্রমে মাইগ্রেশন টাইমলাইন প্রকাশ করেছে:
+SWIFT একটি পর্যায়ক্রমিক মাইগ্রেশন টাইমলাইন প্রকাশ করেছে:
 
-- **নভেম্বর 2026**: স্ট্রাকচার্ড এবং হাইব্রিড ঠিকানা বাধ্যতামূলক হয়ে গেছে। MT101 মাল্টি-ইনস্ট্রাকশন মেসেজ প্রত্যাখ্যান করা হবে। কেস ম্যানেজমেন্ট ফেজ 1 শুরু হয়।
-- **নভেম্বর 2027**: সমস্ত আর্থিক প্রতিষ্ঠান অবশ্যই CAMT.053 স্টেটমেন্ট নেটিভভাবে গ্রহণ করতে সক্ষম হবে। SWIFT MT কে ISO ফরম্যাটে রূপান্তর করা বন্ধ করবে।
-- **নভেম্বর 2028**: MT940, MT942, MT950, MT900 এবং MT910-এর সম্পূর্ণ অবসর। এগুলি CAMT.052, CAMT.053, এবং CAMT.054 সমতুল্য দ্বারা প্রতিস্থাপিত হবে৷
+- **নভেম্বর 2026**: Structured ও hybrid ঠিকানা বাধ্যতামূলক হবে। MT101 multi-instruction message প্রত্যাখ্যান করা হবে। Case Management Phase 1 শুরু।
+- **নভেম্বর 2027**: সমস্ত আর্থিক প্রতিষ্ঠান CAMT.053 স্টেটমেন্ট নেটিভভাবে গ্রহণ করতে সক্ষম হতে হবে। SWIFT MT-কে ISO ফর্ম্যাটে রূপান্তর বন্ধ করবে।
+- **নভেম্বর 2028**: MT940, MT942, MT950, MT900 ও MT910-এর সম্পূর্ণ অবসর। এগুলি CAMT.052, CAMT.053, ও CAMT.054 equivalent দ্বারা প্রতিস্থাপিত হবে।
 
-ব্যাঙ্ক স্টেটমেন্ট পার্সার লিগ্যাসি MT940 ফর্ম্যাট এবং আধুনিক CAMT.053/PAIN.001 ফর্ম্যাট উভয়কেই সমর্থন করে, এটিকে ট্রানজিশন সময়ের জন্য আদর্শ করে তোলে৷
+Bank Statement Parser legacy MT940 ফর্ম্যাট ও আধুনিক CAMT.053/PAIN.001 ফর্ম্যাট উভয়কেই সমর্থন করে, এটিকে transition সময়ের জন্য আদর্শ করে।
 

@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "白色的建築，黑色的窗戶"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 銀行對帳單解析器。版權所有。"
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "開始使用 Python 銀行對帳單解析器：安裝、解析 CAMT/PAIN.001/CSV/OFX/QFX/MT940 文件，並使用串流處理或 CLI 工作流程。"
 download: ""
 format-detection: "telephone=no"
@@ -107,26 +107,43 @@ site_software: "Shokunin, Rust"
 
 ---
 
-＃＃ 要求
+## 系統需求
 
-- Python 3.9 至 3.14
-- 終端存取（macOS、Linux 或 WSL）
+- Python 3.10 至 3.14
+- 終端機存取（macOS、Linux 或 WSL）
 
-＃＃ 安裝
+## 安裝
 
 ```bash
+# 核心安裝（僅確定性解析器）
 pip install bankstatementparser
 ```
 
-對於 Polars DataFrame 支援：
+可選的額外功能套件：
 
 ```bash
-pip install bankstatementparser[polars]
+# 文字 LLM 路徑，用於數位 PDF（litellm + pypdf）
+pip install 'bankstatementparser[hybrid]'
+
+# 更高精度的表格擷取（加入 pdfplumber）
+pip install 'bankstatementparser[hybrid-plus]'
+
+# 視覺 LLM 路徑，用於掃描 PDF（加入 pypdfium2）
+pip install 'bankstatementparser[hybrid-vision]'
+
+# LLM 驅動的交易分類
+pip install 'bankstatementparser[enrichment]'
+
+# REST API 微服務（FastAPI + uvicorn）
+pip install 'bankstatementparser[api]'
+
+# 可選的 Polars DataFrame 支援
+pip install 'bankstatementparser[polars]'
 ```
 
 ## 快速入門
 
-### 自動偵測並解析任何格式
+### 自動偵測並解析任何結構化格式
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -137,7 +154,7 @@ df = parser.parse()  # pandas DataFrame
 print(df.head())
 ```
 
-這適用於`.xml`(CAMT/PAIN.001),`.csv`, `.ofx`, `.qfx`, `.mt940`， 和`.sta`文件。
+適用於 `.xml`（CAMT/PAIN.001）、`.csv`、`.ofx`、`.qfx`、`.mt940` 及 `.sta` 檔案。
 
 ### 解析 CAMT.053
 
@@ -157,9 +174,24 @@ parser = Pain001Parser("payment.xml")
 payments = parser.parse()
 ```
 
-## 串流大文件
+### 解析 PDF 銀行對帳單（混合管線）
 
-對於具有數千個事務的文件，請使用串流傳輸來限制記憶體：
+混合管線會智慧地將 PDF 路由至三條擷取路徑：
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+print(result.transactions)          # List of extracted transactions
+```
+
+每次擷取都透過**黃金法則**進行驗證：`opening + credits − debits == closing`。
+
+## 串流處理大型檔案
+
+對於包含數千筆交易的檔案，使用串流處理以維持固定記憶體用量：
 
 ```python
 parser = CamtParser("large_statement.xml")
@@ -169,7 +201,7 @@ for transaction in parser.parse_streaming(redact_pii=True):
 
 ## 記憶體中解析
 
-在沒有磁碟 I/O 的情況下從位元組進行解析——對於 SFTP 或 API 工作流程很有用：
+從位元組直接解析，無磁碟 I/O——適用於 SFTP 或 API 工作流程：
 
 ```python
 xml_bytes = download_from_sftp()
@@ -177,7 +209,7 @@ parser = CamtParser.from_bytes(xml_bytes, source_name="daily.xml")
 transactions = parser.parse()
 ```
 
-## 平行文件處理
+## 平行檔案處理
 
 同時解析多個檔案：
 
@@ -193,9 +225,21 @@ for r in results:
     print(r.path, r.status, len(r.transactions), "rows")
 ```
 
-## 重複資料刪除
+## 批次目錄掃描
 
-透過置信度分數檢測精確的重複項和可疑匹配項：
+處理整個資料夾樹狀結構，自動去重：
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Processed: {len(batch.results)} files")
+print(f"Unique transactions: {batch.unique_count}")
+```
+
+## 去重
+
+冪等交易雜湊，適用於安全的增量匯入：
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
@@ -209,6 +253,58 @@ print(f"Exact duplicates: {len(result.exact_duplicates)}")
 print(f"Suspected matches: {len(result.suspected_matches)}")
 ```
 
+## 交易分類（增強）
+
+使用 LLM 驅動的分類自動歸類交易：
+
+```python
+from bankstatementparser.enrichment import Categorizer
+
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(transactions)
+for txn in enriched:
+    print(f"{txn.description}: {txn.category}")
+```
+
+## 帳本匯出（hledger / beancount）
+
+將交易匯出為純文字記帳日記帳格式：
+
+```python
+from bankstatementparser.export import to_hledger, to_beancount
+
+journal = to_hledger(transactions, account="Assets:Bank:Checking")
+beancount_journal = to_beancount(transactions, account="Assets:Bank:Checking")
+```
+
+## 多幣別餘額驗證
+
+依幣別群組獨立驗證餘額：
+
+```python
+from bankstatementparser.hybrid import verify_balance_multi_currency
+
+results = verify_balance_multi_currency(transactions)
+for currency, verification in results.items():
+    print(f"{currency}: {verification.status}")
+```
+
+## REST API
+
+以 FastAPI 微服務部署：
+
+```bash
+# 啟動 API 伺服器
+bankstatementparser-api --port 8000
+
+# 容器部署
+bankstatementparser-api --host 0.0.0.0 --port 9000
+```
+
+端點：
+- `POST /ingest` -- 解析銀行對帳單檔案
+- `GET /health` -- 健康檢查
+
 ## 安全 ZIP 處理
 
 使用內建安全檢查（炸彈防護、加密條目拒絕）處理壓縮的 XML 檔案：
@@ -221,7 +317,7 @@ for entry in iter_secure_xml_entries("statements.zip"):
     print(f"{entry.source_name}: {len(parser.parse())} transactions")
 ```
 
-＃＃ 出口
+## 匯出
 
 ```python
 parser = CamtParser("statement.xml")
@@ -230,29 +326,39 @@ parser.export_json("output.json")
 
 # Polars (requires bankstatementparser[polars])
 polars_df = parser.to_polars()
+
+# Excel
+parser.camt_to_excel("output.xlsx")
 ```
 
 ## CLI 用法
 
 ```bash
-# Parse and display
-python -m bankstatementparser.cli --type camt --input statement.xml
+# 解析結構化格式
+bankstatementparser --type camt --input statement.xml
+bankstatementparser --type pain001 --input payment.xml
 
-# Export to CSV
-python -m bankstatementparser.cli --type camt --input statement.xml --output transactions.csv
+# 混合 PDF 管線
+bankstatementparser --type ingest --input statement.pdf
+bankstatementparser --type ingest --input statement.pdf --output ledger.csv
 
-# Stream with PII visible
-python -m bankstatementparser.cli --type camt --input statement.xml --streaming --show-pii
+# 互動式審核模式
+bankstatementparser --type review --input result.json
+bankstatementparser --type review --input result.json --output reviewed.json
+
+# 以串流方式匯出為 CSV
+bankstatementparser --type camt --input statement.xml --output transactions.csv
+bankstatementparser --type camt --input statement.xml --streaming --show-pii
 ```
 
 CLI 選項：
 
-- `--type {camt,pain001}`-- 解析器類型
--`--input <path>`-- 輸入檔
--`--output <csv_path>`-- 匯出為 CSV
--`--streaming`-- 串流大檔案
--`--show-pii`-- 顯示敏感欄位（預設已編輯）
--`--max-size <MB>`-- 檔案大小限制
+- `--type {camt,pain001,ingest,review}` -- 解析器類型或模式
+- `--input <path>` -- 輸入檔案
+- `--output <path>` -- 匯出檔案（CSV 或 JSON）
+- `--streaming` -- 串流處理大型檔案
+- `--show-pii` -- 顯示敏感欄位（預設已遮蔽）
+- `--max-size <MB>` -- 檔案大小限制
 
 ## 本機開發設定
 
@@ -261,9 +367,10 @@ git clone https://github.com/sebastienrousseau/bankstatementparser.git
 cd bankstatementparser
 python3 -m venv .venv && source .venv/bin/activate
 pip install poetry && poetry install --with dev
+make install-hooks   # pre-commit hook runs `make verify` before every commit
 ```
 
-運行測試套件：
+執行測試套件：
 
 ```bash
 pytest
@@ -273,38 +380,48 @@ pytest
 
 ### 解析器類別
 
-| 班級 | 格式 | 進口 |
+| 類別 | 格式 | 匯入方式 |
 |---|---|---|
 | `CamtParser` | CAMT.053 (ISO 20022) | `from bankstatementparser import CamtParser` |
 | `Pain001Parser` | PAIN.001 (ISO 20022) | `from bankstatementparser import Pain001Parser` |
 | `CsvStatementParser` | CSV | `from bankstatementparser import CsvStatementParser` |
-| `OfxParser` | 氧氟沙星 | `from bankstatementparser import OfxParser` |
+| `OfxParser` | OFX | `from bankstatementparser import OfxParser` |
 | `QfxParser` | QFX | `from bankstatementparser import QfxParser` |
 | `Mt940Parser` | MT940 | `from bankstatementparser import Mt940Parser` |
+| `smart_ingest()` | PDF（混合管線） | `from bankstatementparser.hybrid import smart_ingest` |
 
-### 實用函數
+### 工具函式
 
-| 功能 | 目的 |
+| 函式 | 用途 |
 |---|---|
-| `detect_statement_format(path)` | 自動檢測文件格式 |
-| `create_parser(path, fmt)` | 建立適當的解析器 |
-| `parse_files_parallel(paths)` | 同時解析多個文件 |
+| `detect_statement_format(path)` | 自動偵測檔案格式 |
+| `create_parser(path, fmt)` | 建立對應的解析器 |
+| `parse_files_parallel(paths)` | 同時解析多個檔案 |
 | `iter_secure_xml_entries(zip_path)` | 安全地迭代 ZIP 條目 |
+| `smart_ingest(path)` | 混合 PDF 擷取並驗證 |
+| `scan_and_ingest(dir, pattern)` | 批次目錄掃描 |
+| `verify_balance_multi_currency(txns)` | 依幣別驗證餘額 |
+| `to_hledger(txns, account)` | 匯出為 hledger 日記帳格式 |
+| `to_beancount(txns, account)` | 匯出為 beancount 日記帳格式 |
 
-### 資料類
+### 資料類別
 
-| 班級 | 目的 |
+| 類別 | 用途 |
 |---|---|
 | `Deduplicator` | 偵測重複交易 |
-| `DeduplicationResult` | 具有唯一、精確和可疑匹配的結果 |
-| `InputValidator` | 驗證文件路徑和格式 |
+| `DeduplicationResult` | 包含唯一、精確及可疑匹配的結果 |
+| `InputValidator` | 驗證檔案路徑及格式 |
 | `Transaction` | 標準化交易記錄 |
-| `FileResult` | 並行解析的結果 |
-| `ZipXMLSource` | ZIP 會員包裝 |
+| `FileResult` | 平行解析的結果 |
+| `ZipXMLSource` | ZIP 成員封裝 |
+| `IngestResult` | 混合管線結果（含驗證） |
+| `VerificationResult` | 餘額驗證結果 |
+| `Categorizer` | LLM 驅動的交易分類 |
+| `AccountMapper` | 正規表示式帳戶對應規則 |
 
-### 例外情況
+### 例外
 
-| 例外 | 升起時 |
+| 例外 | 觸發時機 |
 |---|---|
 | `ParserError` | 解析失敗 |
 | `ExportError` | 匯出失敗（CSV/JSON/Excel） |

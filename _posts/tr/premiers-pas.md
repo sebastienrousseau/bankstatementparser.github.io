@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Siyah pencereli beyaz bir bina"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Banka Ekstresi Ayrıştırıcı. Her hakkı saklıdır."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Python için Banka Ekstresi Ayrıştırıcısını kullanmaya başlayın: CAMT/PAIN.001/CSV/OFX/QFX/MT940 dosyalarını yükleyin, ayrıştırın ve akış veya CLI iş akışlarını kullanın."
 download: ""
 format-detection: "telephone=no"
@@ -109,24 +109,41 @@ site_software: "Shokunin, Rust"
 
 ## Gereksinimler
 
-- Python 3.9'dan 3.14'e
+- Python 3.10 - 3.14
 - Terminal erişimi (macOS, Linux veya WSL)
 
-## Düzenlemek
+## Kurulum
 
 ```bash
+# Temel kurulum (yalnızca deterministik ayrıştırıcılar)
 pip install bankstatementparser
 ```
 
-Polars DataFrame desteği için:
+Ek yetenekler için isteğe bağlı eklentiler:
 
 ```bash
-pip install bankstatementparser[polars]
+# Dijital PDF'ler için metin-LLM yolu (litellm + pypdf)
+pip install 'bankstatementparser[hybrid]'
+
+# Daha yüksek doğrulukta tablo çıkarımı (pdfplumber ekler)
+pip install 'bankstatementparser[hybrid-plus]'
+
+# Taranmış PDF'ler için görüntü-LLM yolu (pypdfium2 ekler)
+pip install 'bankstatementparser[hybrid-vision]'
+
+# LLM destekli işlem sınıflandırması
+pip install 'bankstatementparser[enrichment]'
+
+# REST API mikro hizmeti (FastAPI + uvicorn)
+pip install 'bankstatementparser[api]'
+
+# İsteğe bağlı Polars DataFrame desteği
+pip install 'bankstatementparser[polars]'
 ```
 
 ## Hızlı Başlangıç
 
-### Herhangi Bir Formatı Otomatik Algıla ve Ayrıştır
+### Yapılandırılmış Formatları Otomatik Algıla ve Ayrıştır
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -137,9 +154,9 @@ df = parser.parse()  # pandas DataFrame
 print(df.head())
 ```
 
-Bu ile çalışır`.xml`(CAMT/PAIN.001),`.csv`, `.ofx`, `.qfx`, `.mt940`, Ve`.sta`dosyalar.
+Bu `.xml` (CAMT/PAIN.001), `.csv`, `.ofx`, `.qfx`, `.mt940` ve `.sta` dosyalarıyla çalışır.
 
-### CAMT.053'ü ayrıştır
+### CAMT.053 Ayrıştırma
 
 ```python
 from bankstatementparser import CamtParser
@@ -148,7 +165,7 @@ parser = CamtParser("statement.xml")
 transactions = parser.parse()
 ```
 
-### PAIN.001'i ayrıştır
+### PAIN.001 Ayrıştırma
 
 ```python
 from bankstatementparser import Pain001Parser
@@ -157,9 +174,24 @@ parser = Pain001Parser("payment.xml")
 payments = parser.parse()
 ```
 
-## Büyük Dosyaların Akışı
+### PDF Banka Ekstrelerini Ayrıştırma (Hibrit Pipeline)
 
-Binlerce işlem içeren dosyalar için belleği sınırlı tutmak amacıyla akışı kullanın:
+Hibrit pipeline, PDF'leri akıllıca üç çıkarım yolundan geçirir:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+print(result.transactions)          # List of extracted transactions
+```
+
+Her çıkarım **Altın Kural** ile doğrulanır: `opening + credits − debits == closing`.
+
+## Büyük Dosyalarda Streaming
+
+Binlerce işlem içeren dosyalar için belleği sınırlı tutmak amacıyla streaming kullanın:
 
 ```python
 parser = CamtParser("large_statement.xml")
@@ -167,9 +199,9 @@ for transaction in parser.parse_streaming(redact_pii=True):
     process(transaction)  # Memory stays constant
 ```
 
-## Bellek İçi Ayrıştırma
+## Bellekte Ayrıştırma
 
-Disk G/Ç'si olmayan baytlardan ayrıştırma - SFTP veya API iş akışları için kullanışlıdır:
+Disk G/Ç olmadan baytlardan ayrıştırma -- SFTP veya API iş akışları için kullanışlıdır:
 
 ```python
 xml_bytes = download_from_sftp()
@@ -179,7 +211,7 @@ transactions = parser.parse()
 
 ## Paralel Dosya İşleme
 
-Birden fazla dosyayı aynı anda ayrıştırın:
+Birden fazla dosyayı eş zamanlı ayrıştırın:
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -193,9 +225,21 @@ for r in results:
     print(r.path, r.status, len(r.transactions), "rows")
 ```
 
+## Toplu Dizin Tarama
+
+Klasör ağaçlarını otomatik tekilleştirmeyle işleyin:
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Processed: {len(batch.results)} files")
+print(f"Unique transactions: {batch.unique_count}")
+```
+
 ## Tekilleştirme
 
-Kesin kopyaları ve şüpheli eşleşmeleri güven puanlarıyla tespit edin:
+Güvenli artımlı veri alımı için idempotent işlem hash'leri:
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
@@ -209,9 +253,61 @@ print(f"Exact duplicates: {len(result.exact_duplicates)}")
 print(f"Suspected matches: {len(result.suspected_matches)}")
 ```
 
+## İşlem Sınıflandırması (Zenginleştirme)
+
+LLM destekli sınıflandırma ile işlemleri otomatik kategorize edin:
+
+```python
+from bankstatementparser.enrichment import Categorizer
+
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(transactions)
+for txn in enriched:
+    print(f"{txn.description}: {txn.category}")
+```
+
+## Defter Dışa Aktarımı (hledger / beancount)
+
+İşlemleri düz metin muhasebe defter formatlarına aktarın:
+
+```python
+from bankstatementparser.export import to_hledger, to_beancount
+
+journal = to_hledger(transactions, account="Assets:Bank:Checking")
+beancount_journal = to_beancount(transactions, account="Assets:Bank:Checking")
+```
+
+## Çoklu Para Birimi Bakiye Doğrulaması
+
+Para birimi grubuna göre bakiyeleri bağımsız doğrulayın:
+
+```python
+from bankstatementparser.hybrid import verify_balance_multi_currency
+
+results = verify_balance_multi_currency(transactions)
+for currency, verification in results.items():
+    print(f"{currency}: {verification.status}")
+```
+
+## REST API
+
+FastAPI mikro hizmeti olarak dağıtın:
+
+```bash
+# API sunucusunu başlatın
+bankstatementparser-api --port 8000
+
+# Konteyner dağıtımları için
+bankstatementparser-api --host 0.0.0.0 --port 9000
+```
+
+Uç noktalar:
+- `POST /ingest` -- Bir banka ekstresi dosyasını ayrıştır
+- `GET /health` -- Sağlık kontrolü
+
 ## Güvenli ZIP İşleme
 
-Sıkıştırılmış XML dosyalarını yerleşik güvenlik kontrolleriyle işleyin (bomba koruması, şifreli giriş reddi):
+Yerleşik güvenlik kontrolleriyle sıkıştırılmış XML dosyalarını işleyin (bomba koruması, şifreli giriş reddi):
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
@@ -221,7 +317,7 @@ for entry in iter_secure_xml_entries("statements.zip"):
     print(f"{entry.source_name}: {len(parser.parse())} transactions")
 ```
 
-## İhracat
+## Dışa Aktarım
 
 ```python
 parser = CamtParser("statement.xml")
@@ -230,37 +326,48 @@ parser.export_json("output.json")
 
 # Polars (requires bankstatementparser[polars])
 polars_df = parser.to_polars()
+
+# Excel
+parser.camt_to_excel("output.xlsx")
 ```
 
 ## CLI Kullanımı
 
 ```bash
-# Parse and display
-python -m bankstatementparser.cli --type camt --input statement.xml
+# Yapılandırılmış formatları ayrıştır
+bankstatementparser --type camt --input statement.xml
+bankstatementparser --type pain001 --input payment.xml
 
-# Export to CSV
-python -m bankstatementparser.cli --type camt --input statement.xml --output transactions.csv
+# Hibrit PDF pipeline
+bankstatementparser --type ingest --input statement.pdf
+bankstatementparser --type ingest --input statement.pdf --output ledger.csv
 
-# Stream with PII visible
-python -m bankstatementparser.cli --type camt --input statement.xml --streaming --show-pii
+# Etkileşimli inceleme modu
+bankstatementparser --type review --input result.json
+bankstatementparser --type review --input result.json --output reviewed.json
+
+# Streaming ile CSV'ye aktar
+bankstatementparser --type camt --input statement.xml --output transactions.csv
+bankstatementparser --type camt --input statement.xml --streaming --show-pii
 ```
 
 CLI seçenekleri:
 
-- `--type {camt,pain001}`-- ayrıştırıcı türü
--`--input <path>`-- giriş dosyası
--`--output <csv_path>`-- CSV'ye aktar
--`--streaming`-- büyük dosyaların akışını yapın
--`--show-pii`-- hassas alanları göster (varsayılan olarak düzenlenmiştir)
--`--max-size <MB>`-- dosya boyutu sınırı
+- `--type {camt,pain001,ingest,review}` -- ayrıştırıcı türü veya modu
+- `--input <path>` -- girdi dosyası
+- `--output <path>` -- dışa aktarım dosyası (CSV veya JSON)
+- `--streaming` -- büyük dosyaları akışla işle
+- `--show-pii` -- hassas alanları göster (varsayılan olarak gizlidir)
+- `--max-size <MB>` -- dosya boyutu sınırı
 
-## Yerel Kalkınma Kurulumu
+## Yerel Geliştirme Ortamı
 
 ```bash
 git clone https://github.com/sebastienrousseau/bankstatementparser.git
 cd bankstatementparser
 python3 -m venv .venv && source .venv/bin/activate
 pip install poetry && poetry install --with dev
+make install-hooks   # pre-commit hook runs `make verify` before every commit
 ```
 
 Test paketini çalıştırın:
@@ -273,23 +380,29 @@ pytest
 
 ### Ayrıştırıcı Sınıfları
 
-| Sınıf | Biçim | İçe aktarmak |
+| Sınıf | Format | Import |
 |---|---|---|
 | `CamtParser` | CAMT.053 (ISO 20022) | `from bankstatementparser import CamtParser` |
-| `Pain001Parser` | AĞ.001 (ISO 20022) | `from bankstatementparser import Pain001Parser` |
+| `Pain001Parser` | PAIN.001 (ISO 20022) | `from bankstatementparser import Pain001Parser` |
 | `CsvStatementParser` | CSV | `from bankstatementparser import CsvStatementParser` |
 | `OfxParser` | OFX | `from bankstatementparser import OfxParser` |
 | `QfxParser` | QFX | `from bankstatementparser import QfxParser` |
 | `Mt940Parser` | MT940 | `from bankstatementparser import Mt940Parser` |
+| `smart_ingest()` | PDF (hibrit pipeline) | `from bankstatementparser.hybrid import smart_ingest` |
 
-### Yardımcı İşlevler
+### Yardımcı Fonksiyonlar
 
-| İşlev | Amaç |
+| Fonksiyon | Amaç |
 |---|---|
 | `detect_statement_format(path)` | Dosya formatını otomatik algıla |
-| `create_parser(path, fmt)` | Uygun ayrıştırıcıyı oluşturun |
-| `parse_files_parallel(paths)` | Birden fazla dosyayı aynı anda ayrıştırın |
-| `iter_secure_xml_entries(zip_path)` | ZIP girişlerini güvenli bir şekilde yineleyin |
+| `create_parser(path, fmt)` | Uygun ayrıştırıcıyı oluştur |
+| `parse_files_parallel(paths)` | Birden fazla dosyayı eş zamanlı ayrıştır |
+| `iter_secure_xml_entries(zip_path)` | ZIP girişlerini güvenli bir şekilde yinele |
+| `smart_ingest(path)` | Doğrulamalı hibrit PDF çıkarımı |
+| `scan_and_ingest(dir, pattern)` | Toplu dizin tarama |
+| `verify_balance_multi_currency(txns)` | Para birimine göre bakiye doğrulama |
+| `to_hledger(txns, account)` | hledger defter formatına aktar |
+| `to_beancount(txns, account)` | beancount defter formatına aktar |
 
 ### Veri Sınıfları
 
@@ -297,16 +410,20 @@ pytest
 |---|---|
 | `Deduplicator` | Yinelenen işlemleri tespit etme |
 | `DeduplicationResult` | Benzersiz, kesin ve şüpheli eşleşmelerle sonuç |
-| `InputValidator` | Dosya yollarını ve formatlarını doğrulayın |
+| `InputValidator` | Dosya yollarını ve formatlarını doğrulama |
 | `Transaction` | Normalleştirilmiş işlem kaydı |
-| `FileResult` | Paralel ayrıştırmanın sonucu |
+| `FileResult` | Paralel ayrıştırma sonucu |
 | `ZipXMLSource` | ZIP üyesi sarmalayıcısı |
+| `IngestResult` | Doğrulamalı hibrit pipeline sonucu |
+| `VerificationResult` | Bakiye doğrulama sonucu |
+| `Categorizer` | LLM destekli işlem sınıflandırması |
+| `AccountMapper` | Regex tabanlı hesap eşleme kuralları |
 
 ### İstisnalar
 
-| İstisna | Yükseltildiğinde |
+| İstisna | Ne Zaman Fırlatılır |
 |---|---|
 | `ParserError` | Ayrıştırma hataları |
 | `ExportError` | Dışa aktarma hataları (CSV/JSON/Excel) |
-| `ValidationError` | Giriş doğrulama hataları |
+| `ValidationError` | Girdi doğrulama hataları |
 | `ZipSecurityError` | ZIP güvenlik kontrolü hataları |

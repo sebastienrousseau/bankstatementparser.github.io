@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Seguridad ng Parser ng Bank Statement"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Bank Statement Parser. Lahat ng karapatan ay nakalaan."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Mga feature ng seguridad ng Bank Statement Parser: Proteksyon ng XXE, ZIP bomb hardening, PII redaction, supply chain security, deterministic na output, at signed build."
 download: ""
 format-detection: "telephone=no"
@@ -107,72 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Ang Bank Statement Parser ay gumagawa ng zero na mga tawag sa network, binabago ang PII bilang default, pinatitigas ang pag-parse ng XML laban sa mga pag-atake ng XXE, at ipinapadala ang SHA-256 hash-locked dependencies at isang CycloneDX SBOM.
+**TL;DR:** Pinoproseso ng Bank Statement Parser ang lahat ng data nang lokal, rine-redact ang PII bilang default, pinatitigas ang XML parsing laban sa mga XXE attack, pinapatakbo ang mga LLM nang lokal sa pamamagitan ng Ollama, at kasama ang SHA-256 hash-locked dependencies at CycloneDX SBOM.
 
 ## Seguridad ayon sa Disenyo
 
 Ang Bank Statement Parser ay binuo para sa pagproseso ng sensitibong data sa pananalapi. Ang bawat desisyon sa disenyo ay inuuna ang seguridad, privacy, at auditability.
 
-## Zero Network Access
+## Zero Cloud Dependency
 
-Ang lahat ng pagproseso ay nangyayari nang lokal sa loob ng iyong runtime. Ang library ay gumagawa ng zero na mga tawag sa API, zero na koneksyon sa ulap, at nangongolekta ng zero telemetry. Ang mga XML parser ay tahasang naka-configure sa`no_network=True`, `resolve_entities=False`, at`load_dtd=False`upang maiwasan ang anumang papalabas na pag-access.
+Lahat ng pagproseso ay nangyayari nang lokal sa loob ng iyong runtime. Ang mga deterministikong parser ay gumagawa ng zero na tawag sa network. Ang hybrid PDF pipeline ay gumagamit ng Ollama para sa lokal na LLM inference — walang data na ipinapadala sa mga cloud API. Ang mga XML parser ay tahasang naka-configure gamit ang `no_network=True`, `resolve_entities=False`, at `load_dtd=False` upang maiwasan ang anumang papalabas na access.
 
 ## PII Redaction
 
-Ang impormasyong nagbibigay ng personal na pagkakakilanlan (mga pangalan, IBAN, mga postal address) ay awtomatikong na-redact sa CLI output at streaming mode. Naka-on ito bilang default.
+Ang personally identifiable information (mga pangalan, IBAN, mga postal address) ay awtomatikong rine-redact sa CLI output at streaming mode. Naka-on ito bilang default.
 
-- **CLI**: Ang mga sensitibong field ay ipinapakita bilang`***REDACTED***`
-- **Pag-stream**:`parse_streaming(redact_pii=True)`(default)
-- **Mga Pag-export**: Ang CSV/JSON/Excel ay nagpapanatili ng buong data para sa downstream na pagproseso
-- **Opt-in**: Gamitin`--show-pii`o`redact_pii=False`kapag kailangan mo ng hindi na-redact na output
+- **CLI**: Ang mga sensitibong field ay ipinapakita bilang `***REDACTED***`
+- **Streaming**: `parse_streaming(redact_pii=True)` (default)
+- **Mga Export**: Ang CSV/JSON/Excel ay nagpapanatili ng buong data para sa downstream processing
+- **Opt-in**: Gamitin ang `--show-pii` o `redact_pii=False` kapag kailangan mo ng hindi na-redact na output
 
-## Seguridad ng XML (Proteksyon ng XXE)
+## XML Security (XXE Protection)
 
-Lahat ng paggamit ng XML parsing`lxml`na may mga hardened na setting:
+Lahat ng XML parsing ay gumagamit ng `lxml` na may hardened na setting:
 
-- `resolve_entities=False`-- pinipigilan ang mga pag-atake ng pagpapalawak ng XML entity
--`no_network=True`-- hinaharangan ang lahat ng papalabas na access sa network mula sa parser
--`load_dtd=False`-- pinipigilan ang mga pag-atake na nakabatay sa DTD
-- Pagtanggal ng namespace bago iproseso -- pinangangasiwaan ang anumang variant ng CAMT.053 nang ligtas
+- `resolve_entities=False` -- pinipigilan ang mga XML entity expansion attack
+- `no_network=True` -- hinaharangan ang lahat ng papalabas na network access mula sa parser
+- `load_dtd=False` -- pinipigilan ang mga DTD-based na attack
+- Namespace stripping bago iproseso -- ligtas na pinangangasiwaan ang anumang CAMT.053 variant
 
 ## ZIP Archive Security
 
-`iter_secure_xml_entries()`pinapatunayan ang bawat miyembro ng ZIP bago ang pagkuha:
+Bineberipika ng `iter_secure_xml_entries()` ang bawat ZIP member bago ang extraction:
 
-- **Takip ng laki ng entry**: 10 MB bawat entry (nako-configure)
-- **Kabuuang cap ng laki**: 50 MB kabuuang hindi na-compress (nako-configure)
-- **Limitan ng ratio ng compression**: 100:1 default -- nakakakita ng mga ZIP bomb
-- **Pagtanggi sa naka-encrypt na entry**: Nilaktawan ang mga naka-encrypt na entry nang may babala
-- **Walang disk writes**: Ang mga XML byte ay direktang dumadaan sa parser sa pamamagitan ng`from_bytes()`
+- **Entry size cap**: 10 MB bawat entry (nako-configure)
+- **Total size cap**: 50 MB kabuuang uncompressed (nako-configure)
+- **Compression ratio limit**: 100:1 default -- nakaka-detect ng mga ZIP bomb
+- **Encrypted entry rejection**: Nilalaktawan ang mga encrypted entry na may babala
+- **Walang disk write**: Ang mga XML byte ay direktang dumadaan sa parser sa pamamagitan ng `from_bytes()`
 
 ## Path Traversal Prevention
 
-Hinaharangan ng pagpapatunay ng input ang mga mapanganib na landas ng file:
+Hinaharangan ng input validation ang mga mapanganib na file path:
 
-- Null bytes, mga pattern ng traversal ng direktoryo (`../`), at tinatanggihan ang mga symlink
-- Pagpapatunay ng extension ng file laban sa mga inaasahang format
-- Mga limitasyon sa laki ng file (100 MB default, maaaring i-configure)
+- Null bytes, directory traversal pattern (`../`), at mga symlink ay tinatanggihan
+- File extension validation laban sa mga inaasahang format
+- Mga file size limit (100 MB default, nako-configure)
+
+## Beripikasyon ng Balanse (Golden Rule)
+
+Bawat PDF extraction ay bineberipika gamit ang equation: `opening balance + credits − debits == closing balance`. Ang mga resulta ay tina-tag bilang VERIFIED, DISCREPANCY, o FAILED. Ang mga diskrepansya ay maaaring suriin nang interactive gamit ang `--type review`.
 
 ## Deterministikong Output
 
-Dahil sa parehong input file, ang parser ay gumagawa ng byte-identical na output bawat run. Walang randomness, walang model inference, walang heuristic sampling. Ito ay kritikal para sa:
+Para sa mga structured na format (CAMT, PAIN.001, CSV, OFX, QFX, MT940), sa parehong input file, ang parser ay gumagawa ng byte-identical na output sa bawat run. Walang randomness, walang model inference, walang heuristic sampling. Kritikal ito para sa:
 
-- **Pagiging reproducibility ng pag-audit**: Patakbuhin ang parehong file nang dalawang beses at ibahin ang output
-- **Pagsunod sa regulasyon**: Magpakita ng pare-parehong pagproseso
-- **Pag-verify ng CI**: 467 na pagsubok ang nagpapatupad ng determinismo na may 100% na saklaw ng sangay
+- **Audit reproducibility**: Patakbuhin ang parehong file nang dalawang beses at i-diff ang output
+- **Regulatory compliance**: Magpakita ng pare-parehong pagproseso
+- **CI verification**: 718 na pagsubok ang nagpapatupad ng determinismo na may 100% branch coverage
 
-## Seguridad ng Supply Chain
+## Supply Chain Security
 
-- **SHA-256 hash-locked dependencies**: Bawat package sa`poetry.lock`ay may na-verify na mga hash ng file
+- **SHA-256 hash-locked dependencies**: Bawat package sa `poetry.lock` ay may na-verify na file hash
 - **CycloneDX SBOM**: Ang bawat release ay may kasamang Software Bill of Materials
-- **GitHub build provenance**: Iniuugnay ng pagpapatunay ang bawat artifact sa source commit nito
-- **Signed commits**: Lahat ng commits ay SSH-signed at na-verify sa CI
-- **Pag-verify ng dependency**:`scripts/verify_locked_hashes.py`pinapatunayan ang lahat ng mga hash nang lokal
+- **GitHub build provenance**: Iniuugnay ng attestation ang bawat artifact sa source commit nito
+- **Signed commits**: Lahat ng commit ay SSH-signed at na-verify sa CI
+- **Dependency verification**: Bineberipika ng `scripts/verify_locked_hashes.py` ang lahat ng hash nang lokal
 
 ## I-verify nang Lokal
 
 ```bash
-python -m pytest                          # 467 tests, 100% branch coverage
+python -m pytest                          # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py    # SHA-256 hash verification
 git log --show-signature -1               # Verify commit signature
 ```

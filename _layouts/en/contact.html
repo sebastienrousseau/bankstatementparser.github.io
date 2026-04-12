@@ -12,7 +12,7 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="accessibility" content="ARIA, fullKeyboardControl, noFlashingHazard" />
     {{apple}}
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: kura.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: cloudcdn.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
     {{microsoft}}
     {{twitter}}
     <meta property="og:title" content="{{title}}" />
@@ -238,21 +238,7 @@
     </div>
     <script>
     (function(){
-      var pages=[
-        {t:"Home",d:"Parse 6 bank statement formats in Python, 100% local",u:"/index.html"},
-        {t:"About",d:"Features, formats, performance, and security overview",u:"/about/index.html"},
-        {t:"Getting Started",d:"Installation, quick start, CLI, API reference",u:"/getting-started/index.html"},
-        {t:"FAQ",d:"Privacy, performance, compliance, and usage questions",u:"/faq/index.html"},
-        {t:"Use Cases",d:"Treasury, reconciliation, compliance, SFTP, multi-bank",u:"/use-cases/index.html"},
-        {t:"Migration",d:"ISO 20022 timeline, MT940 to CAMT.053 transition",u:"/migration/index.html"},
-        {t:"Security",d:"XXE protection, PII redaction, supply chain security",u:"/security/index.html"},
-        {t:"Comparison",d:"vs mt-940, ofxparse, pyiso20022, SaaS tools, LLM parsers",u:"/comparison/index.html"},
-        {t:"Changelog",d:"Release history: v0.0.4, v0.0.3, v0.0.2, v0.0.1",u:"/changelog/index.html"},
-        {t:"Contribute",d:"Report issues, submit code, documentation, sponsorship",u:"/contribute/index.html"},
-        {t:"Contact",d:"GitHub issues for open-source, form for business inquiries",u:"/contact/index.html"},
-        {t:"Privacy",d:"Privacy policy, analytics, GDPR, cookies",u:"/privacy/index.html"},
-        {t:"Terms",d:"Terms of use, Apache 2.0 license, disclaimers",u:"/terms/index.html"}
-      ];
+      var pages=[{t:"Home",d:"Parse 7 bank statement formats including PDF, 100% local",u:"/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"About",d:"Features, formats, hybrid PDF pipeline, performance overview",u:"/about/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"Getting Started",d:"Installation, extras, PDF pipeline, REST API, CLI reference",u:"/getting-started/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"FAQ",d:"Privacy, hybrid PDF, Golden Rule, performance, compliance",u:"/faq/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"Use Cases",d:"Treasury, PDF ingestion, reconciliation, ledger export, REST API",u:"/use-cases/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"Migration",d:"ISO 20022 timeline, MT940 to CAMT.053, PDF fallback",u:"/migration/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"Security",d:"XXE protection, PII redaction, local LLMs, Golden Rule",u:"/security/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"Comparison",d:"vs mt-940, ofxparse, pyiso20022, SaaS, hybrid LLM pipeline",u:"/comparison/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"Changelog",d:"Release history: v0.0.8, v0.0.7, v0.0.6, v0.0.5, v0.0.4",u:"/changelog/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"Contribute",d:"Report issues, submit code, documentation, sponsorship",u:"/contribute/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"Contact",d:"GitHub issues for open-source, form for business inquiries",u:"/contact/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"Privacy",d:"Privacy policy, analytics, GDPR, cookies",u:"/privacy/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"Terms",d:"Terms of use, Apache 2.0 license, disclaimers",u:"/terms/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"}];
       var overlay=document.getElementById("searchOverlay");
       var input=document.getElementById("searchInput");
       var results=document.getElementById("searchResults");
@@ -266,7 +252,7 @@
       function fuzzy(q,text){q=q.toLowerCase();text=text.toLowerCase();if(text.indexOf(q)!==-1)return true;var qi=0;for(var ti=0;ti<text.length&&qi<q.length;ti++){if(text[ti]===q[qi])qi++}return qi===q.length}
       function renderResults(q){
         var filtered=[];
-        if(q.length>0){for(var i=0;i<pages.length;i++){var p=pages[i];if(fuzzy(q,p.t)||fuzzy(q,p.d))filtered.push(p)}}
+        if(q.length>0){for(var i=0;i<pages.length;i++){var p=pages[i];if(fuzzy(q,p.t)||fuzzy(q,p.d)||(p.k&&fuzzy(q,p.k)))filtered.push(p)}}
         if(q.length===0){results.innerHTML="";activeIdx=-1;return}
         if(filtered.length===0){results.innerHTML='<div class="search-empty">No results for "'+q.replace(/</g,"&lt;")+'"</div>';activeIdx=-1;return}
         var html="";
@@ -334,5 +320,5 @@
     })();
     </script>
     <script defer src="/main.js"></script>
-  </body>
+  <script defer src="/bootstrap.bundle.min.js"></script></body>
 </html>

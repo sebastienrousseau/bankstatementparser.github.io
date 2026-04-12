@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Informacje o analizatorze wyciągów bankowych: funkcje, formaty i wydajność"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Parser wyciągów bankowych. Wszelkie prawa zastrzeżone."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Bank Statement Parser to biblioteka Pythona typu open source do analizowania CAMT.053, PAIN.001, CSV, OFX, QFX i MT940 w ramkach DataFrames pand. 100% lokalne, redakcja PII, 27 tys. + tx/s."
 download: ""
 format-detection: "telephone=no"
@@ -107,64 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Parser wyciągów bankowych to biblioteka Pythona typu open source, która analizuje sześć formatów wyciągów bankowych (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) w pandach DataFrames. 100% przetwarzania lokalnego, domyślna redakcja PII, przepustowość ponad 27 tys. tx/s.
+**W skrócie:** Bank Statement Parser to biblioteka Pythona typu open source, która parsuje siedem formatów wyciągów bankowych (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940 i PDF) do pandas DataFrames. Hybrydowy pipeline PDF z weryfikacją salda, REST API, wzbogacanie danych, eksport do księgi, przepustowość 27 tys.+ tx/s.
 
-Bank Statement Parser to biblioteka Pythona typu open source, która analizuje wyciągi bankowe z sześciu formatów w ustrukturyzowane ramki DataFrame typu panda. Całe przetwarzanie odbywa się lokalnie — zero wywołań sieciowych, deterministyczne dane wyjściowe i automatyczna redakcja informacji umożliwiających identyfikację.
+Bank Statement Parser to biblioteka Pythona typu open source, która parsuje wyciągi bankowe z siedmiu formatów do ustrukturyzowanych pandas DataFrames. Deterministyczny rdzeń przetwarza formaty strukturalne lokalnie, bez żadnych połączeń sieciowych. Opcjonalny hybrydowy pipeline PDF kieruje dane przez lokalne modele LLM (przez Ollama) dla wyciągów cyfrowych i zeskanowanych.
 
-## Dla kogo to jest?
+## Dla kogo jest ta biblioteka?
 
-- **Zespoły skarbowe** migrujące z MT940 do CAMT.053, które potrzebują parsera obsługującego zarówno stare, jak i nowe formaty podczas przejścia.
-- **Programiści Fintech** budują potoki uzgadniania, raportowania lub księgowania, którzy chcą pojedynczej zależności zamiast łączyć razem mt940 + ofxparse + niestandardową logikę CSV.
-- **Zespoły ds. zgodności**, które domyślnie potrzebują redakcji danych osobowych i gotowych do audytu, deterministycznych wyników, które nigdy nie wysyłają danych do usług zewnętrznych.
-- **Każdy**, kto odmawia wysyłania wrażliwych danych finansowych do zewnętrznej usługi SaaS, gdy może to zrobić lokalne narzędzie o otwartym kodzie źródłowym.
+- **Zespoły skarbowe** migrujące z MT940 do CAMT.053, które potrzebują parsera obsługującego zarówno stare, jak i nowe formaty w okresie przejściowym, a także wyciągi PDF z banków nieudostępniających eksportów strukturalnych.
+- **Programiści fintech** budujący pipeline'y uzgadniania, raportowania lub księgowania, którzy chcą jednej zależności z wbudowaną weryfikacją salda, kategoryzacją i eksportem do księgi.
+- **Zespoły ds. zgodności**, które potrzebują domyślnej redakcji PII, deterministycznych wyników i weryfikacji Golden Rule wykrywającej rozbieżności zanim trafią do księgi.
+- **Użytkownicy plaintext-accounting**, którzy chcą automatycznego importu z wyciągów bankowych PDF bezpośrednio do dzienników hledger lub beancount.
+- **Każdy**, kto odmawia wysyłania wrażliwych danych finansowych do zewnętrznego SaaS, gdy lokalne narzędzie open source może wykonać tę samą pracę.
 
 ## Obsługiwane formaty
 
-| Format | Standard | Typy plików | Klasa analizatora |
+| Format | Standard | Typy plików | Parser/metoda |
 |---|---|---|---|
-| CAMT.053 | Oświadczenie banku do klienta ISO 20022 | `.xml` | `CamtParser` |
-| BÓL.001 | Inicjowanie przelewu kredytowego ISO 20022 | `.xml` | `Pain001Parser` |
-| CSV | Eksport banków ogólnych | `.csv` | `CsvStatementParser` |
-| OFX | Otwarta Giełda Finansowa | `.ofx` | `OfxParser` |
-| QFX | Przyspiesz wymianę finansową | `.qfx` | `QfxParser` |
-| MT940 | standard SWIFT | `.mt940`, `.sta` | `Mt940Parser` |
+| CAMT.053 | ISO 20022 Bank-to-Customer Statement | `.xml` | `CamtParser` |
+| PAIN.001 | ISO 20022 Credit Transfer Initiation | `.xml` | `Pain001Parser` |
+| CSV | Ogólne eksporty bankowe | `.csv` | `CsvStatementParser` |
+| OFX | Open Financial Exchange | `.ofx` | `OfxParser` |
+| QFX | Quicken Financial Exchange | `.qfx` | `QfxParser` |
+| MT940 | Standard SWIFT | `.mt940`, `.sta` | `Mt940Parser` |
+| PDF | Wyciągi cyfrowe i zeskanowane | `.pdf` | `smart_ingest()` |
 
-Wszystkie formaty tworzą znormalizowane ramki danych pand ze spójnymi nazwami kolumn, dzięki czemu przetwarzanie dalsze jest niezależne od formatu.
+Wszystkie formaty tworzą znormalizowane pandas DataFrames ze spójnymi nazwami kolumn, co sprawia, że dalsze przetwarzanie jest niezależne od formatu.
 
 ## Kluczowe możliwości
 
-- **Automatyczne wykrywanie formatu**:`detect_statement_format()`identyfikuje format;`create_parser()`tworzy instancję odpowiedniego analizatora składni.
-- **Przetwarzanie strumieniowe**: Przetwarzaj duże pliki (50 MB+, 50 000+ transakcji) przy ograniczonej pamięci przy użyciu`parse_streaming()`.
-- **Przetwarzanie równoległe**: Analizuj wiele plików jednocześnie`parse_files_parallel()`przy użyciu ProcessPoolExecutora.
-- **Deduplikacja**: Wykrywaj dokładne duplikaty i podejrzane dopasowania za pomocą możliwych do wytłumaczenia wskaźników pewności.
-- **Przetwarzanie w pamięci**:`from_string()`I`from_bytes()`dla przepływów pracy SFTP i API bez dyskowych operacji we/wy.
-- **Bezpieczne przetwarzanie ZIP**:`iter_secure_xml_entries()`z limitami współczynnika kompresji, ograniczeniami rozmiaru wpisów i odrzucaniem wpisów zaszyfrowanych.
-- **Eksport**: CSV, JSON, Excel (`.xlsx`) i opcjonalne ramki danych Polars.
+- **Hybrydowy pipeline PDF**: `smart_ingest()` kieruje pliki PDF przez trzy ścieżki — deterministyczną ekstrakcję tabel, text-LLM lub vision-LLM — z automatyczną weryfikacją salda Golden Rule.
+- **Automatyczne wykrywanie formatu**: `detect_statement_format()` identyfikuje format; `create_parser()` tworzy instancję właściwego parsera.
+- **Weryfikacja salda**: Sprawdzenie Golden Rule (`opening + credits − debits == closing`) ze statusem VERIFIED/DISCREPANCY/FAILED.
+- **Weryfikacja wielowalutowa**: `verify_balance_multi_currency()` grupuje transakcje według waluty do niezależnej weryfikacji.
+- **REST API**: Mikroserwis FastAPI z endpointami `/ingest` i `/health` do wdrożeń produkcyjnych.
+- **Wzbogacanie**: Kategoryzacja transakcji z użyciem LLM z konfigurowalnymi schematami (domyślny schemat Plaid z 13 kategoriami).
+- **Interaktywny przegląd**: Przeglądanie rozbieżności z akcjami accept/edit/skip/delete przez `--type review`.
+- **Eksport do księgi**: `to_hledger()` i `to_beancount()` dla przepływów pracy plaintext-accounting.
+- **Masowe skanowanie**: `scan_and_ingest()` przetwarza drzewa folderów z automatyczną deduplikacją między plikami.
+- **Mapowanie kont**: Reguły mapowania kont oparte na wyrażeniach regularnych z konfiguracji JSON do eksportu do księgi.
+- **Parsowanie strumieniowe**: Przetwarzanie dużych plików (50 MB+, 50 tys.+ transakcji) przy ograniczonej pamięci za pomocą `parse_streaming()`.
+- **Przetwarzanie równoległe**: Parsowanie wielu plików jednocześnie za pomocą `parse_files_parallel()` z ProcessPoolExecutor.
+- **Deduplikacja**: Idempotentny `transaction_hash` (odcisk MD5) do bezpiecznego przyrostowego importu.
+- **Parsowanie w pamięci**: `from_string()` i `from_bytes()` dla przepływów SFTP i API bez operacji dyskowych.
+- **Bezpieczne przetwarzanie ZIP**: `iter_secure_xml_entries()` z limitami współczynnika kompresji, ograniczeniami rozmiaru wpisów i odrzucaniem wpisów zaszyfrowanych.
+- **Eksport**: CSV, JSON, Excel (`.xlsx`), pandas DataFrames, Polars, hledger i beancount.
 
 ## Bezpieczeństwo i prywatność
 
-- ** Redakcja PII**: Nazwy, numery IBAN i adresy są domyślnie maskowane w wynikach CLI. Zgłoś się za pomocą`--show-pii`.
-- **XXE Protection**: wykorzystuje analizę XML`resolve_entities=False`, `no_network=True`, `load_dtd=False`.
-- **ZIP Bomb Protection**: Limity współczynnika kompresji (domyślnie 100:1), ograniczenie rozmiaru wpisu (10 MB), odrzucanie wpisów zaszyfrowanych.
-- **Zapobieganie przechodzeniu ścieżki**: Lista blokowanych niebezpiecznych wzorców i rozpoznawanie dowiązań symbolicznych.
-- **Bezpieczeństwo łańcucha dostaw**: zależności z blokadą skrótu SHA-256, CycloneDX SBOM, poświadczenie pochodzenia kompilacji.
+- **Redakcja PII**: Nazwy, numery IBAN i adresy są domyślnie maskowane w wynikach CLI. Włączenie za pomocą `--show-pii`.
+- **Ochrona XXE**: Parsowanie XML używa `resolve_entities=False`, `no_network=True`, `load_dtd=False`.
+- **Ochrona przed ZIP bomb**: Limity współczynnika kompresji (domyślnie 100:1), ograniczenie rozmiaru wpisu (10 MB), odrzucanie wpisów zaszyfrowanych.
+- **Zapobieganie przechodzeniu ścieżek**: Lista blokowanych niebezpiecznych wzorców i rozpoznawanie dowiązań symbolicznych.
+- **Bezpieczeństwo łańcucha dostaw**: Zależności zablokowane hashem SHA-256, CycloneDX SBOM, poświadczenie pochodzenia kompilacji.
+- **Tylko lokalne LLM**: Hybrydowy pipeline PDF używa Ollama do lokalnej inferencji — żadne dane nie są wysyłane do chmurowych API.
 
 ## Wydajność
 
-| Metryczny | Wartość |
+| Metryka | Wartość |
 |---|---|
-| Przepustowość CAMT.053 | Ponad 27 000 przesyłek/s |
-| Przepustowość PAIN.001 | Ponad 52 000 przesyłek/s |
+| Przepustowość CAMT.053 | 27 000+ tx/s |
+| Przepustowość PAIN.001 | 52 000+ tx/s |
 | Opóźnienie na transakcję (CAMT) | 37 mikrosekund |
 | Opóźnienie na transakcję (PAIN.001) | 19 mikrosekund |
-| Czas na pierwszy wynik | < 2 ms |
-| Skalowanie pamięci (1K-50K tx) | Stała (strumieniowa) |
-| Pokrycie testowe | 100% pokrycie oddziałów |
-| Testy | 467 w 29 plikach testowych |
+| Czas do pierwszego wyniku | < 2 ms |
+| Skalowanie pamięci (1K-50K tx) | Stałe (streaming) |
+| Pokrycie testowe | 100% pokrycie gałęzi |
+| Testy | 718 w 29 plikach testowych |
 
-## Rozpocznij budowanie
+## Zacznij budować
 
-[Rozpocznij od instalacji i przykładów ❯] [01]
+[Rozpocznij od instalacji i przykładów ❯][01]
 
-[01]: /getting-started/index.html „Pierwsze kroki”
- „Repozytorium GitHuba”
+[01]: /getting-started/index.html “Pierwsze kroki”
+ “Repozytorium GitHub”

@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Häufig gestellte Fragen zum Kontoauszugsparser"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Kontoauszugsparser. Alle Rechte vorbehalten."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Antworten auf häufige Fragen zu Bank Statement Parser: Datenschutz, PII-Schwärzung, Leistung, ISO 20022-Unterstützung, Streaming, Compliance und Treasury-Workflows."
 download: ""
 format-detection: "telephone=no"
@@ -109,68 +109,74 @@ site_software: "Shokunin, Rust"
 
 ## Datenschutz und Compliance
 
-### Verlassen irgendwelche Daten meine Infrastruktur?
+### Verlassen Daten meine Infrastruktur?
 
-**Nein.** Bank Statement Parser arbeitet als zustandslose Bibliothek. Die gesamte Verarbeitung – Parsing, PII-Redaktion, Archivextraktion – erfolgt in Ihrem lokalen Laufzeitspeicher. Keine API-Aufrufe, keine Cloud-Dienste, keine Telemetrie. XML-Parser werden mit gehärtet`no_network=True`, wodurch der gesamte ausgehende Zugriff auf Parserebene blockiert wird. Ihre Finanzdaten verlassen niemals Ihre Umgebung.
+**Nein — auch nicht bei der PDF-Extraktion.** Bank Statement Parser arbeitet als zustandslose Bibliothek. Alle Verarbeitungsschritte — Parsing, PII-Schwärzung, Archivextraktion — laufen in Ihrem lokalen Arbeitsspeicher. Die hybride PDF-Pipeline nutzt Ollama für lokale LLM-Inferenz — keine Cloud-APIs. XML-Parser sind mit `no_network=True` gehärtet und blockieren alle ausgehenden Verbindungen auf Parser-Ebene. Ihre Finanzdaten verlassen nie Ihre Umgebung.
 
-### Wie funktioniert die Schwärzung personenbezogener Daten?
+### Wie funktioniert die PII-Schwärzung?
 
-Sensible Felder werden maskiert, bevor sie Ihre Anwendungslogik erreichen. Der Parser identifiziert Schuldnernamen, Gläubigernamen, IBANs und Postanschriften und ersetzt sie durch`***REDACTED***`im Konsolenausgabe- und Streaming-Modus.
+Sensible Felder werden maskiert, bevor sie Ihre Anwendungslogik erreichen. Der Parser erkennt Schuldnernamen, Gläubigernamen, IBANs und Postadressen und ersetzt sie durch `***REDACTED***` in Konsolenausgabe und Streaming-Modus.
 
-- **Die Redaktion ist standardmäßig aktiviert** im CLI-Ausgabe- und Streaming-Modus.
-- Bei **Dateiexporten** (CSV, JSON, Excel) bleiben nicht redigierte Daten für die Weiterverarbeitung erhalten.
-- **Opt-in** für vollständige Daten mit`--show-pii`auf der CLI bzw`redact_pii=False`in der API.
+- **Schwärzung ist standardmäßig aktiv** in CLI-Ausgabe und Streaming-Modus.
+- **Dateiexporte** (CSV, JSON, Excel) behalten ungeschwärzte Daten für die Weiterverarbeitung.
+- **Vollständige Daten anzeigen** mit `--show-pii` in der CLI oder `redact_pii=False` in der API.
 
 ### Ist der Extraktionsprozess deterministisch?
 
-**Ja – byteidentische Ausgabe bei jedem Lauf.** Bei Verwendung derselben Eingabedatei erzeugt der Parser jedes Mal das gleiche Ergebnis. Keine Zufälligkeit, keine Modellinferenz, kein heuristisches Sampling. CI erzwingt Determinismus mit 467 Tests bei 100 % Zweigabdeckung, einschließlich eigenschaftsbasiertem Fuzzing über Hypothese.
+**Ja, für strukturierte Formate — byteidentische Ausgabe bei jedem Durchlauf.** Bei gleicher Eingabedatei liefern die deterministischen Parser (CAMT, PAIN.001, CSV, OFX, QFX, MT940) stets dasselbe Ergebnis. Kein Zufall, keine Modellinferenz, kein heuristisches Sampling.
 
-### Welchen Compliance-Standards folgt das Projekt?
+Bei der hybriden PDF-Pipeline können LLM-basierte Extraktionspfade minimale Abweichungen zwischen Durchläufen aufweisen. Deshalb wird jede PDF-Extraktion mit der **Golden Rule** (`opening + credits − debits == closing`) geprüft, und markierte Abweichungen können interaktiv überprüft werden.
 
-Das Projekt pflegt eine ISO 13485-konforme Dokumentation mit vollständiger Rückverfolgbarkeit:
+CI erzwingt Determinismus mit 718 Tests bei 100 % Branch-Coverage, einschließlich eigenschaftsbasiertem Fuzzing via Hypothesis.
+
+### Welche Compliance-Standards befolgt das Projekt?
+
+Das Projekt pflegt ISO 13485-konforme Dokumentation mit vollständiger Rückverfolgbarkeit:
 
 - Ein quantifiziertes **Risikoregister** mit Schweregrad-/Wahrscheinlichkeitsbewertung und Restrisikobewertung.
-- Ein **Verifizierungs- und Validierungsplan** mit 19 geschlossenen Schritten in 5 Phasen.
-- Ein **Änderungskontrollverfahren** mit Folgenabschätzung und Rollback-Protokollen.
-- Ein **SOUP-Register**, das alle Abhängigkeiten mit Risikostufen und EOL-Verfolgung abdeckt.
-- Eine **Rückverfolgbarkeitsmatrix**, die Designeingaben der Implementierung und Verifizierung zuordnet.
+- Ein **Verifizierungs- und Validierungsplan** mit 19 Prüfpunkten über 5 Phasen.
+- Ein **Änderungskontrollverfahren** mit Auswirkungsbewertung und Rollback-Protokollen.
+- Ein **SOUP-Register** für alle Abhängigkeiten mit Risikostufen und EOL-Tracking.
+- Eine **Rückverfolgbarkeitsmatrix**, die Designeingaben auf Implementierung und Verifizierung abbildet.
 
-Jede Version enthält ein CycloneDX-SBOM, SHA-256-Prüfsummen und eine GitHub-Build-Herkunftsbescheinigung.
+Jede Version enthält einen CycloneDX SBOM, SHA-256-Prüfsummen und GitHub Build-Herkunftsnachweis.
 
 ## Leistung und Skalierbarkeit
 
-### Wie schnell ist der Bank Statement Parser?
+### Wie schnell ist Bank Statement Parser?
 
-Leistungsschwellenwerte werden in CI bei jedem Commit validiert:
+Leistungsschwellenwerte werden bei jedem Commit in CI validiert:
 
-| Metrisch | Wert |
+| Kennzahl | Wert |
 |---|---|
-| CAMT.053 Durchsatz | Über 27.000 Transaktionen/Sekunde |
-| PAIN.001-Durchsatz | Über 52.000 Transaktionen/Sekunde |
+| CAMT.053-Durchsatz | 27.000+ Transaktionen/Sekunde |
+| PAIN.001-Durchsatz | 52.000+ Transaktionen/Sekunde |
 | Latenz pro Transaktion (CAMT) | 37 Mikrosekunden |
 | Latenz pro Transaktion (PAIN.001) | 19 Mikrosekunden |
-| Zeit für das erste Ergebnis | < 2 ms |
+| Zeit bis zum ersten Ergebnis | < 2 ms |
 
-### Wie wird mit großen Dateien umgegangen?
+Die PDF-Extraktionsgeschwindigkeit hängt vom Routing-Pfad ab: deterministisch (unter einer Sekunde), Text-LLM (Sekunden), Vision-LLM (Sekunden pro Seite).
 
-**Streaming mit begrenztem Speicher – getestet bei 50.000 Transaktionen pro Datei.** Verwendung`parse_streaming()`um XML-Dateien inkrementell zu verarbeiten. Jede Transaktion wird als Wörterbuch ausgegeben; Elemente werden nach der Verarbeitung gelöscht, um ein Speicherwachstum zu verhindern. Der Speicher skaliert nicht mit der Dateigröße – der 50-KByte-Transaktionstest (25+ MB) verbraucht weniger als doppelt so viel Speicher wie der 10-KByte-Transaktionstest.
+### Wie werden große Dateien verarbeitet?
 
-Bei Dateien mit mehr als 50 MB (z. B. Host-zu-Host-PAIN.001-Batches mit mehr als 100.000 Zahlungen) streamt der Parser durch eine temporäre Datei mit Chunk-basiertem Namespace-Stripping – das vollständige Dokument wird nie in den Speicher geladen.
+**Streaming mit begrenztem Speicher — getestet mit 50.000 Transaktionen pro Datei.** Verwenden Sie `parse_streaming()`, um XML-Dateien inkrementell zu verarbeiten. Jede Transaktion wird als Dictionary zurückgegeben; Elemente werden nach der Verarbeitung freigegeben, um Speicherwachstum zu verhindern. Der Speicher skaliert nicht mit der Dateigröße — der 50K-Transaktionstest (25+ MB) benötigt weniger als das Doppelte des Speichers des 10K-Transaktionstests.
+
+Für Dateien über 50 MB (z. B. Host-to-Host PAIN.001-Batches mit 100K+ Zahlungen) streamt der Parser über eine temporäre Datei mit Chunk-basiertem Namespace-Stripping — das vollständige Dokument wird nie in den Speicher geladen.
 
 ### Wie werden ZIP-Archive sicher verarbeitet?
 
-`iter_secure_xml_entries()`validiert jedes Mitglied vor der Extraktion:
+`iter_secure_xml_entries()` validiert jedes Mitglied vor der Extraktion:
 
-- **Eintragsgrößenbeschränkung** (Standard 10 MB pro Eintrag)
-- **Gesamtgrößenbeschränkung für unkomprimierte Dateien** (Standard: 50 MB)
-- **Grenze für das Komprimierungsverhältnis** (Standard 100:1), um ZIP-Bomben zu verhindern
-- **Ablehnung verschlüsselter Eingaben**
+- **Eintragsgrößenlimit** (Standard 10 MB pro Eintrag)
+- **Gesamte unkomprimierte Größe** (Standard 50 MB)
+- **Komprimierungsverhältnislimit** (Standard 100:1) zum Schutz vor ZIP-Bomben
+- **Ablehnung verschlüsselter Einträge**
 
-Es wird keine Datei auf die Festplatte geschrieben. XML-Bytes werden über direkt an den Parser übergeben`from_bytes()`.
+Es werden keine Dateien auf die Festplatte geschrieben. XML-Bytes werden direkt via `from_bytes()` an den Parser übergeben.
 
-### Kann ich mehrere Dateien parallel analysieren?
+### Kann ich mehrere Dateien parallel parsen?
 
-**Ja.** Verwenden`parse_files_parallel()`die die Arbeit auf a verteilt`ProcessPoolExecutor`:
+**Ja.** Verwenden Sie `parse_files_parallel()`, das die Arbeit über einen `ProcessPoolExecutor` verteilt:
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -184,61 +190,120 @@ for r in results:
     print(r.path, r.status, len(r.transactions), "rows")
 ```
 
+Für die Massen-PDF-Verarbeitung nutzen Sie `scan_and_ingest()`, das ganze Ordnerstrukturen mit automatischer Deduplizierung verarbeitet.
+
 ## Unterstützte Formate
 
 ### Welche Kontoauszugsformate werden unterstützt?
 
-| Format | Standard | Dateitypen | Parser-Klasse |
+| Format | Standard | Dateitypen | Parser/Methode |
 |---|---|---|---|
-| CAMT.053 | ISO 20022 Bank-to-Customer-Kontoauszug | `.xml` | `CamtParser` |
-| SCHMERZ.001 | ISO 20022 Credit Transfer Initiierung | `.xml` | `Pain001Parser` |
+| CAMT.053 | ISO 20022 Bank-to-Customer Statement | `.xml` | `CamtParser` |
+| PAIN.001 | ISO 20022 Credit Transfer Initiation | `.xml` | `Pain001Parser` |
 | CSV | Generische Bankexporte | `.csv` | `CsvStatementParser` |
-| OFX | Öffnen Sie die Finanzbörse | `.ofx` | `OfxParser` |
-| QFX | Beschleunigen Sie den Finanzaustausch | `.qfx` | `QfxParser` |
+| OFX | Open Financial Exchange | `.ofx` | `OfxParser` |
+| QFX | Quicken Financial Exchange | `.qfx` | `QfxParser` |
 | MT940 | SWIFT-Standard | `.mt940`, `.sta` | `Mt940Parser` |
+| PDF | Digitale und gescannte Auszüge | `.pdf` | `smart_ingest()` |
 
-### Verarbeitet der Parser bankspezifische Dialekte von CAMT.053?
+### Wie funktioniert die hybride PDF-Pipeline?
 
-**Ja – von Natur aus Namespace-agnostisch.** Der Parser entfernt XML-Namespaces vor der Verarbeitung und verarbeitet alle CAMT.053-Varianten (`camt.053.001.02`, `camt.053.001.04`oder proprietäre Bank-Wrapper) ohne namespacespezifische Konfiguration. XPath fragt die Zielelementstruktur ab, nicht Namespace-URIs.
+Die hybride Pipeline (v0.0.5+) leitet PDFs intelligent über drei Extraktionspfade:
 
-Für Banken, die CAMT in einen benutzerdefinierten Umschlag einpacken, verwenden Sie`from_string()`oder`from_bytes()`um das innere Dokument direkt einzuführen.
+- **Pfad A (Deterministisch)**: Strukturierte PDF-Tabellen werden direkt geparst — kostenlos, am schnellsten, kein LLM nötig.
+- **Pfad B (Text-LLM)**: Digitale PDFs mit komplexem Layout werden per lokalem LLM (LiteLLM/Ollama) extrahiert.
+- **Pfad C (Vision-LLM)**: Gescannte oder fotokopierte Auszüge werden mit multimodalen Vision-Modellen verarbeitet.
+
+Jede Extraktion wird mit der Golden Rule (`opening + credits − debits == closing`) geprüft. Abweichungen können interaktiv mit `--type review` überprüft werden.
+
+### Verarbeitet der Parser bankspezifische CAMT.053-Dialekte?
+
+**Ja — von Haus aus Namespace-agnostisch.** Der Parser entfernt XML-Namespaces vor der Verarbeitung und verarbeitet jede CAMT.053-Variante (`camt.053.001.02`, `camt.053.001.04` oder proprietäre Bank-Wrapper) ohne Namespace-spezifische Konfiguration. XPath-Abfragen zielen auf die Elementstruktur, nicht auf Namespace-URIs.
+
+Für Banken, die CAMT in einem eigenen Umschlag verpacken, nutzen Sie `from_string()` oder `from_bytes()`, um das innere Dokument direkt zu übergeben.
 
 ### Kann ich benutzerdefinierte CSV-Spaltenüberschriften dem Standardschema zuordnen?
 
-**Ja – automatische Normalisierung, Nullkonfiguration.**`CsvStatementParser`erkennt gängige Header-Variationen:`"Date"`, `"Transaction Date"`, `"Booking Date"`alle Karte zum`date`Feld.`"Amount"`, `"Value"`, `"Sum"`Karte zu`amount`. Geteilte Kredit-/Debit-Spalten (z. B.`"Credit"`Und`"Debit"`) werden automatisch erkannt und zu einem einzigen vorzeichenbehafteten Betrag zusammengefasst.
+**Ja — automatische Normalisierung ohne Konfiguration.** `CsvStatementParser` erkennt gängige Header-Varianten: `"Date"`, `"Transaction Date"`, `"Booking Date"` werden alle dem Feld `date` zugeordnet. `"Amount"`, `"Value"`, `"Sum"` werden `amount` zugeordnet. Getrennte Kredit-/Debitspalten (z. B. `"Credit"` und `"Debit"`) werden erkannt und automatisch zu einem einzelnen vorzeichenbehafteten Betrag kombiniert.
 
-### Was ist das Ausgabeformat?
+### Welches Ausgabeformat wird verwendet?
 
-Alle Parser erzeugen standardisierte Pandas-DataFrames mit konsistenten Spaltentypen:
+Alle Parser erzeugen standardisierte pandas DataFrames mit konsistenten Spaltentypen:
 
-| Format | Schlüsselspalten |
+| Format | Wichtige Spalten |
 |---|---|
 | **CAMT** | `Amount`, `Currency`, `DrCr`, `Debtor`, `Creditor`, `Reference`, `ValDt`, `BookgDt`, `AccountId` |
-| **SCHMERZ.001** | `PmtInfId`, `PmtMtd`, `InstdAmt`, `Currency`, `CdtrNm`, `EndToEndId`, `MsgId`, `CreDtTm`, `NbOfTxs` |
-| **CSV/OFX/QFX/MT940** | `date`, `description`, `amount`(normalisiert) |
+| **PAIN.001** | `PmtInfId`, `PmtMtd`, `InstdAmt`, `Currency`, `CdtrNm`, `EndToEndId`, `MsgId`, `CreDtTm`, `NbOfTxs` |
+| **CSV/OFX/QFX/MT940** | `date`, `description`, `amount` (normalisiert) |
 
-Sie können auch nach CSV, JSON, Excel exportieren oder in Polars DataFrames konvertieren.
+Sie können auch nach CSV, JSON, Excel, Polars DataFrames, hledger oder beancount-Journalformat exportieren.
+
+## PDF- und LLM-Funktionen
+
+### Welche LLM-Modelle unterstützt die hybride Pipeline?
+
+Die Pipeline nutzt LiteLLM als Modell-Abstraktionsschicht mit einer direkten Ollama-Brücke für Vision-Prompts. Empfohlene Modelle:
+
+- **Textextraktion**: Jedes LiteLLM-kompatible Modell (lokal oder remote).
+- **Vision-Extraktion**: `ollama/minicpm-v` (empfohlen) für gescannte PDFs.
+- **Kategorisierung**: Jedes LiteLLM-kompatible Modell.
+
+Alle Modelle laufen 100 % lokal via Ollama — keine API-Schlüssel erforderlich.
+
+### Was ist die Golden-Rule-Prüfung?
+
+Jede PDF-Extraktion wird mit der Gleichung geprüft: `opening balance + credits − debits == closing balance`. Ergebnisse werden markiert als:
+
+- **VERIFIED**: Salden stimmen exakt überein.
+- **DISCREPANCY**: Salden stimmen nicht überein — Prüfung empfohlen.
+- **FAILED**: Verifizierung konnte nicht durchgeführt werden (fehlende Saldodaten).
+
+### Kann ich Transaktionen automatisch kategorisieren?
+
+**Ja.** Das Enrichment-Modul (v0.0.6+) bietet LLM-gestützte Transaktionskategorisierung:
+
+```python
+from bankstatementparser.enrichment import Categorizer
+
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(transactions)
+```
+
+Das Standardschema nutzt 13 Plaid-kompatible Kategorien. Sie können auch ein eigenes Kategorieschema bereitstellen.
+
+### Kann ich nach hledger oder beancount exportieren?
+
+**Ja** (v0.0.8+). Exportieren Sie Transaktionen in Plaintext-Accounting-Journalformate mit Kontenzuordnung:
+
+```python
+from bankstatementparser.export import to_hledger, to_beancount
+
+journal = to_hledger(transactions, account="Assets:Bank:Checking")
+```
 
 ## Treasury-Workflows
 
-### Wie geht der Parser mit Kontoauszügen in mehreren Währungen um?
+### Wie verarbeitet der Parser Auszüge mit mehreren Währungen?
 
-**Jede Transaktion behält ihre ursprüngliche Währung – keine implizite Umrechnung.** Die`Currency`Das Feld wird aus dem XML extrahiert`Ccy`Attribut pro Transaktion. Kontoauszüge in mehreren Währungen bleiben unverändert. Der`get_account_balances()`Die Methode gibt Eröffnungs- und Schlusssalden pro Konto mit den ursprünglichen Währungscodes zurück. Der währungsübergreifende Abgleich wird Ihrer nachgelagerten Logik überlassen, in der Sie die Wechselkursquelle steuern.
+**Jede Transaktion behält ihre ursprüngliche Währung — keine implizite Umrechnung.** Das Feld `Currency` wird aus dem XML-Attribut `Ccy` pro Transaktion extrahiert. Multi-Währungs-Auszüge bleiben unverändert. Die Methode `get_account_balances()` gibt Anfangs- und Endsalden pro Konto mit den ursprünglichen Währungscodes zurück.
+
+Seit v0.0.8 gruppiert `verify_balance_multi_currency()` Transaktionen nach Währung und führt die Golden Rule unabhängig pro Gruppe aus — nützlich für Konten mit mehreren Währungen.
 
 ### Unterstützt der Parser sowohl ausgehende als auch eingehende Formate?
 
-**Ja.**`Pain001Parser`verarbeitet ISO 20022 PAIN.001-Kreditübertragungseinleitungsdateien (ausgehende Zahlungen).`CamtParser`verarbeitet CAMT.053 Bank-zu-Kunden-Kontoauszugsdateien (eingehende Meldungen). Beide unterstützen Streaming, PII-Schwärzung und den Export in CSV, JSON und Excel. Verwenden`detect_statement_format()`um das Format automatisch zu erkennen.
+**Ja.** `Pain001Parser` verarbeitet ISO 20022 PAIN.001 Credit Transfer Initiation-Dateien (ausgehende Zahlungen). `CamtParser` verarbeitet CAMT.053 Bank-to-Customer Statement-Dateien (eingehende Berichte). Beide unterstützen Streaming, PII-Schwärzung und Export nach CSV, JSON, Excel, hledger und beancount. Verwenden Sie `detect_statement_format()`, um das Format automatisch zu erkennen.
 
-### Was passiert, wenn ein Transaktionseintrag fehlerhaft ist?
+### Was passiert bei einem fehlerhaften Transaktionseintrag?
 
 Das Verhalten hängt vom Parsing-Modus ab:
 
-- **`parse()`(Stapelmodus)** – Fehlerhafte Einträge, bei denen Pflichtfelder fehlen (`Amount`, `Currency`, oder`CdtDbtInd`) werden mit einem Warnprotokoll übersprungen. Der Rest der Anweisung wird normal analysiert.
-- **`parse_streaming()`(Streaming-Modus)** – Analysefehler werden sofort als Ausnahmen weitergegeben. Kein stiller Datenverlust. Dieses ausfallsichere Verhalten ist für Finanzabläufe gedacht, bei denen jede Transaktion erfasst werden muss.
+- **`parse()` (Batch-Modus)** -- Fehlerhafte Einträge ohne Pflichtfelder (`Amount`, `Currency` oder `CdtDbtInd`) werden mit einer Warnmeldung übersprungen. Der Rest des Auszugs wird normal geparst.
+- **`parse_streaming()` (Streaming-Modus)** -- Parse-Fehler werden sofort als Ausnahmen weitergegeben. Kein stiller Datenverlust. Dieses Fail-Fast-Verhalten ist gewollt für Finanz-Workflows, in denen jede Transaktion erfasst werden muss.
+- **`smart_ingest()` (hybrides PDF)** -- Extraktionsfehler werden im `IngestResult` mit Verifizierungsstatus erfasst und ermöglichen eine interaktive Prüfung.
 
 ### Wie funktioniert die Deduplizierung?
 
-Der`Deduplicator`Die Klasse erkennt exakte Duplikate und vermutete Übereinstimmungen mit erklärbaren Konfidenzwerten:
+Jeder Transaktion wird ein idempotenter `transaction_hash` (MD5-Fingerprint) basierend auf ihren Schlüsselfeldern zugewiesen. Dies ermöglicht sichere inkrementelle Aufnahme — das erneute Verarbeiten derselben Datei erzeugt dieselben Hashes, sodass Duplikate automatisch erkannt werden.
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
@@ -254,68 +319,84 @@ print(f"Suspected matches: {len(result.suspected_matches)}")
 
 ## Installation und Kompatibilität
 
-### Wie installiere ich den Bank Statement Parser?
+### Wie installiere ich Bank Statement Parser?
 
 ```bash
+# Core install (deterministic parsers only)
 pip install bankstatementparser
-```
 
-Für optionale Polars DataFrame-Unterstützung:
+# PDF hybrid pipeline
+pip install 'bankstatementparser[hybrid]'         # Text-LLM path
+pip install 'bankstatementparser[hybrid-vision]'   # Vision-LLM path
 
-```bash
-pip install bankstatementparser[polars]
+# Extras
+pip install 'bankstatementparser[enrichment]'      # Transaction categorisation
+pip install 'bankstatementparser[api]'             # REST API microservice
+pip install 'bankstatementparser[polars]'          # Polars DataFrame support
 ```
 
 ### Welche Python-Versionen werden unterstützt?
 
-Python 3.9 bis 3.14. Alle Versionen werden in CI mit 467 Tests bei 100 % Zweigstellenabdeckung getestet.
+Python 3.10 bis 3.14. Die Unterstützung für Python 3.9 wurde in v0.0.6 eingestellt (EOL 2025-10-31). Alle Versionen werden in CI mit 718 Tests bei 100 % Branch-Coverage getestet.
 
 ### Welche Abhängigkeiten gibt es?
 
-Die Bibliothek hat 5 direkte Abhängigkeiten:
+Die Kernbibliothek hat 5 direkte Abhängigkeiten:
 
-- `lxml`– XML-Analyse mit Sicherheitshärtung
--`pandas`– DataFrames und Datenmanipulation
--`openpyxl`-- Excel-Export
--`pydantic`-- Datenvalidierung und Modelle
--`defusedxml`-- XXE-Schutz
+- `lxml` -- XML-Parsing mit Sicherheitshärtung
+- `pandas` -- DataFrames und Datenverarbeitung
+- `openpyxl` -- Excel-Export
+- `pydantic` -- Datenvalidierung und Modelle
+- `defusedxml` -- XXE-Schutz
 
-Alle Abhängigkeiten verfügen über SHA-256-Hash-gesperrte Versionen. Das CycloneDX SBOM bildet jede Laufzeitkomponente ab.
+Optionale Extras: `litellm`, `pypdf`, `pdfplumber`, `pypdfium2`, `fastapi`, `uvicorn`, `polars`.
 
-### Funktioniert es unter macOS, Linux und Windows?
+Alle Abhängigkeiten haben SHA-256-Hash-gesperrte Versionen. Der CycloneDX SBOM erfasst jede Laufzeitkomponente.
 
-**Ja.** Die Bibliothek funktioniert unter macOS, Linux und Windows (über WSL). Es gibt keine plattformspezifischen Abhängigkeiten.
+### Funktioniert es auf macOS, Linux und Windows?
+
+**Ja.** Die Bibliothek funktioniert auf macOS, Linux und Windows (via WSL). Sie hat keine plattformspezifischen Abhängigkeiten.
+
+### Gibt es eine REST API?
+
+**Ja** (v0.0.8+). Installieren Sie mit `pip install 'bankstatementparser[api]'` und starten Sie:
+
+```bash
+bankstatementparser-api --port 8000
+```
+
+Endpunkte: `POST /ingest` (Auszug parsen) und `GET /health` (Health-Check).
 
 ## Reproduzierbarkeit und Sicherheit
 
-### Wie kann ich die Reproduzierbarkeit überprüfen?
+### Wie kann ich die Reproduzierbarkeit verifizieren?
 
 ```bash
-python -m pytest                              # 467 tests, 100% branch coverage
+python -m pytest                              # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py        # SHA-256 hash verification
 git log --show-signature -1                   # Verify commit signature
 ```
 
-### Welche Sicherheitsmaßnahmen sind integriert?
+### Welche Sicherheitsmechanismen sind integriert?
 
-- **XXE-Schutz**:`resolve_entities=False`, `no_network=True`, `load_dtd=False`
-- **ZIP-Bombenschutz**: Grenzwerte für das Komprimierungsverhältnis, Obergrenzen für die Eintragsgröße, Ablehnung verschlüsselter Einträge
-- **Path Traversal Prevention**: Liste gefährlicher Muster und Symlink-Auflösung
-- **Eingabevalidierung**: Dateigrößenbeschränkungen (Standard 100 MB), Erweiterungs-/Formatvalidierung
+- **XXE-Schutz**: `resolve_entities=False`, `no_network=True`, `load_dtd=False`
+- **ZIP-Bomb-Schutz**: Komprimierungsverhältnisgrenzen, Eintragsgrößenlimits, Ablehnung verschlüsselter Einträge
+- **Schutz vor Pfad-Traversal**: Blockliste gefährlicher Muster und Symlink-Auflösung
+- **Eingabevalidierung**: Dateigrößenlimits (Standard 100 MB), Erweiterungs-/Formatvalidierung
 - **Lieferkette**: SHA-256-Hash-gesperrte Abhängigkeiten, CycloneDX SBOM, Build-Herkunftsnachweis
 - **Signierte Commits**: In CI erzwungen
+- **Lokale LLMs**: Hybride PDF-Pipeline nutzt Ollama — keine Cloud-API-Aufrufe
 
-### Wie schneidet der Bank Statement Parser im Vergleich zu pyiso20022 ab?
+### Wie vergleicht sich Bank Statement Parser mit pyiso20022?
 
-pyiso20022 ist ein umfassendes ISO 20022-Toolkit, das Python-Datenklassen aus ISO-XML-Schemas generiert. Es deckt ein breites Spektrum an ISO 20022-Nachrichtentypen (PACS, PAIN, CAMT, ADMI) mit Schemavalidierung ab. Bank Statement Parser wurde speziell für die Analyse von Kontoauszügen mit Streaming-Unterstützung, PII-Redaktion, Deduplizierung und einer einheitlichen API für sechs Formate, einschließlich Nicht-ISO-Formate (CSV, OFX, QFX, MT940), entwickelt. Wenn Sie Kontoauszüge mit Sicherheit auf Produktionsniveau in DataFrames analysieren müssen, verwenden Sie Bank Statement Parser. Wenn Sie mit dem vollständigen ISO 20022-Nachrichtenkatalog arbeiten müssen, verwenden Sie pyiso20022.
+pyiso20022 ist ein breites ISO 20022-Toolkit, das Python-Dataclasses aus ISO-XML-Schemata generiert. Es deckt eine Vielzahl von ISO 20022-Nachrichtentypen (PACS, PAIN, CAMT, ADMI) mit Schemavalidierung ab. Bank Statement Parser ist speziell für das Parsing von Kontoauszügen gebaut — mit hybrider PDF-Unterstützung, Saldoprüfung, Anreicherung, Ledger-Export und einer einheitlichen API über sieben Formate, einschließlich Nicht-ISO-Formate (CSV, OFX, QFX, MT940, PDF). Wenn Sie Kontoauszüge in DataFrames mit produktionsreifer Sicherheit parsen müssen, verwenden Sie Bank Statement Parser. Wenn Sie mit dem vollständigen ISO 20022-Nachrichtenkatalog arbeiten müssen, verwenden Sie pyiso20022.
 
-### Was sind die Migrationsfristen für SWIFT ISO 20022?
+### Welche Fristen gelten für die SWIFT ISO 20022-Migration?
 
-SWIFT hat einen Zeitplan für die schrittweise Migration veröffentlicht:
+SWIFT hat einen gestuften Migrationsplan veröffentlicht:
 
-- **November 2026**: Strukturierte und hybride Adressen werden obligatorisch. MT101-Multi-Instruction-Nachrichten werden abgelehnt. Phase 1 des Fallmanagements beginnt.
-- **November 2027**: Alle Finanzinstitute müssen in der Lage sein, CAMT.053-Kontoauszüge nativ zu empfangen. SWIFT stoppt die Konvertierung von MT in das ISO-Format.
-- **November 2028**: Vollständige Einstellung von MT940, MT942, MT950, MT900 und MT910. Diese werden durch die Äquivalente CAMT.052, CAMT.053 und CAMT.054 ersetzt.
+- **November 2026**: Strukturierte und hybride Adressen werden obligatorisch. MT101-Multi-Instruction-Nachrichten werden abgelehnt. Case Management Phase 1 beginnt.
+- **November 2027**: Alle Finanzinstitute müssen CAMT.053-Auszüge nativ empfangen können. SWIFT stellt die Konvertierung von MT nach ISO ein.
+- **November 2028**: Vollständige Abschaltung von MT940, MT942, MT950, MT900 und MT910. Diese werden durch CAMT.052, CAMT.053 und CAMT.054 ersetzt.
 
-Bank Statement Parser unterstützt sowohl das alte MT940-Format als auch die modernen CAMT.053/PAIN.001-Formate und ist somit ideal für die Übergangsphase.
-
+Bank Statement Parser unterstützt sowohl das alte MT940-Format als auch die modernen CAMT.053/PAIN.001-Formate und ist damit ideal für den Übergangszeitraum.

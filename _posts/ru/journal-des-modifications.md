@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Журнал изменений парсера банковских выписок"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Парсер банковских выписок. Все права защищены."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "История выпусков и журнал изменений для анализатора банковских выписок. Отслеживайте новые функции, улучшения и исправления ошибок во всех версиях."
 download: ""
 format-detection: "telephone=no"
@@ -109,6 +109,35 @@ site_software: "Shokunin, Rust"
 
 Следите за развитием парсера банковских выписок. Подпишитесь через [RSS](/changelog/rss.xml) или посмотрите [репозиторий GitHub](https://github.com/sebastienrousseau/bankstatementparser) для уведомлений о выпуске.
 
+## v0.0.8 — 2026-04-11 (Latest) — "Full Platform"
+
+- Multi-currency balance verification — `verify_balance_multi_currency()` groups by currency, runs Golden Rule per group.
+- hledger + beancount export — `to_hledger()` and `to_beancount()` in `bankstatementparser.export`.
+- Bulk directory scanner — `scan_and_ingest()` scans folder trees, deduplicates across batch.
+- Account mapping rules — `AccountMapper` with ordered regex rules from JSON config.
+- REST API — FastAPI wrapper with `/ingest` and `/health` endpoints (`[api]` extra).
+
+## v0.0.7 — 2026-04-08 — "Universal Vision"
+
+- Direct Ollama bridge (`ollama_direct_completion`) — bypasses LiteLLM long-prompt hang.
+- Strip mode (`VisionExtractor.strip_rows=True`) — splits dense pages into overlapping bands for small local models.
+- Recommended vision model changed from `llava` to `minicpm-v`.
+
+## v0.0.6 — 2026-04-08 — "Intelligence Layer"
+
+- Dropped Python 3.9 support (now 3.10-3.14).
+- Enrichment module (`Categorizer`, `EnrichedTransaction`, `DEFAULT_CATEGORY_SCHEMA`).
+- Interactive review mode with `--type review` CLI command.
+- Per-row bounding box extraction (`Transaction.source_bbox`).
+
+## v0.0.5 — 2026-04-08 — "Universal Extraction"
+
+- Hybrid PDF pipeline (`smart_ingest()`) with deterministic/text-LLM/vision-LLM routing.
+- `LLMExtractor` for digital PDFs via LiteLLM.
+- `VisionExtractor` for scanned PDFs via multimodal vision models.
+- Golden Rule balance verification (`opening + credits - debits == closing`).
+- Idempotent deduplication via `transaction_hash` (MD5 fingerprint).
+
 ## v0.0.4 — 15 марта 2026 г. (Последняя версия)
 
 - Добавлен параллельный анализ файлов с помощью`parse_files_parallel()`с помощью ProcessPoolExecutor.
@@ -126,7 +155,7 @@ site_software: "Shokunin, Rust"
 - Добавлено редактирование личных данных (по умолчанию включено в интерфейсе командной строки и потоковом режиме).
 — Добавлены помощники по экспорту для CSV, JSON и Excel.
 - Добавлена ​​дополнительная поддержка Polars DataFrame.
-- Расширен набор тестов до 467 тестов со 100% покрытием ветвей.
+- Расширен набор тестов до 718 тестов со 100% покрытием ветвей.
 
 ## v0.0.2 — 10.06.2025
 

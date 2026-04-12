@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Sicurezza del parser dell'estratto conto bancario"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Analizzatore di estratti conto bancari. Tutti i diritti riservati."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Funzionalità di sicurezza dell'analizzatore di estratti conto: protezione XXE, rafforzamento della bomba ZIP, redazione PII, sicurezza della catena di fornitura, output deterministico e build firmate."
 download: ""
 format-detection: "telephone=no"
@@ -107,72 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Bank Statement Parser non effettua chiamate di rete, oscura le informazioni personali per impostazione predefinita, rafforza l'analisi XML contro gli attacchi XXE e viene fornito con dipendenze con blocco hash SHA-256 e una SBOM CycloneDX.
+**In breve:** Bank Statement Parser elabora tutti i dati in locale, oscura i dati personali di default, protegge il parsing XML contro attacchi XXE, esegue i LLM localmente via Ollama e include dipendenze con hash SHA-256 bloccati e una SBOM CycloneDX.
 
 ## Sicurezza fin dalla progettazione
 
-Bank Statement Parser è progettato per l'elaborazione di dati finanziari sensibili. Ogni decisione progettuale dà priorità alla sicurezza, alla privacy e alla verificabilità.
+Bank Statement Parser è progettato per l'elaborazione di dati finanziari sensibili. Ogni decisione progettuale dà priorità a sicurezza, privacy e verificabilità.
 
-## Accesso alla rete zero
+## Zero dipendenze cloud
 
-Tutta l'elaborazione avviene localmente all'interno del runtime. La libreria non effettua chiamate API, non effettua connessioni cloud e non raccoglie dati di telemetria. I parser XML sono configurati esplicitamente con`no_network=True`, `resolve_entities=False`, E`load_dtd=False`per impedire qualsiasi accesso in uscita.
+Tutta l'elaborazione avviene in locale nel proprio runtime. I parser deterministici non effettuano chiamate di rete. La pipeline PDF ibrida usa Ollama per l'inferenza LLM locale — nessun dato viene inviato ad API cloud. I parser XML sono configurati esplicitamente con `no_network=True`, `resolve_entities=False` e `load_dtd=False` per impedire qualsiasi accesso in uscita.
 
-## Redazione PII
+## Oscuramento PII
 
-Le informazioni di identificazione personale (nomi, IBAN, indirizzi postali) vengono automaticamente oscurate nell'output CLI e nella modalità streaming. Questo è attivo per impostazione predefinita.
+Le informazioni di identificazione personale (nomi, IBAN, indirizzi postali) vengono automaticamente oscurate nell'output CLI e in modalità streaming. Questa funzione è attiva di default.
 
-- **CLI**: i campi sensibili vengono visualizzati come`***REDACTED***`
-- **Streaming**:`parse_streaming(redact_pii=True)`(predefinito)
+- **CLI**: i campi sensibili appaiono come `***REDACTED***`
+- **Streaming**: `parse_streaming(redact_pii=True)` (default)
 - **Esportazioni**: CSV/JSON/Excel conservano i dati completi per l'elaborazione a valle
-- **Attivazione**: utilizzo`--show-pii`O`redact_pii=False`quando hai bisogno di output non oscurato
+- **Attivazione**: usare `--show-pii` o `redact_pii=False` quando si necessita di output non oscurato
 
 ## Sicurezza XML (protezione XXE)
 
-Tutti gli usi di analisi XML`lxml`con impostazioni rafforzate:
+Tutto il parsing XML usa `lxml` con impostazioni protette:
 
-- `resolve_entities=False`-- impedisce attacchi di espansione di entità XML
--`no_network=True`-- blocca tutti gli accessi alla rete in uscita dal parser
--`load_dtd=False`-- previene gli attacchi basati su DTD
-- Rimozione dello spazio dei nomi prima dell'elaborazione: gestisce qualsiasi variante CAMT.053 in modo sicuro
+- `resolve_entities=False` -- impedisce attacchi di espansione entità XML
+- `no_network=True` -- blocca tutti gli accessi di rete in uscita dal parser
+- `load_dtd=False` -- previene attacchi basati su DTD
+- Rimozione dei namespace prima dell'elaborazione — gestisce qualsiasi variante CAMT.053 in sicurezza
 
-## Sicurezza dell'archivio ZIP
+## Sicurezza archivi ZIP
 
-`iter_secure_xml_entries()`convalida ogni membro ZIP prima dell'estrazione:
+`iter_secure_xml_entries()` valida ogni membro ZIP prima dell'estrazione:
 
-- **Limite massimo per le dimensioni della voce**: 10 MB per voce (configurabile)
-- **Limite massimo di dimensione totale**: 50 MB totali non compressi (configurabile)
-- **Limite del rapporto di compressione**: 100:1 predefinito -- rileva le bombe ZIP
-- **Rifiuto della voce crittografata**: le voci crittografate vengono ignorate con un avviso
-- **Nessuna scrittura su disco**: i byte XML passano direttamente al parser tramite`from_bytes()`
+- **Dimensione massima per voce**: 10 MB per voce (configurabile)
+- **Dimensione totale massima**: 50 MB totali non compressi (configurabile)
+- **Limite del rapporto di compressione**: 100:1 di default — rileva le ZIP bomb
+- **Rifiuto voci crittografate**: le voci crittografate vengono ignorate con un avviso
+- **Nessuna scrittura su disco**: i byte XML passano direttamente al parser tramite `from_bytes()`
 
-## Prevenzione dell'attraversamento del percorso
+## Prevenzione path traversal
 
-La convalida dell'input blocca i percorsi di file pericolosi:
+La validazione dell'input blocca i percorsi file pericolosi:
 
-- Byte nulli, modelli di attraversamento delle directory (`../`) e i collegamenti simbolici vengono rifiutati
-- Convalida dell'estensione del file rispetto ai formati previsti
-- Limiti di dimensione del file (100 MB predefiniti, configurabili)
+- Byte nulli, pattern di directory traversal (`../`) e link simbolici vengono rifiutati
+- Validazione dell'estensione file rispetto ai formati previsti
+- Limiti di dimensione file (100 MB di default, configurabile)
 
-## Uscita deterministica
+## Verifica del saldo (Golden Rule)
 
-Dato lo stesso file di input, il parser produce un output identico in byte ad ogni esecuzione. Nessuna casualità, nessuna inferenza del modello, nessun campionamento euristico. Questo è fondamentale per:
+Ogni estrazione PDF viene verificata con l'equazione: `opening balance + credits − debits == closing balance`. I risultati sono classificati come VERIFIED, DISCREPANCY o FAILED. Le discrepanze possono essere riviste interattivamente con `--type review`.
 
-- **Riproducibilità del controllo**: esegui lo stesso file due volte e confronta l'output
+## Output deterministico
+
+Per i formati strutturati (CAMT, PAIN.001, CSV, OFX, QFX, MT940), dato lo stesso file di input, il parser produce un output identico byte per byte ad ogni esecuzione. Nessuna casualità, nessuna inferenza di modello, nessun campionamento euristico. Questo è fondamentale per:
+
+- **Riproducibilità degli audit**: eseguire lo stesso file due volte e confrontare l'output
 - **Conformità normativa**: dimostrare un'elaborazione coerente
-- **Verifica CI**: 467 test applicano il determinismo con una copertura delle filiali del 100%.
+- **Verifica CI**: 718 test garantiscono il determinismo con copertura branch al 100%
 
-## Sicurezza della catena di fornitura
+## Sicurezza della supply chain
 
-- **Dipendenze con blocco hash SHA-256**: ogni pacchetto in`poetry.lock`ha verificato gli hash dei file
-- **CycloneDX SBOM**: ogni versione include una distinta materiali del software
-- **Provenienza build GitHub**: l'attestazione collega ogni artefatto al relativo commit di origine
+- **Dipendenze con hash SHA-256 bloccati**: ogni pacchetto in `poetry.lock` ha hash dei file verificati
+- **CycloneDX SBOM**: ogni release include una Software Bill of Materials
+- **Provenienza build GitHub**: l'attestazione collega ogni artefatto al commit sorgente
 - **Commit firmati**: tutti i commit sono firmati SSH e verificati in CI
-- **Verifica della dipendenza**:`scripts/verify_locked_hashes.py`convalida tutti gli hash localmente
+- **Verifica delle dipendenze**: `scripts/verify_locked_hashes.py` valida tutti gli hash localmente
 
-## Verifica localmente
+## Verifica in locale
 
 ```bash
-python -m pytest                          # 467 tests, 100% branch coverage
+python -m pytest                          # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py    # SHA-256 hash verification
 git log --show-signature -1               # Verify commit signature
 ```

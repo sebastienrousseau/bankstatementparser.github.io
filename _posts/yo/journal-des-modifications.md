@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Bank Gbólóhùn Parser Changelog"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Itumọ Gbólóhùn Bank. Gbogbo awọn ẹtọ wa ni ipamọ."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Itan itusilẹ ati iwe iyipada fun Parser Gbólóhùn Bank. Tọpinpin awọn ẹya tuntun, awọn ilọsiwaju, ati awọn atunṣe kokoro kọja gbogbo awọn ẹya."
 download: ""
 format-detection: "telephone=no"
@@ -109,6 +109,35 @@ site_software: "Shokunin, Rust"
 
 Tẹle idagbasoke Parser Gbólóhùn Gbólóhùn Bank. Alabapin nipasẹ [RSS] (/changelog/rss.xml) tabi wo [ibi ipamọ GitHub](https://github.com/sebastienrousseau/bankstatementparser) fun awọn iwifunni idasilẹ.
 
+## v0.0.8 — 2026-04-11 (Latest) — "Full Platform"
+
+- Multi-currency balance verification — `verify_balance_multi_currency()` groups by currency, runs Golden Rule per group.
+- hledger + beancount export — `to_hledger()` and `to_beancount()` in `bankstatementparser.export`.
+- Bulk directory scanner — `scan_and_ingest()` scans folder trees, deduplicates across batch.
+- Account mapping rules — `AccountMapper` with ordered regex rules from JSON config.
+- REST API — FastAPI wrapper with `/ingest` and `/health` endpoints (`[api]` extra).
+
+## v0.0.7 — 2026-04-08 — "Universal Vision"
+
+- Direct Ollama bridge (`ollama_direct_completion`) — bypasses LiteLLM long-prompt hang.
+- Strip mode (`VisionExtractor.strip_rows=True`) — splits dense pages into overlapping bands for small local models.
+- Recommended vision model changed from `llava` to `minicpm-v`.
+
+## v0.0.6 — 2026-04-08 — "Intelligence Layer"
+
+- Dropped Python 3.9 support (now 3.10-3.14).
+- Enrichment module (`Categorizer`, `EnrichedTransaction`, `DEFAULT_CATEGORY_SCHEMA`).
+- Interactive review mode with `--type review` CLI command.
+- Per-row bounding box extraction (`Transaction.source_bbox`).
+
+## v0.0.5 — 2026-04-08 — "Universal Extraction"
+
+- Hybrid PDF pipeline (`smart_ingest()`) with deterministic/text-LLM/vision-LLM routing.
+- `LLMExtractor` for digital PDFs via LiteLLM.
+- `VisionExtractor` for scanned PDFs via multimodal vision models.
+- Golden Rule balance verification (`opening + credits - debits == closing`).
+- Idempotent deduplication via `transaction_hash` (MD5 fingerprint).
+
 ## v0.0.4 - 2026-03-15 (Titun)
 
 - Ṣafikun faili afiwera pẹlu`parse_files_parallel()`lilo ProcessPoolExecutor.
@@ -126,7 +155,7 @@ Fikun ṣiṣan otitọ fun awọn faili PAIN.001 nla (50 MB+) pẹlu iranti did
 - Atunṣe PII ti a ṣafikun (ni aiyipada ni CLI ati ipo ṣiṣanwọle).
 - Awọn oluranlọwọ okeere ti a ṣafikun fun CSV, JSON, ati Excel.
 - Ṣe afikun atilẹyin Polars DataFrame iyan.
-- Suite idanwo gbooro si awọn idanwo 467 pẹlu agbegbe agbegbe 100%.
+- Suite idanwo gbooro si awọn idanwo 718 pẹlu agbegbe agbegbe 100%.
 
 ## v0.0.2 - 2025-06-10
 
@@ -151,8 +180,8 @@ Wo itan ifaramo ni kikun lori [GitHub](https://github.com/sebastienrousseau/bank
   "name": "Aṣayẹwo Gbólóhùn Banki",
   "applicationCategory": "Ohun elo Olùgbéejáde",
   "operatingSystem": "Cross-platform",
-  "softwareVersion": "0.0.4",
-  "datePublished": "2026-03-15",
+  "softwareVersion": "0.0.8",
+  "datePublished": "2026-04-11",
   "releaseNotes": "Fikun-itupalẹ faili ti o jọra, ṣiṣanwọle otitọ fun PAIN.001, awọn iṣapeye iṣẹ ṣiṣe (27K+ tx/s CAMT, 52K+ tx/s PAIN.001), Kilasi Deduplicator, ṣiṣayẹwo inu-iranti, sisẹ ZIP to ni aabo.",
   "downloadUrl":"https://pypi.org/project/bankstatementparser/",
   "iwe-aṣẹ":"https://opensource.org/licenses/Apache-2.0",

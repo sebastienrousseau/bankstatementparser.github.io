@@ -4,20 +4,20 @@
     <meta charset="utf-8" />
     <meta itemprop="datePublished" content="2026-04-01T00:00:00+00:00" id="date">
     <meta itemprop="dateModified" content="2026-04-01T00:00:00+00:00" id="last-modified">
-    <title>محلل كشوف الحسابات البنكية مقابل البدائل: مقارنة المصادر المفتوحة وSaaS</title>
+    <title>محلل كشف الحساب البنكي مقابل البدائل: مقارنة المصادر المفتوحة وSaaS</title>
     <meta name="theme-color" content="rgb(73, 214, 251)" />
     <meta name="measurement-id" content="G-FL9DEBFHN1" />
     <meta name="author" content="Sebastien Rousseau">
-<meta name="description" content="قارن محلل كشوف الحسابات البنكية مع mt-940 وofxparse وpycamt وpyiso20022 وأدوات SaaS مثل Ocrolus وParseur.">
-<meta name="keywords" content="مقارنة محلل كشوف الحسابات البنكية, mt940 مقابل ofxparse, pyiso20022 مقابل bankstatementparser, مفتوح المصدر مقابل SaaS, مقارنة محلل CAMT">
+<meta name="description" content="قارن محلل كشف الحساب البنكي مع أدوات mt-940 وofxparse وpycamt وpyiso20022 وSaaS مثل Ocrolus وParseur. مقارنة الميزات والتسعير ودليل الترحيل.">
+<meta name="keywords" content="مقارنة محلل كشف الحساب البنكي، mt940 مقابل ofxparse، pyiso20022 مقابل Bankstatementparser، المصدر المفتوح مقابل محلل بنك SaaS، مقارنة محلل CAMT">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="accessibility" content="ARIA, fullKeyboardControl, noFlashingHazard" />
     <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="محلل كشوف الحسابات البنكية مقابل البدائل: مقارنة المصادر المفتوحة وSaaS">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: kura.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
+<meta name="apple-mobile-web-app-title" content="محلل كشف الحساب البنكي مقابل البدائل: مقارنة المصادر المفتوحة وSaaS">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: cloudcdn.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
     <meta name="msapplication-TileColor" content="rgb(73, 214, 251)">
     
     <link rel="alternate" href="https://bankstatementparser.com/ar/البدائل/index.html" hreflang="ar" />
@@ -27,7 +27,7 @@
     <link rel="apple-touch-icon" href="/images/icons/192x192.png" sizes="192x192" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
-    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#b0b8c1"}})});</script>
+    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#8f9aa5"}})});</script>
     <style>
       :root{--theme-color:rgb(73, 214, 251)}*{font-weight:400;box-sizing:border-box;margin:0}
       pre{margin:1.5rem 0;max-width:100%;overflow:auto;border-radius:.5rem;padding:1rem 1.25rem;background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);color:var(--c-code);display:block;font-family:'SF Mono',SFMono-Regular,Consolas,monospace;font-size:.8125rem;line-height:1.7;margin:1.5rem 0;max-width:100%;overflow:auto;padding:1rem 1.25rem;border-radius:.5rem}
@@ -105,13 +105,26 @@
       :focus-visible{outline:2px solid var(--c-accent);outline-offset:2px}
       @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
       @media print{body{color:#000!important;background:#fff!important}.site-nav,.site-footer,.skip-link{display:none!important}a{color:#000!important}a[href]::after{content:" (" attr(href) ")"}}
+          .search-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:flex-start;justify-content:center;padding:15vh 1rem 1rem}
+.search-overlay.open{display:flex}
+.search-box{background:var(--c-bg);border:1px solid var(--c-border);border-radius:.75rem;width:100%;max-width:560px;box-shadow:0 25px 50px -12px rgba(0,0,0,.25);overflow:hidden}
+.search-input{width:100%;padding:.875rem 1rem;border:none;background:transparent;color:var(--c-text);font-size:1rem;font-family:inherit;outline:none}
+.search-input::placeholder{color:var(--c-secondary)}
+.search-results{max-height:50vh;overflow-y:auto;border-top:1px solid var(--c-border)}
+.search-result{display:block;padding:.75rem 1rem;color:var(--c-text);text-decoration:none;border-bottom:1px solid var(--c-border)}
+.search-result:hover,.search-result.active{background:var(--c-surface);color:var(--c-accent);text-decoration:none}
+.search-result-title{font-weight:600;font-size:.9375rem}
+.search-result-desc{font-size:.8125rem;color:var(--c-secondary);margin-top:.125rem}
+.search-empty{padding:1.5rem 1rem;text-align:center;color:var(--c-secondary);font-size:.875rem}
+.search-footer{padding:.5rem 1rem;border-top:1px solid var(--c-border);font-size:.75rem;color:var(--c-secondary);display:flex;gap:1rem}
+.search-footer kbd{background:var(--c-surface);padding:.125rem .375rem;border-radius:.25rem;font-size:.6875rem;border:1px solid var(--c-border)}
     </style>
   </head>
   <body id="page-top" itemscope itemtype="http://schema.org/WebPage">
-    <a class="skip-link" href="#main">Skip to main content</a>
-    <nav class="site-nav" aria-label="Main navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+    <a class="skip-link" href="#main">انتقل إلى المحتوى الرئيسي</a>
+    <nav class="site-nav" aria-label="التنقل الرئيسي" itemscope itemtype="http://schema.org/SiteNavigationElement">
       <div class="nav-inner">
-        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="" /><span itemprop="name">محلل كشوف الحسابات البنكية</span></a>
+        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="Bank Statement Parser logo" /><span itemprop="name">محلل كشوف الحسابات البنكية</span></a>
         <ul class="nav-center">
           <li><a href="/ar/index.html">الرئيسية</a></li>
           <li><a href="/ar/حول/index.html">حول</a></li>
@@ -120,7 +133,8 @@
           <li class="nav-item dropdown"><button class="dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" type="button">الموارد</button><ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown"><li><a class="dropdown-item" href="/ar/حالات-الاستخدام/index.html">Use Cases</a></li><li><a class="dropdown-item" href="/ar/migration/index.html">ISO 20022 Migration</a></li><li><a class="dropdown-item" href="/ar/الأمان/index.html">Security</a></li><li><a class="dropdown-item" href="/ar/البدائل/index.html">Alternatives</a></li><li><a class="dropdown-item" href="/ar/سجل-التغييرات/index.html">Changelog</a></li><li><a class="dropdown-item" href="/ar/المساهمة/index.html">Contribute</a></li><li><a class="dropdown-item" href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a class="dropdown-item" href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li></ul></li>
         </ul>
         <div class="nav-right">
-          <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">داكن</span></button>
+          <button id="searchTrigger" class="theme-toggle" aria-label="Search" style="margin-right:.25rem"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> <span class="search-shortcut" aria-hidden="true" style="font-size:.6875rem;opacity:.8"></span></button>
+          <button class="theme-toggle" id="themeToggle" aria-label="التبديل إلى الوضع الداكن" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">داكن</span></button>
           <div style="position:relative;display:inline-block" class="lang-switcher">
             <button type="button" aria-label="AR, Change language" aria-expanded="false" style="color:var(--c-nav-muted);font-size:12px;font-weight:400;padding:.375rem .625rem;border:1px solid var(--c-border);border-radius:6rem;background:transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.25rem;outline:none">
               <span style="font-size:14px">🌐</span> AR
@@ -165,111 +179,133 @@
       </nav>
     <header class="site-hero" style="padding:6rem 1.5rem 3rem">
       <h1 style="font-size:clamp(2rem,4vw,2.75rem)">البدائل</h1>
-      <p>كيف يقارن محلل كشوف الحسابات البنكية</p>
+      <p>كيف يقارن محلل كشف الحساب البنكي</p>
     </header>
     <main id="main" class="site-main" tabindex="-1" aria-label="Page content">
-      <div class="text-start"><h2>البدائل مفتوحة المصدر</h2>
-<h3>مكتبات التنسيق الواحد</h3>
-<p>تتعامل معظم محللات كشوف الحسابات البنكية مفتوحة المصدر مع تنسيق واحد فقط. إذا كنت بحاجة إلى تنسيقات متعددة، يجب عليك تثبيت وصيانة مكتبات منفصلة بواجهات API مختلفة ومخططات مخرجات متباينة ودورات تحديث مستقلة.</p>
+      <div class="text-start"><h2>نظرة عامة</h2>
+<p>Bank Statement Parser هي مكتبة Python مفتوحة المصدر الوحيدة التي تحلل سبعة تنسيقات لكشوفات الحساب البنكية — بما في ذلك PDF عبر خط أنابيب LLM هجين — بواجهة موحدة. المكتبات أحادية التنسيق (mt-940، ofxparse، pycamt) تتعامل كل منها مع تنسيق واحد. أدوات SaaS (Ocrolus، Parseur) تقدم OCR سحابيًا لكنها تتطلب إرسال البيانات خارجيًا وتكلف 49$–1,000$+/شهر.</p>
+<h2>البدائل مفتوحة المصدر</h2>
+<h3>مكتبات أحادية التنسيق</h3>
+<p>معظم محللات كشوفات الحساب مفتوحة المصدر تتعامل مع تنسيق واحد فقط. إذا احتجت تنسيقات متعددة، يجب تثبيت وصيانة مكتبات منفصلة بواجهات ومخططات إخراج ودورات تحديث مختلفة.</p>
 <div class="table-responsive"><table class="table">
 <thead>
 <tr>
 <th>المكتبة</th>
-<th>التنسيق</th>
-<th>المخرجات</th>
-<th>streaming</th>
-<th>إخفاء PII</th>
-<th>إزالة التكرارات</th>
+<th>التنسيقات</th>
+<th>PDF</th>
+<th>الإخراج</th>
+<th>التحقق من الرصيد</th>
+<th>تصدير دفتر الأستاذ</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="text-left"><strong>محلل كشوف الحسابات البنكية</strong></td>
-<td class="text-left">6 تنسيقات</td>
+<td class="text-left"><strong>Bank Statement Parser</strong></td>
+<td class="text-left">7 تنسيقات</td>
+<td class="text-left">خط أنابيب هجين</td>
 <td class="text-left">pandas DataFrame</td>
-<td class="text-left">نعم</td>
-<td class="text-left">نعم (افتراضي)</td>
-<td class="text-left">نعم</td>
+<td class="text-left">القاعدة الذهبية</td>
+<td class="text-left">hledger، beancount</td>
 </tr>
 <tr>
 <td class="text-left">mt-940 (WoLpH)</td>
 <td class="text-left">MT940 فقط</td>
-<td class="text-left">كائنات Python</td>
 <td class="text-left">لا</td>
+<td class="text-left">كائنات Python</td>
 <td class="text-left">لا</td>
 <td class="text-left">لا</td>
 </tr>
 <tr>
 <td class="text-left">ofxparse</td>
 <td class="text-left">OFX فقط</td>
-<td class="text-left">كائنات Python</td>
 <td class="text-left">لا</td>
+<td class="text-left">كائنات Python</td>
 <td class="text-left">لا</td>
 <td class="text-left">لا</td>
 </tr>
 <tr>
 <td class="text-left">pycamt</td>
 <td class="text-left">CAMT.053 فقط</td>
-<td class="text-left">كائنات Python</td>
 <td class="text-left">لا</td>
+<td class="text-left">كائنات Python</td>
 <td class="text-left">لا</td>
 <td class="text-left">لا</td>
 </tr>
 <tr>
 <td class="text-left">ofxtools</td>
 <td class="text-left">OFX v1/v2 فقط</td>
-<td class="text-left">كائنات Python</td>
 <td class="text-left">لا</td>
+<td class="text-left">كائنات Python</td>
 <td class="text-left">لا</td>
 <td class="text-left">لا</td>
 </tr>
 </tbody>
 </table></div>
 <h3>مقابل pyiso20022</h3>
-<p>يُنشئ pyiso20022 فئات بيانات Python من كتالوج مخططات ISO 20022 الكامل. وهو مجموعة أدوات عامة لمعيار ISO 20022 للعمل مع رسائل PACS وPAIN وCAMT وADMI.</p>
-<p>صُمم محلل كشوف الحسابات البنكية خصيصاً لتحليل كشوف الحسابات البنكية إلى DataFrames مع ميزات إنتاجية:</p>
+<p>pyiso20022 يُنشئ فئات بيانات Python من كتالوج مخطط ISO 20022 الكامل. وهي مجموعة أدوات ISO 20022 للأغراض العامة للتعامل مع رسائل PACS وPAIN وCAMT وADMI.</p>
+<p>Bank Statement Parser مصمم خصيصًا لتحليل كشوفات الحساب إلى DataFrames مع ميزات إنتاجية:</p>
 <table>
 <thead>
 <tr>
 <th>الميزة</th>
-<th>محلل كشوف الحسابات البنكية</th>
+<th>Bank Statement Parser</th>
 <th>pyiso20022</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="text-left">الغرض</td>
-<td class="text-left">تحليل الكشوف + التصدير</td>
-<td class="text-left">مجموعة أدوات مخططات ISO 20022</td>
+<td class="text-left">تحليل كشوفات + استخراج + تصدير</td>
+<td class="text-left">مجموعة أدوات مخطط ISO 20022</td>
 </tr>
 <tr>
-<td class="text-left">المخرجات</td>
-<td class="text-left">pandas/Polars DataFrames</td>
+<td class="text-left">الإخراج</td>
+<td class="text-left">DataFrames من pandas/Polars</td>
 <td class="text-left">فئات بيانات Python</td>
 </tr>
 <tr>
 <td class="text-left">التنسيقات</td>
-<td class="text-left">6 (بما في ذلك غير ISO)</td>
+<td class="text-left">7 (بما في ذلك PDF وغير ISO)</td>
 <td class="text-left">ISO 20022 فقط</td>
 </tr>
 <tr>
-<td class="text-left">streaming</td>
+<td class="text-left">دعم PDF</td>
+<td class="text-left">خط أنابيب هجين (حتمي + LLM + رؤية)</td>
+<td class="text-left">لا</td>
+</tr>
+<tr>
+<td class="text-left">التحقق من الرصيد</td>
+<td class="text-left">القاعدة الذهبية + متعدد العملات</td>
+<td class="text-left">لا</td>
+</tr>
+<tr>
+<td class="text-left">REST API</td>
+<td class="text-left">FastAPI مدمج</td>
+<td class="text-left">لا</td>
+</tr>
+<tr>
+<td class="text-left">الإثراء</td>
+<td class="text-left">تصنيف مدعوم بـ LLM</td>
+<td class="text-left">لا</td>
+</tr>
+<tr>
+<td class="text-left">تصدير دفتر الأستاذ</td>
+<td class="text-left">hledger + beancount</td>
+<td class="text-left">لا</td>
+</tr>
+<tr>
+<td class="text-left">Streaming</td>
 <td class="text-left">نعم (ذاكرة محدودة)</td>
 <td class="text-left">لا</td>
 </tr>
 <tr>
-<td class="text-left">إخفاء PII</td>
+<td class="text-left">تنقيح PII</td>
 <td class="text-left">مدمج</td>
 <td class="text-left">لا</td>
 </tr>
 <tr>
-<td class="text-left">إزالة التكرارات</td>
-<td class="text-left">مدمجة</td>
-<td class="text-left">لا</td>
-</tr>
-<tr>
-<td class="text-left">أمان ZIP</td>
-<td class="text-left">مدمج</td>
+<td class="text-left">إزالة التكرار</td>
+<td class="text-left">hash حتمي للمعاملات</td>
 <td class="text-left">لا</td>
 </tr>
 <tr>
@@ -279,50 +315,65 @@
 </tr>
 </tbody>
 </table>
-<p>استخدم pyiso20022 إذا كنت بحاجة للعمل مع كتالوج رسائل ISO 20022 الكامل. استخدم محلل كشوف الحسابات البنكية إذا كنت بحاجة لتحليل كشوف الحسابات البنكية إلى بيانات مهيكلة للتحليل أو المطابقة أو إعداد التقارير.</p>
+<p>استخدم pyiso20022 إذا كنت بحاجة للتعامل مع كتالوج رسائل ISO 20022 الكامل. استخدم Bank Statement Parser إذا كنت بحاجة لتحليل كشوفات الحساب إلى بيانات منظمة للتحليل أو التسوية أو إعداد التقارير.</p>
 <h2>بدائل SaaS</h2>
-<p>تقدم أدوات SaaS مثل Ocrolus وParseur وSensible خدمة تحليل كشوف الحسابات البنكية كخدمة سحابية. تستخدم عادةً التعرف الضوئي على الحروف (OCR) للتعامل مع ملفات PDF الممسوحة ضوئياً وتدعم مئات التنسيقات الخاصة بالبنوك.</p>
+<p>أدوات SaaS مثل Ocrolus وParseur وSensible تقدم تحليل كشوفات الحساب كخدمة سحابية. تستخدم عادةً OCR للتعامل مع ملفات PDF الممسوحة ضوئيًا وتدعم مئات التنسيقات الخاصة بالبنوك.</p>
 <table>
 <thead>
 <tr>
 <th>الميزة</th>
-<th>محلل كشوف الحسابات البنكية</th>
+<th>Bank Statement Parser</th>
 <th>أدوات SaaS</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="text-left">خصوصية البيانات</td>
-<td class="text-left">محلي 100%، بدون اتصالات شبكية</td>
+<td class="text-left">100% محلي (نماذج LLM عبر Ollama)</td>
 <td class="text-left">البيانات تُرسل إلى السحابة</td>
 </tr>
 <tr>
 <td class="text-left">التكلفة</td>
 <td class="text-left">مجاني (Apache 2.0)</td>
-<td class="text-left">49-1,000+ دولار/شهرياً</td>
+<td class="text-left">49$–1,000$+/شهر (اعتبارًا من الربع الأول 2026)</td>
 </tr>
 <tr>
 <td class="text-left">التنسيقات</td>
-<td class="text-left">6 تنسيقات مهيكلة</td>
+<td class="text-left">7 (منظمة + PDF)</td>
 <td class="text-left">مئات (عبر OCR)</td>
 </tr>
 <tr>
 <td class="text-left">دعم PDF</td>
-<td class="text-left">لا (تنسيقات مهيكلة فقط)</td>
-<td class="text-left">نعم (قائم على OCR)</td>
+<td class="text-left">نعم — خط أنابيب هجين (حتمي + LLM + رؤية)</td>
+<td class="text-left">نعم (OCR سحابي)</td>
+</tr>
+<tr>
+<td class="text-left">التحقق من الرصيد</td>
+<td class="text-left">القاعدة الذهبية (تلقائي)</td>
+<td class="text-left">يدوي / محدود</td>
 </tr>
 <tr>
 <td class="text-left">زمن الاستجابة</td>
-<td class="text-left">أقل من 2 مللي ثانية للنتيجة الأولى</td>
+<td class="text-left">أقل من 2 مللي ثانية (منظم)، ثوانٍ (PDF+LLM)</td>
 <td class="text-left">1-30 ثانية</td>
 </tr>
 <tr>
 <td class="text-left">الإنتاجية</td>
-<td class="text-left">أكثر من 27,000 معاملة/ثانية</td>
-<td class="text-left">محدود بمعدل API</td>
+<td class="text-left">27,000+ معاملة/ثانية (منظم)</td>
+<td class="text-left">معدل API محدود</td>
 </tr>
 <tr>
-<td class="text-left">التبعية للمورد</td>
+<td class="text-left">REST API</td>
+<td class="text-left">FastAPI مدمج</td>
+<td class="text-left">ملكي</td>
+</tr>
+<tr>
+<td class="text-left">تصدير دفتر الأستاذ</td>
+<td class="text-left">hledger + beancount</td>
+<td class="text-left">لا</td>
+</tr>
+<tr>
+<td class="text-left">قفل البائع</td>
 <td class="text-left">لا يوجد</td>
 <td class="text-left">نعم</td>
 </tr>
@@ -333,13 +384,29 @@
 </tr>
 </tbody>
 </table>
-<p><strong>متى تختار محلل كشوف الحسابات البنكية</strong>: عندما يوفر بنكك صادرات مهيكلة (XML أو CSV أو OFX أو MT940)، أو تحتاج معالجة محلية للامتثال، أو تريد تكلفة صفرية مستمرة.</p>
-<p><strong>متى تختار SaaS</strong>: عندما تتلقى كشوفات PDF ممسوحة ضوئياً، أو تحتاج OCR لمئات التنسيقات الخاصة بالبنوك، أو تريد حلاً بدون كود.</p>
+<h2>المحللات المعتمدة على LLM</h2>
+<p>عدد متزايد من الأدوات (Inscribe، Unstract، مخططات Mozilla.ai) تستخدم نماذج لغوية كبيرة لتحليل كشوفات الحساب، بما في ذلك ملفات PDF الممسوحة ضوئيًا. عندما أعاد Chase تصميم تنسيق كشف المستهلك في أواخر 2025، تعطلت المحللات المعتمدة على القوالب بينما تكيفت محللات LLM تلقائيًا.</p>
+<p><strong>Bank Statement Parser يتضمن الآن خط أنابيب LLM هجينًا خاصًا به</strong> (v0.0.5+) يعمل محليًا بالكامل عبر Ollama. يجمع أفضل المقاربتين:</p>
+<ul>
+<li><strong>التنسيقات المنظمة</strong> (XML، CSV، OFX، MT940): تحليل حتمي — دقة 100%، زمن استجابة أقل من مللي ثانية، صفر تكلفة LLM.</li>
+<li><strong>كشوفات PDF</strong>: توجيه ثلاثي المسارات (استخراج جداول حتمي ← نص + LLM ← رؤية + LLM) مع تحقق تلقائي بالقاعدة الذهبية لالتقاط أخطاء الاستخراج.</li>
+</ul>
+<p>على عكس محللات LLM السحابية فقط، خط أنابيب Bank Statement Parser الهجين:</p>
+<ul>
+<li>يعمل 100% محليًا (Ollama) — لا تغادر بياناتك جهازك.</li>
+<li>يتحقق من كل استخراج بالقاعدة الذهبية.</li>
+<li>يدعم وضع المراجعة التفاعلية للتناقضات المُبلّغ عنها.</li>
+<li>يُنتج hash حتمي للمعاملات لاستيعاب تدريجي آمن.</li>
+</ul>
+<p><strong>متى تختار محللات LLM SaaS بدلًا من Bank Statement Parser</strong>: تستقبل كشوفات من مئات البنوك بتخطيطات PDF مختلفة جدًا وتحتاج تغطية جاهزة بدون تشغيل بنية محلية.</p>
+<p><strong>متى تختار Bank Statement Parser</strong>: تحتاج معالجة محلية للامتثال. تريد تحقق الرصيد. تحتاج تصدير دفتر أستاذ. تريد صفر تكلفة مستمرة.</p>
+<p><strong>منهجية قياس الأداء</strong>: أرقام الأداء قيست على Apple M2، Python 3.12، باستخدام ملف CAMT.053 يضم 5,000 معاملة (2.1 ميغابايت). المتوسط عبر 100 جولة. لإعادة الإنتاج محليًا: <code>python -m bankstatementparser.bench</code>. زمن استجابة SaaS مبني على وثائق API المنشورة حتى أبريل 2026.</p>
+<p><a href="/use-cases/index.html">راجع حالات الاستخدام الواقعية ❯</a> | <a href="/migration/index.html">خطط لترحيل MT940 إلى CAMT ❯</a></p>
 </div>
     </main>
     <footer class="site-footer" aria-label="footer">
       <div class="footer-inner">
-        <span>© 2023-2026 محلل كشوف الحسابات البنكية. All rights reserved.</span>
+        <span>© 2023-2026 محلل كشف الحساب البنكي. جميع الحقوق محفوظة.</span>
         <ul class="footer-links">
           <li><a href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li>
           <li><a href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li>
@@ -349,7 +416,7 @@
         </ul>
       </div>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"قارن محلل كشوف الحسابات البنكية مع mt-940 وofxparse وpycamt وpyiso20022 وأدوات SaaS مثل Ocrolus وParseur.","headline":"كيف يقارن محلل كشوف الحسابات البنكية","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"ar-SA","mainEntityOfPage":"https://bankstatementparser.com/ar/البدائل/index.html","name":"البدائل","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"قارن محلل كشف الحساب البنكي مع أدوات mt-940 وofxparse وpycamt وpyiso20022 وSaaS مثل Ocrolus وParseur. مقارنة الميزات والتسعير ودليل الترحيل.","headline":"كيف يقارن محلل كشف الحساب البنكي","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"ar-SA","mainEntityOfPage":"https://bankstatementparser.com/ar/البدائل/index.html","name":"البدائل","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
     <script>
     (function(){
       // Language switcher toggle
@@ -372,8 +439,8 @@
         document.documentElement.setAttribute("data-theme",theme);localStorage.setItem("theme",theme);
         document.querySelectorAll(".theme-icon-dark,.theme-icon-dark-m").forEach(function(e){e.style.display=theme==="dark"?"none":""});
         document.querySelectorAll(".theme-icon-light,.theme-icon-light-m").forEach(function(e){e.style.display=theme==="dark"?"":"none"});
-        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"Light":"Dark"});
-        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"Switch to light mode":"Switch to dark mode")});
+        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"فاتح":"داكن"});
+        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"التبديل إلى الوضع الفاتح":"التبديل إلى الوضع الداكن")});
       }
       var saved=localStorage.getItem("theme");
       if(saved){setTheme(saved)}else if(window.matchMedia("(prefers-color-scheme:dark)").matches){setTheme("dark")}
@@ -388,5 +455,57 @@
     })();
     </script>
     <script defer src="/main.js"></script>
-  </body>
+      <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="بحث...">
+      <div class="search-box">
+        <input class="search-input" id="searchInput" type="search" placeholder="بحث..." autocomplete="off" aria-label="بحث..." />
+        <div class="search-results" id="searchResults"></div>
+        <div class="search-footer"><span><kbd>&uarr;</kbd><kbd>&darr;</kbd> Navigate</span><span><kbd>&crarr;</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var pages=[{t:"الرئيسية",d:"Parse 7 bank statement formats including PDF, 100% local",u:"/ar/index.html",k:"apache bank beancount camt camt، csv، cyclonedx dataframes excel fastapi github hash hledger json litellmollama mtmtmt ocrolus، ofxparse ofx، ollama pain pain، pandas parser parser؟ parseur pdf، plaid polars pypi python qfx، rest saas sbom statement "},{t:"حول",d:"Features, formats, hybrid PDF pipeline, performance overview",u:"/ar/a-propos/index.html"},{t:"البدء",d:"Installation, extras, PDF pipeline, REST API, CLI reference",u:"/ar/premiers-pas/index.html"},{t:"الأسئلة الشائعة",d:"Privacy, hybrid PDF, Golden Rule, performance, compliance",u:"/ar/faq/index.html",k:"admi apis api؟ bank beancount beancount؟ bomb bombs camt camtpain camt، camt؟ commit commits csvofxqfxmt csv، cyclonedx dataframes discrepancy excel exchange failed financial github hash hash، hledger hypothesis iban json litellm litellmollama macos "},{t:"حالات الاستخدام",d:"Treasury, PDF ingestion, reconciliation, ledger export, REST API",u:"/ar/cas-utilisation/index.html"},{t:"الهجرة",d:"ISO 20022 timeline, MT940 to CAMT.053, PDF fallback",u:"/ar/migration/index.html",k:"bank beancount camt dataframe hledger iso؛ mtmtmtmtmt pacs pain parser statement swift unicode أثناء أحرف أساسي أسعار أسماء أصبحت أصلاً أضعاف أغلفة أنابيب أنظمتك أنواع أواخر إعداد إلزامية؛ إنتاج إيقاف اختبار افتتاحيختامي اكتشاف الأحرف الأستاذ الأصلية"},{t:"الأمان",d:"XXE protection, PII redaction, local LLMs, Golden Rule",u:"/ar/securite/index.html"},{t:"البدائل",d:"vs mt-940, ofxparse, pyiso20022, SaaS, hybrid LLM pipeline",u:"/ar/alternatives/index.html"},{t:"سجل التغييرات",d:"Release history: v0.0.8, v0.0.7, v0.0.6, v0.0.5, v0.0.4",u:"/ar/journal-des-modifications/index.html"},{t:"المساهمة",d:"Report issues, submit code, documentation, sponsorship",u:"/ar/contribuer/index.html"},{t:"اتصل بنا",d:"GitHub issues for open-source, form for business inquiries",u:"/ar/contact/index.html",k:"أدناه أفضل استخدم استفسار الأخطاء الأسئلة التجارية الشراكة العامة، الفنية المجتمع المصدر المكتبة، الميزات النموذج بالنسبة بشكل تتبعه تجاري تعليقات، تواصل سؤال سؤالك سواء صحيح فاختر قناة لتقارير لديك للاستفسارات معنا مفتوح نسمع والأسئلة وطلبات وهذا وي"},{t:"الخصوصية",d:"Privacy policy, analytics, GDPR, cookies",u:"/ar/confidentialite/index.html"},{t:"الشروط",d:"Terms of use, Apache 2.0 license, disclaimers",u:"/ar/conditions/index.html"}];
+      var overlay=document.getElementById("searchOverlay");
+      var input=document.getElementById("searchInput");
+      var results=document.getElementById("searchResults");
+      var trigger=document.getElementById("searchTrigger");
+      var activeIdx=-1;
+      var isMac=/Mac|iPhone|iPad|iPod/.test(navigator.platform||navigator.userAgent||"");
+      var shortcutSpans=document.querySelectorAll(".search-shortcut");
+      for(var s=0;s<shortcutSpans.length;s++){shortcutSpans[s].textContent=isMac?"⌘K":"Ctrl+K"}
+      function openSearch(){overlay.classList.add("open");input.value="";input.focus();activeIdx=-1;renderResults("")}
+      function closeSearch(){overlay.classList.remove("open");input.value="";results.innerHTML="";activeIdx=-1}
+      function fuzzy(q,text){q=q.toLowerCase();text=text.toLowerCase();if(text.indexOf(q)!==-1)return true;var qi=0;for(var ti=0;ti<text.length&&qi<q.length;ti++){if(text[ti]===q[qi])qi++}return qi===q.length}
+      function renderResults(q){
+        var filtered=[];
+        if(q.length>0){for(var i=0;i<pages.length;i++){var p=pages[i];if(fuzzy(q,p.t)||fuzzy(q,p.d)||(p.k&&fuzzy(q,p.k)))filtered.push(p)}}
+        if(q.length===0){results.innerHTML="";activeIdx=-1;return}
+        if(filtered.length===0){results.innerHTML='<div class="search-empty">No results for "'+q.replace(/</g,"&lt;")+'"</div>';activeIdx=-1;return}
+        var html="";
+        for(var j=0;j<filtered.length;j++){
+          html+='<a class="search-result'+(j===0?" active":"")+'" href="'+filtered[j].u+'" data-idx="'+j+'"><div class="search-result-title">'+filtered[j].t+'</div><div class="search-result-desc">'+filtered[j].d+'</div></a>';
+        }
+        results.innerHTML=html;
+        activeIdx=0;
+      }
+      function updateActive(){
+        var items=results.querySelectorAll(".search-result");
+        for(var i=0;i<items.length;i++){items[i].classList.toggle("active",i===activeIdx)}
+        if(items[activeIdx]){items[activeIdx].scrollIntoView({block:"nearest"})}
+      }
+      if(trigger){trigger.addEventListener("click",function(e){e.preventDefault();openSearch()})}
+      document.addEventListener("keydown",function(e){
+        if((isMac?e.metaKey:e.ctrlKey)&&e.key==="k"){e.preventDefault();if(overlay.classList.contains("open")){closeSearch()}else{openSearch()};return}
+        if(!overlay.classList.contains("open"))return;
+        if(e.key==="Escape"){e.preventDefault();closeSearch();return}
+        var items=results.querySelectorAll(".search-result");
+        if(e.key==="ArrowDown"){e.preventDefault();if(items.length){activeIdx=(activeIdx+1)%items.length;updateActive()};return}
+        if(e.key==="ArrowUp"){e.preventDefault();if(items.length){activeIdx=(activeIdx-1+items.length)%items.length;updateActive()};return}
+        if(e.key==="Enter"){e.preventDefault();if(items[activeIdx]){window.location.href=items[activeIdx].getAttribute("href")};return}
+      });
+      input.addEventListener("input",function(){activeIdx=-1;renderResults(input.value.trim())});
+      overlay.addEventListener("click",function(e){if(e.target===overlay)closeSearch()});
+    })();
+    </script>
+<script defer src="/bootstrap.bundle.min.js"></script></body>
 </html>

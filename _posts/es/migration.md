@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Guía de migración ISO 20022"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Analizador de extractos bancarios. Reservados todos los derechos."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Una guía práctica sobre el cronograma de migración de SWIFT ISO 20022 (2026-2028), la transición de MT940 a CAMT.053 y cómo Bank Statement Parser ayuda a los equipos de tesorería a migrar."
 download: ""
 format-detection: "telephone=no"
@@ -107,23 +107,23 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** SWIFT retirará MT940 en noviembre de 2028. Bank Statement Parser maneja tanto MT940 como CAMT.053 con una única API, por lo que su canal de análisis funciona durante la transición y después.
+**TL;DR:** SWIFT retirará MT940 en noviembre de 2028. Bank Statement Parser maneja tanto MT940 como CAMT.053 con una única API, para que su pipeline de análisis funcione durante la transición y después.
 
 ## Por qué es importante esta migración
 
-SWIFT está retirando los formatos de mensajes MT heredados en favor del estándar ISO 20022, más completo. Para los equipos de tesorería y finanzas, esto significa que sus canales de procesamiento de extractos bancarios deben evolucionar de MT940 a CAMT.053 antes de las fechas límite estrictas.
+SWIFT está retirando los formatos de mensajes MT heredados en favor del estándar ISO 20022, más completo. Para los equipos de tesorería y finanzas, esto significa que sus pipelines de procesamiento de extractos bancarios deben evolucionar de MT940 a CAMT.053 antes de los plazos estrictos.
 
 ## Cronograma de migración de SWIFT
 
 | Fecha | Hito | Impacto |
 |---|---|---|
-| **Noviembre 2025** | Finaliza la coexistencia entre MT y MX para pagos transfronterizos | Los mensajes PACS ahora son solo ISO 20022 |
-| **Noviembre 2026** | Direcciones estructuradas/híbridas obligatorias; Instrucción múltiple MT101 rechazada; Fase de gestión de casos 1 | Los formatos de dirección deben cumplir; algunos mensajes MT serán rechazados |
-| **Finales de 2026** | Comienza la inscripción para recibir CAMT.052/.053/.054 | Las instituciones financieras pueden comenzar a recibir declaraciones ISO nativas |
-| **Noviembre 2027** | Todas las IF deben recibir CAMT.053 de forma nativa | SWIFT deja de convertir el formato MT a ISO; sus sistemas deben analizar CAMT directamente |
-| **Noviembre 2028** | MT940/MT942/MT950/MT900/MT910 completamente retirado | Los formatos de estados de cuenta heredados ya no están disponibles; CAMT.052/.053/.054 son la única opción |
+| **Noviembre 2025** | Finaliza la coexistencia MT-MX para pagos transfronterizos | Los mensajes PACS ahora son solo ISO 20022 |
+| **Noviembre 2026** | Direcciones estructuradas/híbridas obligatorias; instrucción múltiple MT101 rechazada; Fase 1 de Gestión de Casos | Los formatos de dirección deben cumplir; algunos mensajes MT serán rechazados |
+| **Finales de 2026** | Comienza la inscripción para recibir CAMT.052/.053/.054 | Las instituciones financieras pueden empezar a recibir extractos ISO nativos |
+| **Noviembre 2027** | Todas las IF deben recibir CAMT.053 de forma nativa | SWIFT deja de convertir formato MT a ISO; sus sistemas deben analizar CAMT directamente |
+| **Noviembre 2028** | MT940/MT942/MT950/MT900/MT910 completamente retirados | Los formatos de extractos heredados ya no estarán disponibles; CAMT.052/.053/.054 son la única opción |
 
-## Qué cambios para su código
+## Qué cambia en su código
 
 ### Antes: solo MT940
 
@@ -134,7 +134,7 @@ parser = Mt940Parser("statement.mt940")
 df = parser.parse()
 ```
 
-### Después: Ambos formatos con detección automática
+### Después: ambos formatos con detección automática
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -144,28 +144,31 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # Same DataFrame schema regardless of format
 ```
 
-El`detect_statement_format()`La función identifica si el archivo es MT940, CAMT.053, PAIN.001 o cualquier otro formato compatible. El`create_parser()`La función devuelve el analizador correcto. Su código descendente funciona de manera idéntica independientemente del formato fuente.
+La función `detect_statement_format()` identifica si el archivo es MT940, CAMT.053, PAIN.001 o cualquier otro formato compatible. La función `create_parser()` devuelve el analizador correcto. Su código posterior funciona de forma idéntica independientemente del formato de origen.
 
 ## CAMT.053 vs MT940: diferencias clave
 
 | Característica | MT940 | CAMT.053 |
 |---|---|---|
-| Riqueza de datos | Campos limitados | De 3 a 5 veces más datos por transacción |
-| conjunto de caracteres | Limitado (juego de caracteres SWIFT) | Unicódigo completo |
-| Estructura | Texto plano con etiquetas | XML con espacios de nombres |
-| Informes de saldo | Sólo apertura/cierre | Múltiples tipos de saldo |
+| Riqueza de datos | Campos limitados | 3-5 veces más datos por transacción |
+| Juego de caracteres | Limitado (charset SWIFT) | Unicode completo |
+| Estructura | Texto plano con etiquetas | XML con namespaces |
+| Informes de saldo | Solo apertura/cierre | Múltiples tipos de saldo |
 | Referencias | Campo de referencia único | Múltiples tipos de referencia |
-| Manejo de moneda | Básico | Multidivisa completa con tipos de cambio. |
+| Manejo de divisa | Básico | Multidivisa completa con tipos de cambio |
 
-## Cómo ayuda el analizador de extractos bancarios
+## Cómo ayuda Bank Statement Parser
 
-- **API unificada**: analiza MT940 y CAMT.053 con el mismo`parse()`método, produciendo esquemas DataFrame idénticos.
-- **Autodetección**: No es necesario conocer el formato de antemano.`detect_statement_format()`lo identifica automáticamente.
-- **Independiente del espacio de nombres**: maneja cualquier variante de CAMT.053 (001.02, 001.04 o contenedores específicos del banco) sin configuración.
-- **Transmisión**: Procese archivos CAMT grandes (50 MB+, 50K+ transacciones) con memoria limitada.
-- **Pruebas de migración**: ejecute ambos analizadores uno al lado del otro en el mismo rango de fechas para verificar la coherencia de la salida antes de cambiar.
+- **API unificada**: Analice MT940, CAMT.053 y extractos PDF con el mismo flujo de trabajo, produciendo salida DataFrame consistente.
+- **Autodetección**: No necesita conocer el formato de antemano. `detect_statement_format()` lo identifica automáticamente.
+- **Pipeline híbrido para PDF**: Los bancos que solo proporcionan extractos en PDF durante la transición se procesan con `smart_ingest()` y verificación automática de saldo.
+- **Independiente del namespace**: Maneja cualquier variante de CAMT.053 (001.02, 001.04 o envolturas específicas de banco) sin configuración.
+- **Verificación multidivisa**: `verify_balance_multi_currency()` ejecuta la Regla de Oro por grupo de divisa — esencial para extractos CAMT multidivisa.
+- **Streaming**: Procese archivos CAMT grandes (50 MB+, 50K+ transacciones) con memoria acotada.
+- **Exportación contable**: Exporte directamente a formato de diario hledger o beancount para contabilidad de tesorería.
+- **Pruebas de migración**: Ejecute ambos analizadores en paralelo sobre el mismo rango de fechas para verificar la consistencia de la salida antes de cambiar.
 
-## Empezando
+## Primeros pasos
 
 ```bash
 pip install bankstatementparser
@@ -174,12 +177,21 @@ pip install bankstatementparser
 ```python
 from bankstatementparser import create_parser, detect_statement_format
 
-# Works with MT940 today, CAMT.053 tomorrow
+# Works with MT940 today, CAMT.053 tomorrow, PDF anytime
 for file in bank_statement_files:
     fmt = detect_statement_format(file)
     parser = create_parser(file, fmt)
     df = parser.parse()
     process(df)  # Your code doesn't change
+```
+
+Para extractos PDF de bancos que aún no ofrecen exportaciones CAMT estructuradas:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+assert result.verification.status == "VERIFIED"
 ```
 
 [Lea la documentación completa](/getting-started/index.html)

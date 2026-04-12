@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Các trường hợp sử dụng Trình phân tích sao kê ngân hàng"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Trình phân tích báo cáo ngân hàng. Mọi quyền được bảo lưu."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Cách các nhóm ngân quỹ, nhà phát triển công nghệ tài chính và nhân viên tuân thủ sử dụng Trình phân tích báo cáo ngân hàng để di chuyển, đối chiếu, quy trình kiểm toán và hợp nhất đa ngân hàng từ MT940 sang CAMT."
 download: ""
 format-detection: "telephone=no"
@@ -107,13 +107,41 @@ site_software: "Shokunin, Rust"
 
 ---
 
-Trình phân tích báo cáo ngân hàng xử lý các quy trình công việc tài chính trong thế giới thực: di chuyển MT940 sang CAMT cho các nhóm ngân quỹ, đối chiếu tự động, quy trình tuân thủ với việc biên tập PII, nhập SFTP, hợp nhất nhiều ngân hàng và xử lý hàng loạt ZIP an toàn.
+Bank Statement Parser xử lý các quy trình tài chính thực tế: nhập sao kê PDF ngân hàng, chuyển đổi MT940-sang-CAMT, đối chiếu tự động với xác minh số dư, pipeline tuân thủ, xuất kế toán plaintext, triển khai REST API, quét hàng loạt, và hợp nhất đa ngân hàng.
 
-## Kho bạc: Di chuyển MT940 sang CAMT.053
+## Nhập sao kê PDF ngân hàng
 
-**Kết quả:** Một lệnh gọi API duy nhất xử lý cả MT940 và CAMT.053 trong thời gian di chuyển SWIFT (tháng 11 năm 2025–tháng 11 năm 2028), loại bỏ nhu cầu về quy trình phân tích cú pháp riêng biệt.
+**Kết quả:** Phân tích sao kê PDF kỹ thuật số và PDF quét với tự động xác minh số dư — không cần cloud API, không có dữ liệu rời khỏi máy bạn.
 
-Các nhóm ngân quỹ trên toàn thế giới đang chuyển từ MT940 sang CAMT.053 trước thời hạn SWIFT tháng 11 năm 2027. Trình phân tích sao kê ngân hàng xử lý cả hai định dạng bằng một API duy nhất, giúp quá trình chuyển đổi diễn ra liền mạch.
+Pipeline PDF hybrid định tuyến mỗi PDF qua đường dẫn trích xuất tối ưu và xác minh mọi kết quả.
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+
+# Review discrepancies interactively
+# bankstatementparser --type review --input result.json
+```
+
+## Xử lý sao kê hàng loạt
+
+**Kết quả:** Quét toàn bộ cây thư mục (hàng trăm PDF, XML, CSV) với tự động chống trùng lặp liên tệp trong một lệnh gọi duy nhất.
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Files: {len(batch.results)}, Unique txns: {batch.unique_count}")
+```
+
+## Ngân quỹ: Chuyển đổi MT940 sang CAMT.053
+
+**Kết quả:** Một lệnh gọi API duy nhất xử lý cả MT940 và CAMT.053 trong thời gian chuyển đổi SWIFT (tháng 11/2025 – tháng 11/2028), loại bỏ nhu cầu pipeline phân tích riêng biệt.
+
+Các nhóm ngân quỹ trên toàn thế giới đang chuyển từ MT940 sang CAMT.053 trước thời hạn SWIFT tháng 11/2027. Bank Statement Parser xử lý cả hai định dạng với một API duy nhất, giúp quá trình chuyển đổi diễn ra liền mạch.
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -126,17 +154,23 @@ for file in daily_statement_files:
     load_to_treasury_system(df)
 ```
 
-## Hòa giải tự động
+## Đối chiếu tự động với xác minh số dư
 
-**Kết quả:** DataFrames không định dạng với tính năng chống trùng lặp tích hợp giúp giảm nỗ lực đối sánh thủ công và nắm bắt các mục trùng lặp trước khi chúng được đưa vào sổ cái của bạn.
+**Kết quả:** DataFrames không phụ thuộc định dạng với xác minh Golden Rule và chống trùng lặp phát hiện lỗi và bản sao trước khi chúng vào sổ cái.
 
-Phân tích báo cáo ngân hàng và tự động đối chiếu với hồ sơ nội bộ. Đầu ra DataFrame hợp nhất làm cho logic điều chỉnh không thể xác định được định dạng.
+Phân tích sao kê ngân hàng, xác minh số dư, và đối sánh tự động với hồ sơ nội bộ.
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
+from bankstatementparser.hybrid import verify_balance_multi_currency
 
 parser = CamtParser("bank_statement.xml")
 bank_txns = parser.parse()
+
+# Verify balances per currency
+verification = verify_balance_multi_currency(bank_txns)
+for ccy, result in verification.items():
+    assert result.status == "VERIFIED", f"{ccy} balance mismatch!"
 
 # Deduplicate before reconciliation
 dedup = Deduplicator()
@@ -147,11 +181,39 @@ clean_txns = result.unique_transactions
 unmatched = reconcile(clean_txns, internal_ledger)
 ```
 
-## Quy trình tuân thủ và kiểm tra
+## Kế toán Plaintext (hledger / beancount)
 
-**Kết quả:** Đầu ra xác định và biên tập PII tự động tạo ra các nhật ký sẵn sàng cho kiểm tra, đáp ứng các yêu cầu về khả năng tái tạo theo quy định mà không cần thêm công cụ.
+**Kết quả:** Tự động nhập sao kê PDF ngân hàng và xuất giao dịch đã phân loại sang định dạng hledger hoặc beancount journal.
 
-Xây dựng quy trình sẵn sàng cho việc kiểm tra với tính năng biên tập PII và đầu ra xác định. Mỗi lần chạy đều tạo ra kết quả giống hệt nhau cho cùng một đầu vào, đáp ứng các yêu cầu về độ tái lập theo quy định.
+```python
+from bankstatementparser.hybrid import smart_ingest
+from bankstatementparser.enrichment import Categorizer
+from bankstatementparser.export import to_hledger
+
+result = smart_ingest("statement.pdf")
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(result.transactions)
+journal = to_hledger(enriched, account="Assets:Bank:Checking")
+```
+
+## Triển khai REST API
+
+**Kết quả:** Triển khai Bank Statement Parser dưới dạng microservice nhận tệp sao kê qua HTTP và trả về JSON có cấu trúc.
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+```
+
+```bash
+# Ingest a statement
+curl -X POST http://localhost:8000/ingest \
+  -F "file=@statement.pdf"
+```
+
+## Pipeline tuân thủ và kiểm toán
+
+**Kết quả:** Đầu ra xác định, tự động ẩn danh PII, và xác minh Golden Rule tạo ra nhật ký sẵn sàng kiểm toán đáp ứng yêu cầu tái tạo theo quy định.
 
 ```python
 from bankstatementparser import CamtParser
@@ -166,11 +228,9 @@ for txn in parser.parse_streaming(redact_pii=True):
 parser.export_csv("archive/statement.csv")
 ```
 
-## Quy trình làm việc SFTP-to-DataFrame
+## Quy trình SFTP-to-DataFrame
 
-**Kết quả:** Phân tích cú pháp trực tiếp từ byte với I/O đĩa bằng 0, phù hợp hoàn toàn với quy trình kết nối ngân hàng dựa trên SFTP và API.
-
-Nhiều ngân hàng gửi báo cáo qua SFTP. Phân tích cú pháp trực tiếp từ byte mà không cần ghi vào đĩa.
+**Kết quả:** Phân tích trực tiếp từ bytes với không cần I/O đĩa, phù hợp tự nhiên với quy trình kết nối ngân hàng qua SFTP và API.
 
 ```python
 from bankstatementparser import CamtParser
@@ -182,9 +242,7 @@ df = parser.parse()
 
 ## Hợp nhất đa ngân hàng
 
-**Kết quả:** Phân tích cú pháp song song trên HSBC (CAMT), Barclays (MT940), Revolut (CSV) và Wise (OFX) tạo ra một tập dữ liệu chuẩn hóa duy nhất trong một cuộc gọi.
-
-Hợp nhất các báo cáo từ nhiều ngân hàng bằng các định dạng khác nhau thành một tập dữ liệu chuẩn hóa duy nhất.
+**Kết quả:** Phân tích song song trên HSBC (CAMT), Barclays (MT940), Revolut (CSV), Wise (OFX), và Chase (PDF) tạo ra một tập dữ liệu chuẩn hóa duy nhất.
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -199,11 +257,9 @@ results = parse_files_parallel([
 all_transactions = pd.concat([r.transactions for r in results if r.status == "success"])
 ```
 
-## Xử lý hàng loạt với kho lưu trữ ZIP
+## Xử lý hàng loạt với tệp ZIP
 
-**Kết quả:** Tính năng bảo vệ chống bom ZIP tích hợp (giới hạn tỷ lệ 100:1, giới hạn mục nhập 10 MB, từ chối mục nhập được mã hóa) cho phép bạn xử lý các bản lưu trữ sao kê hàng tháng một cách an toàn.
-
-Xử lý các kho lưu trữ bản sao kê nén một cách an toàn với tính năng bảo vệ bom ZIP tích hợp.
+**Kết quả:** Bảo vệ ZIP bomb tích hợp (giới hạn tỷ lệ 100:1, giới hạn mục nhập 10 MB, từ chối mục nhập mã hóa) cho phép bạn xử lý các tệp sao kê hàng tháng an toàn.
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
@@ -214,4 +270,4 @@ for entry in iter_secure_xml_entries("monthly_statements.zip"):
     save_to_warehouse(entry.source_name, df)
 ```
 
-[So sánh với các lựa chọn thay thế ❯](/comparison/index.html) | [Lập kế hoạch di chuyển ISO 20022 của bạn ❯](/migration/index.html) | [Bắt đầu ❯](/getting-started/index.html)
+[So sánh với các lựa chọn thay thế ❯](/comparison/index.html) | [Lập kế hoạch chuyển đổi ISO 20022 ❯](/migration/index.html) | [Bắt đầu ❯](/getting-started/index.html)

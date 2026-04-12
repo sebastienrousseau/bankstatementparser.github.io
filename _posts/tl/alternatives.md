@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Bank Statement Parser vs Alternatives"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Bank Statement Parser. Lahat ng karapatan ay nakalaan."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Ihambing ang Bank Statement Parser sa mt-940, ofxparse, pycamt, pyiso20022, at SaaS na mga tool tulad ng Ocrolus at Parseur. Paghahambing ng feature, pagpepresyo, at gabay sa paglipat."
 download: ""
 format-detection: "telephone=no"
@@ -109,70 +109,82 @@ site_software: "Shokunin, Rust"
 
 ## Pangkalahatang-ideya
 
-Ang Bank Statement Parser ay ang tanging open-source na Python library na nag-parse ng anim na bank statement format na may pinag-isang API. Ang mga library na may iisang format (mt-940, ofxparse, pycamt) ang bawat isa ay humahawak ng isang format. Ang mga tool ng SaaS (Ocrolus, Parseur) ay nag-aalok ng OCR para sa mga PDF ngunit nangangailangan ng pagpapadala ng data sa labas at nagkakahalaga ng $49–$1,000+/buwan.
+Ang Bank Statement Parser ay ang tanging open-source na Python library na nag-pa-parse ng pitong bank statement format — kasama ang PDF sa pamamagitan ng hybrid LLM pipeline — na may pinag-isang API. Ang mga single-format na library (mt-940, ofxparse, pycamt) ay humahawak ng isang format lamang bawat isa. Ang mga SaaS tool (Ocrolus, Parseur) ay nag-aalok ng cloud OCR ngunit nangangailangan ng pagpapadala ng data sa labas at nagkakahalaga ng $49–$1,000+/buwan.
 
-## Mga Alternatibo sa Open-Source
+## Mga Open-Source na Alternatibo
 
-### Single-Format na Aklatan
+### Mga Single-Format na Library
 
-Karamihan sa mga open-source na bank statement parser ay humahawak ng isang format lamang. Kung kailangan mo ng maraming format, dapat kang mag-install at magpanatili ng hiwalay na mga library na may iba't ibang mga API, output schema, at mga cycle ng pag-update.
+Karamihan sa mga open-source na bank statement parser ay humahawak ng isang format lamang. Kung kailangan mo ng maraming format, dapat kang mag-install at magpanatili ng hiwalay na mga library na may iba't ibang API, output schema, at mga update cycle.
 
-| Aklatan | Format | Output | Streaming | PII Redaction | Deduplikasyon |
+| Library | Mga Format | PDF | Output | Beripikasyon ng Balanse | Ledger Export |
 |---|---|---|---|---|---|
-| **Bank Statement Parser** | 6 na mga format | pandas DataFrame | Oo | Oo (default) | Oo |
-| mt-940 (WoLpH) | MT940 lang | Mga bagay sa Python | Hindi | Hindi | Hindi |
-| ofxparse | OFX lang | Mga bagay sa Python | Hindi | Hindi | Hindi |
-| pycamt | CAMT.053 lang | Mga bagay sa Python | Hindi | Hindi | Hindi |
-| ofxtools | OFX v1/v2 lang | Mga bagay sa Python | Hindi | Hindi | Hindi |
+| **Bank Statement Parser** | 7 na format | Hybrid pipeline | pandas DataFrame | Golden Rule | hledger, beancount |
+| mt-940 (WoLpH) | MT940 lang | Wala | Mga Python object | Wala | Wala |
+| ofxparse | OFX lang | Wala | Mga Python object | Wala | Wala |
+| pycamt | CAMT.053 lang | Wala | Mga Python object | Wala | Wala |
+| ofxtools | OFX v1/v2 lang | Wala | Mga Python object | Wala | Wala |
 
 ### vs pyiso20022
 
-Ang pyiso20022 ay bumubuo ng mga Python dataclasses mula sa buong ISO 20022 schema catalog. Ito ay isang pangkalahatang layunin na toolkit na ISO 20022 para sa pagtatrabaho sa mga mensahe ng PACS, PAIN, CAMT, at ADMI.
+Ang pyiso20022 ay bumubuo ng mga Python dataclass mula sa buong ISO 20022 schema catalogue. Ito ay isang pangkalahatang layunin na ISO 20022 toolkit para sa pagtatrabaho sa mga PACS, PAIN, CAMT, at ADMI na mensahe.
 
-Ang Bank Statement Parser ay sadyang binuo para sa pag-parse ng mga bank statement sa DataFrames na may mga feature ng produksyon:
+Ang Bank Statement Parser ay sadyang binuo para sa pag-parse ng mga bank statement sa DataFrames na may mga production feature:
 
-| Tampok | Parser ng Bank Statement | pyiso20022 |
+| Tampok | Bank Statement Parser | pyiso20022 |
 |---|---|---|
-| Layunin | Pag-parse ng pahayag + pag-export | ISO 20022 schema toolkit |
-| Output | pandas/Polars DataFrames | Mga klase ng data ng Python |
-| Mga format | 6 (kabilang ang hindi ISO) | ISO 20022 lang |
-| Streaming | Oo (bounded memory) | Hindi |
-| PII redaction | Built-in | Hindi |
-| Deduplikasyon | Built-in | Hindi |
-| ZIP seguridad | Built-in | Hindi |
-| CLI | Oo | Hindi |
+| Layunin | Pag-parse ng statement + extraction + export | ISO 20022 schema toolkit |
+| Output | pandas/Polars DataFrames | Mga Python dataclass |
+| Mga format | 7 (kasama ang PDF, hindi ISO) | ISO 20022 lang |
+| Suporta sa PDF | Hybrid pipeline (deterministic + LLM + vision) | Wala |
+| Beripikasyon ng balanse | Golden Rule + multi-currency | Wala |
+| REST API | Built-in na FastAPI | Wala |
+| Enrichment | LLM-powered na kategorisasyon | Wala |
+| Ledger export | hledger + beancount | Wala |
+| Streaming | Oo (bounded memory) | Wala |
+| PII redaction | Built-in | Wala |
+| Deduplikasyon | Idempotent na transaction hash | Wala |
+| CLI | Oo | Wala |
 
-Gamitin ang pyiso20022 kung kailangan mong magtrabaho kasama ang buong katalogo ng mensahe ng ISO 20022. Gamitin ang Bank Statement Parser kung kailangan mong i-parse ang mga bank statement sa structured data para sa pagsusuri, pagkakasundo, o pag-uulat.
+Gamitin ang pyiso20022 kung kailangan mong magtrabaho sa buong ISO 20022 message catalogue. Gamitin ang Bank Statement Parser kung kailangan mong mag-parse ng mga bank statement sa structured data para sa pagsusuri, reconciliation, o pag-uulat.
 
-## Mga Alternatibo ng SaaS
+## Mga SaaS na Alternatibo
 
-Ang mga tool ng SaaS tulad ng Ocrolus, Parseur, at Sensible ay nag-aalok ng pag-parse ng bank statement bilang isang serbisyo sa cloud. Karaniwang ginagamit nila ang OCR upang pangasiwaan ang mga na-scan na PDF at suportahan ang daan-daang mga format na tukoy sa bangko.
+Ang mga SaaS tool tulad ng Ocrolus, Parseur, at Sensible ay nag-aalok ng pag-parse ng bank statement bilang cloud service. Karaniwang gumagamit sila ng OCR para pangasiwaan ang mga na-scan na PDF at sumusuporta sa daan-daang bank-specific na format.
 
-| Tampok | Parser ng Bank Statement | SaaS Tools |
+| Tampok | Bank Statement Parser | Mga SaaS Tool |
 |---|---|---|
-| Pagkapribado ng data | 100% lokal, walang mga tawag sa network | Ipinadala ang data sa cloud |
-| Gastos | Libre (Apache 2.0) | $49–$1,000+/buwan (mula sa Q1 2026) |
-| Mga format | 6 na nakabalangkas na mga format | Daan-daan (sa pamamagitan ng OCR) |
-| Suporta sa PDF | Hindi (mga structured na format lang) | Oo (batay sa OCR) |
-| Latency | <2 ms unang resulta | 1-30 segundo |
-| Throughput | 27,000+ tx/segundo | Limitado ang rate ng API |
-| Lock-in ng vendor | wala | Oo |
+| Pagkapribado ng data | 100% lokal (mga LLM sa pamamagitan ng Ollama) | Ipinapadala ang data sa cloud |
+| Gastos | Libre (Apache 2.0) | $49–$1,000+/buwan (mula Q1 2026) |
+| Mga format | 7 (structured + PDF) | Daan-daan (sa pamamagitan ng OCR) |
+| Suporta sa PDF | Oo — hybrid pipeline (deterministic + LLM + vision) | Oo (cloud OCR) |
+| Beripikasyon ng balanse | Golden Rule (awtomatiko) | Manual / limitado |
+| Latency | <2 ms (structured), segundo (PDF+LLM) | 1-30 segundo |
+| Throughput | 27,000+ tx/segundo (structured) | Limitado ang rate ng API |
+| REST API | Built-in na FastAPI | Proprietary |
+| Ledger export | hledger + beancount | Wala |
+| Vendor lock-in | Wala | Oo |
 | Pagsunod | Lokal na pagproseso, SBOM | Nag-iiba ayon sa provider |
 
-## Mga Parser na Nakabatay sa LLM
+## Mga LLM-Based na Parser
 
-Ang dumaraming bilang ng mga tool (Inscribe, Unstract, Mozilla.ai blueprints) ay gumagamit ng malalaking modelo ng wika upang i-parse ang mga bank statement, kabilang ang mga na-scan na PDF. Nang muling idisenyo ni Chase ang kanilang format ng pahayag ng consumer noong huling bahagi ng 2025, nasira ang mga parser na nakabatay sa template habang ang mga parser ng LLM ay awtomatikong nag-adapt.
+Dumarami ang mga tool (Inscribe, Unstract, Mozilla.ai blueprints) na gumagamit ng malalaking language model para i-parse ang mga bank statement, kabilang ang mga na-scan na PDF. Nang muling idisenyo ng Chase ang kanilang consumer statement format noong huling bahagi ng 2025, nasira ang mga template-based na parser habang ang mga LLM parser ay awtomatikong nag-adapt.
 
-**Kapag may kahulugan ang mga parser ng LLM**: Makakatanggap ka ng mga na-scan na PDF mula sa daan-daang mga bangko na may mga hindi mahulaan na layout, at tinatanggap ang tinatayang pagkuha (95-99% katumpakan).
+**Kasama na ngayon sa Bank Statement Parser ang sarili nitong hybrid LLM pipeline** (v0.0.5+) na tumatakbo nang ganap na lokal sa pamamagitan ng Ollama. Pinagsasama nito ang pinakamahusay ng dalawang pamamaraan:
 
-**Kapag ang Bank Statement Parser ang mas magandang pagpipilian**: Kailangan mo ng deterministic, reproducible na output para sa audit at pagsunod. Hindi ka maaaring magpadala ng data sa pananalapi sa mga panlabas na API. Kailangan mo ng sub-millisecond latency (kumpara sa 1-30 segundo para sa mga LLM API). Gusto mo ng zero na patuloy na gastos at walang dependency sa vendor.
+- **Mga structured na format** (XML, CSV, OFX, MT940): Deterministikong pag-parse — 100% katumpakan, sub-millisecond na latency, zero LLM na gastos.
+- **Mga PDF statement**: Tatlong-landas na routing (deterministic table extraction → text-LLM → vision-LLM) na may awtomatikong Golden Rule na beripikasyon upang mahuli ang mga error sa extraction.
 
-Ang Bank Statement Parser at LLM tool ay lumulutas ng iba't ibang problema. Gamitin ang Bank Statement Parser para sa mga structured na format (XML, CSV, OFX, MT940) kung saan kailangan mo ng 100% katumpakan, lokal na pagproseso, at muling paggawa ng audit. Gumamit ng mga tool ng LLM para sa mga hindi nakabalangkas na PDF kung saan tinatanggap ang tinatayang pagkuha.
+Hindi tulad ng cloud-only na LLM parser, ang hybrid pipeline ng Bank Statement Parser ay:
+- Tumatakbo nang 100% lokal (Ollama) — walang data na umaalis sa iyong makina.
+- Bineberipika ang bawat extraction gamit ang beripikasyon ng balanse (Golden Rule).
+- Sumusuporta sa interactive review mode para sa mga na-flag na diskrepansya.
+- Gumagawa ng idempotent na transaction hash para sa ligtas na incremental ingestion.
 
-**Pamamaraan ng benchmark**: Sinukat ang mga bilang ng pagganap sa Apple M2, Python 3.12, gamit ang 5,000-transaksyon na CAMT.053 file (2.1 MB). Ang mga resulta ay nag-average ng higit sa 100 na pagtakbo. Mag-reproduce nang lokal:`python -m bankstatementparser.bench`. SaaS latency batay sa na-publish na dokumentasyon ng API noong Abril 2026.
+**Kailan pipiliin ang pure SaaS LLM parser kaysa Bank Statement Parser**: Tumatanggap ka ng mga statement mula sa daan-daang bangko na may napakakaibang PDF layout at kailangan mo ng out-of-the-box coverage nang hindi nagpapatakbo ng lokal na infrastructure.
 
-**Kailan pipiliin ang Bank Statement Parser**: Nagbibigay ang iyong bangko ng mga structured na pag-export (XML, CSV, OFX, MT940), kailangan mo ng lokal na pagpoproseso para sa pagsunod, o gusto mo ng walang kasalukuyang gastos.
+**Kailan pipiliin ang Bank Statement Parser**: Kailangan mo ng lokal na pagproseso para sa pagsunod. Gusto mo ng beripikasyon ng balanse. Kailangan mo ng ledger export. Gusto mo ng zero na patuloy na gastos.
 
-**Kailan pipiliin ang SaaS**: Makakatanggap ka ng mga na-scan na PDF statement, kailangan mo ng OCR para sa daan-daang mga format na tukoy sa bangko, o gusto mo ng walang code na solusyon.
+**Pamamaraan ng benchmark**: Sinukat ang mga performance figure sa Apple M2, Python 3.12, gamit ang 5,000-transaksyon na CAMT.053 file (2.1 MB). Nag-average ang mga resulta sa 100 run. Mag-reproduce nang lokal: `python -m bankstatementparser.bench`. SaaS latency batay sa na-publish na API documentation noong Abril 2026.
 
-[Tingnan ang real-world use cases ❯](/use-cases/index.html) | [Plano ang iyong MT940-to-CAMT migration ❯](/migration/index.html)
+[Tingnan ang mga real-world use case ❯](/use-cases/index.html) | [Planuhin ang iyong MT940-to-CAMT migration ❯](/migration/index.html)

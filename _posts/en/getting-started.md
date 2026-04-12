@@ -6,14 +6,14 @@ author: "Sebastien Rousseau"
 banner_alt: "A white building with black windows"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Bank Statement Parser. All rights reserved."
-date: "Apr 01, 2026"
-description: "Get started with Bank Statement Parser for Python: install, parse CAMT/PAIN.001/CSV/OFX/QFX/MT940 files, and use streaming or CLI workflows."
+date: "Apr 11, 2026"
+description: "Get started with Bank Statement Parser for Python: install, parse CAMT/PAIN.001/CSV/OFX/QFX/MT940/PDF files, hybrid pipeline, REST API, and CLI workflows."
 download: ""
 format-detection: "telephone=no"
 hreflang: "en"
@@ -56,11 +56,11 @@ generator: "Shokunin 🦀 (version 0.0.20)"
 item_description: "Get started with Bank Statement Parser for Python: install, parse CAMT/PAIN.001/CSV/OFX/QFX/MT940 files, and use streaming or CLI workflows."
 item_guid: "https://bankstatementparser.com/getting-started/rss.xml"
 item_link: "https://bankstatementparser.com/getting-started/rss.xml"
-item_pub_date: "2026-04-01T00:00:00+00:00"
+item_pub_date: "2026-04-11T00:00:00+00:00"
 item_title: "Bank Statement Parser: Installation and Usage Guide"
-last_build_date: "2026-04-01T00:00:00+00:00"
+last_build_date: "2026-04-11T00:00:00+00:00"
 managing_editor: "contact@bankstatementparser.com"
-pub_date: "2026-04-01T00:00:00+00:00"
+pub_date: "2026-04-11T00:00:00+00:00"
 ttl: "60"
 type: "website"
 webmaster: "contact@bankstatementparser.com"
@@ -100,7 +100,7 @@ author_website: "https://bankstatementparser.com"
 author_twitter: "@wwdseb"
 author_location: "London, UK"
 thanks: "Thanks for reading!"
-site_last_updated: "2026-04-01"
+site_last_updated: "2026-04-11"
 site_standards: "HTML5, CSS3, RSS, Atom, JSON, XML, YAML, Markdown, TOML"
 site_components: "Shokunin SSG, Shokunin CLI, Shokunin Templates, Shokunin Themes, Kaishi SSG, Kaishi CLI, Kaishi Templates, Kaishi Themes"
 site_software: "Shokunin, Rust"
@@ -109,24 +109,41 @@ site_software: "Shokunin, Rust"
 
 ## Requirements
 
-- Python 3.9 to 3.14
+- Python 3.10 to 3.14
 - Terminal access (macOS, Linux, or WSL)
 
 ## Install
 
 ```bash
+# Core install (deterministic parsers only)
 pip install bankstatementparser
 ```
 
-For Polars DataFrame support:
+Optional extras for additional capabilities:
 
 ```bash
-pip install bankstatementparser[polars]
+# Text-LLM path for digital PDFs (litellm + pypdf)
+pip install 'bankstatementparser[hybrid]'
+
+# Higher-fidelity table extraction (adds pdfplumber)
+pip install 'bankstatementparser[hybrid-plus]'
+
+# Vision-LLM path for scanned PDFs (adds pypdfium2)
+pip install 'bankstatementparser[hybrid-vision]'
+
+# LLM-powered transaction categorisation
+pip install 'bankstatementparser[enrichment]'
+
+# REST API microservice (FastAPI + uvicorn)
+pip install 'bankstatementparser[api]'
+
+# Optional Polars DataFrame support
+pip install 'bankstatementparser[polars]'
 ```
 
 ## Quick Start
 
-### Auto-Detect and Parse Any Format
+### Auto-Detect and Parse Any Structured Format
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -156,6 +173,21 @@ from bankstatementparser import Pain001Parser
 parser = Pain001Parser("payment.xml")
 payments = parser.parse()
 ```
+
+### Parse PDF Bank Statements (Hybrid Pipeline)
+
+The hybrid pipeline intelligently routes PDFs through three extraction paths:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+print(result.transactions)          # List of extracted transactions
+```
+
+Every extraction is verified with the **Golden Rule**: `opening + credits − debits == closing`.
 
 ## Streaming Large Files
 
@@ -193,9 +225,21 @@ for r in results:
     print(r.path, r.status, len(r.transactions), "rows")
 ```
 
+## Bulk Directory Scanning
+
+Process entire folder trees with automatic deduplication:
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Processed: {len(batch.results)} files")
+print(f"Unique transactions: {batch.unique_count}")
+```
+
 ## Deduplication
 
-Detect exact duplicates and suspected matches with confidence scores:
+Idempotent transaction hashes for safe incremental ingestion:
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
@@ -208,6 +252,58 @@ print(f"Unique: {len(result.unique_transactions)}")
 print(f"Exact duplicates: {len(result.exact_duplicates)}")
 print(f"Suspected matches: {len(result.suspected_matches)}")
 ```
+
+## Transaction Categorisation (Enrichment)
+
+Automatically categorise transactions using LLM-powered classification:
+
+```python
+from bankstatementparser.enrichment import Categorizer
+
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(transactions)
+for txn in enriched:
+    print(f"{txn.description}: {txn.category}")
+```
+
+## Ledger Export (hledger / beancount)
+
+Export transactions to plaintext-accounting journal formats:
+
+```python
+from bankstatementparser.export import to_hledger, to_beancount
+
+journal = to_hledger(transactions, account="Assets:Bank:Checking")
+beancount_journal = to_beancount(transactions, account="Assets:Bank:Checking")
+```
+
+## Multi-Currency Balance Verification
+
+Verify balances independently per currency group:
+
+```python
+from bankstatementparser.hybrid import verify_balance_multi_currency
+
+results = verify_balance_multi_currency(transactions)
+for currency, verification in results.items():
+    print(f"{currency}: {verification.status}")
+```
+
+## REST API
+
+Deploy as a FastAPI microservice:
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+
+# For container deployments
+bankstatementparser-api --host 0.0.0.0 --port 9000
+```
+
+Endpoints:
+- `POST /ingest` -- Parse a bank statement file
+- `GET /health` -- Health check
 
 ## Secure ZIP Processing
 
@@ -230,26 +326,36 @@ parser.export_json("output.json")
 
 # Polars (requires bankstatementparser[polars])
 polars_df = parser.to_polars()
+
+# Excel
+parser.camt_to_excel("output.xlsx")
 ```
 
 ## CLI Usage
 
 ```bash
-# Parse and display
-python -m bankstatementparser.cli --type camt --input statement.xml
+# Parse structured formats
+bankstatementparser --type camt --input statement.xml
+bankstatementparser --type pain001 --input payment.xml
 
-# Export to CSV
-python -m bankstatementparser.cli --type camt --input statement.xml --output transactions.csv
+# Hybrid PDF pipeline
+bankstatementparser --type ingest --input statement.pdf
+bankstatementparser --type ingest --input statement.pdf --output ledger.csv
 
-# Stream with PII visible
-python -m bankstatementparser.cli --type camt --input statement.xml --streaming --show-pii
+# Interactive review mode
+bankstatementparser --type review --input result.json
+bankstatementparser --type review --input result.json --output reviewed.json
+
+# Export to CSV with streaming
+bankstatementparser --type camt --input statement.xml --output transactions.csv
+bankstatementparser --type camt --input statement.xml --streaming --show-pii
 ```
 
 CLI options:
 
-- `--type {camt,pain001}` -- parser type
+- `--type {camt,pain001,ingest,review}` -- parser type or mode
 - `--input <path>` -- input file
-- `--output <csv_path>` -- export to CSV
+- `--output <path>` -- export file (CSV or JSON)
 - `--streaming` -- stream large files
 - `--show-pii` -- show sensitive fields (redacted by default)
 - `--max-size <MB>` -- file size limit
@@ -261,6 +367,7 @@ git clone https://github.com/sebastienrousseau/bankstatementparser.git
 cd bankstatementparser
 python3 -m venv .venv && source .venv/bin/activate
 pip install poetry && poetry install --with dev
+make install-hooks   # pre-commit hook runs `make verify` before every commit
 ```
 
 Run the test suite:
@@ -281,6 +388,7 @@ pytest
 | `OfxParser` | OFX | `from bankstatementparser import OfxParser` |
 | `QfxParser` | QFX | `from bankstatementparser import QfxParser` |
 | `Mt940Parser` | MT940 | `from bankstatementparser import Mt940Parser` |
+| `smart_ingest()` | PDF (hybrid pipeline) | `from bankstatementparser.hybrid import smart_ingest` |
 
 ### Utility Functions
 
@@ -290,6 +398,11 @@ pytest
 | `create_parser(path, fmt)` | Create the appropriate parser |
 | `parse_files_parallel(paths)` | Parse multiple files concurrently |
 | `iter_secure_xml_entries(zip_path)` | Iterate ZIP entries securely |
+| `smart_ingest(path)` | Hybrid PDF extraction with verification |
+| `scan_and_ingest(dir, pattern)` | Bulk directory scanning |
+| `verify_balance_multi_currency(txns)` | Per-currency balance verification |
+| `to_hledger(txns, account)` | Export to hledger journal format |
+| `to_beancount(txns, account)` | Export to beancount journal format |
 
 ### Data Classes
 
@@ -301,6 +414,10 @@ pytest
 | `Transaction` | Normalised transaction record |
 | `FileResult` | Result from parallel parsing |
 | `ZipXMLSource` | ZIP member wrapper |
+| `IngestResult` | Hybrid pipeline result with verification |
+| `VerificationResult` | Balance verification outcome |
+| `Categorizer` | LLM-powered transaction categorisation |
+| `AccountMapper` | Regex-based account mapping rules |
 
 ### Exceptions
 

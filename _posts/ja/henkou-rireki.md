@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "銀行取引明細書パーサーの変更ログ"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 銀行取引明細書パーサー。無断転載を禁じます。"
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Bank Statement Parser のリリース履歴と変更ログ。すべてのバージョンにわたる新機能、改善点、バグ修正を追跡します。"
 download: ""
 format-detection: "telephone=no"
@@ -109,7 +109,36 @@ site_software: "Shokunin, Rust"
 
 Bank Statement Parser の開発をフォローしてください。 [RSS](/changelog/rss.xml) 経由で購読するか、[GitHub リポジトリ](https://github.com/sebastienrousseau/bankstatementparser) リリース通知用。
 
-## v0.0.4 — 2026-03-15 (最新)
+## v0.0.8 — 2026-04-11 (Latest) — "Full Platform"
+
+- Multi-currency balance verification — `verify_balance_multi_currency()` groups by currency, runs Golden Rule per group.
+- hledger + beancount export — `to_hledger()` and `to_beancount()` in `bankstatementparser.export`.
+- Bulk directory scanner — `scan_and_ingest()` scans folder trees, deduplicates across batch.
+- Account mapping rules — `AccountMapper` with ordered regex rules from JSON config.
+- REST API — FastAPI wrapper with `/ingest` and `/health` endpoints (`[api]` extra).
+
+## v0.0.7 — 2026-04-08 — "Universal Vision"
+
+- Direct Ollama bridge (`ollama_direct_completion`) — bypasses LiteLLM long-prompt hang.
+- Strip mode (`VisionExtractor.strip_rows=True`) — splits dense pages into overlapping bands for small local models.
+- Recommended vision model changed from `llava` to `minicpm-v`.
+
+## v0.0.6 — 2026-04-08 — "Intelligence Layer"
+
+- Dropped Python 3.9 support (now 3.10-3.14).
+- Enrichment module (`Categorizer`, `EnrichedTransaction`, `DEFAULT_CATEGORY_SCHEMA`).
+- Interactive review mode with `--type review` CLI command.
+- Per-row bounding box extraction (`Transaction.source_bbox`).
+
+## v0.0.5 — 2026-04-08 — "Universal Extraction"
+
+- Hybrid PDF pipeline (`smart_ingest()`) with deterministic/text-LLM/vision-LLM routing.
+- `LLMExtractor` for digital PDFs via LiteLLM.
+- `VisionExtractor` for scanned PDFs via multimodal vision models.
+- Golden Rule balance verification (`opening + credits - debits == closing`).
+- Idempotent deduplication via `transaction_hash` (MD5 fingerprint).
+
+## v0.0.4 — 2026-03-15
 
 - 並列ファイル解析を追加しました`parse_files_parallel()`ProcessPoolExecutor を使用します。
 - メモリ制限のある大きな PAIN.001 ファイル (50 MB 以上) に対する真のストリーミングを追加しました。
@@ -126,7 +155,7 @@ Bank Statement Parser の開発をフォローしてください。 [RSS](/chang
 - PII 編集を追加しました (CLI およびストリーミング モードではデフォルトでオン)。
 - CSV、JSON、Excel 用のエクスポート ヘルパーを追加しました。
 - オプションの Polars DataFrame サポートを追加しました。
-- テスト スイートを 100% ブランチ カバレッジの 467 テストに拡張しました。
+- テスト スイートを 100% ブランチ カバレッジの 718 テストに拡張しました。
 
 ## v0.0.2 — 2025-06-10
 

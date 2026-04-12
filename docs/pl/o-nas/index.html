@@ -4,20 +4,20 @@
     <meta charset="utf-8" />
     <meta itemprop="datePublished" content="2026-04-01T00:00:00+00:00" id="date">
     <meta itemprop="dateModified" content="2026-04-01T00:00:00+00:00" id="last-modified">
-    <title>O Parserze wyciagow bankowych: funkcjonalnosci, formaty i wydajnosc</title>
+    <title>Informacje o analizatorze wyciągów bankowych: funkcje, formaty i wydajność</title>
     <meta name="theme-color" content="rgb(73, 214, 251)" />
     <meta name="measurement-id" content="G-FL9DEBFHN1" />
     <meta name="author" content="Sebastien Rousseau">
-<meta name="description" content="Parser wyciagow bankowych to biblioteka Python open source do analizy wyciagow CAMT.053, PAIN.001, CSV, OFX, QFX i MT940 do DataFrames pandas. 100% lokalnie, maskowanie PII, 27K+ transakcji/s.">
-<meta name="keywords" content="parser wyciagow bankowych Python, parser CAMT.053, parser PAIN.001, biblioteka Python ISO 20022, parser MT940, parser OFX QFX, parser bankowy open source, lokalne przetwarzanie danych finansowych, maskowanie PII bankowe, migracja MT940 do CAMT">
+<meta name="description" content="Bank Statement Parser to biblioteka Pythona typu open source do analizowania CAMT.053, PAIN.001, CSV, OFX, QFX i MT940 w ramkach DataFrames pand. 100% lokalne, redakcja PII, 27 tys. + tx/s.">
+<meta name="keywords" content="Parser wyciągów bankowych python, parser CAMT.053, parser PAIN.001, biblioteka Pythona ISO 20022, parser MT940, parser OFX QFX, parser banków open source, lokalne przetwarzanie danych finansowych, bankowość redakcyjna PII, migracja MT940 do CAMT">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="accessibility" content="ARIA, fullKeyboardControl, noFlashingHazard" />
     <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="O Parserze wyciagow bankowych: funkcjonalnosci, formaty i wydajnosc">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: kura.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
+<meta name="apple-mobile-web-app-title" content="Informacje o analizatorze wyciągów bankowych: funkcje, formaty i wydajność">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: cloudcdn.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
     <meta name="msapplication-TileColor" content="rgb(73, 214, 251)">
     
     <link rel="alternate" href="https://bankstatementparser.com/pl/o-nas/index.html" hreflang="pl" />
@@ -27,7 +27,7 @@
     <link rel="apple-touch-icon" href="/images/icons/192x192.png" sizes="192x192" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
-    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#b0b8c1"}})});</script>
+    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#8f9aa5"}})});</script>
     <style>
       :root{--theme-color:rgb(73, 214, 251)}*{font-weight:400;box-sizing:border-box;margin:0}
       pre{margin:1.5rem 0;max-width:100%;overflow:auto;border-radius:.5rem;padding:1rem 1.25rem;background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);color:var(--c-code);display:block;font-family:'SF Mono',SFMono-Regular,Consolas,monospace;font-size:.8125rem;line-height:1.7;margin:1.5rem 0;max-width:100%;overflow:auto;padding:1rem 1.25rem;border-radius:.5rem}
@@ -105,13 +105,26 @@
       :focus-visible{outline:2px solid var(--c-accent);outline-offset:2px}
       @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
       @media print{body{color:#000!important;background:#fff!important}.site-nav,.site-footer,.skip-link{display:none!important}a{color:#000!important}a[href]::after{content:" (" attr(href) ")"}}
+          .search-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:flex-start;justify-content:center;padding:15vh 1rem 1rem}
+.search-overlay.open{display:flex}
+.search-box{background:var(--c-bg);border:1px solid var(--c-border);border-radius:.75rem;width:100%;max-width:560px;box-shadow:0 25px 50px -12px rgba(0,0,0,.25);overflow:hidden}
+.search-input{width:100%;padding:.875rem 1rem;border:none;background:transparent;color:var(--c-text);font-size:1rem;font-family:inherit;outline:none}
+.search-input::placeholder{color:var(--c-secondary)}
+.search-results{max-height:50vh;overflow-y:auto;border-top:1px solid var(--c-border)}
+.search-result{display:block;padding:.75rem 1rem;color:var(--c-text);text-decoration:none;border-bottom:1px solid var(--c-border)}
+.search-result:hover,.search-result.active{background:var(--c-surface);color:var(--c-accent);text-decoration:none}
+.search-result-title{font-weight:600;font-size:.9375rem}
+.search-result-desc{font-size:.8125rem;color:var(--c-secondary);margin-top:.125rem}
+.search-empty{padding:1.5rem 1rem;text-align:center;color:var(--c-secondary);font-size:.875rem}
+.search-footer{padding:.5rem 1rem;border-top:1px solid var(--c-border);font-size:.75rem;color:var(--c-secondary);display:flex;gap:1rem}
+.search-footer kbd{background:var(--c-surface);padding:.125rem .375rem;border-radius:.25rem;font-size:.6875rem;border:1px solid var(--c-border)}
     </style>
   </head>
   <body id="page-top" itemscope itemtype="http://schema.org/WebPage">
-    <a class="skip-link" href="#main">Skip to main content</a>
-    <nav class="site-nav" aria-label="Main navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+    <a class="skip-link" href="#main">Przejdz do glownej tresci</a>
+    <nav class="site-nav" aria-label="Nawigacja glowna" itemscope itemtype="http://schema.org/SiteNavigationElement">
       <div class="nav-inner">
-        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="" /><span itemprop="name">Parser wyciągów bankowych</span></a>
+        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="Bank Statement Parser logo" /><span itemprop="name">Parser wyciągów bankowych</span></a>
         <ul class="nav-center">
           <li><a href="/pl/index.html">Strona główna</a></li>
           <li><a href="/pl/a-propos/index.html">O nas</a></li>
@@ -120,7 +133,8 @@
           <li class="nav-item dropdown"><button class="dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" type="button">Zasoby</button><ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown"><li><a class="dropdown-item" href="/pl/cas-utilisation/index.html">Use Cases</a></li><li><a class="dropdown-item" href="/pl/migration/index.html">ISO 20022 Migration</a></li><li><a class="dropdown-item" href="/pl/securite/index.html">Security</a></li><li><a class="dropdown-item" href="/pl/alternatives/index.html">Alternatives</a></li><li><a class="dropdown-item" href="/pl/journal-des-modifications/index.html">Changelog</a></li><li><a class="dropdown-item" href="/pl/contribuer/index.html">Contribute</a></li><li><a class="dropdown-item" href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a class="dropdown-item" href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li></ul></li>
         </ul>
         <div class="nav-right">
-          <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">Ciemny</span></button>
+          <button id="searchTrigger" class="theme-toggle" aria-label="Search" style="margin-right:.25rem"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> <span class="search-shortcut" aria-hidden="true" style="font-size:.6875rem;opacity:.8"></span></button>
+          <button class="theme-toggle" id="themeToggle" aria-label="Przejdz do trybu ciemnego" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">Ciemny</span></button>
           <div style="position:relative;display:inline-block" class="lang-switcher">
             <button type="button" aria-label="PL, Change language" aria-expanded="false" style="color:var(--c-nav-muted);font-size:12px;font-weight:400;padding:.375rem .625rem;border:1px solid var(--c-border);border-radius:6rem;background:transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.25rem;outline:none">
               <span style="font-size:14px">🌐</span> PL
@@ -164,44 +178,46 @@
       </div>
       </nav>
     <header class="site-hero" style="padding:6rem 1.5rem 3rem">
-      <h1 style="font-size:clamp(2rem,4vw,2.75rem)">O nas</h1>
-      <p>Jedna biblioteka. Szesc formatow. Zero polaczen sieciowych.</p>
+      <h1 style="font-size:clamp(2rem,4vw,2.75rem)">Informacje o analizatorze wyciągów bankowych</h1>
+      <p>Jedna biblioteka. Sześć formatów. Zero połączeń sieciowych.</p>
     </header>
     <main id="main" class="site-main" tabindex="-1" aria-label="Page content">
-      <div class="text-start"><p>Parser wyciagow bankowych to biblioteka Python open source, ktora analizuje wyciagi bankowe z szesciu formatow do strukturyzowanych DataFrames pandas. Cale przetwarzanie odbywa sie lokalnie -- zero polaczen sieciowych, deterministyczne wyjscie i automatyczne maskowanie PII.</p>
-<h2>Dla kogo to jest?</h2>
+      <div class="text-start"><p><strong>W skrócie:</strong> Bank Statement Parser to biblioteka Pythona typu open source, która parsuje siedem formatów wyciągów bankowych (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940 i PDF) do pandas DataFrames. Hybrydowy pipeline PDF z weryfikacją salda, REST API, wzbogacanie danych, eksport do księgi, przepustowość 27 tys.+ tx/s.</p>
+<p>Bank Statement Parser to biblioteka Pythona typu open source, która parsuje wyciągi bankowe z siedmiu formatów do ustrukturyzowanych pandas DataFrames. Deterministyczny rdzeń przetwarza formaty strukturalne lokalnie, bez żadnych połączeń sieciowych. Opcjonalny hybrydowy pipeline PDF kieruje dane przez lokalne modele LLM (przez Ollama) dla wyciągów cyfrowych i zeskanowanych.</p>
+<h2>Dla kogo jest ta biblioteka?</h2>
 <ul>
-<li><strong>Zespoly skarbowe</strong> migrujace z MT940 do CAMT.053, ktore potrzebuja parsera obslugujacego zarowno stare, jak i nowe formaty podczas przejscia.</li>
-<li><strong>Deweloperzy fintech</strong> budujacy potoki reconcyliacji, raportowania lub ksiegowosci, ktorzy chca jednej zaleznosci zamiast laczenia mt940 + ofxparse + wlasnej logiki CSV.</li>
-<li><strong>Zespoly ds. zgodnosci</strong> potrzebujace domyslnego maskowania PII i deterministycznego wyjscia gotowego do audytu, ktore nigdy nie wysyla danych do uslug zewnetrznych.</li>
-<li><strong>Kazdy</strong>, kto odmawia wysylania wrazliwych danych finansowych do zewnetrznego SaaS, gdy lokalne narzedzie open source moze wykonac te prace.</li>
+<li><strong>Zespoły skarbowe</strong> migrujące z MT940 do CAMT.053, które potrzebują parsera obsługującego zarówno stare, jak i nowe formaty w okresie przejściowym, a także wyciągi PDF z banków nieudostępniających eksportów strukturalnych.</li>
+<li><strong>Programiści fintech</strong> budujący pipeline'y uzgadniania, raportowania lub księgowania, którzy chcą jednej zależności z wbudowaną weryfikacją salda, kategoryzacją i eksportem do księgi.</li>
+<li><strong>Zespoły ds. zgodności</strong>, które potrzebują domyślnej redakcji PII, deterministycznych wyników i weryfikacji Golden Rule wykrywającej rozbieżności zanim trafią do księgi.</li>
+<li><strong>Użytkownicy plaintext-accounting</strong>, którzy chcą automatycznego importu z wyciągów bankowych PDF bezpośrednio do dzienników hledger lub beancount.</li>
+<li><strong>Każdy</strong>, kto odmawia wysyłania wrażliwych danych finansowych do zewnętrznego SaaS, gdy lokalne narzędzie open source może wykonać tę samą pracę.</li>
 </ul>
-<h2>Obslugiwane formaty</h2>
+<h2>Obsługiwane formaty</h2>
 <div class="table-responsive"><table class="table">
 <thead>
 <tr>
 <th>Format</th>
 <th>Standard</th>
-<th>Typy plikow</th>
-<th>Klasa parsera</th>
+<th>Typy plików</th>
+<th>Parser/metoda</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="text-left">CAMT.053</td>
-<td class="text-left">ISO 20022 Wyciag bank-do-klienta</td>
+<td class="text-left">ISO 20022 Bank-to-Customer Statement</td>
 <td class="text-left"><code>.xml</code></td>
 <td class="text-left"><code>CamtParser</code></td>
 </tr>
 <tr>
 <td class="text-left">PAIN.001</td>
-<td class="text-left">ISO 20022 Inicjowanie przelewu</td>
+<td class="text-left">ISO 20022 Credit Transfer Initiation</td>
 <td class="text-left"><code>.xml</code></td>
 <td class="text-left"><code>Pain001Parser</code></td>
 </tr>
 <tr>
 <td class="text-left">CSV</td>
-<td class="text-left">Ogolne eksporty bankowe</td>
+<td class="text-left">Ogólne eksporty bankowe</td>
 <td class="text-left"><code>.csv</code></td>
 <td class="text-left"><code>CsvStatementParser</code></td>
 </tr>
@@ -223,50 +239,66 @@
 <td class="text-left"><code>.mt940</code>, <code>.sta</code></td>
 <td class="text-left"><code>Mt940Parser</code></td>
 </tr>
+<tr>
+<td class="text-left">PDF</td>
+<td class="text-left">Wyciągi cyfrowe i zeskanowane</td>
+<td class="text-left"><code>.pdf</code></td>
+<td class="text-left"><code>smart_ingest()</code></td>
+</tr>
 </tbody>
 </table></div>
-<p>Wszystkie formaty generuja znormalizowane DataFrames pandas ze spojnymi nazwami kolumn, dzieki czemu dalsze przetwarzanie jest niezalezne od formatu.</p>
-<h2>Kluczowe mozliwosci</h2>
+<p>Wszystkie formaty tworzą znormalizowane pandas DataFrames ze spójnymi nazwami kolumn, co sprawia, że dalsze przetwarzanie jest niezależne od formatu.</p>
+<h2>Kluczowe możliwości</h2>
 <ul>
-<li><strong>Automatyczne wykrywanie formatu</strong>: <code>detect_statement_format()</code> identyfikuje format; <code>create_parser()</code> tworzy instancje odpowiedniego parsera.</li>
-<li><strong>Analiza strumieniowa</strong>: Przetwarzaj duze pliki (50 MB+, 50K+ transakcji) z ograniczona pamiecia za pomoca <code>parse_streaming()</code>.</li>
-<li><strong>Przetwarzanie rownolegle</strong>: Analizuj wiele plikow jednoczesnie za pomoca <code>parse_files_parallel()</code> z uzyciem ProcessPoolExecutor.</li>
-<li><strong>Deduplikacja</strong>: Wykrywaj dokladne duplikaty i podejrzane dopasowania z wyjasnialnymi wynikami zaufania.</li>
-<li><strong>Analiza w pamieci</strong>: <code>from_string()</code> i <code>from_bytes()</code> dla przepływow SFTP i API bez operacji I/O na dysku.</li>
-<li><strong>Bezpieczne przetwarzanie ZIP</strong>: <code>iter_secure_xml_entries()</code> z limitami wspolczynnika kompresji, limitami rozmiaru wpisow i odrzucaniem zaszyfrowanych wpisow.</li>
-<li><strong>Eksport</strong>: CSV, JSON, Excel (<code>.xlsx</code>) i opcjonalne DataFrames Polars.</li>
+<li><strong>Hybrydowy pipeline PDF</strong>: <code>smart_ingest()</code> kieruje pliki PDF przez trzy ścieżki — deterministyczną ekstrakcję tabel, text-LLM lub vision-LLM — z automatyczną weryfikacją salda Golden Rule.</li>
+<li><strong>Automatyczne wykrywanie formatu</strong>: <code>detect_statement_format()</code> identyfikuje format; <code>create_parser()</code> tworzy instancję właściwego parsera.</li>
+<li><strong>Weryfikacja salda</strong>: Sprawdzenie Golden Rule (<code>opening + credits − debits == closing</code>) ze statusem VERIFIED/DISCREPANCY/FAILED.</li>
+<li><strong>Weryfikacja wielowalutowa</strong>: <code>verify_balance_multi_currency()</code> grupuje transakcje według waluty do niezależnej weryfikacji.</li>
+<li><strong>REST API</strong>: Mikroserwis FastAPI z endpointami <code>/ingest</code> i <code>/health</code> do wdrożeń produkcyjnych.</li>
+<li><strong>Wzbogacanie</strong>: Kategoryzacja transakcji z użyciem LLM z konfigurowalnymi schematami (domyślny schemat Plaid z 13 kategoriami).</li>
+<li><strong>Interaktywny przegląd</strong>: Przeglądanie rozbieżności z akcjami accept/edit/skip/delete przez <code>--type review</code>.</li>
+<li><strong>Eksport do księgi</strong>: <code>to_hledger()</code> i <code>to_beancount()</code> dla przepływów pracy plaintext-accounting.</li>
+<li><strong>Masowe skanowanie</strong>: <code>scan_and_ingest()</code> przetwarza drzewa folderów z automatyczną deduplikacją między plikami.</li>
+<li><strong>Mapowanie kont</strong>: Reguły mapowania kont oparte na wyrażeniach regularnych z konfiguracji JSON do eksportu do księgi.</li>
+<li><strong>Parsowanie strumieniowe</strong>: Przetwarzanie dużych plików (50 MB+, 50 tys.+ transakcji) przy ograniczonej pamięci za pomocą <code>parse_streaming()</code>.</li>
+<li><strong>Przetwarzanie równoległe</strong>: Parsowanie wielu plików jednocześnie za pomocą <code>parse_files_parallel()</code> z ProcessPoolExecutor.</li>
+<li><strong>Deduplikacja</strong>: Idempotentny <code>transaction_hash</code> (odcisk MD5) do bezpiecznego przyrostowego importu.</li>
+<li><strong>Parsowanie w pamięci</strong>: <code>from_string()</code> i <code>from_bytes()</code> dla przepływów SFTP i API bez operacji dyskowych.</li>
+<li><strong>Bezpieczne przetwarzanie ZIP</strong>: <code>iter_secure_xml_entries()</code> z limitami współczynnika kompresji, ograniczeniami rozmiaru wpisów i odrzucaniem wpisów zaszyfrowanych.</li>
+<li><strong>Eksport</strong>: CSV, JSON, Excel (<code>.xlsx</code>), pandas DataFrames, Polars, hledger i beancount.</li>
 </ul>
-<h2>Bezpieczenstwo i prywatnosc</h2>
+<h2>Bezpieczeństwo i prywatność</h2>
 <ul>
-<li><strong>Maskowanie PII</strong>: Imiona, numery IBAN i adresy sa maskowane domyslnie w wyjsciu CLI. Wlacz z <code>--show-pii</code>.</li>
-<li><strong>Ochrona XXE</strong>: Analiza XML uzywa <code>resolve_entities=False</code>, <code>no_network=True</code>, <code>load_dtd=False</code>.</li>
-<li><strong>Ochrona przed bombami ZIP</strong>: Limity wspolczynnika kompresji (domyslnie 100:1), limity rozmiaru wpisow (10 MB), odrzucanie zaszyfrowanych wpisow.</li>
-<li><strong>Zapobieganie przechodzeniu sciezek</strong>: Lista blokowania niebezpiecznych wzorcow i rozwiazywanie linkow symbolicznych.</li>
-<li><strong>Bezpieczenstwo lancucha dostaw</strong>: Zaleznosci zablokowane hashem SHA-256, SBOM CycloneDX, atestacja pochodzenia buildu.</li>
+<li><strong>Redakcja PII</strong>: Nazwy, numery IBAN i adresy są domyślnie maskowane w wynikach CLI. Włączenie za pomocą <code>--show-pii</code>.</li>
+<li><strong>Ochrona XXE</strong>: Parsowanie XML używa <code>resolve_entities=False</code>, <code>no_network=True</code>, <code>load_dtd=False</code>.</li>
+<li><strong>Ochrona przed ZIP bomb</strong>: Limity współczynnika kompresji (domyślnie 100:1), ograniczenie rozmiaru wpisu (10 MB), odrzucanie wpisów zaszyfrowanych.</li>
+<li><strong>Zapobieganie przechodzeniu ścieżek</strong>: Lista blokowanych niebezpiecznych wzorców i rozpoznawanie dowiązań symbolicznych.</li>
+<li><strong>Bezpieczeństwo łańcucha dostaw</strong>: Zależności zablokowane hashem SHA-256, CycloneDX SBOM, poświadczenie pochodzenia kompilacji.</li>
+<li><strong>Tylko lokalne LLM</strong>: Hybrydowy pipeline PDF używa Ollama do lokalnej inferencji — żadne dane nie są wysyłane do chmurowych API.</li>
 </ul>
-<h2>Wydajnosc</h2>
+<h2>Wydajność</h2>
 <table>
 <thead>
 <tr>
 <th>Metryka</th>
-<th>Wartosc</th>
+<th>Wartość</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="text-left">Przepustowosc CAMT.053</td>
-<td class="text-left">27 000+ transakcji/s</td>
+<td class="text-left">Przepustowość CAMT.053</td>
+<td class="text-left">27 000+ tx/s</td>
 </tr>
 <tr>
-<td class="text-left">Przepustowosc PAIN.001</td>
-<td class="text-left">52 000+ transakcji/s</td>
+<td class="text-left">Przepustowość PAIN.001</td>
+<td class="text-left">52 000+ tx/s</td>
 </tr>
 <tr>
-<td class="text-left">Opoznienie na transakcje (CAMT)</td>
+<td class="text-left">Opóźnienie na transakcję (CAMT)</td>
 <td class="text-left">37 mikrosekund</td>
 </tr>
 <tr>
-<td class="text-left">Opoznienie na transakcje (PAIN.001)</td>
+<td class="text-left">Opóźnienie na transakcję (PAIN.001)</td>
 <td class="text-left">19 mikrosekund</td>
 </tr>
 <tr>
@@ -274,27 +306,28 @@
 <td class="text-left">&lt; 2 ms</td>
 </tr>
 <tr>
-<td class="text-left">Skalowanie pamieci (1K-50K transakcji)</td>
-<td class="text-left">Stale (streaming)</td>
+<td class="text-left">Skalowanie pamięci (1K-50K tx)</td>
+<td class="text-left">Stałe (streaming)</td>
 </tr>
 <tr>
-<td class="text-left">Pokrycie testow</td>
-<td class="text-left">100% pokrycie branchow</td>
+<td class="text-left">Pokrycie testowe</td>
+<td class="text-left">100% pokrycie gałęzi</td>
 </tr>
 <tr>
 <td class="text-left">Testy</td>
-<td class="text-left">467 w 29 plikach testowych</td>
+<td class="text-left">718 w 29 plikach testowych</td>
 </tr>
 </tbody>
 </table>
-<h2>Zacznij budowac</h2>
-<p><a href="/pl/pierwsze-kroki/index.html" title="Pierwsze kroki">Zacznij od instalacji i przykladow ❯</a></p>
-<p>&quot;Repozytorium GitHub&quot;</p>
+<h2>Zacznij budować</h2>
+<p>[Rozpocznij od instalacji i przykładów ❯][01]</p>
+<p>[01]: /getting-started/index.html “Pierwsze kroki”
+“Repozytorium GitHub”</p>
 </div>
     </main>
     <footer class="site-footer" aria-label="footer">
       <div class="footer-inner">
-        <span>© 2023-2026 Parser wyciagow bankowych. Wszelkie prawa zastrzezone.</span>
+        <span>© 2023-2026 Parser wyciągów bankowych. Wszelkie prawa zastrzeżone.</span>
         <ul class="footer-links">
           <li><a href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li>
           <li><a href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li>
@@ -304,7 +337,7 @@
         </ul>
       </div>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"Parser wyciagow bankowych to biblioteka Python open source do analizy wyciagow CAMT.053, PAIN.001, CSV, OFX, QFX i MT940 do DataFrames pandas. 100% lokalnie, maskowanie PII, 27K+ transakcji/s.","headline":"Jedna biblioteka. Szesc formatow. Zero polaczen sieciowych.","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"pl-PL","mainEntityOfPage":"https://bankstatementparser.com/pl/o-nas/index.html","name":"O nas","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"Bank Statement Parser to biblioteka Pythona typu open source do analizowania CAMT.053, PAIN.001, CSV, OFX, QFX i MT940 w ramkach DataFrames pand. 100% lokalne, redakcja PII, 27 tys. + tx/s.","headline":"Jedna biblioteka. Sześć formatów. Zero połączeń sieciowych.","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"pl-PL","mainEntityOfPage":"https://bankstatementparser.com/pl/o-nas/index.html","name":"Informacje o analizatorze wyciągów bankowych","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
     <script>
     (function(){
       // Language switcher toggle
@@ -327,8 +360,8 @@
         document.documentElement.setAttribute("data-theme",theme);localStorage.setItem("theme",theme);
         document.querySelectorAll(".theme-icon-dark,.theme-icon-dark-m").forEach(function(e){e.style.display=theme==="dark"?"none":""});
         document.querySelectorAll(".theme-icon-light,.theme-icon-light-m").forEach(function(e){e.style.display=theme==="dark"?"":"none"});
-        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"Light":"Dark"});
-        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"Switch to light mode":"Switch to dark mode")});
+        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"Jasny":"Ciemny"});
+        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"Przejdz do trybu jasnego":"Przejdz do trybu ciemnego")});
       }
       var saved=localStorage.getItem("theme");
       if(saved){setTheme(saved)}else if(window.matchMedia("(prefers-color-scheme:dark)").matches){setTheme("dark")}
@@ -343,5 +376,57 @@
     })();
     </script>
     <script defer src="/main.js"></script>
-  </body>
+      <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Szukaj...">
+      <div class="search-box">
+        <input class="search-input" id="searchInput" type="search" placeholder="Szukaj..." autocomplete="off" aria-label="Szukaj..." />
+        <div class="search-results" id="searchResults"></div>
+        <div class="search-footer"><span><kbd>&uarr;</kbd><kbd>&darr;</kbd> Navigate</span><span><kbd>&crarr;</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var pages=[{t:"Strona glowna",d:"Parse 7 bank statement formats including PDF, 100% local",u:"/pl/index.html",k:"accounting alternatywy apache audytu automatyczna automatyczne automatycznego automatycznie automatycznym automatyczną bajcie bajt bank bankowe bankowych beancount bezpieczne bezpośrednio bezpłatnie bezpłatny biblioteka camt całe całkowicie chmurowy "},{t:"O nas",d:"Features, formats, hybrid PDF pipeline, performance overview",u:"/pl/o-nas/index.html",k:"accepteditskipdelete accounting adresy akcjami automatyczne automatycznego automatyczną bank bankowe bankowych banków beancount bezpieczeństwo bezpieczne bezpiecznego bezpośrednio biblioteka blokowanych bomb budować budujący camt chcą chmurowych cred"},{t:"Pierwsze kroki",d:"Installation, extras, PDF pipeline, REST API, CLI reference",u:"/pl/pierwsze-kroki/index.html",k:"accounting automatyczna automatyczne automatyczną bajtów bankowego bankowych beancount bezpieczeństwa bezpieczna bezpieczne bezpiecznego bombami błędy camt camtpain całych csvjsonexcel członka danych deduplikacja deduplikacją deweloperskiego dodatkow"},{t:"FAQ",d:"Privacy, hybrid PDF, Golden Rule, performance, compliance",u:"/pl/faq/index.html",k:"abstrakcji accounting admi adresy aplikacji archiwa archiwów atrybutu automatyczna automatycznie automatyczną bajcie bajt bajty bank bankowe bankowych banku banków beancount bezpieczeństwo bezpiecznie bezpieczny bezpośrednich bezpośrednim bezpośredni"},{t:"Przypadki uzycia",d:"Treasury, PDF ingestion, reconciliation, ledger export, REST API",u:"/pl/przypadki-uzycia/index.html",k:"accounting archiwami archiwów audytu automatyczna automatyczne automatyczny automatyczną bajtów bank bankowej bankowych banków barclays beancount bezpieczne bezpośrednio bombami błędy camt całych całym chase chmurowych cyfrowych czyni dane danych dat"},{t:"Migracja",d:"ISO 20022 timeline, MT940 to CAMT.053, PDF fallback",u:"/pl/migracja/index.html",k:"adresy adresów automatyczne automatycznie automatycznym automatyczną bank banki bankowych banku banków beancount bezpośredni bezpośrednio bogactwo bogatszego camt całkowite cecha celu dalszego danych data dataframe dlaczego dostępne dużych działa dzi"},{t:"Bezpieczenstwo",d:"XXE protection, PII redaction, local LLMs, Golden Rule",u:"/pl/bezpieczenstwo/index.html",k:"adresy archiwów artefakt atakami atakom audytu automatycznie bajcie bajt bajty bank bezpieczeństwo bezpiecznie bezpośrednio blokuje bomby brak camt całe całkowitego cały chmurowych chmury commit commity csvjsonexcel cyclonedx dalszego dane danych dec"},{t:"Alternatywy",d:"vs mt-940, ofxparse, pyiso20022, SaaS, hybrid LLM pipeline",u:"/pl/alternatywy/index.html",k:"admi aktualizacji alternatywy analizy apache apple automatyczna automatyczną bank bankowe bankowych banków bardzo beancount bezpiecznego bezpłatny biblioteka biblioteki bieżących błędów camt chcesz chmurowe chmurowy chmurową chmury chmurze cyklami cz"},{t:"Dziennik zmian",d:"Release history: v0.0.8, v0.0.7, v0.0.6, v0.0.5, v0.0.4",u:"/pl/dziennik-zmian/index.html",k:"account across adres analizatora analizowania analizowanie aplikacja applicationcategory archiwum automatyczne autor balance bands bankowych batch beancount bezpieczeństwa bezpieczne bezpiecznego bounding bridge bulk bypasses camt changed command con"},{t:"Wspoltworzenie",d:"Report issues, submit code, documentation, sponsorship",u:"/pl/wspoltworzenie/index.html",k:"analizator analizy autorów bankowych bibliotekę błąd błędów cały czas dodaj dokumentacji dokumentację dokumenty finansowej funkcji funkcję gałąź isprawdzanie istniejącym istniejącą jasny jasnym jeśli kodu kodzie konfiguracja kroki literówki masz mile"},{t:"Kontakt",d:"GitHub issues for open-source, form for business inquiries",u:"/pl/kontakt/index.html",k:"biblioteki biznesowe biznesowych będzie błędach chcielibyśmy ciebie dotyczące dzięki formularza funkcje kanał korzyści masz możliwości najlepszy niezależnie nowe ogólnych open opinię otrzymywać partnerstwa poniżej poniższego prawidłowo proszę prośby "},{t:"Prywatnosc",d:"Privacy policy, analytics, GDPR, cookies",u:"/pl/prywatnosc/index.html",k:"abyśmy adres adresem adresemcontactbankstatementparsercomlub aktualizacja aktualizować analityczne analitycznych analitycznymi analityka analizatora analytics anonimowe bankowych bankstatementparsercom biblioteka brytanii będzie celów ciasteczka cias"},{t:"Warunki",d:"Terms of use, Apache 2.0 license, disclaimers",u:"/pl/warunki/index.html",k:"adresemcontactbankstatementparsercom aktualizacja aktualizować analizatora analizowanie anglii apache ataków audytu autorskich autorzy bankowych bankstatementparsercom bezpośrednie biblioteka biblioteki będą błędy celach celu czasu części danych dokł"}];
+      var overlay=document.getElementById("searchOverlay");
+      var input=document.getElementById("searchInput");
+      var results=document.getElementById("searchResults");
+      var trigger=document.getElementById("searchTrigger");
+      var activeIdx=-1;
+      var isMac=/Mac|iPhone|iPad|iPod/.test(navigator.platform||navigator.userAgent||"");
+      var shortcutSpans=document.querySelectorAll(".search-shortcut");
+      for(var s=0;s<shortcutSpans.length;s++){shortcutSpans[s].textContent=isMac?"⌘K":"Ctrl+K"}
+      function openSearch(){overlay.classList.add("open");input.value="";input.focus();activeIdx=-1;renderResults("")}
+      function closeSearch(){overlay.classList.remove("open");input.value="";results.innerHTML="";activeIdx=-1}
+      function fuzzy(q,text){q=q.toLowerCase();text=text.toLowerCase();if(text.indexOf(q)!==-1)return true;var qi=0;for(var ti=0;ti<text.length&&qi<q.length;ti++){if(text[ti]===q[qi])qi++}return qi===q.length}
+      function renderResults(q){
+        var filtered=[];
+        if(q.length>0){for(var i=0;i<pages.length;i++){var p=pages[i];if(fuzzy(q,p.t)||fuzzy(q,p.d)||(p.k&&fuzzy(q,p.k)))filtered.push(p)}}
+        if(q.length===0){results.innerHTML="";activeIdx=-1;return}
+        if(filtered.length===0){results.innerHTML='<div class="search-empty">No results for "'+q.replace(/</g,"&lt;")+'"</div>';activeIdx=-1;return}
+        var html="";
+        for(var j=0;j<filtered.length;j++){
+          html+='<a class="search-result'+(j===0?" active":"")+'" href="'+filtered[j].u+'" data-idx="'+j+'"><div class="search-result-title">'+filtered[j].t+'</div><div class="search-result-desc">'+filtered[j].d+'</div></a>';
+        }
+        results.innerHTML=html;
+        activeIdx=0;
+      }
+      function updateActive(){
+        var items=results.querySelectorAll(".search-result");
+        for(var i=0;i<items.length;i++){items[i].classList.toggle("active",i===activeIdx)}
+        if(items[activeIdx]){items[activeIdx].scrollIntoView({block:"nearest"})}
+      }
+      if(trigger){trigger.addEventListener("click",function(e){e.preventDefault();openSearch()})}
+      document.addEventListener("keydown",function(e){
+        if((isMac?e.metaKey:e.ctrlKey)&&e.key==="k"){e.preventDefault();if(overlay.classList.contains("open")){closeSearch()}else{openSearch()};return}
+        if(!overlay.classList.contains("open"))return;
+        if(e.key==="Escape"){e.preventDefault();closeSearch();return}
+        var items=results.querySelectorAll(".search-result");
+        if(e.key==="ArrowDown"){e.preventDefault();if(items.length){activeIdx=(activeIdx+1)%items.length;updateActive()};return}
+        if(e.key==="ArrowUp"){e.preventDefault();if(items.length){activeIdx=(activeIdx-1+items.length)%items.length;updateActive()};return}
+        if(e.key==="Enter"){e.preventDefault();if(items[activeIdx]){window.location.href=items[activeIdx].getAttribute("href")};return}
+      });
+      input.addEventListener("input",function(){activeIdx=-1;renderResults(input.value.trim())});
+      overlay.addEventListener("click",function(e){if(e.target===overlay)closeSearch()});
+    })();
+    </script>
+<script defer src="/bootstrap.bundle.min.js"></script></body>
 </html>

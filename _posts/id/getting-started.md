@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Sebuah bangunan putih dengan jendela hitam"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Pengurai Laporan Bank. Semua hak dilindungi undang-undang."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Mulailah dengan Parser Laporan Bank untuk Python: instal, parsing file CAMT/PAIN.001/CSV/OFX/QFX/MT940, dan gunakan alur kerja streaming atau CLI."
 download: ""
 format-detection: "telephone=no"
@@ -109,24 +109,41 @@ site_software: "Shokunin, Rust"
 
 ## Persyaratan
 
--Python 3.9 hingga 3.14
+- Python 3.10 hingga 3.14
 - Akses terminal (macOS, Linux, atau WSL)
 
-## Instal
+## Instalasi
 
 ```bash
+# Instalasi inti (parser deterministik saja)
 pip install bankstatementparser
 ```
 
-Untuk dukungan Polars DataFrame:
+Ekstra opsional untuk kemampuan tambahan:
 
 ```bash
-pip install bankstatementparser[polars]
+# Jalur Text-LLM untuk PDF digital (litellm + pypdf)
+pip install 'bankstatementparser[hybrid]'
+
+# Ekstraksi tabel fidelitas lebih tinggi (menambahkan pdfplumber)
+pip install 'bankstatementparser[hybrid-plus]'
+
+# Jalur Vision-LLM untuk PDF hasil pindai (menambahkan pypdfium2)
+pip install 'bankstatementparser[hybrid-vision]'
+
+# Kategorisasi transaksi berbasis LLM
+pip install 'bankstatementparser[enrichment]'
+
+# Microservice REST API (FastAPI + uvicorn)
+pip install 'bankstatementparser[api]'
+
+# Dukungan Polars DataFrame opsional
+pip install 'bankstatementparser[polars]'
 ```
 
 ## Mulai Cepat
 
-### Deteksi Otomatis dan Parsing Format Apa Pun
+### Deteksi Otomatis dan Parsing Format Terstruktur Apa Pun
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -137,7 +154,7 @@ df = parser.parse()  # pandas DataFrame
 print(df.head())
 ```
 
-Ini berfungsi dengan`.xml`(CAMT / NYERI.001),`.csv`, `.ofx`, `.qfx`, `.mt940`, Dan`.sta`file.
+Ini berfungsi dengan file `.xml` (CAMT/PAIN.001), `.csv`, `.ofx`, `.qfx`, `.mt940`, dan `.sta`.
 
 ### Parsing CAMT.053
 
@@ -157,9 +174,24 @@ parser = Pain001Parser("payment.xml")
 payments = parser.parse()
 ```
 
+### Parsing Laporan Bank PDF (Pipeline Hibrida)
+
+Pipeline hibrida secara cerdas merutekan PDF melalui tiga jalur ekstraksi:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+print(result.transactions)          # List of extracted transactions
+```
+
+Setiap ekstraksi diverifikasi dengan **Golden Rule**: `opening + credits − debits == closing`.
+
 ## Streaming File Besar
 
-Untuk file dengan ribuan transaksi, gunakan streaming untuk membatasi memori:
+Untuk file dengan ribuan transaksi, gunakan streaming agar memori tetap terbatas:
 
 ```python
 parser = CamtParser("large_statement.xml")
@@ -193,9 +225,21 @@ for r in results:
     print(r.path, r.status, len(r.transactions), "rows")
 ```
 
+## Pemindaian Direktori Massal
+
+Proses seluruh pohon folder dengan deduplikasi otomatis:
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Processed: {len(batch.results)} files")
+print(f"Unique transactions: {batch.unique_count}")
+```
+
 ## Deduplikasi
 
-Deteksi duplikat persis dan dugaan kecocokan dengan skor keyakinan:
+Hash transaksi idempoten untuk ingesti inkremental yang aman:
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
@@ -209,9 +253,61 @@ print(f"Exact duplicates: {len(result.exact_duplicates)}")
 print(f"Suspected matches: {len(result.suspected_matches)}")
 ```
 
+## Kategorisasi Transaksi (Pengayaan)
+
+Kategorikan transaksi secara otomatis menggunakan klasifikasi berbasis LLM:
+
+```python
+from bankstatementparser.enrichment import Categorizer
+
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(transactions)
+for txn in enriched:
+    print(f"{txn.description}: {txn.category}")
+```
+
+## Ekspor Ledger (hledger / beancount)
+
+Ekspor transaksi ke format jurnal plaintext-accounting:
+
+```python
+from bankstatementparser.export import to_hledger, to_beancount
+
+journal = to_hledger(transactions, account="Assets:Bank:Checking")
+beancount_journal = to_beancount(transactions, account="Assets:Bank:Checking")
+```
+
+## Verifikasi Saldo Multi-Mata Uang
+
+Verifikasi saldo secara independen per kelompok mata uang:
+
+```python
+from bankstatementparser.hybrid import verify_balance_multi_currency
+
+results = verify_balance_multi_currency(transactions)
+for currency, verification in results.items():
+    print(f"{currency}: {verification.status}")
+```
+
+## REST API
+
+Deploy sebagai microservice FastAPI:
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+
+# For container deployments
+bankstatementparser-api --host 0.0.0.0 --port 9000
+```
+
+Endpoint:
+- `POST /ingest` -- Parsing file laporan bank
+- `GET /health` -- Pemeriksaan kesehatan
+
 ## Pemrosesan ZIP Aman
 
-Proses file XML zip dengan pemeriksaan keamanan bawaan (perlindungan bom, penolakan entri terenkripsi):
+Proses file XML dalam ZIP dengan pemeriksaan keamanan bawaan (perlindungan bom, penolakan entri terenkripsi):
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
@@ -230,37 +326,48 @@ parser.export_json("output.json")
 
 # Polars (requires bankstatementparser[polars])
 polars_df = parser.to_polars()
+
+# Excel
+parser.camt_to_excel("output.xlsx")
 ```
 
 ## Penggunaan CLI
 
 ```bash
-# Parse and display
-python -m bankstatementparser.cli --type camt --input statement.xml
+# Parsing format terstruktur
+bankstatementparser --type camt --input statement.xml
+bankstatementparser --type pain001 --input payment.xml
 
-# Export to CSV
-python -m bankstatementparser.cli --type camt --input statement.xml --output transactions.csv
+# Pipeline PDF hibrida
+bankstatementparser --type ingest --input statement.pdf
+bankstatementparser --type ingest --input statement.pdf --output ledger.csv
 
-# Stream with PII visible
-python -m bankstatementparser.cli --type camt --input statement.xml --streaming --show-pii
+# Mode tinjauan interaktif
+bankstatementparser --type review --input result.json
+bankstatementparser --type review --input result.json --output reviewed.json
+
+# Ekspor ke CSV dengan streaming
+bankstatementparser --type camt --input statement.xml --output transactions.csv
+bankstatementparser --type camt --input statement.xml --streaming --show-pii
 ```
 
 Opsi CLI:
 
-- `--type {camt,pain001}`-- tipe pengurai
--`--input <path>`-- memasukkan berkas
--`--output <csv_path>`-- ekspor ke CSV
--`--streaming`-- streaming file besar
--`--show-pii`-- tampilkan bidang sensitif (dihapus secara default)
--`--max-size <MB>`-- batas ukuran file
+- `--type {camt,pain001,ingest,review}` -- tipe parser atau mode
+- `--input <path>` -- file masukan
+- `--output <path>` -- file ekspor (CSV atau JSON)
+- `--streaming` -- streaming file besar
+- `--show-pii` -- tampilkan bidang sensitif (diredaksi secara default)
+- `--max-size <MB>` -- batas ukuran file
 
-## Pengaturan Pembangunan Lokal
+## Pengaturan Pengembangan Lokal
 
 ```bash
 git clone https://github.com/sebastienrousseau/bankstatementparser.git
 cd bankstatementparser
 python3 -m venv .venv && source .venv/bin/activate
 pip install poetry && poetry install --with dev
+make install-hooks   # pre-commit hook runs `make verify` before every commit
 ```
 
 Jalankan rangkaian pengujian:
@@ -276,11 +383,12 @@ pytest
 | Kelas | Format | Impor |
 |---|---|---|
 | `CamtParser` | CAMT.053 (ISO 20022) | `from bankstatementparser import CamtParser` |
-| `Pain001Parser` | SAKIT.001 (ISO 20022) | `from bankstatementparser import Pain001Parser` |
+| `Pain001Parser` | PAIN.001 (ISO 20022) | `from bankstatementparser import Pain001Parser` |
 | `CsvStatementParser` | CSV | `from bankstatementparser import CsvStatementParser` |
 | `OfxParser` | OFX | `from bankstatementparser import OfxParser` |
 | `QfxParser` | QFX | `from bankstatementparser import QfxParser` |
 | `Mt940Parser` | MT940 | `from bankstatementparser import Mt940Parser` |
+| `smart_ingest()` | PDF (pipeline hibrida) | `from bankstatementparser.hybrid import smart_ingest` |
 
 ### Fungsi Utilitas
 
@@ -289,22 +397,31 @@ pytest
 | `detect_statement_format(path)` | Deteksi otomatis format file |
 | `create_parser(path, fmt)` | Buat parser yang sesuai |
 | `parse_files_parallel(paths)` | Parsing beberapa file secara bersamaan |
-| `iter_secure_xml_entries(zip_path)` | Ulangi entri ZIP dengan aman |
+| `iter_secure_xml_entries(zip_path)` | Iterasi entri ZIP dengan aman |
+| `smart_ingest(path)` | Ekstraksi PDF hibrida dengan verifikasi |
+| `scan_and_ingest(dir, pattern)` | Pemindaian direktori massal |
+| `verify_balance_multi_currency(txns)` | Verifikasi saldo per mata uang |
+| `to_hledger(txns, account)` | Ekspor ke format jurnal hledger |
+| `to_beancount(txns, account)` | Ekspor ke format jurnal beancount |
 
 ### Kelas Data
 
 | Kelas | Tujuan |
 |---|---|
 | `Deduplicator` | Deteksi transaksi duplikat |
-| `DeduplicationResult` | Hasil dengan kecocokan yang unik, tepat, dan mencurigakan |
+| `DeduplicationResult` | Hasil dengan kecocokan unik, tepat, dan dugaan |
 | `InputValidator` | Validasi jalur dan format file |
 | `Transaction` | Catatan transaksi yang dinormalisasi |
 | `FileResult` | Hasil dari penguraian paralel |
 | `ZipXMLSource` | Pembungkus anggota ZIP |
+| `IngestResult` | Hasil pipeline hibrida dengan verifikasi |
+| `VerificationResult` | Hasil verifikasi saldo |
+| `Categorizer` | Kategorisasi transaksi berbasis LLM |
+| `AccountMapper` | Aturan pemetaan akun berbasis regex |
 
 ### Pengecualian
 
-| Pengecualian | Saat Dibesarkan |
+| Pengecualian | Kapan Dipicu |
 |---|---|
 | `ParserError` | Kegagalan penguraian |
 | `ExportError` | Kegagalan ekspor (CSV/JSON/Excel) |

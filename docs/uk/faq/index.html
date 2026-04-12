@@ -17,7 +17,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Поширені запитання про аналізатор банківських виписок: конфіденційність, продуктивність і використання">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: kura.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: cloudcdn.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
     <meta name="msapplication-TileColor" content="rgb(73, 214, 251)">
     
     <link rel="alternate" href="https://bankstatementparser.com/uk/faq/index.html" hreflang="uk" />
@@ -27,7 +27,7 @@
     <link rel="apple-touch-icon" href="/images/icons/192x192.png" sizes="192x192" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
-    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#b0b8c1"}})});</script>
+    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#8f9aa5"}})});</script>
     <style>
       :root{--theme-color:rgb(73, 214, 251)}*{font-weight:400;box-sizing:border-box;margin:0}
       pre{margin:1.5rem 0;max-width:100%;overflow:auto;border-radius:.5rem;padding:1rem 1.25rem;background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);color:var(--c-code);display:block;font-family:'SF Mono',SFMono-Regular,Consolas,monospace;font-size:.8125rem;line-height:1.7;margin:1.5rem 0;max-width:100%;overflow:auto;padding:1rem 1.25rem;border-radius:.5rem}
@@ -138,13 +138,26 @@
       .faq-container .accordion-body th{font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--c-secondary);font-size:.75rem}
       .faq-container .accordion-body pre{margin:1rem 0;border-radius:.5rem}
       .faq-container .accordion-body ul,.faq-container .accordion-body ol{margin:.75rem 0}
+          .search-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:flex-start;justify-content:center;padding:15vh 1rem 1rem}
+.search-overlay.open{display:flex}
+.search-box{background:var(--c-bg);border:1px solid var(--c-border);border-radius:.75rem;width:100%;max-width:560px;box-shadow:0 25px 50px -12px rgba(0,0,0,.25);overflow:hidden}
+.search-input{width:100%;padding:.875rem 1rem;border:none;background:transparent;color:var(--c-text);font-size:1rem;font-family:inherit;outline:none}
+.search-input::placeholder{color:var(--c-secondary)}
+.search-results{max-height:50vh;overflow-y:auto;border-top:1px solid var(--c-border)}
+.search-result{display:block;padding:.75rem 1rem;color:var(--c-text);text-decoration:none;border-bottom:1px solid var(--c-border)}
+.search-result:hover,.search-result.active{background:var(--c-surface);color:var(--c-accent);text-decoration:none}
+.search-result-title{font-weight:600;font-size:.9375rem}
+.search-result-desc{font-size:.8125rem;color:var(--c-secondary);margin-top:.125rem}
+.search-empty{padding:1.5rem 1rem;text-align:center;color:var(--c-secondary);font-size:.875rem}
+.search-footer{padding:.5rem 1rem;border-top:1px solid var(--c-border);font-size:.75rem;color:var(--c-secondary);display:flex;gap:1rem}
+.search-footer kbd{background:var(--c-surface);padding:.125rem .375rem;border-radius:.25rem;font-size:.6875rem;border:1px solid var(--c-border)}
     </style>
   </head>
   <body id="page-top" itemscope itemtype="http://schema.org/WebPage">
-    <a class="skip-link" href="#main">Skip to main content</a>
-    <nav class="site-nav" aria-label="Main navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+    <a class="skip-link" href="#main">Перейти до основного вмісту</a>
+    <nav class="site-nav" aria-label="Основна навігація" itemscope itemtype="http://schema.org/SiteNavigationElement">
       <div class="nav-inner">
-        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="" /><span itemprop="name">Парсер банківських виписок</span></a>
+        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="Bank Statement Parser logo" /><span itemprop="name">Парсер банківських виписок</span></a>
         <ul class="nav-center">
           <li><a href="/uk/index.html">Головна</a></li>
           <li><a href="/uk/a-propos/index.html">Про нас</a></li>
@@ -153,7 +166,8 @@
           <li class="nav-item dropdown"><button class="dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" type="button">Ресурси</button><ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown"><li><a class="dropdown-item" href="/uk/cas-utilisation/index.html">Use Cases</a></li><li><a class="dropdown-item" href="/uk/migration/index.html">ISO 20022 Migration</a></li><li><a class="dropdown-item" href="/uk/securite/index.html">Security</a></li><li><a class="dropdown-item" href="/uk/alternatives/index.html">Alternatives</a></li><li><a class="dropdown-item" href="/uk/journal-des-modifications/index.html">Changelog</a></li><li><a class="dropdown-item" href="/uk/contribuer/index.html">Contribute</a></li><li><a class="dropdown-item" href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a class="dropdown-item" href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li></ul></li>
         </ul>
         <div class="nav-right">
-          <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">Темна</span></button>
+          <button id="searchTrigger" class="theme-toggle" aria-label="Search" style="margin-right:.25rem"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> <span class="search-shortcut" aria-hidden="true" style="font-size:.6875rem;opacity:.8"></span></button>
+          <button class="theme-toggle" id="themeToggle" aria-label="Перемкнути на темну тему" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">Темна</span></button>
           <div style="position:relative;display:inline-block" class="lang-switcher">
             <button type="button" aria-label="UK, Change language" aria-expanded="false" style="color:var(--c-nav-muted);font-size:12px;font-weight:400;padding:.375rem .625rem;border:1px solid var(--c-border);border-radius:6rem;background:transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.25rem;outline:none">
               <span style="font-size:14px">🌐</span> UK
@@ -197,35 +211,37 @@
       </div>
       </nav>
     <header class="site-hero" style="padding:6rem 1.5rem 3rem">
-      <h1 style="font-size:clamp(2rem,4vw,2.75rem)">Парсер банківських виписок</h1>
+      <h1 style="font-size:clamp(2rem,4vw,2.75rem)">FAQ</h1>
       <p>Поширені запитання про аналізатор банківських виписок</p>
     </header>
     <main id="main" class="site-main" tabindex="-1" aria-label="Page content">
       <div class="text-start">
-        <div id="faq-raw" class="faq-raw-content"><h2>Конфіденційність даних і відповідність</h2>
+        <div id="faq-raw" class="faq-raw-content"><h2>Конфіденційність даних і комплаєнс</h2>
 <h3>Чи залишають дані мою інфраструктуру?</h3>
-<p><strong>Ні.</strong> Парсер банківських виписок працює як бібліотека без збереження стану. Уся обробка – розбір, редагування ідентифікаційної інформації, видобування архіву – відбувається у вашій локальній пам’яті середовища виконання. Ні викликів API, ні хмарних служб, ні телеметрії. Синтаксичні аналізатори XML посилено<code>no_network=True</code>, блокуючи весь вихідний доступ на рівні аналізатора. Ваші фінансові дані ніколи не покидають ваше середовище.</p>
-<h3>Як працює редагування ідентифікаційної інформації?</h3>
-<p>Делікатні поля маскуються до того, як вони досягнуть логіки програми. Синтаксичний аналізатор визначає імена боржників, імена кредиторів, IBAN і поштові адреси, замінюючи їх на<code>***REDACTED***</code>у режимі виводу на консоль і в потоковому режимі.</p>
+<p><strong>Ні — навіть для витягування з PDF.</strong> Bank Statement Parser працює як бібліотека без збереження стану. Уся обробка — аналіз, приховування персональних даних, витягування з архівів — відбувається у вашій локальній пам'яті. Гібридний PDF pipeline використовує Ollama для локального LLM-виведення — без хмарних API. XML-парсери захищені параметром <code>no_network=True</code>, що блокує весь вихідний доступ на рівні парсера. Ваші фінансові дані ніколи не залишають ваше середовище.</p>
+<h3>Як працює приховування персональних даних?</h3>
+<p>Конфіденційні поля маскуються до того, як вони потраплять у логіку вашого застосунку. Парсер виявляє імена боржників, імена кредиторів, IBAN та поштові адреси, замінюючи їх на <code>***REDACTED***</code> у консольному виводі та streaming-режимі.</p>
 <ul>
-<li><strong>Редагування ввімкнено за замовчуванням</strong> у режимі виведення CLI та потокового режиму.</li>
-<li><strong>Експорт файлів</strong> (CSV, JSON, Excel) зберігає невідредаговані дані для подальшої обробки.</li>
-<li><strong>Увімкніть</strong> повні дані з<code>--show-pii</code>на CLI або<code>redact_pii=False</code>в API.</li>
+<li><strong>Приховування увімкнене за замовчуванням</strong> у CLI та streaming-режимі.</li>
+<li><strong>Експорт файлів</strong> (CSV, JSON, Excel) зберігає повні дані для подальшої обробки.</li>
+<li><strong>Увімкніть</strong> відображення повних даних через <code>--show-pii</code> у CLI або <code>redact_pii=False</code> в API.</li>
 </ul>
-<h3>Чи є процес вилучення детермінованим?</h3>
-<p><strong>Так -- байтно-ідентичний вихід під час кожного запуску.</strong> Враховуючи той самий вхідний файл, синтаксичний аналізатор щоразу видає той самий результат. Без випадковості, без моделювання, без евристичної вибірки. CI забезпечує детермінізм за допомогою 467 тестів із 100% охопленням гілок, включаючи фаззинг на основі властивостей через гіпотезу.</p>
-<h3>Яким стандартам відповідності відповідає проект?</h3>
-<p>Проект підтримує документацію, узгоджену з ISO 13485, із повною можливістю відстеження:</p>
+<h3>Чи є процес витягування детерміністичним?</h3>
+<p><strong>Так для структурованих форматів — побайтово ідентичний результат щоразу.</strong> За умови однакового вхідного файлу детерміністичні парсери (CAMT, PAIN.001, CSV, OFX, QFX, MT940) щоразу дають однаковий результат. Без випадковості, без моделювання, без евристичної вибірки.</p>
+<p>Для гібридного PDF pipeline шляхи витягування на основі LLM можуть давати незначні відмінності між запусками. Саме тому кожне PDF-витягування перевіряється <strong>Золотим правилом</strong> (<code>opening + credits − debits == closing</code>), а виявлені розбіжності можна переглянути інтерактивно.</p>
+<p>CI забезпечує детермінізм за допомогою 718 тестів зі 100% покриттям гілок, включно з property-based фаззингом через Hypothesis.</p>
+<h3>Яким стандартам комплаєнсу відповідає проект?</h3>
+<p>Проект підтримує документацію, узгоджену з ISO 13485, із повною відстежуваністю:</p>
 <ul>
-<li>Кількісно визначений <strong>Реєстр ризиків</strong> з оцінкою тяжкості/ймовірності та оцінкою залишкового ризику.</li>
-<li><strong>План перевірки та підтвердження</strong> з 19 закритими кроками через 5 етапів.</li>
-<li><strong>Процедура контролю за змінами</strong> з оцінкою впливу та протоколами відкату.</li>
+<li>Кількісний <strong>Реєстр ризиків</strong> з оцінкою серйозності/ймовірності та оцінкою залишкового ризику.</li>
+<li><strong>План верифікації та валідації</strong> з 19 контрольними кроками через 5 фаз.</li>
+<li><strong>Процедура контролю змін</strong> з оцінкою впливу та протоколами відкату.</li>
 <li><strong>Реєстр SOUP</strong>, що охоплює всі залежності з рівнями ризику та відстеженням EOL.</li>
-<li><strong>Матриця відстеження</strong>, що відображає вхідні дані проекту для впровадження та перевірки.</li>
+<li><strong>Матриця відстежуваності</strong>, що зв'язує вхідні дані проєктування з реалізацією та верифікацією.</li>
 </ul>
-<p>Кожен випуск містить CycloneDX SBOM, контрольні суми SHA-256 і атестацію походження збірки GitHub.</p>
+<p>Кожний реліз містить CycloneDX SBOM, контрольні суми SHA-256 та атестацію походження збірки GitHub.</p>
 <h2>Продуктивність і масштабованість</h2>
-<h3>Як швидко працює аналізатор банківських виписок?</h3>
+<h3>Як швидко працює Bank Statement Parser?</h3>
 <p>Порогові значення продуктивності перевіряються в CI під час кожного коміту:</p>
 <div class="table-responsive"><table class="table">
 <thead>
@@ -244,11 +260,11 @@
 <td class="text-left">52 000+ транзакцій/секунду</td>
 </tr>
 <tr>
-<td class="text-left">Затримка кожної транзакції (CAMT)</td>
+<td class="text-left">Затримка на транзакцію (CAMT)</td>
 <td class="text-left">37 мікросекунд</td>
 </tr>
 <tr>
-<td class="text-left">Затримка кожної транзакції (PAIN.001)</td>
+<td class="text-left">Затримка на транзакцію (PAIN.001)</td>
 <td class="text-left">19 мікросекунд</td>
 </tr>
 <tr>
@@ -257,20 +273,21 @@
 </tr>
 </tbody>
 </table></div>
+<p>Швидкість витягування з PDF залежить від шляху маршрутизації: детерміністичний (менше секунди), текстовий LLM (секунди), vision LLM (секунди на сторінку).</p>
 <h3>Як обробляються великі файли?</h3>
-<p><strong>Потокове передавання з обмеженою пам’яттю — перевірено на 50 000 транзакцій на файл.</strong> Використовуйте<code>parse_streaming()</code>для поступової обробки файлів XML. Кожна транзакція видається як словник; елементи очищаються після обробки, щоб запобігти зростанню пам'яті. Об’єм пам’яті не залежить від розміру файлу – тест на 50 тис. транзакцій (25+ МБ) використовує менше ніж у 2 рази більше пам’яті, ніж тест на 10 тис. транзакцій.</p>
-<p>Для файлів, розмір яких перевищує 50 МБ (наприклад, пакети між хостами PAIN.001 із понад 100 тисячами платежів), синтаксичний аналізатор передає потоки через тимчасовий файл із видаленням простору імен на основі фрагментів — повний документ ніколи не завантажується в пам’ять.</p>
-<h3>Як безпечно обробляються архіви ZIP?</h3>
-<p><code>iter_secure_xml_entries()</code>перевіряє кожного члена перед вилученням:</p>
+<p><strong>Streaming з обмеженою пам'яттю — протестовано на 50 000 транзакцій на файл.</strong> Використовуйте <code>parse_streaming()</code> для поступової обробки XML-файлів. Кожна транзакція видається як словник; елементи очищуються після обробки для запобігання зростанню пам'яті. Пам'ять не зростає з розміром файлу — тест на 50K транзакцій (25+ МБ) використовує менше ніж у 2 рази більше пам'яті, ніж тест на 10K транзакцій.</p>
+<p>Для файлів понад 50 МБ (наприклад, пакети PAIN.001 з 100K+ платежів) парсер передає дані через тимчасовий файл із порційним видаленням просторів імен — повний документ ніколи не завантажується в пам'ять.</p>
+<h3>Як безпечно обробляються ZIP-архіви?</h3>
+<p><code>iter_secure_xml_entries()</code> перевіряє кожний запис перед витягуванням:</p>
 <ul>
-<li><strong>Обмеження розміру запису</strong> (за замовчуванням 10 МБ на запис)</li>
-<li><strong>Обмеження загального нестиснутого розміру</strong> (за замовчуванням 50 МБ)</li>
-<li><strong>Обмеження ступеня стиснення</strong> (за замовчуванням 100:1), щоб запобігти бомбам ZIP</li>
-<li><strong>Відхилення зашифрованого входу</strong></li>
+<li><strong>Ліміт розміру запису</strong> (за замовчуванням 10 МБ на запис)</li>
+<li><strong>Ліміт загального нестиснутого розміру</strong> (за замовчуванням 50 МБ)</li>
+<li><strong>Обмеження коефіцієнта стиснення</strong> (за замовчуванням 100:1) для захисту від ZIP-бомб</li>
+<li><strong>Відхилення зашифрованих записів</strong></li>
 </ul>
-<p>Жоден файл не записується на диск. Байти XML передаються безпосередньо до аналізатора через<code>from_bytes()</code>.</p>
+<p>Жодний файл не записується на диск. XML-байти передаються напряму до парсера через <code>from_bytes()</code>.</p>
 <h3>Чи можу я аналізувати кілька файлів паралельно?</h3>
-<p><strong>Так.</strong> Використовуйте<code>parse_files_parallel()</code>який розподіляє роботу між a<code>ProcessPoolExecutor</code>:</p>
+<p><strong>Так.</strong> Використовуйте <code>parse_files_parallel()</code>, який розподіляє роботу через <code>ProcessPoolExecutor</code>:</p>
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">parse_files_parallel
 </span><span style="color:#c0c5ce;">
@@ -283,27 +300,28 @@
 </span><span style="color:#c0c5ce;">    </span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(r.path, r.status, </span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(r.transactions), &quot;</span><span style="color:#a3be8c;">rows</span><span style="color:#c0c5ce;">&quot;)
 </span></pre>
 </code></pre>
+<p>Для масового завантаження PDF використовуйте <code>scan_and_ingest()</code>, який обробляє цілі дерева каталогів з автоматичною дедуплікацією.</p>
 <h2>Підтримувані формати</h2>
-<h3>Які формати банківської виписки підтримуються?</h3>
+<h3>Які формати банківських виписок підтримуються?</h3>
 <table>
 <thead>
 <tr>
 <th>Формат</th>
-<th>Стандартний</th>
+<th>Стандарт</th>
 <th>Типи файлів</th>
-<th>Клас аналізатора</th>
+<th>Парсер/Метод</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="text-left">CAMT.053</td>
-<td class="text-left">ISO 20022 Заява від банку до клієнта</td>
+<td class="text-left">ISO 20022 Виписка банку для клієнта</td>
 <td class="text-left"><code>.xml</code></td>
 <td class="text-left"><code>CamtParser</code></td>
 </tr>
 <tr>
-<td class="text-left">БІЛЬ.001</td>
-<td class="text-left">ISO 20022 Ініціювання переказу кредитів</td>
+<td class="text-left">PAIN.001</td>
+<td class="text-left">ISO 20022 Ініціювання кредитового переказу</td>
 <td class="text-left"><code>.xml</code></td>
 <td class="text-left"><code>Pain001Parser</code></td>
 </tr>
@@ -315,7 +333,7 @@
 </tr>
 <tr>
 <td class="text-left">OFX</td>
-<td class="text-left">Відкрита фінансова біржа</td>
+<td class="text-left">Open Financial Exchange</td>
 <td class="text-left"><code>.ofx</code></td>
 <td class="text-left"><code>OfxParser</code></td>
 </tr>
@@ -331,15 +349,29 @@
 <td class="text-left"><code>.mt940</code>, <code>.sta</code></td>
 <td class="text-left"><code>Mt940Parser</code></td>
 </tr>
+<tr>
+<td class="text-left">PDF</td>
+<td class="text-left">Цифрові та скановані виписки</td>
+<td class="text-left"><code>.pdf</code></td>
+<td class="text-left"><code>smart_ingest()</code></td>
+</tr>
 </tbody>
 </table>
-<h3>Чи обробляє аналізатор специфічні для банку діалекти CAMT.053?</h3>
-<p><strong>Так – не залежить від простору імен за дизайном.</strong> Синтаксичний аналізатор видаляє простори імен XML перед обробкою, обробляючи будь-який варіант CAMT.053 (<code>camt.053.001.02</code>, <code>camt.053.001.04</code>або власних банківських оболонок) без конфігурації, що залежить від простору імен. XPath запитує структуру цільового елемента, а не URI простору імен.</p>
-<p>Для банків, які упаковують CAMT у спеціальний конверт, використовуйте<code>from_string()</code>або<code>from_bytes()</code>для безпосередньої подачі внутрішнього документа.</p>
-<h3>Чи можу я зіставити спеціальні заголовки стовпців CSV зі стандартною схемою?</h3>
-<p><strong>Так -- автоматична нормалізація, нульова конфігурація.</strong><code>CsvStatementParser</code>розпізнає типові варіанти заголовків:<code>&quot;Date&quot;</code>, <code>&quot;Transaction Date&quot;</code>, <code>&quot;Booking Date&quot;</code>вся карта до<code>date</code>поле.<code>&quot;Amount&quot;</code>, <code>&quot;Value&quot;</code>, <code>&quot;Sum&quot;</code>карта до<code>amount</code>. Розділіть стовпці кредиту/дебету (наприклад,<code>&quot;Credit&quot;</code>і<code>&quot;Debit&quot;</code>) автоматично визначаються та об’єднуються в одну підписану суму.</p>
-<h3>Що таке вихідний формат?</h3>
-<p>Усі парсери створюють стандартизовані pandas DataFrames із узгодженими типами стовпців:</p>
+<h3>Як працює гібридний PDF pipeline?</h3>
+<p>Гібридний pipeline (v0.0.5+) інтелектуально маршрутизує PDF через три шляхи витягування:</p>
+<ul>
+<li><strong>Шлях A (Детерміністичний)</strong>: Структуровані PDF-таблиці аналізуються напряму — безкоштовно, найшвидше, без LLM.</li>
+<li><strong>Шлях B (Текстовий LLM)</strong>: Цифрові PDF зі складною структурою обробляються локальним LLM (LiteLLM/Ollama).</li>
+<li><strong>Шлях C (Vision LLM)</strong>: Скановані або фотокопійовані виписки обробляються мультимодальними моделями.</li>
+</ul>
+<p>Кожне витягування перевіряється Золотим правилом (<code>opening + credits − debits == closing</code>). Розбіжності можна переглянути інтерактивно через <code>--type review</code>.</p>
+<h3>Чи обробляє парсер банківські діалекти CAMT.053?</h3>
+<p><strong>Так — не залежить від просторів імен за дизайном.</strong> Парсер видаляє простори імен XML перед обробкою, працюючи з будь-яким варіантом CAMT.053 (<code>camt.053.001.02</code>, <code>camt.053.001.04</code> або пропрієтарними банківськими обгортками) без конфігурації просторів імен. XPath-запити спрямовані на структуру елементів, а не на URI просторів імен.</p>
+<p>Для банків, що загортають CAMT у власний конверт, використовуйте <code>from_string()</code> або <code>from_bytes()</code> для подачі внутрішнього документа напряму.</p>
+<h3>Чи можу я зіставити власні заголовки стовпців CSV зі стандартною схемою?</h3>
+<p><strong>Так — автоматична нормалізація, нульова конфігурація.</strong> <code>CsvStatementParser</code> розпізнає типові варіанти заголовків: <code>&quot;Date&quot;</code>, <code>&quot;Transaction Date&quot;</code>, <code>&quot;Booking Date&quot;</code> — усі зіставляються з полем <code>date</code>. <code>&quot;Amount&quot;</code>, <code>&quot;Value&quot;</code>, <code>&quot;Sum&quot;</code> зіставляються з <code>amount</code>. Розділені стовпці кредиту/дебету (наприклад, <code>&quot;Credit&quot;</code> і <code>&quot;Debit&quot;</code>) автоматично виявляються та об'єднуються в одну суму зі знаком.</p>
+<h3>Який вихідний формат?</h3>
+<p>Усі парсери створюють стандартизовані pandas DataFrames з однаковими типами стовпців:</p>
 <table>
 <thead>
 <tr>
@@ -358,24 +390,60 @@
 </tr>
 <tr>
 <td class="text-left"><strong>CSV/OFX/QFX/MT940</strong></td>
-<td class="text-left"><code>date</code>, <code>description</code>, <code>amount</code>(нормований)</td>
+<td class="text-left"><code>date</code>, <code>description</code>, <code>amount</code> (нормалізовані)</td>
 </tr>
 </tbody>
 </table>
-<p>Ви також можете експортувати у CSV, JSON, Excel або конвертувати у Polars DataFrames.</p>
-<h2>Робочі процеси Казначейства</h2>
-<h3>Як аналізатор обробляє мультивалютні звіти?</h3>
-<p><strong>Кожна транзакція зберігає свою початкову валюту без прихованої конвертації.</strong><code>Currency</code>поле витягується з XML<code>Ccy</code>атрибут на транзакцію. Мультивалютні звіти залишаються без змін. The<code>get_account_balances()</code>метод повертає початкові та кінцеві залишки на рахунок із оригінальними кодами валют. Міжвалютне узгодження залежить від вашої подальшої логіки, де ви контролюєте джерело обмінного курсу.</p>
-<h3>Чи підтримує аналізатор як вихідні, так і вхідні формати?</h3>
-<p><strong>Так.</strong><code>Pain001Parser</code>обробляє файли ініціації кредитних переказів ISO 20022 PAIN.001 (вихідні платежі).<code>CamtParser</code>обробляє файли звітів CAMT.053 від банку до клієнта (вхідні звіти). Обидва підтримують потокове передавання, редагування ідентифікаційної інформації та експорт у CSV, JSON і Excel. використання<code>detect_statement_format()</code>щоб автоматично визначити формат.</p>
+<p>Ви також можете експортувати у CSV, JSON, Excel, Polars DataFrames, hledger або формат beancount.</p>
+<h2>PDF та LLM функції</h2>
+<h3>Які LLM-моделі підтримує гібридний pipeline?</h3>
+<p>Pipeline використовує LiteLLM як шар абстракції моделей, із прямим мостом до Ollama для vision-промптів. Рекомендовані моделі:</p>
+<ul>
+<li><strong>Витягування тексту</strong>: Будь-яка модель, сумісна з LiteLLM (локальна або віддалена).</li>
+<li><strong>Vision-витягування</strong>: <code>ollama/minicpm-v</code> (рекомендовано) для сканованих PDF.</li>
+<li><strong>Категоризація</strong>: Будь-яка модель, сумісна з LiteLLM.</li>
+</ul>
+<p>Усі моделі можуть працювати 100% локально через Ollama — API-ключі не потрібні.</p>
+<h3>Що таке перевірка Золотим правилом?</h3>
+<p>Кожне PDF-витягування перевіряється рівнянням: <code>opening balance + credits − debits == closing balance</code>. Результати позначаються як:</p>
+<ul>
+<li><strong>VERIFIED</strong>: Баланси збігаються точно.</li>
+<li><strong>DISCREPANCY</strong>: Баланси не збігаються — рекомендується перевірка.</li>
+<li><strong>FAILED</strong>: Перевірку не вдалося виконати (відсутні дані балансу).</li>
+</ul>
+<h3>Чи можу я автоматично категоризувати транзакції?</h3>
+<p><strong>Так.</strong> Модуль збагачення (v0.0.6+) надає категоризацію транзакцій за допомогою LLM:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser.enrichment </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">Categorizer
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">categorizer = </span><span style="color:#8fa1b3;">Categorizer</span><span style="color:#c0c5ce;">()
+</span><span style="color:#c0c5ce;">enriched = categorizer.</span><span style="color:#8fa1b3;">categorize_batch</span><span style="color:#c0c5ce;">(transactions)
+</span></pre>
+</code></pre>
+<p>Схема за замовчуванням використовує 13 Plaid-сумісних категорій. Ви можете надати власну схему категорій.</p>
+<h3>Чи можу я експортувати в hledger або beancount?</h3>
+<p><strong>Так</strong> (v0.0.8+). Експорт транзакцій у формати plaintext-accounting з маппінгом рахунків:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser.export </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">to_hledger, to_beancount
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">journal = </span><span style="color:#8fa1b3;">to_hledger</span><span style="color:#c0c5ce;">(transactions, </span><span style="color:#bf616a;">account</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">Assets:Bank:Checking</span><span style="color:#c0c5ce;">&quot;)
+</span></pre>
+</code></pre>
+<h2>Робочі процеси казначейства</h2>
+<h3>Як парсер обробляє мультивалютні виписки?</h3>
+<p><strong>Кожна транзакція зберігає свою оригінальну валюту — без прихованої конвертації.</strong> Поле <code>Currency</code> витягується з XML-атрибуту <code>Ccy</code> для кожної транзакції. Мультивалютні виписки залишаються без змін. Метод <code>get_account_balances()</code> повертає початкові та кінцеві залишки за рахунком з оригінальними кодами валют.</p>
+<p>Починаючи з v0.0.8, <code>verify_balance_multi_currency()</code> групує транзакції за валютою та виконує Золоте правило незалежно для кожної групи — зручно для рахунків із кількома валютами.</p>
+<h3>Чи підтримує парсер як вихідні, так і вхідні формати?</h3>
+<p><strong>Так.</strong> <code>Pain001Parser</code> обробляє файли ініціювання кредитових переказів ISO 20022 PAIN.001 (вихідні платежі). <code>CamtParser</code> обробляє файли виписок CAMT.053 від банку до клієнта (вхідні звіти). Обидва підтримують streaming, приховування персональних даних та експорт у CSV, JSON, Excel, hledger та beancount. Використовуйте <code>detect_statement_format()</code> для автоматичного визначення формату.</p>
 <h3>Що станеться, якщо запис транзакції має неправильний формат?</h3>
 <p>Поведінка залежить від режиму аналізу:</p>
 <ul>
-<li><strong><code>parse()</code>(пакетний режим)</strong> -- Неправильні записи без обов’язкових полів (<code>Amount</code>, <code>Currency</code>, або<code>CdtDbtInd</code>) пропускаються з журналом попереджень. Решта оператора аналізується нормально.</li>
-<li><strong><code>parse_streaming()</code>(потоковий режим)</strong> -- Помилки аналізу поширюються негайно як винятки. Без тихої втрати даних. Така швидка поведінка є навмисною для фінансових робочих процесів, де потрібно враховувати кожну транзакцію.</li>
+<li><strong><code>parse()</code> (пакетний режим)</strong> -- Помилкові записи без обов'язкових полів (<code>Amount</code>, <code>Currency</code> або <code>CdtDbtInd</code>) пропускаються з попередженням у журналі. Решта виписки аналізується нормально.</li>
+<li><strong><code>parse_streaming()</code> (streaming-режим)</strong> -- Помилки аналізу миттєво поширюються як винятки. Без тихої втрати даних. Така fail-fast поведінка навмисна для фінансових робочих процесів, де кожна транзакція має бути врахована.</li>
+<li><strong><code>smart_ingest()</code> (гібридний PDF)</strong> -- Помилки витягування фіксуються в <code>IngestResult</code> зі статусом перевірки, що дозволяє інтерактивний перегляд.</li>
 </ul>
 <h3>Як працює дедуплікація?</h3>
-<p>The<code>Deduplicator</code>клас виявляє точні дублікати та ймовірні збіги із зрозумілими балами достовірності:</p>
+<p>Кожній транзакції присвоюється ідемпотентний <code>transaction_hash</code> (MD5-відбиток) на основі її ключових полів. Це забезпечує безпечне інкрементальне завантаження — повторна обробка того самого файлу дає ті самі hash, тому дублікати виявляються автоматично.</p>
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">CamtParser, Deduplicator
 </span><span style="color:#c0c5ce;">
@@ -389,57 +457,71 @@
 </span></pre>
 </code></pre>
 <h2>Встановлення та сумісність</h2>
-<h3>Як встановити аналізатор банківських виписок?</h3>
+<h3>Як встановити Bank Statement Parser?</h3>
 <pre><code class="language-bash"><pre style="background-color:#2b303b;">
-<span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser
-</span></pre>
-</code></pre>
-<p>Для додаткової підтримки Polars DataFrame:</p>
-<pre><code class="language-bash"><pre style="background-color:#2b303b;">
-<span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser</span><span style="color:#b48ead;">[</span><span style="color:#c0c5ce;">polars</span><span style="color:#b48ead;">]
+<span style="color:#65737e;"># Core install (deterministic parsers only)
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#65737e;"># PDF hybrid pipeline
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[hybrid]</span><span style="color:#c0c5ce;">&#39;         </span><span style="color:#65737e;"># Text-LLM path
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[hybrid-vision]</span><span style="color:#c0c5ce;">&#39;   </span><span style="color:#65737e;"># Vision-LLM path
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#65737e;"># Extras
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[enrichment]</span><span style="color:#c0c5ce;">&#39;      </span><span style="color:#65737e;"># Transaction categorisation
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[api]</span><span style="color:#c0c5ce;">&#39;             </span><span style="color:#65737e;"># REST API microservice
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[polars]</span><span style="color:#c0c5ce;">&#39;          </span><span style="color:#65737e;"># Polars DataFrame support
 </span></pre>
 </code></pre>
 <h3>Які версії Python підтримуються?</h3>
-<p>Python від 3.9 до 3.14. Усі версії тестуються в CI з 467 тестами при 100% охопленні філій.</p>
+<p>Python 3.10–3.14. Підтримку Python 3.9 було припинено у v0.0.6 (EOL 2025-10-31). Усі версії тестуються в CI з 718 тестами при 100% покритті гілок.</p>
 <h3>Які залежності?</h3>
-<p>Бібліотека має 5 прямих залежностей:</p>
+<p>Базова бібліотека має 5 прямих залежностей:</p>
 <ul>
-<li><code>lxml</code>-- Розбір XML із посиленням безпеки
--<code>pandas</code>-- DataFrames і маніпулювання даними
--<code>openpyxl</code>-- Експорт Excel
--<code>pydantic</code>-- Перевірка даних і моделі
--<code>defusedxml</code>-- Захист XXE</li>
+<li><code>lxml</code> -- Аналіз XML із захистом безпеки</li>
+<li><code>pandas</code> -- DataFrames та маніпулювання даними</li>
+<li><code>openpyxl</code> -- Експорт в Excel</li>
+<li><code>pydantic</code> -- Валідація даних та моделі</li>
+<li><code>defusedxml</code> -- Захист від XXE</li>
 </ul>
-<p>Усі залежності мають хеш-блоковані версії SHA-256. CycloneDX SBOM відображає кожен компонент середовища виконання.</p>
-<h3>Чи працює в macOS, Linux і Windows?</h3>
-<p><strong>Так.</strong> Бібліотека працює в macOS, Linux і Windows (через WSL). Він не має залежностей від платформи.</p>
-<h2>Відтворюваність і безпека</h2>
-<h3>Як я можу перевірити відтворюваність?</h3>
+<p>Додаткові модулі включають: <code>litellm</code>, <code>pypdf</code>, <code>pdfplumber</code>, <code>pypdfium2</code>, <code>fastapi</code>, <code>uvicorn</code>, <code>polars</code>.</p>
+<p>Усі залежності мають версії із SHA-256 hash-блокуванням. CycloneDX SBOM описує кожний компонент.</p>
+<h3>Чи працює на macOS, Linux і Windows?</h3>
+<p><strong>Так.</strong> Бібліотека працює на macOS, Linux та Windows (через WSL). Немає платформо-залежних залежностей.</p>
+<h3>Чи є REST API?</h3>
+<p><strong>Так</strong> (v0.0.8+). Встановіть через <code>pip install 'bankstatementparser[api]'</code> та запустіть:</p>
 <pre><code class="language-bash"><pre style="background-color:#2b303b;">
-<span style="color:#8fa1b3;">python</span><span style="color:#d9848a;"> -m</span><span style="color:#c0c5ce;"> pytest                              </span><span style="color:#8f9aa5;"># 467 tests, 100% branch coverage
-</span><span style="color:#8fa1b3;">python</span><span style="color:#c0c5ce;"> scripts/verify_locked_hashes.py        </span><span style="color:#8f9aa5;"># SHA-256 hash verification
-</span><span style="color:#8fa1b3;">git</span><span style="color:#c0c5ce;"> log</span><span style="color:#d9848a;"> --show-signature -1                   </span><span style="color:#8f9aa5;"># Verify commit signature
+<span style="color:#8fa1b3;">bankstatementparser-api</span><span style="color:#bf616a;"> --port</span><span style="color:#c0c5ce;"> 8000
+</span></pre>
+</code></pre>
+<p>Ендпоінти: <code>POST /ingest</code> (аналіз виписки) та <code>GET /health</code> (перевірка стану).</p>
+<h2>Відтворюваність і безпека</h2>
+<h3>Як перевірити відтворюваність?</h3>
+<pre><code class="language-bash"><pre style="background-color:#2b303b;">
+<span style="color:#8fa1b3;">python</span><span style="color:#bf616a;"> -m</span><span style="color:#c0c5ce;"> pytest                              </span><span style="color:#65737e;"># 718 tests, 100% branch coverage
+</span><span style="color:#8fa1b3;">python</span><span style="color:#c0c5ce;"> scripts/verify_locked_hashes.py        </span><span style="color:#65737e;"># SHA-256 hash verification
+</span><span style="color:#8fa1b3;">git</span><span style="color:#c0c5ce;"> log</span><span style="color:#bf616a;"> --show-signature -1                   </span><span style="color:#65737e;"># Verify commit signature
 </span></pre>
 </code></pre>
 <h3>Які засоби захисту вбудовані?</h3>
 <ul>
-<li><strong>Захист XXE</strong>:<code>resolve_entities=False</code>, <code>no_network=True</code>, <code>load_dtd=False</code></li>
-<li><strong>ZIP Bomb Protection</strong>: обмеження ступеня стиснення, обмеження розміру запису, відхилення зашифрованого запису</li>
-<li><strong>Path Traversal Prevention</strong>: небезпечний список блокувань шаблонів і розділення символічних посилань</li>
-<li><strong>Перевірка введених даних</strong>: обмеження розміру файлу (100 МБ за замовчуванням), перевірка розширення/формату</li>
-<li><strong>Ланцюг поставок</strong>: хеш-блоковані залежності SHA-256, CycloneDX SBOM, атестація походження збірки</li>
-<li><strong>Підписані комісії</strong>: застосовуються в CI</li>
+<li><strong>Захист від XXE</strong>: <code>resolve_entities=False</code>, <code>no_network=True</code>, <code>load_dtd=False</code></li>
+<li><strong>Захист від ZIP-бомб</strong>: Обмеження коефіцієнта стиснення, ліміти розміру записів, відхилення зашифрованих записів</li>
+<li><strong>Захист від обходу шляхів</strong>: Блокування небезпечних шаблонів та розв'язання символічних посилань</li>
+<li><strong>Валідація вхідних даних</strong>: Ліміти розміру файлів (100 МБ за замовчуванням), перевірка розширення/формату</li>
+<li><strong>Ланцюг постачань</strong>: Залежності із SHA-256 hash-блокуванням, CycloneDX SBOM, атестація походження збірки</li>
+<li><strong>Підписані коміти</strong>: Обов'язкові в CI</li>
+<li><strong>Локальні LLM</strong>: Гібридний PDF pipeline використовує Ollama — без хмарних API-викликів</li>
 </ul>
-<h3>Як аналізатор банківських виписок порівнюється з pyiso20022?</h3>
-<p>pyiso20022 — це широкий набір інструментів ISO 20022, який генерує класи даних Python зі схем ISO XML. Він охоплює широкий спектр типів повідомлень ISO 20022 (PACS, PAIN, CAMT, ADMI) із перевіркою схеми. Парсер банківських виписок спеціально створений для аналізу банківських виписок із підтримкою потокового передавання, редагування ідентифікаційної інформації, дедуплікації та уніфікованого API для шести форматів, включаючи формати, відмінні від ISO (CSV, OFX, QFX, MT940). Якщо вам потрібно проаналізувати банківські виписки в DataFrames із захистом виробничого рівня, використовуйте аналізатор банківських виписок. Якщо вам потрібно працювати з повним каталогом повідомлень ISO 20022, використовуйте pyiso20022.</p>
-<h3>Які кінцеві терміни міграції SWIFT ISO 20022?</h3>
-<p>SWIFT опублікував графік поетапного переходу:</p>
+<h3>Як Bank Statement Parser порівнюється з pyiso20022?</h3>
+<p>pyiso20022 — це широкий набір інструментів ISO 20022, який генерує Python dataclasses зі схем ISO XML. Він охоплює широкий спектр типів повідомлень ISO 20022 (PACS, PAIN, CAMT, ADMI) з валідацією схем. Bank Statement Parser створений спеціально для аналізу банківських виписок із гібридною підтримкою PDF, перевіркою балансу, збагаченням, експортом у бухгалтерію та єдиним API для семи форматів, включно з не-ISO (CSV, OFX, QFX, MT940, PDF). Якщо вам потрібно аналізувати банківські виписки в DataFrames із продакшен-рівнем безпеки, використовуйте Bank Statement Parser. Якщо потрібно працювати з повним каталогом повідомлень ISO 20022, використовуйте pyiso20022.</p>
+<h3>Які дедлайни міграції SWIFT ISO 20022?</h3>
+<p>SWIFT опублікував графік поетапної міграції:</p>
 <ul>
-<li><strong>Листопад 2026</strong>: структуровані та гібридні адреси стають обов’язковими. Повідомлення з кількома інструкціями MT101 будуть відхилені. Починається Фаза 1 управління справами.</li>
-<li><strong>листопад 2027 р.</strong>: усі фінансові установи повинні мати можливість отримувати виписки CAMT.053. SWIFT припинить конвертацію MT у формат ISO.</li>
-<li><strong>Листопад 2028</strong>: повне припинення використання MT940, MT942, MT950, MT900 і MT910. Їх буде замінено еквівалентами CAMT.052, CAMT.053 і CAMT.054.</li>
+<li><strong>Листопад 2026</strong>: Структуровані та гібридні адреси стають обов'язковими. Повідомлення MT101 з кількома інструкціями будуть відхилятися. Починається Фаза 1 Case Management.</li>
+<li><strong>Листопад 2027</strong>: Усі фінансові установи мають мати можливість отримувати виписки CAMT.053 нативно. SWIFT припинить конвертацію MT у формат ISO.</li>
+<li><strong>Листопад 2028</strong>: Повне припинення MT940, MT942, MT950, MT900 та MT910. Їх замінять еквіваленти CAMT.052, CAMT.053 та CAMT.054.</li>
 </ul>
-<p>Парсер банківських виписок підтримує як застарілий формат MT940, так і сучасні формати CAMT.053/PAIN.001, що робить його ідеальним для перехідного періоду.</p>
+<p>Bank Statement Parser підтримує як застарілий формат MT940, так і сучасні формати CAMT.053/PAIN.001, що робить його ідеальним для перехідного періоду.</p>
 </div>
         <div id="faq-accordion" class="faq-container"></div>
       </div>
@@ -456,7 +538,7 @@
         </ul>
       </div>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"Відповіді на поширені запитання про аналізатор банківських виписок: конфіденційність даних, редагування ідентифікаційної інформації, продуктивність, підтримка ISO 20022, потокове передавання, відповідність і робочі процеси казначейства.","headline":"Поширені запитання про аналізатор банківських виписок","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"uk-UA","mainEntityOfPage":"https://bankstatementparser.com/uk/faq/index.html","name":"Парсер банківських виписок","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"Відповіді на поширені запитання про аналізатор банківських виписок: конфіденційність даних, редагування ідентифікаційної інформації, продуктивність, підтримка ISO 20022, потокове передавання, відповідність і робочі процеси казначейства.","headline":"Поширені запитання про аналізатор банківських виписок","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"uk-UA","mainEntityOfPage":"https://bankstatementparser.com/uk/faq/index.html","name":"FAQ","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
     <script>
     // FAQ accordion builder
     (function(){
@@ -553,8 +635,8 @@
         document.documentElement.setAttribute("data-theme",theme);localStorage.setItem("theme",theme);
         document.querySelectorAll(".theme-icon-dark,.theme-icon-dark-m").forEach(function(e){e.style.display=theme==="dark"?"none":""});
         document.querySelectorAll(".theme-icon-light,.theme-icon-light-m").forEach(function(e){e.style.display=theme==="dark"?"":"none"});
-        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"Light":"Dark"});
-        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"Switch to light mode":"Switch to dark mode")});
+        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"Свiтла":"Темна"});
+        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"Перемкнути на свiтлу тему":"Перемкнути на темну тему")});
       }
       var saved=localStorage.getItem("theme");
       if(saved){setTheme(saved)}else if(window.matchMedia("(prefers-color-scheme:dark)").matches){setTheme("dark")}
@@ -564,5 +646,57 @@
     })();
     </script>
     <script defer src="/main.js"></script>
-  </body>
+      <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Пошук...">
+      <div class="search-box">
+        <input class="search-input" id="searchInput" type="search" placeholder="Пошук..." autocomplete="off" aria-label="Пошук..." />
+        <div class="search-results" id="searchResults"></div>
+        <div class="search-footer"><span><kbd>&uarr;</kbd><kbd>&darr;</kbd> Navigate</span><span><kbd>&crarr;</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var pages=[{t:"Home",d:"Parse 7 bank statement formats including PDF, 100% local",u:"/uk/index.html",k:"accounting apache bank beancount camt cyclonedx dataframes excel fastapi getting github hash hledger json litellmollama mtmtmt ocrolus ofxparse ollama pain pandas parser parseur pipeline plaid plaintext polars pypi python rest saas sbom startedindexh"},{t:"About",d:"Features, formats, hybrid PDF pipeline, performance overview",u:"/uk/a-propos/index.html",k:"accepteditskipdelete accounting bank beancount camt cyclonedx dataframes excel exchange fastapi financial getting github hash hledger iban json ollama open pain pandas parser pipeline plaid plaintext polars processpoolexecutor python quicken regex re"},{t:"Getting Started",d:"Installation, extras, PDF pipeline, REST API, CLI reference",u:"/uk/premiers-pas/index.html",k:"accounting beancount camt camtpain csvjsonexcel fastapi hash hledger json linux macos pain pipeline plaintext python regex rest sftp streaming автовизначення автоматична автоматичною аналіз аналізу аналізуйте байтів балансу банківських банківської бе"},{t:"FAQ",d:"Privacy, hybrid PDF, Golden Rule, performance, compliance",u:"/uk/faq/index.html",k:"accounting admi bank based beancount camt camtpain case csvofxqfxmt cyclonedx dataclasses dataframes discrepancy excel exchange fail failed fast financial github hash hledger hypothesis iban json linux litellm litellmollama macos management ollama op"},{t:"Use Cases",d:"Treasury, PDF ingestion, reconciliation, ledger export, REST API",u:"/uk/cas-utilisation/index.html",k:"accounting bank barclays beancount camt chase dataframe dataframes hledger hsbc http json parser pipeline plaintext rest revolut sftp statement swift wise автоматична автоматичне автоматично автоматичною автоматичну аналіз аналізу аналізуйте архіви а"},{t:"Migration",d:"ISO 20022 timeline, MT940 to CAMT.053, PDF fallback",u:"/uk/migration/index.html",k:"bank beancount camt case dataframe hledger management mtmtmtmtmt pacs pain parser pipeline statement streaming swift unicode автовизначення автовизначенням автоматично автоматичною адрес адреси аналізу аналізувати аналізуйте базова балансом балансу б"},{t:"Security",d:"XXE protection, PII redaction, local LLMs, Golden Rule",u:"/uk/securite/index.html",k:"bank bill camt csvjsonexcel cyclonedx discrepancy failed github hash iban materials ollama pain parser pipeline sbom software statement streaming verified автоматично адреси аналіз артефакт архівів архітектурне атак атакам атестація аудиту байти бала"},{t:"Comparison",d:"vs mt-940, ofxparse, pyiso20022, SaaS, hybrid LLM pipeline",u:"/uk/alternatives/index.html",k:"admi apache apple bank beancount blueprints camt chase dataclasses dataframe dataframes fastapi hash hledger inscribe mozillaai ocrolus ofxparse ofxtools ollama pacs pain pandas pandaspolars parser parseur pdfllm pipeline pycamt pyiso python rest saa"},{t:"Changelog",d:"Release history: v0.0.8, v0.0.7, v0.0.6, v0.0.5, v0.0.4",u:"/uk/journal-des-modifications/index.html",k:"account across applicationcategory balance bands batch beancount bounding bridge bulk bypasses camt changed command config context currency dataframe datepublished deduplicates deduplication dense deterministictext digital direct directory dropped en"},{t:"Contribute",d:"Report issues, submit code, documentation, sponsorship",u:"/uk/contribuer/index.html",k:"python авторів аналізатор аналізу банківських будь бути бібліотеку ваша ваших вашої вдосконалювати версія весь використання вилучення вимагаємо виписок виправте вихідному вміст внески внесок всіх відтворення вітаються вітаємо гілку гілок додайте доку"},{t:"Contact",d:"GitHub issues for open-source, form for business inquiries",u:"/uk/contact/index.html",k:"буде будемо будь бібліотеки бізнес ваше виберіть використовуйте відгук відкритого відстежено гарантує ділових загальних запит запитання запити запитів звіти канал коду користь ласка можливостей найкращий належним нижче отримати партнерства питань пом"},{t:"Privacy",d:"Privacy policy, analytics, GDPR, cookies",u:"/uk/confidentialite/index.html",k:"analytics bankstatementparsercom clarity clid cookie fldebfhn formspree gdpr google microsoft muid python адресоюcontactbankstatementparsercomабо адресу аналізатора аналітика аналітики аналітичних анонімні базі банківських браузера буде будь бібліоте"},{t:"Terms",d:"Terms of use, Apache 2.0 license, disclaimers",u:"/uk/conditions/index.html",k:"apache bankstatementparsercom github google microsoft parser pypi rousseau sebastien автори авторських адресоюcontactbankstatementparsercom аналізатора аналізу англії атак аудит банківських будуть будь бібліотека бібліотеку ваших виключній використан"}];
+      var overlay=document.getElementById("searchOverlay");
+      var input=document.getElementById("searchInput");
+      var results=document.getElementById("searchResults");
+      var trigger=document.getElementById("searchTrigger");
+      var activeIdx=-1;
+      var isMac=/Mac|iPhone|iPad|iPod/.test(navigator.platform||navigator.userAgent||"");
+      var shortcutSpans=document.querySelectorAll(".search-shortcut");
+      for(var s=0;s<shortcutSpans.length;s++){shortcutSpans[s].textContent=isMac?"⌘K":"Ctrl+K"}
+      function openSearch(){overlay.classList.add("open");input.value="";input.focus();activeIdx=-1;renderResults("")}
+      function closeSearch(){overlay.classList.remove("open");input.value="";results.innerHTML="";activeIdx=-1}
+      function fuzzy(q,text){q=q.toLowerCase();text=text.toLowerCase();if(text.indexOf(q)!==-1)return true;var qi=0;for(var ti=0;ti<text.length&&qi<q.length;ti++){if(text[ti]===q[qi])qi++}return qi===q.length}
+      function renderResults(q){
+        var filtered=[];
+        if(q.length>0){for(var i=0;i<pages.length;i++){var p=pages[i];if(fuzzy(q,p.t)||fuzzy(q,p.d)||(p.k&&fuzzy(q,p.k)))filtered.push(p)}}
+        if(q.length===0){results.innerHTML="";activeIdx=-1;return}
+        if(filtered.length===0){results.innerHTML='<div class="search-empty">No results for "'+q.replace(/</g,"&lt;")+'"</div>';activeIdx=-1;return}
+        var html="";
+        for(var j=0;j<filtered.length;j++){
+          html+='<a class="search-result'+(j===0?" active":"")+'" href="'+filtered[j].u+'" data-idx="'+j+'"><div class="search-result-title">'+filtered[j].t+'</div><div class="search-result-desc">'+filtered[j].d+'</div></a>';
+        }
+        results.innerHTML=html;
+        activeIdx=0;
+      }
+      function updateActive(){
+        var items=results.querySelectorAll(".search-result");
+        for(var i=0;i<items.length;i++){items[i].classList.toggle("active",i===activeIdx)}
+        if(items[activeIdx]){items[activeIdx].scrollIntoView({block:"nearest"})}
+      }
+      if(trigger){trigger.addEventListener("click",function(e){e.preventDefault();openSearch()})}
+      document.addEventListener("keydown",function(e){
+        if((isMac?e.metaKey:e.ctrlKey)&&e.key==="k"){e.preventDefault();if(overlay.classList.contains("open")){closeSearch()}else{openSearch()};return}
+        if(!overlay.classList.contains("open"))return;
+        if(e.key==="Escape"){e.preventDefault();closeSearch();return}
+        var items=results.querySelectorAll(".search-result");
+        if(e.key==="ArrowDown"){e.preventDefault();if(items.length){activeIdx=(activeIdx+1)%items.length;updateActive()};return}
+        if(e.key==="ArrowUp"){e.preventDefault();if(items.length){activeIdx=(activeIdx-1+items.length)%items.length;updateActive()};return}
+        if(e.key==="Enter"){e.preventDefault();if(items[activeIdx]){window.location.href=items[activeIdx].getAttribute("href")};return}
+      });
+      input.addEventListener("input",function(){activeIdx=-1;renderResults(input.value.trim())});
+      overlay.addEventListener("click",function(e){if(e.target===overlay)closeSearch()});
+    })();
+    </script>
+</body>
 </html>

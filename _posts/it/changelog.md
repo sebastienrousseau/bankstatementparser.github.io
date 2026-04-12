@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Registro modifiche parser estratto conto"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Analizzatore di estratti conto bancari. Tutti i diritti riservati."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Cronologia delle versioni e registro delle modifiche per Parser estratto conto bancario. Tieni traccia di nuove funzionalità, miglioramenti e correzioni di bug in tutte le versioni."
 download: ""
 format-detection: "telephone=no"
@@ -109,6 +109,35 @@ site_software: "Shokunin, Rust"
 
 Segui lo sviluppo del parser estratto conto bancario. Iscriviti tramite [RSS](/changelog/rss.xml) o guarda il [repository GitHub](https://github.com/sebastienrousseau/bankstatementparser) per le notifiche di rilascio.
 
+## v0.0.8 — 2026-04-11 (Latest) — "Full Platform"
+
+- Multi-currency balance verification — `verify_balance_multi_currency()` groups by currency, runs Golden Rule per group.
+- hledger + beancount export — `to_hledger()` and `to_beancount()` in `bankstatementparser.export`.
+- Bulk directory scanner — `scan_and_ingest()` scans folder trees, deduplicates across batch.
+- Account mapping rules — `AccountMapper` with ordered regex rules from JSON config.
+- REST API — FastAPI wrapper with `/ingest` and `/health` endpoints (`[api]` extra).
+
+## v0.0.7 — 2026-04-08 — "Universal Vision"
+
+- Direct Ollama bridge (`ollama_direct_completion`) — bypasses LiteLLM long-prompt hang.
+- Strip mode (`VisionExtractor.strip_rows=True`) — splits dense pages into overlapping bands for small local models.
+- Recommended vision model changed from `llava` to `minicpm-v`.
+
+## v0.0.6 — 2026-04-08 — "Intelligence Layer"
+
+- Dropped Python 3.9 support (now 3.10-3.14).
+- Enrichment module (`Categorizer`, `EnrichedTransaction`, `DEFAULT_CATEGORY_SCHEMA`).
+- Interactive review mode with `--type review` CLI command.
+- Per-row bounding box extraction (`Transaction.source_bbox`).
+
+## v0.0.5 — 2026-04-08 — "Universal Extraction"
+
+- Hybrid PDF pipeline (`smart_ingest()`) with deterministic/text-LLM/vision-LLM routing.
+- `LLMExtractor` for digital PDFs via LiteLLM.
+- `VisionExtractor` for scanned PDFs via multimodal vision models.
+- Golden Rule balance verification (`opening + credits - debits == closing`).
+- Idempotent deduplication via `transaction_hash` (MD5 fingerprint).
+
 ## v0.0.4 — 15-03-2026 (più recente)
 
 - Aggiunta l'analisi di file paralleli con`parse_files_parallel()`utilizzando ProcessPoolExecutor.
@@ -126,7 +155,7 @@ Segui lo sviluppo del parser estratto conto bancario. Iscriviti tramite [RSS](/c
 - Aggiunta la redazione PII (attiva per impostazione predefinita nella CLI e in modalità streaming).
 - Aggiunti aiutanti di esportazione per CSV, JSON ed Excel.
 - Aggiunto il supporto opzionale Polars DataFrame.
-- Suite di test estesa a 467 test con copertura delle filiali del 100%.
+- Suite di test estesa a 718 test con copertura delle filiali del 100%.
 
 ## v0.0.2 — 10/06/2025
 

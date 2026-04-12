@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Arkitektonisk fotografi av glasbyggnad"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: "bankstatementparser.com"
 copyright: "© 2023-2026 Bank Statement Parser. Alla rättigheter reserverade."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Python-bibliotek med öppen källkod för att analysera CAMT.053, PAIN.001, CSV, OFX, QFX och MT940 kontoutdrag till pandas DataFrames. 27K+ tx/s, streaming, PII-redigering, 100 % lokal."
 download_url: "https://pypi.org/project/bankstatementparser/"
 download_title: "pip installera bankstatementparser"
@@ -109,7 +109,7 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**Bank Statement Parser** är ett Python-bibliotek med öppen källkod som analyserar kontoutdrag från sex format (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) till strukturerade pandas DataFrames. All bearbetning körs lokalt – noll nätverksanrop, deterministisk utdata och automatisk PII-redaktion.
+**Bank Statement Parser** är ett Python-bibliotek med öppen källkod som analyserar kontoutdrag från sju format (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940 och PDF) till strukturerade pandas DataFrames. All bearbetning körs lokalt — deterministisk utdata, automatisk PII-redaktion och en valfri hybrid-PDF-pipeline som dirigerar via lokala LLM:er vid behov.
 
 ## Kom igång på några sekunder
 
@@ -125,62 +125,90 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # pandas DataFrame, ready to use
 ```
 
+```python
+# Parse PDFs with the hybrid pipeline (v0.0.5+)
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+```
+
 <img src="https://img.shields.io/github/stars/sebastienrousseau/bankstatementparser?style=for-the-badge&label=Stars" height="28" alt="GitHub Stars" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/dm/bankstatementparser?style=for-the-badge&label=Downloads" height="28" alt="Monthly Downloads" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/v/bankstatementparser?style=for-the-badge&label=PyPI" height="28" width="119" alt="PyPI Version" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/pyversions/bankstatementparser?style=for-the-badge&label=Python" height="28" width="347" alt="Python" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/l/bankstatementparser?style=for-the-badge&label=License" height="28" width="292" alt="License" loading="lazy" style="margin:0 .25rem .5rem 0" />
-<img src="https://img.shields.io/badge/tests-467%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
+<img src="https://img.shields.io/badge/tests-718%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/badge/coverage-100%25-brightgreen?style=for-the-badge" height="28" width="152" alt="Coverage" loading="lazy" style="margin:0 .25rem .5rem 0" />
 
-## Ett bibliotek, sex format
+## Ett bibliotek, sju format
 
-Analysera CAMT.053, PAIN.001, CSV, OFX, QFX och MT940 till strukturerade pandas DataFrames med ett enda, enhetligt API. Du behöver inte installera separata paket för varje format.
+Analysera CAMT.053, PAIN.001, CSV, OFX, QFX, MT940 och PDF till strukturerade pandas DataFrames med ett enda, enhetligt API. Du behöver inte installera separata paket för varje format.
 
-| Särdrag | Bankutdrag Parser | Enkelformat OSS (mt940, ofxparse) | SaaS (Ocrolus, Parseur) |
+| Funktion | Bank Statement Parser | Enkelformat OSS (mt940, ofxparse) | SaaS (Ocrolus, Parseur) |
 |---|---|---|---|
-| Format som stöds | 6, enhetligt API | 1 st | Många (via OCR) |
-| Datasekretess | 100 % lokala, noll nätverkssamtal | 100% lokalt | Data skickas externt |
-| Kosta | Gratis, Apache 2.0 | Gratis | $49-$1 000+/månad |
-| PII-redigering | Inbyggd, på som standard | Inga | Varierar |
-| Streaming | Begränsat minne | Inga | N/A |
-| ZIP-säkerhet | Inbyggd härdning | Inga | N/A |
-| Deduplicering | Inbyggd med självförtroendepoäng | Inga | Några |
+| Format som stöds | 7, enhetligt API | 1 st | Många (via OCR) |
+| PDF-stöd | Hybrid-pipeline (deterministisk + LLM + vision) | Nej | Ja (moln-OCR) |
+| Datasekretess | 100 % lokalt (LLM:er körs lokalt via Ollama) | 100 % lokalt | Data skickas externt |
+| Kostnad | Gratis, Apache 2.0 | Gratis | $49–$1 000+/mån |
+| Saldoverifiering | Golden Rule (ingående + krediteringar − debiteringar = utgående) | Nej | Varierar |
+| PII-redaktion | Inbyggd, på som standard | Nej | Varierar |
+| Streaming | Begränsat minne | Nej | N/A |
+| REST API | Inbyggd FastAPI-mikrotjänst | Nej | Ja |
+| Deduplicering | Idempotenta transaktionshashar | Nej | Delvis |
+| Ledger-export | hledger + beancount | Nej | Nej |
+
+## Hybrid-PDF-pipeline
+
+Bank Statement Parser v0.0.5+ inkluderar en trevägs hybrid-pipeline för PDF-kontoutdrag:
+
+- **Väg A (Deterministisk)**: Strukturerade PDF-tabeller tolkas direkt — gratis, snabbast, ingen LLM behövs.
+- **Väg B (Text-LLM)**: Digitala PDF:er med komplexa layouter extraheras via lokal LLM (LiteLLM/Ollama).
+- **Väg C (Vision-LLM)**: Skannade eller fotokopierade utdrag bearbetas med multimodala vision-modeller.
+
+Varje extraktion verifieras med **Golden Rule**: `opening balance + credits − debits == closing balance`.
 
 ## Byggd för ISO 20022-migreringen
 
-SWIFT har satt fasta deadlines: alla finansinstitut måste få CAMT.053 senast i november 2027, och MT940/MT942/MT950 kommer att vara helt pensionerad senast november 2028. Bank Statement Parser hanterar både äldre MT940 och moderna ISO 20022-format (CAMT.053,) så din PAIN.0501-pipe fungerar i en enda API-pipe. under övergången och därefter.
+SWIFT har satt fasta deadlines: alla finansinstitut måste ta emot CAMT.053 senast november 2027, och MT940/MT942/MT950 kommer att vara helt avvecklade senast november 2028. Bank Statement Parser hanterar både äldre MT940 och moderna ISO 20022-format (CAMT.053, PAIN.001) i ett enda API, så din pipeline fungerar under övergången och därefter.
 
 ## Prestanda
 
-- **27 000+ transaktioner/sekund** för CAMT.053-analys
-- **52 000+ transaktioner/sekund** för PAIN.001-analys
+- **27 000+ transaktioner/sekund** för CAMT.053-tolkning
+- **52 000+ transaktioner/sekund** för PAIN.001-tolkning
 - **< 2 ms** tid till första resultat
 - **Konstant minne** från 1K till 50K+ transaktioner via streaming
-- **467 tester** med 100 % filialtäckning över Python 3.9 till 3.14
+- **718 tester** med 100 % grenstäckning över Python 3.10 till 3.14
 
 ## Varför Bank Statement Parser?
 
-- **Format automatisk identifiering**:`detect_statement_format()`identifierar filer automatiskt och`create_parser()`returnerar den högra analysatorn.
-- **Sekretess först**: PII-redigering är på som standard. Känsliga fält (namn, IBAN, adresser) är maskerade i CLI-utdata. Välj med`--show-pii`när det behövs.
-- **Förberedd för produktion**: Säker ZIP-intag (bombskydd, avvisande av krypterad inmatning), indatavalidering och förhindrande av vägpassering.
-- **Flexibel utdata**: Exportera till CSV, JSON, Excel eller konvertera till Polars DataFrames.
-- **Parallell bearbetning**: Analysera flera filer samtidigt med`parse_files_parallel()`.
+- **Hybrid-PDF-extraktion**: `smart_ingest()` hanterar digitala och skannade PDF:er med automatisk dirigering och saldoverifiering.
+- **Automatisk formatdetektering**: `detect_statement_format()` identifierar filer automatiskt och `create_parser()` returnerar rätt parser.
+- **Sekretess först**: PII-redaktion är på som standard. LLM:er körs lokalt via Ollama — ingen data lämnar din maskin.
+- **REST API**: Driftsätt som en FastAPI-mikrotjänst med `/ingest`- och `/health`-ändpunkter.
+- **Berikande**: LLM-driven transaktionskategorisering med pluggbara scheman (Plaid 13-kategori som standard).
+- **Ledger-export**: Exportera till hledger- och beancount-journalformat för plaintext-accounting-arbetsflöden.
+- **Massbearbetning**: `scan_and_ingest()` bearbetar mappträd med automatisk korsfilsdeduplicering.
+- **Multivaluta**: `verify_balance_multi_currency()` kör Golden Rule-verifiering per valutgrupp.
+- **Produktionsklar**: Säker ZIP-inmatning, indatavalidering, vägtraverseringsskydd och interaktivt granskningsläge.
+- **Flexibel utdata**: Exportera till CSV, JSON, Excel, Polars, hledger eller beancount.
+- **Parallell bearbetning**: Tolka flera filer samtidigt med `parse_files_parallel()`.
 
 
 ## Byggd för produktion
 
-Bank Statement Parser är designad för treasury-team, fintech-utvecklare och efterlevnadsansvariga som behandlar känslig finansiell data. Biblioteket används i MT940-till-CAMT-migreringspipelines, automatiserade avstämningssystem och regulatoriska revisionsarbetsflöden mellan finansinstitutioner.
+Bank Statement Parser är designad för treasury-team, fintech-utvecklare och efterlevnadsansvariga som behandlar känslig finansiell data. Biblioteket används i MT940-till-CAMT-migreringspipelines, automatiserade avstämningssystem, PDF-utdragsinmatning och regulatoriska granskningsflöden inom finansinstitut.
 
-- **467 tester** med 100 % filialtäckning över Python 3.9 till 3.14
+- **718 tester** med 100 % grenstäckning över Python 3.10 till 3.14
 - **SHA-256 hash-låsta beroenden** med CycloneDX SBOM för varje utgåva
-- **Deterministisk utdata** — identisk ingång ger byte-identiska resultat, varje körning
-- **Apache 2.0 licensierad** — använd fritt i kommersiella och interna system
+- **Deterministisk utdata** — identisk indata ger byte-identiska resultat, varje körning
+- **Apache 2.0-licensierad** — använd fritt i kommersiella och interna system
 
-**Utvärdera alternativ?** [Se hur kontoutdrag Parser jämför ❯](/comparison/index.html) | [Utforska verkliga användningsfall ❯](/use-cases/index.html)
+**Utvärderar du alternativ?** [Se hur Bank Statement Parser jämför ❯](/comparison/index.html) | [Utforska verkliga användningsfall ❯](/use-cases/index.html)
 
 [Kom igång ❯][01] | [Visa på GitHub ❯][02] | [Visa på PyPI ❯][03]
 
 [01]: /getting-started/index.html
-[02]:https://github.com/sebastienrousseau/bankstatementparser
+[02]: https://github.com/sebastienrousseau/bankstatementparser
 [03]: https://pypi.org/project/bankstatementparser/

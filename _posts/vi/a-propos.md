@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Giới thiệu về Trình phân tích sao kê ngân hàng: Tính năng, định dạng và hiệu suất"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Trình phân tích báo cáo ngân hàng. Mọi quyền được bảo lưu."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Trình phân tích bảng sao kê ngân hàng là thư viện Python mã nguồn mở để phân tích cú pháp CAMT.053, PAIN.001, CSV, OFX, QFX và MT940 thành các DataFrames của gấu trúc. 100% cục bộ, biên tập PII, 27K+ tx/s."
 download: ""
 format-detection: "telephone=no"
@@ -107,64 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Trình phân tích bảng sao kê ngân hàng là thư viện Python mã nguồn mở phân tích sáu định dạng bảng sao kê ngân hàng (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) thành các DataFrames gấu trúc. Xử lý cục bộ 100%, xử lý PII theo mặc định, thông lượng 27K+ tx/s.
+**TL;DR:** Bank Statement Parser là thư viện Python mã nguồn mở giúp phân tích bảy định dạng sao kê ngân hàng (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940 và PDF) thành pandas DataFrames. Pipeline PDF hybrid với xác minh số dư, REST API, làm giàu dữ liệu, xuất sổ cái, thông lượng 27K+ tx/s.
 
-Trình phân tích báo cáo ngân hàng là một thư viện Python mã nguồn mở phân tích các báo cáo ngân hàng từ sáu định dạng thành các khung dữ liệu gấu trúc có cấu trúc. Tất cả quá trình xử lý diễn ra cục bộ -- không có cuộc gọi mạng nào, đầu ra xác định và xử lý PII tự động.
+Bank Statement Parser là thư viện Python mã nguồn mở giúp phân tích sao kê ngân hàng từ bảy định dạng thành pandas DataFrames có cấu trúc. Phần lõi xác định xử lý các định dạng có cấu trúc cục bộ mà không cần kết nối mạng. Pipeline PDF hybrid tùy chọn chuyển qua LLM cục bộ (qua Ollama) cho các sao kê kỹ thuật số và sao kê quét.
 
-## Cái này dành cho ai?
+## Dành cho ai?
 
-- **Nhóm Kho bạc** di chuyển từ MT940 sang CAMT.053, những người cần một trình phân tích cú pháp xử lý cả định dạng cũ và mới trong quá trình chuyển đổi.
-- **Các nhà phát triển Fintech** xây dựng quy trình đối chiếu, báo cáo hoặc kế toán, những người muốn có một phần phụ thuộc duy nhất thay vì kết hợp mt940 + ofxparse + logic CSV tùy chỉnh.
-- **Nhóm tuân thủ** cần chỉnh sửa PII theo mặc định và đầu ra xác định, sẵn sàng kiểm tra và không bao giờ gửi dữ liệu đến các dịch vụ bên ngoài.
-- **Bất kỳ ai** từ chối gửi dữ liệu tài chính nhạy cảm đến SaaS của bên thứ ba khi một công cụ nguồn mở cục bộ có thể thực hiện công việc đó.
+- **Nhóm ngân quỹ** đang chuyển đổi từ MT940 sang CAMT.053, cần trình phân tích xử lý cả định dạng cũ và mới trong quá trình chuyển đổi, cộng thêm sao kê PDF từ các ngân hàng không cung cấp xuất dữ liệu có cấu trúc.
+- **Nhà phát triển fintech** xây dựng pipeline đối chiếu, báo cáo hoặc kế toán, muốn một phụ thuộc duy nhất với xác minh số dư, phân loại, và xuất sổ cái tích hợp sẵn.
+- **Nhóm tuân thủ** cần ẩn danh PII mặc định, đầu ra xác định, và xác minh Golden Rule phát hiện sai lệch trước khi dữ liệu vào sổ cái.
+- **Người dùng kế toán plaintext** muốn tự động nhập từ sao kê PDF ngân hàng trực tiếp vào sổ nhật ký hledger hoặc beancount.
+- **Bất kỳ ai** từ chối gửi dữ liệu tài chính nhạy cảm đến SaaS bên thứ ba khi một công cụ mã nguồn mở cục bộ có thể thực hiện công việc đó.
 
-## Định dạng được hỗ trợ
+## Định dạng hỗ trợ
 
-| Định dạng | Tiêu chuẩn | Các loại tệp | Lớp phân tích cú pháp |
+| Định dạng | Tiêu chuẩn | Loại tệp | Parser/Phương thức |
 |---|---|---|---|
-| CAMT.053 | Tuyên bố giữa ngân hàng với khách hàng theo tiêu chuẩn ISO 20022 | `.xml` | `CamtParser` |
-| ĐAU.001 | Bắt đầu chuyển giao tín chỉ ISO 20022 | `.xml` | `Pain001Parser` |
-| CSV | Xuất khẩu ngân hàng tổng hợp | `.csv` | `CsvStatementParser` |
-| OFX | Sàn giao dịch tài chính mở | `.ofx` | `OfxParser` |
-| QFX | Trao đổi tài chính nhanh chóng | `.qfx` | `QfxParser` |
+| CAMT.053 | ISO 20022 Sao kê ngân hàng gửi khách hàng | `.xml` | `CamtParser` |
+| PAIN.001 | ISO 20022 Khởi tạo chuyển khoản | `.xml` | `Pain001Parser` |
+| CSV | Xuất dữ liệu ngân hàng tổng hợp | `.csv` | `CsvStatementParser` |
+| OFX | Open Financial Exchange | `.ofx` | `OfxParser` |
+| QFX | Quicken Financial Exchange | `.qfx` | `QfxParser` |
 | MT940 | Tiêu chuẩn SWIFT | `.mt940`, `.sta` | `Mt940Parser` |
+| PDF | Sao kê kỹ thuật số và sao kê quét | `.pdf` | `smart_ingest()` |
 
-Tất cả các định dạng đều tạo ra các DataFrames gấu trúc được chuẩn hóa với các tên cột nhất quán, khiến việc xử lý định dạng xuôi dòng trở nên bất khả tri.
+Tất cả định dạng đều tạo ra pandas DataFrames chuẩn hóa với tên cột nhất quán, giúp xử lý downstream không phụ thuộc vào định dạng.
 
 ## Khả năng chính
 
-- **Tự động phát hiện định dạng**:`detect_statement_format()`xác định định dạng;`create_parser()`khởi tạo trình phân tích cú pháp phù hợp.
-- **Phân tích cú pháp trực tuyến**: Xử lý các tệp lớn (giao dịch 50 MB+, 50K+) với bộ nhớ giới hạn bằng cách sử dụng`parse_streaming()`.
-- **Xử lý song song**: Phân tích nhiều tệp đồng thời với`parse_files_parallel()`sử dụng ProcessPoolExecutor.
-- **Loại bỏ trùng lặp**: Phát hiện các bản sao chính xác và các kết quả trùng khớp bị nghi ngờ với điểm tin cậy có thể giải thích được.
-- **Phân tích cú pháp trong bộ nhớ**:`from_string()`Và`from_bytes()`dành cho quy trình làm việc SFTP và API không cần I/O đĩa.
-- **Xử lý ZIP an toàn**:`iter_secure_xml_entries()`với giới hạn tỷ lệ nén, giới hạn kích thước mục nhập và từ chối mục nhập được mã hóa.
-- **Xuất**: CSV, JSON, Excel (`.xlsx`) và các Khung dữ liệu Polars tùy chọn.
+- **Pipeline PDF Hybrid**: `smart_ingest()` chuyển PDF qua ba đường dẫn — trích xuất bảng xác định, text-LLM, hoặc vision-LLM — với tự động xác minh số dư Golden Rule.
+- **Tự động nhận dạng định dạng**: `detect_statement_format()` nhận dạng định dạng; `create_parser()` khởi tạo trình phân tích phù hợp.
+- **Xác minh số dư**: Kiểm tra Golden Rule (`opening + credits − debits == closing`) với trạng thái VERIFIED/DISCREPANCY/FAILED.
+- **Xác minh đa tiền tệ**: `verify_balance_multi_currency()` nhóm giao dịch theo tiền tệ để xác minh độc lập.
+- **REST API**: Microservice FastAPI với các endpoint `/ingest` và `/health` cho triển khai production.
+- **Làm giàu dữ liệu**: Phân loại giao dịch bằng LLM với schema tùy chỉnh (mặc định 13 danh mục Plaid).
+- **Xem xét tương tác**: Duyệt qua các sai lệch với hành động accept/edit/skip/delete qua `--type review`.
+- **Xuất sổ cái**: `to_hledger()` và `to_beancount()` cho quy trình kế toán plaintext.
+- **Quét hàng loạt**: `scan_and_ingest()` xử lý cây thư mục với tự động chống trùng lặp liên tệp.
+- **Ánh xạ tài khoản**: Quy tắc ánh xạ tài khoản dựa trên regex từ cấu hình JSON cho xuất sổ cái.
+- **Phân tích streaming**: Xử lý tệp lớn (50 MB+, 50K+ giao dịch) với bộ nhớ giới hạn bằng `parse_streaming()`.
+- **Xử lý song song**: Phân tích nhiều tệp đồng thời với `parse_files_parallel()` sử dụng ProcessPoolExecutor.
+- **Chống trùng lặp**: `transaction_hash` idempotent (dấu vân tay MD5) cho nhập dữ liệu gia tăng an toàn.
+- **Phân tích trong bộ nhớ**: `from_string()` và `from_bytes()` cho quy trình SFTP và API không cần I/O đĩa.
+- **Xử lý ZIP an toàn**: `iter_secure_xml_entries()` với giới hạn tỷ lệ nén, giới hạn kích thước mục nhập, và từ chối mục nhập mã hóa.
+- **Xuất dữ liệu**: CSV, JSON, Excel (`.xlsx`), Polars DataFrames, hledger, và beancount journals.
 
 ## Bảo mật và quyền riêng tư
 
-- **Xử lý PII**: Tên, IBAN và địa chỉ được ẩn theo mặc định trong đầu ra CLI. Chọn tham gia với`--show-pii`.
-- **Bảo vệ XXE**: Sử dụng phân tích cú pháp XML`resolve_entities=False`, `no_network=True`, `load_dtd=False`.
-- **Bảo vệ chống bom ZIP**: Giới hạn tỷ lệ nén (mặc định 100:1), giới hạn kích thước mục nhập (10 MB), từ chối mục nhập được mã hóa.
-- **Ngăn chặn truyền tải đường dẫn**: Danh sách chặn mẫu nguy hiểm và giải quyết liên kết tượng trưng.
-- **Bảo mật chuỗi cung ứng**: Các phần phụ thuộc được khóa băm SHA-256, CycloneDX SBOM, xây dựng chứng thực xuất xứ.
+- **Ẩn danh PII**: Tên, IBAN và địa chỉ được che mặc định trong đầu ra CLI. Bật hiển thị với `--show-pii`.
+- **Bảo vệ XXE**: Phân tích XML sử dụng `resolve_entities=False`, `no_network=True`, `load_dtd=False`.
+- **Bảo vệ ZIP Bomb**: Giới hạn tỷ lệ nén (mặc định 100:1), giới hạn kích thước mục nhập (10 MB), từ chối mục nhập mã hóa.
+- **Ngăn chặn Path Traversal**: Danh sách chặn mẫu nguy hiểm và phân giải symlink.
+- **Bảo mật chuỗi cung ứng**: Phụ thuộc khóa hash SHA-256, CycloneDX SBOM, chứng thực nguồn gốc bản dựng.
+- **Chỉ LLM cục bộ**: Pipeline PDF hybrid sử dụng Ollama cho suy luận cục bộ — không gửi dữ liệu đến cloud API.
 
 ## Hiệu suất
 
-| Số liệu | Giá trị |
+| Chỉ số | Giá trị |
 |---|---|
-| Thông lượng CAMT.053 | 27.000+ giao dịch/giây |
+| Thông lượng CAMT.053 | 27.000+ tx/s |
 | Thông lượng PAIN.001 | 52.000+ tx/s |
-| Độ trễ trên mỗi giao dịch (CAMT) | 37 micro giây |
-| Độ trễ trên mỗi giao dịch (PAIN.001) | 19 micro giây |
-| Thời gian đến kết quả đầu tiên | < 2 mili giây |
-| Chia tỷ lệ bộ nhớ (1K-50K tx) | Hằng số (phát trực tuyến) |
-| Phạm vi kiểm tra | Bao phủ 100% chi nhánh |
-| Kiểm tra | 467 trên 29 tệp thử nghiệm |
+| Độ trễ mỗi giao dịch (CAMT) | 37 micro giây |
+| Độ trễ mỗi giao dịch (PAIN.001) | 19 micro giây |
+| Thời gian đến kết quả đầu tiên | < 2 ms |
+| Mở rộng bộ nhớ (1K-50K tx) | Không đổi (streaming) |
+| Độ phủ kiểm tra | 100% độ phủ nhánh |
+| Bài kiểm tra | 718 trên 29 tệp kiểm tra |
 
 ## Bắt đầu xây dựng
 
-[Bắt đầu cài đặt và ví dụ ❯][01]
+[Bắt đầu với hướng dẫn cài đặt và ví dụ ❯][01]
 
 [01]: /getting-started/index.html "Bắt đầu"
  "Kho lưu trữ GitHub"

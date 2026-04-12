@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "ISO 20022 迁移指南"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 银行对账单解析器。版权所有。"
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "有关 SWIFT ISO 20022 迁移时间表 (2026-2028)、MT940 到 CAMT.053 过渡以及银行对账单解析器如何帮助财务团队迁移的实用指南。"
 download: ""
 format-detection: "telephone=no"
@@ -107,25 +107,25 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR：** SWIFT 将在 2028 年 11 月之前停用 MT940。银行对账单解析器使用单个 API 处理 MT940 和 CAMT.053，因此您的解析管道在过渡期间和之后都可以正常工作。
+**简述：** SWIFT 将在 2028 年 11 月停用 MT940。Bank Statement Parser 使用单一 API 处理 MT940 和 CAMT.053，让您的解析管道在过渡期间和之后均可正常运行。
 
 ## 为什么这次迁移很重要
 
-SWIFT 正在淘汰传统的 MT 报文格式，转而采用更丰富的 ISO 20022 标准。对于财务和财务团队来说，这意味着您的银行对账单处理流程必须在严格的截止日期之前从 MT940 发展到 CAMT.053。
+SWIFT 正在淘汰传统 MT 报文格式，转而采用更丰富的 ISO 20022 标准。对于资金管理和财务团队，这意味着银行对账单处理管道必须在硬性截止日期前从 MT940 迁移到 CAMT.053。
 
 ## SWIFT 迁移时间表
 
 | 日期 | 里程碑 | 影响 |
 |---|---|---|
-| **2025 年 11 月** | 跨境支付 MT 与 MX 共存结束 | PACS 消息现在仅限 ISO 20022 |
-| **2026 年 11 月** | 结构化/混合地址强制； MT101多指令被拒绝；案例管理第一阶段 | 地址格式必须符合；部分MT消息会被拒绝 |
-| **2026 年末** | 开始选择接收 CAMT.052/.053/.054 | 金融机构可以开始接收本地 ISO 声明 |
-| **2027 年 11 月** | 所有金融机构必须本地接收 CAMT.053 | SWIFT 停止将 MT 格式转换为 ISO；您的系统必须直接解析 CAMT |
-| **2028 年 11 月** | MT940/MT942/MT950/MT900/MT910全面退役 | 旧的报表格式不再可用； CAMT.052/.053/.054 是唯一的选择 |
+| **2025 年 11 月** | 跨境支付 MT 与 MX 共存结束 | PACS 消息现仅限 ISO 20022 |
+| **2026 年 11 月** | 结构化/混合地址强制；MT101 多指令被拒绝；案例管理第一阶段 | 地址格式必须合规；部分 MT 消息将被拒绝 |
+| **2026 年末** | 开始选择接收 CAMT.052/.053/.054 | 金融机构可以开始接收原生 ISO 对账单 |
+| **2027 年 11 月** | 所有金融机构必须原生接收 CAMT.053 | SWIFT 停止将 MT 格式转换为 ISO；系统必须直接解析 CAMT |
+| **2028 年 11 月** | MT940/MT942/MT950/MT900/MT910 完全退役 | 传统对账单格式不再可用；CAMT.052/.053/.054 是唯一选项 |
 
-## 您的代码有何变化
+## 代码有何变化
 
-### 之前：仅限 MT940
+### 之前：仅 MT940
 
 ```python
 from bankstatementparser import Mt940Parser
@@ -134,7 +134,7 @@ parser = Mt940Parser("statement.mt940")
 df = parser.parse()
 ```
 
-### 之后：两种格式均具有自动检测功能
+### 之后：自动检测两种格式
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -144,28 +144,31 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # Same DataFrame schema regardless of format
 ```
 
-这`detect_statement_format()`函数识别文件是否为 MT940、CAMT.053、PAIN.001 或任何其他支持的格式。这`create_parser()`函数返回正确的解析器。无论源格式如何，下游代码的工作方式都是相同的。
+`detect_statement_format()` 函数识别文件是 MT940、CAMT.053、PAIN.001 还是其他支持的格式。`create_parser()` 函数返回对应的解析器。无论源格式如何，下游代码的工作方式完全相同。
 
 ## CAMT.053 与 MT940：主要区别
 
-| 特征 | MT940 | CAMT.053 |
+| 特性 | MT940 | CAMT.053 |
 |---|---|---|
-| 数据丰富度 | 领域有限 | 每笔交易的数据量增加 3-5 倍 |
-| 字符集 | 有限（SWIFT 字符集） | 完整的统一码 |
-| 结构 | 带标签的平面文本 | 带有命名空间的 XML |
-| 余额报告 | 仅打开/关闭 | 多种余额类型 |
-| 参考 | 单一参考字段 | 多种参考类型 |
-| 货币处理 | 基本的 | 完整的多币种和汇率 |
+| 数据丰富度 | 字段有限 | 每笔交易数据量增加 3-5 倍 |
+| 字符集 | 有限（SWIFT 字符集） | 完整 Unicode |
+| 结构 | 带标签的纯文本 | 带命名空间的 XML |
+| 余额报告 | 仅期初/期末 | 多种余额类型 |
+| 引用 | 单一引用字段 | 多种引用类型 |
+| 货币处理 | 基础 | 完整多币种及汇率 |
 
-## 银行对账单解析器如何提供帮助
+## Bank Statement Parser 如何帮助迁移
 
-- **统一 API**：使用相同的方法解析 MT940 和 CAMT.053`parse()`方法，生成相同的 DataFrame 模式。
-- **自动检测**：无需提前知道格式。`detect_statement_format()`自动识别它。
-- **与命名空间无关**：无需配置即可处理任何 CAMT.053 变体（001.02、001.04 或银行特定的包装器）。
-- **流式处理**：使用有限内存处理大型 CAMT 文件（50 MB+、50K+ 事务）。
-- **迁移测试**：在同一日期范围内并行运行两个解析器，以在切换之前验证输出一致性。
+- **统一 API**：使用相同的工作流解析 MT940、CAMT.053 和 PDF 对账单，产生一致的 DataFrame 输出。
+- **自动检测**：无需提前知道格式。`detect_statement_format()` 自动识别。
+- **混合 PDF 管道**：过渡期间仅提供 PDF 对账单的银行，由 `smart_ingest()` 处理，自动余额校验。
+- **命名空间无关**：无需配置即可处理任何 CAMT.053 变体（001.02、001.04 或银行特定包装器）。
+- **多币种校验**：`verify_balance_multi_currency()` 按币种分组运行黄金法则——对多币种 CAMT 对账单至关重要。
+- **流式处理**：以有界内存处理大型 CAMT 文件（50 MB+、50K+ 笔交易）。
+- **账本导出**：直接导出为 hledger 或 beancount 日记账格式，适用于资金管理记账。
+- **迁移测试**：在同一日期范围内并行运行两个解析器，在切换前验证输出一致性。
 
-＃＃ 入门
+## 开始使用
 
 ```bash
 pip install bankstatementparser
@@ -174,7 +177,7 @@ pip install bankstatementparser
 ```python
 from bankstatementparser import create_parser, detect_statement_format
 
-# Works with MT940 today, CAMT.053 tomorrow
+# Works with MT940 today, CAMT.053 tomorrow, PDF anytime
 for file in bank_statement_files:
     fmt = detect_statement_format(file)
     parser = create_parser(file, fmt)
@@ -182,6 +185,15 @@ for file in bank_statement_files:
     process(df)  # Your code doesn't change
 ```
 
+对于尚未提供结构化 CAMT 导出的银行的 PDF 对账单：
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+assert result.verification.status == "VERIFIED"
+```
+
 [阅读完整文档](/getting-started/index.html)
 
-[与替代方案比较❯](/comparison/index.html) | [查看真实用例❯](/use-cases/index.html)
+[与替代方案比较 ❯](/comparison/index.html) | [查看实际使用场景 ❯](/use-cases/index.html)

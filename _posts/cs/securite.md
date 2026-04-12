@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Zabezpečení analyzátoru bankovních výpisů"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023–2026 Analyzátor bankovních výpisů. Všechna práva vyhrazena."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Bezpečnostní funkce analyzátoru výpisů z účtu: ochrana XXE, zpevnění bomby ZIP, redakce PII, zabezpečení dodavatelského řetězce, deterministický výstup a podepsané sestavení."
 download: ""
 format-detection: "telephone=no"
@@ -107,72 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Analyzátor výpisů z účtu neprovádí žádná síťová volání, ve výchozím nastavení rediguje PII, zpevňuje analýzu XML proti útokům XXE a dodává se se závislostmi se SHA-256 hash-locked a CycloneDX SBOM.
+**TL;DR:** Bank Statement Parser zpracovává veškerá data lokálně, ve výchozím nastavení rediguje PII, zabezpečuje XML parsování proti XXE útokům, provozuje LLM lokálně přes Ollama a dodává se s SHA-256 hash-locked závislostmi a CycloneDX SBOM.
 
-## Zabezpečení podle návrhu
+## Zabezpečení od návrhu
 
-Bank Statement Parser je vytvořen pro zpracování citlivých finančních dat. Každé rozhodnutí o návrhu upřednostňuje zabezpečení, soukromí a auditovatelnost.
+Bank Statement Parser je vytvořen pro zpracování citlivých finančních dat. Každé rozhodnutí upřednostňuje zabezpečení, soukromí a auditovatelnost.
 
-## Nulový přístup k síti
+## Nulová závislost na cloudu
 
-Veškeré zpracování probíhá lokálně v rámci vašeho běhového prostředí. Knihovna neprovádí žádná volání API, žádná cloudová připojení a shromažďuje nulovou telemetrii. Analyzátory XML jsou explicitně nakonfigurovány pomocí`no_network=True`, `resolve_entities=False`a`load_dtd=False`aby se zabránilo jakémukoli odchozímu přístupu.
+Veškeré zpracování probíhá lokálně ve vašem runtime. Deterministické parsery neprovádějí žádná síťová volání. Hybridní PDF pipeline používá Ollama pro lokální LLM inferenci — žádná data nejsou odesílána do cloudových API. XML parsery jsou explicitně nakonfigurovány s `no_network=True`, `resolve_entities=False` a `load_dtd=False` pro prevenci jakéhokoli odchozího přístupu.
 
 ## Redakce PII
 
-Osobně identifikovatelné informace (jména, IBAN, poštovní adresy) jsou automaticky redigovány ve výstupu CLI a režimu streamování. Toto je ve výchozím nastavení zapnuto.
+Osobně identifikovatelné informace (jména, IBANy, poštovní adresy) jsou automaticky redigovány ve výstupu CLI a režimu streamování. Toto je ve výchozím nastavení zapnuto.
 
-- **CLI**: Citlivá pole se zobrazují jako`***REDACTED***`
-- **Streamování**:`parse_streaming(redact_pii=True)`(výchozí)
+- **CLI**: Citlivá pole se zobrazují jako `***REDACTED***`
+- **Streaming**: `parse_streaming(redact_pii=True)` (výchozí)
 - **Exporty**: CSV/JSON/Excel uchovávají úplná data pro následné zpracování
-- **Přihlášení**: Použijte`--show-pii`nebo`redact_pii=False`když potřebujete nezreagovaný výstup
+- **Zapnutí**: Použijte `--show-pii` nebo `redact_pii=False`, když potřebujete neredigovaný výstup
 
-## Zabezpečení XML (ochrana XXE)
+## Zabezpečení XML (ochrana proti XXE)
 
-Všechna použití analýzy XML`lxml`s kaleným nastavením:
+Veškeré XML parsování používá `lxml` se zabezpečeným nastavením:
 
-- `resolve_entities=False`- zabraňuje útokům na rozšíření entity XML
--`no_network=True`-- blokuje veškerý odchozí síťový přístup z analyzátoru
--`load_dtd=False`-- zabraňuje útokům založeným na DTD
-- Odstranění jmenného prostoru před zpracováním - bezpečně zpracuje jakoukoli variantu CAMT.053
+- `resolve_entities=False` — zabraňuje útokům rozšířením XML entit
+- `no_network=True` — blokuje veškerý odchozí síťový přístup z parseru
+- `load_dtd=False` — zabraňuje útokům založeným na DTD
+- Odstranění jmenných prostorů před zpracováním — bezpečně zpracuje jakoukoli variantu CAMT.053
 
-## Zabezpečení archivu ZIP
+## Zabezpečení ZIP archivů
 
-`iter_secure_xml_entries()`ověřuje každého člena ZIP před extrakcí:
+`iter_secure_xml_entries()` validuje každý člen ZIP před extrakcí:
 
-- **Omezení velikosti položky**: 10 MB na položku (lze konfigurovat)
-- **Celkový limit velikosti**: celkem 50 MB nekomprimováno (lze konfigurovat)
-- **Limit kompresního poměru**: výchozí 100:1 – detekuje bomby ZIP
-- **Odmítnutí šifrovaného záznamu**: Zašifrované záznamy jsou přeskočeny s varováním
-- **Žádné zápisy na disk**: Byty XML přecházejí přímo do analyzátoru přes`from_bytes()`
+- **Limit velikosti záznamu**: 10 MB na záznam (konfigurovatelné)
+- **Celkový limit velikosti**: 50 MB celkem nekomprimovaně (konfigurovatelné)
+- **Limit kompresního poměru**: výchozí 100:1 — detekuje ZIP bomby
+- **Odmítnutí šifrovaných záznamů**: Šifrované záznamy jsou přeskočeny s varováním
+- **Žádné zápisy na disk**: XML bajty přecházejí přímo do parseru přes `from_bytes()`
 
-## Prevence procházení cesty
+## Prevence path traversal
 
-Ověření vstupu blokuje nebezpečné cesty k souborům:
+Validace vstupu blokuje nebezpečné cesty k souborům:
 
 - Nulové bajty, vzory procházení adresářů (`../`) a symbolické odkazy jsou odmítnuty
-- Ověření přípony souboru proti očekávaným formátům
+- Validace přípony souboru proti očekávaným formátům
 - Limity velikosti souboru (100 MB výchozí, konfigurovatelné)
+
+## Ověření zůstatku (Golden Rule)
+
+Každá PDF extrakce je ověřena rovnicí: `opening balance + credits − debits == closing balance`. Výsledky jsou označeny jako VERIFIED, DISCREPANCY nebo FAILED. Nesrovnalosti lze zkontrolovat interaktivně pomocí `--type review`.
 
 ## Deterministický výstup
 
-Vzhledem ke stejnému vstupnímu souboru vytváří analyzátor při každém spuštění výstup identický s byty. Žádná náhodnost, žádná modelová inference, žádné heuristické vzorkování. To je kritické pro:
+Pro strukturované formáty (CAMT, PAIN.001, CSV, OFX, QFX, MT940) při stejném vstupním souboru parser produkuje bajtově identický výstup při každém spuštění. Žádná náhodnost, žádná modelová inference, žádné heuristické vzorkování. To je klíčové pro:
 
-- **Reprodukovatelnost auditu**: Spusťte dvakrát stejný soubor a porovnejte výstup
-- **Shoda s předpisy**: Prokázat konzistentní zpracování
-- **Ověření CI**: 467 testů prosazuje determinismus se 100% pokrytím větví
+- **Reprodukovatelnost auditu**: Spusťte stejný soubor dvakrát a porovnejte výstup
+- **Regulační compliance**: Prokázání konzistentního zpracování
+- **Ověření v CI**: 718 testů vynucuje determinismus se 100% pokrytím větví
 
 ## Zabezpečení dodavatelského řetězce
 
-- **SHA-256 hash-locked dependency**: Každý balíček v`poetry.lock`ověřil hash souboru
-- **CycloneDX SBOM**: Každá verze obsahuje Software Bill of Materials
-- **Původ sestavení GitHubu**: Atestace spojuje každý artefakt s jeho zdrojovým odevzdáním
-- **Podepsané commity**: Všechny commity jsou podepsané SSH a ověřené v CI
-- **Ověření závislosti**:`scripts/verify_locked_hashes.py`ověřuje všechny hash lokálně
+- **SHA-256 hash-locked závislosti**: Každý balíček v `poetry.lock` má ověřené hash souborů
+- **CycloneDX SBOM**: Každé vydání obsahuje Software Bill of Materials
+- **Původ sestavení na GitHubu**: Attestace spojuje každý artefakt s jeho zdrojovým commitem
+- **Podepsané commity**: Všechny commity jsou SSH-podepsané a ověřené v CI
+- **Ověření závislostí**: `scripts/verify_locked_hashes.py` validuje všechny hashe lokálně
 
-## Ověřit lokálně
+## Ověření lokálně
 
 ```bash
-python -m pytest                          # 467 tests, 100% branch coverage
+python -m pytest                          # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py    # SHA-256 hash verification
 git log --show-signature -1               # Verify commit signature
 ```

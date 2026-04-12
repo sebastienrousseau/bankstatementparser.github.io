@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "กรณีการใช้งาน Parser ใบแจ้งยอดธนาคาร"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 ตัวแยกวิเคราะห์ใบแจ้งยอดบัญชีธนาคาร สงวนลิขสิทธิ์."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "วิธีที่ทีมคลัง นักพัฒนาฟินเทค และเจ้าหน้าที่กำกับดูแลใช้ Bank Statement Parser สำหรับการโยกย้าย MT940 ไปยัง CAMT การกระทบยอด ไปป์ไลน์การตรวจสอบ และการรวมบัญชีหลายธนาคาร"
 download: ""
 format-detection: "telephone=no"
@@ -107,13 +107,41 @@ site_software: "Shokunin, Rust"
 
 ---
 
-Bank Statement Parser จัดการเวิร์กโฟลว์ทางการเงินในโลกแห่งความเป็นจริง: การโยกย้าย MT940 ไปยัง CAMT สำหรับทีมคลัง การกระทบยอดอัตโนมัติ ไปป์ไลน์การปฏิบัติตามกฎระเบียบพร้อมการแก้ไข PII การนำเข้า SFTP การรวมบัญชีหลายธนาคาร และการประมวลผลชุด ZIP ที่ปลอดภัย
+Bank Statement Parser รองรับเวิร์กโฟลว์ทางการเงินจริง: การนำเข้าใบแจ้งยอดธนาคาร PDF, การย้ายข้อมูล MT940 สู่ CAMT, การกระทบยอดอัตโนมัติพร้อมการตรวจสอบยอดคงเหลือ, ไปป์ไลน์การปฏิบัติตามกฎระเบียบ, การส่งออกบัญชีแบบ plaintext, การ deploy REST API, การสแกนจำนวนมาก และการรวมบัญชีหลายธนาคาร
 
-## คลัง: การย้าย MT940 ถึง CAMT.053
+## การนำเข้าใบแจ้งยอดธนาคาร PDF
 
-**ผลลัพธ์:** การเรียก API ครั้งเดียวจัดการทั้ง MT940 และ CAMT.053 ในระหว่างหน้าต่างการย้ายข้อมูล SWIFT (พฤศจิกายน 2025 ถึงพฤศจิกายน 2028) ทำให้ไม่จำเป็นต้องแยกไปป์ไลน์การแยกวิเคราะห์
+**ผลลัพธ์:** แยกวิเคราะห์ใบแจ้งยอดธนาคาร PDF ทั้งดิจิทัลและสแกนพร้อมการตรวจสอบยอดคงเหลืออัตโนมัติ — ไม่ต้องใช้ cloud API ไม่มีข้อมูลออกจากเครื่องของคุณ
 
-ทีมคลังทั่วโลกกำลังย้ายจาก MT940 ไปใช้ CAMT.053 ก่อนกำหนดเวลา SWIFT ในเดือนพฤศจิกายน 2570 Bank Statement Parser จัดการทั้งสองรูปแบบด้วย API เดียว ทำให้การเปลี่ยนแปลงราบรื่น
+ไปป์ไลน์ PDF แบบไฮบริดจะส่งแต่ละ PDF ผ่านเส้นทางการดึงข้อมูลที่เหมาะสมที่สุดและตรวจสอบผลลัพธ์ทุกครั้ง
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+
+# Review discrepancies interactively
+# bankstatementparser --type review --input result.json
+```
+
+## การประมวลผลใบแจ้งยอดจำนวนมาก
+
+**ผลลัพธ์:** สแกนโฟลเดอร์ทั้งหมด (PDF, XML, CSV หลายร้อยไฟล์) พร้อมการขจัดข้อมูลซ้ำข้ามไฟล์อัตโนมัติในการเรียกครั้งเดียว
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Files: {len(batch.results)}, Unique txns: {batch.unique_count}")
+```
+
+## คลัง: การย้ายข้อมูล MT940 สู่ CAMT.053
+
+**ผลลัพธ์:** การเรียก API ครั้งเดียวรองรับทั้ง MT940 และ CAMT.053 ในช่วงการย้ายข้อมูล SWIFT (พฤศจิกายน 2025 ถึงพฤศจิกายน 2028) ไม่ต้องใช้ไปป์ไลน์แยกวิเคราะห์แยกกัน
+
+ทีมคลังทั่วโลกกำลังย้ายจาก MT940 ไปยัง CAMT.053 ก่อนเส้นตาย SWIFT ในเดือนพฤศจิกายน 2027 Bank Statement Parser รองรับทั้งสองรูปแบบด้วย API เดียว ทำให้การเปลี่ยนผ่านราบรื่น
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -126,17 +154,23 @@ for file in daily_statement_files:
     load_to_treasury_system(df)
 ```
 
-## การกระทบยอดอัตโนมัติ
+## การกระทบยอดอัตโนมัติพร้อมการตรวจสอบยอดคงเหลือ
 
-**ผลลัพธ์:** DataFrames ที่ไม่เชื่อเรื่องการจัดรูปแบบพร้อมการขจัดข้อมูลซ้ำซ้อนในตัวช่วยลดความพยายามในการจับคู่ด้วยตนเองและตรวจจับรายการที่ซ้ำกันก่อนที่จะถึงบัญชีแยกประเภทของคุณ
+**ผลลัพธ์:** DataFrames ที่ไม่ขึ้นกับรูปแบบพร้อมการตรวจสอบ Golden Rule และการขจัดข้อมูลซ้ำ ช่วยจับข้อผิดพลาดและรายการซ้ำก่อนที่จะถึง ledger ของคุณ
 
-แยกวิเคราะห์ใบแจ้งยอดธนาคารและจับคู่กับบันทึกภายในโดยอัตโนมัติ เอาต์พุต DataFrame แบบรวมทำให้รูปแบบตรรกะการกระทบยอดไม่เชื่อเรื่องพระเจ้า
+แยกวิเคราะห์ใบแจ้งยอดธนาคาร ตรวจสอบยอดคงเหลือ และจับคู่กับบันทึกภายในโดยอัตโนมัติ
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
+from bankstatementparser.hybrid import verify_balance_multi_currency
 
 parser = CamtParser("bank_statement.xml")
 bank_txns = parser.parse()
+
+# Verify balances per currency
+verification = verify_balance_multi_currency(bank_txns)
+for ccy, result in verification.items():
+    assert result.status == "VERIFIED", f"{ccy} balance mismatch!"
 
 # Deduplicate before reconciliation
 dedup = Deduplicator()
@@ -147,11 +181,39 @@ clean_txns = result.unique_transactions
 unmatched = reconcile(clean_txns, internal_ledger)
 ```
 
-## แนวทางการปฏิบัติตามและการตรวจสอบ
+## บัญชีแบบ Plaintext (hledger / beancount)
 
-**ผลลัพธ์:** ผลลัพธ์ที่กำหนดและการแก้ไข PII อัตโนมัติจะสร้างบันทึกที่พร้อมสำหรับการตรวจสอบ ซึ่งเป็นไปตามข้อกำหนดด้านความสามารถในการทำซ้ำตามกฎระเบียบโดยไม่ต้องใช้เครื่องมือเพิ่มเติม
+**ผลลัพธ์:** นำเข้าใบแจ้งยอดธนาคาร PDF โดยอัตโนมัติและส่งออกธุรกรรมที่จัดหมวดหมู่แล้วเป็นรูปแบบ hledger หรือ beancount journal
 
-สร้างไปป์ไลน์ที่พร้อมสำหรับการตรวจสอบด้วยการตรวจทาน PII และเอาต์พุตตามที่กำหนด การทำงานทุกครั้งจะให้ผลลัพธ์ที่เหมือนกันสำหรับอินพุตเดียวกัน ซึ่งเป็นไปตามข้อกำหนดด้านความสามารถในการทำซ้ำตามกฎระเบียบ
+```python
+from bankstatementparser.hybrid import smart_ingest
+from bankstatementparser.enrichment import Categorizer
+from bankstatementparser.export import to_hledger
+
+result = smart_ingest("statement.pdf")
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(result.transactions)
+journal = to_hledger(enriched, account="Assets:Bank:Checking")
+```
+
+## การ Deploy REST API
+
+**ผลลัพธ์:** Deploy Bank Statement Parser เป็น microservice ที่รับไฟล์ใบแจ้งยอดผ่าน HTTP และส่งคืน JSON ที่มีโครงสร้าง
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+```
+
+```bash
+# Ingest a statement
+curl -X POST http://localhost:8000/ingest \
+  -F "file=@statement.pdf"
+```
+
+## ไปป์ไลน์การปฏิบัติตามกฎระเบียบและการตรวจสอบ
+
+**ผลลัพธ์:** เอาต์พุตแบบ deterministic, การปกปิด PII อัตโนมัติ และการตรวจสอบ Golden Rule สร้างบันทึกที่พร้อมสำหรับการตรวจสอบ เป็นไปตามข้อกำหนดด้านความสามารถในการทำซ้ำตามกฎระเบียบ
 
 ```python
 from bankstatementparser import CamtParser
@@ -168,9 +230,7 @@ parser.export_csv("archive/statement.csv")
 
 ## เวิร์กโฟลว์ SFTP สู่ DataFrame
 
-**ผลลัพธ์:** แยกวิเคราะห์โดยตรงจากไบต์ที่มี I/O ดิสก์เป็นศูนย์ ปรับให้เข้ากับเวิร์กโฟลว์การเชื่อมต่อธนาคารที่ขับเคลื่อนด้วย SFTP และ API
-
-ธนาคารหลายแห่งส่งใบแจ้งยอดผ่าน SFTP แยกวิเคราะห์โดยตรงจากไบต์โดยไม่ต้องเขียนลงดิสก์
+**ผลลัพธ์:** แยกวิเคราะห์โดยตรงจากไบต์โดยไม่ต้องใช้ดิสก์ I/O เข้ากับเวิร์กโฟลว์การเชื่อมต่อธนาคารแบบ SFTP และ API ได้อย่างเป็นธรรมชาติ
 
 ```python
 from bankstatementparser import CamtParser
@@ -182,9 +242,7 @@ df = parser.parse()
 
 ## การรวมบัญชีหลายธนาคาร
 
-**ผลลัพธ์:** การแยกวิเคราะห์แบบขนานระหว่าง HSBC (CAMT), Barclays (MT940), Revolut (CSV) และ Wise (OFX) จะสร้างชุดข้อมูลที่ทำให้เป็นมาตรฐานชุดเดียวในการเรียกครั้งเดียว
-
-รวมใบแจ้งยอดจากธนาคารหลายแห่งโดยใช้รูปแบบที่แตกต่างกันให้เป็นชุดข้อมูลมาตรฐานชุดเดียว
+**ผลลัพธ์:** การแยกวิเคราะห์แบบขนานระหว่าง HSBC (CAMT), Barclays (MT940), Revolut (CSV), Wise (OFX) และ Chase (PDF) สร้างชุดข้อมูลที่ปรับมาตรฐานชุดเดียว
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -201,9 +259,7 @@ all_transactions = pd.concat([r.transactions for r in results if r.status == "su
 
 ## การประมวลผลเป็นชุดพร้อมไฟล์ ZIP
 
-**ผลลัพธ์:** การป้องกัน ZIP Bomb ในตัว (จำกัดอัตราส่วน 100:1, ขีดจำกัดการป้อนข้อมูล 10 MB, การปฏิเสธรายการที่เข้ารหัส) ช่วยให้คุณประมวลผลการเก็บถาวรใบแจ้งยอดรายเดือนได้อย่างปลอดภัย
-
-ประมวลผลคำสั่งที่บีบอัดไว้อย่างปลอดภัยด้วยการป้องกัน ZIP Bomb ในตัว
+**ผลลัพธ์:** การป้องกัน ZIP bomb ในตัว (จำกัดอัตราส่วน 100:1, ขีดจำกัดรายการ 10 MB, ปฏิเสธรายการที่เข้ารหัส) ช่วยให้คุณประมวลผลไฟล์เก็บถาวรใบแจ้งยอดรายเดือนได้อย่างปลอดภัย
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
@@ -214,4 +270,4 @@ for entry in iter_secure_xml_entries("monthly_statements.zip"):
     save_to_warehouse(entry.source_name, df)
 ```
 
-[เปรียบเทียบกับทางเลือกอื่น ❯](/comparison/index.html) | [วางแผนการย้ายข้อมูล ISO 20022 ของคุณ ❯](/migration/index.html) | [เริ่มต้น ❯](/getting-started/index.html)
+[เปรียบเทียบกับทางเลือกอื่น ❯](/comparison/index.html) | [วางแผนการย้ายข้อมูล ISO 20022 ❯](/migration/index.html) | [เริ่มต้นใช้งาน ❯](/getting-started/index.html)

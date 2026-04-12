@@ -4,20 +4,20 @@
     <meta charset="utf-8" />
     <meta itemprop="datePublished" content="2026-04-01T00:00:00+00:00" id="date">
     <meta itemprop="dateModified" content="2026-04-01T00:00:00+00:00" id="last-modified">
-    <title>Tambayoyin Mai nazarin bayanin banki: sirri, aiki da amfani</title>
+    <title>Fassarar Bayanin Banki FAQ: Keɓantawa, Aiki, da Amfani</title>
     <meta name="theme-color" content="rgb(73, 214, 251)" />
     <meta name="measurement-id" content="G-FL9DEBFHN1" />
     <meta name="author" content="Sebastien Rousseau">
-<meta name="description" content="Ɗakin karatu na Python mai buɗewa don bincika bayanan banki CAMT.053, PAIN.001, CSV, OFX, QFX da MT940 zuwa pandas DataFrames. 27K+ ma'amaloli/s, streaming, ɓoye PII, na gida 100%.">
-<meta name="keywords" content="tambayoyin mai nazarin bayanin banki, tambayoyin CAMT, tambayoyin PAIN.001, tambayoyin ISO 20022 python, ɓoye PII banki, aiki mai nazarin banki, sirrin bayanan kuɗi, tambayoyin MT940, streaming python, bin doka bayanin banki">
+<meta name="description" content="Amsoshi ga tambayoyin gama gari game da Fassarar Bayanin Banki: Sirrin bayanai, sake fasalin PII, aiki, tallafin ISO 20022, yawo, yarda, da tafiyar aiki na baitulmali.">
+<meta name="keywords" content="Bayanin bayanin banki FAQ, tambayoyin fassar CAMT, PAIN.001 FAQ, FAQ ISO 20022 python FAQ, PII redaction banking, aikin banki na banki, sirrin bayanan kuɗi, MT940 parser FAQ, streaming parser Python, yarda da bayanin banki">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="accessibility" content="ARIA, fullKeyboardControl, noFlashingHazard" />
     <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Tambayoyin Mai nazarin bayanin banki: sirri, aiki da amfani">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: kura.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
+<meta name="apple-mobile-web-app-title" content="Fassarar Bayanin Banki FAQ: Keɓantawa, Aiki, da Amfani">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: cloudcdn.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
     <meta name="msapplication-TileColor" content="rgb(73, 214, 251)">
     
     <link rel="alternate" href="https://bankstatementparser.com/ha/faq/index.html" hreflang="ha" />
@@ -27,7 +27,7 @@
     <link rel="apple-touch-icon" href="/images/icons/192x192.png" sizes="192x192" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
-    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#b0b8c1"}})});</script>
+    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#8f9aa5"}})});</script>
     <style>
       :root{--theme-color:rgb(73, 214, 251)}*{font-weight:400;box-sizing:border-box;margin:0}
       pre{margin:1.5rem 0;max-width:100%;overflow:auto;border-radius:.5rem;padding:1rem 1.25rem;background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);color:var(--c-code);display:block;font-family:'SF Mono',SFMono-Regular,Consolas,monospace;font-size:.8125rem;line-height:1.7;margin:1.5rem 0;max-width:100%;overflow:auto;padding:1rem 1.25rem;border-radius:.5rem}
@@ -138,13 +138,26 @@
       .faq-container .accordion-body th{font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--c-secondary);font-size:.75rem}
       .faq-container .accordion-body pre{margin:1rem 0;border-radius:.5rem}
       .faq-container .accordion-body ul,.faq-container .accordion-body ol{margin:.75rem 0}
+          .search-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:flex-start;justify-content:center;padding:15vh 1rem 1rem}
+.search-overlay.open{display:flex}
+.search-box{background:var(--c-bg);border:1px solid var(--c-border);border-radius:.75rem;width:100%;max-width:560px;box-shadow:0 25px 50px -12px rgba(0,0,0,.25);overflow:hidden}
+.search-input{width:100%;padding:.875rem 1rem;border:none;background:transparent;color:var(--c-text);font-size:1rem;font-family:inherit;outline:none}
+.search-input::placeholder{color:var(--c-secondary)}
+.search-results{max-height:50vh;overflow-y:auto;border-top:1px solid var(--c-border)}
+.search-result{display:block;padding:.75rem 1rem;color:var(--c-text);text-decoration:none;border-bottom:1px solid var(--c-border)}
+.search-result:hover,.search-result.active{background:var(--c-surface);color:var(--c-accent);text-decoration:none}
+.search-result-title{font-weight:600;font-size:.9375rem}
+.search-result-desc{font-size:.8125rem;color:var(--c-secondary);margin-top:.125rem}
+.search-empty{padding:1.5rem 1rem;text-align:center;color:var(--c-secondary);font-size:.875rem}
+.search-footer{padding:.5rem 1rem;border-top:1px solid var(--c-border);font-size:.75rem;color:var(--c-secondary);display:flex;gap:1rem}
+.search-footer kbd{background:var(--c-surface);padding:.125rem .375rem;border-radius:.25rem;font-size:.6875rem;border:1px solid var(--c-border)}
     </style>
   </head>
   <body id="page-top" itemscope itemtype="http://schema.org/WebPage">
-    <a class="skip-link" href="#main">Skip to main content</a>
-    <nav class="site-nav" aria-label="Main navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+    <a class="skip-link" href="#main">Tsallake zuwa babban abun ciki</a>
+    <nav class="site-nav" aria-label="Babban kewayawa" itemscope itemtype="http://schema.org/SiteNavigationElement">
       <div class="nav-inner">
-        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="" /><span itemprop="name">Mai nazarin bayanin banki</span></a>
+        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="Bank Statement Parser logo" /><span itemprop="name">Mai nazarin bayanin banki</span></a>
         <ul class="nav-center">
           <li><a href="/ha/index.html">Gida</a></li>
           <li><a href="/ha/a-propos/index.html">Game da</a></li>
@@ -153,7 +166,8 @@
           <li class="nav-item dropdown"><button class="dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" type="button">Albarkatu</button><ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown"><li><a class="dropdown-item" href="/ha/cas-utilisation/index.html">Use Cases</a></li><li><a class="dropdown-item" href="/ha/migration/index.html">ISO 20022 Migration</a></li><li><a class="dropdown-item" href="/ha/securite/index.html">Security</a></li><li><a class="dropdown-item" href="/ha/alternatives/index.html">Alternatives</a></li><li><a class="dropdown-item" href="/ha/journal-des-modifications/index.html">Changelog</a></li><li><a class="dropdown-item" href="/ha/contribuer/index.html">Contribute</a></li><li><a class="dropdown-item" href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a class="dropdown-item" href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li></ul></li>
         </ul>
         <div class="nav-right">
-          <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">Duhu</span></button>
+          <button id="searchTrigger" class="theme-toggle" aria-label="Search" style="margin-right:.25rem"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> <span class="search-shortcut" aria-hidden="true" style="font-size:.6875rem;opacity:.8"></span></button>
+          <button class="theme-toggle" id="themeToggle" aria-label="Canja zuwa yanayin duhu" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">Duhu</span></button>
           <div style="position:relative;display:inline-block" class="lang-switcher">
             <button type="button" aria-label="HA, Change language" aria-expanded="false" style="color:var(--c-nav-muted);font-size:12px;font-weight:400;padding:.375rem .625rem;border:1px solid var(--c-border);border-radius:6rem;background:transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.25rem;outline:none">
               <span style="font-size:14px">🌐</span> HA
@@ -197,59 +211,61 @@
       </div>
       </nav>
     <header class="site-hero" style="padding:6rem 1.5rem 3rem">
-      <h1 style="font-size:clamp(2rem,4vw,2.75rem)">Tambayoyi da ake yawan yi</h1>
-      <p>Tambayoyi game da Mai nazarin bayanin banki</p>
+      <h1 style="font-size:clamp(2rem,4vw,2.75rem)">FAQ</h1>
+      <p>Tambayoyi gama gari Game da Fassarar Bayanin Banki</p>
     </header>
     <main id="main" class="site-main" tabindex="-1" aria-label="Page content">
       <div class="text-start">
-        <div id="faq-raw" class="faq-raw-content"><h2>Sirrin Bayanai Da Bin Doka</h2>
-<h3>Shin wani bayani yana barin ababen more zaman gidana?</h3>
-<p><strong>A'a.</strong> Mai nazarin bayanin banki yana aiki a matsayin ɗakin karatu marar yanayi. Duk sarrafa -- bincike, ɓoye PII, fitar da kayan ajiya -- yana faruwa a cikin ƙwaƙwalwar gudanarwa na gida. Babu kiran API, babu ayyukan girgije, babu sa ido. Ana ƙarfafa masu binciken XML tare da <code>no_network=True</code>, wanda ke toshe duk damar shiga waje a matakin mai bincike. Bayanan kuɗinku ba sa taɓa barin muhallinku.</p>
-<h3>Yaya ɓoye PII ke aiki?</h3>
-<p>Ana rufe filayen sirri kafin su isa ga dabaru na aikace-aikacenku. Mai binciken yana gano sunaye masu bashi, sunaye masu karɓa, IBANs, da adireshin gidan waya, yana maye gurbinsu da <code>***REDACTED***</code> a cikin fitowar tasha da yanayin streaming.</p>
+        <div id="faq-raw" class="faq-raw-content"><h2>Sirrin Bayanai da Bin Doka</h2>
+<h3>Akwai wani bayanan da ke barin kayan aikina?</h3>
+<p><strong>A'a — har ma da cirowa daga PDF.</strong> Bank Statement Parser yana aiki azaman ɗakin karatu maras jiha. Duk aiki -- tantancewa, share PII, cire kayan tarihi -- yana faruwa a cikin ƙwaƙwalwar ajiyar lokacin aiki na gida. Hybrid PDF pipeline yana amfani da Ollama don sarrafa LLM na gida — babu cloud APIs. XML parsers an taurare da <code>no_network=True</code>, suna toshe duk hanyar fita waje a matakin parser. Bayanan kuɗin ku ba su taɓa barin yanayin ku ba.</p>
+<h3>Ta yaya share PII yake aiki?</h3>
+<p>Ana rufe filaye masu mahimmanci kafin su kai ga dabarar aikace-aikacen ku. Mai binciken yana gano sunayen masu bashi, sunayen masu bashi, IBANs, da adiresoshin gidan waya, yana maye gurbinsu da <code>***REDACTED***</code> a cikin fitarwar console da yanayin streaming.</p>
 <ul>
-<li><strong>Ana ɓoye ta asali</strong> a cikin fitowar CLI da yanayin streaming.</li>
-<li><strong>Fitarwa na fayil</strong> (CSV, JSON, Excel) suna riƙe da bayanan da ba a ɓoye ba don sarrafa ƙasa.</li>
-<li><strong>Zaɓi</strong> don ganin bayanan cikakku tare da <code>--show-pii</code> a CLI ko <code>redact_pii=False</code> a API.</li>
+<li><strong>Ana kunna share ta tsohuwa</strong> a cikin fitowar CLI da yanayin streaming.</li>
+<li><strong>Fitar da fayil</strong> (CSV, JSON, Excel) yana riƙe bayanan da ba a share ba don sarrafa bayan haka.</li>
+<li><strong>Kunna</strong> cikakkun bayanai tare da <code>--show-pii</code> a CLI ko <code>redact_pii=False</code> a cikin API.</li>
 </ul>
-<h3>Shin tsarin fitar bayanai mai daidaituwa ne?</h3>
-<p><strong>E -- fitowar da ta daidaita byte-byte a kowane gudanarwa.</strong> Idan aka ba da fayilin shigarwa ɗaya, mai binciken yana samar da sakamako ɗaya kowane lokaci. Babu rashin tsari, babu ƙirar hasashe, babu samfurin heuristic. CI yana tilasta daidaituwa tare da gwaje-gwaje 467 a rufin reshe 100%, gami da gwajin da aka yi ta amfani da Hypothesis.</p>
-<h3>Wanne ma'aunin bin doka ne aikin ya bi?</h3>
-<p>Aikin yana kula da takaddun da suka dace da ISO 13485 tare da cikakken bincike:</p>
+<h3>Shin tsarin cirewa yana da tabbatarwa?</h3>
+<p><strong>Ee don tsarin da aka tsara -- fitarwa iri ɗaya na byte akan kowane gudu.</strong> Idan aka ba da fayil ɗin shigarwa iri ɗaya, masu fassara na deterministic (CAMT, PAIN.001, CSV, OFX, QFX, MT940) suna samar da sakamako iri ɗaya kowane lokaci. Babu bazuwar, babu ƙididdiga ta ƙira, babu sampling na heuristic.</p>
+<p>Don hybrid PDF pipeline, hanyoyin cirowa ta LLM na iya samar da ɗan bambance-bambance tsakanin gudu. Shi ya sa ake tabbatar da kowanne cirowa ta PDF da <strong>Golden Rule</strong> (<code>opening + credits − debits == closing</code>) kuma ana iya bitar bambance-bambancen da aka tuta ta hanyar hulɗa.</p>
+<p>CI tana tilasta tabbatarwa tare da gwaje-gwaje 718 a 100% branch coverage, gami da fuzzing ta hanyar Hypothesis.</p>
+<h3>Wadanne ka'idoji ne aikin ke bi?</h3>
+<p>Aikin yana kula da takaddun daidaitattun ISO 13485 tare da cikakken bin diddigin:</p>
 <ul>
-<li><strong>Rajistan Haɗari</strong> mai ƙididdiga tare da ƙimar tsanani/yiwuwa da tantancewa kan ragowar haɗari.</li>
-<li><strong>Shirin Tabbatarwa da Ingantawa</strong> tare da matakai 19 masu ƙofa a cikin mataki 5.</li>
-<li><strong>Hanyar Sarrafa Canje-canje</strong> tare da tantancewa kan tasiri da hanyoyin dawo da baya.</li>
-<li><strong>Rajistan SOUP</strong> wanda ya ƙunshi duk dogaro tare da matakan haɗari da binciken ƙarshen lokaci.</li>
-<li><strong>Matirixin Bincike</strong> wanda ke danganta shigarwar tsari zuwa aiwatarwa da tabbatarwa.</li>
+<li>Ƙididdigar <strong>Rijistar Haɗari</strong> tare da tsananin/yuwuwar ƙima da kimanta ragowar haɗari.</li>
+<li><strong>Shirin Tabbatarwa da Tantancewa</strong> tare da matakan gated 19 a cikin matakai 5.</li>
+<li><strong>Tsarin Sarrafa Canji</strong> tare da kimanta tasiri da ka'idojin juyawa.</li>
+<li><strong>Rijistar SOUP</strong> tana rufe duk abubuwan dogaro tare da matakan haɗari da bin diddigin EOL.</li>
+<li><strong>Traceability Matrix</strong> tana taswirar shigarwar ƙira zuwa aiwatarwa da tabbatarwa.</li>
 </ul>
-<p>Kowane fitar da sabo yana ƙunshe da CycloneDX SBOM, checksum na SHA-256, da tabbacin asalin ginin GitHub.</p>
-<h2>Aiki Da Ƙarfin Girma</h2>
-<h3>Yaya Mai nazarin bayanin banki yake da sauri?</h3>
-<p>Ana tabbatar da ƙimar aiki a CI a kowane aikatawa:</p>
+<p>Kowane sakin ya haɗa da CycloneDX SBOM, SHA-256 checksums, da GitHub build provenance attestation.</p>
+<h2>Aiki da Ƙarfafawa</h2>
+<h3>Yaya saurin Bank Statement Parser?</h3>
+<p>An tabbatar da matakan aiki a cikin CI akan kowane commit:</p>
 <div class="table-responsive"><table class="table">
 <thead>
 <tr>
 <th>Ma'auni</th>
-<th>Ƙima</th>
+<th>Daraja</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="text-left">Yawan CAMT.053</td>
-<td class="text-left">Ma'amaloli 27,000+/daƙiƙa</td>
+<td class="text-left">CAMT.053 throughput</td>
+<td class="text-left">27,000+ ma'amaloli/daƙiƙa</td>
 </tr>
 <tr>
-<td class="text-left">Yawan PAIN.001</td>
-<td class="text-left">Ma'amaloli 52,000+/daƙiƙa</td>
+<td class="text-left">PAIN.001 throughput</td>
+<td class="text-left">52,000+ ma'amaloli/daƙiƙa</td>
 </tr>
 <tr>
 <td class="text-left">Jinkirin kowane ma'amala (CAMT)</td>
-<td class="text-left">Microseconds 37</td>
+<td class="text-left">37 microseconds</td>
 </tr>
 <tr>
 <td class="text-left">Jinkirin kowane ma'amala (PAIN.001)</td>
-<td class="text-left">Microseconds 19</td>
+<td class="text-left">19 microseconds</td>
 </tr>
 <tr>
 <td class="text-left">Lokaci zuwa sakamako na farko</td>
@@ -257,20 +273,21 @@
 </tr>
 </tbody>
 </table></div>
+<p>Saurin cirowa daga PDF ya dogara da hanyar turawa: deterministic (ƙasa da daƙiƙa ɗaya), text-LLM (daƙiƙu), vision-LLM (daƙiƙu ga kowace shafi).</p>
 <h3>Yaya ake sarrafa manyan fayiloli?</h3>
-<p><strong>Streaming tare da ƙwaƙwalwar ajiya mai iyaka -- an gwada a ma'amaloli 50,000 a kowane fayil.</strong> Yi amfani da <code>parse_streaming()</code> don sarrafa fayilolin XML a hankali. Ana samar da kowane ma'amala a matsayin ƙamus; ana share abubuwa bayan sarrafa su don hana girman ƙwaƙwalwa. Ƙwaƙwalwar ajiya ba ta girma tare da girman fayil ba -- gwajin ma'amaloli 50K (25+ MB) yana amfani da ƙasa da ninki 2 na ƙwaƙwalwar gwajin ma'amaloli 10K.</p>
-<p>Don fayiloli da suka wuce 50 MB (misali, baturan PAIN.001 na host-to-host tare da biyan kuɗi 100K+), mai binciken yana streaming ta hanyar fayil na ɗan lokaci tare da cire sunayen sarari a zangon -- ba a taɓa loda duk takaddun a cikin ƙwaƙwalwa ba.</p>
-<h3>Yaya ake sarrafa kayan ajiya na ZIP cikin tsaro?</h3>
-<p><code>iter_secure_xml_entries()</code> yana tabbatar da kowane memba kafin fitar da shi:</p>
+<p><strong>Streaming tare da ƙayyadaddun ƙwaƙwalwar ajiya -- an gwada shi a ma'amaloli 50,000 a kowane fayil.</strong> Yi amfani da <code>parse_streaming()</code> don sarrafa fayilolin XML a hankali. Ana ba da kowace ma'amala azaman ƙamus; ana share abubuwa bayan aiki don hana haɓaka ƙwaƙwalwar ajiya. Ƙwaƙwalwar ajiya ba ta girma da girman fayil ba -- gwajin ma'amala na 50K (25+ MB) yana amfani da ƙasa da 2x ƙwaƙwalwar gwajin ma'amala ta 10K.</p>
+<p>Don fayilolin da suka wuce 50 MB (misali, batches PAIN.001 na host-to-host tare da biyan kuɗi 100K+), parser yana gudana ta hanyar fayil na wucin gadi tare da cire namespace ta chunks -- ba a taɓa loda cikakken takaddun cikin ƙwaƙwalwar ajiya ba.</p>
+<h3>Ta yaya ake sarrafa ajiyayyen ZIP cikin aminci?</h3>
+<p><code>iter_secure_xml_entries()</code> yana tabbatar da kowane memba kafin cirewa:</p>
 <ul>
-<li><strong>Iyakar girman shigarwa</strong> (ta asali 10 MB a kowane shigarwa)</li>
-<li><strong>Jimlar iyakar girman da ba a matse ba</strong> (ta asali 50 MB)</li>
-<li><strong>Iyakar haɗin matsa</strong> (ta asali 100:1) don hana bam na ZIP</li>
-<li><strong>Ƙin shigarwar da aka ɓoye</strong></li>
+<li><strong>Iyakar girman shigarwa</strong> (tsoho 10 MB kowace shigarwa)</li>
+<li><strong>Jimlar girman mara matsi</strong> (tsoho 50 MB)</li>
+<li><strong>Iyakar rabo na matsi</strong> (tsoho 100:1) don hana bama-bamai na ZIP</li>
+<li><strong>Ƙin shigar da rufaffen</strong></li>
 </ul>
-<p>Ba a rubuta wani fayil zuwa faifai ba. Bytes na XML suna wucewa kai tsaye zuwa mai binciken ta <code>from_bytes()</code>.</p>
-<h3>Shin zan iya bincika fayiloli da yawa a layi ɗaya?</h3>
-<p><strong>E.</strong> Yi amfani da <code>parse_files_parallel()</code> wanda ke rarraba aiki a cikin <code>ProcessPoolExecutor</code>:</p>
+<p>Babu fayil da aka rubuta zuwa faifai. XML bytes suna wucewa kai tsaye zuwa parser ta <code>from_bytes()</code>.</p>
+<h3>Zan iya fassara fayiloli da yawa a lokaci guda?</h3>
+<p><strong>Ee.</strong> Yi amfani da <code>parse_files_parallel()</code> wanda ke rarraba aiki a fadin <code>ProcessPoolExecutor</code>:</p>
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">parse_files_parallel
 </span><span style="color:#c0c5ce;">
@@ -283,33 +300,34 @@
 </span><span style="color:#c0c5ce;">    </span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(r.path, r.status, </span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(r.transactions), &quot;</span><span style="color:#a3be8c;">rows</span><span style="color:#c0c5ce;">&quot;)
 </span></pre>
 </code></pre>
-<h2>Tsarin Da Ake Tallafawa</h2>
-<h3>Wanne tsarin bayanan banki ake tallafawa?</h3>
+<p>Don shigar da PDF na tari, yi amfani da <code>scan_and_ingest()</code> wanda ke sarrafa dukkan itacen fayiloli tare da cire kwafi ta atomatik.</p>
+<h2>Tsarin da Ake Tallafawa</h2>
+<h3>Wadanne tsarin bayanan banki ne ake tallafawa?</h3>
 <table>
 <thead>
 <tr>
-<th>Tsari</th>
+<th>Tsarin</th>
 <th>Ma'auni</th>
 <th>Nau'in Fayil</th>
-<th>Ajin Mai Bincike</th>
+<th>Parser/Hanya</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="text-left">CAMT.053</td>
-<td class="text-left">ISO 20022 Bayanin Banki-zuwa-Abokin ciniki</td>
+<td class="text-left">ISO 20022 Bank-to-Customer Statement</td>
 <td class="text-left"><code>.xml</code></td>
 <td class="text-left"><code>CamtParser</code></td>
 </tr>
 <tr>
 <td class="text-left">PAIN.001</td>
-<td class="text-left">ISO 20022 Fara Canja Kuɗi</td>
+<td class="text-left">ISO 20022 Credit Transfer Initiation</td>
 <td class="text-left"><code>.xml</code></td>
 <td class="text-left"><code>Pain001Parser</code></td>
 </tr>
 <tr>
 <td class="text-left">CSV</td>
-<td class="text-left">Fitarwa gabaɗayan banki</td>
+<td class="text-left">Fitar da banki na gaba ɗaya</td>
 <td class="text-left"><code>.csv</code></td>
 <td class="text-left"><code>CsvStatementParser</code></td>
 </tr>
@@ -327,23 +345,37 @@
 </tr>
 <tr>
 <td class="text-left">MT940</td>
-<td class="text-left">Ma'aunin SWIFT</td>
+<td class="text-left">SWIFT standard</td>
 <td class="text-left"><code>.mt940</code>, <code>.sta</code></td>
 <td class="text-left"><code>Mt940Parser</code></td>
 </tr>
+<tr>
+<td class="text-left">PDF</td>
+<td class="text-left">Bayanan dijital da na bugu</td>
+<td class="text-left"><code>.pdf</code></td>
+<td class="text-left"><code>smart_ingest()</code></td>
+</tr>
 </tbody>
 </table>
-<h3>Shin mai binciken yana sarrafa yarukan CAMT.053 na musamman na banki?</h3>
-<p><strong>E -- ba a damuwa da sunayen sarari ta tsari.</strong> Mai binciken yana cire sunayen sarari na XML kafin sarrafa su, yana sarrafa kowane nau'in CAMT.053 (<code>camt.053.001.02</code>, <code>camt.053.001.04</code>, ko ɓoyayyen banki na musamman) ba tare da saitunan sunayen sarari na musamman ba. Binciken XPath yana nufin tsarin abubuwa, ba URI na sunayen sarari ba.</p>
-<p>Don bankuna da ke ɓoye CAMT a cikin ambulaf na musamman, yi amfani da <code>from_string()</code> ko <code>from_bytes()</code> don ciyar da takadda ta cikin kai tsaye.</p>
-<h3>Shin zan iya danganta kanun ginshiƙai na CSV na musamman zuwa tsarin ma'auni?</h3>
-<p><strong>E -- daidaita ta atomatik, babu saituna.</strong> <code>CsvStatementParser</code> yana gane bambancin kan ginshiƙai na yau da kullum: <code>&quot;Date&quot;</code>, <code>&quot;Transaction Date&quot;</code>, <code>&quot;Booking Date&quot;</code> duk suna danganta zuwa filin <code>date</code>. <code>&quot;Amount&quot;</code>, <code>&quot;Value&quot;</code>, <code>&quot;Sum&quot;</code> suna danganta zuwa <code>amount</code>. Ginshiƙan bashi/karɓa na daban (misali, <code>&quot;Credit&quot;</code> da <code>&quot;Debit&quot;</code>) ana gano su kuma ana haɗa su zuwa adadi guda mai alama ta atomatik.</p>
-<h3>Menene tsarin fitowar?</h3>
-<p>Duk masu bincike suna samar da pandas DataFrames masu daidaituwa tare da nau'in ginshiƙai masu daidaituwa:</p>
+<h3>Ta yaya hybrid PDF pipeline yake aiki?</h3>
+<p>Hybrid pipeline (v0.0.5+) yana tura PDFs ta hanyoyi uku na cirowa cikin hikima:</p>
+<ul>
+<li><strong>Hanya A (Deterministic)</strong>: Teburorin PDF masu tsari ana fassara su kai tsaye — kyauta, mafi sauri, babu buƙatar LLM.</li>
+<li><strong>Hanya B (Text-LLM)</strong>: PDF na dijital masu tsari masu rikitarwa ana ciro su ta LLM na gida (LiteLLM/Ollama).</li>
+<li><strong>Hanya C (Vision-LLM)</strong>: Bayanan da aka bincika ko aka kwafa ana sarrafa su da ƙirar vision.</li>
+</ul>
+<p>Ana tabbatar da kowane cirowa da Golden Rule (<code>opening + credits − debits == closing</code>). Ana iya bitar bambance-bambance ta hanyar hulɗa da <code>--type review</code>.</p>
+<h3>Shin parser yana sarrafa takamaiman yarukan banki na CAMT.053?</h3>
+<p><strong>Ee -- namespace-agnostic ta ƙira.</strong> Parser yana cire namespaces na XML kafin aiki, yana sarrafa kowane bambance-bambancen CAMT.053 (<code>camt.053.001.02</code>, <code>camt.053.001.04</code>, ko naɗaɗɗen banki na mallaka) ba tare da ƙayyadaddun namespace ba. Tambayoyin XPath suna nufin tsarin kashi, ba namespace URIs ba.</p>
+<p>Don bankunan da ke naɗe CAMT a cikin ambulaf na al'ada, yi amfani da <code>from_string()</code> ko <code>from_bytes()</code> don ciyar da takaddun ciki kai tsaye.</p>
+<h3>Zan iya taswirar kanun shafi na CSV na al'ada zuwa daidaitaccen tsari?</h3>
+<p><strong>Ee -- daidaitawa ta atomatik, saitin sifili.</strong> <code>CsvStatementParser</code> ya gane bambance-bambancen taken gama gari: <code>&quot;Date&quot;</code>, <code>&quot;Transaction Date&quot;</code>, <code>&quot;Booking Date&quot;</code> duk suna taswirar zuwa filin <code>date</code>. <code>&quot;Amount&quot;</code>, <code>&quot;Value&quot;</code>, <code>&quot;Sum&quot;</code> suna taswirar zuwa <code>amount</code>. Rabaɓɓun ginshiƙan credit/debit (misali, <code>&quot;Credit&quot;</code> da <code>&quot;Debit&quot;</code>) ana gano su kuma ana haɗa su cikin adadin sa hannu ɗaya ta atomatik.</p>
+<h3>Menene tsarin fitarwa?</h3>
+<p>Duk masu fassara suna samar da daidaitattun pandas DataFrames tare da daidaitattun nau'ikan ginshiƙi:</p>
 <table>
 <thead>
 <tr>
-<th>Tsari</th>
+<th>Tsarin</th>
 <th>Manyan Ginshiƙai</th>
 </tr>
 </thead>
@@ -358,24 +390,60 @@
 </tr>
 <tr>
 <td class="text-left"><strong>CSV/OFX/QFX/MT940</strong></td>
-<td class="text-left"><code>date</code>, <code>description</code>, <code>amount</code> (an daidaita)</td>
+<td class="text-left"><code>date</code>, <code>description</code>, <code>amount</code> (daidaitacce)</td>
 </tr>
 </tbody>
 </table>
-<p>Hakanan za ku iya fitar zuwa CSV, JSON, Excel, ko canza zuwa Polars DataFrames.</p>
-<h2>Hanyoyin Baitulmali</h2>
-<h3>Yaya mai binciken ke sarrafa bayanan kuɗaɗe da yawa?</h3>
-<p><strong>Kowane ma'amala yana riƙe da kuɗin asalin sa -- babu canje-canje na ɓoye.</strong> Ana fitar da filin <code>Currency</code> daga siffar XML <code>Ccy</code> a kowane ma'amala. Bayanan kuɗaɗe da yawa suna kasancewa kamar yadda suke. Hanyar <code>get_account_balances()</code> tana dawo da ma'aunin buɗewa da rufewa a kowane asusu tare da lambobin kuɗi na asali. Ana barin sulhun kuɗaɗe da yawa ga dabaru na ƙasa, inda kuke sarrafa tushen ƙimar musaya.</p>
-<h3>Shin mai binciken yana tallafawa tsarin fita da shiga duka biyu?</h3>
-<p><strong>E.</strong> <code>Pain001Parser</code> yana sarrafa fayilolin PAIN.001 na ISO 20022 na fara canja kuɗi (biyan kuɗi masu fita). <code>CamtParser</code> yana sarrafa fayilolin CAMT.053 na bayanin banki-zuwa-abokin ciniki (rahoton shiga). Duka biyu suna tallafawa streaming, ɓoye PII, da fitar zuwa CSV, JSON, da Excel. Yi amfani da <code>detect_statement_format()</code> don gano tsari ta atomatik.</p>
-<h3>Me ke faruwa lokacin da shigarwar ma'amala ba ta daidaitu ba?</h3>
-<p>Halin ya dogara ga yanayin bincike:</p>
+<p>Hakanan za ku iya fitarwa zuwa CSV, JSON, Excel, Polars DataFrames, hledger, ko tsarin beancount journal.</p>
+<h2>PDF da Fasalullukan LLM</h2>
+<h3>Wadanne ƙirar LLM ne hybrid pipeline ke tallafawa?</h3>
+<p>Pipeline yana amfani da LiteLLM azaman shimfiɗar ƙira, tare da gadar Ollama kai tsaye don buƙatun vision. Ƙirar da ake ba da shawara:</p>
 <ul>
-<li><strong><code>parse()</code> (yanayin jeri)</strong> -- Ana tsallake shigarwa da ba su da filayen da ake buƙata (<code>Amount</code>, <code>Currency</code>, ko <code>CdtDbtInd</code>) tare da gargaɗin rijistar. Sauran bayanin yana bincike yadda ya kamata.</li>
-<li><strong><code>parse_streaming()</code> (yanayin streaming)</strong> -- Kurakuran bincike suna yaɗuwa nan da nan a matsayin abubuwan banda. Babu asarar bayanai a asirce. Wannan halin da ke kawo gazawa cikin sauri an yi shi da gangan don hanyoyin kuɗi inda dole ne a lissafa kowane ma'amala.</li>
+<li><strong>Ciro rubutu</strong>: Kowace ƙirar da ta dace da LiteLLM (na gida ko na nesa).</li>
+<li><strong>Ciro hoto</strong>: <code>ollama/minicpm-v</code> (da ake ba da shawara) don fayilolin PDF da aka bincika.</li>
+<li><strong>Rarraba</strong>: Kowace ƙirar da ta dace da LiteLLM.</li>
 </ul>
-<h3>Yaya cire kwafi ke aiki?</h3>
-<p>Ajin <code>Deduplicator</code> yana gano kwafi daidai da abin da ake zargi tare da ƙimar amincewa masu bayani:</p>
+<p>Duk ƙirar za su iya gudana 100% a gida ta Ollama — babu buƙatar API keys.</p>
+<h3>Menene tabbatar da Golden Rule?</h3>
+<p>Ana tabbatar da kowane cirowa daga PDF tare da lissafin: <code>opening balance + credits − debits == closing balance</code>. Ana yiwa sakamakon alama kamar:</p>
+<ul>
+<li><strong>VERIFIED</strong>: Balance sun dace daidai.</li>
+<li><strong>DISCREPANCY</strong>: Balance ba su dace ba — ana ba da shawarar bita.</li>
+<li><strong>FAILED</strong>: Ba a iya yin tabbatarwa ba (bayanin balance ba su cika ba).</li>
+</ul>
+<h3>Zan iya rarraba ma'amaloli ta atomatik?</h3>
+<p><strong>Ee.</strong> Sashen enrichment (v0.0.6+) yana ba da rarraba ma'amaloli ta LLM:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser.enrichment </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">Categorizer
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">categorizer = </span><span style="color:#8fa1b3;">Categorizer</span><span style="color:#c0c5ce;">()
+</span><span style="color:#c0c5ce;">enriched = categorizer.</span><span style="color:#8fa1b3;">categorize_batch</span><span style="color:#c0c5ce;">(transactions)
+</span></pre>
+</code></pre>
+<p>Tsarin tsohuwa yana amfani da rukunoni 13 masu dacewa da Plaid. Za ku iya samar da naku tsarin rukunoni.</p>
+<h3>Zan iya fitarwa zuwa hledger ko beancount?</h3>
+<p><strong>Ee</strong> (v0.0.8+). Fitar da ma'amaloli zuwa tsarin plaintext-accounting journal tare da taswirar asusun:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser.export </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">to_hledger, to_beancount
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">journal = </span><span style="color:#8fa1b3;">to_hledger</span><span style="color:#c0c5ce;">(transactions, </span><span style="color:#bf616a;">account</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">Assets:Bank:Checking</span><span style="color:#c0c5ce;">&quot;)
+</span></pre>
+</code></pre>
+<h2>Ayyukan Baitulmali</h2>
+<h3>Ta yaya parser ke sarrafa bayanan kuɗi da yawa?</h3>
+<p><strong>Kowace ma'amala tana adana ainihin kuɗinta -- babu jujjuyawar da ake sa.</strong> Ana ciro filin <code>Currency</code> daga sifar XML <code>Ccy</code> ta kowane ciniki. Bayanan kuɗi da yawa sun kasance kamar yadda suke. Hanyar <code>get_account_balances()</code> tana dawo da balance na buɗewa da rufewa ga kowane asusu tare da lambobin kuɗi na asali.</p>
+<p>Tun v0.0.8, <code>verify_balance_multi_currency()</code> yana rarraba ma'amaloli ta kuɗi kuma yana gudanar da Golden Rule daban-daban ga kowane rukuni — mai amfani ga asusun da ke riƙe kuɗi da yawa.</p>
+<h3>Shin parser yana tallafawa tsarin masu fita da masu shigowa?</h3>
+<p><strong>Ee.</strong> <code>Pain001Parser</code> yana sarrafa ISO 20022 PAIN.001 fayilolin farawa canja wurin kuɗi (biyan kuɗi masu fita). <code>CamtParser</code> yana sarrafa CAMT.053 fayilolin bayanin banki-zuwa-abokin ciniki (rahoton mai shigowa). Dukansu suna tallafawa streaming, share PII, da fitarwa zuwa CSV, JSON, Excel, hledger, da beancount. Yi amfani da <code>detect_statement_format()</code> don gano tsarin ta atomatik.</p>
+<h3>Menene zai faru idan shigar da ma'amala ta lalace?</h3>
+<p>Halin ya dogara da yanayin fassara:</p>
+<ul>
+<li><strong><code>parse()</code> (yanayin tsari)</strong> -- Shigarwar da ba su da kyau da suka rasa filayen da ake buƙata (<code>Amount</code>, <code>Currency</code>, ko <code>CdtDbtInd</code>) an tsallake su da gargaɗi. Sauran bayanin yana fassara bisa al'ada.</li>
+<li><strong><code>parse_streaming()</code> (yanayin streaming)</strong> -- Kurakurai suna yaɗa kai tsaye azaman keɓantacce. Babu asarar bayanan shiru. Wannan hali na fail-fast da niyya ne don ayyukan kuɗi inda kowace ma'amala dole ne a lissafta ta.</li>
+<li><strong><code>smart_ingest()</code> (hybrid PDF)</strong> -- Ana riƙe kurakuran cirowa a cikin <code>IngestResult</code> tare da matsayin tabbatarwa, yana ba da damar bita ta hanyar hulɗa.</li>
+</ul>
+<h3>Ta yaya cire kwafi yake aiki?</h3>
+<p>Ana ba kowace ma'amala idempotent <code>transaction_hash</code> (MD5 fingerprint) bisa manyan filayen ta. Wannan yana ba da damar amintaccen shigar da bayani a hankali — sake sarrafa fayil ɗaya yana samar da hashes iri ɗaya, don haka ana gano kwafi ta atomatik.</p>
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">CamtParser, Deduplicator
 </span><span style="color:#c0c5ce;">
@@ -383,70 +451,84 @@
 </span><span style="color:#c0c5ce;">dedup = </span><span style="color:#8fa1b3;">Deduplicator</span><span style="color:#c0c5ce;">()
 </span><span style="color:#c0c5ce;">result = dedup.</span><span style="color:#8fa1b3;">deduplicate</span><span style="color:#c0c5ce;">(dedup.</span><span style="color:#8fa1b3;">from_dataframe</span><span style="color:#c0c5ce;">(parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()))
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Na musamman: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(result.unique_transactions)}&quot;)
-</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Kwafi daidai: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(result.exact_duplicates)}&quot;)
-</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Abin da ake zargi: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(result.suspected_matches)}&quot;)
+</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Unique: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(result.unique_transactions)}&quot;)
+</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Exact duplicates: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(result.exact_duplicates)}&quot;)
+</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Suspected matches: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(result.suspected_matches)}&quot;)
 </span></pre>
 </code></pre>
-<h2>Shigarwa Da Dacewa</h2>
-<h3>Yaya zan shigar da Mai nazarin bayanin banki?</h3>
+<h2>Shigarwa da Daidaitawa</h2>
+<h3>Ta yaya zan girka Bank Statement Parser?</h3>
 <pre><code class="language-bash"><pre style="background-color:#2b303b;">
-<span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser
+<span style="color:#65737e;"># Core install (deterministic parsers only)
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#65737e;"># PDF hybrid pipeline
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[hybrid]</span><span style="color:#c0c5ce;">&#39;         </span><span style="color:#65737e;"># Text-LLM path
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[hybrid-vision]</span><span style="color:#c0c5ce;">&#39;   </span><span style="color:#65737e;"># Vision-LLM path
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#65737e;"># Extras
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[enrichment]</span><span style="color:#c0c5ce;">&#39;      </span><span style="color:#65737e;"># Transaction categorisation
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[api]</span><span style="color:#c0c5ce;">&#39;             </span><span style="color:#65737e;"># REST API microservice
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[polars]</span><span style="color:#c0c5ce;">&#39;          </span><span style="color:#65737e;"># Polars DataFrame support
 </span></pre>
 </code></pre>
-<p>Don tallafin Polars DataFrame na zaɓi:</p>
-<pre><code class="language-bash"><pre style="background-color:#2b303b;">
-<span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser</span><span style="color:#b48ead;">[</span><span style="color:#c0c5ce;">polars</span><span style="color:#b48ead;">]
-</span></pre>
-</code></pre>
-<h3>Wanne sigar Python ake tallafawa?</h3>
-<p>Python 3.9 zuwa 3.14. Ana gwada duk sigogi a CI tare da gwaje-gwaje 467 a rufin reshe 100%.</p>
-<h3>Menene dogaron?</h3>
-<p>Ɗakin karatu yana da dogaro kai tsaye guda 5:</p>
+<h3>Wadanne nau'ikan Python ne ake tallafawa?</h3>
+<p>Python 3.10 zuwa 3.14. An daina tallafin Python 3.9 a v0.0.6 (EOL 2025-10-31). Ana gwada duk nau'ikan a cikin CI tare da gwaje-gwaje 718 a 100% branch coverage.</p>
+<h3>Menene abubuwan dogaro?</h3>
+<p>Laburaren yana da abubuwan dogaro kai tsaye guda 5:</p>
 <ul>
-<li><code>lxml</code> -- Binciken XML tare da ƙarfafa tsaro</li>
+<li><code>lxml</code> -- Fassarar XML tare da hardening tsaro</li>
 <li><code>pandas</code> -- DataFrames da sarrafa bayanai</li>
-<li><code>openpyxl</code> -- Fitar da Excel</li>
-<li><code>pydantic</code> -- Tabbatarwa da samfuran bayanai</li>
-<li><code>defusedxml</code> -- Kariya daga XXE</li>
+<li><code>openpyxl</code> -- Fitarwar Excel</li>
+<li><code>pydantic</code> -- Tabbatar da bayanai da ƙira</li>
+<li><code>defusedxml</code> -- Kariyar XXE</li>
 </ul>
-<p>Duk dogaro suna da sigogin da aka kulle da SHA-256 hash. CycloneDX SBOM yana taswirar kowane ɓangaren gudanarwa.</p>
-<h3>Shin yana aiki a macOS, Linux, da Windows?</h3>
-<p><strong>E.</strong> Ɗakin karatu yana aiki a macOS, Linux, da Windows (ta WSL). Ba shi da dogaro na musamman ga dandamali.</p>
-<h2>Sake Samarwa Da Tsaro</h2>
-<h3>Yaya zan iya tabbatar da sake samarwa?</h3>
+<p>Ƙarin zaɓuɓɓuka suna ƙara: <code>litellm</code>, <code>pypdf</code>, <code>pdfplumber</code>, <code>pypdfium2</code>, <code>fastapi</code>, <code>uvicorn</code>, <code>polars</code>.</p>
+<p>Duk abubuwan dogaro suna da nau'ikan SHA-256 hash-locked. CycloneDX SBOM yana taswirar kowane ɓangaren lokacin gudu.</p>
+<h3>Yana aiki akan macOS, Linux, da Windows?</h3>
+<p><strong>Ee.</strong> Laburaren yana aiki akan macOS, Linux, da Windows (ta hanyar WSL). Ba shi da abubuwan dogaro na musamman ga dandamali.</p>
+<h3>Akwai REST API?</h3>
+<p><strong>Ee</strong> (v0.0.8+). Girka tare da <code>pip install 'bankstatementparser[api]'</code> kuma gudanar da:</p>
 <pre><code class="language-bash"><pre style="background-color:#2b303b;">
-<span style="color:#8fa1b3;">python</span><span style="color:#d9848a;"> -m</span><span style="color:#c0c5ce;"> pytest                              </span><span style="color:#8f9aa5;"># gwaje-gwaje 467, rufin reshe 100%
-</span><span style="color:#8fa1b3;">python</span><span style="color:#c0c5ce;"> scripts/verify_locked_hashes.py        </span><span style="color:#8f9aa5;"># tabbatar da SHA-256 hash
-</span><span style="color:#8fa1b3;">git</span><span style="color:#c0c5ce;"> log</span><span style="color:#d9848a;"> --show-signature -1                   </span><span style="color:#8f9aa5;"># tabbatar da sa hannun aikatawa
+<span style="color:#8fa1b3;">bankstatementparser-api</span><span style="color:#bf616a;"> --port</span><span style="color:#c0c5ce;"> 8000
 </span></pre>
 </code></pre>
-<h3>Wanne kariya na tsaro aka gina ciki?</h3>
+<p>Endpoints: <code>POST /ingest</code> (fassara bayanin) da <code>GET /health</code> (duba lafiya).</p>
+<h2>Sake Haifuwa da Tsaro</h2>
+<h3>Ta yaya zan iya tabbatar da sake haifuwa?</h3>
+<pre><code class="language-bash"><pre style="background-color:#2b303b;">
+<span style="color:#8fa1b3;">python</span><span style="color:#bf616a;"> -m</span><span style="color:#c0c5ce;"> pytest                              </span><span style="color:#65737e;"># 718 tests, 100% branch coverage
+</span><span style="color:#8fa1b3;">python</span><span style="color:#c0c5ce;"> scripts/verify_locked_hashes.py        </span><span style="color:#65737e;"># SHA-256 hash verification
+</span><span style="color:#8fa1b3;">git</span><span style="color:#c0c5ce;"> log</span><span style="color:#bf616a;"> --show-signature -1                   </span><span style="color:#65737e;"># Verify commit signature
+</span></pre>
+</code></pre>
+<h3>Wadanne kariyar tsaro aka gina a ciki?</h3>
 <ul>
-<li><strong>Kariya Daga XXE</strong>: <code>resolve_entities=False</code>, <code>no_network=True</code>, <code>load_dtd=False</code></li>
-<li><strong>Kariya Daga Bam Na ZIP</strong>: Iyakokin haɗin matsa, ƙayyadaddun girman shigarwa, ƙin shigarwar da aka ɓoye</li>
-<li><strong>Hana Bin Hanyar Fayil</strong>: Jerin tsare-tsare masu haɗari da warware hanyoyin haɗin kai</li>
-<li><strong>Tabbatar Da Shigarwa</strong>: Iyakokin girman fayil (100 MB ta asali), tabbatar da tsari/ƙari</li>
-<li><strong>Sarkar Samarwa</strong>: Dogaro da aka kulle da SHA-256 hash, CycloneDX SBOM, tabbacin asalin gini</li>
-<li><strong>Sa Hannun Aikatawa</strong>: Ana tilasta a CI</li>
+<li><strong>Kariyar XXE</strong>: <code>resolve_entities=False</code>, <code>no_network=True</code>, <code>load_dtd=False</code></li>
+<li><strong>Kariyar Bam na ZIP</strong>: Iyakokin rabo na matsi, iyakokin girman shigarwa, ƙin shigar da rufaffen</li>
+<li><strong>Rigakafin Ƙetare Tafarki</strong>: Toshe ƙirar haɗari da warware symlink</li>
+<li><strong>Tabbatar da Shigarwa</strong>: Iyakar girman fayil (tsoho 100 MB), tabbatar da haɓakawa/tsari</li>
+<li><strong>Sarkar Kaya</strong>: SHA-256 hash-locked dependencies, CycloneDX SBOM, build provenance attestation</li>
+<li><strong>Sa hannu kan Commits</strong>: An tilasta shi a cikin CI</li>
+<li><strong>LLMs Na Gida</strong>: Hybrid PDF pipeline yana amfani da Ollama — babu kiran cloud API</li>
 </ul>
-<h3>Yaya Mai nazarin bayanin banki yake kwatanta da pyiso20022?</h3>
-<p>pyiso20022 kayan aikin ISO 20022 ne mai fadi wanda ke samar da Python dataclasses daga tsarin XML na ISO. Yana ɗaukar nau'ikan saƙonnin ISO 20022 da yawa (PACS, PAIN, CAMT, ADMI) tare da tabbatar da tsari. Mai nazarin bayanin banki an gina shi musamman don bincika bayanan banki tare da tallafin streaming, ɓoye PII, cire kwafi, da API mai haɗin kai a cikin tsari shida ciki har da tsarin da ba na ISO ba (CSV, OFX, QFX, MT940). Idan kuna buƙatar bincika bayanan banki zuwa DataFrames tare da tsaro na samarwa, yi amfani da Mai nazarin bayanin banki. Idan kuna buƙatar yin aiki da cikakken kundin saƙonnin ISO 20022, yi amfani da pyiso20022.</p>
-<h3>Menene ƙarshen lokacin ƙaura ISO 20022 na SWIFT?</h3>
-<p>SWIFT ta wallafa jadawalin ƙaura a mataki-mataki:</p>
+<h3>Ta yaya Bank Statement Parser ya kwatanta da pyiso20022?</h3>
+<p>pyiso20022 babban kayan aiki ne na ISO 20022 wanda ke samar da Python dataclasses daga tsarin ISO XML. Ya ƙunshi nau'ikan saƙon ISO 20022 da yawa (PACS, PAIN, CAMT, ADMI) tare da tabbatar da tsari. Bank Statement Parser an gina shi musamman don fassarar bayanan banki tare da tallafin hybrid PDF, tabbatar da balance, ƙarin bayani, fitar da ledger, da API ɗin haɗin kai a cikin tsari bakwai ciki har da tsarin da ba na ISO ba (CSV, OFX, QFX, MT940, PDF). Idan kuna buƙatar fassara bayanan banki zuwa DataFrames tare da matakan tsaro na samarwa, yi amfani da Bank Statement Parser. Idan kuna buƙatar aiki tare da cikakken kundin saƙon ISO 20022, yi amfani da pyiso20022.</p>
+<h3>Menene ƙarshen ƙaurar SWIFT ISO 20022?</h3>
+<p>SWIFT ta wallafa jadawalin ƙaura mai mataki:</p>
 <ul>
-<li><strong>Nuwamba 2026</strong>: Adireshi mai tsari da na haɗin gwiwa suna da tilas. Za a ƙi saƙonnin MT101 masu umarni da yawa. Mataki na 1 na Sarrafa Shari'a ya fara.</li>
-<li><strong>Nuwamba 2027</strong>: Duk cibiyoyin kuɗi dole ne su iya karɓar bayanan CAMT.053 na asali. SWIFT za ta daina canza tsari daga MT zuwa ISO.</li>
-<li><strong>Nuwamba 2028</strong>: Cikakken dakatar da MT940, MT942, MT950, MT900, da MT910. Za a maye gurbinsu da CAMT.052, CAMT.053, da CAMT.054.</li>
+<li><strong>Nuwamba 2026</strong>: Tsare-tsare da adiresoshin gauraye sun zama tilas. Za a ƙi saƙonnin MT101 masu umarni da yawa. Matakin Gudanar da Ƙararraki na 1 ya fara.</li>
+<li><strong>Nuwamba 2027</strong>: Duk cibiyoyin kuɗi dole ne su sami damar karɓar bayanan CAMT.053 na asali. SWIFT zai daina canza MT zuwa tsarin ISO.</li>
+<li><strong>Nuwamba 2028</strong>: Cikakken ritaya na MT940, MT942, MT950, MT900, da MT910. Za a maye gurbin waɗannan da CAMT.052, CAMT.053, da CAMT.054.</li>
 </ul>
-<p>Mai nazarin bayanin banki yana tallafawa duka tsoffin tsari na MT940 da sabbin tsarin CAMT.053/PAIN.001, wanda ke sa shi ya dace don lokacin sauyi.</p>
+<p>Bank Statement Parser yana tallafawa tsarin MT940 na gado da kuma tsarin CAMT.053/PAIN.001 na zamani, yana mai da shi mafi dacewa don lokacin sauyi.</p>
 </div>
         <div id="faq-accordion" class="faq-container"></div>
       </div>
     </main>
     <footer class="site-footer" aria-label="footer">
       <div class="footer-inner">
-        <span>© 2023-2026 Mai nazarin bayanin banki. Duk haƙƙoƙi an tanada.</span>
+        <span>© 2023-2026 Fassarar Bayanin Banki. An kiyaye duk haƙƙoƙi.</span>
         <ul class="footer-links">
           <li><a href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li>
           <li><a href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li>
@@ -456,7 +538,7 @@
         </ul>
       </div>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"Ɗakin karatu na Python mai buɗewa don bincika bayanan banki CAMT.053, PAIN.001, CSV, OFX, QFX da MT940 zuwa pandas DataFrames. 27K+ ma'amaloli/s, streaming, ɓoye PII, na gida 100%.","headline":"Tambayoyi game da Mai nazarin bayanin banki","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"ha-NG","mainEntityOfPage":"https://bankstatementparser.com/ha/faq/index.html","name":"Tambayoyi da ake yawan yi","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"Amsoshi ga tambayoyin gama gari game da Fassarar Bayanin Banki: Sirrin bayanai, sake fasalin PII, aiki, tallafin ISO 20022, yawo, yarda, da tafiyar aiki na baitulmali.","headline":"Tambayoyi gama gari Game da Fassarar Bayanin Banki","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"ha-NG","mainEntityOfPage":"https://bankstatementparser.com/ha/faq/index.html","name":"FAQ","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
     <script>
     // FAQ accordion builder
     (function(){
@@ -553,8 +635,8 @@
         document.documentElement.setAttribute("data-theme",theme);localStorage.setItem("theme",theme);
         document.querySelectorAll(".theme-icon-dark,.theme-icon-dark-m").forEach(function(e){e.style.display=theme==="dark"?"none":""});
         document.querySelectorAll(".theme-icon-light,.theme-icon-light-m").forEach(function(e){e.style.display=theme==="dark"?"":"none"});
-        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"Light":"Dark"});
-        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"Switch to light mode":"Switch to dark mode")});
+        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"Haske":"Duhu"});
+        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"Canja zuwa yanayin haske":"Canja zuwa yanayin duhu")});
       }
       var saved=localStorage.getItem("theme");
       if(saved){setTheme(saved)}else if(window.matchMedia("(prefers-color-scheme:dark)").matches){setTheme("dark")}
@@ -564,5 +646,57 @@
     })();
     </script>
     <script defer src="/main.js"></script>
-  </body>
+      <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Bincike...">
+      <div class="search-box">
+        <input class="search-input" id="searchInput" type="search" placeholder="Bincike..." autocomplete="off" aria-label="Bincike..." />
+        <div class="search-results" id="searchResults"></div>
+        <div class="search-footer"><span><kbd>&uarr;</kbd><kbd>&darr;</kbd> Navigate</span><span><kbd>&crarr;</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var pages=[{t:"Home",d:"Parse 7 bank statement formats including PDF, 100% local",u:"/ha/index.html",k:"accounting aika aiki ajiya akan akin amaloli amalolidaƙiƙa amfani amintaccen apache atomatik azaman babu baitulmali bakwai balance bambanta bank banki barin bayan bayanai bayanan bayani beancount bincike binciken bita buewa bugu bututun buƙata buƙata"},{t:"About",d:"Features, formats, hybrid PDF pipeline, performance overview",u:"/ha/a-propos/index.html",k:"accepteditskipdelete accounting adireshi agnostic aika aiki aikin ajiya akin alhali amala amaloli amfani amintaccen angare apis asusun atomatik auni ayyukan baitulmali bakwai balance bambance bangaren bank banki bankuna bayan bayanai bayanan bayani b"},{t:"Getting Started",d:"Installation, extras, PDF pipeline, REST API, CLI reference",u:"/ha/premiers-pas/index.html",k:"accounting aika aiki ajiya amala amaloli amfani amfanin aminci amintaccen asusun atomatik ayyukan azaman balance balances banda banki bayanan bayani bayanin beancount binciken bisa bukatun bytes camt camtpain cikin cire cirowa class classes csvjsonex"},{t:"FAQ",d:"Privacy, hybrid PDF, Golden Rule, performance, compliance",u:"/ha/faq/index.html",k:"abokin abubuwa abubuwan accounting adadin adana adiresoshin admi agnostic aikace aikacen aiki aikin aikina ainihin aiwatarwa ajiya ajiyar ajiyayyen akan akin akwai alama amala amaloli amalolidaƙiƙa ambulaf amfani aminci amintaccen angaren apis asali "},{t:"Use Cases",d:"Treasury, PDF ingestion, reconciliation, ledger export, REST API",u:"/ha/cas-utilisation/index.html",k:"accounting adin agnostic aika ainihi ajiyayyen amaloli aminci apis aruruwan atomatik ayyukan azaman babu baitulmali balance balances bank banki bankuna barclays barin bayanai bayanan beancount bincika binciken biyu bugu bututun buƙatar buƙatun bytes "},{t:"Migration",d:"ISO 20022 timeline, MT940 to CAMT.053, PDF fallback",u:"/ha/migration/index.html",k:"adireshi adireshin agnostic aiki aikin ajiya akan akari amala amaloli asali atomatik aunin babu baitulmali balance bambance bambancen bank banki bankin bankuna bayan bayanai bayanan beancount biyan biyu buewarufewa bututun buƙatar camt canja canza ch"},{t:"Security",d:"XXE protection, PII redaction, local LLMs, Golden Rule",u:"/ha/securite/index.html",k:"abubuwan adiresoshin aika aiki aikin ajiyar akan alama amfani aminci apis asali atomatik babu baiti balance bama bamai bambance bambancen bank bayan bayanai bayanan bayanin bazuwar bitar biyu build buƙatar byte bytes camt cibiyar cikakkun cikin cire "},{t:"Comparison",d:"vs mt-940, ofxparse, pyiso20022, SaaS, hybrid LLM pipeline",u:"/ha/alternatives/index.html",k:"admi afrilu aika aiki aikin ajiya akan akin akunan amaloli amfani amintaccen amma apache apis apple aruruwa aruruwan atomatik auna auni azaman babu bakwai balance bambance bambanta bank banki bankuna barin bayanai bayanan bayani bayanin bayar bayarwa"},{t:"Changelog",d:"Release history: v0.0.8, v0.0.7, v0.0.6, v0.0.5, v0.0.4",u:"/ha/journal-des-modifications/index.html",k:"abokin abubuwan account across aiki aikin ainihin aiwatar ajiya akan akin amfani amincewa amintaccen applicationcategory asali atomatik aukar balance bands banki batch baya bayan bayanan bayani bayanin beancount bincike biyan bounding bridge bulk byp"},{t:"Contribute",d:"Report issues, submit code, documentation, sponsorship",u:"/ha/contribuer/index.html",k:"abubuwan adana aiki aikin akari akin akwai alamu alkawuran amfani aukar awar banki batun bayanan bayyana bayyananniyar bayyanar buƙatar buƙatun canje canjenku cikin code daftarin daga dakin dole dubawa fasaha fasali fatan gaba gabatar guda gudummawa "},{t:"Contact",d:"GitHub issues for open-source, form for business inquiries",u:"/ha/contact/index.html",k:"akin amfani amfanin amsawa binciken buaen buƙatun daga daidai damar fasaha fasali fatan gabaaya game gare gwiwa hain karatu kasuwanci kuma kuna kwaro kyawun madogararsa mafi rahotannin tabbatar taimakon tambaya tambayar tambayoyi tambayoyin tashar tu"},{t:"Privacy",d:"Privacy policy, analytics, GDPR, cookies",u:"/ha/confidentialite/index.html",k:"abun acontactbankstatementparsercomko adana adireshin afrilu aikawa aiki akan akin amfani amsa analytics angare arziƙin aukar aunawa ayan ayyukan babu banki bankstatementparsercom bayanai bayanan bayanin bayarwa baƙi bincike binciken bisa biyan buewa"},{t:"Terms",d:"Terms of use, Apache 2.0 license, disclaimers",u:"/ha/conditions/index.html",k:"abin abun acontactbankstatementparsercom afrilu aika akan akin alhaki alhakin allah amfani amincin amma angare apache aure ayyukan babu bane banki bankstatementparsercom bayanai bayanan bayani bayanin bayar bayyana budaddiyar budurwa buga canje cikak"}];
+      var overlay=document.getElementById("searchOverlay");
+      var input=document.getElementById("searchInput");
+      var results=document.getElementById("searchResults");
+      var trigger=document.getElementById("searchTrigger");
+      var activeIdx=-1;
+      var isMac=/Mac|iPhone|iPad|iPod/.test(navigator.platform||navigator.userAgent||"");
+      var shortcutSpans=document.querySelectorAll(".search-shortcut");
+      for(var s=0;s<shortcutSpans.length;s++){shortcutSpans[s].textContent=isMac?"⌘K":"Ctrl+K"}
+      function openSearch(){overlay.classList.add("open");input.value="";input.focus();activeIdx=-1;renderResults("")}
+      function closeSearch(){overlay.classList.remove("open");input.value="";results.innerHTML="";activeIdx=-1}
+      function fuzzy(q,text){q=q.toLowerCase();text=text.toLowerCase();if(text.indexOf(q)!==-1)return true;var qi=0;for(var ti=0;ti<text.length&&qi<q.length;ti++){if(text[ti]===q[qi])qi++}return qi===q.length}
+      function renderResults(q){
+        var filtered=[];
+        if(q.length>0){for(var i=0;i<pages.length;i++){var p=pages[i];if(fuzzy(q,p.t)||fuzzy(q,p.d)||(p.k&&fuzzy(q,p.k)))filtered.push(p)}}
+        if(q.length===0){results.innerHTML="";activeIdx=-1;return}
+        if(filtered.length===0){results.innerHTML='<div class="search-empty">No results for "'+q.replace(/</g,"&lt;")+'"</div>';activeIdx=-1;return}
+        var html="";
+        for(var j=0;j<filtered.length;j++){
+          html+='<a class="search-result'+(j===0?" active":"")+'" href="'+filtered[j].u+'" data-idx="'+j+'"><div class="search-result-title">'+filtered[j].t+'</div><div class="search-result-desc">'+filtered[j].d+'</div></a>';
+        }
+        results.innerHTML=html;
+        activeIdx=0;
+      }
+      function updateActive(){
+        var items=results.querySelectorAll(".search-result");
+        for(var i=0;i<items.length;i++){items[i].classList.toggle("active",i===activeIdx)}
+        if(items[activeIdx]){items[activeIdx].scrollIntoView({block:"nearest"})}
+      }
+      if(trigger){trigger.addEventListener("click",function(e){e.preventDefault();openSearch()})}
+      document.addEventListener("keydown",function(e){
+        if((isMac?e.metaKey:e.ctrlKey)&&e.key==="k"){e.preventDefault();if(overlay.classList.contains("open")){closeSearch()}else{openSearch()};return}
+        if(!overlay.classList.contains("open"))return;
+        if(e.key==="Escape"){e.preventDefault();closeSearch();return}
+        var items=results.querySelectorAll(".search-result");
+        if(e.key==="ArrowDown"){e.preventDefault();if(items.length){activeIdx=(activeIdx+1)%items.length;updateActive()};return}
+        if(e.key==="ArrowUp"){e.preventDefault();if(items.length){activeIdx=(activeIdx-1+items.length)%items.length;updateActive()};return}
+        if(e.key==="Enter"){e.preventDefault();if(items[activeIdx]){window.location.href=items[activeIdx].getAttribute("href")};return}
+      });
+      input.addEventListener("input",function(){activeIdx=-1;renderResults(input.value.trim())});
+      overlay.addEventListener("click",function(e){if(e.target===overlay)closeSearch()});
+    })();
+    </script>
+</body>
 </html>

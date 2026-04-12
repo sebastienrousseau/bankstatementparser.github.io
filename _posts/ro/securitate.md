@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Securitate analizator extras de cont"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Analizator extras de cont. Toate drepturile rezervate."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Caracteristici de securitate ale analizorului extras de cont: protecție XXE, întărire cu bombă ZIP, redarea PII, securitatea lanțului de aprovizionare, ieșire deterministă și versiuni semnate."
 download: ""
 format-detection: "telephone=no"
@@ -107,72 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Bank Statement Parser nu efectuează apeluri de rețea, elimină PII în mod implicit, întărește analiza XML împotriva atacurilor XXE și este livrat cu dependențe SHA-256 blocate cu hash și un SBOM CycloneDX.
+**TL;DR:** Bank Statement Parser procesează toate datele local, redactează PII implicit, securizează parsarea XML împotriva atacurilor XXE, rulează LLM-uri local prin Ollama și este livrat cu dependențe SHA-256 blocate cu hash și un SBOM CycloneDX.
 
-## Securitate prin proiectare
+## Securitate prin design
 
-Analiza extrasului bancar este creat pentru procesarea datelor financiare sensibile. Fiecare decizie de proiectare acordă prioritate securității, confidențialității și auditabilității.
+Bank Statement Parser este construit pentru procesarea datelor financiare sensibile. Fiecare decizie de proiectare prioritizează securitatea, confidențialitatea și auditabilitatea.
 
-## Acces zero la rețea
+## Zero dependență de cloud
 
-Toată procesarea are loc local în timpul de execuție. Biblioteca efectuează zero apeluri API, zero conexiuni la cloud și colectează zero telemetrie. Analizoarele XML sunt configurate explicit cu`no_network=True`, `resolve_entities=False`, și`load_dtd=False`pentru a preveni orice acces la ieșire.
+Toată procesarea are loc local în runtime. Parserele deterministe nu efectuează niciun apel de rețea. Pipeline-ul hibrid PDF folosește Ollama pentru inferență LLM locală — nicio dată nu este trimisă către API-uri cloud. Parserele XML sunt configurate explicit cu `no_network=True`, `resolve_entities=False` și `load_dtd=False` pentru a preveni orice acces de ieșire.
 
-## Redactare IPI
+## Redactare PII
 
-Informațiile de identificare personală (nume, IBAN-uri, adrese poștale) sunt redactate automat în modul de ieșire și streaming CLI. Aceasta este activată în mod implicit.
+Informațiile de identificare personală (nume, IBAN-uri, adrese poștale) sunt redactate automat în ieșirea CLI și modul streaming. Funcția este activată implicit.
 
-- **CLI**: Câmpurile sensibile arată ca`***REDACTED***`
-- **Streaming**:`parse_streaming(redact_pii=True)`(implicit)
-- **Exporturi**: CSV/JSON/Excel păstrează datele complete pentru procesarea în aval
-- **Opt-in**: Utilizați`--show-pii`sau`redact_pii=False`când aveți nevoie de rezultate neredatate
+- **CLI**: Câmpurile sensibile apar ca `***REDACTED***`
+- **Streaming**: `parse_streaming(redact_pii=True)` (implicit)
+- **Exporturi**: CSV/JSON/Excel păstrează datele complete pentru procesarea ulterioară
+- **Activare**: Folosiți `--show-pii` sau `redact_pii=False` când aveți nevoie de ieșire neredactată
 
 ## Securitate XML (protecție XXE)
 
-Toate utilizările de analiză XML`lxml`cu setări întărite:
+Toată parsarea XML folosește `lxml` cu setări securizate:
 
-- `resolve_entities=False`-- previne atacurile de extindere a entităților XML
--`no_network=True`-- blochează toate accesul la rețea de ieșire de la parser
--`load_dtd=False`-- previne atacurile bazate pe DTD
-- Eliminarea spațiului de nume înainte de procesare -- gestionează orice variantă CAMT.053 în siguranță
+- `resolve_entities=False` -- previne atacurile de expandare a entităților XML
+- `no_network=True` -- blochează tot accesul de rețea de ieșire de la parser
+- `load_dtd=False` -- previne atacurile bazate pe DTD
+- Eliminarea namespace-ului înainte de procesare -- gestionează orice variantă CAMT.053 în siguranță
 
-## Securitatea arhivei ZIP
+## Securitatea arhivelor ZIP
 
-`iter_secure_xml_entries()`validează fiecare membru ZIP înainte de extragere:
+`iter_secure_xml_entries()` validează fiecare membru ZIP înainte de extragere:
 
-- **Limite pentru dimensiunea intrării**: 10 MB per intrare (configurabil)
-- **Dimensiunea maximă totală**: 50 MB total necomprimat (configurabil)
-- **Limita raportului de compresie**: 100:1 implicit -- detectează bombe ZIP
-- **Respingerea intrării criptate**: intrările criptate sunt omise cu un avertisment
-- **Fără scriere pe disc**: octeții XML trec direct la parser prin`from_bytes()`
+- **Limită de dimensiune per intrare**: 10 MB per intrare (configurabil)
+- **Limită dimensiune totală**: 50 MB total necomprimat (configurabil)
+- **Limită raport de compresie**: 100:1 implicit -- detectează ZIP bomb
+- **Respingere intrări criptate**: Intrările criptate sunt omise cu un avertisment
+- **Fără scriere pe disc**: Octeții XML trec direct la parser prin `from_bytes()`
 
 ## Prevenirea traversării căilor
 
-Validarea intrărilor blochează căile periculoase ale fișierelor:
+Validarea intrărilor blochează căile periculoase de fișiere:
 
-- Octeți nuli, modele de traversare a directoarelor (`../`), iar linkurile simbolice sunt respinse
+- Octeții nuli, tiparele de traversare a directoarelor (`../`) și legăturile simbolice sunt respinse
 - Validarea extensiilor de fișiere față de formatele așteptate
 - Limite de dimensiune a fișierului (100 MB implicit, configurabil)
 
+## Verificarea soldului (Regula de Aur)
+
+Fiecare extracție PDF este verificată cu ecuația: `opening balance + credits − debits == closing balance`. Rezultatele sunt etichetate ca VERIFIED, DISCREPANCY sau FAILED. Discrepanțele pot fi revizuite interactiv cu `--type review`.
+
 ## Ieșire deterministă
 
-Având în vedere același fișier de intrare, analizatorul produce o ieșire identică pentru octeți la fiecare rulare. Fără aleatorie, fără inferență de model, fără eșantionare euristică. Acest lucru este critic pentru:
+Pentru formatele structurate (CAMT, PAIN.001, CSV, OFX, QFX, MT940), cu același fișier de intrare, parserul produce ieșire identică la nivel de octet la fiecare rulare. Fără aleatorism, fără inferență de model, fără eșantionare euristică. Acest lucru este esențial pentru:
 
-- **Reproducibilitate de audit**: Rulați același fișier de două ori și diferențiază rezultatul
-- **Conformitatea cu reglementările**: Demonstrați o procesare consecventă
-- **Verificare CI**: 467 de teste impun determinismul cu o acoperire de 100% a ramurilor
+- **Reproductibilitate de audit**: Rulați același fișier de două ori și comparați rezultatul
+- **Conformitate reglementară**: Demonstrați procesare consecventă
+- **Verificare CI**: 718 teste impun determinismul cu acoperire de 100% a ramurilor
 
 ## Securitatea lanțului de aprovizionare
 
-- **SHA-256 dependențe blocate cu hash**: fiecare pachet în`poetry.lock`are hash-uri verificate de fișiere
+- **Dependențe SHA-256 blocate cu hash**: Fiecare pachet din `poetry.lock` are hash-uri de fișiere verificate
 - **CycloneDX SBOM**: Fiecare versiune include o listă de materiale software
-- **Proveniența construcției GitHub**: Atestarea leagă fiecare artefact la comiterea sursă
-- **Signed commits**: Toate commit-urile sunt semnate SSH și verificate în CI
-- **Verificarea dependenței**:`scripts/verify_locked_hashes.py`validează toate hashurile la nivel local
+- **Proveniența build-ului GitHub**: Atestarea leagă fiecare artefact la commit-ul sursă
+- **Commit-uri semnate**: Toate commit-urile sunt semnate SSH și verificate în CI
+- **Verificarea dependențelor**: `scripts/verify_locked_hashes.py` validează toate hash-urile local
 
 ## Verificați local
 
 ```bash
-python -m pytest                          # 467 tests, 100% branch coverage
+python -m pytest                          # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py    # SHA-256 hash verification
 git log --show-signature -1               # Verify commit signature
 ```

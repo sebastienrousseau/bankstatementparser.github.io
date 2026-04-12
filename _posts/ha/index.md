@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Hotunan gine-gine na ginin gilashi"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: "bankstatementparser.com"
 copyright: "© 2023-2026 Fassarar Bayanin Banki. An kiyaye duk haƙƙoƙi."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Bude tushen ɗakin karatu na Python don tantance CAMT.053, PAIN.001, CSV, OFX, QFX, da bayanan banki MT940 cikin pandas DataFrames. 27K+ tx/s, yawo, PII sake gyarawa, 100% na gida."
 download_url: "https://pypi.org/project/bankstatementparser/"
 download_title: "pip shigar bankstatementparser"
@@ -109,9 +109,9 @@ site_software: "Shokunin, Rust"
 
 ---
 
-** Fassarar Bayanin Banki** babban ɗakin karatu ne na Python mai buɗewa wanda ke tantance bayanan banki daga tsari shida (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) zuwa tsarin pandas DataFrames. Duk aiki yana gudana a gida - kiran cibiyar sadarwar sifili, fitarwa mai ƙima, da sabuntawar PII ta atomatik.
+**Bank Statement Parser** ɗakin karatu ne na Python mai buɗewa wanda ke tantance bayanan banki daga tsari bakwai (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, da PDF) zuwa tsararrun pandas DataFrames. Duk aiki yana gudana a gida — fitarwa tabbatacciya, share PII ta atomatik, da zaɓin hybrid PDF pipeline wanda ke amfani da LLMs na gida idan ana buƙata.
 
-## Farawa cikin dakiku
+## Fara cikin Daƙiƙu
 
 ```bash
 pip install bankstatementparser
@@ -125,62 +125,90 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # pandas DataFrame, ready to use
 ```
 
+```python
+# Parse PDFs with the hybrid pipeline (v0.0.5+)
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+```
+
 <img src="https://img.shields.io/github/stars/sebastienrousseau/bankstatementparser?style=for-the-badge&label=Stars" height="28" alt="GitHub Stars" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/dm/bankstatementparser?style=for-the-badge&label=Downloads" height="28" alt="Monthly Downloads" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/v/bankstatementparser?style=for-the-badge&label=PyPI" height="28" width="119" alt="PyPI Version" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/pyversions/bankstatementparser?style=for-the-badge&label=Python" height="28" width="347" alt="Python" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/l/bankstatementparser?style=for-the-badge&label=License" height="28" width="292" alt="License" loading="lazy" style="margin:0 .25rem .5rem 0" />
-<img src="https://img.shields.io/badge/tests-467%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
+<img src="https://img.shields.io/badge/tests-718%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/badge/coverage-100%25-brightgreen?style=for-the-badge" height="28" width="152" alt="Coverage" loading="lazy" style="margin:0 .25rem .5rem 0" />
 
-## Laburare Daya, Tsari Shida
+## Laburare Ɗaya, Tsari Bakwai
 
-Fassara CAMT.053, PAIN.001, CSV, OFX, QFX, da MT940 cikin tsararren pandas DataFrames tare da API guda ɗaya, haɗin kai. Babu buƙatar shigar da fakiti daban don kowane tsari.
+Fassara CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, da PDF zuwa tsararrun pandas DataFrames tare da API guda ɗaya mai haɗin kai. Babu buƙatar shigar da fakiti daban don kowane tsari.
 
-| Siffar | Fassarar Bayanin Banki | Tsarin OSS guda ɗaya (mt940, ofxparse) | SaaS (Ocrolus, Parseur) |
+| Siffar | Bank Statement Parser | OSS na tsari guda ɗaya (mt940, ofxparse) | SaaS (Ocrolus, Parseur) |
 |---|---|---|---|
-| Ana goyan bayan tsari | 6, API ɗin haɗin kai | 1 kowanne | Yawancin (ta hanyar OCR) |
-| Sirrin bayanai | 100% na gida, sifili kiran cibiyar sadarwa | 100% na gida | Bayanan da aka aika a waje |
-| Farashin | Kyauta, Apache 2.0 | Kyauta | $49-$1,000+/mo |
-| PII gyara | Ginawa, kunna ta tsohuwa | A'a | Ya bambanta |
-| Yawo | Ƙwaƙwalwar ajiya | A'a | N/A |
-| Tsaro na ZIP | Gina-in hardening | A'a | N/A |
-| Kwafi | Gina-ciki tare da ƙwaƙƙwaran ƙima | A'a | Wasu |
+| Tsarin da ake tallafawa | 7, API mai haɗin kai | 1 kowanne | Da yawa (ta hanyar OCR) |
+| Tallafin PDF | Hybrid pipeline (deterministic + LLM + vision) | A'a | Eh (cloud OCR) |
+| Sirrin bayanai | 100% na gida (LLMs suna gudana ta Ollama) | 100% na gida | Ana aika bayanai waje |
+| Farashi | Kyauta, Apache 2.0 | Kyauta | $49-$1,000+/mo |
+| Tabbatar da balance | Golden Rule (buɗewa + credits − debits = rufewa) | A'a | Ya bambanta |
+| Share PII | Gina-cikin, kunna ta tsohuwa | A'a | Ya bambanta |
+| Streaming | Ƙwaƙwalwar ajiya mai iyaka | A'a | N/A |
+| REST API | Gina-cikin FastAPI microservice | A'a | Eh |
+| Cire kwafi | Idempotent transaction hashes | A'a | Wasu |
+| Fitar da Ledger | hledger + beancount | A'a | A'a |
 
-## Gina don ƙaura na ISO 20022
+## Hybrid PDF Pipeline
 
-SWIFT ya saita tabbataccen kwanakin ƙarshe: duk cibiyoyin kuɗi dole ne su karɓi CAMT.053 ta Nuwamba 2027, kuma MT940/MT942/MT950 za su yi ritaya gabaɗaya ta Nuwamba 2028. Bankin Bayanin Bayanin Parser yana kula da MT940 na gado da tsarin ISO 20022 na zamani (CAMT.053, PAIN) a cikin bututun guda ɗaya.
+Bank Statement Parser v0.0.5+ ya haɗa da hybrid pipeline mai hanyoyi uku don bayanan banki na PDF:
+
+- **Hanya A (Deterministic)**: Teburorin PDF masu tsari ana fassara su kai tsaye — kyauta, mafi sauri, babu buƙatar LLM.
+- **Hanya B (Text-LLM)**: PDF na dijital masu tsari masu rikitarwa ana ciro su ta LLM na gida (LiteLLM/Ollama).
+- **Hanya C (Vision-LLM)**: Bayanan da aka duba ko aka kwafa ana sarrafa su da ƙirar vision.
+
+Ana tabbatar da kowane cirowa da **Golden Rule**: `opening balance + credits − debits == closing balance`.
+
+## An Gina don Ƙaurar ISO 20022
+
+SWIFT ya saita tabbataccen kwanakin ƙarshe: duk cibiyoyin kuɗi dole ne su karɓi CAMT.053 kafin Nuwamba 2027, kuma MT940/MT942/MT950 za su yi ritaya gabaɗaya a Nuwamba 2028. Bank Statement Parser yana sarrafa MT940 na gado da tsarin ISO 20022 na zamani (CAMT.053, PAIN.001) a cikin API guda ɗaya, don haka pipeline ɗin ku yana aiki a lokacin sauyi da kuma bayan haka.
 
 ## Aiki
 
-- ** 27,000+ ma'amaloli / na biyu ** don CAMT.053 parsing
-- ** 52,000+ ma'amaloli / na biyu ** don PAIN.001 parsing
-- **< 2 ms *** lokacin sakamako na farko
-- ** Ƙwaƙwalwar ƙwaƙwalwar ajiya ** daga 1K zuwa 50K+ ma'amaloli ta hanyar yawo
-** Gwaje-gwaje 467 *** tare da ɗaukar hoto na 100% a cikin Python 3.9 zuwa 3.14
+- **27,000+ ma'amaloli/daƙiƙa** don fassarar CAMT.053
+- **52,000+ ma'amaloli/daƙiƙa** don fassarar PAIN.001
+- **< 2 ms** lokacin sakamako na farko
+- **Ƙwaƙwalwar ajiya madaidaiciya** daga 1K zuwa 50K+ ma'amaloli ta hanyar streaming
+- **Gwaje-gwaje 718** tare da rufe reshe 100% a cikin Python 3.10 zuwa 3.14
 
-## Me yasa Fassarar Bayanin Banki?
+## Me yasa Bank Statement Parser?
 
-- ** Tsarin Gano Kai tsaye ***:`detect_statement_format()`gano fayiloli ta atomatik kuma`create_parser()`yana mayar da madaidaicin parser.
-- ** Sirrin Farko ***: Ana kunna sabunta PII ta tsohuwa. Filaye masu hankali (sunaye, IBANs, adireshi) an rufe su a cikin fitarwar CLI. Ficewa da`--show-pii`lokacin da ake bukata.
-- ** Shirye Shirye ***: Amintaccen shigar da ZIP (kariyar bam, kin shigar da rufaffen), ingantacciyar shigar da bayanai, da rigakafin tafarki.
-- ** Fitarwa mai Sauƙi ***: Fitarwa zuwa CSV, JSON, Excel, ko jujjuya zuwa Bayanan Bayanai na Polars.
-- ** Gudanar da Daidaitawa ***: Fassara fayiloli da yawa a lokaci guda tare da`parse_files_parallel()`.
+- **Hybrid PDF Extraction**: `smart_ingest()` yana sarrafa PDF na dijital da na bugu tare da turawa ta atomatik da tabbatar da balance.
+- **Gano Tsari Ta Atomatik**: `detect_statement_format()` yana gano fayiloli ta atomatik kuma `create_parser()` yana mayar da parser ɗin da ya dace.
+- **Sirri Da Farko**: Ana kunna share PII ta tsohuwa. LLMs suna gudana a gida ta Ollama — babu bayanan da ke barin injin ku.
+- **REST API**: Aika azaman FastAPI microservice tare da `/ingest` da `/health` endpoints.
+- **Ƙarin Bayani**: Rarraba ma'amaloli ta LLM tare da schemas masu sauƙin canzawa (Plaid 13-category ta tsohuwa).
+- **Fitar da Ledger**: Fitar zuwa hledger da beancount don tsarin plaintext-accounting.
+- **Binciken Tari**: `scan_and_ingest()` yana sarrafa manyan fayiloli tare da cire kwafi ta atomatik.
+- **Kuɗi Da Yawa**: `verify_balance_multi_currency()` yana gudanar da Golden Rule ga kowane rukunin kuɗi.
+- **Shirye Don Samarwa**: Amintaccen shigar da ZIP, tabbatar da shigarwa, hana ƙetare tafarki, da yanayin bita mai hulɗa.
+- **Fitarwa Mai Sauƙi**: Fitar zuwa CSV, JSON, Excel, Polars, hledger, ko beancount.
+- **Sarrafa Daidaitawa**: Fassara fayiloli da yawa a lokaci guda tare da `parse_files_parallel()`.
 
 
-## Gina don samarwa
+## An Gina don Samarwa
 
-Parser Bayanin Banki an ƙirƙira shi don ƙungiyoyin baitulmali, masu haɓaka fintech, da jami'an bin doka suna sarrafa bayanan kuɗi masu mahimmanci. Ana amfani da ɗakin karatu a cikin bututun ƙaura na MT940-zuwa-CAMT, tsarin sulhu mai sarrafa kansa, da gudanar da bincike na tsari a cikin cibiyoyin kuɗi.
+Bank Statement Parser an ƙirƙira shi don ƙungiyoyin baitulmali, masu haɓaka fintech, da jami'an bin doka waɗanda ke sarrafa bayanan kuɗi masu mahimmanci. Ana amfani da ɗakin karatu a cikin bututun ƙaura na MT940-zuwa-CAMT, tsarin sulhu mai sarrafa kansa, shigar da bayanan PDF, da gudanar da bincike na tsari a cikin cibiyoyin kuɗi.
 
-** Gwaje-gwaje 467 *** tare da ɗaukar hoto na 100% a cikin Python 3.9 zuwa 3.14
-- ** SHA-256 abubuwan da aka kulle zanta ** tare da CycloneDX SBOM don kowane saki
-- ** fitarwa mai ƙididdigewa *** - shigarwa iri ɗaya yana haifar da sakamako iri ɗaya na byte, kowane gudu
-- ** Apache 2.0 mai lasisi *** - amfani da yardar kaina a cikin tsarin kasuwanci da na ciki
+- **Gwaje-gwaje 718** tare da rufe reshe 100% a cikin Python 3.10 zuwa 3.14
+- **SHA-256 hash-locked dependencies** tare da CycloneDX SBOM don kowane saki
+- **Fitarwa tabbatacciya** — shigarwa iri ɗaya yana haifar da sakamako iri ɗaya na byte, kowane gudu
+- **Apache 2.0 mai lasisi** — amfani da yardar kaina a cikin tsarin kasuwanci da na ciki
 
-**Kimanin hanyoyin da za a bi?** [Duba yadda Fassarar Bayanin Banki ke kwatanta ❯](/comparison/index.html) | [Bincika shari'o'in amfani na ainihi ❯](/use-cases/index.html)
+**Kuna kimanta madadin?** [Duba yadda Bank Statement Parser ke kwatanta ❯](/comparison/index.html) | [Bincika shari'o'in amfani na ainihi ❯](/use-cases/index.html)
 
 [Fara ❯][01] | [Duba akan GitHub ❯][02] | [Duba kan PyPI ❯][03]
 
-[01]: /farawa/index.html
-[02]:https://github.com/sebastienrousseau/bankstatementparser
+[01]: /getting-started/index.html
+[02]: https://github.com/sebastienrousseau/bankstatementparser
 [03]: https://pypi.org/project/bankstatementparser/

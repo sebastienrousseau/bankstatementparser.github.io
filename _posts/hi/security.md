@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "बैंक स्टेटमेंट पार्सर सुरक्षा"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 बैंक स्टेटमेंट पार्सर। सर्वाधिकार सुरक्षित।"
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "बैंक स्टेटमेंट पार्सर की सुरक्षा विशेषताएं: XXE सुरक्षा, ज़िप बम सख्त करना, PII रिडक्शन, आपूर्ति श्रृंखला सुरक्षा, नियतात्मक आउटपुट और हस्ताक्षरित बिल्ड।"
 download: ""
 format-detection: "telephone=no"
@@ -107,72 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**टीएल;डीआर:** बैंक स्टेटमेंट पार्सर शून्य नेटवर्क कॉल करता है, डिफ़ॉल्ट रूप से पीआईआई को रिडक्ट करता है, एक्सएक्सई हमलों के खिलाफ एक्सएमएल पार्सिंग को सख्त करता है, और एसएचए-256 हैश-लॉक निर्भरता और एक साइक्लोनडीएक्स एसबीओएम के साथ जहाज करता है।
+**संक्षेप में:** Bank Statement Parser सारा डेटा स्थानीय रूप से प्रोसेस करता है, डिफ़ॉल्ट रूप से PII रिडक्ट करता है, XXE हमलों के खिलाफ XML पार्सिंग harden करता है, Ollama के माध्यम से LLM स्थानीय रूप से चलाता है, और SHA-256 hash-locked dependencies तथा CycloneDX SBOM के स���थ ship करता है।
 
-## डिज़ाइन द्वारा सुरक्षा
+## Design द्वारा सुरक्षा
 
-बैंक स्टेटमेंट पार्सर संवेदनशील वित्तीय डेटा को संसाधित करने के लिए बनाया गया है। प्रत्येक डिज़ाइन निर्णय सुरक्षा, गोपनीयता और लेखापरीक्षा को प्राथमिकता देता है।
+Bank Statement Parser संवेदनशील वित्तीय डेटा प्रोसेस करने के लिए बना है। हर design निर्णय सुरक्षा, गोपनीयता, और auditability को प्राथमिकता देता है।
 
-## शून्य नेटवर्क एक्सेस
+## शून्य Cloud Dependency
 
-सभी प्रोसेसिंग आपके रनटाइम के भीतर स्थानीय रूप से होती है। लाइब्रेरी शून्य एपीआई कॉल, शून्य क्लाउड कनेक्शन बनाती है और शून्य टेलीमेट्री एकत्र करती है। XML पार्सर्स को स्पष्ट रूप से कॉन्फ़िगर किया गया है`no_network=True`, `resolve_entities=False`, और`load_dtd=False`किसी भी बाहरी पहुंच को रोकने के लिए।
+सारी प्रोसेसिंग आपके runtime में स्थानीय रूप से होती है। Deterministic पार्सर शून्य नेटवर्क कॉल करते हैं। Hybrid PDF pipeline स���थानीय LLM inference के लिए Ollama का उपयोग करती है — कोई डेटा cloud API को नहीं भेजा जाता। XML पार्सर स्पष्ट रूप से `no_network=True`, `resolve_entities=False`, और `load_dtd=False` से configured हैं ताकि कोई भी outbound access न हो।
 
-## पीआईआई संशोधन
+## PII रिडक्शन
 
-व्यक्तिगत रूप से पहचान योग्य जानकारी (नाम, आईबीएएन, डाक पते) सीएलआई आउटपुट और स्ट्रीमिंग मोड में स्वचालित रूप से संशोधित की जाती है। यह डिफ़ॉल्ट रूप से चालू है.
+व्यक्तिगत पहचान जानकारी (नाम, IBAN, डाक पते) CLI output और streaming mode में स्वचालित रूप से redact होती है। यह डिफ़ॉल्ट रूप से चालू है।
 
-- **सीएलआई**: संवेदनशील फ़ील्ड इस प्रकार दिखते हैं`***REDACTED***`
-- **स्ट्रीमिंग**:`parse_streaming(redact_pii=True)`(गलती करना)
-- **निर्यात**: सीएसवी/जेएसओएन/एक्सेल डाउनस्ट्रीम प्रोसेसिंग के लिए पूरा डेटा बरकरार रखता है
-- **ऑप्ट-इन**: उपयोग करें`--show-pii`या`redact_pii=False`जब आपको असंपादित आउटपुट की आवश्यकता हो
+- **CLI**: संवेदनशील फ़ील्ड `***REDACTED***` दिखाते हैं
+- **Streaming**: `parse_streaming(redact_pii=True)` (डिफ़ॉल्ट)
+- **निर्यात**: CSV/JSON/Excel downstream प्रोसेसिंग के लिए पूरा डेटा बनाए रखता है
+- **ऑप्ट-इन**: जब unredacted output चाहिए तो `--show-pii` या `redact_pii=False` का उपयोग करें
 
-## XML सुरक्षा (XXE सुरक्षा)
+## XML सुरक्षा (XXE Protection)
 
-सभी XML पार्सिंग का उपयोग करता है`lxml`कठोर सेटिंग्स के साथ:
+सारी XML पार्सिंग hardened settings के साथ `lxml` का उपयोग करती है:
 
-- `resolve_entities=False`- XML इकाई विस्तार हमलों को रोकता है
--`no_network=True`- पार्सर से सभी आउटबाउंड नेटवर्क एक्सेस को ब्लॉक करता है
--`load_dtd=False`- डीटीडी-आधारित हमलों को रोकता है
-- प्रसंस्करण से पहले नेमस्पेस स्ट्रिपिंग - किसी भी CAMT.053 वैरिएंट को सुरक्षित रूप से संभालता है
+- `resolve_entities=False` -- XML entity expansion attacks रोकता है
+- `no_network=True` -- parser से सभी outbound network access block करता है
+- `load_dtd=False` -- DTD-based attacks रोकता है
+- Processing से पहले namespace stripping -- किसी भी CAMT.053 variant को सुरक्षित रूप से संभालता है
 
-## ज़िप पुरालेख सुरक्षा
+## ZIP Archive सुरक्षा
 
-`iter_secure_xml_entries()`निष्कर्षण से पहले प्रत्येक ज़िप सदस्य को मान्य करता है:
+`iter_secure_xml_entries()` extraction से पहले हर ZIP member validate करता है:
 
-- **प्रवेश आकार सीमा**: प्रति प्रविष्टि 10 एमबी (कॉन्फ़िगर करने योग्य)
-- **कुल आकार सीमा**: 50 एमबी कुल असम्पीडित (कॉन्फ़िगर करने योग्य)
-- **संपीड़न अनुपात सीमा**: 100:1 डिफ़ॉल्ट -- ज़िप बम का पता लगाता है
-- **एन्क्रिप्टेड प्रविष्टि अस्वीकृति**: एन्क्रिप्टेड प्रविष्टियों को एक चेतावनी के साथ छोड़ दिया जाता है
-- **कोई डिस्क नहीं लिखती**: XML बाइट्स सीधे पार्सर के पास जाती हैं`from_bytes()`
+- **Entry size cap**: प्रति entry 10 MB (configurable)
+- **Total size cap**: 50 MB कुल uncompressed (configurable)
+- **Compression ratio limit**: 100:1 डिफ़ॉल्ट -- ZIP bombs detect करता है
+- **Encrypted entry rejection**: Encrypted entries warning के साथ skip होती हैं
+- **कोई disk writes नहीं**: XML bytes सीधे `from_bytes()` के माध्यम से parser को जाते हैं
 
-## पथ परिवर्तन निवारण
+## Path Traversal रोकथाम
 
-इनपुट सत्यापन खतरनाक फ़ाइल पथों को रोकता है:
+Input validation खतरनाक फ़ाइल paths block करता है:
 
-- शून्य बाइट्स, निर्देशिका ट्रैवर्सल पैटर्न (`../`), और सिम्लिंक अस्वीकार कर दिए जाते हैं
-- अपेक्षित प्रारूपों के विरुद्ध फ़ाइल एक्सटेंशन सत्यापन
-- फ़ाइल आकार सीमा (100 एमबी डिफ़ॉल्ट, कॉन्फ़िगर करने योग्य)
+- Null bytes, directory traversal patterns (`../`), और symlinks reject होते हैं
+- अपेक्षित formats के विरुद्ध file extension validation
+- File size limits (100 MB डिफ़ॉल्ट, configurable)
 
-## नियतिवादी आउटपुट
+## Balance Verification (Golden Rule)
 
-समान इनपुट फ़ाइल को देखते हुए, पार्सर प्रत्येक रन में बाइट-समान आउटपुट उत्पन्न करता है। कोई यादृच्छिकता नहीं, कोई मॉडल अनुमान नहीं, कोई अनुमानी नमूनाकरण नहीं। यह इसके लिए महत्वपूर्ण है:
+हर PDF extraction इस equation से verify होती है: `opening balance + credits − debits == closing balance`। परिणाम VERIFIED, DISCREPANCY, या FAILED tag होते हैं। विसंगतियों की `--type review` से interactively समीक्षा की जा सकती है।
 
-- **ऑडिट प्रतिलिपि प्रस्तुत करने योग्यता**: एक ही फ़ाइल को दो बार चलाएं और आउटपुट को अलग करें
-- **नियामक अनुपालन**: लगातार प्रसंस्करण प्रदर्शित करें
-- **सीआई सत्यापन**: 467 परीक्षण 100% शाखा कवरेज के साथ नियतिवाद को लागू करते हैं
+## नियतात्मक आउटपुट
 
-## आपूर्ति श्रृंखला सुरक्षा
+संरचित प्रारूपों (CAMT, PAIN.001, CSV, OFX, QFX, MT940) के लिए, समान इनपुट फ़ाइल दिए जाने पर पार्सर हर रन में byte-identical आउटपुट देता है। कोई randomness नहीं, कोई model inference नहीं, कोई heuristic sampling नहीं। यह इसके लिए महत्वपूर्ण है:
 
-- **SHA-256 हैश-लॉक निर्भरताएँ**: प्रत्येक पैकेज`poetry.lock`सत्यापित फ़ाइल हैश है
-- **CycloneDX SBOM**: प्रत्येक रिलीज़ में सामग्री का एक सॉफ़्टवेयर बिल शामिल होता है
-- **गिटहब बिल्ड उद्गम**: सत्यापन प्रत्येक आर्टिफैक्ट को उसके स्रोत प्रतिबद्धता से जोड़ता है
-- **हस्ताक्षरित कमिट**: सभी कमिट एसएसएच-हस्ताक्षरित हैं और सीआई में सत्यापित हैं
-- **निर्भरता सत्यापन**:`scripts/verify_locked_hashes.py`सभी हैश को स्थानीय रूप से मान्य करता है
+- **Audit reproducibility**: एक ही फ़ाइल दो बार चलाएं और output diff करें
+- **Regulatory compliance**: सुसंगत प्रोसेसिंग प्रदर्शित करें
+- **CI verification**: 718 tests 100% branch coverage के साथ determinism लागू करते हैं
 
-## स्थानीय रूप से सत्यापित करें
+## Supply Chain सुरक्षा
+
+- **SHA-256 hash-locked dependencies**: `poetry.lock` में हर package की verified file hashes हैं
+- **CycloneDX SBOM**: हर release में Software Bill of Materials शामिल होता है
+- **GitHub build provenance**: Attestation हर artifact को उसके source commit से जोड़ता है
+- **Signed commits**: सभी commits SSH-signed हैं और CI में verified हैं
+- **Dependency verification**: `scripts/verify_locked_hashes.py` सभी hashes स्थानीय रूप से validate करता है
+
+## स्थानीय रूप से Verify करें
 
 ```bash
-python -m pytest                          # 467 tests, 100% branch coverage
+python -m pytest                          # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py    # SHA-256 hash verification
 git log --show-signature -1               # Verify commit signature
 ```

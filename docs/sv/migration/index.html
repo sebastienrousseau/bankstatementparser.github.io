@@ -8,7 +8,7 @@
     <meta name="theme-color" content="rgb(73, 214, 251)" />
     <meta name="measurement-id" content="G-FL9DEBFHN1" />
     <meta name="author" content="Sebastien Rousseau">
-<meta name="description" content="En praktisk guide till SWIFT ISO 20022-migreringstidslinjen (2026-2028), MT940 till CAMT.053-övergången och hur Kontoutdragsparser hjälper treasury-team att migrera.">
+<meta name="description" content="En praktisk guide till SWIFT ISO 20022-migreringstidslinjen (2026-2028), MT940 till CAMT.053-övergången och hur Bank Statement Parser hjälper treasury-team att migrera.">
 <meta name="keywords" content="ISO 20022 migrering, MT940 till CAMT.053, SWIFT deadline 2027, MT940 retirement 2028, kontoutdrag migration python, CAMT.053 parser, ISO 20022 tidslinje">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -17,7 +17,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="ISO 20022 Migration Guide: MT940 till CAMT.053 Transition">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: kura.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: cloudcdn.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
     <meta name="msapplication-TileColor" content="rgb(73, 214, 251)">
     
     <link rel="alternate" href="https://bankstatementparser.com/sv/migration/index.html" hreflang="sv" />
@@ -27,7 +27,7 @@
     <link rel="apple-touch-icon" href="/images/icons/192x192.png" sizes="192x192" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
-    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#b0b8c1"}})});</script>
+    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#8f9aa5"}})});</script>
     <style>
       :root{--theme-color:rgb(73, 214, 251)}*{font-weight:400;box-sizing:border-box;margin:0}
       pre{margin:1.5rem 0;max-width:100%;overflow:auto;border-radius:.5rem;padding:1rem 1.25rem;background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);color:var(--c-code);display:block;font-family:'SF Mono',SFMono-Regular,Consolas,monospace;font-size:.8125rem;line-height:1.7;margin:1.5rem 0;max-width:100%;overflow:auto;padding:1rem 1.25rem;border-radius:.5rem}
@@ -105,13 +105,26 @@
       :focus-visible{outline:2px solid var(--c-accent);outline-offset:2px}
       @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
       @media print{body{color:#000!important;background:#fff!important}.site-nav,.site-footer,.skip-link{display:none!important}a{color:#000!important}a[href]::after{content:" (" attr(href) ")"}}
+          .search-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:flex-start;justify-content:center;padding:15vh 1rem 1rem}
+.search-overlay.open{display:flex}
+.search-box{background:var(--c-bg);border:1px solid var(--c-border);border-radius:.75rem;width:100%;max-width:560px;box-shadow:0 25px 50px -12px rgba(0,0,0,.25);overflow:hidden}
+.search-input{width:100%;padding:.875rem 1rem;border:none;background:transparent;color:var(--c-text);font-size:1rem;font-family:inherit;outline:none}
+.search-input::placeholder{color:var(--c-secondary)}
+.search-results{max-height:50vh;overflow-y:auto;border-top:1px solid var(--c-border)}
+.search-result{display:block;padding:.75rem 1rem;color:var(--c-text);text-decoration:none;border-bottom:1px solid var(--c-border)}
+.search-result:hover,.search-result.active{background:var(--c-surface);color:var(--c-accent);text-decoration:none}
+.search-result-title{font-weight:600;font-size:.9375rem}
+.search-result-desc{font-size:.8125rem;color:var(--c-secondary);margin-top:.125rem}
+.search-empty{padding:1.5rem 1rem;text-align:center;color:var(--c-secondary);font-size:.875rem}
+.search-footer{padding:.5rem 1rem;border-top:1px solid var(--c-border);font-size:.75rem;color:var(--c-secondary);display:flex;gap:1rem}
+.search-footer kbd{background:var(--c-surface);padding:.125rem .375rem;border-radius:.25rem;font-size:.6875rem;border:1px solid var(--c-border)}
     </style>
   </head>
   <body id="page-top" itemscope itemtype="http://schema.org/WebPage">
-    <a class="skip-link" href="#main">Skip to main content</a>
-    <nav class="site-nav" aria-label="Main navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+    <a class="skip-link" href="#main">Hoppa till huvudinnehall</a>
+    <nav class="site-nav" aria-label="Huvudnavigering" itemscope itemtype="http://schema.org/SiteNavigationElement">
       <div class="nav-inner">
-        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="" /><span itemprop="name">Kontoutdragsparser</span></a>
+        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="Bank Statement Parser logo" /><span itemprop="name">Kontoutdragsparser</span></a>
         <ul class="nav-center">
           <li><a href="/sv/index.html">Hem</a></li>
           <li><a href="/sv/a-propos/index.html">Om</a></li>
@@ -120,7 +133,8 @@
           <li class="nav-item dropdown"><button class="dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" type="button">Resurser</button><ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown"><li><a class="dropdown-item" href="/sv/cas-utilisation/index.html">Use Cases</a></li><li><a class="dropdown-item" href="/sv/migration/index.html">ISO 20022 Migration</a></li><li><a class="dropdown-item" href="/sv/securite/index.html">Security</a></li><li><a class="dropdown-item" href="/sv/alternatives/index.html">Alternatives</a></li><li><a class="dropdown-item" href="/sv/journal-des-modifications/index.html">Changelog</a></li><li><a class="dropdown-item" href="/sv/contribuer/index.html">Contribute</a></li><li><a class="dropdown-item" href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a class="dropdown-item" href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li></ul></li>
         </ul>
         <div class="nav-right">
-          <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">Mörkt</span></button>
+          <button id="searchTrigger" class="theme-toggle" aria-label="Search" style="margin-right:.25rem"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> <span class="search-shortcut" aria-hidden="true" style="font-size:.6875rem;opacity:.8"></span></button>
+          <button class="theme-toggle" id="themeToggle" aria-label="Byt till morkt lage" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">Mörkt</span></button>
           <div style="position:relative;display:inline-block" class="lang-switcher">
             <button type="button" aria-label="SV, Change language" aria-expanded="false" style="color:var(--c-nav-muted);font-size:12px;font-weight:400;padding:.375rem .625rem;border:1px solid var(--c-border);border-radius:6rem;background:transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.25rem;outline:none">
               <span style="font-size:14px">🌐</span> SV
@@ -164,52 +178,52 @@
       </div>
       </nav>
     <header class="site-hero" style="padding:6rem 1.5rem 3rem">
-      <h1 style="font-size:clamp(2rem,4vw,2.75rem)">Kontoutdragsparser</h1>
+      <h1 style="font-size:clamp(2rem,4vw,2.75rem)">ISO 20022 Migration Guide</h1>
       <p>Navigera SWIFT MT till ISO 20022 Transition</p>
     </header>
     <main id="main" class="site-main" tabindex="-1" aria-label="Page content">
-      <div class="text-start"><p><strong>TL;DR:</strong> SWIFT kommer att avveckla MT940 i november 2028. Kontoutdragsparser hanterar både MT940 och CAMT.053 med ett enda API, så din analyspipeline fungerar under och efter övergången.</p>
-<h2>Varför denna migration är viktig</h2>
-<p>SWIFT drar tillbaka äldre MT-meddelandeformat till förmån för den rikare ISO 20022-standarden. För treasury- och finansteam innebär detta att dina bankutdragsbearbetningspipelines måste utvecklas från MT940 till CAMT.053 innan de hårda tidsfristerna.</p>
-<h2>SWIFT migreringstidslinje</h2>
+      <div class="text-start"><p><strong>TL;DR:</strong> SWIFT kommer att avveckla MT940 i november 2028. Bank Statement Parser hanterar både MT940 och CAMT.053 med ett enda API, så din pipeline fungerar under övergången och därefter.</p>
+<h2>Varför denna migrering är viktig</h2>
+<p>SWIFT avvecklar äldre MT-meddelandeformat till förmån för den rikare ISO 20022-standarden. För treasury- och finansteam innebär detta att dina pipelines för kontoutdragsbearbetning måste utvecklas från MT940 till CAMT.053 före de hårda tidsfristerna.</p>
+<h2>SWIFT-migreringstidslinje</h2>
 <div class="table-responsive"><table class="table">
 <thead>
 <tr>
 <th>Datum</th>
 <th>Milstolpe</th>
-<th>Inverkan</th>
+<th>Påverkan</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="text-left"><strong>November 2025</strong></td>
-<td class="text-left">Samexistensen mellan MT och MX upphörde för gränsöverskridande betalningar</td>
-<td class="text-left">PACS-meddelanden är nu endast ISO 20022</td>
+<td class="text-left">Samexistens MT-MX upphörde för gränsöverskridande betalningar</td>
+<td class="text-left">PACS-meddelanden är nu enbart ISO 20022</td>
 </tr>
 <tr>
 <td class="text-left"><strong>November 2026</strong></td>
-<td class="text-left">Strukturerade/hybridadresser obligatoriska; MT101 multi-instruktion avvisad; Ärendehantering Fas 1</td>
-<td class="text-left">Adressformat måste följa; vissa MT-meddelanden kommer att avvisas</td>
+<td class="text-left">Strukturerade/hybridadresser obligatoriska; MT101 multi-instruktion avvisas; Ärendehantering Fas 1</td>
+<td class="text-left">Adressformat måste följa; vissa MT-meddelanden avvisas</td>
 </tr>
 <tr>
 <td class="text-left"><strong>Sent 2026</strong></td>
 <td class="text-left">Opt-in börjar för att ta emot CAMT.052/.053/.054</td>
-<td class="text-left">Finansiella institutioner kan börja ta emot inhemska ISO-utlåtanden</td>
+<td class="text-left">Finansinstitut kan börja ta emot ISO-utdrag</td>
 </tr>
 <tr>
 <td class="text-left"><strong>November 2027</strong></td>
-<td class="text-left">Alla FI:er måste ta emot CAMT.053 inbyggt</td>
-<td class="text-left">SWIFT slutar konvertera MT-format till ISO; dina system måste analysera CAMT direkt</td>
+<td class="text-left">Alla FI:er måste ta emot CAMT.053 direkt</td>
+<td class="text-left">SWIFT slutar konvertera MT till ISO; dina system måste tolka CAMT direkt</td>
 </tr>
 <tr>
 <td class="text-left"><strong>November 2028</strong></td>
-<td class="text-left">MT940/MT942/MT950/MT900/MT910 helt pensionerad</td>
-<td class="text-left">Äldre uttalandeformat är inte längre tillgängliga; CAMT.052/.053/.054 är det enda alternativet</td>
+<td class="text-left">MT940/MT942/MT950/MT900/MT910 helt avvecklade</td>
+<td class="text-left">Äldre utdragsformat inte längre tillgängliga; CAMT.052/.053/.054 är enda alternativet</td>
 </tr>
 </tbody>
 </table></div>
 <h2>Vad ändras för din kod</h2>
-<h3>Före: Endast MT940</h3>
+<h3>Före: Enbart MT940</h3>
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">Mt940Parser
 </span><span style="color:#c0c5ce;">
@@ -217,21 +231,21 @@
 </span><span style="color:#c0c5ce;">df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()
 </span></pre>
 </code></pre>
-<h3>Efter: Båda formaten med automatisk upptäckt</h3>
+<h3>Efter: Båda formaten med autodetektering</h3>
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">create_parser, detect_statement_format
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#c0c5ce;">fmt = </span><span style="color:#8fa1b3;">detect_statement_format</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;)  </span><span style="color:#8f9aa5;"># or .mt940
+</span><span style="color:#c0c5ce;">fmt = </span><span style="color:#8fa1b3;">detect_statement_format</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;)  </span><span style="color:#65737e;"># or .mt940
 </span><span style="color:#c0c5ce;">parser = </span><span style="color:#8fa1b3;">create_parser</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;, fmt)
-</span><span style="color:#c0c5ce;">df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()  </span><span style="color:#8f9aa5;"># Same DataFrame schema regardless of format
+</span><span style="color:#c0c5ce;">df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()  </span><span style="color:#65737e;"># Same DataFrame schema regardless of format
 </span></pre>
 </code></pre>
-<p>De<code>detect_statement_format()</code>funktionen identifierar om filen är MT940, CAMT.053, PAIN.001 eller något annat format som stöds. De<code>create_parser()</code>funktion returnerar rätt analysator. Din nedströmskod fungerar identiskt oavsett källformat.</p>
+<p>Funktionen <code>detect_statement_format()</code> identifierar om filen är MT940, CAMT.053, PAIN.001 eller något annat format som stöds. Funktionen <code>create_parser()</code> returnerar rätt parser. Din nedströmskod fungerar identiskt oavsett källformat.</p>
 <h2>CAMT.053 vs MT940: Nyckelskillnader</h2>
 <table>
 <thead>
 <tr>
-<th>Särdrag</th>
+<th>Funktion</th>
 <th>MT940</th>
 <th>CAMT.053</th>
 </tr>
@@ -240,44 +254,47 @@
 <tr>
 <td class="text-left">Datarikedom</td>
 <td class="text-left">Begränsade fält</td>
-<td class="text-left">3-5 gånger mer data per transaktion</td>
+<td class="text-left">3–5x mer data per transaktion</td>
 </tr>
 <tr>
-<td class="text-left">Karaktärsuppsättning</td>
-<td class="text-left">Begränsad (SWIFT-teckenuppsättning)</td>
-<td class="text-left">Fullständig Unicode</td>
+<td class="text-left">Teckenuppsättning</td>
+<td class="text-left">Begränsad (SWIFT charset)</td>
+<td class="text-left">Full Unicode</td>
 </tr>
 <tr>
-<td class="text-left">Strukturera</td>
+<td class="text-left">Struktur</td>
 <td class="text-left">Platt text med taggar</td>
 <td class="text-left">XML med namnrymder</td>
 </tr>
 <tr>
-<td class="text-left">Balansrapportering</td>
-<td class="text-left">Endast öppning/stängning</td>
-<td class="text-left">Flera balanstyper</td>
+<td class="text-left">Saldorapportering</td>
+<td class="text-left">Enbart ingående/utgående</td>
+<td class="text-left">Flera saldotyper</td>
 </tr>
 <tr>
 <td class="text-left">Referenser</td>
-<td class="text-left">Enstaka referensfält</td>
+<td class="text-left">Ett enda referensfält</td>
 <td class="text-left">Flera referenstyper</td>
 </tr>
 <tr>
 <td class="text-left">Valutahantering</td>
 <td class="text-left">Grundläggande</td>
-<td class="text-left">Full multi-valuta med växelkurser</td>
+<td class="text-left">Full multivaluta med växelkurser</td>
 </tr>
 </tbody>
 </table>
-<h2>Hur kontoutdrag Parser hjälper</h2>
+<h2>Hur Bank Statement Parser hjälper</h2>
 <ul>
-<li><strong>Unified API</strong>: Analysera både MT940 och CAMT.053 med samma<code>parse()</code>metod, som producerar identiska DataFrame-scheman.</li>
-<li><strong>Automatisk upptäckt</strong>: Inget behov av att veta formatet i förväg.<code>detect_statement_format()</code>identifierar det automatiskt.</li>
-<li><strong>Namespace-agnostic</strong>: Hanterar alla CAMT.053-varianter (001.02, 001.04 eller bankspecifika wrappers) utan konfiguration.</li>
-<li><strong>Streaming</strong>: Behandla stora CAMT-filer (50 MB+, 50K+ transaktioner) med begränsat minne.</li>
-<li><strong>Migrationstest</strong>: Kör båda parsarna sida vid sida på samma datumintervall för att verifiera utdatakonsistensen innan du byter.</li>
+<li><strong>Enhetligt API</strong>: Tolka MT940, CAMT.053 och PDF-utdrag med samma arbetsflöde och få konsekvent DataFrame-utdata.</li>
+<li><strong>Autodetektering</strong>: Inget behov av att veta formatet i förväg. <code>detect_statement_format()</code> identifierar det automatiskt.</li>
+<li><strong>Hybrid-PDF-pipeline</strong>: Banker som enbart levererar PDF-utdrag under övergången hanteras av <code>smart_ingest()</code> med automatisk saldoverifiering.</li>
+<li><strong>Namnrymdsagnostisk</strong>: Hanterar alla CAMT.053-varianter (001.02, 001.04 eller bankspecifika omslag) utan konfiguration.</li>
+<li><strong>Multivaluta-verifiering</strong>: <code>verify_balance_multi_currency()</code> kör Golden Rule per valutgrupp — viktigt för CAMT-utdrag med flera valutor.</li>
+<li><strong>Streaming</strong>: Bearbeta stora CAMT-filer (50 MB+, 50K+ transaktioner) med begränsat minne.</li>
+<li><strong>Ledger-export</strong>: Exportera direkt till hledger- eller beancount-journalformat för treasury-bokföring.</li>
+<li><strong>Migreringstest</strong>: Kör båda parsrarna sida vid sida på samma datumintervall för att verifiera utdatakonsistens innan du byter.</li>
 </ul>
-<h2>Komma igång</h2>
+<h2>Kom igång</h2>
 <pre><code class="language-bash"><pre style="background-color:#2b303b;">
 <span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser
 </span></pre>
@@ -285,21 +302,29 @@
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">create_parser, detect_statement_format
 </span><span style="color:#c0c5ce;">
-</span><span style="color:#8f9aa5;"># Works with MT940 today, CAMT.053 tomorrow
+</span><span style="color:#65737e;"># Works with MT940 today, CAMT.053 tomorrow, PDF anytime
 </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">file </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">bank_statement_files:
 </span><span style="color:#c0c5ce;">    fmt = </span><span style="color:#8fa1b3;">detect_statement_format</span><span style="color:#c0c5ce;">(file)
 </span><span style="color:#c0c5ce;">    parser = </span><span style="color:#8fa1b3;">create_parser</span><span style="color:#c0c5ce;">(file, fmt)
 </span><span style="color:#c0c5ce;">    df = parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()
-</span><span style="color:#c0c5ce;">    </span><span style="color:#8fa1b3;">process</span><span style="color:#c0c5ce;">(df)  </span><span style="color:#8f9aa5;"># Your code doesn&#39;t change
+</span><span style="color:#c0c5ce;">    </span><span style="color:#8fa1b3;">process</span><span style="color:#c0c5ce;">(df)  </span><span style="color:#65737e;"># Your code doesn&#39;t change
+</span></pre>
+</code></pre>
+<p>För PDF-utdrag från banker som ännu inte erbjuder strukturerade CAMT-exporter:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser.hybrid </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">smart_ingest
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">result = </span><span style="color:#8fa1b3;">smart_ingest</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.pdf</span><span style="color:#c0c5ce;">&quot;)
+</span><span style="color:#b48ead;">assert </span><span style="color:#c0c5ce;">result.verification.status == &quot;</span><span style="color:#a3be8c;">VERIFIED</span><span style="color:#c0c5ce;">&quot;
 </span></pre>
 </code></pre>
 <p><a href="/getting-started/index.html">Läs hela dokumentationen</a></p>
-<p><a href="/comparison/index.html">Jämför med alternativ ❯</a> | <a href="/use-cases/index.html">Se användningsfall i verkliga världen ❯</a></p>
+<p><a href="/comparison/index.html">Jämför med alternativ ❯</a> | <a href="/use-cases/index.html">Se verkliga användningsfall ❯</a></p>
 </div>
     </main>
     <footer class="site-footer" aria-label="footer">
       <div class="footer-inner">
-        <span>© 2023-2026 Kontoutdragsparser. Alla rättigheter reserverade.</span>
+        <span>© 2023-2026 Bank Statement Parser. Alla rättigheter reserverade.</span>
         <ul class="footer-links">
           <li><a href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li>
           <li><a href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li>
@@ -309,7 +334,7 @@
         </ul>
       </div>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"En praktisk guide till SWIFT ISO 20022-migreringstidslinjen (2026-2028), MT940 till CAMT.053-övergången och hur Kontoutdragsparser hjälper treasury-team att migrera.","headline":"Navigera SWIFT MT till ISO 20022 Transition","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"sv-SE","mainEntityOfPage":"https://bankstatementparser.com/sv/migration/index.html","name":"Kontoutdragsparser","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"En praktisk guide till SWIFT ISO 20022-migreringstidslinjen (2026-2028), MT940 till CAMT.053-övergången och hur Bank Statement Parser hjälper treasury-team att migrera.","headline":"Navigera SWIFT MT till ISO 20022 Transition","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"sv-SE","mainEntityOfPage":"https://bankstatementparser.com/sv/migration/index.html","name":"ISO 20022 Migration Guide","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
     <script>
     (function(){
       // Language switcher toggle
@@ -332,8 +357,8 @@
         document.documentElement.setAttribute("data-theme",theme);localStorage.setItem("theme",theme);
         document.querySelectorAll(".theme-icon-dark,.theme-icon-dark-m").forEach(function(e){e.style.display=theme==="dark"?"none":""});
         document.querySelectorAll(".theme-icon-light,.theme-icon-light-m").forEach(function(e){e.style.display=theme==="dark"?"":"none"});
-        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"Light":"Dark"});
-        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"Switch to light mode":"Switch to dark mode")});
+        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"Ljus":"Mork"});
+        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"Byt till ljust lage":"Byt till morkt lage")});
       }
       var saved=localStorage.getItem("theme");
       if(saved){setTheme(saved)}else if(window.matchMedia("(prefers-color-scheme:dark)").matches){setTheme("dark")}
@@ -348,5 +373,57 @@
     })();
     </script>
     <script defer src="/main.js"></script>
-  </body>
+      <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Sok...">
+      <div class="search-box">
+        <input class="search-input" id="searchInput" type="search" placeholder="Sok..." autocomplete="off" aria-label="Sok..." />
+        <div class="search-results" id="searchResults"></div>
+        <div class="search-footer"><span><kbd>&uarr;</kbd><kbd>&darr;</kbd> Navigate</span><span><kbd>&crarr;</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var pages=[{t:"Home",d:"Parse 7 bank statement formats including PDF, 100% local",u:"/sv/index.html",k:"accounting alla alternativ analysera analyserar använd används apache arbetsflöden automatiserade automatisk automatiskt avstämningssystem avvecklade bank beancount bearbetar bearbetas bearbetning begränsat behandlar behov behöver behövs berikande be"},{t:"About",d:"Features, formats, hybrid PDF pipeline, performance overview",u:"/sv/a-propos/index.html",k:"accepteditskipdelete accounting adresser aktivera alla analyserar användare använder apier arbetsflöden automatisk avstämnings avvikelser avvisning bank banker bankexport baserade beancount bearbeta bearbetar bearbetning begränsat behöver berikande b"},{t:"Getting Started",d:"Installation, extras, PDF pipeline, REST API, CLI reference",u:"/sv/premiers-pas/index.html",k:"accounting alla alternativ använd användbart användning arbetsflöden autodetektera automatisk automatiskt avvisning baserade beancount bearbeta bearbetning begränsat berikande bombskydd byte camt camtpain csvjsonexcel dataklasser deduplicering detta "},{t:"FAQ",d:"Privacy, hybrid PDF, Golden Rule, performance, compliance",u:"/sv/faq/index.html",k:"accounting admi aktivera aldrig alla allvarlighets anpassad anpassade anpassat anrop använd användbart använder apier apit applikationslogik arbeta arbete arbetsflöden arkiv arkivextraktion attributet automatisk automatiskt avsiktligt avveckling avvi"},{t:"Use Cases",d:"Treasury, PDF ingestion, reconciliation, ledger export, REST API",u:"/sv/cas-utilisation/index.html",k:"accounting anrop apier arbetsflöden arkiv automatiserad automatisk automatiskt avstämning avvisning bank bankanslutning banker barclays batchbearbetning beancount bearbeta behovet bombskydd byte båda både camt chase csver data dataframe dataframes da"},{t:"Migration",d:"ISO 20022 timeline, MT940 to CAMT.053, PDF fallback",u:"/sv/migration/index.html",k:"adressformat alla alternativet annat arbetsflöde autodetektering automatisk automatiskt avveckla avvecklade avvecklar avvisas bank banker bankspecifika beancount bearbeta begränsad begränsade begränsat behov betalningar bokföring byter båda både börj"},{t:"Security",d:"XXE protection, PII redaction, local LLMs, Golden Rule",u:"/sv/securite/index.html",k:"aktivera alla använd använder apier arkivsäkerhet artefakt attacker attestation automatiskt avgörande avvikelser avvisas avvisning bank baserade bearbeta bearbetar bearbetning behåller behöver beroenden beroendeverifiering blockerar bomber byggd bygg"},{t:"Comparison",d:"vs mt-940, ofxparse, pyiso20022, SaaS, hybrid LLM pipeline",u:"/sv/alternatives/index.html",k:"admi allmän alternativ analys anpassade antal använd använder apache apier apple april arbeta automatisk automatiskt avstämning avvikelser bank banker bankspecifika bara baserad baserade beancount bearbetning begränsad begränsat behöver benchmark ber"},{t:"Changelog",d:"Release history: v0.0.8, v0.0.7, v0.0.6, v0.0.5, v0.0.4",u:"/sv/journal-des-modifications/index.html",k:"account across applicationcategory arkivbehandling automatisk balance bands bank bankutdragstolkare batch beancount bearbetning begränsat bounding bridge bulk bypasses camt changed command config currency dataframe datepublished deduplicates deduplic"},{t:"Contribute",d:"Report issues, submit code, documentation, sponsorship",u:"/sv/contribuer/index.html",k:"alla alltid analysen användningsexempel bank befintlig befintligt behålla beskrivning biblioteket bidrag bidrar bugg buggar dela dina ditt docstrings dokumentation dokumentationen eller filialtäckning finansvärlden från funktionsbegäran funktionsgren"},{t:"Contact",d:"GitHub issues for open-source, form for business inquiries",u:"/sv/contact/index.html",k:"affärsförfrågan affärsförfrågningar allmänna använd biblioteket buggrapporter bästa detta eller feedback formuläret fråga frågor från funktionsförfrågningar gynnar gärna höra kanalen källkod nedan oavsett ordentligt partnerskapsmöjligheter samhället "},{t:"Privacy",d:"Privacy policy, analytics, GDPR, cookies",u:"/sv/confidentialite/index.html",k:"analystjänster analystjänsterna analytics anges anonymiserad anonymiserade använd användarupplevelsen använder användningsdata april bank bankstatementparsercom barn barns bearbetar befinner begränsa begränsar begär behandlar behandlas behandling beh"},{t:"Terms",d:"Terms of use, Apache 2.0 license, disclaimers",u:"/sv/conditions/index.html",k:"accepterar alla allt analysera ansvar ansvarig ansvariga ansvarsbegränsning använd använda användarvillkor användning apache april bank bankstatementparsercom befintligt begränsade behandlas beskrivningen biblioteket bidragare bunden data databehandl"}];
+      var overlay=document.getElementById("searchOverlay");
+      var input=document.getElementById("searchInput");
+      var results=document.getElementById("searchResults");
+      var trigger=document.getElementById("searchTrigger");
+      var activeIdx=-1;
+      var isMac=/Mac|iPhone|iPad|iPod/.test(navigator.platform||navigator.userAgent||"");
+      var shortcutSpans=document.querySelectorAll(".search-shortcut");
+      for(var s=0;s<shortcutSpans.length;s++){shortcutSpans[s].textContent=isMac?"⌘K":"Ctrl+K"}
+      function openSearch(){overlay.classList.add("open");input.value="";input.focus();activeIdx=-1;renderResults("")}
+      function closeSearch(){overlay.classList.remove("open");input.value="";results.innerHTML="";activeIdx=-1}
+      function fuzzy(q,text){q=q.toLowerCase();text=text.toLowerCase();if(text.indexOf(q)!==-1)return true;var qi=0;for(var ti=0;ti<text.length&&qi<q.length;ti++){if(text[ti]===q[qi])qi++}return qi===q.length}
+      function renderResults(q){
+        var filtered=[];
+        if(q.length>0){for(var i=0;i<pages.length;i++){var p=pages[i];if(fuzzy(q,p.t)||fuzzy(q,p.d)||(p.k&&fuzzy(q,p.k)))filtered.push(p)}}
+        if(q.length===0){results.innerHTML="";activeIdx=-1;return}
+        if(filtered.length===0){results.innerHTML='<div class="search-empty">No results for "'+q.replace(/</g,"&lt;")+'"</div>';activeIdx=-1;return}
+        var html="";
+        for(var j=0;j<filtered.length;j++){
+          html+='<a class="search-result'+(j===0?" active":"")+'" href="'+filtered[j].u+'" data-idx="'+j+'"><div class="search-result-title">'+filtered[j].t+'</div><div class="search-result-desc">'+filtered[j].d+'</div></a>';
+        }
+        results.innerHTML=html;
+        activeIdx=0;
+      }
+      function updateActive(){
+        var items=results.querySelectorAll(".search-result");
+        for(var i=0;i<items.length;i++){items[i].classList.toggle("active",i===activeIdx)}
+        if(items[activeIdx]){items[activeIdx].scrollIntoView({block:"nearest"})}
+      }
+      if(trigger){trigger.addEventListener("click",function(e){e.preventDefault();openSearch()})}
+      document.addEventListener("keydown",function(e){
+        if((isMac?e.metaKey:e.ctrlKey)&&e.key==="k"){e.preventDefault();if(overlay.classList.contains("open")){closeSearch()}else{openSearch()};return}
+        if(!overlay.classList.contains("open"))return;
+        if(e.key==="Escape"){e.preventDefault();closeSearch();return}
+        var items=results.querySelectorAll(".search-result");
+        if(e.key==="ArrowDown"){e.preventDefault();if(items.length){activeIdx=(activeIdx+1)%items.length;updateActive()};return}
+        if(e.key==="ArrowUp"){e.preventDefault();if(items.length){activeIdx=(activeIdx-1+items.length)%items.length;updateActive()};return}
+        if(e.key==="Enter"){e.preventDefault();if(items[activeIdx]){window.location.href=items[activeIdx].getAttribute("href")};return}
+      });
+      input.addEventListener("input",function(){activeIdx=-1;renderResults(input.value.trim())});
+      overlay.addEventListener("click",function(e){if(e.target===overlay)closeSearch()});
+    })();
+    </script>
+<script defer src="/bootstrap.bundle.min.js"></script></body>
 </html>

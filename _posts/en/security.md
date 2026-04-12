@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Bank Statement Parser Security"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Bank Statement Parser. All rights reserved."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Security features of Bank Statement Parser: XXE protection, ZIP bomb hardening, PII redaction, supply chain security, deterministic output, and signed builds."
 download: ""
 format-detection: "telephone=no"
@@ -56,11 +56,11 @@ generator: "Shokunin 🦀 (version 0.0.20)"
 item_description: "Security features of Bank Statement Parser: XXE protection, ZIP bomb hardening, PII redaction, supply chain security, deterministic output, and signed builds."
 item_guid: "https://bankstatementparser.com/security/rss.xml"
 item_link: "https://bankstatementparser.com/security/rss.xml"
-item_pub_date: "2026-04-01T00:00:00+00:00"
+item_pub_date: "2026-04-11T00:00:00+00:00"
 item_title: "Bank Statement Parser Security: Data Protection and Supply Chain"
-last_build_date: "2026-04-01T00:00:00+00:00"
+last_build_date: "2026-04-11T00:00:00+00:00"
 managing_editor: "contact@bankstatementparser.com"
-pub_date: "2026-04-01T00:00:00+00:00"
+pub_date: "2026-04-11T00:00:00+00:00"
 ttl: "60"
 type: "website"
 webmaster: "contact@bankstatementparser.com"
@@ -100,22 +100,22 @@ author_website: "https://bankstatementparser.com"
 author_twitter: "@wwdseb"
 author_location: "London, UK"
 thanks: "Thanks for reading!"
-site_last_updated: "2026-04-01"
+site_last_updated: "2026-04-11"
 site_standards: "HTML5, CSS3, RSS, Atom, JSON, XML, YAML, Markdown, TOML"
 site_components: "Shokunin SSG, Shokunin CLI, Shokunin Templates, Shokunin Themes, Kaishi SSG, Kaishi CLI, Kaishi Templates, Kaishi Themes"
 site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Bank Statement Parser makes zero network calls, redacts PII by default, hardens XML parsing against XXE attacks, and ships with SHA-256 hash-locked dependencies and a CycloneDX SBOM.
+**TL;DR:** Bank Statement Parser processes all data locally, redacts PII by default, hardens XML parsing against XXE attacks, runs LLMs locally via Ollama, and ships with SHA-256 hash-locked dependencies and a CycloneDX SBOM.
 
 ## Security by Design
 
 Bank Statement Parser is built for processing sensitive financial data. Every design decision prioritises security, privacy, and auditability.
 
-## Zero Network Access
+## Zero Cloud Dependency
 
-All processing happens locally within your runtime. The library makes zero API calls, zero cloud connections, and collects zero telemetry. XML parsers are explicitly configured with `no_network=True`, `resolve_entities=False`, and `load_dtd=False` to prevent any outbound access.
+All processing happens locally within your runtime. The deterministic parsers make zero network calls. The hybrid PDF pipeline uses Ollama for local LLM inference — no data is sent to cloud APIs. XML parsers are explicitly configured with `no_network=True`, `resolve_entities=False`, and `load_dtd=False` to prevent any outbound access.
 
 ## PII Redaction
 
@@ -153,13 +153,17 @@ Input validation blocks dangerous file paths:
 - File extension validation against expected formats
 - File size limits (100 MB default, configurable)
 
+## Balance Verification (Golden Rule)
+
+Every PDF extraction is verified with the equation: `opening balance + credits − debits == closing balance`. Results are tagged as VERIFIED, DISCREPANCY, or FAILED. Discrepancies can be reviewed interactively with `--type review`.
+
 ## Deterministic Output
 
-Given the same input file, the parser produces byte-identical output every run. No randomness, no model inference, no heuristic sampling. This is critical for:
+For structured formats (CAMT, PAIN.001, CSV, OFX, QFX, MT940), given the same input file, the parser produces byte-identical output every run. No randomness, no model inference, no heuristic sampling. This is critical for:
 
 - **Audit reproducibility**: Run the same file twice and diff the output
 - **Regulatory compliance**: Demonstrate consistent processing
-- **CI verification**: 467 tests enforce determinism with 100% branch coverage
+- **CI verification**: 718 tests enforce determinism with 100% branch coverage
 
 ## Supply Chain Security
 
@@ -172,7 +176,7 @@ Given the same input file, the parser produces byte-identical output every run. 
 ## Verify Locally
 
 ```bash
-python -m pytest                          # 467 tests, 100% branch coverage
+python -m pytest                          # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py    # SHA-256 hash verification
 git log --show-signature -1               # Verify commit signature
 ```

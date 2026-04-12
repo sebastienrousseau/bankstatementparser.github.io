@@ -6,14 +6,14 @@ author: "Sebastien Rousseau"
 banner_alt: "About Bank Statement Parser: Features, Formats, and Performance"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Bank Statement Parser. All rights reserved."
-date: "Apr 01, 2026"
-description: "Bank Statement Parser is an open-source Python library for parsing CAMT.053, PAIN.001, CSV, OFX, QFX, and MT940 into pandas DataFrames. 100% local, PII redaction, 27K+ tx/s."
+date: "Apr 11, 2026"
+description: "Bank Statement Parser is an open-source Python library for parsing CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, and PDF into pandas DataFrames. Hybrid PDF pipeline, REST API, 27K+ tx/s."
 download: ""
 format-detection: "telephone=no"
 hreflang: "en"
@@ -40,7 +40,7 @@ referrer: "no-referrer"
 revisit-after: "7 days"
 robots: "index, follow"
 short_name: "bankstatementparser"
-subtitle: "One Library. Six Formats. Zero Network Calls."
+subtitle: "One Library. Seven Formats. Hybrid PDF Pipeline. Zero Network Calls."
 tags: "bank,statement,parser,finance,python,camt,pain001,csv,ofx,qfx,mt940"
 theme_color: "rgb(73, 214, 251)"
 title: "About Bank Statement Parser: Features, Formats, and Performance"
@@ -56,11 +56,11 @@ generator: "Shokunin 🦀 (version 0.0.20)"
 item_description: "Bank Statement Parser is an open-source Python library for parsing CAMT.053, PAIN.001, CSV, OFX, QFX, and MT940 into pandas DataFrames. 100% local, PII redaction, 27K+ tx/s."
 item_guid: "https://bankstatementparser.com/about/rss.xml"
 item_link: "https://bankstatementparser.com/about/rss.xml"
-item_pub_date: "2026-04-01T00:00:00+00:00"
+item_pub_date: "2026-04-11T00:00:00+00:00"
 item_title: "About Bank Statement Parser: Features, Formats, and Performance"
-last_build_date: "2026-04-01T00:00:00+00:00"
+last_build_date: "2026-04-11T00:00:00+00:00"
 managing_editor: "contact@bankstatementparser.com"
-pub_date: "2026-04-01T00:00:00+00:00"
+pub_date: "2026-04-11T00:00:00+00:00"
 ttl: "60"
 type: "website"
 webmaster: "contact@bankstatementparser.com"
@@ -91,7 +91,7 @@ twitter_description: "Open-source Python library: parse CAMT.053, PAIN.001, CSV,
 twitter_image: "/images/logos/bankstatementparser.webp"
 twitter_image_alt: "Logo of Bank Statement Parser, Empower Your Financial Analysis with Seamless Data Extraction"
 twitter_site: "@wwdseb"
-twitter_title: "About Bank Statement Parser: 6 Formats, 27K+ tx/s, 100% Local"
+twitter_title: "About Bank Statement Parser: 7 Formats, 27K+ tx/s, 100% Local"
 twitter_url: "https://bankstatementparser.com/about/index.html"
 
 # Humans.txt - The Humans.txt front matter (YAML).
@@ -100,27 +100,28 @@ author_website: "https://bankstatementparser.com"
 author_twitter: "@wwdseb"
 author_location: "London, UK"
 thanks: "Thanks for reading!"
-site_last_updated: "2026-04-01"
+site_last_updated: "2026-04-11"
 site_standards: "HTML5, CSS3, RSS, Atom, JSON, XML, YAML, Markdown, TOML"
 site_components: "Shokunin SSG, Shokunin CLI, Shokunin Templates, Shokunin Themes, Kaishi SSG, Kaishi CLI, Kaishi Templates, Kaishi Themes"
 site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Bank Statement Parser is an open-source Python library that parses six bank statement formats (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) into pandas DataFrames. 100% local processing, PII redaction by default, 27K+ tx/s throughput.
+**TL;DR:** Bank Statement Parser is an open-source Python library that parses seven bank statement formats (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, and PDF) into pandas DataFrames. Hybrid PDF pipeline with balance verification, REST API, enrichment, ledger export, 27K+ tx/s throughput.
 
-Bank Statement Parser is an open-source Python library that parses bank statements from six formats into structured pandas DataFrames. All processing happens locally -- zero network calls, deterministic output, and automatic PII redaction.
+Bank Statement Parser is an open-source Python library that parses bank statements from seven formats into structured pandas DataFrames. The deterministic core processes structured formats locally with zero network calls. The optional hybrid PDF pipeline routes through local LLMs (via Ollama) for digital and scanned statements.
 
 ## Who Is This For?
 
-- **Treasury teams** migrating from MT940 to CAMT.053 who need a parser that handles both old and new formats during the transition.
-- **Fintech developers** building reconciliation, reporting, or accounting pipelines who want a single dependency instead of stitching together mt940 + ofxparse + custom CSV logic.
-- **Compliance teams** who need PII redaction by default and audit-ready, deterministic output that never sends data to external services.
+- **Treasury teams** migrating from MT940 to CAMT.053 who need a parser that handles both old and new formats during the transition, plus PDF statements from banks that don't offer structured exports.
+- **Fintech developers** building reconciliation, reporting, or accounting pipelines who want a single dependency with built-in balance verification, categorisation, and ledger export.
+- **Compliance teams** who need PII redaction by default, deterministic output, and Golden Rule verification that flags discrepancies before they reach the ledger.
+- **Plaintext-accounting users** who want automated ingestion from PDF bank statements directly into hledger or beancount journals.
 - **Anyone** who refuses to send sensitive financial data to a third-party SaaS when a local, open-source tool can do the job.
 
 ## Supported Formats
 
-| Format | Standard | File Types | Parser Class |
+| Format | Standard | File Types | Parser/Method |
 |---|---|---|---|
 | CAMT.053 | ISO 20022 Bank-to-Customer Statement | `.xml` | `CamtParser` |
 | PAIN.001 | ISO 20022 Credit Transfer Initiation | `.xml` | `Pain001Parser` |
@@ -128,18 +129,28 @@ Bank Statement Parser is an open-source Python library that parses bank statemen
 | OFX | Open Financial Exchange | `.ofx` | `OfxParser` |
 | QFX | Quicken Financial Exchange | `.qfx` | `QfxParser` |
 | MT940 | SWIFT standard | `.mt940`, `.sta` | `Mt940Parser` |
+| PDF | Digital and scanned statements | `.pdf` | `smart_ingest()` |
 
 All formats produce normalised pandas DataFrames with consistent column names, making downstream processing format-agnostic.
 
 ## Key Capabilities
 
+- **Hybrid PDF Pipeline**: `smart_ingest()` routes PDFs through three paths — deterministic table extraction, text-LLM, or vision-LLM — with automatic Golden Rule balance verification.
 - **Format Auto-Detection**: `detect_statement_format()` identifies the format; `create_parser()` instantiates the right parser.
+- **Balance Verification**: Golden Rule check (`opening + credits − debits == closing`) with VERIFIED/DISCREPANCY/FAILED status.
+- **Multi-Currency Verification**: `verify_balance_multi_currency()` groups transactions by currency for independent verification.
+- **REST API**: FastAPI microservice with `/ingest` and `/health` endpoints for production deployments.
+- **Enrichment**: LLM-powered transaction categorisation with pluggable schemas (Plaid 13-category default).
+- **Interactive Review**: Walk through discrepancies with accept/edit/skip/delete actions via `--type review`.
+- **Ledger Export**: `to_hledger()` and `to_beancount()` for plaintext-accounting workflows.
+- **Bulk Scanning**: `scan_and_ingest()` processes folder trees with automatic cross-file deduplication.
+- **Account Mapping**: Regex-based account mapping rules from JSON config for ledger export.
 - **Streaming Parsing**: Process large files (50 MB+, 50K+ transactions) with bounded memory using `parse_streaming()`.
 - **Parallel Processing**: Parse multiple files concurrently with `parse_files_parallel()` using ProcessPoolExecutor.
-- **Deduplication**: Detect exact duplicates and suspected matches with explainable confidence scores.
+- **Deduplication**: Idempotent `transaction_hash` (MD5 fingerprint) for safe incremental ingestion.
 - **In-Memory Parsing**: `from_string()` and `from_bytes()` for SFTP and API workflows with no disk I/O.
 - **Secure ZIP Processing**: `iter_secure_xml_entries()` with compression ratio limits, entry size caps, and encrypted entry rejection.
-- **Export**: CSV, JSON, Excel (`.xlsx`), and optional Polars DataFrames.
+- **Export**: CSV, JSON, Excel (`.xlsx`), Polars DataFrames, hledger, and beancount journals.
 
 ## Security And Privacy
 
@@ -148,6 +159,7 @@ All formats produce normalised pandas DataFrames with consistent column names, m
 - **ZIP Bomb Protection**: Compression ratio limits (100:1 default), entry size caps (10 MB), encrypted entry rejection.
 - **Path Traversal Prevention**: Dangerous pattern blocklist and symlink resolution.
 - **Supply Chain Security**: SHA-256 hash-locked dependencies, CycloneDX SBOM, build provenance attestation.
+- **Local LLMs Only**: The hybrid PDF pipeline uses Ollama for local inference — no data sent to cloud APIs.
 
 ## Performance
 
@@ -160,7 +172,7 @@ All formats produce normalised pandas DataFrames with consistent column names, m
 | Time to first result | < 2 ms |
 | Memory scaling (1K-50K tx) | Constant (streaming) |
 | Test coverage | 100% branch coverage |
-| Tests | 467 across 29 test files |
+| Tests | 718 across 29 test files |
 
 ## Start Building
 

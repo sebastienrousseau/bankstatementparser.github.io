@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "은행 명세서 파서 사용 사례"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 은행 명세서 파서. 모든 권리 보유."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "재무팀, 핀테크 개발자 및 규정 준수 담당자가 MT940에서 CAMT로의 마이그레이션, 조정, 감사 파이프라인 및 다중 은행 통합을 위해 은행 명세서 파서를 사용하는 방법."
 download: ""
 format-detection: "telephone=no"
@@ -107,13 +107,41 @@ site_software: "Shokunin, Rust"
 
 ---
 
-Bank 명세서 Parser는 재무팀을 위한 MT940에서 CAMT로의 마이그레이션, 자동화된 조정, PII 수정을 통한 규정 준수 파이프라인, SFTP 수집, 다중 은행 통합 및 안전한 ZIP 일괄 처리 등 실제 금융 워크플로우를 처리합니다.
+Bank Statement Parser는 실제 금융 워크플로를 처리합니다. PDF 은행 명세서 수집, MT940-CAMT 마이그레이션, 잔액 검증이 포함된 자동화된 조정, 컴플라이언스 파이프라인, 일반 텍스트 회계 내보내기, REST API 배포, 대량 스캔, 다중 은행 통합을 지원합니다.
 
-## 재무부: MT940에서 CAMT.053으로 마이그레이션
+## PDF 은행 명세서 수집
 
-**결과:** SWIFT 마이그레이션 기간(2025년 11월~2028년 11월) 동안 단일 API 호출로 MT940과 CAMT.053을 모두 처리하므로 별도의 구문 분석 파이프라인이 필요하지 않습니다.
+**결과:** 디지털 및 스캔 PDF 은행 명세서를 자동 잔액 검증으로 파싱합니다. 클라우드 API 없이, 데이터가 외부로 유출되지 않습니다.
 
-전 세계 재무팀은 2027년 11월 SWIFT 마감일을 앞두고 MT940에서 CAMT.053으로 마이그레이션하고 있습니다. 은행 명세서 파서는 단일 API로 두 형식을 모두 처리하므로 전환이 원활하게 이루어집니다.
+하이브리드 PDF 파이프라인은 각 PDF를 최적의 추출 경로로 라우팅하고 모든 결과를 검증합니다.
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+
+# Review discrepancies interactively
+# bankstatementparser --type review --input result.json
+```
+
+## 대량 명세서 처리
+
+**결과:** 한 번의 호출로 전체 폴더 트리(수백 개의 PDF, XML, CSV)를 자동 파일 간 중복 제거와 함께 스캔합니다.
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Files: {len(batch.results)}, Unique txns: {batch.unique_count}")
+```
+
+## 재무: MT940에서 CAMT.053으로 마이그레이션
+
+**결과:** SWIFT 마이그레이션 기간(2025년 11월~2028년 11월) 동안 단일 API 호출로 MT940과 CAMT.053을 모두 처리하므로 별도의 파싱 파이프라인이 필요하지 않습니다.
+
+전 세계 재무팀은 2027년 11월 SWIFT 마감일을 앞두고 MT940에서 CAMT.053으로 마이그레이션하고 있습니다. Bank Statement Parser는 단일 API로 두 형식을 모두 처리하므로 전환이 원활하게 이루어집니다.
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -126,17 +154,23 @@ for file in daily_statement_files:
     load_to_treasury_system(df)
 ```
 
-## 자동 조정
+## 잔액 검증이 포함된 자동 조정
 
-**결과:** 중복 제거 기능이 내장된 형식에 구애받지 않는 DataFrame은 수동 일치 노력을 줄이고 중복 항목이 원장에 도달하기 전에 잡아냅니다.
+**결과:** Golden Rule 검증과 중복 제거가 포함된 형식 독립적 DataFrame이 오류와 중복을 원장에 도달하기 전에 감지합니다.
 
-은행 명세서를 구문 분석하고 내부 기록과 자동으로 일치시킵니다. 통합된 DataFrame 출력은 조정 논리를 형식에 구애받지 않게 만듭니다.
+은행 명세서를 파싱하고 잔액을 검증한 후 내부 기록과 자동으로 일치시킵니다.
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
+from bankstatementparser.hybrid import verify_balance_multi_currency
 
 parser = CamtParser("bank_statement.xml")
 bank_txns = parser.parse()
+
+# Verify balances per currency
+verification = verify_balance_multi_currency(bank_txns)
+for ccy, result in verification.items():
+    assert result.status == "VERIFIED", f"{ccy} balance mismatch!"
 
 # Deduplicate before reconciliation
 dedup = Deduplicator()
@@ -147,11 +181,39 @@ clean_txns = result.unique_transactions
 unmatched = reconcile(clean_txns, internal_ledger)
 ```
 
-## 규정 준수 및 감사 파이프라인
+## 일반 텍스트 회계 (hledger / beancount)
 
-**결과:** 결정적 출력 및 자동 PII 수정을 통해 추가 도구 없이 규제 재현성 요구 사항을 충족하는 감사 준비 로그를 생성합니다.
+**결과:** PDF 은행 명세서를 자동으로 수집하고 분류된 트랜잭션을 hledger 또는 beancount 저널 형식으로 내보냅니다.
 
-PII 수정 및 결정적 출력을 통해 감사 가능한 파이프라인을 구축하세요. 모든 실행은 동일한 입력에 대해 동일한 결과를 생성하여 규제 재현성 요구 사항을 충족합니다.
+```python
+from bankstatementparser.hybrid import smart_ingest
+from bankstatementparser.enrichment import Categorizer
+from bankstatementparser.export import to_hledger
+
+result = smart_ingest("statement.pdf")
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(result.transactions)
+journal = to_hledger(enriched, account="Assets:Bank:Checking")
+```
+
+## REST API 배포
+
+**결과:** Bank Statement Parser를 HTTP를 통해 명세서 파일을 받아 구조화된 JSON을 반환하는 마이크로서비스로 배포합니다.
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+```
+
+```bash
+# Ingest a statement
+curl -X POST http://localhost:8000/ingest \
+  -F "file=@statement.pdf"
+```
+
+## 컴플라이언스 및 감사 파이프라인
+
+**결과:** 결정적 출력, 자동 PII 마스킹, Golden Rule 검증으로 규제 재현성 요구 사항을 충족하는 감사 대응 로그를 생성합니다.
 
 ```python
 from bankstatementparser import CamtParser
@@ -168,9 +230,7 @@ parser.export_csv("archive/statement.csv")
 
 ## SFTP에서 DataFrame으로의 워크플로
 
-**결과:** 디스크 I/O 없이 바이트에서 직접 구문 분석하여 기본적으로 SFTP 및 API 기반 은행 연결 워크플로에 적합합니다.
-
-많은 은행이 SFTP를 통해 명세서를 제공합니다. 디스크에 쓰지 않고 바이트에서 직접 구문 분석합니다.
+**결과:** 디스크 I/O 없이 바이트에서 직접 파싱하여 SFTP 및 API 기반 은행 연결 워크플로에 자연스럽게 통합됩니다.
 
 ```python
 from bankstatementparser import CamtParser
@@ -182,9 +242,7 @@ df = parser.parse()
 
 ## 다중 은행 통합
 
-**결과:** HSBC(CAMT), Barclays(MT940), Revolut(CSV) 및 Wise(OFX)에 대한 병렬 구문 분석은 한 번의 호출로 정규화된 단일 데이터 세트를 생성합니다.
-
-다양한 형식을 사용하는 여러 은행의 명세서를 하나의 정규화된 데이터 세트로 통합합니다.
+**결과:** HSBC(CAMT), Barclays(MT940), Revolut(CSV), Wise(OFX), Chase(PDF)에 대한 병렬 파싱이 단일 정규화된 데이터 세트를 생성합니다.
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -201,9 +259,7 @@ all_transactions = pd.concat([r.transactions for r in results if r.status == "su
 
 ## ZIP 아카이브를 사용한 일괄 처리
 
-**결과:** 내장된 ZIP 폭탄 보호(비율 제한 100:1, 입력 한도 10MB, 암호화된 입력 거부)를 통해 월별 명세서 아카이브를 안전하게 처리할 수 있습니다.
-
-내장된 ZIP 폭탄 보호 기능을 통해 압축된 명세서 아카이브를 안전하게 처리합니다.
+**결과:** 내장된 ZIP 폭탄 보호(비율 제한 100:1, 항목 한도 10MB, 암호화된 항목 거부)로 월별 명세서 아카이브를 안전하게 처리합니다.
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser

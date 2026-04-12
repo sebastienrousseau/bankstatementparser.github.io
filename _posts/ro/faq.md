@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Întrebări frecvente despre analizator extras de cont"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Analizator extras de cont. Toate drepturile rezervate."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Răspunsuri la întrebări obișnuite despre analizatorul extras de cont: confidențialitatea datelor, redarea PII, performanță, suport ISO 20022, fluxuri de lucru, conformitate și trezorerie."
 download: ""
 format-detection: "telephone=no"
@@ -109,68 +109,74 @@ site_software: "Shokunin, Rust"
 
 ## Confidențialitatea datelor și conformitatea
 
-### Îmi părăsesc date infrastructura?
+### Părăsesc datele infrastructura mea?
 
-**Nu.** Analizatorul extras de cont funcționează ca o bibliotecă fără stat. Toate procesările -- analizarea, redarea PII, extragerea arhivei -- au loc în memoria dvs. de rulare locală. Fără apeluri API, fără servicii cloud, fără telemetrie. Analizoarele XML sunt întărite cu`no_network=True`, blocând tot accesul de ieșire la nivel de parser. Datele tale financiare nu părăsesc niciodată mediul tău.
+**Nu — nici măcar pentru extracția PDF.** Bank Statement Parser funcționează ca o bibliotecă fără stare. Toată procesarea -- parsare, redactare PII, extragere arhive -- are loc în memoria locală de rulare. Pipeline-ul hibrid PDF folosește Ollama pentru inferență LLM locală — fără API-uri cloud. Parserele XML sunt securizate cu `no_network=True`, blocând tot accesul de ieșire la nivel de parser. Datele financiare nu părăsesc niciodată mediul dumneavoastră.
 
 ### Cum funcționează redactarea PII?
 
-Câmpurile sensibile sunt mascate înainte de a ajunge la logica aplicației dumneavoastră. Analizorul identifică numele debitorilor, numele creditorilor, IBAN-urile și adresele poștale, înlocuindu-le cu`***REDACTED***`în modul de ieșire din consolă și de streaming.
+Câmpurile sensibile sunt mascate înainte de a ajunge la logica aplicației. Parserul identifică numele debitorilor, numele creditorilor, IBAN-urile și adresele poștale, înlocuindu-le cu `***REDACTED***` în ieșirea consolei și în modul streaming.
 
-- **Redacția este activată în mod implicit** în modul de ieșire și streaming CLI.
-- **Exporturile de fișiere** (CSV, JSON, Excel) rețin datele neredactate pentru procesarea în aval.
-- **Înscrieți-vă** la datele complete cu`--show-pii`pe CLI sau`redact_pii=False`în API.
+- **Redactarea este activată implicit** în ieșirea CLI și modul streaming.
+- **Exporturile de fișiere** (CSV, JSON, Excel) păstrează datele neredactate pentru procesarea ulterioară.
+- **Activați** datele complete cu `--show-pii` în CLI sau `redact_pii=False` în API.
 
 ### Este procesul de extracție determinist?
 
-**Da -- ieșire identică pentru octeți la fiecare rulare.** Având în vedere același fișier de intrare, analizatorul produce același rezultat de fiecare dată. Fără aleatorie, fără inferență de model, fără eșantionare euristică. CI impune determinismul cu 467 de teste la o acoperire de 100% a ramurilor, inclusiv fuzzing bazat pe proprietăți prin ipoteză.
+**Da, pentru formatele structurate -- ieșire identică la nivel de octet la fiecare rulare.** Cu același fișier de intrare, parserele deterministe (CAMT, PAIN.001, CSV, OFX, QFX, MT940) produc același rezultat de fiecare dată. Fără aleatorism, fără inferență de model, fără eșantionare euristică.
+
+Pentru pipeline-ul hibrid PDF, căile de extracție bazate pe LLM pot produce variații minore între rulări. De aceea, fiecare extracție PDF este verificată cu **Regula de Aur** (`opening + credits − debits == closing`), iar discrepanțele semnalate pot fi revizuite interactiv.
+
+CI impune determinismul cu 718 teste la acoperire de 100% a ramurilor, inclusiv fuzzing bazat pe proprietăți prin Hypothesis.
 
 ### Ce standarde de conformitate urmează proiectul?
 
-Proiectul menține documentația aliniată la ISO 13485 cu trasabilitate completă:
+Proiectul menține documentație aliniată la ISO 13485 cu trasabilitate completă:
 
-- Un **registru de risc** cuantificat cu scorul de severitate/probabilitate și evaluarea riscului rezidual.
-- Un **Plan de verificare și validare** cu 19 pași în 5 faze.
-- O **Procedură de control al modificării** cu evaluarea impactului și protocoale de retragere.
-- Un **registru SUUP** care acoperă toate dependențele cu niveluri de risc și urmărire EOL.
-- O **Matrice de trasabilitate** care mapa intrările de proiectare la implementare și verificare.
+- Un **Registru de riscuri** cuantificat cu scoruri de severitate/probabilitate și evaluare a riscului rezidual.
+- Un **Plan de verificare și validare** cu 19 pași pe 5 faze.
+- O **Procedură de control al modificărilor** cu evaluare a impactului și protocoale de revenire.
+- Un **Registru SOUP** care acoperă toate dependențele cu niveluri de risc și urmărire EOL.
+- O **Matrice de trasabilitate** care mapează intrările de proiectare la implementare și verificare.
 
-Fiecare versiune include un SBOM CycloneDX, sume de control SHA-256 și o atestare de proveniență a compilației GitHub.
+Fiecare versiune include un SBOM CycloneDX, sume de control SHA-256 și atestare de proveniență a build-ului GitHub.
 
 ## Performanță și scalabilitate
 
-### Cât de rapid este Analizatorul extras de cont?
+### Cât de rapid este Bank Statement Parser?
 
-Pragurile de performanță sunt validate în CI la fiecare comitere:
+Pragurile de performanță sunt validate în CI la fiecare commit:
 
-| Metric | Valoare |
+| Metrică | Valoare |
 |---|---|
-| debit CAMT.053 | 27.000+ tranzacții/secundă |
-| debit PAIN.001 | 52.000+ tranzacții/secundă |
-| Latența per tranzacție (CAMT) | 37 de microsecunde |
-| Latența per tranzacție (PAIN.001) | 19 microsecunde |
-| E timpul până la primul rezultat | < 2 ms |
+| Debit CAMT.053 | 27.000+ tranzacții/secundă |
+| Debit PAIN.001 | 52.000+ tranzacții/secundă |
+| Latență per tranzacție (CAMT) | 37 microsecunde |
+| Latență per tranzacție (PAIN.001) | 19 microsecunde |
+| Timp până la primul rezultat | < 2 ms |
+
+Viteza de extracție PDF depinde de calea de rutare: deterministă (sub o secundă), text-LLM (secunde), vision-LLM (secunde per pagină).
 
 ### Cum sunt gestionate fișierele mari?
 
-**Streaming cu memorie limitată -- testat la 50.000 de tranzacții per fișier.** Utilizați`parse_streaming()`pentru a procesa fișiere XML în mod incremental. Fiecare tranzacție este prezentată ca un dicționar; elementele sunt șterse după procesare pentru a preveni creșterea memoriei. Memoria nu se scalează în funcție de dimensiunea fișierului -- testul de tranzacție de 50.000 (25+ MB) utilizează mai puțin de două ori memoria testului de tranzacție de 10.000.
+**Streaming cu memorie limitată -- testat la 50.000 tranzacții per fișier.** Folosiți `parse_streaming()` pentru a procesa fișiere XML incremental. Fiecare tranzacție este returnată ca dicționar; elementele sunt șterse după procesare pentru a preveni creșterea memoriei. Memoria nu crește cu dimensiunea fișierului -- testul cu 50.000 tranzacții (25+ MB) folosește mai puțin de 2x memoria testului cu 10.000 tranzacții.
 
-Pentru fișierele care depășesc 50 MB (de exemplu, loturi PAIN.001 de la gazdă la gazdă cu plăți de peste 100.000), analizatorul transmite în flux un fișier temporar cu eliminarea spațiului de nume bazat pe fragmente - documentul complet nu este niciodată încărcat în memorie.
+Pentru fișiere care depășesc 50 MB (de ex., loturi PAIN.001 host-to-host cu 100.000+ plăți), parserul procesează în flux un fișier temporar cu eliminare a namespace-ului pe fragmente -- documentul complet nu este niciodată încărcat în memorie.
 
 ### Cum sunt procesate în siguranță arhivele ZIP?
 
-`iter_secure_xml_entries()`validează fiecare membru înainte de extragere:
+`iter_secure_xml_entries()` validează fiecare membru înainte de extragere:
 
-- **Limite pentru dimensiunea intrării** (implicit 10 MB per intrare)
-- **Limite de dimensiune totală necomprimată** (implicit 50 MB)
-- **Limita raportului de compresie** (implicit 100:1) pentru a preveni bombele ZIP
-- **Respingerea intrării criptate**
+- **Limită de dimensiune per intrare** (implicit 10 MB per intrare)
+- **Limită totală necomprimată** (implicit 50 MB)
+- **Limită a raportului de compresie** (implicit 100:1) pentru prevenirea ZIP bomb
+- **Respingere a intrărilor criptate**
 
-Niciun fișier nu este scris pe disc. Octeții XML trec direct la parser prin`from_bytes()`.
+Niciun fișier nu este scris pe disc. Octeții XML trec direct la parser prin `from_bytes()`.
 
 ### Pot analiza mai multe fișiere în paralel?
 
-**Da.** Folosește`parse_files_parallel()`care distribuie munca pe a`ProcessPoolExecutor`:
+**Da.** Folosiți `parse_files_parallel()` care distribuie lucrul pe un `ProcessPoolExecutor`:
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -184,61 +190,120 @@ for r in results:
     print(r.path, r.status, len(r.transactions), "rows")
 ```
 
-## Formate acceptate
+Pentru ingestie PDF în masă, folosiți `scan_and_ingest()` care procesează arbori întregi de foldere cu deduplicare automată.
 
-### Ce formate de extrase bancare sunt acceptate?
+## Formate suportate
 
-| Format | Standard | Tipuri de fișiere | Clasa Parser |
+### Ce formate de extrase bancare sunt suportate?
+
+| Format | Standard | Tipuri de fișiere | Parser/Metodă |
 |---|---|---|---|
-| CAMT.053 | Declarație de la bancă la client ISO 20022 | `.xml` | `CamtParser` |
-| DUREREA.001 | Inițierea transferului de credite ISO 20022 | `.xml` | `Pain001Parser` |
+| CAMT.053 | ISO 20022 Extras bancă-către-client | `.xml` | `CamtParser` |
+| PAIN.001 | ISO 20022 Inițiere transfer de credit | `.xml` | `Pain001Parser` |
 | CSV | Exporturi bancare generice | `.csv` | `CsvStatementParser` |
-| OFX | Deschideți Bursa financiară | `.ofx` | `OfxParser` |
+| OFX | Open Financial Exchange | `.ofx` | `OfxParser` |
 | QFX | Quicken Financial Exchange | `.qfx` | `QfxParser` |
 | MT940 | Standard SWIFT | `.mt940`, `.sta` | `Mt940Parser` |
+| PDF | Extrase digitale și scanate | `.pdf` | `smart_ingest()` |
 
-### Analizorul gestionează dialectele specifice băncii ale CAMT.053?
+### Cum funcționează pipeline-ul hibrid PDF?
 
-**Da -- namespace-agnostic prin design.** Analizorul elimină spațiile de nume XML înainte de procesare, gestionând orice variantă CAMT.053 (`camt.053.001.02`, `camt.053.001.04`, sau pachete bancare proprietare) fără configurație specifică spațiului de nume. XPath interogează structura elementului țintă, nu URI-urile spațiului de nume.
+Pipeline-ul hibrid (v0.0.5+) rutează inteligent PDF-urile prin trei căi de extracție:
 
-Pentru băncile care împachetează CAMT într-un plic personalizat, utilizați`from_string()`sau`from_bytes()`pentru a alimenta direct documentul interior.
+- **Calea A (Deterministă)**: Tabele PDF structurate parsate direct — gratuit, cel mai rapid, fără LLM.
+- **Calea B (Text-LLM)**: PDF-uri digitale cu layout complex extrase prin LLM local (LiteLLM/Ollama).
+- **Calea C (Vision-LLM)**: Extrase scanate sau fotocopiate procesate cu modele vizuale multimodale.
+
+Fiecare extracție este verificată cu Regula de Aur (`opening + credits − debits == closing`). Discrepanțele pot fi revizuite interactiv cu `--type review`.
+
+### Parserul gestionează dialectele specifice băncii ale CAMT.053?
+
+**Da -- namespace-agnostic prin design.** Parserul elimină namespace-urile XML înainte de procesare, gestionând orice variantă CAMT.053 (`camt.053.001.02`, `camt.053.001.04` sau învelișuri bancare proprietare) fără configurație specifică namespace-ului. Interogările XPath vizează structura elementelor, nu URI-urile namespace-ului.
+
+Pentru băncile care împachetează CAMT într-un plic personalizat, folosiți `from_string()` sau `from_bytes()` pentru a furniza direct documentul interior.
 
 ### Pot mapa anteturile de coloană CSV personalizate la schema standard?
 
-**Da -- normalizare automată, configurație zero.**`CsvStatementParser`recunoaște variațiile comune ale antetului:`"Date"`, `"Transaction Date"`, `"Booking Date"`toate harta la`date`domeniu.`"Amount"`, `"Value"`, `"Sum"`harta spre`amount`. Împărțiți coloanele de credit/debit (de ex.,`"Credit"`şi`"Debit"`) sunt detectate și combinate într-o singură sumă semnată automat.
+**Da -- normalizare automată, zero configurație.** `CsvStatementParser` recunoaște variațiile comune ale anteturilor: `"Date"`, `"Transaction Date"`, `"Booking Date"` se mapează toate la câmpul `date`. `"Amount"`, `"Value"`, `"Sum"` se mapează la `amount`. Coloanele separate de credit/debit (de ex., `"Credit"` și `"Debit"`) sunt detectate și combinate automat într-o sumă unică cu semn.
 
 ### Care este formatul de ieșire?
 
-Toți analizatorii produc DataFrame standardizate panda cu tipuri de coloane consistente:
+Toate parserele produc DataFrames pandas standardizate cu tipuri de coloane consistente:
 
 | Format | Coloane cheie |
 |---|---|
 | **CAMT** | `Amount`, `Currency`, `DrCr`, `Debtor`, `Creditor`, `Reference`, `ValDt`, `BookgDt`, `AccountId` |
-| **DUREREA.001** | `PmtInfId`, `PmtMtd`, `InstdAmt`, `Currency`, `CdtrNm`, `EndToEndId`, `MsgId`, `CreDtTm`, `NbOfTxs` |
-| **CSV/OFX/QFX/MT940** | `date`, `description`, `amount`(normalizat) |
+| **PAIN.001** | `PmtInfId`, `PmtMtd`, `InstdAmt`, `Currency`, `CdtrNm`, `EndToEndId`, `MsgId`, `CreDtTm`, `NbOfTxs` |
+| **CSV/OFX/QFX/MT940** | `date`, `description`, `amount` (normalizat) |
 
-De asemenea, puteți exporta în CSV, JSON, Excel sau puteți converti în Polars DataFrames.
+Puteți exporta și în CSV, JSON, Excel, DataFrames Polars, hledger sau format jurnal beancount.
+
+## Funcționalități PDF și LLM
+
+### Ce modele LLM suportă pipeline-ul hibrid?
+
+Pipeline-ul folosește LiteLLM ca strat de abstracție a modelelor, cu o punte directă către Ollama pentru prompturi vizuale. Modele recomandate:
+
+- **Extracție text**: Orice model compatibil LiteLLM (local sau la distanță).
+- **Extracție vizuală**: `ollama/minicpm-v` (recomandat) pentru PDF-uri scanate.
+- **Categorizare**: Orice model compatibil LiteLLM.
+
+Toate modelele pot rula 100% local prin Ollama — nu sunt necesare chei API.
+
+### Ce este verificarea prin Regula de Aur?
+
+Fiecare extracție PDF este verificată cu ecuația: `opening balance + credits − debits == closing balance`. Rezultatele sunt etichetate ca:
+
+- **VERIFIED**: Soldurile se potrivesc exact.
+- **DISCREPANCY**: Soldurile nu se potrivesc — se recomandă revizuire.
+- **FAILED**: Verificarea nu a putut fi efectuată (lipsesc date despre sold).
+
+### Pot categoriza tranzacțiile automat?
+
+**Da.** Modulul de îmbogățire (v0.0.6+) oferă categorizare a tranzacțiilor prin LLM:
+
+```python
+from bankstatementparser.enrichment import Categorizer
+
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(transactions)
+```
+
+Schema implicită folosește 13 categorii compatibile Plaid. Puteți furniza propria schemă de categorii.
+
+### Pot exporta în hledger sau beancount?
+
+**Da** (v0.0.8+). Exportați tranzacții în formate de jurnal pentru contabilitate în text simplu cu mapare de conturi:
+
+```python
+from bankstatementparser.export import to_hledger, to_beancount
+
+journal = to_hledger(transactions, account="Assets:Bank:Checking")
+```
 
 ## Fluxuri de lucru pentru trezorerie
 
-### Cum gestionează parser-ul declarațiile cu mai multe monede?
+### Cum gestionează parserul extrasele multi-valută?
 
-**Fiecare tranzacție își păstrează moneda inițială -- fără conversie implicită.** The`Currency`câmpul este extras din XML`Ccy`atribut per tranzacție. Extrasele multivalute rămân așa cum sunt. The`get_account_balances()`metoda returnează soldurile de deschidere și de închidere per cont cu codurile valutare originale. Reconcilierea între monede este lăsată la logica dvs. din aval, unde controlați sursa cursului de schimb.
+**Fiecare tranzacție își păstrează moneda originală -- fără conversie implicită.** Câmpul `Currency` este extras din atributul XML `Ccy` per tranzacție. Extrasele multi-valută rămân neschimbate. Metoda `get_account_balances()` returnează soldurile de deschidere și închidere per cont cu codurile valutare originale.
 
-### Analizorul acceptă atât formatele de ieșire, cât și cele de intrare?
+Începând cu v0.0.8, `verify_balance_multi_currency()` grupează tranzacțiile pe valută și execută Regula de Aur independent per grup — util pentru conturi care dețin mai multe valute.
 
-**Da.**`Pain001Parser`se ocupă de fișierele de inițiere a transferului de credit ISO 20022 PAIN.001 (plăți de ieșire).`CamtParser`se ocupă de fișierele extrase de cont CAMT.053 de la bancă la client (raportare de intrare). Ambele acceptă streaming, redarea PII și exportul în CSV, JSON și Excel. Utilizare`detect_statement_format()`pentru a identifica automat formatul.
+### Parserul suportă atât formate de ieșire, cât și de intrare?
+
+**Da.** `Pain001Parser` gestionează fișierele de inițiere a transferului de credit ISO 20022 PAIN.001 (plăți de ieșire). `CamtParser` gestionează fișierele de extras CAMT.053 bancă-către-client (raportare de intrare). Ambele suportă streaming, redactare PII și export în CSV, JSON, Excel, hledger și beancount. Folosiți `detect_statement_format()` pentru a identifica automat formatul.
 
 ### Ce se întâmplă când o intrare de tranzacție este incorectă?
 
-Comportamentul depinde de modul de analizare:
+Comportamentul depinde de modul de parsare:
 
-- **`parse()`(mod lot)** -- Intrări incorecte lipsesc câmpurile obligatorii (`Amount`, `Currency`, sau`CdtDbtInd`) sunt omise cu un jurnal de avertizare. Restul declarației se analizează în mod normal.
--**`parse_streaming()`(mod de streaming)** -- Erorile de analiză se propagă imediat ca excepții. Fără pierdere silențioasă a datelor. Acest comportament de eșec rapid este intenționat pentru fluxurile de lucru financiare în care fiecare tranzacție trebuie luată în considerare.
+- **`parse()` (mod lot)** -- Intrările incorecte cărora le lipsesc câmpuri obligatorii (`Amount`, `Currency` sau `CdtDbtInd`) sunt omise cu un avertisment în jurnal. Restul extrasului se parsează normal.
+- **`parse_streaming()` (mod streaming)** -- Erorile de parsare se propagă imediat ca excepții. Fără pierdere silențioasă a datelor. Acest comportament fail-fast este intenționat pentru fluxurile financiare unde fiecare tranzacție trebuie înregistrată.
+- **`smart_ingest()` (PDF hibrid)** -- Erorile de extracție sunt capturate în `IngestResult` cu status de verificare, permițând revizuire interactivă.
 
 ### Cum funcționează deduplicarea?
 
-The`Deduplicator`clasa detectează duplicatele exacte și potrivirile suspectate cu scoruri explicabile de încredere:
+Fiecare tranzacție primește un `transaction_hash` idempotent (amprentă MD5) bazat pe câmpurile sale cheie. Acest lucru permite ingestie incrementală sigură — reprocesarea aceluiași fișier produce aceleași hash-uri, deci duplicatele sunt detectate automat.
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
@@ -254,68 +319,85 @@ print(f"Suspected matches: {len(result.suspected_matches)}")
 
 ## Instalare și compatibilitate
 
-### Cum instalez analizatorul extras de cont?
+### Cum instalez Bank Statement Parser?
 
 ```bash
+# Core install (deterministic parsers only)
 pip install bankstatementparser
+
+# PDF hybrid pipeline
+pip install 'bankstatementparser[hybrid]'         # Text-LLM path
+pip install 'bankstatementparser[hybrid-vision]'   # Vision-LLM path
+
+# Extras
+pip install 'bankstatementparser[enrichment]'      # Transaction categorisation
+pip install 'bankstatementparser[api]'             # REST API microservice
+pip install 'bankstatementparser[polars]'          # Polars DataFrame support
 ```
 
-Pentru suport opțional Polars DataFrame:
+### Ce versiuni Python sunt suportate?
 
-```bash
-pip install bankstatementparser[polars]
-```
-
-### Ce versiuni Python sunt acceptate?
-
-Python 3.9 până la 3.14. Toate versiunile sunt testate în CI cu 467 de teste la o acoperire de 100% a ramurilor.
+Python 3.10 până la 3.14. Suportul pentru Python 3.9 a fost eliminat în v0.0.6 (EOL 2025-10-31). Toate versiunile sunt testate în CI cu 718 teste la acoperire de 100% a ramurilor.
 
 ### Care sunt dependențele?
 
-Biblioteca are 5 dependențe directe:
+Biblioteca de bază are 5 dependențe directe:
 
-- `lxml`-- Analiza XML cu întărirea securității
--`pandas`-- DataFrames și manipularea datelor
--`openpyxl`-- Export Excel
--`pydantic`-- Validarea datelor și modele
--`defusedxml`-- Protectie XXE
+- `lxml` -- Parsare XML cu securizare
+- `pandas` -- DataFrames și manipularea datelor
+- `openpyxl` -- Export Excel
+- `pydantic` -- Validarea datelor și modele
+- `defusedxml` -- Protecție XXE
 
-Toate dependențele au versiuni SHA-256 blocate cu hash. CycloneDX SBOM mapează fiecare componentă de rulare.
+Extensiile opționale adaugă: `litellm`, `pypdf`, `pdfplumber`, `pypdfium2`, `fastapi`, `uvicorn`, `polars`.
+
+Toate dependențele au versiuni blocate cu hash SHA-256. SBOM-ul CycloneDX mapează fiecare componentă de rulare.
 
 ### Funcționează pe macOS, Linux și Windows?
 
 **Da.** Biblioteca funcționează pe macOS, Linux și Windows (prin WSL). Nu are dependențe specifice platformei.
+
+### Există un REST API?
+
+**Da** (v0.0.8+). Instalați cu `pip install 'bankstatementparser[api]'` și rulați:
+
+```bash
+bankstatementparser-api --port 8000
+```
+
+Endpoint-uri: `POST /ingest` (parsează un extras) și `GET /health` (verificare de stare).
 
 ## Reproductibilitate și securitate
 
 ### Cum pot verifica reproductibilitatea?
 
 ```bash
-python -m pytest                              # 467 tests, 100% branch coverage
+python -m pytest                              # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py        # SHA-256 hash verification
 git log --show-signature -1                   # Verify commit signature
 ```
 
 ### Ce protecții de securitate sunt încorporate?
 
-- **Protecție XXE**:`resolve_entities=False`, `no_network=True`, `load_dtd=False`
-- **ZIP Bomb Protection**: limite ale raportului de compresie, limite pentru dimensiunea de intrare, respingerea intrării criptate
-- **Prevenirea traversării traseului**: Lista de blocare a modelelor periculoase și rezoluția linkurilor simbolice
-- **Validare de intrare**: limite de dimensiune a fișierului (100 MB implicit), validare extensie/format
-- **Suply Chain**: dependențe SHA-256 blocate cu hash, CycloneDX SBOM, atestare de proveniență a construirii
-- **Angajamente semnate**: aplicate în CI
+- **Protecție XXE**: `resolve_entities=False`, `no_network=True`, `load_dtd=False`
+- **Protecție ZIP Bomb**: Limite ale raportului de compresie, limite de dimensiune pe intrare, respingere a intrărilor criptate
+- **Prevenirea traversării căilor**: Listă de blocare a tiparelor periculoase și rezolvare a legăturilor simbolice
+- **Validare a intrărilor**: Limite de dimensiune a fișierului (100 MB implicit), validare extensie/format
+- **Lanț de aprovizionare**: Dependențe SHA-256 blocate cu hash, CycloneDX SBOM, atestare de proveniență a build-ului
+- **Commit-uri semnate**: Aplicate în CI
+- **LLM-uri locale**: Pipeline-ul hibrid PDF folosește Ollama — fără apeluri API cloud
 
-### Cum se compară analizatorul extras de cont cu pyiso20022?
+### Cum se compară Bank Statement Parser cu pyiso20022?
 
-pyiso20022 este un set de instrumente ISO 20022 larg care generează clase de date Python din scheme ISO XML. Acesta acoperă o gamă largă de tipuri de mesaje ISO 20022 (PACS, PAIN, CAMT, ADMI) cu validare a schemei. Analizatorul de extrase bancare este conceput special pentru analiza extraselor bancare, cu suport pentru streaming, redarea PII, deduplicare și un API unificat în șase formate, inclusiv formate non-ISO (CSV, OFX, QFX, MT940). Dacă trebuie să analizați extrasele bancare în DataFrames cu securitate de nivel de producție, utilizați Bank Statement Parser. Dacă trebuie să lucrați cu catalogul complet de mesaje ISO 20022, utilizați pyiso20022.
+pyiso20022 este un toolkit ISO 20022 larg care generează dataclasses Python din scheme ISO XML. Acoperă o gamă largă de tipuri de mesaje ISO 20022 (PACS, PAIN, CAMT, ADMI) cu validare a schemei. Bank Statement Parser este construit special pentru parsarea extraselor bancare cu suport PDF hibrid, verificare a soldului, îmbogățire, export registru și un API unificat în șapte formate, inclusiv formate non-ISO (CSV, OFX, QFX, MT940, PDF). Dacă trebuie să parsați extrase bancare în DataFrames cu securitate de nivel producție, folosiți Bank Statement Parser. Dacă trebuie să lucrați cu catalogul complet de mesaje ISO 20022, folosiți pyiso20022.
 
-### Care sunt termenele limită de migrare SWIFT ISO 20022?
+### Care sunt termenele de migrare SWIFT ISO 20022?
 
-SWIFT a publicat o cronologie a migrației în faze:
+SWIFT a publicat o cronologie de migrare în faze:
 
-- **noiembrie 2026**: adresele structurate și hibride devin obligatorii. Mesajele cu mai multe instrucțiuni MT101 vor fi respinse. Începe faza 1 de management al cazului.
-- **Noiembrie 2027**: Toate instituțiile financiare trebuie să poată primi extrasele CAMT.053 în mod nativ. SWIFT va opri conversia MT în format ISO.
+- **Noiembrie 2026**: Adresele structurate și hibride devin obligatorii. Mesajele cu instrucțiuni multiple MT101 vor fi respinse. Începe Faza 1 de Management al Cazurilor.
+- **Noiembrie 2027**: Toate instituțiile financiare trebuie să poată primi extrase CAMT.053 nativ. SWIFT va opri conversia MT în format ISO.
 - **Noiembrie 2028**: Retragerea completă a MT940, MT942, MT950, MT900 și MT910. Acestea vor fi înlocuite cu echivalentele CAMT.052, CAMT.053 și CAMT.054.
 
-Analizatorul de extrase bancare acceptă atât formatul vechi MT940, cât și formatele moderne CAMT.053/PAIN.001, făcându-l ideal pentru perioada de tranziție.
+Bank Statement Parser suportă atât formatul vechi MT940, cât și formatele moderne CAMT.053/PAIN.001, fiind ideal pentru perioada de tranziție.
 

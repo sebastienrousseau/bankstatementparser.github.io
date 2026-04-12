@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Hesap Özeti Ayrıştırıcısı Hakkında: Özellikler, Formatlar ve Performans"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Banka Ekstresi Ayrıştırıcı. Her hakkı saklıdır."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Hesap Özeti Ayrıştırıcısı, CAMT.053, PAIN.001, CSV, OFX, QFX ve MT940'ı panda DataFrames'e ayrıştırmak için kullanılan açık kaynaklı bir Python kitaplığıdır. %100 yerel, PII redaksiyonu, 27.000+ tx/s."
 download: ""
 format-detection: "telephone=no"
@@ -107,64 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Banka Ekstresi Ayrıştırıcısı, altı banka ekstresi formatını (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) pandas DataFrames'e ayrıştıran açık kaynaklı bir Python kitaplığıdır. %100 yerel işleme, varsayılan olarak PII redaksiyonu, 27K+ tx/s aktarım hızı.
+**Özet:** Bank Statement Parser, yedi banka ekstresi formatını (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940 ve PDF) pandas DataFrames'e dönüştüren açık kaynaklı bir Python kitaplığıdır. Hibrit PDF pipeline, bakiye doğrulama, REST API, zenginleştirme, defter dışa aktarımı, 27K+ tx/s aktarım hızı.
 
-Banka Ekstresi Ayrıştırıcısı, altı formattaki banka ekstrelerini yapılandırılmış panda DataFrames'e ayrıştıran açık kaynaklı bir Python kütüphanesidir. Tüm işlemler yerel olarak gerçekleşir; sıfır ağ çağrısı, deterministik çıktı ve otomatik PII düzenlemesi.
+Bank Statement Parser, yedi formattaki banka ekstrelerini yapılandırılmış pandas DataFrames'e dönüştüren açık kaynaklı bir Python kitaplığıdır. Deterministik çekirdek, yapılandırılmış formatları sıfır ağ çağrısıyla yerel olarak işler. İsteğe bağlı hibrit PDF pipeline, dijital ve taranmış ekstreler için yerel LLM'ler (Ollama üzerinden) kullanır.
 
 ## Bu Kimin İçin?
 
-- **Hazine ekipleri** MT940'tan CAMT.053'e geçiş yapıyor ve geçiş sırasında hem eski hem de yeni biçimleri işleyen bir ayrıştırıcıya ihtiyaç duyuyor.
-- **Fintech geliştiricileri** mt940 + ofxparse + özel CSV mantığını birleştirmek yerine tek bir bağımlılık isteyen mutabakat, raporlama veya muhasebe hatları oluşturuyor.
-- Varsayılan olarak PII düzenlemesine ve harici hizmetlere hiçbir zaman veri göndermeyen, denetime hazır, deterministik çıktıya ihtiyaç duyan **uyumluluk ekipleri**.
-- **Yerel, açık kaynaklı bir araç bu işi yapabileceği halde hassas mali verileri üçüncü taraf bir SaaS'a göndermeyi reddeden herkes**.
+- MT940'tan CAMT.053'e geçiş yapan ve geçiş sürecinde hem eski hem yeni formatları işleyen bir ayrıştırıcıya ihtiyaç duyan **hazine ekipleri**. Yapılandırılmış dışa aktarım sunmayan bankalardan gelen PDF ekstreler de dahil.
+- Yerleşik bakiye doğrulama, sınıflandırma ve defter dışa aktarımı içeren tek bir bağımlılık isteyen mutabakat, raporlama veya muhasebe pipeline'ları oluşturan **fintech geliştiricileri**.
+- Varsayılan PII redaksiyonu, deterministik çıktı ve tutarsızlıkları deftere ulaşmadan yakalayan Altın Kural doğrulamasına ihtiyaç duyan **uyum ekipleri**.
+- PDF banka ekstrelerinden hledger veya beancount defterlerine otomatik veri alımı isteyen **düz metin muhasebe kullanıcıları**.
+- Yerel, açık kaynaklı bir araç bu işi yapabilecekken hassas finansal verileri üçüncü taraf SaaS'a göndermeyi reddeden **herkes**.
 
 ## Desteklenen Formatlar
 
-| Biçim | Standart | Dosya Türleri | Ayrıştırıcı Sınıfı |
+| Format | Standart | Dosya Türleri | Ayrıştırıcı/Yöntem |
 |---|---|---|---|
-| CAMT.053 | ISO 20022 Bankadan Müşteriye Beyanı | `.xml` | `CamtParser` |
-| AĞ.001 | ISO 20022 Kredi Transferi Başlangıcı | `.xml` | `Pain001Parser` |
-| CSV | Jenerik banka ihracatı | `.csv` | `CsvStatementParser` |
-| OFX | Açık Finansal Borsa | `.ofx` | `OfxParser` |
-| QFX | Finansal Değişimi Hızlandırın | `.qfx` | `QfxParser` |
+| CAMT.053 | ISO 20022 Bankadan Müşteriye Ekstre | `.xml` | `CamtParser` |
+| PAIN.001 | ISO 20022 Kredi Transferi Başlatma | `.xml` | `Pain001Parser` |
+| CSV | Genel banka dışa aktarımları | `.csv` | `CsvStatementParser` |
+| OFX | Open Financial Exchange | `.ofx` | `OfxParser` |
+| QFX | Quicken Financial Exchange | `.qfx` | `QfxParser` |
 | MT940 | SWIFT standardı | `.mt940`, `.sta` | `Mt940Parser` |
+| PDF | Dijital ve taranmış ekstreler | `.pdf` | `smart_ingest()` |
 
-Tüm formatlar, tutarlı sütun adlarına sahip normalleştirilmiş pandalar DataFrames üreterek aşağı akış işlemeyi formattan bağımsız hale getirir.
+Tüm formatlar tutarlı sütun adlarına sahip normalleştirilmiş pandas DataFrames üretir. Bu sayede sonraki işlemler formattan bağımsız hale gelir.
 
 ## Temel Yetenekler
 
-- **Otomatik Biçim Algılama**:`detect_statement_format()`formatı tanımlar;`create_parser()`doğru ayrıştırıcıyı başlatır.
-- **Akış Ayrıştırma**: Sınırlı belleğe sahip büyük dosyaları (50 MB+, 50K+ işlem) kullanarak işleyin`parse_streaming()`.
-- **Paralel İşleme**: Birden fazla dosyayı aynı anda ayrıştırın`parse_files_parallel()`ProcessPoolExecutor'u kullanarak.
-- **Tekilleştirme**: Açıklanabilir güven puanlarıyla tam kopyaları ve şüpheli eşleşmeleri tespit edin.
-- **Bellek İçi Ayrıştırma**:`from_string()`Ve`from_bytes()`Disk G/Ç'si olmayan SFTP ve API iş akışları için.
-- **Güvenli Posta İşleme**:`iter_secure_xml_entries()`sıkıştırma oranı sınırları, giriş boyutu sınırları ve şifreli giriş reddi ile.
-- **Dışa aktar**: CSV, JSON, Excel (`.xlsx`) ve isteğe bağlı Polars DataFrames.
+- **Hibrit PDF Pipeline**: `smart_ingest()` PDF'leri üç yoldan geçirir — deterministik tablo çıkarımı, metin-LLM veya görüntü-LLM — otomatik Altın Kural bakiye doğrulamasıyla.
+- **Otomatik Format Algılama**: `detect_statement_format()` formatı tanır; `create_parser()` doğru ayrıştırıcıyı başlatır.
+- **Bakiye Doğrulama**: Altın Kural kontrolü (`opening + credits − debits == closing`) ile VERIFIED/DISCREPANCY/FAILED durumu.
+- **Çoklu Para Birimi Doğrulaması**: `verify_balance_multi_currency()` işlemleri para birimine göre gruplar ve bağımsız doğrulama yapar.
+- **REST API**: Üretim dağıtımları için `/ingest` ve `/health` uç noktalarına sahip FastAPI mikro hizmeti.
+- **Zenginleştirme**: Takılabilir şemalarla (varsayılan Plaid 13 kategori) LLM destekli işlem sınıflandırması.
+- **Etkileşimli İnceleme**: `--type review` ile tutarsızlıkları kabul et/düzenle/atla/sil eylemleriyle inceleyin.
+- **Defter Dışa Aktarımı**: Düz metin muhasebe iş akışları için `to_hledger()` ve `to_beancount()`.
+- **Toplu Tarama**: `scan_and_ingest()` klasör ağaçlarını otomatik çapraz dosya tekilleştirmesiyle işler.
+- **Hesap Eşleme**: Defter dışa aktarımı için JSON yapılandırmasından regex tabanlı hesap eşleme kuralları.
+- **Streaming Ayrıştırma**: `parse_streaming()` ile büyük dosyaları (50 MB+, 50K+ işlem) sınırlı bellekle işleyin.
+- **Paralel İşleme**: ProcessPoolExecutor kullanarak `parse_files_parallel()` ile birden fazla dosyayı eş zamanlı ayrıştırın.
+- **Tekilleştirme**: Güvenli artımlı veri alımı için idempotent `transaction_hash` (MD5 parmak izi).
+- **Bellekte Ayrıştırma**: Disk G/Ç olmadan SFTP ve API iş akışları için `from_string()` ve `from_bytes()`.
+- **Güvenli ZIP İşleme**: Sıkıştırma oranı sınırları, giriş boyutu üst sınırları ve şifreli giriş reddi ile `iter_secure_xml_entries()`.
+- **Dışa Aktarım**: CSV, JSON, Excel (`.xlsx`), Polars DataFrames, hledger ve beancount defterleri.
 
 ## Güvenlik ve Gizlilik
 
-- **PII Düzenlemesi**: CLI çıkışında adlar, IBAN'lar ve adresler varsayılan olarak maskelenir. Şununla etkinleştirin:`--show-pii`.
-- **XXE Koruması**: XML ayrıştırma kullanımları`resolve_entities=False`, `no_network=True`, `load_dtd=False`.
-- **ZIP Bomba Koruması**: Sıkıştırma oranı sınırları (varsayılan 100:1), giriş boyutu sınırları (10 MB), şifreli giriş reddi.
-- **Yol Geçişini Önleme**: Tehlikeli model engelleme listesi ve sembolik bağlantı çözümü.
-- **Tedarik Zinciri Güvenliği**: SHA-256 karma kilitli bağımlılıklar, CycloneDX SBOM, kaynak doğrulaması oluşturun.
+- **PII Redaksiyonu**: CLI çıkışında adlar, IBAN'lar ve adresler varsayılan olarak maskelenir. Gerektiğinde `--show-pii` ile gösterin.
+- **XXE Koruması**: XML ayrıştırma `resolve_entities=False`, `no_network=True`, `load_dtd=False` kullanır.
+- **ZIP Bomba Koruması**: Sıkıştırma oranı sınırları (varsayılan 100:1), giriş boyutu üst sınırları (10 MB), şifreli giriş reddi.
+- **Yol Geçişi Önleme**: Tehlikeli desen engelleme listesi ve sembolik bağlantı çözümlemesi.
+- **Tedarik Zinciri Güvenliği**: SHA-256 hash kilitli bağımlılıklar, CycloneDX SBOM, derleme kaynak doğrulaması.
+- **Yalnızca Yerel LLM'ler**: Hibrit PDF pipeline, yerel çıkarım için Ollama kullanır — bulut API'lerine veri gönderilmez.
 
 ## Performans
 
 | Metrik | Değer |
 |---|---|
-| CAMT.053 verimi | 27.000+ aktarım/sn |
-| PAIN.001 verimi | 52.000'den fazla aktarım/sn |
+| CAMT.053 aktarım hızı | 27.000+ tx/s |
+| PAIN.001 aktarım hızı | 52.000+ tx/s |
 | İşlem başına gecikme (CAMT) | 37 mikrosaniye |
 | İşlem başına gecikme (PAIN.001) | 19 mikrosaniye |
-| İlk sonuca ulaşma zamanı | < 2 ms |
-| Bellek ölçeklendirme (1K-50K tx) | Sabit (akış) |
-| Test kapsamı | %100 şube kapsamı |
-| Testler | 29 test dosyasında 467 |
+| İlk sonuca ulaşma süresi | < 2 ms |
+| Bellek ölçekleme (1K-50K tx) | Sabit (streaming) |
+| Test kapsamı | %100 dal kapsamı |
+| Testler | 29 test dosyasında 718 |
 
-## İnşa Etmeye Başlayın
+## Geliştirmeye Başlayın
 
-[Kurulum ve örneklere başlayın ❯][01]
+[Kurulum ve örneklerle başlayın ❯][01]
 
 [01]: /getting-started/index.html "Başlarken"
  "GitHub Deposu"

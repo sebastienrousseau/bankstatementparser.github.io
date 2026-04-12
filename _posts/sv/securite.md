@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Bankutdrag Parser Security"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Bank Statement Parser. Alla rättigheter reserverade."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Säkerhetsfunktioner i Bank Statement Parser: XXE-skydd, ZIP-bombhärdning, PII-redaktion, leveranskedjans säkerhet, deterministisk utdata och signerade builds."
 download: ""
 format-detection: "telephone=no"
@@ -107,72 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Bank Statement Parser gör noll nätverksanrop, redigerar PII som standard, hårdnar XML-analys mot XXE-attacker och levereras med SHA-256 hash-låsta beroenden och en CycloneDX SBOM.
+**TL;DR:** Bank Statement Parser bearbetar all data lokalt, redakterar PII som standard, härdar XML-tolkning mot XXE-attacker, kör LLM:er lokalt via Ollama och levereras med SHA-256 hash-låsta beroenden och en CycloneDX SBOM.
 
-## Security by Design
+## Säkerhet som designprincip
 
 Bank Statement Parser är byggd för att bearbeta känslig finansiell data. Varje designbeslut prioriterar säkerhet, integritet och revisionsbarhet.
 
-## Noll nätverksåtkomst
+## Noll molnberoende
 
-All bearbetning sker lokalt inom din körtid. Biblioteket gör noll API-anrop, noll molnanslutningar och samlar in noll telemetri. XML-tolkare är uttryckligen konfigurerade med`no_network=True`, `resolve_entities=False`, och`load_dtd=False`för att förhindra all utgående åtkomst.
+All bearbetning sker lokalt inom din körtid. De deterministiska parsrarna gör noll nätverksanrop. Hybrid-PDF-pipelinen använder Ollama för lokal LLM-inferens — ingen data skickas till moln-API:er. XML-tolkare är uttryckligen konfigurerade med `no_network=True`, `resolve_entities=False` och `load_dtd=False` för att förhindra all utgående åtkomst.
 
 ## PII-redaktion
 
-Personligt identifierbar information (namn, IBAN, postadresser) redigeras automatiskt i CLI-utdata och streaming-läge. Detta är på som standard.
+Personligt identifierbar information (namn, IBAN, postadresser) redakteras automatiskt i CLI-utdata och streamingläge. Detta är på som standard.
 
-- **CLI**: Känsliga fält visas som`***REDACTED***`
-- **Streaming**:`parse_streaming(redact_pii=True)`(standard)
-- **Export**: CSV/JSON/Excel behåller fullständiga data för nedströmsbehandling
-- **Opt-in**: Använd`--show-pii`eller`redact_pii=False`när du behöver oredigerad utdata
+- **CLI**: Känsliga fält visas som `***REDACTED***`
+- **Streaming**: `parse_streaming(redact_pii=True)` (standard)
+- **Export**: CSV/JSON/Excel behåller fullständiga data för nedströmsbearbetning
+- **Aktivera**: Använd `--show-pii` eller `redact_pii=False` när du behöver oredakterad utdata
 
 ## XML-säkerhet (XXE-skydd)
 
-Alla användningsområden för XML-tolkning`lxml`med härdade inställningar:
+All XML-tolkning använder `lxml` med härdade inställningar:
 
-- `resolve_entities=False`-- förhindrar attacker av XML-entitetsexpansion
--`no_network=True`-- blockerar all utgående nätverksåtkomst från parsern
--`load_dtd=False`-- förhindrar DTD-baserade attacker
-- Avlägsning av namnutrymme före bearbetning - hanterar alla CAMT.053-varianter säkert
+- `resolve_entities=False` — förhindrar XML-entitetsexpansionsattacker
+- `no_network=True` — blockerar all utgående nätverksåtkomst från parsern
+- `load_dtd=False` — förhindrar DTD-baserade attacker
+- Namnrymdsstrippning före bearbetning — hanterar alla CAMT.053-varianter säkert
 
-## ZIP Archive Security
+## ZIP-arkivsäkerhet
 
-`iter_secure_xml_entries()`validerar varje ZIP-medlem innan extrahering:
+`iter_secure_xml_entries()` validerar varje ZIP-medlem innan extrahering:
 
-- **Entréstorlekstak**: 10 MB per post (konfigurerbar)
+- **Storlekstak per post**: 10 MB per post (konfigurerbart)
 - **Totalt storlekstak**: 50 MB totalt okomprimerat (konfigurerbart)
-- **Kompressionsförhållandegräns**: 100:1 standard - upptäcker ZIP-bomber
-- **Krypterad postavvisning**: Krypterade poster hoppas över med en varning
-- **Ingen diskskrivning**: XML-bytes skickas direkt till parsern via`from_bytes()`
+- **Kompressionsförhållandegräns**: 100:1 standard — upptäcker ZIP-bomber
+- **Avvisning av krypterade poster**: Krypterade poster hoppas över med en varning
+- **Ingen diskskrivning**: XML-bytes skickas direkt till parsern via `from_bytes()`
 
-## Förebyggande av vägpassering
+## Vägtraverseringsskydd
 
 Indatavalidering blockerar farliga filsökvägar:
 
-- Nullbyte, kataloggenomgångsmönster (`../`), och symboliska länkar avvisas
-- Verifiering av filtillägg mot förväntade format
+- Nullbyte, katalogtraverseringsmönster (`../`) och symboliska länkar avvisas
+- Filtilläggsvalidering mot förväntade format
 - Filstorleksgränser (100 MB standard, konfigurerbar)
+
+## Saldoverifiering (Golden Rule)
+
+Varje PDF-extraktion verifieras med ekvationen: `opening balance + credits − debits == closing balance`. Resultat taggas som VERIFIED, DISCREPANCY eller FAILED. Avvikelser kan granskas interaktivt med `--type review`.
 
 ## Deterministisk utdata
 
-Med samma indatafil producerar parsern byte-identisk utdata varje körning. Ingen slumpmässighet, ingen modellinferens, ingen heuristisk sampling. Detta är avgörande för:
+För strukturerade format (CAMT, PAIN.001, CSV, OFX, QFX, MT940) producerar parsern byte-identisk utdata varje körning givet samma indatafil. Ingen slumpmässighet, ingen modellinferens, ingen heuristisk sampling. Detta är avgörande för:
 
-- **Reproducerbarhet för granskning**: Kör samma fil två gånger och ändra resultatet
-- **Föreskriftsefterlevnad**: Demonstrera konsekvent bearbetning
-- **CI-verifiering**: 467 tester framtvingar determinism med 100 % filialtäckning
+- **Revisionsreproducerbarhet**: Kör samma fil två gånger och jämför utdatan
+- **Regulatorisk efterlevnad**: Visa konsekvent bearbetning
+- **CI-verifiering**: 718 tester upprätthåller determinism med 100 % grenstäckning
 
-## Supply Chain Security
+## Supply-chain-säkerhet
 
-- **SHA-256 hash-låsta beroenden**: Varje paket in`poetry.lock`har verifierat filhashar
+- **SHA-256 hash-låsta beroenden**: Varje paket i `poetry.lock` har verifierade filhashar
 - **CycloneDX SBOM**: Varje utgåva inkluderar en mjukvarulista
-- **GitHub-byggets ursprung**: Attestation länkar varje artefakt till dess källförpliktelse
+- **GitHub-byggets härkomst**: Attestation länkar varje artefakt till dess källcommit
 - **Signerade commits**: Alla commits är SSH-signerade och verifierade i CI
-- **Verifiering av beroende**:`scripts/verify_locked_hashes.py`validerar alla hashs lokalt
+- **Beroendeverifiering**: `scripts/verify_locked_hashes.py` validerar alla hashar lokalt
 
 ## Verifiera lokalt
 
 ```bash
-python -m pytest                          # 467 tests, 100% branch coverage
+python -m pytest                          # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py    # SHA-256 hash verification
 git log --show-signature -1               # Verify commit signature
 ```

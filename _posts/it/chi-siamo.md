@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Informazioni sul parser di estratti conto: caratteristiche, formati e prestazioni"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Analizzatore di estratti conto bancari. Tutti i diritti riservati."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Bank Statement Parser è una libreria Python open source per l'analisi di CAMT.053, PAIN.001, CSV, OFX, QFX e MT940 in DataFrames panda. 100% locale, redazione PII, 27.000+ tx/s."
 download: ""
 format-detection: "telephone=no"
@@ -40,7 +40,7 @@ referrer: "no-referrer"
 revisit-after: "7 days"
 robots: "index, follow"
 short_name: "bankstatementparser"
-subtitle: "Una biblioteca. Sei formati. Zero chiamate di rete."
+subtitle: "Una biblioteca. Sette formati. Zero chiamate di rete."
 tags: "banca,estratto conto,parser,finanza,python,camt,pain001,csv,ofx,qfx,mt940"
 theme_color: "rgb(73, 214, 251)"
 title: "Informazioni sul parser di estratti conto: caratteristiche, formati e prestazioni"
@@ -107,64 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Bank Statement Parser è una libreria Python open source che analizza sei formati di estratti conto (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) in DataFrames panda. Elaborazione locale al 100%, redazione PII per impostazione predefinita, throughput di oltre 27.000 tx/s.
+**In breve:** Bank Statement Parser è una libreria Python open source che analizza sette formati di estratti conto (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940 e PDF) in DataFrames pandas. Pipeline PDF ibrida con verifica del saldo, REST API, arricchimento, esportazione contabile, oltre 27.000 tx/s di throughput.
 
-Bank Statement Parser è una libreria Python open source che analizza gli estratti conto di sei formati in DataFrames panda strutturati. Tutta l'elaborazione avviene localmente: zero chiamate di rete, output deterministico e redazione automatica delle PII.
+Bank Statement Parser è una libreria Python open source che analizza estratti conto da sette formati in DataFrames pandas strutturati. Il nucleo deterministico elabora i formati strutturati in locale senza chiamate di rete. La pipeline PDF ibrida opzionale utilizza LLM locali (via Ollama) per gli estratti digitali e scannerizzati.
 
-## Per chi è questo?
+## A chi si rivolge?
 
-- **Team di tesoreria** in migrazione da MT940 a CAMT.053 che necessitano di un parser che gestisca sia i vecchi che i nuovi formati durante la transizione.
-- **Sviluppatori fintech** che creano pipeline di riconciliazione, reporting o contabilità che desiderano un'unica dipendenza invece di unire insieme mt940 + ofxparse + logica CSV personalizzata.
-- **Team di conformità** che necessitano della redazione delle PII per impostazione predefinita e di output deterministici pronti per il controllo che non inviino mai dati a servizi esterni.
+- **Team di tesoreria** in migrazione da MT940 a CAMT.053 che necessitano di un parser per gestire sia i formati vecchi che nuovi durante la transizione, più estratti conto PDF da banche che non offrono esportazioni strutturate.
+- **Sviluppatori fintech** che costruiscono pipeline di riconciliazione, reporting o contabilità e desiderano un'unica dipendenza con verifica del saldo integrata, categorizzazione ed esportazione contabile.
+- **Team di conformità** che necessitano di oscuramento PII attivo di default, output deterministico e verifica Golden Rule che segnala le discrepanze prima che raggiungano il libro contabile.
+- **Utenti plaintext-accounting** che desiderano l'ingestione automatica da estratti conto PDF direttamente in journal hledger o beancount.
 - **Chiunque** si rifiuti di inviare dati finanziari sensibili a un SaaS di terze parti quando uno strumento locale open source può svolgere il lavoro.
 
 ## Formati supportati
 
-| Formato | Standard | Tipi di file | Classe analizzatore |
+| Formato | Standard | Tipi di file | Parser/Metodo |
 |---|---|---|---|
-| CAMT.053 | Estratto conto banca-cliente ISO 20022 | `.xml` | `CamtParser` |
-| DOLORE.001 | Avvio di trasferimento di credito ISO 20022 | `.xml` | `Pain001Parser` |
+| CAMT.053 | ISO 20022 Bank-to-Customer Statement | `.xml` | `CamtParser` |
+| PAIN.001 | ISO 20022 Credit Transfer Initiation | `.xml` | `Pain001Parser` |
 | CSV | Esportazioni bancarie generiche | `.csv` | `CsvStatementParser` |
-| OFX | Aprire lo scambio finanziario | `.ofx` | `OfxParser` |
-| QFX | Accelerare gli scambi finanziari | `.qfx` | `QfxParser` |
-| MT940 | Norma SWIFT | `.mt940`, `.sta` | `Mt940Parser` |
+| OFX | Open Financial Exchange | `.ofx` | `OfxParser` |
+| QFX | Quicken Financial Exchange | `.qfx` | `QfxParser` |
+| MT940 | Standard SWIFT | `.mt940`, `.sta` | `Mt940Parser` |
+| PDF | Estratti digitali e scannerizzati | `.pdf` | `smart_ingest()` |
 
-Tutti i formati producono DataFrames panda normalizzati con nomi di colonna coerenti, rendendo l'elaborazione downstream indipendente dal formato.
+Tutti i formati producono DataFrames pandas normalizzati con nomi di colonna coerenti, rendendo l'elaborazione downstream indipendente dal formato.
 
-## Funzionalità chiave
+## Funzionalità principali
 
-- **Rilevamento automatico formato**:`detect_statement_format()`identifica il formato;`create_parser()`istanzia il parser giusto.
-- **Analisi dello streaming**: elabora file di grandi dimensioni (50 MB+, 50K+ transazioni) con memoria limitata utilizzando`parse_streaming()`.
-- **Elaborazione parallela**: analizza più file contemporaneamente con`parse_files_parallel()`utilizzando ProcessPoolExecutor.
-- **Deduplicazione**: rileva duplicati esatti e corrispondenze sospette con punteggi di confidenza spiegabili.
-- **Analisi in memoria**:`from_string()`E`from_bytes()`per flussi di lavoro SFTP e API senza I/O su disco.
-- **Elaborazione ZIP sicura**:`iter_secure_xml_entries()`con limiti del rapporto di compressione, limiti alle dimensioni delle voci e rifiuto delle voci crittografate.
-- **Esporta**: CSV, JSON, Excel (`.xlsx`) e Polars DataFrames opzionali.
+- **Pipeline PDF ibrida**: `smart_ingest()` instrada i PDF su tre percorsi — estrazione deterministica delle tabelle, text-LLM o vision-LLM — con verifica automatica del saldo tramite Golden Rule.
+- **Rilevamento automatico formato**: `detect_statement_format()` identifica il formato; `create_parser()` istanzia il parser corretto.
+- **Verifica del saldo**: controllo Golden Rule (`opening + credits − debits == closing`) con stato VERIFIED/DISCREPANCY/FAILED.
+- **Verifica multi-valuta**: `verify_balance_multi_currency()` raggruppa le transazioni per valuta per una verifica indipendente.
+- **REST API**: microservizio FastAPI con endpoint `/ingest` e `/health` per deploy in produzione.
+- **Arricchimento**: categorizzazione delle transazioni tramite LLM con schemi personalizzabili (default: Plaid 13 categorie).
+- **Revisione interattiva**: esamina le discrepanze con azioni accetta/modifica/salta/elimina tramite `--type review`.
+- **Esportazione contabile**: `to_hledger()` e `to_beancount()` per flussi di lavoro plaintext-accounting.
+- **Scansione in blocco**: `scan_and_ingest()` elabora intere cartelle con deduplicazione automatica tra file.
+- **Mappatura conti**: regole di mappatura conti basate su regex da configurazione JSON per l'esportazione contabile.
+- **Parsing in streaming**: elabora file di grandi dimensioni (50 MB+, 50K+ transazioni) con memoria limitata usando `parse_streaming()`.
+- **Elaborazione parallela**: analizza più file in contemporanea con `parse_files_parallel()` usando ProcessPoolExecutor.
+- **Deduplicazione**: `transaction_hash` idempotente (fingerprint MD5) per ingestione incrementale sicura.
+- **Parsing in memoria**: `from_string()` e `from_bytes()` per flussi di lavoro SFTP e API senza I/O su disco.
+- **Elaborazione ZIP sicura**: `iter_secure_xml_entries()` con limiti del rapporto di compressione, limiti alle dimensioni delle voci e rifiuto delle voci crittografate.
+- **Esportazione**: CSV, JSON, Excel (`.xlsx`), DataFrames Polars, journal hledger e beancount.
 
 ## Sicurezza e privacy
 
-- **Oscuramento PII**: nomi, IBAN e indirizzi sono mascherati per impostazione predefinita nell'output della CLI. Partecipa con`--show-pii`.
-- **Protezione XXE**: utilizza l'analisi XML`resolve_entities=False`, `no_network=True`, `load_dtd=False`.
-- **Protezione ZIP Bomb**: limiti del rapporto di compressione (predefinito 100:1), limiti alle dimensioni delle voci (10 MB), rifiuto delle voci crittografate.
-- **Prevenzione dell'attraversamento del percorso**: blocklist di pattern pericolosi e risoluzione dei collegamenti simbolici.
-- **Sicurezza della catena di fornitura**: dipendenze con blocco hash SHA-256, SBOM CycloneDX, attestazione di provenienza della build.
+- **Oscuramento PII**: nomi, IBAN e indirizzi sono mascherati di default nell'output CLI. Per visualizzarli usare `--show-pii`.
+- **Protezione XXE**: il parsing XML usa `resolve_entities=False`, `no_network=True`, `load_dtd=False`.
+- **Protezione ZIP Bomb**: limiti del rapporto di compressione (predefinito 100:1), dimensione massima per voce (10 MB), rifiuto delle voci crittografate.
+- **Prevenzione path traversal**: blocklist di pattern pericolosi e risoluzione dei link simbolici.
+- **Sicurezza della supply chain**: dipendenze con hash SHA-256, SBOM CycloneDX, attestazione di provenienza della build.
+- **Solo LLM locali**: la pipeline PDF ibrida usa Ollama per l'inferenza locale — nessun dato inviato ad API cloud.
 
-## Prestazione
+## Prestazioni
 
-| Metrico | Valore |
+| Metrica | Valore |
 |---|---|
-| Velocità effettiva CAMT.053 | 27.000+ t/s |
-| PAIN.001 velocità effettiva | 52.000+ t/s |
+| Throughput CAMT.053 | 27.000+ tx/s |
+| Throughput PAIN.001 | 52.000+ tx/s |
 | Latenza per transazione (CAMT) | 37 microsecondi |
 | Latenza per transazione (PAIN.001) | 19 microsecondi |
-| È ora di arrivare al primo risultato | < 2 ms |
-| Ridimensionamento della memoria (1K-50K tx) | Costante (streaming) |
-| Testare la copertura | Copertura filiali al 100%. |
-| Test | 467 in 29 file di test |
+| Tempo per il primo risultato | < 2 ms |
+| Scalabilità memoria (1K-50K tx) | Costante (streaming) |
+| Copertura dei test | 100% copertura branch |
+| Test | 718 su 29 file di test |
 
-## Inizia a costruire
+## Inizia subito
 
 [Inizia con l'installazione e gli esempi ❯][01]
 
-[01]: /getting-started/index.html "Per iniziare"
- "Archivio GitHub"
+[01]: /getting-started/index.html "Primi passi"
+ "Repository GitHub"

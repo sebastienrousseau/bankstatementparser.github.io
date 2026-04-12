@@ -17,7 +17,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Câu hỏi thường gặp về Trình phân tích sao kê ngân hàng: Quyền riêng tư, Hiệu suất và Cách sử dụng">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: kura.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: cloudcdn.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
     <meta name="msapplication-TileColor" content="rgb(73, 214, 251)">
     
     <link rel="alternate" href="https://bankstatementparser.com/vi/faq/index.html" hreflang="vi" />
@@ -27,7 +27,7 @@
     <link rel="apple-touch-icon" href="/images/icons/192x192.png" sizes="192x192" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
-    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#b0b8c1"}})});</script>
+    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#8f9aa5"}})});</script>
     <style>
       :root{--theme-color:rgb(73, 214, 251)}*{font-weight:400;box-sizing:border-box;margin:0}
       pre{margin:1.5rem 0;max-width:100%;overflow:auto;border-radius:.5rem;padding:1rem 1.25rem;background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);color:var(--c-code);display:block;font-family:'SF Mono',SFMono-Regular,Consolas,monospace;font-size:.8125rem;line-height:1.7;margin:1.5rem 0;max-width:100%;overflow:auto;padding:1rem 1.25rem;border-radius:.5rem}
@@ -138,13 +138,26 @@
       .faq-container .accordion-body th{font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--c-secondary);font-size:.75rem}
       .faq-container .accordion-body pre{margin:1rem 0;border-radius:.5rem}
       .faq-container .accordion-body ul,.faq-container .accordion-body ol{margin:.75rem 0}
+          .search-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:flex-start;justify-content:center;padding:15vh 1rem 1rem}
+.search-overlay.open{display:flex}
+.search-box{background:var(--c-bg);border:1px solid var(--c-border);border-radius:.75rem;width:100%;max-width:560px;box-shadow:0 25px 50px -12px rgba(0,0,0,.25);overflow:hidden}
+.search-input{width:100%;padding:.875rem 1rem;border:none;background:transparent;color:var(--c-text);font-size:1rem;font-family:inherit;outline:none}
+.search-input::placeholder{color:var(--c-secondary)}
+.search-results{max-height:50vh;overflow-y:auto;border-top:1px solid var(--c-border)}
+.search-result{display:block;padding:.75rem 1rem;color:var(--c-text);text-decoration:none;border-bottom:1px solid var(--c-border)}
+.search-result:hover,.search-result.active{background:var(--c-surface);color:var(--c-accent);text-decoration:none}
+.search-result-title{font-weight:600;font-size:.9375rem}
+.search-result-desc{font-size:.8125rem;color:var(--c-secondary);margin-top:.125rem}
+.search-empty{padding:1.5rem 1rem;text-align:center;color:var(--c-secondary);font-size:.875rem}
+.search-footer{padding:.5rem 1rem;border-top:1px solid var(--c-border);font-size:.75rem;color:var(--c-secondary);display:flex;gap:1rem}
+.search-footer kbd{background:var(--c-surface);padding:.125rem .375rem;border-radius:.25rem;font-size:.6875rem;border:1px solid var(--c-border)}
     </style>
   </head>
   <body id="page-top" itemscope itemtype="http://schema.org/WebPage">
-    <a class="skip-link" href="#main">Skip to main content</a>
-    <nav class="site-nav" aria-label="Main navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+    <a class="skip-link" href="#main">Chuyen den noi dung chinh</a>
+    <nav class="site-nav" aria-label="Dieu huong chinh" itemscope itemtype="http://schema.org/SiteNavigationElement">
       <div class="nav-inner">
-        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="" /><span itemprop="name">Trình phân tích sao kê ngân hàng</span></a>
+        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="Bank Statement Parser logo" /><span itemprop="name">Trình phân tích sao kê ngân hàng</span></a>
         <ul class="nav-center">
           <li><a href="/vi/index.html">Trang chủ</a></li>
           <li><a href="/vi/a-propos/index.html">Giới thiệu</a></li>
@@ -153,7 +166,8 @@
           <li class="nav-item dropdown"><button class="dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" type="button">Tài nguyên</button><ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown"><li><a class="dropdown-item" href="/vi/cas-utilisation/index.html">Use Cases</a></li><li><a class="dropdown-item" href="/vi/migration/index.html">ISO 20022 Migration</a></li><li><a class="dropdown-item" href="/vi/securite/index.html">Security</a></li><li><a class="dropdown-item" href="/vi/alternatives/index.html">Alternatives</a></li><li><a class="dropdown-item" href="/vi/journal-des-modifications/index.html">Changelog</a></li><li><a class="dropdown-item" href="/vi/contribuer/index.html">Contribute</a></li><li><a class="dropdown-item" href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a class="dropdown-item" href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li></ul></li>
         </ul>
         <div class="nav-right">
-          <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">Tối</span></button>
+          <button id="searchTrigger" class="theme-toggle" aria-label="Search" style="margin-right:.25rem"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> <span class="search-shortcut" aria-hidden="true" style="font-size:.6875rem;opacity:.8"></span></button>
+          <button class="theme-toggle" id="themeToggle" aria-label="Chuyen sang che do toi" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">Tối</span></button>
           <div style="position:relative;display:inline-block" class="lang-switcher">
             <button type="button" aria-label="VI, Change language" aria-expanded="false" style="color:var(--c-nav-muted);font-size:12px;font-weight:400;padding:.375rem .625rem;border:1px solid var(--c-border);border-radius:6rem;background:transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.25rem;outline:none">
               <span style="font-size:14px">🌐</span> VI
@@ -197,80 +211,83 @@
       </div>
       </nav>
     <header class="site-hero" style="padding:6rem 1.5rem 3rem">
-      <h1 style="font-size:clamp(2rem,4vw,2.75rem)">Trình phân tích sao kê ngân hàng</h1>
+      <h1 style="font-size:clamp(2rem,4vw,2.75rem)">Câu hỏi thường gặp</h1>
       <p>Các câu hỏi thường gặp về Trình phân tích sao kê ngân hàng</p>
     </header>
     <main id="main" class="site-main" tabindex="-1" aria-label="Page content">
       <div class="text-start">
-        <div id="faq-raw" class="faq-raw-content"><h2>Quyền riêng tư và tuân thủ dữ liệu</h2>
-<h3>Có dữ liệu nào rời khỏi cơ sở hạ tầng của tôi không?</h3>
-<p><strong>Không.</strong> Trình phân tích bảng sao kê ngân hàng hoạt động như một thư viện không quốc tịch. Tất cả quá trình xử lý -- phân tích cú pháp, biên tập PII, trích xuất kho lưu trữ -- diễn ra trong bộ nhớ thời gian chạy cục bộ của bạn. Không có lệnh gọi API, không có dịch vụ đám mây, không có phép đo từ xa. Trình phân tích cú pháp XML được tăng cường với<code>no_network=True</code>, chặn tất cả quyền truy cập gửi đi ở cấp độ trình phân tích cú pháp. Dữ liệu tài chính của bạn không bao giờ rời khỏi môi trường của bạn.</p>
-<h3>Việc biên tập PII hoạt động như thế nào?</h3>
-<p>Các trường nhạy cảm được che đi trước khi chúng tiếp cận logic ứng dụng của bạn. Trình phân tích cú pháp xác định tên người nợ, tên chủ nợ, IBAN và địa chỉ bưu chính, thay thế chúng bằng<code>***REDACTED***</code>ở chế độ phát trực tuyến và đầu ra bảng điều khiển.</p>
+        <div id="faq-raw" class="faq-raw-content"><h2>Bảo mật dữ liệu và tuân thủ</h2>
+<h3>Có dữ liệu nào rời khỏi hạ tầng của tôi không?</h3>
+<p><strong>Không — kể cả khi trích xuất PDF.</strong> Bank Statement Parser hoạt động như một thư viện stateless. Toàn bộ quá trình xử lý -- phân tích, ẩn danh PII, trích xuất tệp nén -- diễn ra trong bộ nhớ runtime cục bộ của bạn. Pipeline PDF hybrid sử dụng Ollama cho suy luận LLM cục bộ — không dùng cloud API. Trình phân tích XML được tăng cường với <code>no_network=True</code>, chặn mọi truy cập ra bên ngoài ở cấp parser. Dữ liệu tài chính của bạn không bao giờ rời khỏi môi trường của bạn.</p>
+<h3>Ẩn danh PII hoạt động như thế nào?</h3>
+<p>Các trường nhạy cảm được che trước khi chúng đến logic ứng dụng của bạn. Trình phân tích nhận dạng tên người nợ, tên chủ nợ, IBAN và địa chỉ bưu chính, thay thế bằng <code>***REDACTED***</code> trong đầu ra console và chế độ streaming.</p>
 <ul>
-<li><strong>Tính năng chỉnh sửa được bật theo mặc định</strong> ở chế độ phát trực tuyến và đầu ra CLI.</li>
-<li><strong>Xuất tệp</strong> (CSV, JSON, Excel) giữ lại dữ liệu chưa bị xóa để xử lý tiếp theo.</li>
-<li><strong>Chọn tham gia</strong> nhận dữ liệu đầy đủ với<code>--show-pii</code>trên CLI hoặc<code>redact_pii=False</code>trong API.</li>
+<li><strong>Ẩn danh được bật mặc định</strong> trong đầu ra CLI và chế độ streaming.</li>
+<li><strong>Xuất tệp</strong> (CSV, JSON, Excel) giữ nguyên dữ liệu gốc để xử lý downstream.</li>
+<li><strong>Bật hiển thị</strong> dữ liệu đầy đủ với <code>--show-pii</code> trên CLI hoặc <code>redact_pii=False</code> trong API.</li>
 </ul>
-<h3>Quá trình trích xuất có mang tính quyết định không?</h3>
-<p><strong>Có -- đầu ra giống hệt byte trong mỗi lần chạy.</strong> Với cùng một tệp đầu vào, trình phân tích cú pháp luôn tạo ra cùng một kết quả. Không có sự ngẫu nhiên, không có suy luận mô hình, không có lấy mẫu heuristic. CI thực thi thuyết xác định với 467 bài kiểm tra ở mức độ bao phủ 100% chi nhánh, bao gồm cả việc làm mờ dựa trên thuộc tính thông qua Giả thuyết.</p>
+<h3>Quá trình trích xuất có xác định không?</h3>
+<p><strong>Có cho các định dạng có cấu trúc -- đầu ra giống byte mỗi lần chạy.</strong> Với cùng một tệp đầu vào, các trình phân tích xác định (CAMT, PAIN.001, CSV, OFX, QFX, MT940) luôn tạo ra cùng một kết quả. Không có tính ngẫu nhiên, không suy luận mô hình, không lấy mẫu heuristic.</p>
+<p>Với pipeline PDF hybrid, các đường dẫn trích xuất dựa trên LLM có thể tạo ra biến thể nhỏ giữa các lần chạy. Do đó mọi kết quả trích xuất PDF đều được xác minh bằng <strong>Golden Rule</strong> (<code>opening + credits − debits == closing</code>) và các sai lệch được gắn cờ có thể xem xét tương tác.</p>
+<p>CI đảm bảo tính xác định với 718 bài kiểm tra ở 100% độ phủ nhánh, bao gồm fuzzing dựa trên thuộc tính qua Hypothesis.</p>
 <h3>Dự án tuân theo những tiêu chuẩn tuân thủ nào?</h3>
-<p>Dự án duy trì tài liệu phù hợp với ISO 13485 với khả năng truy xuất nguồn gốc đầy đủ:</p>
+<p>Dự án duy trì tài liệu phù hợp với ISO 13485 với khả năng truy xuất đầy đủ:</p>
 <ul>
-<li><strong>Đăng ký rủi ro</strong> được định lượng với điểm mức độ nghiêm trọng/xác suất và đánh giá rủi ro tồn dư.</li>
-<li><strong>Kế hoạch xác minh và xác thực</strong> với 19 bước kiểm soát trong 5 giai đoạn.</li>
-<li><strong>Quy trình kiểm soát thay đổi</strong> với các giao thức đánh giá tác động và khôi phục.</li>
-<li><strong>Đăng ký SOUP</strong> bao gồm tất cả các phần phụ thuộc có mức độ rủi ro và theo dõi EOL.</li>
-<li>Đầu vào của thiết kế ánh xạ <strong>Ma trận truy xuất nguồn gốc</strong> phục vụ việc triển khai và xác minh.</li>
+<li><strong>Sổ đăng ký rủi ro</strong> được định lượng với điểm mức độ nghiêm trọng/xác suất và đánh giá rủi ro tồn dư.</li>
+<li><strong>Kế hoạch xác minh và xác nhận</strong> với 19 bước kiểm soát trong 5 giai đoạn.</li>
+<li><strong>Quy trình kiểm soát thay đổi</strong> với đánh giá tác động và giao thức khôi phục.</li>
+<li><strong>Sổ đăng ký SOUP</strong> bao gồm tất cả phụ thuộc với mức độ rủi ro và theo dõi EOL.</li>
+<li><strong>Ma trận truy xuất nguồn gốc</strong> ánh xạ đầu vào thiết kế đến triển khai và xác minh.</li>
 </ul>
-<p>Mỗi bản phát hành đều bao gồm tổng kiểm tra CycloneDX SBOM, SHA-256 và chứng thực xuất xứ bản dựng GitHub.</p>
+<p>Mỗi bản phát hành bao gồm CycloneDX SBOM, checksum SHA-256, và chứng thực nguồn gốc bản dựng GitHub.</p>
 <h2>Hiệu suất và khả năng mở rộng</h2>
-<h3>Trình phân tích sao kê ngân hàng nhanh như thế nào?</h3>
-<p>Ngưỡng hiệu suất được xác thực trong CI trên mọi cam kết:</p>
+<h3>Bank Statement Parser nhanh như thế nào?</h3>
+<p>Ngưỡng hiệu suất được xác thực trong CI trên mỗi commit:</p>
 <div class="table-responsive"><table class="table">
 <thead>
 <tr>
-<th>Số liệu</th>
+<th>Chỉ số</th>
 <th>Giá trị</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="text-left">Thông lượng CAMT.053</td>
-<td class="text-left">Hơn 27.000 giao dịch/giây</td>
+<td class="text-left">27.000+ giao dịch/giây</td>
 </tr>
 <tr>
 <td class="text-left">Thông lượng PAIN.001</td>
-<td class="text-left">Hơn 52.000 giao dịch/giây</td>
+<td class="text-left">52.000+ giao dịch/giây</td>
 </tr>
 <tr>
-<td class="text-left">Độ trễ trên mỗi giao dịch (CAMT)</td>
+<td class="text-left">Độ trễ mỗi giao dịch (CAMT)</td>
 <td class="text-left">37 micro giây</td>
 </tr>
 <tr>
-<td class="text-left">Độ trễ trên mỗi giao dịch (PAIN.001)</td>
+<td class="text-left">Độ trễ mỗi giao dịch (PAIN.001)</td>
 <td class="text-left">19 micro giây</td>
 </tr>
 <tr>
 <td class="text-left">Thời gian đến kết quả đầu tiên</td>
-<td class="text-left">&lt; 2 mili giây</td>
+<td class="text-left">&lt; 2 ms</td>
 </tr>
 </tbody>
 </table></div>
-<h3>Các tệp lớn được xử lý như thế nào?</h3>
-<p><strong>Truyền phát bằng bộ nhớ giới hạn -- được thử nghiệm ở 50.000 giao dịch trên mỗi tệp.</strong> Sử dụng<code>parse_streaming()</code>để xử lý dần dần các tệp XML. Mỗi giao dịch được mang lại dưới dạng từ điển; các phần tử sẽ bị xóa sau khi xử lý để ngăn chặn sự tăng trưởng bộ nhớ. Bộ nhớ không tăng theo kích thước tệp -- thử nghiệm giao dịch 50K (25+ MB) sử dụng ít hơn 2 lần bộ nhớ của thử nghiệm giao dịch 10K.</p>
-<p>Đối với các tệp vượt quá 50 MB (ví dụ: các lô PAIN.001 từ máy chủ đến máy chủ có thanh toán trên 100K), trình phân tích cú pháp sẽ truyền qua một tệp tạm thời có tính năng loại bỏ không gian tên dựa trên đoạn -- toàn bộ tài liệu không bao giờ được tải vào bộ nhớ.</p>
-<h3>Các kho lưu trữ ZIP được xử lý an toàn như thế nào?</h3>
-<p><code>iter_secure_xml_entries()</code>xác nhận từng thành viên trước khi trích xuất:</p>
+<p>Tốc độ trích xuất PDF phụ thuộc vào đường dẫn: deterministic (dưới giây), text-LLM (vài giây), vision-LLM (vài giây mỗi trang).</p>
+<h3>Tệp lớn được xử lý như thế nào?</h3>
+<p><strong>Streaming với bộ nhớ giới hạn -- đã kiểm tra với 50.000 giao dịch mỗi tệp.</strong> Sử dụng <code>parse_streaming()</code> để xử lý tệp XML theo từng phần. Mỗi giao dịch được trả về dạng dictionary; các phần tử được xóa sau khi xử lý để ngăn tăng trưởng bộ nhớ. Bộ nhớ không tăng theo kích thước tệp -- bài kiểm tra 50K giao dịch (25+ MB) sử dụng ít hơn 2 lần bộ nhớ so với bài kiểm tra 10K giao dịch.</p>
+<p>Với các tệp vượt quá 50 MB (ví dụ: các lô PAIN.001 host-to-host với 100K+ thanh toán), trình phân tích streaming qua tệp tạm thời với loại bỏ namespace theo chunk -- toàn bộ tài liệu không bao giờ được nạp vào bộ nhớ.</p>
+<h3>Tệp ZIP được xử lý an toàn như thế nào?</h3>
+<p><code>iter_secure_xml_entries()</code> xác nhận từng thành viên trước khi trích xuất:</p>
 <ul>
-<li><strong>Giới hạn kích thước mục nhập</strong> (mặc định 10 MB cho mỗi mục nhập)</li>
+<li><strong>Giới hạn kích thước mục nhập</strong> (mặc định 10 MB mỗi mục)</li>
 <li><strong>Tổng giới hạn kích thước không nén</strong> (mặc định 50 MB)</li>
-<li><strong>Giới hạn tỷ lệ nén</strong> (mặc định 100:1) để ngăn bom ZIP</li>
-<li><strong>Từ chối mục nhập được mã hóa</strong></li>
+<li><strong>Giới hạn tỷ lệ nén</strong> (mặc định 100:1) để ngăn ZIP bomb</li>
+<li><strong>Từ chối mục nhập mã hóa</strong></li>
 </ul>
-<p>Không có tập tin nào được ghi vào đĩa. Các byte XML chuyển trực tiếp tới trình phân tích cú pháp thông qua<code>from_bytes()</code>.</p>
+<p>Không có tệp nào được ghi vào đĩa. Các byte XML chuyển trực tiếp đến parser qua <code>from_bytes()</code>.</p>
 <h3>Tôi có thể phân tích song song nhiều tệp không?</h3>
-<p><strong>Có.</strong> Sử dụng<code>parse_files_parallel()</code>phân phối công việc trên một<code>ProcessPoolExecutor</code>:</p>
+<p><strong>Có.</strong> Sử dụng <code>parse_files_parallel()</code> phân phối công việc trên <code>ProcessPoolExecutor</code>:</p>
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">parse_files_parallel
 </span><span style="color:#c0c5ce;">
@@ -283,45 +300,46 @@
 </span><span style="color:#c0c5ce;">    </span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(r.path, r.status, </span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(r.transactions), &quot;</span><span style="color:#a3be8c;">rows</span><span style="color:#c0c5ce;">&quot;)
 </span></pre>
 </code></pre>
-<h2>Định dạng được hỗ trợ</h2>
+<p>Với nhập PDF hàng loạt, sử dụng <code>scan_and_ingest()</code> xử lý toàn bộ cây thư mục với tự động chống trùng lặp.</p>
+<h2>Định dạng hỗ tr���</h2>
 <h3>Hỗ trợ những định dạng sao kê ngân hàng nào?</h3>
 <table>
 <thead>
 <tr>
 <th>Định dạng</th>
 <th>Tiêu chuẩn</th>
-<th>Các loại tệp</th>
-<th>Lớp phân tích cú pháp</th>
+<th>Loại tệp</th>
+<th>Parser/Phương thức</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="text-left">CAMT.053</td>
-<td class="text-left">Tuyên bố giữa ngân hàng với khách hàng theo tiêu chuẩn ISO 20022</td>
+<td class="text-left">ISO 20022 Sao kê ngân hàng gửi khách hàng</td>
 <td class="text-left"><code>.xml</code></td>
 <td class="text-left"><code>CamtParser</code></td>
 </tr>
 <tr>
-<td class="text-left">ĐAU.001</td>
-<td class="text-left">Bắt đầu chuyển giao tín chỉ ISO 20022</td>
+<td class="text-left">PAIN.001</td>
+<td class="text-left">ISO 20022 Khởi tạo chuyển khoản</td>
 <td class="text-left"><code>.xml</code></td>
 <td class="text-left"><code>Pain001Parser</code></td>
 </tr>
 <tr>
 <td class="text-left">CSV</td>
-<td class="text-left">Xuất khẩu ngân hàng tổng hợp</td>
+<td class="text-left">Xuất dữ liệu ngân hàng tổng hợp</td>
 <td class="text-left"><code>.csv</code></td>
 <td class="text-left"><code>CsvStatementParser</code></td>
 </tr>
 <tr>
 <td class="text-left">OFX</td>
-<td class="text-left">Sàn giao dịch tài chính mở</td>
+<td class="text-left">Open Financial Exchange</td>
 <td class="text-left"><code>.ofx</code></td>
 <td class="text-left"><code>OfxParser</code></td>
 </tr>
 <tr>
 <td class="text-left">QFX</td>
-<td class="text-left">Trao đổi tài chính nhanh chóng</td>
+<td class="text-left">Quicken Financial Exchange</td>
 <td class="text-left"><code>.qfx</code></td>
 <td class="text-left"><code>QfxParser</code></td>
 </tr>
@@ -331,15 +349,29 @@
 <td class="text-left"><code>.mt940</code>, <code>.sta</code></td>
 <td class="text-left"><code>Mt940Parser</code></td>
 </tr>
+<tr>
+<td class="text-left">PDF</td>
+<td class="text-left">Sao kê kỹ thuật số và sao kê quét</td>
+<td class="text-left"><code>.pdf</code></td>
+<td class="text-left"><code>smart_ingest()</code></td>
+</tr>
 </tbody>
 </table>
-<h3>Trình phân tích cú pháp có xử lý các phương ngữ dành riêng cho ngân hàng của CAMT.053 không?</h3>
-<p><strong>Có -- theo thiết kế không xác định được không gian tên.</strong> Trình phân tích cú pháp loại bỏ các không gian tên XML trước khi xử lý, xử lý mọi biến thể CAMT.053 (<code>camt.053.001.02</code>, <code>camt.053.001.04</code>hoặc trình bao bọc ngân hàng độc quyền) không có cấu hình dành riêng cho không gian tên. Truy vấn XPath cấu trúc phần tử đích, không phải URI vùng tên.</p>
-<p>Đối với các ngân hàng bọc CAMT trong một phong bì tùy chỉnh, hãy sử dụng<code>from_string()</code>hoặc<code>from_bytes()</code>để nạp trực tiếp tài liệu bên trong.</p>
-<h3>Tôi có thể ánh xạ các tiêu đề cột CSV tùy chỉnh vào lược đồ chuẩn không?</h3>
-<p><strong>Có -- tự động chuẩn hóa, không cấu hình.</strong><code>CsvStatementParser</code>nhận ra các biến thể tiêu đề phổ biến:<code>&quot;Date&quot;</code>, <code>&quot;Transaction Date&quot;</code>, <code>&quot;Booking Date&quot;</code>tất cả bản đồ đến<code>date</code>cánh đồng.<code>&quot;Amount&quot;</code>, <code>&quot;Value&quot;</code>, <code>&quot;Sum&quot;</code>bản đồ tới<code>amount</code>. Tách các cột tín dụng/ghi nợ (ví dụ:<code>&quot;Credit&quot;</code>Và<code>&quot;Debit&quot;</code>) được phát hiện và kết hợp thành một số tiền được ký tên một cách tự động.</p>
+<h3>Pipeline PDF hybrid hoạt động như thế nào?</h3>
+<p>Pipeline hybrid (v0.0.5+) tự động định tuyến PDF qua ba đường dẫn trích xuất:</p>
+<ul>
+<li><strong>Đường dẫn A (Deterministic)</strong>: Bảng PDF có cấu trúc được phân tích trực tiếp — miễn phí, nhanh nhất, không cần LLM.</li>
+<li><strong>Đường dẫn B (Text-LLM)</strong>: PDF kỹ thuật số có bố cục phức tạp được trích xuất qua LLM cục bộ (LiteLLM/Ollama).</li>
+<li><strong>Đường dẫn C (Vision-LLM)</strong>: Sao kê quét hoặc photocopy được xử lý bằng mô hình vision đa phương thức.</li>
+</ul>
+<p>Mọi kết quả trích xuất đều được xác minh bằng Golden Rule (<code>opening + credits − debits == closing</code>). Các sai lệch có thể được xem xét tương tác với <code>--type review</code>.</p>
+<h3>Trình phân tích có xử lý các biến thể CAMT.053 theo ngân hàng không?</h3>
+<p><strong>Có -- thiết kế không phụ thuộc namespace.</strong> Trình phân tích loại bỏ namespace XML trước khi xử lý, xử lý mọi biến thể CAMT.053 (<code>camt.053.001.02</code>, <code>camt.053.001.04</code>, hoặc wrapper ngân hàng độc quyền) mà không cần cấu hình namespace cụ thể. Truy vấn XPath nhắm vào cấu trúc phần tử, không phải URI namespace.</p>
+<p>Với các ngân hàng bọc CAMT trong envelope tùy chỉnh, sử dụng <code>from_string()</code> hoặc <code>from_bytes()</code> để nạp trực tiếp tài liệu bên trong.</p>
+<h3>Tôi có thể ánh xạ tiêu đề cột CSV tùy chỉnh vào schema chuẩn không?</h3>
+<p><strong>Có -- tự động chuẩn hóa, không cần cấu hình.</strong> <code>CsvStatementParser</code> nhận ra các biến thể tiêu đề phổ biến: <code>&quot;Date&quot;</code>, <code>&quot;Transaction Date&quot;</code>, <code>&quot;Booking Date&quot;</code> đều ánh xạ đến trường <code>date</code>. <code>&quot;Amount&quot;</code>, <code>&quot;Value&quot;</code>, <code>&quot;Sum&quot;</code> ánh xạ đến <code>amount</code>. Các cột tín dụng/ghi nợ tách biệt (ví dụ: <code>&quot;Credit&quot;</code> và <code>&quot;Debit&quot;</code>) được phát hiện và kết hợp thành một số tiền có dấu tự động.</p>
 <h3>Định dạng đầu ra là gì?</h3>
-<p>Tất cả các trình phân tích cú pháp đều tạo ra các DataFrames gấu trúc được tiêu chuẩn hóa với các loại cột nhất quán:</p>
+<p>Tất cả parser đều tạo pandas DataFrames chuẩn hóa với kiểu cột nhất quán:</p>
 <table>
 <thead>
 <tr>
@@ -353,29 +385,65 @@
 <td class="text-left"><code>Amount</code>, <code>Currency</code>, <code>DrCr</code>, <code>Debtor</code>, <code>Creditor</code>, <code>Reference</code>, <code>ValDt</code>, <code>BookgDt</code>, <code>AccountId</code></td>
 </tr>
 <tr>
-<td class="text-left"><strong>ĐAU.001</strong></td>
+<td class="text-left"><strong>PAIN.001</strong></td>
 <td class="text-left"><code>PmtInfId</code>, <code>PmtMtd</code>, <code>InstdAmt</code>, <code>Currency</code>, <code>CdtrNm</code>, <code>EndToEndId</code>, <code>MsgId</code>, <code>CreDtTm</code>, <code>NbOfTxs</code></td>
 </tr>
 <tr>
 <td class="text-left"><strong>CSV/OFX/QFX/MT940</strong></td>
-<td class="text-left"><code>date</code>, <code>description</code>, <code>amount</code>(bình thường hóa)</td>
+<td class="text-left"><code>date</code>, <code>description</code>, <code>amount</code> (chuẩn hóa)</td>
 </tr>
 </tbody>
 </table>
-<p>Bạn cũng có thể xuất sang CSV, JSON, Excel hoặc chuyển đổi sang Polars DataFrames.</p>
-<h2>Quy trình làm việc của Kho bạc</h2>
-<h3>Trình phân tích cú pháp xử lý các báo cáo đa tiền tệ như thế nào?</h3>
-<p><strong>Mỗi giao dịch giữ nguyên loại tiền tệ ban đầu -- không có chuyển đổi tiềm ẩn.</strong><code>Currency</code>trường được trích xuất từ ​​XML<code>Ccy</code>thuộc tính cho mỗi giao dịch. Báo cáo đa tiền tệ vẫn giữ nguyên. các<code>get_account_balances()</code>phương thức trả về số dư đầu kỳ và cuối kỳ trên mỗi tài khoản với mã tiền tệ gốc. Việc đối chiếu giữa các loại tiền tệ được giao cho logic xuôi dòng của bạn, nơi bạn kiểm soát nguồn tỷ giá hối đoái.</p>
-<h3>Trình phân tích cú pháp có hỗ trợ cả định dạng gửi đi và gửi đến không?</h3>
-<p><strong>Đúng.</strong><code>Pain001Parser</code>xử lý các tệp khởi tạo chuyển khoản tín dụng ISO 20022 PAIN.001 (thanh toán đi).<code>CamtParser</code>xử lý các tệp sao kê từ ngân hàng đến khách hàng CAMT.053 (báo cáo đến). Cả hai đều hỗ trợ phát trực tuyến, biên tập PII và xuất sang CSV, JSON và Excel. Sử dụng<code>detect_statement_format()</code>để tự động xác định định dạng.</p>
-<h3>Điều gì xảy ra khi mục nhập giao dịch không đúng định dạng?</h3>
-<p>Hành vi phụ thuộc vào chế độ phân tích cú pháp:</p>
+<p>Bạn cũng có thể xuất sang CSV, JSON, Excel, Polars DataFrames, hledger, hoặc beancount journal.</p>
+<h2>Tính năng PDF và LLM</h2>
+<h3>Pipeline hybrid hỗ trợ những mô hình LLM nào?</h3>
+<p>Pipeline sử dụng LiteLLM làm lớp trừu tượng mô hình, với bridge Ollama trực tiếp cho prompt vision. Các mô hình khuyến nghị:</p>
 <ul>
-<li><strong><code>parse()</code>(chế độ hàng loạt)</strong> -- Các mục nhập không đúng định dạng thiếu các trường bắt buộc (<code>Amount</code>, <code>Currency</code>, hoặc<code>CdtDbtInd</code>) bị bỏ qua kèm theo nhật ký cảnh báo. Phần còn lại của câu lệnh phân tích cú pháp bình thường.</li>
-<li><strong><code>parse_streaming()</code>(chế độ phát trực tuyến)</strong> -- Lỗi phân tích cú pháp lan truyền ngay lập tức dưới dạng ngoại lệ. Không mất dữ liệu im lặng. Hành vi không nhanh chóng này là có chủ ý dành cho quy trình công việc tài chính trong đó mọi giao dịch đều phải được tính toán.</li>
+<li><strong>Trích xuất văn bản</strong>: Bất kỳ mô hình nào tương thích LiteLLM (cục bộ hoặc remote).</li>
+<li><strong>Trích xuất vision</strong>: <code>ollama/minicpm-v</code> (khuyến nghị) cho PDF quét.</li>
+<li><strong>Phân loại</strong>: Bất kỳ mô hình nào tương thích LiteLLM.</li>
 </ul>
-<h3>Tính năng chống trùng lặp hoạt động như thế nào?</h3>
-<p>các<code>Deduplicator</code>lớp phát hiện các bản sao chính xác và các kết quả trùng khớp bị nghi ngờ với điểm tin cậy có thể giải thích được:</p>
+<p>Tất cả mô hình đều có thể chạy 100% cục bộ qua Ollama — không cần API key.</p>
+<h3>Xác minh Golden Rule là gì?</h3>
+<p>Mọi kết quả trích xuất PDF đều được xác minh bằng phương trình: <code>opening balance + credits − debits == closing balance</code>. Kết quả được gắn nhãn:</p>
+<ul>
+<li><strong>VERIFIED</strong>: Số dư khớp chính xác.</li>
+<li><strong>DISCREPANCY</strong>: Số dư không khớp — khuyến nghị xem xét.</li>
+<li><strong>FAILED</strong>: Không thể thực hiện xác minh (thiếu dữ liệu số dư).</li>
+</ul>
+<h3>Tôi có thể tự động phân loại giao dịch không?</h3>
+<p><strong>Có.</strong> Module enrichment (v0.0.6+) cung cấp phân loại giao dịch bằng LLM:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser.enrichment </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">Categorizer
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">categorizer = </span><span style="color:#8fa1b3;">Categorizer</span><span style="color:#c0c5ce;">()
+</span><span style="color:#c0c5ce;">enriched = categorizer.</span><span style="color:#8fa1b3;">categorize_batch</span><span style="color:#c0c5ce;">(transactions)
+</span></pre>
+</code></pre>
+<p>Schema mặc định sử dụng 13 danh mục tương thích Plaid. Bạn có thể cung cấp schema danh mục riêng.</p>
+<h3>Tôi có thể xuất sang hledger hoặc beancount không?</h3>
+<p><strong>Có</strong> (v0.0.8+). Xuất giao dịch sang định dạng sổ nhật ký kế toán plaintext với ánh xạ tài khoản:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser.export </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">to_hledger, to_beancount
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">journal = </span><span style="color:#8fa1b3;">to_hledger</span><span style="color:#c0c5ce;">(transactions, </span><span style="color:#bf616a;">account</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">Assets:Bank:Checking</span><span style="color:#c0c5ce;">&quot;)
+</span></pre>
+</code></pre>
+<h2>Quy trình ngân quỹ</h2>
+<h3>Trình phân tích xử lý sao kê đa tiền tệ như thế nào?</h3>
+<p><strong>Mỗi giao dịch giữ nguyên tiền tệ gốc -- không có chuyển đổi ngầm.</strong> Trường <code>Currency</code> được trích xuất từ thuộc tính XML <code>Ccy</code> cho mỗi giao dịch. Sao kê đa tiền tệ giữ nguyên. Phương thức <code>get_account_balances()</code> trả về số dư đầu kỳ và cuối kỳ mỗi tài khoản với mã tiền tệ gốc.</p>
+<p>Từ v0.0.8, <code>verify_balance_multi_currency()</code> nhóm giao dịch theo tiền tệ và chạy Golden Rule độc lập cho mỗi nhóm — hữu ích cho các tài khoản giữ nhiều loại tiền tệ.</p>
+<h3>Trình phân tích có hỗ trợ cả định dạng đi và đến không?</h3>
+<p><strong>Có.</strong> <code>Pain001Parser</code> xử lý tệp khởi tạo chuyển khoản ISO 20022 PAIN.001 (thanh toán đi). <code>CamtParser</code> xử lý tệp sao kê ngân hàng gửi khách hàng CAMT.053 (báo cáo đến). Cả hai đều hỗ trợ streaming, ẩn danh PII, và xuất sang CSV, JSON, Excel, hledger, và beancount. Sử dụng <code>detect_statement_format()</code> để tự động nhận dạng định dạng.</p>
+<h3>Điều gì xảy ra khi mục nhập giao dịch không đúng định dạng?</h3>
+<p>Hành vi phụ thuộc vào chế độ phân tích:</p>
+<ul>
+<li><strong><code>parse()</code> (chế độ batch)</strong> -- Các mục nhập không đúng định dạng thiếu trường bắt buộc (<code>Amount</code>, <code>Currency</code>, hoặc <code>CdtDbtInd</code>) bị bỏ qua kèm cảnh báo log. Phần còn lại của sao kê được phân tích bình thường.</li>
+<li><strong><code>parse_streaming()</code> (chế độ streaming)</strong> -- Lỗi phân tích lan truyền ngay lập tức dạng ngoại lệ. Không mất dữ liệu im lặng. Hành vi fail-fast này là có chủ đích cho quy trình tài chính nơi mọi giao dịch phải được ghi nhận.</li>
+<li><strong><code>smart_ingest()</code> (PDF hybrid)</strong> -- Lỗi trích xuất được ghi nhận trong <code>IngestResult</code> với trạng thái xác minh, cho phép xem xét tương tác.</li>
+</ul>
+<h3>Chống trùng lặp hoạt động như thế nào?</h3>
+<p>Mỗi giao dịch được gán <code>transaction_hash</code> idempotent (dấu vân tay MD5) dựa trên các trường chính. Điều này cho phép nhập dữ liệu gia tăng an toàn — xử lý lại cùng một tệp tạo ra cùng hash, nên bản sao được phát hiện tự động.</p>
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">CamtParser, Deduplicator
 </span><span style="color:#c0c5ce;">
@@ -389,57 +457,71 @@
 </span></pre>
 </code></pre>
 <h2>Cài đặt và tương thích</h2>
-<h3>Làm cách nào để cài đặt Trình phân tích sao kê ngân hàng?</h3>
+<h3>Làm thế nào để cài đặt Bank Statement Parser?</h3>
 <pre><code class="language-bash"><pre style="background-color:#2b303b;">
-<span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser
-</span></pre>
-</code></pre>
-<p>Để được hỗ trợ Polars DataFrame tùy chọn:</p>
-<pre><code class="language-bash"><pre style="background-color:#2b303b;">
-<span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser</span><span style="color:#b48ead;">[</span><span style="color:#c0c5ce;">polars</span><span style="color:#b48ead;">]
+<span style="color:#65737e;"># Cài đặt cơ bản (chỉ trình phân tích xác định)
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#65737e;"># Pipeline PDF hybrid
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[hybrid]</span><span style="color:#c0c5ce;">&#39;         </span><span style="color:#65737e;"># Đường dẫn Text-LLM
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[hybrid-vision]</span><span style="color:#c0c5ce;">&#39;   </span><span style="color:#65737e;"># Đường dẫn Vision-LLM
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#65737e;"># Gói mở rộng
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[enrichment]</span><span style="color:#c0c5ce;">&#39;      </span><span style="color:#65737e;"># Phân loại giao dịch
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[api]</span><span style="color:#c0c5ce;">&#39;             </span><span style="color:#65737e;"># Microservice REST API
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[polars]</span><span style="color:#c0c5ce;">&#39;          </span><span style="color:#65737e;"># Hỗ trợ Polars DataFrame
 </span></pre>
 </code></pre>
 <h3>Phiên bản Python nào được hỗ trợ?</h3>
-<p>Python 3.9 đến 3.14. Tất cả các phiên bản đều được thử nghiệm trong CI với 467 thử nghiệm với độ bao phủ 100% nhánh.</p>
-<h3>Sự phụ thuộc là gì?</h3>
-<p>Thư viện có 5 phụ thuộc trực tiếp:</p>
+<p>Python 3.10 đến 3.14. Hỗ trợ Python 3.9 đã bị loại bỏ trong v0.0.6 (EOL 2025-10-31). Tất cả phiên bản được kiểm tra trong CI với 718 bài kiểm tra ở 100% độ phủ nhánh.</p>
+<h3>Các phụ thuộc là gì?</h3>
+<p>Thư viện lõi có 5 phụ thuộc trực tiếp:</p>
 <ul>
-<li><code>lxml</code>-- Phân tích cú pháp XML với việc tăng cường bảo mật
--<code>pandas</code>-- DataFrames và thao tác dữ liệu
--<code>openpyxl</code>-- Xuất Excel
--<code>pydantic</code>-- Xác thực dữ liệu và mô hình
--<code>defusedxml</code>-- Bảo vệ XXE</li>
+<li><code>lxml</code> -- Phân tích XML với tăng cường bảo mật</li>
+<li><code>pandas</code> -- DataFrames và thao tác dữ liệu</li>
+<li><code>openpyxl</code> -- Xuất Excel</li>
+<li><code>pydantic</code> -- Xác thực dữ liệu và mô hình</li>
+<li><code>defusedxml</code> -- Bảo vệ XXE</li>
 </ul>
-<p>Tất cả các phần phụ thuộc đều có phiên bản khóa băm SHA-256. CycloneDX SBOM ánh xạ mọi thành phần thời gian chạy.</p>
-<h3>Nó có hoạt động trên macOS, Linux và Windows không?</h3>
-<p><strong>Có.</strong> Thư viện hoạt động trên macOS, Linux và Windows (thông qua WSL). Nó không có sự phụ thuộc vào nền tảng cụ thể.</p>
-<h2>Khả năng tái tạo và bảo mật</h2>
-<h3>Làm cách nào để xác minh khả năng tái tạo?</h3>
+<p>Các gói mở rộng tùy chọn thêm: <code>litellm</code>, <code>pypdf</code>, <code>pdfplumber</code>, <code>pypdfium2</code>, <code>fastapi</code>, <code>uvicorn</code>, <code>polars</code>.</p>
+<p>Tất cả phụ thuộc đều có phiên bản khóa hash SHA-256. CycloneDX SBOM ánh xạ mọi thành phần runtime.</p>
+<h3>Có hoạt động trên macOS, Linux và Windows không?</h3>
+<p><strong>Có.</strong> Thư viện hoạt động trên macOS, Linux và Windows (qua WSL). Không có phụ thuộc nền tảng cụ thể.</p>
+<h3>Có REST API không?</h3>
+<p><strong>Có</strong> (v0.0.8+). Cài đặt với <code>pip install 'bankstatementparser[api]'</code> và chạy:</p>
 <pre><code class="language-bash"><pre style="background-color:#2b303b;">
-<span style="color:#8fa1b3;">python</span><span style="color:#d9848a;"> -m</span><span style="color:#c0c5ce;"> pytest                              </span><span style="color:#8f9aa5;"># 467 tests, 100% branch coverage
-</span><span style="color:#8fa1b3;">python</span><span style="color:#c0c5ce;"> scripts/verify_locked_hashes.py        </span><span style="color:#8f9aa5;"># SHA-256 hash verification
-</span><span style="color:#8fa1b3;">git</span><span style="color:#c0c5ce;"> log</span><span style="color:#d9848a;"> --show-signature -1                   </span><span style="color:#8f9aa5;"># Verify commit signature
+<span style="color:#8fa1b3;">bankstatementparser-api</span><span style="color:#bf616a;"> --port</span><span style="color:#c0c5ce;"> 8000
 </span></pre>
 </code></pre>
-<h3>Những biện pháp bảo vệ an ninh nào được tích hợp sẵn?</h3>
+<p>Các endpoint: <code>POST /ingest</code> (phân tích sao kê) và <code>GET /health</code> (kiểm tra sức khỏe).</p>
+<h2>Khả năng tái tạo và bảo mật</h2>
+<h3>Làm thế nào để xác minh khả năng tái tạo?</h3>
+<pre><code class="language-bash"><pre style="background-color:#2b303b;">
+<span style="color:#8fa1b3;">python</span><span style="color:#bf616a;"> -m</span><span style="color:#c0c5ce;"> pytest                              </span><span style="color:#65737e;"># 718 tests, 100% branch coverage
+</span><span style="color:#8fa1b3;">python</span><span style="color:#c0c5ce;"> scripts/verify_locked_hashes.py        </span><span style="color:#65737e;"># SHA-256 hash verification
+</span><span style="color:#8fa1b3;">git</span><span style="color:#c0c5ce;"> log</span><span style="color:#bf616a;"> --show-signature -1                   </span><span style="color:#65737e;"># Verify commit signature
+</span></pre>
+</code></pre>
+<h3>Những biện pháp bảo mật nào được tích hợp sẵn?</h3>
 <ul>
-<li><strong>Bảo vệ XXE</strong>:<code>resolve_entities=False</code>, <code>no_network=True</code>, <code>load_dtd=False</code></li>
-<li><strong>Bảo vệ chống bom ZIP</strong>: Giới hạn tỷ lệ nén, giới hạn kích thước mục nhập, từ chối mục nhập được mã hóa</li>
-<li><strong>Ngăn chặn truyền tải đường dẫn</strong>: Giải pháp danh sách chặn và liên kết tượng trưng nguy hiểm</li>
-<li><strong>Xác thực đầu vào</strong>: Giới hạn kích thước tệp (mặc định 100 MB), xác thực tiện ích mở rộng/định dạng</li>
-<li><strong>Chuỗi cung ứng</strong>: Các phần phụ thuộc được khóa băm SHA-256, CycloneDX SBOM, chứng thực xuất xứ của bản dựng</li>
-<li><strong>Cam kết đã ký</strong>: Được thực thi trong CI</li>
+<li><strong>Bảo vệ XXE</strong>: <code>resolve_entities=False</code>, <code>no_network=True</code>, <code>load_dtd=False</code></li>
+<li><strong>Bảo vệ ZIP Bomb</strong>: Giới hạn tỷ lệ nén, giới hạn kích thước mục nhập, từ chối mục nhập mã hóa</li>
+<li><strong>Ngăn chặn Path Traversal</strong>: Danh sách chặn mẫu nguy hiểm và phân giải symlink</li>
+<li><strong>Xác thực đầu vào</strong>: Giới hạn kích thước tệp (mặc định 100 MB), xác thực extension/định dạng</li>
+<li><strong>Chuỗi cung ứng</strong>: Phụ thuộc khóa hash SHA-256, CycloneDX SBOM, chứng thực nguồn gốc bản dựng</li>
+<li><strong>Commit có chữ ký</strong>: Được thực thi trong CI</li>
+<li><strong>Chỉ LLM cục bộ</strong>: Pipeline PDF hybrid sử dụng Ollama — không gọi cloud API</li>
 </ul>
-<h3>Trình phân tích sao kê ngân hàng so với pyiso20022 như thế nào?</h3>
-<p>pyiso20022 là bộ công cụ ISO 20022 rộng rãi tạo ra các lớp dữ liệu Python từ các lược đồ ISO XML. Nó bao gồm nhiều loại thông báo ISO 20022 (PACS, PAIN, CAMT, ADMI) với xác thực lược đồ. Trình phân tích bảng sao kê ngân hàng được xây dựng có mục đích để phân tích bảng sao kê ngân hàng với hỗ trợ phát trực tuyến, loại bỏ PII, chống trùng lặp và API hợp nhất trên sáu định dạng bao gồm các định dạng không phải ISO (CSV, OFX, QFX, MT940). Nếu bạn cần phân tích bảng sao kê ngân hàng thành DataFrames với mức độ bảo mật cấp sản xuất, hãy sử dụng Trình phân tích bảng sao kê ngân hàng. Nếu bạn cần làm việc với danh mục thông báo ISO 20022 đầy đủ, hãy sử dụng pyiso20022.</p>
-<h3>Thời hạn chuyển đổi SWIFT ISO 20022 là bao lâu?</h3>
-<p>SWIFT đã công bố dòng thời gian di chuyển theo từng giai đoạn:</p>
+<h3>Bank Statement Parser so với pyiso20022 như thế nào?</h3>
+<p>pyiso20022 là bộ công cụ ISO 20022 tổng quát tạo dataclass Python từ schema ISO XML. Nó bao gồm nhiều loại thông báo ISO 20022 (PACS, PAIN, CAMT, ADMI) với xác thực schema. Bank Statement Parser được xây dựng chuyên dụng để phân tích sao kê ngân hàng với hỗ trợ PDF hybrid, xác minh số dư, làm giàu dữ liệu, xuất sổ cái, và API thống nhất trên bảy định dạng bao gồm các định dạng không phải ISO (CSV, OFX, QFX, MT940, PDF). Nếu bạn cần phân tích sao kê ngân hàng thành DataFrames với bảo mật cấp production, sử dụng Bank Statement Parser. Nếu bạn cần làm việc với danh mục thông báo ISO 20022 đầy đủ, sử dụng pyiso20022.</p>
+<h3>Thời hạn chuyển đổi SWIFT ISO 20022 là khi nào?</h3>
+<p>SWIFT đã công bố lộ trình chuyển đổi theo giai đoạn:</p>
 <ul>
-<li><strong>Tháng 11 năm 2026</strong>: Địa chỉ có cấu trúc và địa chỉ kết hợp trở thành bắt buộc. Các thông báo đa lệnh MT101 sẽ bị từ chối. Quản lý trường hợp Giai đoạn 1 bắt đầu.</li>
-<li><strong>Tháng 11 năm 2027</strong>: Tất cả các tổ chức tài chính phải có khả năng nhận được bảng sao kê CAMT.053 nguyên gốc. SWIFT sẽ ngừng chuyển đổi MT sang định dạng ISO.</li>
-<li><strong>Tháng 11 năm 2028</strong>: Ngừng hoàn toàn MT940, MT942, MT950, MT900 và MT910. Chúng sẽ được thay thế bằng CAMT.052, CAMT.053 và CAMT.054 tương đương.</li>
+<li><strong>Tháng 11/2026</strong>: Địa chỉ có cấu trúc và địa chỉ kết hợp trở thành bắt buộc. Các thông báo đa lệnh MT101 sẽ bị từ chối. Quản lý case Giai đoạn 1 bắt đầu.</li>
+<li><strong>Tháng 11/2027</strong>: Tất cả tổ chức tài chính phải có khả năng nhận sao kê CAMT.053 nguyên bản. SWIFT sẽ ngừng chuyển đổi MT sang định dạng ISO.</li>
+<li><strong>Tháng 11/2028</strong>: Ngừng hoàn toàn MT940, MT942, MT950, MT900 và MT910. Chúng sẽ được thay thế bằng CAMT.052, CAMT.053 và CAMT.054 tương đương.</li>
 </ul>
-<p>Trình phân tích báo cáo ngân hàng hỗ trợ cả định dạng MT940 cũ và định dạng CAMT.053/PAIN.001 hiện đại, khiến nó trở nên lý tưởng cho giai đoạn chuyển tiếp.</p>
+<p>Bank Statement Parser hỗ trợ cả định dạng MT940 cũ và định dạng CAMT.053/PAIN.001 hiện đại, là lựa chọn lý tưởng cho giai đoạn chuyển tiếp.</p>
 </div>
         <div id="faq-accordion" class="faq-container"></div>
       </div>
@@ -456,7 +538,7 @@
         </ul>
       </div>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"Câu trả lời cho các câu hỏi phổ biến về Trình phân tích bảng sao kê ngân hàng: quyền riêng tư dữ liệu, biên tập PII, hiệu suất, hỗ trợ ISO 20022, luồng công việc phát trực tuyến, tuân thủ và ngân quỹ.","headline":"Các câu hỏi thường gặp về Trình phân tích sao kê ngân hàng","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"vi-VN","mainEntityOfPage":"https://bankstatementparser.com/vi/faq/index.html","name":"Trình phân tích sao kê ngân hàng","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"Câu trả lời cho các câu hỏi phổ biến về Trình phân tích bảng sao kê ngân hàng: quyền riêng tư dữ liệu, biên tập PII, hiệu suất, hỗ trợ ISO 20022, luồng công việc phát trực tuyến, tuân thủ và ngân quỹ.","headline":"Các câu hỏi thường gặp về Trình phân tích sao kê ngân hàng","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"vi-VN","mainEntityOfPage":"https://bankstatementparser.com/vi/faq/index.html","name":"Câu hỏi thường gặp","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
     <script>
     // FAQ accordion builder
     (function(){
@@ -553,8 +635,8 @@
         document.documentElement.setAttribute("data-theme",theme);localStorage.setItem("theme",theme);
         document.querySelectorAll(".theme-icon-dark,.theme-icon-dark-m").forEach(function(e){e.style.display=theme==="dark"?"none":""});
         document.querySelectorAll(".theme-icon-light,.theme-icon-light-m").forEach(function(e){e.style.display=theme==="dark"?"":"none"});
-        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"Light":"Dark"});
-        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"Switch to light mode":"Switch to dark mode")});
+        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"Sang":"Toi"});
+        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"Chuyen sang che do sang":"Chuyen sang che do toi")});
       }
       var saved=localStorage.getItem("theme");
       if(saved){setTheme(saved)}else if(window.matchMedia("(prefers-color-scheme:dark)").matches){setTheme("dark")}
@@ -564,5 +646,57 @@
     })();
     </script>
     <script defer src="/main.js"></script>
-  </body>
+      <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Tim kiem...">
+      <div class="search-box">
+        <input class="search-input" id="searchInput" type="search" placeholder="Tim kiem..." autocomplete="off" aria-label="Tim kiem..." />
+        <div class="search-results" id="searchResults"></div>
+        <div class="search-footer"><span><kbd>&uarr;</kbd><kbd>&darr;</kbd> Navigate</span><span><kbd>&crarr;</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var pages=[{t:"Home",d:"Parse 7 bank statement formats including PDF, 100% local",u:"/vi/index.html",k:"apache bank beancount byte camt chiu chng chnh chuyn chính cloud cyclonedx danh dataframes dchgiây deterministic endpoint excel fastapi fintech getting gian giao ging github giàu giây giúp golden hash hledger hoàn hybrid hàng hành hình idempotent jso"},{t:"About",d:"Features, formats, hybrid PDF pipeline, performance overview",u:"/vi/a-propos/index.html",k:"accepteditskipdelete bank beancount bomb camt chiu chng chnh chui chun chuyn chính cloud cung cyclonedx công danh dataframes downstream duyt dành dùng endpoint excel exchange fastapi financial fintech getting gian giao github giàu giây giúp golden ha"},{t:"Getting Started",d:"Installation, extras, PDF pipeline, REST API, CLI reference",u:"/vi/premiers-pas/index.html",k:"beancount bomb bytes camt camtpain chiu chng chun chính csvjsonexcel danh endpoint fastapi giao giàu golden hash hledger hybrid hàng idempotent import journal json khai khon không kích linux macos microservice minh nghi nghìn ngoi ngân nhanh nhiu nhó"},{t:"FAQ",d:"Privacy, hybrid PDF, Golden Rule, performance, compliance",u:"/vi/faq/index.html",k:"admi bank batch beancount bomb bridge byte bình camt camtpain case checksum chng chnh chui chun chunk chuyn chuyên chính chúng cloud commit console csvofxqfxmt cung cyclonedx công cùng cũng cưng danh dataclass dataframes dchgiây deterministic diction"},{t:"Use Cases",d:"Treasury, PDF ingestion, reconciliation, ledger export, REST API",u:"/vi/cas-utilisation/index.html",k:"bank barclays beancount bomb bytes camt chase chiu chng chun chuyn chính chúng cloud danh dataframe dataframes gian giao giúp golden hledger hsbc http hybrid hàng journal json khai không liên microservice minh ngân nhiên nhóm parser phát phân phép pi"},{t:"Migration",d:"ISO 20022 timeline, MT940 to CAMT.053, PDF fallback",u:"/vi/migration/index.html",k:"bank beancount biên camt case chiu chun chuyn chính chưa cung cùng dataframe downstream giai giao ging giúp golden hledger hoàn hybrid hàng hình journal kcui khác không minh mtmtmtmtmt namespace nghĩa ngng ngun nguyên ngày ngân nhau nhiu nhng nhóm nă"},{t:"Security",d:"XXE protection, PII redaction, local LLMs, Golden Rule",u:"/vi/securite/index.html",k:"artifact bank bill bomb byte camt chng chui chuyn chính chưa cloud commit csvjsonexcel cung cyclonedx công cùng cưng danh discrepancy downstream extension failed ging github golden hash heuristic hybrid hành hình iban khóa không kích liên materials m"},{t:"Comparison",d:"vs mt-940, ofxparse, pyiso20022, SaaS, hybrid LLM pipeline",u:"/vi/alternatives/index.html",k:"admi apache apple bank beancount benchmark bình camt chiu chng chuyên cloud cung công danh dataclass dataclasses dataframe dataframes deterministic dùng fastapi giao giàu golden hash hledger hybrid hàng idempotent khác không liên minh ngoài ngun ngân"},{t:"Changelog",d:"Release history: v0.0.8, v0.0.7, v0.0.6, v0.0.5, v0.0.4",u:"/vi/journal-des-modifications/index.html",k:"account across applicationcategory balance bands batch beancount bounding bridge bulk bypasses camt changed chnh chun chuyn chính command config currency cưng dataframe datepublished deduplicates deduplication dense deterministictext digital direct d"},{t:"Contribute",d:"Report issues, submit code, documentation, sponsorship",u:"/vi/contribuer/index.html",k:"chui chun chào chính chúng cách dung gian giúp hoan hàng hành luôn lòng nghim nghênh ngun ngân ngưi nhng nhánh nhóm năng phiên phát phân python quan quaxơ ràng thay theo thin thit thut thêm tiêu trin trong trình tích tính vàkim đóng"},{t:"Contact",d:"GitHub issues for open-source, form for business inquiries",u:"/vi/contact/index.html",k:"chung chúng cách doanh kinh kênh liên lòng mang nghe ngun năng theo thut tính đúng"},{t:"Privacy",d:"Privacy policy, analytics, GDPR, cookies",u:"/vi/confidentialite/index.html",k:"analytics bánh chia chnh chun chut chuyn châu chính chúng clarity clid cookie cung cách danh dung duyt dùng email fldebfhn formspree gdpr gian giúp google hàng hưng khong khách không kinh liên lòng lưng microsoft muid mình nghim ngoài ngun ngày ngân "},{t:"Terms",d:"Terms of use, Apache 2.0 license, disclaimers",u:"/vi/conditions/index.html",k:"apache chnh chuyên chép chính chúng cpbankstatementparsercom cung cách công dung github gián google hoàn hàng hành hình khon không liên logo lòng microsoft nghip ngun nguyên ngân ngưi nhim nhiên nhng nhưng năng pháp phát phân phép pypi quyn riêng rou"}];
+      var overlay=document.getElementById("searchOverlay");
+      var input=document.getElementById("searchInput");
+      var results=document.getElementById("searchResults");
+      var trigger=document.getElementById("searchTrigger");
+      var activeIdx=-1;
+      var isMac=/Mac|iPhone|iPad|iPod/.test(navigator.platform||navigator.userAgent||"");
+      var shortcutSpans=document.querySelectorAll(".search-shortcut");
+      for(var s=0;s<shortcutSpans.length;s++){shortcutSpans[s].textContent=isMac?"⌘K":"Ctrl+K"}
+      function openSearch(){overlay.classList.add("open");input.value="";input.focus();activeIdx=-1;renderResults("")}
+      function closeSearch(){overlay.classList.remove("open");input.value="";results.innerHTML="";activeIdx=-1}
+      function fuzzy(q,text){q=q.toLowerCase();text=text.toLowerCase();if(text.indexOf(q)!==-1)return true;var qi=0;for(var ti=0;ti<text.length&&qi<q.length;ti++){if(text[ti]===q[qi])qi++}return qi===q.length}
+      function renderResults(q){
+        var filtered=[];
+        if(q.length>0){for(var i=0;i<pages.length;i++){var p=pages[i];if(fuzzy(q,p.t)||fuzzy(q,p.d)||(p.k&&fuzzy(q,p.k)))filtered.push(p)}}
+        if(q.length===0){results.innerHTML="";activeIdx=-1;return}
+        if(filtered.length===0){results.innerHTML='<div class="search-empty">No results for "'+q.replace(/</g,"&lt;")+'"</div>';activeIdx=-1;return}
+        var html="";
+        for(var j=0;j<filtered.length;j++){
+          html+='<a class="search-result'+(j===0?" active":"")+'" href="'+filtered[j].u+'" data-idx="'+j+'"><div class="search-result-title">'+filtered[j].t+'</div><div class="search-result-desc">'+filtered[j].d+'</div></a>';
+        }
+        results.innerHTML=html;
+        activeIdx=0;
+      }
+      function updateActive(){
+        var items=results.querySelectorAll(".search-result");
+        for(var i=0;i<items.length;i++){items[i].classList.toggle("active",i===activeIdx)}
+        if(items[activeIdx]){items[activeIdx].scrollIntoView({block:"nearest"})}
+      }
+      if(trigger){trigger.addEventListener("click",function(e){e.preventDefault();openSearch()})}
+      document.addEventListener("keydown",function(e){
+        if((isMac?e.metaKey:e.ctrlKey)&&e.key==="k"){e.preventDefault();if(overlay.classList.contains("open")){closeSearch()}else{openSearch()};return}
+        if(!overlay.classList.contains("open"))return;
+        if(e.key==="Escape"){e.preventDefault();closeSearch();return}
+        var items=results.querySelectorAll(".search-result");
+        if(e.key==="ArrowDown"){e.preventDefault();if(items.length){activeIdx=(activeIdx+1)%items.length;updateActive()};return}
+        if(e.key==="ArrowUp"){e.preventDefault();if(items.length){activeIdx=(activeIdx-1+items.length)%items.length;updateActive()};return}
+        if(e.key==="Enter"){e.preventDefault();if(items[activeIdx]){window.location.href=items[activeIdx].getAttribute("href")};return}
+      });
+      input.addEventListener("input",function(){activeIdx=-1;renderResults(input.value.trim())});
+      overlay.addEventListener("click",function(e){if(e.target===overlay)closeSearch()});
+    })();
+    </script>
+</body>
 </html>

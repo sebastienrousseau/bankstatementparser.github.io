@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Často kladené otázky o analyzátoru výpisů z účtu"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023–2026 Analyzátor bankovních výpisů. Všechna práva vyhrazena."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Odpovědi na běžné otázky týkající se analyzátoru výpisů z účtu: ochrana osobních údajů, redakce PII, výkon, podpora ISO 20022, streamování, dodržování předpisů a pracovní postupy pokladny."
 download: ""
 format-detection: "telephone=no"
@@ -107,70 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-## Ochrana osobních údajů a dodržování předpisů
+## Ochrana dat a compliance
 
 ### Opouštějí nějaká data moji infrastrukturu?
 
-**Ne.** Parser výpisů z účtu funguje jako knihovna bez státní příslušnosti. Veškeré zpracování – analýza, redakce PII, extrakce archivu – probíhá ve vaší lokální runtime paměti. Žádná volání API, žádné cloudové služby, žádná telemetrie. XML parsery jsou zesíleny`no_network=True`, blokuje veškerý odchozí přístup na úrovni analyzátoru. Vaše finanční data nikdy neopustí vaše prostředí.
+**Ne — ani při extrakci PDF.** Bank Statement Parser funguje jako bezstavová knihovna. Veškeré zpracování — parsování, redakce PII, extrakce archivů — probíhá ve vaší lokální runtime paměti. Hybridní PDF pipeline používá Ollama pro lokální LLM inferenci — žádná cloudová API. XML parsery jsou zabezpečeny pomocí `no_network=True`, což blokuje veškerý odchozí přístup na úrovni parseru. Vaše finanční data nikdy neopustí vaše prostředí.
 
 ### Jak funguje redakce PII?
 
-Citlivá pole jsou maskována dříve, než dosáhnou vaší aplikační logiky. Analyzátor identifikuje jména dlužníků, jména věřitelů, IBAN a poštovní adresy a nahradí je`***REDACTED***`ve výstupu konzole a režimu streamování.
+Citlivá pole jsou maskována dříve, než se dostanou do vaší aplikační logiky. Parser identifikuje jména dlužníků, jména věřitelů, IBANy a poštovní adresy a nahrazuje je hodnotou `***REDACTED***` ve výstupu konzole a režimu streamování.
 
-- **Redigování je ve výchozím nastavení zapnuto** ve výstupu CLI a režimu streamování.
+- **Redakce je ve výchozím nastavení zapnuta** ve výstupu CLI a režimu streamování.
 - **Exporty souborů** (CSV, JSON, Excel) uchovávají neredigovaná data pro následné zpracování.
-- **Přihlaste se** k plným datům s`--show-pii`na CLI resp`redact_pii=False`v API.
+- **Zapněte** zobrazení plných dat pomocí `--show-pii` v CLI nebo `redact_pii=False` v API.
 
 ### Je proces extrakce deterministický?
 
-**Ano -- bajtově identický výstup při každém spuštění.** Vzhledem ke stejnému vstupnímu souboru produkuje analyzátor pokaždé stejný výsledek. Žádná náhodnost, žádná modelová inference, žádné heuristické vzorkování. CI prosazuje determinismus pomocí 467 testů při 100% pokrytí větví, včetně fuzzingu založeného na vlastnostech prostřednictvím hypotézy.
+**Ano pro strukturované formáty — bajtově identický výstup při každém spuštění.** Při stejném vstupním souboru deterministické parsery (CAMT, PAIN.001, CSV, OFX, QFX, MT940) produkují pokaždé stejný výsledek. Žádná náhodnost, žádná modelová inference, žádné heuristické vzorkování.
 
-### Jaké standardy shody projekt dodržuje?
+U hybridního PDF pipeline mohou LLM extrakční cesty produkovat drobné odchylky mezi běhy. Proto je každá PDF extrakce ověřena pomocí **Golden Rule** (`opening + credits − debits == closing`) a označené nesrovnalosti lze zkontrolovat interaktivně.
 
-Projekt udržuje dokumentaci podle normy ISO 13485 s plnou sledovatelností:
+CI vynucuje determinismus pomocí 718 testů při 100% pokrytí větví, včetně property-based fuzzingu přes Hypothesis.
+
+### Jaké standardy compliance projekt dodržuje?
+
+Projekt udržuje dokumentaci v souladu s ISO 13485 s plnou sledovatelností:
 
 - Kvantifikovaný **Registr rizik** s hodnocením závažnosti/pravděpodobnosti a posouzením zbytkového rizika.
-- **Plán ověřování a ověřování** s 19 uzavřenými kroky v 5 fázích.
-- **Change Control Procedure** s vyhodnocením dopadu a protokoly vrácení.
-- Registr **SOUP Register** pokrývající všechny závislosti s úrovní rizika a sledováním EOL.
-- **Matice sledovatelnosti** mapující vstupy návrhu do implementace a ověřování.
+- **Plán verifikace a validace** s 19 řízenými kroky v 5 fázích.
+- **Procedura řízení změn** s posouzením dopadů a protokoly vrácení.
+- **SOUP registr** pokrývající všechny závislosti s úrovní rizika a sledováním EOL.
+- **Matice sledovatelnosti** mapující vstupy návrhu na implementaci a verifikaci.
 
-Každá verze obsahuje CycloneDX SBOM, kontrolní součty SHA-256 a osvědčení o původu sestavení GitHub.
+Každé vydání obsahuje CycloneDX SBOM, kontrolní součty SHA-256 a attestaci o původu sestavení na GitHubu.
 
 ## Výkon a škálovatelnost
 
-### Jak rychlý je analyzátor bankovních výpisů?
+### Jak rychlý je Bank Statement Parser?
 
-Limity výkonu se ověřují v CI při každém potvrzení:
+Prahové hodnoty výkonu jsou ověřovány v CI při každém commitu:
 
-| Metrický | Hodnota |
+| Metrika | Hodnota |
 |---|---|
-| propustnost CAMT.053 | 27 000+ transakcí za sekundu |
-| PAIN.001 propustnost | 52 000+ transakcí za sekundu |
+| Propustnost CAMT.053 | 27 000+ transakcí/sekundu |
+| Propustnost PAIN.001 | 52 000+ transakcí/sekundu |
 | Latence na transakci (CAMT) | 37 mikrosekund |
 | Latence na transakci (PAIN.001) | 19 mikrosekund |
-| Čas na první výsledek | < 2 ms |
+| Čas do prvního výsledku | < 2 ms |
 
-### Jak se zachází s velkými soubory?
+Rychlost extrakce PDF závisí na směrovací cestě: deterministická (pod sekundu), text-LLM (sekundy), vision-LLM (sekundy na stránku).
 
-**Streamování s omezenou pamětí -- testováno na 50 000 transakcí na soubor.** Použití`parse_streaming()`zpracovávat soubory XML postupně. Každá transakce je zobrazena jako slovník; prvky jsou po zpracování vymazány, aby se zabránilo růstu paměti. Paměť se neškáluje s velikostí souboru – test 50 000 transakcí (25+ MB) využívá méně než 2x paměť oproti testu 10 000 transakcí.
+### Jak se zpracovávají velké soubory?
 
-U souborů přesahujících 50 MB (např. dávky PAIN.001 hostitel-hostitel se 100 000 a více platbami) analyzátor streamuje dočasný soubor s ořezáváním jmenného prostoru na základě bloků – celý dokument se nikdy nenačte do paměti.
+**Streaming s omezenou pamětí — testováno na 50 000 transakcí na soubor.** Použijte `parse_streaming()` pro postupné zpracování XML souborů. Každá transakce je vydána jako slovník; prvky jsou po zpracování vymazány, aby se zabránilo růstu paměti. Paměť neroste s velikostí souboru — test 50K transakcí (25+ MB) využívá méně než 2x paměť oproti testu 10K transakcí.
 
-### Jak jsou archivy ZIP bezpečně zpracovávány?
+U souborů přesahujících 50 MB (např. host-to-host PAIN.001 dávky se 100K+ platbami) parser streamuje přes dočasný soubor s chunk-based ořezáváním jmenných prostorů — celý dokument se nikdy nenačte do paměti.
 
-`iter_secure_xml_entries()`ověří každý člen před extrakcí:
+### Jak jsou ZIP archivy zpracovávány bezpečně?
 
-- **Omezení velikosti položky** (výchozí 10 MB na položku)
+`iter_secure_xml_entries()` validuje každý člen před extrakcí:
+
+- **Limit velikosti záznamu** (výchozí 10 MB na záznam)
 - **Celkový limit nekomprimované velikosti** (výchozí 50 MB)
-- **Limit kompresního poměru** (výchozí 100:1), aby se zabránilo výbuchům ZIP
-- **Odmítnutí šifrovaného záznamu**
+- **Limit kompresního poměru** (výchozí 100:1) pro prevenci ZIP bomb
+- **Odmítnutí šifrovaných záznamů**
 
-Na disk není zapsán žádný soubor. Byty XML přecházejí přímo do analyzátoru přes`from_bytes()`.
+Na disk není zapsán žádný soubor. XML bajty přecházejí přímo do parseru přes `from_bytes()`.
 
-### Mohu paralelně analyzovat více souborů?
+### Mohu parsovat více souborů paralelně?
 
-**Ano.** Použijte`parse_files_parallel()`která rozděluje práci napříč a`ProcessPoolExecutor`:
+**Ano.** Použijte `parse_files_parallel()`, která rozděluje práci napříč `ProcessPoolExecutor`:
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -184,61 +190,120 @@ for r in results:
     print(r.path, r.status, len(r.transactions), "rows")
 ```
 
+Pro hromadné zpracování PDF použijte `scan_and_ingest()`, která zpracovává celé adresářové stromy s automatickou deduplikací.
+
 ## Podporované formáty
 
 ### Které formáty bankovních výpisů jsou podporovány?
 
-| Formát | Norma | Typy souborů | Třída analyzátoru |
+| Formát | Standard | Typy souborů | Parser/Metoda |
 |---|---|---|---|
-| CAMT.053 | ISO 20022 prohlášení mezi bankami a zákazníky | `.xml` | `CamtParser` |
-| BOLEST.001 | Zahájení převodu kreditu ISO 20022 | `.xml` | `Pain001Parser` |
-| CSV | Generický bankovní export | `.csv` | `CsvStatementParser` |
-| OFX | Otevřená finanční burza | `.ofx` | `OfxParser` |
-| QFX | Quicken finanční směnárna | `.qfx` | `QfxParser` |
-| MT940 | standard SWIFT | `.mt940`, `.sta` | `Mt940Parser` |
+| CAMT.053 | ISO 20022 Bank-to-Customer Statement | `.xml` | `CamtParser` |
+| PAIN.001 | ISO 20022 Credit Transfer Initiation | `.xml` | `Pain001Parser` |
+| CSV | Generické bankovní exporty | `.csv` | `CsvStatementParser` |
+| OFX | Open Financial Exchange | `.ofx` | `OfxParser` |
+| QFX | Quicken Financial Exchange | `.qfx` | `QfxParser` |
+| MT940 | Standard SWIFT | `.mt940`, `.sta` | `Mt940Parser` |
+| PDF | Digitální a naskenované výpisy | `.pdf` | `smart_ingest()` |
 
-### Zpracovává analyzátor dialekty CAMT.053 specifické pro banky?
+### Jak funguje hybridní PDF pipeline?
 
-(`camt.053.001.02`, `camt.053.001.04`nebo proprietární bankovní obaly) bez konfigurace specifické pro jmenný prostor. XPath se dotazuje na strukturu cílového prvku, nikoli na URI jmenného prostoru.
+Hybridní pipeline (v0.0.5+) inteligentně směruje PDF třemi extrakčními cestami:
 
-Pro banky, které balí CAMT do vlastní obálky, použijte`from_string()`nebo`from_bytes()`pro přímé podávání vnitřního dokumentu.
+- **Cesta A (Deterministická)**: Strukturované PDF tabulky parsovány přímo — zdarma, nejrychlejší, bez LLM.
+- **Cesta B (Text-LLM)**: Digitální PDF se složitým rozložením extrahovány přes lokální LLM (LiteLLM/Ollama).
+- **Cesta C (Vision-LLM)**: Naskenované nebo fotokopírované výpisy zpracovány multimodálními vision modely.
+
+Každá extrakce je ověřena pomocí Golden Rule (`opening + credits − debits == closing`). Nesrovnalosti lze zkontrolovat interaktivně pomocí `--type review`.
+
+### Zpracovává parser dialekty CAMT.053 specifické pro banky?
+
+**Ano — bez závislosti na jmenných prostorech.** Parser odstraní XML jmenné prostory před zpracováním a zvládne jakoukoli variantu CAMT.053 (`camt.053.001.02`, `camt.053.001.04` nebo proprietární bankovní wrappery) bez konfigurace specifické pro jmenný prostor. XPath dotazy cílí na strukturu prvků, ne na URI jmenných prostorů.
+
+Pro banky, které obalují CAMT vlastní obálkou, použijte `from_string()` nebo `from_bytes()` pro přímé předání vnitřního dokumentu.
 
 ### Mohu namapovat vlastní záhlaví sloupců CSV na standardní schéma?
 
-**Ano – automatická normalizace, nulová konfigurace.**`CsvStatementParser`rozpozná běžné varianty záhlaví:`"Date"`, `"Transaction Date"`, `"Booking Date"`všechny mapy k`date`pole.`"Amount"`, `"Value"`, `"Sum"`mapovat do`amount`. Rozdělit sloupce kreditních/debetních položek (např.`"Credit"`a`"Debit"`) jsou detekovány a automaticky spojeny do jedné podepsané částky.
+**Ano — automatická normalizace, nulová konfigurace.** `CsvStatementParser` rozpozná běžné varianty záhlaví: `"Date"`, `"Transaction Date"`, `"Booking Date"` se všechny mapují na pole `date`. `"Amount"`, `"Value"`, `"Sum"` se mapují na `amount`. Rozdělené sloupce kreditů/debetů (např. `"Credit"` a `"Debit"`) jsou detekovány a automaticky sloučeny do jedné znaménkové částky.
 
 ### Jaký je výstupní formát?
 
-Všechny analyzátory vytvářejí standardizované datové rámce pandas s konzistentními typy sloupců:
+Všechny parsery produkují standardizované pandas DataFrames s konzistentními typy sloupců:
 
 | Formát | Klíčové sloupce |
 |---|---|
 | **CAMT** | `Amount`, `Currency`, `DrCr`, `Debtor`, `Creditor`, `Reference`, `ValDt`, `BookgDt`, `AccountId` |
 | **PAIN.001** | `PmtInfId`, `PmtMtd`, `InstdAmt`, `Currency`, `CdtrNm`, `EndToEndId`, `MsgId`, `CreDtTm`, `NbOfTxs` |
-| **CSV/OFX/QFX/MT940** | `date`, `description`, `amount`(normalizováno) |
+| **CSV/OFX/QFX/MT940** | `date`, `description`, `amount` (normalizováno) |
 
-Můžete také exportovat do CSV, JSON, Excel nebo převést na Polar DataFrames.
+Můžete také exportovat do CSV, JSON, Excel, Polars DataFrames, hledger nebo beancount formátu deníku.
 
-## Treasury Workflows
+## Funkce PDF a LLM
 
-### Jak analyzátor zpracovává příkazy pro více měn?
+### Jaké LLM modely hybridní pipeline podporuje?
 
-**Každá transakce zachovává svou původní měnu – žádný implicitní převod.** The`Currency`pole je extrahováno z XML`Ccy`atribut na transakci. Výpisy ve více měnách zůstávají tak, jak jsou. The`get_account_balances()`metoda vrací počáteční a konečné zůstatky na účtu s původními kódy měn. Křížové odsouhlasení měn je ponecháno na vaší downstream logice, kde ovládáte zdroj směnných kurzů.
+Pipeline používá LiteLLM jako abstrakční vrstvu modelu s přímým Ollama bridge pro vision prompty. Doporučené modely:
 
-### Podporuje analyzátor odchozí i příchozí formáty?
+- **Textová extrakce**: Jakýkoli model kompatibilní s LiteLLM (lokální nebo vzdálený).
+- **Vision extrakce**: `ollama/minicpm-v` (doporučeno) pro naskenované PDF.
+- **Kategorizace**: Jakýkoli model kompatibilní s LiteLLM.
 
-**Ano.**`Pain001Parser`zpracovává soubory inicializace převodu kreditu ISO 20022 PAIN.001 (odchozí platby).`CamtParser`zpracovává soubory výpisů mezi bankami a zákazníky CAMT.053 (příchozí hlášení). Oba podporují streamování, redigování PII a export do CSV, JSON a Excelu. Použití`detect_statement_format()`pro automatickou identifikaci formátu.
+Všechny modely mohou běžet 100% lokálně přes Ollama — není potřeba žádný API klíč.
+
+### Co je ověření Golden Rule?
+
+Každá PDF extrakce je ověřena rovnicí: `opening balance + credits − debits == closing balance`. Výsledky jsou označeny jako:
+
+- **VERIFIED**: Zůstatky se přesně shodují.
+- **DISCREPANCY**: Zůstatky nesouhlasí — doporučena kontrola.
+- **FAILED**: Ověření nelze provést (chybí údaje o zůstatku).
+
+### Mohu automaticky kategorizovat transakce?
+
+**Ano.** Modul enrichment (v0.0.6+) poskytuje LLM kategorizaci transakcí:
+
+```python
+from bankstatementparser.enrichment import Categorizer
+
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(transactions)
+```
+
+Výchozí schéma používá 13 kategorií kompatibilních s Plaid. Můžete poskytnout vlastní schéma kategorií.
+
+### Mohu exportovat do hledger nebo beancount?
+
+**Ano** (v0.0.8+). Exportujte transakce do formátů plaintext-accounting deníků s mapováním účtů:
+
+```python
+from bankstatementparser.export import to_hledger, to_beancount
+
+journal = to_hledger(transactions, account="Assets:Bank:Checking")
+```
+
+## Treasury workflows
+
+### Jak parser zpracovává multi-měnové výpisy?
+
+**Každá transakce zachovává svou původní měnu — žádný implicitní převod.** Pole `Currency` je extrahováno z XML atributu `Ccy` pro každou transakci. Multi-měnové výpisy zůstávají tak, jak jsou. Metoda `get_account_balances()` vrací počáteční a konečné zůstatky na účtu s původními kódy měn.
+
+Od v0.0.8 funkce `verify_balance_multi_currency()` seskupuje transakce podle měny a provádí Golden Rule nezávisle pro každou skupinu — užitečné pro účty v několika měnách.
+
+### Podporuje parser odchozí i příchozí formáty?
+
+**Ano.** `Pain001Parser` zpracovává soubory ISO 20022 PAIN.001 pro iniciaci kreditních převodů (odchozí platby). `CamtParser` zpracovává soubory CAMT.053 bank-to-customer (příchozí reporting). Oba podporují streaming, redakci PII a export do CSV, JSON, Excel, hledger a beancount. Použijte `detect_statement_format()` pro automatickou identifikaci formátu.
 
 ### Co se stane, když je záznam transakce chybný?
 
-Chování závisí na režimu analýzy:
+Chování závisí na režimu parsování:
 
-- **`parse()`(dávkový režim)** -- Chybně vytvořené položky, chybí povinná pole (`Amount`, `Currency`nebo`CdtDbtInd`) jsou přeskočeny s protokolem varování. Zbytek příkazu se analyzuje normálně.
--**`parse_streaming()`(režim streamování)** -- Chyby analýzy se šíří okamžitě jako výjimky. Žádná tichá ztráta dat. Toto chování při selhání je záměrné pro finanční pracovní toky, kde musí být zaúčtována každá transakce.
+- **`parse()` (dávkový režim)** — Chybné záznamy s chybějícími povinnými poli (`Amount`, `Currency` nebo `CdtDbtInd`) jsou přeskočeny s varovným logem. Zbytek výpisu se parsuje normálně.
+- **`parse_streaming()` (režim streamování)** — Chyby parsování se šíří okamžitě jako výjimky. Žádná tichá ztráta dat. Toto fail-fast chování je záměrné pro finanční workflows, kde musí být zaúčtována každá transakce.
+- **`smart_ingest()` (hybridní PDF)** — Chyby extrakce jsou zachyceny v `IngestResult` se stavem ověření, což umožňuje interaktivní kontrolu.
 
 ### Jak funguje deduplikace?
 
-The`Deduplicator`třída detekuje přesné duplikáty a podezřelé shody s vysvětlitelným skóre spolehlivosti:
+Každé transakci je přiřazen idempotentní `transaction_hash` (MD5 fingerprint) na základě klíčových polí. To umožňuje bezpečné inkrementální zpracování — opětovné zpracování stejného souboru produkuje stejné hashe, takže duplicity jsou detekovány automaticky.
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
@@ -254,68 +319,85 @@ print(f"Suspected matches: {len(result.suspected_matches)}")
 
 ## Instalace a kompatibilita
 
-### Jak nainstaluji analyzátor výpisů z účtu?
+### Jak nainstaluji Bank Statement Parser?
 
 ```bash
+# Core install (deterministic parsers only)
 pip install bankstatementparser
-```
 
-Pro volitelnou podporu Polar DataFrame:
+# PDF hybrid pipeline
+pip install 'bankstatementparser[hybrid]'         # Text-LLM path
+pip install 'bankstatementparser[hybrid-vision]'   # Vision-LLM path
 
-```bash
-pip install bankstatementparser[polars]
+# Extras
+pip install 'bankstatementparser[enrichment]'      # Transaction categorisation
+pip install 'bankstatementparser[api]'             # REST API microservice
+pip install 'bankstatementparser[polars]'          # Polars DataFrame support
 ```
 
 ### Které verze Pythonu jsou podporovány?
 
-Python 3.9 až 3.14. Všechny verze jsou testovány v CI se 467 testy při 100% pokrytí větví.
+Python 3.10 až 3.14. Podpora Pythonu 3.9 byla ukončena ve v0.0.6 (EOL 2025-10-31). Všechny verze jsou testovány v CI se 718 testy při 100% pokrytí větví.
 
 ### Jaké jsou závislosti?
 
 Knihovna má 5 přímých závislostí:
 
-- `lxml`-- Analýza XML s posílením zabezpečení
--`pandas`-- DataFrames a manipulace s daty
--`openpyxl`-- Export do Excelu
--`pydantic`-- Validace dat a modely
--`defusedxml`-- Ochrana XXE
+- `lxml` — XML parsování se zabezpečením
+- `pandas` — DataFrames a manipulace s daty
+- `openpyxl` — export do Excelu
+- `pydantic` — validace dat a modely
+- `defusedxml` — ochrana proti XXE
 
-Všechny závislosti mají verze uzamčené hash SHA-256. CycloneDX SBOM mapuje každou komponentu runtime.
+Volitelná rozšíření přidávají: `litellm`, `pypdf`, `pdfplumber`, `pypdfium2`, `fastapi`, `uvicorn`, `polars`.
 
-### Funguje to na macOS, Linux a Windows?
+Všechny závislosti mají SHA-256 hash-locked verze. CycloneDX SBOM mapuje každou runtime komponentu.
 
-**Ano.** Knihovna funguje v systémech macOS, Linux a Windows (prostřednictvím WSL). Nemá žádné závislosti specifické pro platformu.
+### Funguje na macOS, Linux a Windows?
+
+**Ano.** Knihovna funguje na macOS, Linux a Windows (přes WSL). Nemá žádné platformově specifické závislosti.
+
+### Existuje REST API?
+
+**Ano** (v0.0.8+). Nainstalujte pomocí `pip install 'bankstatementparser[api]'` a spusťte:
+
+```bash
+bankstatementparser-api --port 8000
+```
+
+Endpointy: `POST /ingest` (parsování výpisu) a `GET /health` (health check).
 
 ## Reprodukovatelnost a bezpečnost
 
 ### Jak mohu ověřit reprodukovatelnost?
 
 ```bash
-python -m pytest                              # 467 tests, 100% branch coverage
+python -m pytest                              # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py        # SHA-256 hash verification
 git log --show-signature -1                   # Verify commit signature
 ```
 
-### Jaké bezpečnostní ochrany jsou integrovány?
+### Jaké bezpečnostní ochrany jsou vestavěny?
 
-- **Ochrana XXE**:`resolve_entities=False`, `no_network=True`, `load_dtd=False`
-- **ZIP Bomb Protection**: Limity kompresního poměru, omezení velikosti vstupu, odmítnutí šifrovaného vstupu
-- **Prevence procházení cesty**: Seznam blokovaných nebezpečných vzorů a rozlišení symbolických odkazů
-- **Ověření vstupu**: Limity velikosti souboru (100 MB výchozí), ověření přípony/formátu
-- **Supply Chain**: SHA-256 hašované závislosti, CycloneDX SBOM, osvědčení o původu sestavení
-- **Podepsané závazky**: Vynuceno v CI
+- **Ochrana proti XXE**: `resolve_entities=False`, `no_network=True`, `load_dtd=False`
+- **Ochrana proti ZIP bombám**: Limity kompresního poměru, omezení velikosti záznamů, odmítnutí šifrovaných záznamů
+- **Prevence path traversal**: Blocklist nebezpečných vzorů a rozlišení symbolických odkazů
+- **Validace vstupů**: Limity velikosti souboru (100 MB výchozí), validace přípony/formátu
+- **Supply Chain**: SHA-256 hash-locked závislosti, CycloneDX SBOM, attestace o původu sestavení
+- **Podepsané commity**: Vynuceno v CI
+- **Lokální LLM**: Hybridní PDF pipeline používá Ollama — žádná cloudová API volání
 
-### Jak je analyzátor výpisů z účtu v porovnání s pyiso20022?
+### Jak si Bank Statement Parser stojí oproti pyiso20022?
 
-pyiso20022 je široká sada nástrojů ISO 20022, která generuje datové třídy Pythonu ze schémat ISO XML. Pokrývá širokou škálu typů zpráv ISO 20022 (PACS, PAIN, CAMT, ADMI) s validací schématu. Bank Statement Parser je účelově vytvořen pro analýzu bankovních výpisů s podporou streamování, redakcí PII, deduplikací a sjednoceným API napříč šesti formáty včetně formátů bez ISO (CSV, OFX, QFX, MT940). Pokud potřebujete analyzovat bankovní výpisy do DataFrames s produkčním zabezpečením, použijte Bank Statement Parser. Pokud potřebujete pracovat s úplným katalogem zpráv ISO 20022, použijte pyiso20022.
+pyiso20022 je široká sada nástrojů ISO 20022, která generuje Python dataclasses ze schémat ISO XML. Pokrývá širokou škálu typů zpráv ISO 20022 (PACS, PAIN, CAMT, ADMI) s validací schématu. Bank Statement Parser je účelově vytvořen pro parsování bankovních výpisů s hybridní PDF podporou, ověřením zůstatku, obohacením, exportem do účetnictví a jednotným API napříč sedmi formáty včetně non-ISO formátů (CSV, OFX, QFX, MT940, PDF). Pokud potřebujete parsovat bankovní výpisy do DataFrames s produkčním zabezpečením, použijte Bank Statement Parser. Pokud potřebujete pracovat s úplným katalogem zpráv ISO 20022, použijte pyiso20022.
 
 ### Jaké jsou termíny migrace SWIFT ISO 20022?
 
-Společnost SWIFT zveřejnila časový plán postupné migrace:
+SWIFT zveřejnil časový plán postupné migrace:
 
-- **Listopad 2026**: Strukturované a hybridní adresy se stávají povinnými. Zprávy s více instrukcemi MT101 budou odmítnuty. Začíná fáze 1 řízení případů.
-- **Listopad 2027**: Všechny finanční instituce musí být schopny přijímat výpisy CAMT.053 nativně. SWIFT přestane převádět MT do formátu ISO.
-- **Listopad 2028**: Úplné vyřazení MT940, MT942, MT950, MT900 a MT910. Ty budou nahrazeny ekvivalenty CAMT.052, CAMT.053 a CAMT.054.
+- **Listopad 2026**: Strukturované a hybridní adresy se stávají povinnými. Zprávy MT101 s více instrukcemi budou odmítnuty. Začíná fáze 1 Case Management.
+- **Listopad 2027**: Všechny finanční instituce musí být schopny přijímat výpisy CAMT.053 nativně. SWIFT přestane převádět MT do ISO formátu.
+- **Listopad 2028**: Úplné vyřazení MT940, MT942, MT950, MT900 a MT910. Budou nahrazeny ekvivalenty CAMT.052, CAMT.053 a CAMT.054.
 
 Bank Statement Parser podporuje jak starší formát MT940, tak moderní formáty CAMT.053/PAIN.001, takže je ideální pro přechodné období.
 

@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "玻璃建築的建築攝影"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: "bankstatementparser.com"
 copyright: "© 2023-2026 銀行對帳單解析器。版權所有。"
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "開源 Python 函式庫，用於將 CAMT.053、PAIN.001、CSV、OFX、QFX 和 MT940 銀行對帳單解析為 pandas DataFrame。 27K+ tx/s，串流，PII 修訂，100% 本地。"
 download_url: "https://pypi.org/project/bankstatementparser/"
 download_title: "pip 安裝銀行對帳單解析器"
@@ -109,9 +109,9 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**銀行對帳單解析器** 是一個開源 Python 庫，可將六種格式（CAMT.053、PAIN.001、CSV、OFX、QFX、MT940）的銀行對帳單解析為結構化 pandas DataFrame。所有處理都在本地運行——零網路呼叫、確定性輸出和自動 PII 編輯。
+**Bank Statement Parser** 是一個開源 Python 函式庫，可將七種格式（CAMT.053、PAIN.001、CSV、OFX、QFX、MT940 及 PDF）的銀行對帳單解析為結構化的 pandas DataFrame。所有處理都在本機執行——確定性輸出、自動 PII 遮蔽，以及可選的混合 PDF 管線，在需要時透過本機 LLM 進行路由。
 
-## 幾秒鐘內即可開始
+## 幾秒鐘即可開始
 
 ```bash
 pip install bankstatementparser
@@ -125,62 +125,90 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # pandas DataFrame, ready to use
 ```
 
+```python
+# Parse PDFs with the hybrid pipeline (v0.0.5+)
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+```
+
 <img src="https://img.shields.io/github/stars/sebastienrousseau/bankstatementparser?style=for-the-badge&label=Stars" height="28" alt="GitHub Stars" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/dm/bankstatementparser?style=for-the-badge&label=Downloads" height="28" alt="Monthly Downloads" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/v/bankstatementparser?style=for-the-badge&label=PyPI" height="28" width="119" alt="PyPI Version" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/pyversions/bankstatementparser?style=for-the-badge&label=Python" height="28" width="347" alt="Python" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/l/bankstatementparser?style=for-the-badge&label=License" height="28" width="292" alt="License" loading="lazy" style="margin:0 .25rem .5rem 0" />
-<img src="https://img.shields.io/badge/tests-467%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
+<img src="https://img.shields.io/badge/tests-718%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/badge/coverage-100%25-brightgreen?style=for-the-badge" height="28" width="152" alt="Coverage" loading="lazy" style="margin:0 .25rem .5rem 0" />
 
-## 一個庫，六種格式
+## 一套函式庫，七種格式
 
-使用單一統一的 API 將 CAMT.053、PAIN.001、CSV、OFX、QFX 和 MT940 解析為結構化 pandas DataFrame。無需為每種格式安裝單獨的軟體包。
+透過單一統一 API 將 CAMT.053、PAIN.001、CSV、OFX、QFX、MT940 及 PDF 解析為結構化的 pandas DataFrame。無需為每種格式分別安裝套件。
 
-| 特徵 | 銀行對帳單解析器 | 單一格式OSS（mt940、ofxparse） | SaaS（Ocrolus、Parseur） |
+| 功能 | Bank Statement Parser | 單一格式 OSS（mt940、ofxparse） | SaaS（Ocrolus、Parseur） |
 |---|---|---|---|
-| 支援的格式 | 6、統一API | 各 1 個 | 許多（透過 OCR） |
-| 資料隱私 | 100%本地，零網路調用 | 100%本地化 | 外部發送的數據 |
-| 成本 | 免費，阿帕契 2.0 | 自由的 | $49-$1,000+/月 |
-| PII 編輯 | 內置，預設開啟 | 不 | 各不相同 |
-| 串流媒體 | 有限記憶體 | 不 | 不適用 |
-| 郵遞區號安全 | 內建強化 | 不 | 不適用 |
-| 重複資料刪除 | 內建置信度分數 | 不 | 一些 |
+| 支援格式 | 7 種，統一 API | 各 1 種 | 多種（透過 OCR） |
+| PDF 支援 | 混合管線（確定性 + LLM + 視覺） | 無 | 有（雲端 OCR） |
+| 資料隱私 | 100% 本機（LLM 透過 Ollama 本機執行） | 100% 本機 | 資料傳送至外部 |
+| 成本 | 免費，Apache 2.0 | 免費 | $49–$1,000+/月 |
+| 餘額驗證 | 黃金法則（期初 + 貸方 − 借方 = 期末） | 無 | 視情況而定 |
+| PII 遮蔽 | 內建，預設啟用 | 無 | 視情況而定 |
+| 串流處理 | 固定記憶體用量 | 無 | 不適用 |
+| REST API | 內建 FastAPI 微服務 | 無 | 有 |
+| 去重 | 冪等交易雜湊 | 無 | 部分 |
+| 帳本匯出 | hledger + beancount | 無 | 無 |
 
-## 專為 ISO 20022 遷移而構建
+## 混合 PDF 管線
 
-SWIFT 設定了嚴格的截止日期：所有金融機構必須在 2027 年 11 月之前收到 CAMT.053，MT940/MT942/MT950 將在 2028 年 11 月之前完全停用。銀行對帳單解析器可在單一 API 中處理傳統 MT940 和現代 ISO 20022 格式（CAMT.053、PAIN.001），因此您的解析管道在過渡期間及之後都可以正常運作。
+Bank Statement Parser v0.0.5+ 提供三路徑混合管線，用於處理 PDF 銀行對帳單：
 
-＃＃ 表現
+- **路徑 A（確定性）**：直接解析結構化 PDF 表格——免費、最快、無需 LLM。
+- **路徑 B（文字 LLM）**：透過本機 LLM（LiteLLM/Ollama）擷取複雜版面的數位 PDF。
+- **路徑 C（視覺 LLM）**：使用多模態視覺模型處理掃描或影印的對帳單。
 
-- **CAMT.053 解析每秒超過 27,000 筆交易**
-- **52,000+ 事務/秒** 用於 PAIN.001 解析
-- **< 2 ms** 獲得第一個結果的時間
-- **恆定記憶體**透過串流處理從 1K 到 50K+ 事務
-- **467 次測試**，Python 3.9 到 3.14 的分支覆蓋率為 100%
+每次擷取都透過**黃金法則**進行驗證：`opening balance + credits − debits == closing balance`。
 
-## 為什麼選擇銀行對帳單解析器？
+## 專為 ISO 20022 遷移打造
 
-- **格式自動偵測**：`detect_statement_format()`自動識別文件並`create_parser()`傳回正確的解析器。
-- **隱私第一**：預設啟用 PII 編輯。敏感欄位（姓名、IBAN、地址）在 CLI 輸出中被屏蔽。選擇加入`--show-pii`當需要時。
-- **生產就緒**：安全 ZIP 攝取（炸彈保護、加密條目拒絕）、輸入驗證和路徑遍歷預防。
-- **靈活輸出**：匯出為 CSV、JSON、Excel，或轉換為 Polars DataFrame。
-- **並行處理**：同時解析多個文件`parse_files_parallel()`.
+SWIFT 已設定明確期限：所有金融機構必須在 2027 年 11 月前接收 CAMT.053，MT940/MT942/MT950 將在 2028 年 11 月前完全停用。Bank Statement Parser 在單一 API 中同時支援傳統 MT940 及現代 ISO 20022 格式（CAMT.053、PAIN.001），讓您的解析管線在過渡期間及之後都能正常運作。
+
+## 效能
+
+- CAMT.053 解析 **每秒 27,000+ 筆交易**
+- PAIN.001 解析 **每秒 52,000+ 筆交易**
+- **< 2 ms** 首次回傳結果
+- 透過串流處理，從 1K 到 50K+ 筆交易皆維持**固定記憶體**用量
+- **718 項測試**，Python 3.10 至 3.14 達 100% 分支覆蓋率
+
+## 為何選擇 Bank Statement Parser？
+
+- **混合 PDF 擷取**：`smart_ingest()` 可處理數位及掃描 PDF，自動路由並驗證餘額。
+- **格式自動偵測**：`detect_statement_format()` 自動辨識檔案，`create_parser()` 回傳對應的解析器。
+- **隱私優先**：PII 遮蔽預設啟用。LLM 透過 Ollama 在本機執行——資料不會離開您的機器。
+- **REST API**：以 FastAPI 微服務部署，提供 `/ingest` 及 `/health` 端點。
+- **交易增強**：LLM 驅動的交易分類，支援可插拔的分類架構（預設為 Plaid 13 類別）。
+- **帳本匯出**：匯出為 hledger 及 beancount 日記帳格式，適用於純文字記帳工作流程。
+- **批次掃描**：`scan_and_ingest()` 處理整個資料夾樹狀結構，自動跨檔案去重。
+- **多幣別**：`verify_balance_multi_currency()` 依幣別群組執行黃金法則驗證。
+- **正式環境就緒**：安全 ZIP 匯入、輸入驗證、路徑遍歷防護及互動式審核模式。
+- **彈性輸出**：匯出為 CSV、JSON、Excel、Polars、hledger 或 beancount。
+- **平行處理**：透過 `parse_files_parallel()` 同時解析多個檔案。
 
 
-## 專為生產而打造
+## 專為正式環境打造
 
-銀行對帳單解析器專為處理敏感財務資料的財務團隊、金融科技開發人員和合規官員而設計。該庫用於跨金融機構的 MT940 到 CAMT 遷移管道、自動對帳系統和監管審計工作流程。
+Bank Statement Parser 專為處理敏感財務資料的財務團隊、金融科技開發人員及合規人員設計。該函式庫廣泛應用於 MT940 至 CAMT 遷移管線、自動對帳系統、PDF 對帳單匯入及金融機構的監管稽核工作流程。
 
-- **467 次測試**，Python 3.9 到 3.14 的分支覆蓋率為 100%
-- 每個版本的 **SHA-256 雜湊鎖定相依性** 與 CycloneDX SBOM
-- **確定性輸出** - 每次執行相同的輸入都會產生不同位元組的結果
-- **Apache 2.0 授權** — 在商業和內部系統中自由使用
+- **718 項測試**，Python 3.10 至 3.14 達 100% 分支覆蓋率
+- 每個版本皆有 **SHA-256 雜湊鎖定相依性**及 CycloneDX SBOM
+- **確定性輸出**——相同輸入每次執行都產生位元組完全一致的結果
+- **Apache 2.0 授權**——可自由用於商業及內部系統
 
-**評估替代方案？ ** [查看銀行對帳單解析器如何比較❯](/comparison/index.html) | [探索現實世界的用例❯](/use-cases/index.html)
+**正在評估替代方案？** [查看 Bank Statement Parser 的比較結果 ❯](/comparison/index.html) | [探索實際使用案例 ❯](/use-cases/index.html)
 
-[開始使用❯][01] | [在 GitHub 上查看❯][02] | [在 PyPI 上查看❯][03]
+[開始使用 ❯][01] | [在 GitHub 上查看 ❯][02] | [在 PyPI 上查看 ❯][03]
 
-[01]：/getting-started/index.html
-[02]：https://github.com/sebastienrousseau/bankstatementparser
+[01]: /getting-started/index.html
+[02]: https://github.com/sebastienrousseau/bankstatementparser
 [03]: https://pypi.org/project/bankstatementparser/

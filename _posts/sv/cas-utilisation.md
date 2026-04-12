@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Användningsfall för kontoutdrag Parser"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Bank Statement Parser. Alla rättigheter reserverade."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Hur treasury-team, fintech-utvecklare och efterlevnadsansvariga använder Bank Statement Parser för MT940-till-CAMT-migrering, avstämning, revisionspipelines och konsolidering av flera banker."
 download: ""
 format-detection: "telephone=no"
@@ -107,11 +107,39 @@ site_software: "Shokunin, Rust"
 
 ---
 
-Bank Statement Parser hanterar verkliga finansiella arbetsflöden: MT940-till-CAMT-migrering för treasury-team, automatiserad avstämning, efterlevnadspipelines med PII-redaktion, SFTP-intag, konsolidering av flera banker och säker ZIP-batch-bearbetning.
+Bank Statement Parser hanterar verkliga finansiella arbetsflöden: PDF-kontoutdragsinmatning, MT940-till-CAMT-migrering, automatiserad avstämning med saldoverifiering, efterlevnadspipelines, plaintext-accounting-export, REST API-driftsättning, massbearbetning och konsolidering av flera banker.
 
-## Treasury: MT940 till CAMT.053 Migrering
+## PDF-kontoutdragsinmatning
 
-**Resultat:** Ett enda API-anrop hanterar både MT940 och CAMT.053 under SWIFT-migreringsfönstret (november 2025–november 2028), vilket eliminerar behovet av separata analyspipelines.
+**Resultat:** Tolka digitala och skannade PDF-kontoutdrag med automatisk saldoverifiering — inga moln-API:er, ingen data lämnar din maskin.
+
+Hybrid-PDF-pipelinen dirigerar varje PDF genom den optimala extraktionsvägen och verifierar varje resultat.
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+
+# Review discrepancies interactively
+# bankstatementparser --type review --input result.json
+```
+
+## Massbearbetning av utdrag
+
+**Resultat:** Skanna hela mappträd (hundratals PDF:er, XML:er, CSV:er) med automatisk korsfilsdeduplicering i ett enda anrop.
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Files: {len(batch.results)}, Unique txns: {batch.unique_count}")
+```
+
+## Treasury: MT940 till CAMT.053-migrering
+
+**Resultat:** Ett enda API-anrop hanterar både MT940 och CAMT.053 under SWIFT-migreringsfönstret (november 2025–november 2028), vilket eliminerar behovet av separata pipelines.
 
 Treasury-team över hela världen migrerar från MT940 till CAMT.053 före SWIFT-deadline i november 2027. Bank Statement Parser hanterar båda formaten med ett enda API, vilket gör övergången sömlös.
 
@@ -126,17 +154,23 @@ for file in daily_statement_files:
     load_to_treasury_system(df)
 ```
 
-## Automatiserad avstämning
+## Automatiserad avstämning med saldoverifiering
 
-**Resultat:** Formatagnostiska dataramar med inbyggd deduplicering minskar manuell matchning och fångar upp dubbletter innan de når din reskontra.
+**Resultat:** Formatagnostiska DataFrames med Golden Rule-verifiering och deduplicering fångar fel och dubbletter innan de når din huvudbok.
 
-Analysera kontoutdrag och matcha automatiskt mot interna register. Den förenade DataFrame-utgången gör avstämningslogik formatagnostisk.
+Tolka kontoutdrag, verifiera saldon och matcha mot interna poster automatiskt.
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
+from bankstatementparser.hybrid import verify_balance_multi_currency
 
 parser = CamtParser("bank_statement.xml")
 bank_txns = parser.parse()
+
+# Verify balances per currency
+verification = verify_balance_multi_currency(bank_txns)
+for ccy, result in verification.items():
+    assert result.status == "VERIFIED", f"{ccy} balance mismatch!"
 
 # Deduplicate before reconciliation
 dedup = Deduplicator()
@@ -147,11 +181,39 @@ clean_txns = result.unique_transactions
 unmatched = reconcile(clean_txns, internal_ledger)
 ```
 
+## Plaintext-accounting (hledger / beancount)
+
+**Resultat:** Mata automatiskt in PDF-kontoutdrag och exportera kategoriserade transaktioner till hledger- eller beancount-journalformat.
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+from bankstatementparser.enrichment import Categorizer
+from bankstatementparser.export import to_hledger
+
+result = smart_ingest("statement.pdf")
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(result.transactions)
+journal = to_hledger(enriched, account="Assets:Bank:Checking")
+```
+
+## REST API-driftsättning
+
+**Resultat:** Driftsätt Bank Statement Parser som en mikrotjänst som tar emot utdragsfiler via HTTP och returnerar strukturerad JSON.
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+```
+
+```bash
+# Ingest a statement
+curl -X POST http://localhost:8000/ingest \
+  -F "file=@statement.pdf"
+```
+
 ## Efterlevnads- och revisionspipelines
 
-**Resultat:** Deterministisk utdata och automatisk PII-redigering producerar revisionsklara loggar som uppfyller lagstadgade krav på reproducerbarhet utan ytterligare verktyg.
-
-Bygg revisionsfärdiga pipelines med PII-redigering och deterministisk utdata. Varje körning ger identiska resultat för samma input, vilket uppfyller regulatoriska reproducerbarhetskrav.
+**Resultat:** Deterministisk utdata, automatisk PII-redaktion och Golden Rule-verifiering producerar revisionsklara loggar som uppfyller regulatoriska reproducerbarhetskrav.
 
 ```python
 from bankstatementparser import CamtParser
@@ -168,9 +230,7 @@ parser.export_csv("archive/statement.csv")
 
 ## SFTP-till-DataFrame-arbetsflöden
 
-**Resultat:** Analysera direkt från byte med noll disk I/O, som passar in i SFTP- och API-drivna arbetsflöden för bankanslutning.
-
-Många banker levererar kontoutdrag via SFTP. Analysera direkt från bytes utan att skriva till disk.
+**Resultat:** Tolka direkt från byte med noll disk-I/O, som passar naturligt in i SFTP- och API-drivna arbetsflöden för bankanslutning.
 
 ```python
 from bankstatementparser import CamtParser
@@ -182,9 +242,7 @@ df = parser.parse()
 
 ## Konsolidering av flera banker
 
-**Resultat:** Parallell analys över HSBC (CAMT), Barclays (MT940), Revolut (CSV) och Wise (OFX) producerar en enda normaliserad datauppsättning i ett anrop.
-
-Konsolidera utdrag från flera banker med olika format till en enda normaliserad datauppsättning.
+**Resultat:** Parallell tolkning av HSBC (CAMT), Barclays (MT940), Revolut (CSV), Wise (OFX) och Chase (PDF) producerar en enda normaliserad datamängd.
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -201,9 +259,7 @@ all_transactions = pd.concat([r.transactions for r in results if r.status == "su
 
 ## Batchbearbetning med ZIP-arkiv
 
-**Resultat:** Inbyggt ZIP-bombskydd (100:1-förhållandegräns, 10 MB inträdestak, krypterad inträdesavvisning) låter dig bearbeta månadsutdragsarkiv på ett säkert sätt.
-
-Behandla zippade uttalandearkiv säkert med inbyggt ZIP-bombskydd.
+**Resultat:** Inbyggt ZIP-bombskydd (100:1-förhållandegräns, 10 MB storlekstak per post, avvisning av krypterade poster) låter dig bearbeta månadsutdragsarkiv säkert.
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser

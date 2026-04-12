@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Tentang Parser Laporan Bank: Fitur, Format, dan Kinerja"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Pengurai Laporan Bank. Semua hak dilindungi undang-undang."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Bank Statement Parser adalah pustaka Python sumber terbuka untuk mengurai CAMT.053, PAIN.001, CSV, OFX, QFX, dan MT940 ke dalam pandas DataFrames. 100% lokal, redaksi PII, 27K+ tx/s."
 download: ""
 format-detection: "telephone=no"
@@ -107,64 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Bank Statement Parser adalah pustaka Python sumber terbuka yang mem-parsing enam format laporan bank (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) ke dalam pandas DataFrames. Pemrosesan lokal 100%, redaksi PII secara default, throughput 27K+ tx/s.
+**TL;DR:** Bank Statement Parser adalah pustaka Python sumber terbuka yang mengurai tujuh format laporan bank (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, dan PDF) ke dalam pandas DataFrames. Pipeline PDF hibrida dengan verifikasi saldo, REST API, pengayaan, ekspor ledger, throughput 27K+ tx/s.
 
-Bank Statement Parser adalah pustaka Python sumber terbuka yang mem-parsing laporan bank dari enam format ke dalam panda DataFrames terstruktur. Semua pemrosesan terjadi secara lokal -- tidak ada panggilan jaringan, keluaran deterministik, dan redaksi PII otomatis.
+Bank Statement Parser adalah pustaka Python sumber terbuka yang mengurai laporan bank dari tujuh format ke dalam pandas DataFrames terstruktur. Inti deterministik memproses format terstruktur secara lokal tanpa panggilan jaringan. Pipeline PDF hibrida opsional menggunakan LLM lokal (via Ollama) untuk laporan digital dan hasil pindai.
 
 ## Untuk Siapa Ini?
 
-- **Tim Perbendaharaan** bermigrasi dari MT940 ke CAMT.053 yang memerlukan parser yang menangani format lama dan baru selama transisi.
-- **Pengembang Fintech** membangun saluran rekonsiliasi, pelaporan, atau akuntansi yang menginginkan ketergantungan tunggal, alih-alih menyatukan mt940 + ofxparse + logika CSV khusus.
-- **Tim kepatuhan** yang memerlukan redaksi PII secara default dan keluaran deterministik siap audit yang tidak pernah mengirimkan data ke layanan eksternal.
-- **Siapa pun** yang menolak mengirimkan data keuangan sensitif ke SaaS pihak ketiga ketika alat sumber terbuka lokal dapat melakukan tugasnya.
+- **Tim perbendaharaan** yang bermigrasi dari MT940 ke CAMT.053 dan membutuhkan parser yang menangani format lama dan baru selama transisi, plus laporan PDF dari bank yang tidak menyediakan ekspor terstruktur.
+- **Pengembang fintech** yang membangun pipeline rekonsiliasi, pelaporan, atau akuntansi dan menginginkan satu dependensi dengan verifikasi saldo, kategorisasi, dan ekspor ledger bawaan.
+- **Tim kepatuhan** yang memerlukan redaksi PII secara default, output deterministik, dan verifikasi Golden Rule yang menandai ketidaksesuaian sebelum masuk ke ledger.
+- **Pengguna plaintext-accounting** yang ingin ingesti otomatis dari laporan bank PDF langsung ke jurnal hledger atau beancount.
+- **Siapa pun** yang menolak mengirim data keuangan sensitif ke SaaS pihak ketiga ketika alat lokal sumber terbuka dapat melakukannya.
 
 ## Format yang Didukung
 
-| Format | Standar | Jenis File | Kelas Parser |
+| Format | Standar | Jenis File | Parser/Metode |
 |---|---|---|---|
-| CAMT.053 | Pernyataan Bank-ke-Pelanggan ISO 20022 | `.xml` | `CamtParser` |
-| SAKIT.001 | Inisiasi Transfer Kredit ISO 20022 | `.xml` | `Pain001Parser` |
+| CAMT.053 | ISO 20022 Bank-to-Customer Statement | `.xml` | `CamtParser` |
+| PAIN.001 | ISO 20022 Credit Transfer Initiation | `.xml` | `Pain001Parser` |
 | CSV | Ekspor bank umum | `.csv` | `CsvStatementParser` |
-| OFX | Buka Pertukaran Keuangan | `.ofx` | `OfxParser` |
-| QFX | Mempercepat Pertukaran Keuangan | `.qfx` | `QfxParser` |
-| MT940 | standar SWIFT | `.mt940`, `.sta` | `Mt940Parser` |
+| OFX | Open Financial Exchange | `.ofx` | `OfxParser` |
+| QFX | Quicken Financial Exchange | `.qfx` | `QfxParser` |
+| MT940 | Standar SWIFT | `.mt940`, `.sta` | `Mt940Parser` |
+| PDF | Laporan digital dan hasil pindai | `.pdf` | `smart_ingest()` |
 
-Semua format menghasilkan DataFrames panda yang dinormalisasi dengan nama kolom yang konsisten, membuat format pemrosesan hilir menjadi agnostik.
+Semua format menghasilkan pandas DataFrames yang dinormalisasi dengan nama kolom konsisten, sehingga pemrosesan hilir tidak bergantung pada format.
 
 ## Kemampuan Utama
 
-- **Format Deteksi Otomatis**:`detect_statement_format()`mengidentifikasi formatnya;`create_parser()`membuat instance parser yang tepat.
-- **Streaming Parsing**: Memproses file besar (50 MB+, 50K+ transaksi) dengan memori terbatas menggunakan`parse_streaming()`.
-- **Pemrosesan Paralel**: Mengurai beberapa file secara bersamaan`parse_files_parallel()`menggunakan ProcessPoolExecutor.
-- **Deduplikasi**: Mendeteksi duplikat persis dan dugaan kecocokan dengan skor keyakinan yang dapat dijelaskan.
-- **Penguraian Dalam Memori**:`from_string()`Dan`from_bytes()`untuk alur kerja SFTP dan API tanpa I/O disk.
-- **Pemrosesan ZIP Aman**:`iter_secure_xml_entries()`dengan batas rasio kompresi, batasan ukuran entri, dan penolakan entri terenkripsi.
-- **Ekspor**: CSV, JSON, Excel (`.xlsx`), dan Polars DataFrames opsional.
+- **Pipeline PDF Hibrida**: `smart_ingest()` merutekan PDF melalui tiga jalur — ekstraksi tabel deterministik, text-LLM, atau vision-LLM — dengan verifikasi saldo Golden Rule otomatis.
+- **Deteksi Format Otomatis**: `detect_statement_format()` mengidentifikasi format; `create_parser()` membuat instance parser yang tepat.
+- **Verifikasi Saldo**: Pemeriksaan Golden Rule (`opening + credits − debits == closing`) dengan status VERIFIED/DISCREPANCY/FAILED.
+- **Verifikasi Multi-Mata Uang**: `verify_balance_multi_currency()` mengelompokkan transaksi per mata uang untuk verifikasi independen.
+- **REST API**: Microservice FastAPI dengan endpoint `/ingest` dan `/health` untuk deployment produksi.
+- **Pengayaan**: Kategorisasi transaksi berbasis LLM dengan skema pluggable (default Plaid 13 kategori).
+- **Tinjauan Interaktif**: Telusuri ketidaksesuaian dengan aksi accept/edit/skip/delete via `--type review`.
+- **Ekspor Ledger**: `to_hledger()` dan `to_beancount()` untuk alur kerja plaintext-accounting.
+- **Pemindaian Massal**: `scan_and_ingest()` memproses pohon folder dengan deduplikasi lintas-file otomatis.
+- **Pemetaan Akun**: Aturan pemetaan akun berbasis regex dari konfigurasi JSON untuk ekspor ledger.
+- **Streaming Parsing**: Proses file besar (50 MB+, 50K+ transaksi) dengan memori terbatas menggunakan `parse_streaming()`.
+- **Pemrosesan Paralel**: Urai beberapa file bersamaan dengan `parse_files_parallel()` menggunakan ProcessPoolExecutor.
+- **Deduplikasi**: `transaction_hash` idempoten (fingerprint MD5) untuk ingesti inkremental yang aman.
+- **Penguraian Dalam Memori**: `from_string()` dan `from_bytes()` untuk alur kerja SFTP dan API tanpa I/O disk.
+- **Pemrosesan ZIP Aman**: `iter_secure_xml_entries()` dengan batas rasio kompresi, batas ukuran entri, dan penolakan entri terenkripsi.
+- **Ekspor**: CSV, JSON, Excel (`.xlsx`), Polars DataFrames, jurnal hledger, dan beancount.
 
-## Keamanan Dan Privasi
+## Keamanan dan Privasi
 
-- **Redaksi PII**: Nama, IBAN, dan alamat disamarkan secara default dalam output CLI. Ikut serta dengan`--show-pii`.
-- **Perlindungan XXE**: penggunaan penguraian XML`resolve_entities=False`, `no_network=True`, `load_dtd=False`.
+- **Redaksi PII**: Nama, IBAN, dan alamat disamarkan secara default dalam output CLI. Aktifkan dengan `--show-pii`.
+- **Perlindungan XXE**: Penguraian XML menggunakan `resolve_entities=False`, `no_network=True`, `load_dtd=False`.
 - **Perlindungan Bom ZIP**: Batas rasio kompresi (default 100:1), batas ukuran entri (10 MB), penolakan entri terenkripsi.
-- **Pencegahan Traversal Jalur**: Daftar blokir pola berbahaya dan resolusi symlink.
-- **Keamanan Rantai Pasokan**: Dependensi yang dikunci hash SHA-256, CycloneDX SBOM, pengesahan asal pembuatan.
+- **Pencegahan Path Traversal**: Daftar blokir pola berbahaya dan resolusi symlink.
+- **Keamanan Rantai Pasokan**: Dependensi dikunci hash SHA-256, CycloneDX SBOM, pengesahan provenance build.
+- **Hanya LLM Lokal**: Pipeline PDF hibrida menggunakan Ollama untuk inferensi lokal — tidak ada data yang dikirim ke API cloud.
 
-## Pertunjukan
+## Performa
 
 | Metrik | Nilai |
 |---|---|
-| Keluaran CAMT.053 | 27.000+ tx/dtk |
-| Throughput PAIN.001 | 52.000+ tx/dtk |
+| Throughput CAMT.053 | 27.000+ tx/s |
+| Throughput PAIN.001 | 52.000+ tx/s |
 | Latensi per transaksi (CAMT) | 37 mikrodetik |
 | Latensi per transaksi (PAIN.001) | 19 mikrodetik |
-| Saatnya untuk hasil pertama | < 2 ms |
-| Penskalaan memori (1K-50K tx) | Konstan (streaming) |
-| Cakupan tes | Cakupan cabang 100%. |
-| Tes | 467 di 29 file pengujian |
+| Waktu ke hasil pertama | < 2 ms |
+| Skala memori (1K-50K tx) | Konstan (streaming) |
+| Cakupan tes | Cakupan cabang 100% |
+| Tes | 718 di 29 file pengujian |
 
 ## Mulai Membangun
 
-[Memulai instalasi dan contoh ❯][01]
+[Mulai dengan instalasi dan contoh ❯][01]
 
 [01]: /getting-started/index.html "Memulai"
  "Repositori GitHub"

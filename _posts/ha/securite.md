@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Tsaron Bayanin Banki"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Fassarar Bayanin Banki. An kiyaye duk haƙƙoƙi."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Fasalolin tsaro na Fassarar Bayanin Banki: Kariyar XXE, Tauraruwar Bam na ZIP, Gyaran PII, Tsaron Sarkar Kariya, Ƙaddamar da fitarwa, da sa hannu kan ginawa."
 download: ""
 format-detection: "telephone=no"
@@ -107,72 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL; DR:** Fassarar Bayanin Banki yana yin kiran cibiyar sadarwa mara sifili, yana gyara PII ta tsohuwa, yana taurare fassarar XML akan hare-haren XXE, da jiragen ruwa tare da SHA-256 masu kulle-kulle masu dogaro da CycloneDX SBOM.
+**TL;DR:** Bank Statement Parser yana sarrafa duk bayanai a gida, yana share PII ta tsohuwa, yana taurare fassarar XML akan hare-haren XXE, yana gudanar da LLMs a gida ta Ollama, kuma yana zuwa tare da SHA-256 hash-locked dependencies da CycloneDX SBOM.
 
-## Tsaro ta Zane
+## Tsaro ta Ƙira
 
-An gina Parser Bayanin Banki don sarrafa mahimman bayanan kuɗi. Kowane yanke shawara na ƙira yana ba da fifikon tsaro, keɓantawa, da tantancewa.
+An gina Bank Statement Parser don sarrafa bayanan kuɗi masu mahimmanci. Kowane yanke shawara na ƙira yana ba da fifikon tsaro, keɓantawa, da iya tantancewa.
 
-## Samun hanyar sadarwa ta Zero
+## Babu Dogaron Cloud
 
-Duk aiki yana faruwa a cikin gida a cikin lokacin aikinku. Laburaren yana yin kiran API na sifili, haɗin gajimare, kuma yana tattara sifili na telemetry. An daidaita masu binciken XML a sarari tare da`no_network=True`, `resolve_entities=False`, kuma`load_dtd=False`don hana duk wani hanyar fita waje.
+Duk aiki yana faruwa a gida a cikin lokacin aikin ku. Masu fassara na deterministic ba sa yin kiran cibiyar sadarwa ko ɗaya. Hybrid PDF pipeline yana amfani da Ollama don sarrafa LLM na gida — ba a aika bayanai zuwa cloud APIs ba. An daidaita masu fassara XML a sarari tare da `no_network=True`, `resolve_entities=False`, da `load_dtd=False` don hana duk wani hanyar fita waje.
 
-## Gyaran PII
+## Share PII
 
-Bayanin da za a iya gane kansa (sunaye, IBANs, adiresoshin gidan waya) ana sabunta su ta atomatik a cikin yanayin fitarwa na CLI da yanayin yawo. Wannan yana kunne ta tsohuwa.
+Bayanin da za a iya gano mutum (sunaye, IBANs, adiresoshin gidan waya) ana share su ta atomatik a fitowar CLI da yanayin streaming. Wannan yana kunna ta tsohuwa.
 
-- ** CLI ***: Filaye masu hankali suna nunawa kamar`***REDACTED***`
-- **Yawo ***:`parse_streaming(redact_pii=True)`(default)
-- ** Fitarwa ***: CSV/JSON/Excel suna riƙe da cikakkun bayanai don sarrafa ƙasa
-- ** Ficewa ***: Amfani`--show-pii`ko`redact_pii=False`lokacin da kuke buƙatar fitarwa mara izini
+- **CLI**: Filaye masu mahimmanci suna nunawa a matsayin `***REDACTED***`
+- **Streaming**: `parse_streaming(redact_pii=True)` (tsohuwa)
+- **Fitarwa**: CSV/JSON/Excel suna riƙe cikakkun bayanai don sarrafa bayan haka
+- **Kunna**: Yi amfani da `--show-pii` ko `redact_pii=False` lokacin da kuke buƙatar fitarwa marar share
 
 ## Tsaron XML (Kariyar XXE)
 
-Duk ana amfani da nazarin XML`lxml`tare da saituna masu taurare:
+Duk fassarar XML tana amfani da `lxml` tare da saituna masu taurare:
 
-- `resolve_entities=False`-- yana hana kai harin faɗaɗa mahaɗan XML
--`no_network=True`-- toshe duk hanyar sadarwar da ke fita daga mai binciken
--`load_dtd=False`-- yana hana harin tushen DTD
-- Tsige sararin suna kafin aiki -- yana sarrafa kowane bambance-bambancen CAMT.053 lafiya
+- `resolve_entities=False` -- yana hana harin faɗaɗa abubuwan XML
+- `no_network=True` -- yana toshe duk hanyar sadarwar fita daga parser
+- `load_dtd=False` -- yana hana harin tushen DTD
+- Cire namespace kafin aiki -- yana sarrafa kowane bambance-bambancen CAMT.053 cikin aminci
 
-## Tsaron Taskar ZIP
+## Tsaron Ajiyar ZIP
 
-`iter_secure_xml_entries()`yana inganta kowane memba na ZIP kafin cirewa:
+`iter_secure_xml_entries()` yana tabbatar da kowane memba na ZIP kafin cirewa:
 
-- ** Girman girman shigarwa ***: 10 MB kowace shigarwa (mai daidaitawa)
-- ** Jimlar girman girman ***: 50 MB jimlar mara nauyi (mai daidaitawa)
-- ** Iyakar matsi**: 100: 1 tsoho -- gano bama-baman ZIP
-- ** Amincewa da shigarwar da aka ɓoye ***: An tsallake shigarwar da aka ɓoye tare da faɗakarwa
-- **Babu faifan diski da ya rubuta ***: XML bytes yana wucewa kai tsaye zuwa mai binciken ta`from_bytes()`
+- **Iyakar girman shigarwa**: 10 MB kowace shigarwa (mai daidaitawa)
+- **Iyakar jimlar girma**: 50 MB jimlar mara matsi (mai daidaitawa)
+- **Iyakar rabo na matsi**: 100:1 tsoho -- yana gano bama-bamai na ZIP
+- **Ƙin shigar da rufaffen**: Ana tsallake shigarwar rufaffen tare da gargaɗi
+- **Babu rubuta zuwa faifai**: XML bytes suna wucewa kai tsaye zuwa parser ta `from_bytes()`
 
-## Rigakafin Tafiya
+## Rigakafin Ƙetare Tafarki
 
-Tabbatar da shigar da shigar yana toshe hanyoyin fayil masu haɗari:
+Tabbatar da shigarwa yana toshe hanyoyin fayil masu haɗari:
 
-- Baiti maras kyau, tsarin tafiyar jagora (`../`), kuma an ƙi alamun alamun
-- Ingantaccen tsawo na fayil akan tsarin da ake tsammani
-- Iyakar girman fayil (tsoho 100 MB, daidaitacce)
+- Baiti marasa kyau, tsarin ƙetare jagora (`../`), da symlinks ana ƙin su
+- Tabbatar da haɓakar fayil akan tsarin da ake tsammani
+- Iyakar girman fayil (tsoho 100 MB, mai daidaitawa)
 
-## Fitowar Ƙaddara
+## Tabbatar da Balance (Golden Rule)
 
-Idan aka ba da fayil ɗin shigarwa iri ɗaya, parser ɗin yana samar da fitarwa iri ɗaya na byte kowane gudu. Babu bazuwar, babu ƙididdiga na ƙira, babu samfuri na heuristic. Wannan yana da mahimmanci ga:
+Ana tabbatar da kowanne cirowa daga PDF da lissafin: `opening balance + credits − debits == closing balance`. Ana yiwa sakamako alama VERIFIED, DISCREPANCY, ko FAILED. Ana iya bitar bambance-bambance ta hanyar hulɗa da `--type review`.
 
-- ** Maimaituwa na tantancewa ***: Guda fayil iri ɗaya sau biyu kuma bambanta fitarwa
-- ** Biyayya ga tsari ***: Nuna daidaiton aiki
-- ** Tabbatar da CI ***: Gwaje-gwaje 467 suna tilasta yanke hukunci tare da ɗaukar reshe na 100%.
+## Fitarwa Tabbatacciya
 
-## Tsaron Sarkar Supply
+Don tsarin da aka tsara (CAMT, PAIN.001, CSV, OFX, QFX, MT940), idan aka ba da fayil ɗin shigarwa iri ɗaya, parser yana samar da fitarwa iri ɗaya na byte kowane gudu. Babu bazuwar, babu ƙididdiga ta ƙira, babu sampling na heuristic. Wannan yana da mahimmanci don:
 
-- ** SHA-256 abubuwan dogaro da aka kulle zanta ***: Kowane fakitin ciki`poetry.lock`ya tabbatar da hashes fayil
-- ** CycloneDX SBOM ***: Kowane saki ya haɗa da Bill na Kayan Aiki
-- ** GitHub gina ingantaccen aiki ***: Shaida ta danganta kowane kayan tarihi zuwa tushen sa
-- ** Sa hannu ya aikata ***: Duk ayyukan SSH- sa hannu kuma an tabbatar dasu a cikin CI
-- **Tabbacin dogaro**:`scripts/verify_locked_hashes.py`tabbatar da duk hashes a cikin gida
+- **Maimaituwa na tantancewa**: Gudanar da fayil iri ɗaya sau biyu kuma kwatanta fitarwa
+- **Bin doka na tsari**: Nuna daidaiton aiki
+- **Tabbatar da CI**: Gwaje-gwaje 718 suna tilasta tabbatarwa tare da rufe reshe 100%
+
+## Tsaron Sarkar Kaya
+
+- **SHA-256 hash-locked dependencies**: Kowane fakitin cikin `poetry.lock` yana da hashes na fayil da aka tabbatar
+- **CycloneDX SBOM**: Kowane saki ya haɗa da Lissafin Kayan Software
+- **GitHub build provenance**: Shaida tana danganta kowane kayan tarihi zuwa commit ɗin sa na asali
+- **Sa hannu kan commits**: Duk commits SSH-signed ne kuma an tabbatar a cikin CI
+- **Tabbatar da abubuwan dogaro**: `scripts/verify_locked_hashes.py` yana tabbatar da duk hashes a gida
 
 ## Tabbatarwa a Gida
 
 ```bash
-python -m pytest                          # 467 tests, 100% branch coverage
+python -m pytest                          # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py    # SHA-256 hash verification
 git log --show-signature -1               # Verify commit signature
 ```

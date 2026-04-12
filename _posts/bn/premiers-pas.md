@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "কালো জানালা সহ একটি সাদা বিল্ডিং"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 ব্যাঙ্ক স্টেটমেন্ট পার্সার। সর্বস্বত্ব সংরক্ষিত"
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "পাইথনের জন্য ব্যাঙ্ক স্টেটমেন্ট পার্সার দিয়ে শুরু করুন: CAMT/PAIN.001/CSV/OFX/QFX/MT940 ফাইলগুলি ইনস্টল করুন, পার্স করুন এবং স্ট্রিমিং বা CLI ওয়ার্কফ্লো ব্যবহার করুন৷"
 download: ""
 format-detection: "telephone=no"
@@ -109,24 +109,41 @@ site_software: "Shokunin, Rust"
 
 ## প্রয়োজনীয়তা
 
-- পাইথন 3.9 থেকে 3.14
+- Python 3.10 থেকে 3.14
 - টার্মিনাল অ্যাক্সেস (macOS, Linux, বা WSL)
 
-## ইন্সটল করুন
+## ইনস্টল করুন
 
 ```bash
+# Core install (deterministic parsers only)
 pip install bankstatementparser
 ```
 
-পোলার ডেটাফ্রেম সমর্থনের জন্য:
+অতিরিক্ত ক্ষমতার জন্য ঐচ্ছিক extras:
 
 ```bash
-pip install bankstatementparser[polars]
+# Text-LLM path for digital PDFs (litellm + pypdf)
+pip install 'bankstatementparser[hybrid]'
+
+# Higher-fidelity table extraction (adds pdfplumber)
+pip install 'bankstatementparser[hybrid-plus]'
+
+# Vision-LLM path for scanned PDFs (adds pypdfium2)
+pip install 'bankstatementparser[hybrid-vision]'
+
+# LLM-powered transaction categorisation
+pip install 'bankstatementparser[enrichment]'
+
+# REST API microservice (FastAPI + uvicorn)
+pip install 'bankstatementparser[api]'
+
+# Optional Polars DataFrame support
+pip install 'bankstatementparser[polars]'
 ```
 
 ## দ্রুত শুরু
 
-### অটো-ডিটেক্ট এবং যেকোন ফরম্যাট পার্স করুন
+### অটো-ডিটেক্ট এবং যেকোনো স্ট্রাকচার্ড ফর্ম্যাট পার্স করুন
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -137,7 +154,7 @@ df = parser.parse()  # pandas DataFrame
 print(df.head())
 ```
 
-এই সঙ্গে কাজ করে`.xml`(CAMT/PAIN.001),`.csv`, `.ofx`, `.qfx`, `.mt940`, এবং`.sta`ফাইল
+এটি `.xml` (CAMT/PAIN.001), `.csv`, `.ofx`, `.qfx`, `.mt940`, এবং `.sta` ফাইলের সাথে কাজ করে।
 
 ### CAMT.053 পার্স করুন
 
@@ -157,9 +174,24 @@ parser = Pain001Parser("payment.xml")
 payments = parser.parse()
 ```
 
-## বড় ফাইল স্ট্রিমিং
+### PDF ব্যাঙ্ক স্টেটমেন্ট পার্স করুন (Hybrid Pipeline)
 
-হাজার হাজার লেনদেন সহ ফাইলগুলির জন্য, মেমরি আবদ্ধ রাখতে স্ট্রিমিং ব্যবহার করুন:
+Hybrid pipeline বুদ্ধিমত্তার সাথে PDF তিনটি extraction পথে রাউট করে:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+print(result.transactions)          # List of extracted transactions
+```
+
+প্রতিটি extraction **Golden Rule** দিয়ে যাচাই করা হয়: `opening + credits − debits == closing`।
+
+## বড় ফাইল Streaming
+
+হাজার হাজার লেনদেন সহ ফাইলের জন্য, মেমরি সীমাবদ্ধ রাখতে streaming ব্যবহার করুন:
 
 ```python
 parser = CamtParser("large_statement.xml")
@@ -167,9 +199,9 @@ for transaction in parser.parse_streaming(redact_pii=True):
     process(transaction)  # Memory stays constant
 ```
 
-## ইন-মেমরি পার্সিং
+## In-Memory পার্সিং
 
-ডিস্ক I/O ছাড়া বাইট থেকে পার্স করুন -- SFTP বা API কর্মপ্রবাহের জন্য দরকারী:
+ডিস্ক I/O ছাড়া বাইট থেকে পার্স করুন -- SFTP বা API ওয়ার্কফ্লোর জন্য উপযোগী:
 
 ```python
 xml_bytes = download_from_sftp()
@@ -177,7 +209,7 @@ parser = CamtParser.from_bytes(xml_bytes, source_name="daily.xml")
 transactions = parser.parse()
 ```
 
-## সমান্তরাল ফাইল প্রসেসিং
+## Parallel ফাইল Processing
 
 একসাথে একাধিক ফাইল পার্স করুন:
 
@@ -193,9 +225,21 @@ for r in results:
     print(r.path, r.status, len(r.transactions), "rows")
 ```
 
-## অনুলিপি
+## Bulk Directory Scanning
 
-আত্মবিশ্বাসের স্কোর সহ সঠিক সদৃশ এবং সন্দেহজনক মিলগুলি সনাক্ত করুন:
+স্বয়ংক্রিয় ডিডুপ্লিকেশন সহ সম্পূর্ণ ফোল্ডার ট্রি প্রক্রিয়া করুন:
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Processed: {len(batch.results)} files")
+print(f"Unique transactions: {batch.unique_count}")
+```
+
+## Deduplication
+
+নিরাপদ ইনক্রিমেন্টাল ইনজেশনের জন্য idempotent transaction hash:
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
@@ -209,9 +253,61 @@ print(f"Exact duplicates: {len(result.exact_duplicates)}")
 print(f"Suspected matches: {len(result.suspected_matches)}")
 ```
 
-## নিরাপদ জিপ প্রক্রিয়াকরণ
+## Transaction Categorisation (Enrichment)
 
-বিল্ট-ইন নিরাপত্তা চেক (বোমা সুরক্ষা, এনক্রিপ্টেড এন্ট্রি প্রত্যাখ্যান) সহ জিপ করা XML ফাইলগুলি প্রক্রিয়া করুন:
+LLM-চালিত ক্লাসিফিকেশন ব্যবহার করে স্বয়ংক্রিয়ভাবে লেনদেন ক্যাটাগরাইজ করুন:
+
+```python
+from bankstatementparser.enrichment import Categorizer
+
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(transactions)
+for txn in enriched:
+    print(f"{txn.description}: {txn.category}")
+```
+
+## Ledger Export (hledger / beancount)
+
+Plaintext-accounting জার্নাল ফর্ম্যাটে লেনদেন এক্সপোর্ট করুন:
+
+```python
+from bankstatementparser.export import to_hledger, to_beancount
+
+journal = to_hledger(transactions, account="Assets:Bank:Checking")
+beancount_journal = to_beancount(transactions, account="Assets:Bank:Checking")
+```
+
+## Multi-Currency Balance Verification
+
+প্রতিটি মুদ্রা গোষ্ঠীর জন্য স্বতন্ত্রভাবে ব্যালেন্স যাচাই করুন:
+
+```python
+from bankstatementparser.hybrid import verify_balance_multi_currency
+
+results = verify_balance_multi_currency(transactions)
+for currency, verification in results.items():
+    print(f"{currency}: {verification.status}")
+```
+
+## REST API
+
+FastAPI মাইক্রোসার্ভিস হিসেবে ডিপ্লয় করুন:
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+
+# For container deployments
+bankstatementparser-api --host 0.0.0.0 --port 9000
+```
+
+Endpoints:
+- `POST /ingest` -- একটি ব্যাঙ্ক স্টেটমেন্ট ফাইল পার্স করুন
+- `GET /health` -- Health check
+
+## Secure ZIP Processing
+
+বিল্ট-ইন নিরাপত্তা চেক (বোমা সুরক্ষা, এনক্রিপ্টেড এন্ট্রি প্রত্যাখ্যান) সহ জিপ করা XML ফাইল প্রক্রিয়া করুন:
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
@@ -221,7 +317,7 @@ for entry in iter_secure_xml_entries("statements.zip"):
     print(f"{entry.source_name}: {len(parser.parse())} transactions")
 ```
 
-## রপ্তানি
+## Export
 
 ```python
 parser = CamtParser("statement.xml")
@@ -230,40 +326,51 @@ parser.export_json("output.json")
 
 # Polars (requires bankstatementparser[polars])
 polars_df = parser.to_polars()
+
+# Excel
+parser.camt_to_excel("output.xlsx")
 ```
 
 ## CLI ব্যবহার
 
 ```bash
-# Parse and display
-python -m bankstatementparser.cli --type camt --input statement.xml
+# Parse structured formats
+bankstatementparser --type camt --input statement.xml
+bankstatementparser --type pain001 --input payment.xml
 
-# Export to CSV
-python -m bankstatementparser.cli --type camt --input statement.xml --output transactions.csv
+# Hybrid PDF pipeline
+bankstatementparser --type ingest --input statement.pdf
+bankstatementparser --type ingest --input statement.pdf --output ledger.csv
 
-# Stream with PII visible
-python -m bankstatementparser.cli --type camt --input statement.xml --streaming --show-pii
+# Interactive review mode
+bankstatementparser --type review --input result.json
+bankstatementparser --type review --input result.json --output reviewed.json
+
+# Export to CSV with streaming
+bankstatementparser --type camt --input statement.xml --output transactions.csv
+bankstatementparser --type camt --input statement.xml --streaming --show-pii
 ```
 
-CLI বিকল্প:
+CLI অপশন:
 
-- `--type {camt,pain001}`-- পার্সার টাইপ
--`--input <path>`-- ইনপুট ফাইল
--`--output <csv_path>`-- CSV এ রপ্তানি করুন
--`--streaming`-- বড় ফাইল স্ট্রিম করুন
--`--show-pii`-- সংবেদনশীল ক্ষেত্রগুলি দেখান (ডিফল্টরূপে সংশোধিত)
--`--max-size <MB>`-- ফাইল সাইজ সীমা
+- `--type {camt,pain001,ingest,review}` -- পার্সার টাইপ বা মোড
+- `--input <path>` -- ইনপুট ফাইল
+- `--output <path>` -- এক্সপোর্ট ফাইল (CSV বা JSON)
+- `--streaming` -- বড় ফাইল stream করুন
+- `--show-pii` -- সংবেদনশীল ক্ষেত্র দেখান (ডিফল্টরূপে রিডাক্ট করা)
+- `--max-size <MB>` -- ফাইল সাইজ সীমা
 
-## স্থানীয় উন্নয়ন সেটআপ
+## স্থানীয় ডেভেলপমেন্ট সেটআপ
 
 ```bash
 git clone https://github.com/sebastienrousseau/bankstatementparser.git
 cd bankstatementparser
 python3 -m venv .venv && source .venv/bin/activate
 pip install poetry && poetry install --with dev
+make install-hooks   # pre-commit hook runs `make verify` before every commit
 ```
 
-পরীক্ষা স্যুট চালান:
+টেস্ট স্যুট চালান:
 
 ```bash
 pytest
@@ -273,7 +380,7 @@ pytest
 
 ### পার্সার ক্লাস
 
-| ক্লাস | বিন্যাস | আমদানি |
+| ক্লাস | ফর্ম্যাট | Import |
 |---|---|---|
 | `CamtParser` | CAMT.053 (ISO 20022) | `from bankstatementparser import CamtParser` |
 | `Pain001Parser` | PAIN.001 (ISO 20022) | `from bankstatementparser import Pain001Parser` |
@@ -281,32 +388,42 @@ pytest
 | `OfxParser` | OFX | `from bankstatementparser import OfxParser` |
 | `QfxParser` | QFX | `from bankstatementparser import QfxParser` |
 | `Mt940Parser` | MT940 | `from bankstatementparser import Mt940Parser` |
+| `smart_ingest()` | PDF (hybrid pipeline) | `from bankstatementparser.hybrid import smart_ingest` |
 
 ### ইউটিলিটি ফাংশন
 
 | ফাংশন | উদ্দেশ্য |
 |---|---|
-| `detect_statement_format(path)` | ফাইল বিন্যাস স্বয়ংক্রিয় সনাক্ত |
+| `detect_statement_format(path)` | ফাইল ফর্ম্যাট অটো-ডিটেক্ট করুন |
 | `create_parser(path, fmt)` | উপযুক্ত পার্সার তৈরি করুন |
-| `parse_files_parallel(paths)` | একযোগে একাধিক ফাইল পার্স করুন |
-| `iter_secure_xml_entries(zip_path)` | নিরাপদে জিপ এন্ট্রি পুনরাবৃত্তি করুন |
+| `parse_files_parallel(paths)` | একসাথে একাধিক ফাইল পার্স করুন |
+| `iter_secure_xml_entries(zip_path)` | নিরাপদে ZIP এন্ট্রি iterate করুন |
+| `smart_ingest(path)` | যাচাই সহ hybrid PDF extraction |
+| `scan_and_ingest(dir, pattern)` | Bulk directory scanning |
+| `verify_balance_multi_currency(txns)` | প্রতি-মুদ্রা ব্যালেন্স যাচাই |
+| `to_hledger(txns, account)` | hledger জার্নাল ফর্ম্যাটে এক্সপোর্ট |
+| `to_beancount(txns, account)` | beancount জার্নাল ফর্ম্যাটে এক্সপোর্ট |
 
 ### ডেটা ক্লাস
 
 | ক্লাস | উদ্দেশ্য |
 |---|---|
-| `Deduplicator` | ডুপ্লিকেট লেনদেন সনাক্ত করুন |
-| `DeduplicationResult` | অনন্য, সঠিক, এবং সন্দেহজনক মিলের ফলাফল |
-| `InputValidator` | ফাইল পাথ এবং বিন্যাস যাচাই করুন |
-| `Transaction` | স্বাভাবিক লেনদেনের রেকর্ড |
-| `FileResult` | সমান্তরাল পার্সিং থেকে ফলাফল |
-| `ZipXMLSource` | জিপ সদস্যের মোড়ক |
+| `Deduplicator` | ডুপ্লিকেট লেনদেন শনাক্ত করুন |
+| `DeduplicationResult` | ইউনিক, exact, ও suspected match এর ফলাফল |
+| `InputValidator` | ফাইল পাথ ও ফর্ম্যাট ভ্যালিডেট করুন |
+| `Transaction` | নরমালাইজড লেনদেনের রেকর্ড |
+| `FileResult` | Parallel parsing থেকে ফলাফল |
+| `ZipXMLSource` | ZIP member wrapper |
+| `IngestResult` | যাচাই সহ hybrid pipeline ফলাফল |
+| `VerificationResult` | ব্যালেন্স যাচাইয়ের ফলাফল |
+| `Categorizer` | LLM-চালিত transaction categorisation |
+| `AccountMapper` | Regex-ভিত্তিক account mapping নিয়ম |
 
-### ব্যতিক্রম
+### Exceptions
 
-| ব্যতিক্রম | যখন উত্থাপিত |
+| Exception | কখন উত্থাপিত হয় |
 |---|---|
 | `ParserError` | পার্সিং ব্যর্থতা |
-| `ExportError` | রপ্তানি ব্যর্থতা (CSV/JSON/Excel) |
-| `ValidationError` | ইনপুট বৈধতা ব্যর্থতা |
-| `ZipSecurityError` | জিপ নিরাপত্তা চেক ব্যর্থতা |
+| `ExportError` | এক্সপোর্ট ব্যর্থতা (CSV/JSON/Excel) |
+| `ValidationError` | ইনপুট ভ্যালিডেশন ব্যর্থতা |
+| `ZipSecurityError` | ZIP নিরাপত্তা চেক ব্যর্থতা |

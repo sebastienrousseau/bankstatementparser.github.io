@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Seguridad del analizador de extractos bancarios"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Analizador de extractos bancarios. Reservados todos los derechos."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Funciones de seguridad de Bank Statement Parser: protección XXE, protección contra bombas ZIP, redacción de PII, seguridad de la cadena de suministro, salida determinista y compilaciones firmadas."
 download: ""
 format-detection: "telephone=no"
@@ -107,72 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Bank Statement Parser no realiza llamadas de red, redacta PII de forma predeterminada, refuerza el análisis XML contra ataques XXE y se envía con dependencias SHA-256 bloqueadas con hash y un SBOM CycloneDX.
+**TL;DR:** Bank Statement Parser procesa todos los datos de forma local, redacta PII por defecto, refuerza el análisis XML contra ataques XXE, ejecuta LLMs localmente vía Ollama y se distribuye con dependencias SHA-256 bloqueadas con hash y un SBOM CycloneDX.
 
 ## Seguridad por diseño
 
-Bank Statement Parser está diseñado para procesar datos financieros confidenciales. Cada decisión de diseño prioriza la seguridad, la privacidad y la auditabilidad.
+Bank Statement Parser está diseñado para procesar datos financieros sensibles. Cada decisión de diseño prioriza la seguridad, la privacidad y la auditabilidad.
 
-## Acceso cero a la red
+## Cero dependencia de la nube
 
-Todo el procesamiento ocurre localmente dentro de su tiempo de ejecución. La biblioteca no realiza llamadas API, cero conexiones a la nube y no recopila telemetría. Los analizadores XML están configurados explícitamente con`no_network=True`, `resolve_entities=False`, y`load_dtd=False`para impedir cualquier acceso saliente.
+Todo el procesamiento ocurre localmente dentro de su entorno de ejecución. Los analizadores deterministas no realizan llamadas de red. El pipeline híbrido para PDF usa Ollama para inferencia local de LLM — ningún dato se envía a APIs en la nube. Los analizadores XML están configurados explícitamente con `no_network=True`, `resolve_entities=False` y `load_dtd=False` para impedir cualquier acceso saliente.
 
 ## Redacción de PII
 
-La información de identificación personal (nombres, IBAN, direcciones postales) se redacta automáticamente en el modo de salida y transmisión CLI. Esto está activado de forma predeterminada.
+La información de identificación personal (nombres, IBANs, direcciones postales) se redacta automáticamente en la salida CLI y en modo streaming. Esto está activado por defecto.
 
-- **CLI**: los campos sensibles se muestran como`***REDACTED***`
-- **Transmisión**:`parse_streaming(redact_pii=True)`(por defecto)
-- **Exportaciones**: CSV/JSON/Excel conservan todos los datos para el procesamiento posterior
-- **Aceptar**: utilizar`--show-pii`o`redact_pii=False`cuando necesitas resultados sin editar
+- **CLI**: Los campos sensibles se muestran como `***REDACTED***`
+- **Streaming**: `parse_streaming(redact_pii=True)` (por defecto)
+- **Exportaciones**: CSV/JSON/Excel conservan todos los datos para procesamiento posterior
+- **Activar**: Use `--show-pii` o `redact_pii=False` cuando necesite datos sin redactar
 
-## Seguridad XML (Protección XXE)
+## Seguridad XML (protección XXE)
 
-Todos los usos del análisis XML`lxml`con ajustes reforzados:
+Todo el análisis XML usa `lxml` con ajustes reforzados:
 
-- `resolve_entities=False`-- previene ataques de expansión de entidades XML
--`no_network=True`-- bloquea todo el acceso a la red saliente desde el analizador
--`load_dtd=False`-- previene ataques basados en DTD
-- Eliminación del espacio de nombres antes del procesamiento: maneja cualquier variante de CAMT.053 de forma segura
+- `resolve_entities=False` -- previene ataques de expansión de entidades XML
+- `no_network=True` -- bloquea todo acceso de red saliente desde el analizador
+- `load_dtd=False` -- previene ataques basados en DTD
+- Eliminación de namespaces antes del procesamiento — maneja cualquier variante de CAMT.053 de forma segura
 
-## Seguridad del archivo ZIP
+## Seguridad de archivos ZIP
 
-`iter_secure_xml_entries()`valida cada miembro ZIP antes de la extracción:
+`iter_secure_xml_entries()` valida cada miembro ZIP antes de la extracción:
 
 - **Límite de tamaño de entrada**: 10 MB por entrada (configurable)
-- **Límite de tamaño total**: 50 MB en total sin comprimir (configurable)
-- **Límite de relación de compresión**: 100:1 predeterminado: detecta bombas ZIP
-- **Rechazo de entrada cifrada**: las entradas cifradas se omiten con una advertencia
-- **Sin escrituras en disco**: los bytes XML pasan directamente al analizador a través de`from_bytes()`
+- **Límite de tamaño total**: 50 MB total sin comprimir (configurable)
+- **Límite de ratio de compresión**: 100:1 por defecto — detecta ZIP bombs
+- **Rechazo de entradas cifradas**: Las entradas cifradas se omiten con una advertencia
+- **Sin escrituras en disco**: Los bytes XML pasan directamente al analizador vía `from_bytes()`
 
-## Prevención de cruce de caminos
+## Prevención de cruce de rutas
 
-La validación de entrada bloquea rutas de archivos peligrosas:
+La validación de entrada bloquea rutas de archivo peligrosas:
 
-- Bytes nulos, patrones de recorrido de directorio (`../`), y los enlaces simbólicos se rechazan
-- Validación de extensión de archivo frente a formatos esperados.
-- Límites de tamaño de archivo (100 MB predeterminado, configurable)
+- Bytes nulos, patrones de recorrido de directorio (`../`) y enlaces simbólicos se rechazan
+- Validación de extensión de archivo frente a formatos esperados
+- Límites de tamaño de archivo (100 MB por defecto, configurable)
+
+## Verificación de saldo (Regla de Oro)
+
+Cada extracción de PDF se verifica con la ecuación: `opening balance + credits − debits == closing balance`. Los resultados se etiquetan como VERIFIED, DISCREPANCY o FAILED. Las discrepancias pueden revisarse de forma interactiva con `--type review`.
 
 ## Salida determinista
 
-Dado el mismo archivo de entrada, el analizador produce una salida de bytes idénticos en cada ejecución. Sin aleatoriedad, sin inferencia de modelo, sin muestreo heurístico. Esto es fundamental para:
+Para formatos estructurados (CAMT, PAIN.001, CSV, OFX, QFX, MT940), dado el mismo archivo de entrada, el analizador produce una salida byte a byte idéntica en cada ejecución. Sin aleatoriedad, sin inferencia de modelo, sin muestreo heurístico. Esto es fundamental para:
 
-- **Reproducibilidad de la auditoría**: ejecute el mismo archivo dos veces y diferencie el resultado
-- **Cumplimiento normativo**: demostrar un procesamiento coherente
-- **Verificación de CI**: 467 pruebas aplican el determinismo con una cobertura de sucursales del 100 %
+- **Reproducibilidad de auditoría**: Ejecute el mismo archivo dos veces y compare la salida
+- **Cumplimiento normativo**: Demostrar procesamiento coherente
+- **Verificación de CI**: 718 pruebas imponen determinismo con cobertura de ramas del 100%
 
 ## Seguridad de la cadena de suministro
 
-- **Dependencias con bloqueo hash SHA-256**: cada paquete en`poetry.lock`ha verificado hashes de archivos
-- **CycloneDX SBOM**: cada versión incluye una lista de materiales del software
-- **Procedencia de la compilación de GitHub**: la certificación vincula cada artefacto con su confirmación de origen
-- **Confirmaciones firmadas**: todas las confirmaciones están firmadas por SSH y verificadas en CI
-- **Verificación de dependencia**:`scripts/verify_locked_hashes.py`valida todos los hashes localmente
+- **Dependencias con bloqueo hash SHA-256**: Cada paquete en `poetry.lock` tiene hashes de archivo verificados
+- **CycloneDX SBOM**: Cada versión incluye una lista de materiales del software
+- **Procedencia de compilación de GitHub**: La certificación vincula cada artefacto con su commit de origen
+- **Commits firmados**: Todos los commits están firmados con SSH y verificados en CI
+- **Verificación de dependencias**: `scripts/verify_locked_hashes.py` valida todos los hashes localmente
 
 ## Verificar localmente
 
 ```bash
-python -m pytest                          # 467 tests, 100% branch coverage
+python -m pytest                          # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py    # SHA-256 hash verification
 git log --show-signature -1               # Verify commit signature
 ```

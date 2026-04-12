@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Журнал змін аналізатора банківської виписки"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Парсер банківських виписок. Всі права захищені."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Історія випусків і журнал змін для аналізатора банківських виписок. Відстежуйте нові функції, покращення та виправлення помилок у всіх версіях."
 download: ""
 format-detection: "telephone=no"
@@ -109,7 +109,36 @@ site_software: "Shokunin, Rust"
 
 Слідкуйте за розвитком аналізатора банківських виписок. Підпишіться через [RSS](/changelog/rss.xml) або перегляньте [репозиторій GitHub](https://github.com/sebastienrousseau/bankstatementparser) для повідомлень про випуск.
 
-## v0.0.4 — 2026-03-15 (Остання версія)
+## v0.0.8 — 2026-04-11 (Latest) — "Full Platform"
+
+- Multi-currency balance verification — `verify_balance_multi_currency()` groups by currency, runs Golden Rule per group.
+- hledger + beancount export — `to_hledger()` and `to_beancount()` in `bankstatementparser.export`.
+- Bulk directory scanner — `scan_and_ingest()` scans folder trees, deduplicates across batch.
+- Account mapping rules — `AccountMapper` with ordered regex rules from JSON config.
+- REST API — FastAPI wrapper with `/ingest` and `/health` endpoints (`[api]` extra).
+
+## v0.0.7 — 2026-04-08 — "Universal Vision"
+
+- Direct Ollama bridge (`ollama_direct_completion`) — bypasses LiteLLM long-prompt hang.
+- Strip mode (`VisionExtractor.strip_rows=True`) — splits dense pages into overlapping bands for small local models.
+- Recommended vision model changed from `llava` to `minicpm-v`.
+
+## v0.0.6 — 2026-04-08 — "Intelligence Layer"
+
+- Dropped Python 3.9 support (now 3.10-3.14).
+- Enrichment module (`Categorizer`, `EnrichedTransaction`, `DEFAULT_CATEGORY_SCHEMA`).
+- Interactive review mode with `--type review` CLI command.
+- Per-row bounding box extraction (`Transaction.source_bbox`).
+
+## v0.0.5 — 2026-04-08 — "Universal Extraction"
+
+- Hybrid PDF pipeline (`smart_ingest()`) with deterministic/text-LLM/vision-LLM routing.
+- `LLMExtractor` for digital PDFs via LiteLLM.
+- `VisionExtractor` for scanned PDFs via multimodal vision models.
+- Golden Rule balance verification (`opening + credits - debits == closing`).
+- Idempotent deduplication via `transaction_hash` (MD5 fingerprint).
+
+## v0.0.4 — 2026-03-15
 
 — Додано паралельний аналіз файлів за допомогою`parse_files_parallel()`за допомогою ProcessPoolExecutor.
 — Додано справжнє потокове передавання для великих файлів PAIN.001 (50 МБ+) з обмеженою пам’яттю.
@@ -126,7 +155,7 @@ site_software: "Shokunin, Rust"
 — Додано редагування ідентифікаційної інформації (увімкнено за замовчуванням у CLI та потоковому режимі).
 — Додано помічники експорту для CSV, JSON і Excel.
 — Додано додаткову підтримку Polars DataFrame.
-— Розширено набір тестів до 467 тестів із 100% покриттям філій.
+— Розширено набір тестів до 718 тестів із 100% покриттям філій.
 
 ## v0.0.2 — 2025-06-10
 
@@ -151,8 +180,8 @@ site_software: "Shokunin, Rust"
   "name": "Аналізатор банківської виписки",
   "applicationCategory": "Програма розробника",
   "operatingSystem": "Кросплатформенність",
-  "softwareVersion": "0.0.4",
-  "datePublished": "2026-03-15",
+  "softwareVersion": "0.0.8",
+  "datePublished": "2026-04-11",
   "releaseNotes": "Додано паралельний аналіз файлів, справжнє потокове передавання для PAIN.001, оптимізацію продуктивності (27K+ tx/s CAMT, 52K+ tx/s PAIN.001), клас дедуплікатора, синтаксичний аналіз у пам’яті, безпечну обробку ZIP.",
   "Url-адреса завантаження": "https://pypi.org/project/bankstatementparser/",
   "ліцензія": "https://opensource.org/licenses/Apache-2.0",

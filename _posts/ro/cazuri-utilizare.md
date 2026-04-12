@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Cazuri de utilizare pentru analizarea extraselor de cont"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Analizator extras de cont. Toate drepturile rezervate."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Modul în care echipele de trezorerie, dezvoltatorii de tehnologie fintech și ofițerii de conformitate folosesc Bank State Parser pentru migrarea MT940 la CAMT, reconciliere, conducte de audit și consolidare multi-bancă."
 download: ""
 format-detection: "telephone=no"
@@ -107,13 +107,41 @@ site_software: "Shokunin, Rust"
 
 ---
 
-Bank Statement Parser gestionează fluxurile de lucru financiare din lumea reală: migrarea MT940 la CAMT pentru echipele de trezorerie, reconciliere automată, conducte de conformitate cu redarea PII, asimilare SFTP, consolidare multi-bancă și procesare securizată în loturi ZIP.
+Bank Statement Parser gestionează fluxuri de lucru financiare reale: ingestie de extrase bancare PDF, migrare MT940-la-CAMT, reconciliere automată cu verificarea soldului, pipeline-uri de conformitate, export pentru contabilitate în text simplu, implementări REST API, scanare în masă și consolidare multi-bancă.
 
-## Trezorerie: MT940 la CAMT.053 Migrație
+## Ingestie extrase bancare PDF
 
-**Rezultat:** Un singur apel API gestionează atât MT940, cât și CAMT.053 în timpul ferestrei de migrare SWIFT (noiembrie 2025-noiembrie 2028), eliminând nevoia de conducte separate de analiză.
+**Rezultat:** Parsați extrase bancare PDF digitale și scanate cu verificare automată a soldului — fără API-uri cloud, nicio dată nu părăsește mașina.
 
-Echipele de trezorerie din întreaga lume migrează de la MT940 la CAMT.053 înainte de termenul SWIFT din noiembrie 2027. Bank Statement Parser gestionează ambele formate cu un singur API, făcând tranziția fără probleme.
+Pipeline-ul hibrid PDF rutează fiecare PDF prin calea optimă de extracție și verifică fiecare rezultat.
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+
+# Review discrepancies interactively
+# bankstatementparser --type review --input result.json
+```
+
+## Procesare extrase în masă
+
+**Rezultat:** Scanați arbori întregi de foldere (sute de PDF-uri, XML-uri, CSV-uri) cu deduplicare automată între fișiere, într-un singur apel.
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Files: {len(batch.results)}, Unique txns: {batch.unique_count}")
+```
+
+## Trezorerie: migrare MT940 la CAMT.053
+
+**Rezultat:** Un singur apel API gestionează atât MT940, cât și CAMT.053 în timpul ferestrei de migrare SWIFT (noiembrie 2025–noiembrie 2028), eliminând nevoia de pipeline-uri de parsare separate.
+
+Echipele de trezorerie din întreaga lume migrează de la MT940 la CAMT.053 înainte de termenul SWIFT din noiembrie 2027. Bank Statement Parser gestionează ambele formate cu un singur API, făcând tranziția simplă.
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -126,17 +154,23 @@ for file in daily_statement_files:
     load_to_treasury_system(df)
 ```
 
-## Reconciliere automată
+## Reconciliere automată cu verificarea soldului
 
-**Rezultat:** DataFrames fără format, cu deduplicare încorporată, reduc efortul de potrivire manuală și captează intrările duplicate înainte ca acestea să ajungă în registrul tău.
+**Rezultat:** DataFrames independente de format cu verificare prin Regula de Aur și deduplicare detectează erorile și duplicatele înainte de a ajunge în registru.
 
-Analizați extrasele bancare și potriviți automat înregistrările interne. Ieșirea DataFrame unificată face logica de reconciliere independentă de format.
+Parsați extrase bancare, verificați soldurile și potriviți automat cu înregistrările interne.
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
+from bankstatementparser.hybrid import verify_balance_multi_currency
 
 parser = CamtParser("bank_statement.xml")
 bank_txns = parser.parse()
+
+# Verify balances per currency
+verification = verify_balance_multi_currency(bank_txns)
+for ccy, result in verification.items():
+    assert result.status == "VERIFIED", f"{ccy} balance mismatch!"
 
 # Deduplicate before reconciliation
 dedup = Deduplicator()
@@ -147,11 +181,39 @@ clean_txns = result.unique_transactions
 unmatched = reconcile(clean_txns, internal_ledger)
 ```
 
-## Conducte de conformitate și audit
+## Contabilitate în text simplu (hledger / beancount)
 
-**Rezultat:** Ieșirea deterministă și redarea automată a PII produc jurnalele gata de audit care îndeplinesc cerințele de reproductibilitate de reglementare fără instrumente suplimentare.
+**Rezultat:** Ingestie automată a extraselor bancare PDF și export al tranzacțiilor categorizate în format jurnal hledger sau beancount.
 
-Construiți pipeline pregătite pentru audit cu redarea PII și rezultate deterministe. Fiecare rulare produce rezultate identice pentru aceeași intrare, îndeplinind cerințele de reproductibilitate de reglementare.
+```python
+from bankstatementparser.hybrid import smart_ingest
+from bankstatementparser.enrichment import Categorizer
+from bankstatementparser.export import to_hledger
+
+result = smart_ingest("statement.pdf")
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(result.transactions)
+journal = to_hledger(enriched, account="Assets:Bank:Checking")
+```
+
+## Implementare REST API
+
+**Rezultat:** Implementați Bank Statement Parser ca microserviciu care acceptă fișiere de extrase prin HTTP și returnează JSON structurat.
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+```
+
+```bash
+# Ingest a statement
+curl -X POST http://localhost:8000/ingest \
+  -F "file=@statement.pdf"
+```
+
+## Pipeline-uri de conformitate și audit
+
+**Rezultat:** Ieșirea deterministă, redactarea automată a PII și verificarea prin Regula de Aur produc jurnale pregătite pentru audit care îndeplinesc cerințele de reproductibilitate reglementară.
 
 ```python
 from bankstatementparser import CamtParser
@@ -166,11 +228,9 @@ for txn in parser.parse_streaming(redact_pii=True):
 parser.export_csv("archive/statement.csv")
 ```
 
-## Fluxuri de lucru SFTP-to-DataFrame
+## Fluxuri SFTP-to-DataFrame
 
-**Rezultat:** Analizați direct din octeți cu zero I/O pe disc, integrându-se nativ în fluxurile de lucru de conectivitate bancară bazate pe SFTP și API.
-
-Multe bănci livrează extrase de cont prin SFTP. Analizați direct din octeți fără a scrie pe disc.
+**Rezultat:** Parsați direct din octeți cu zero I/O pe disc, integrându-se nativ în fluxurile de conectivitate bancară bazate pe SFTP și API.
 
 ```python
 from bankstatementparser import CamtParser
@@ -182,9 +242,7 @@ df = parser.parse()
 
 ## Consolidare multi-bancă
 
-**Rezultat:** Parsarea paralelă între HSBC (CAMT), Barclays (MT940), Revolut (CSV) și Wise (OFX) produce un singur set de date normalizate într-un singur apel.
-
-Consolidați extrasele de la mai multe bănci folosind formate diferite într-un singur set de date normalizat.
+**Rezultat:** Parsarea paralelă a extraselor de la HSBC (CAMT), Barclays (MT940), Revolut (CSV), Wise (OFX) și Chase (PDF) produce un singur set de date normalizat.
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -201,9 +259,7 @@ all_transactions = pd.concat([r.transactions for r in results if r.status == "su
 
 ## Procesare în loturi cu arhive ZIP
 
-**Rezultat:** Protecția zip-bombă încorporată (limită de raport de 100:1, limită de intrare de 10 MB, respingere a intrării criptate) vă permite să procesați arhivele lunare ale extraselor în siguranță.
-
-Procesați în siguranță arhivele de declarații arhivate, cu protecție încorporată împotriva bombelor ZIP.
+**Rezultat:** Protecția încorporată împotriva ZIP bomb (limită de raport 100:1, limită de 10 MB pe intrare, respingere a intrărilor criptate) permite procesarea în siguranță a arhivelor lunare de extrase.
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
@@ -214,4 +270,4 @@ for entry in iter_secure_xml_entries("monthly_statements.zip"):
     save_to_warehouse(entry.source_name, df)
 ```
 
-[Comparați cu alternative ❯](/comparison/index.html) | [Planificați-vă migrarea ISO 20022 ❯](/migration/index.html) | [Începeți ❯](/getting-started/index.html)
+[Comparați cu alternative ❯](/comparison/index.html) | [Planificați migrarea ISO 20022 ❯](/migration/index.html) | [Începeți ❯](/getting-started/index.html)

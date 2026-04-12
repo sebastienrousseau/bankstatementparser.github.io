@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Bank Statement Parser Changelog"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Bank Statement Parser. All rights reserved."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Release history and changelog for Bank Statement Parser. Track new features, improvements, and bug fixes across all versions."
 download: ""
 format-detection: "telephone=no"
@@ -56,11 +56,11 @@ generator: "Shokunin 🦀 (version 0.0.20)"
 item_description: "Release history and changelog for Bank Statement Parser. Track new features, improvements, and bug fixes across all versions."
 item_guid: "https://bankstatementparser.com/changelog/rss.xml"
 item_link: "https://bankstatementparser.com/changelog/rss.xml"
-item_pub_date: "2026-04-01T00:00:00+00:00"
+item_pub_date: "2026-04-11T00:00:00+00:00"
 item_title: "Bank Statement Parser Changelog"
-last_build_date: "2026-04-01T00:00:00+00:00"
+last_build_date: "2026-04-11T00:00:00+00:00"
 managing_editor: "contact@bankstatementparser.com"
-pub_date: "2026-04-01T00:00:00+00:00"
+pub_date: "2026-04-11T00:00:00+00:00"
 ttl: "60"
 type: "website"
 webmaster: "contact@bankstatementparser.com"
@@ -100,7 +100,7 @@ author_website: "https://bankstatementparser.com"
 author_twitter: "@wwdseb"
 author_location: "London, UK"
 thanks: "Thanks for reading!"
-site_last_updated: "2026-04-01"
+site_last_updated: "2026-04-11"
 site_standards: "HTML5, CSS3, RSS, Atom, JSON, XML, YAML, Markdown, TOML"
 site_components: "Shokunin SSG, Shokunin CLI, Shokunin Templates, Shokunin Themes, Kaishi SSG, Kaishi CLI, Kaishi Templates, Kaishi Themes"
 site_software: "Shokunin, Rust"
@@ -109,7 +109,40 @@ site_software: "Shokunin, Rust"
 
 Follow Bank Statement Parser development. Subscribe via [RSS](/changelog/rss.xml) or watch the [GitHub repository](https://github.com/sebastienrousseau/bankstatementparser) for release notifications.
 
-## v0.0.4 — 2026-03-15 (Latest)
+## v0.0.8 — 2026-04-11 (Latest) — "Full Platform"
+
+Closes competitive gaps with a complete platform for bank statement processing.
+
+- Added multi-currency balance verification — `verify_balance_multi_currency()` groups by currency, runs Golden Rule per group.
+- Added hledger + beancount export — `to_hledger()` and `to_beancount()` in `bankstatementparser.export`.
+- Added bulk directory scanner — `scan_and_ingest()` scans folder trees, deduplicates across batch.
+- Added account mapping rules — `AccountMapper` with ordered regex rules from JSON config.
+- Added REST API — FastAPI wrapper with `/ingest` and `/health` endpoints (`[api]` extra).
+
+## v0.0.7 — 2026-04-08 — "Universal Vision"
+
+- Added direct Ollama bridge (`ollama_direct_completion`) — bypasses LiteLLM long-prompt hang.
+- Added strip mode (`VisionExtractor.strip_rows=True`) — splits dense pages into overlapping bands for small local models.
+- Changed recommended vision model from `llava` to `minicpm-v` (better for OCR/document tasks).
+
+## v0.0.6 — 2026-04-08 — "Intelligence Layer"
+
+- **Breaking**: Dropped Python 3.9 support (now 3.10–3.14). Python 3.9 reached EOL 2025-10-31.
+- Added enrichment module (`Categorizer`, `EnrichedTransaction`, `DEFAULT_CATEGORY_SCHEMA`) for LLM-powered transaction categorisation.
+- Added interactive review mode with `--type review` CLI command.
+- Added per-row bounding box extraction (`Transaction.source_bbox`) for downstream review UIs.
+- Expanded test suite to 718 tests with 100% branch coverage.
+
+## v0.0.5 — 2026-04-08 — "Universal Extraction"
+
+- Added hybrid PDF pipeline (`smart_ingest()`) with deterministic/text-LLM/vision-LLM routing.
+- Added `LLMExtractor` for digital PDFs via LiteLLM.
+- Added `VisionExtractor` for scanned PDFs via multimodal vision models.
+- Added Golden Rule balance verification (`opening + credits − debits == closing`).
+- Added idempotent deduplication via `transaction_hash` (MD5 fingerprint).
+- Added install extras: `[hybrid]`, `[hybrid-plus]`, `[hybrid-vision]`.
+
+## v0.0.4 — 2026-03-15
 
 - Added parallel file parsing with `parse_files_parallel()` using ProcessPoolExecutor.
 - Added true streaming for large PAIN.001 files (50 MB+) with bounded memory.
@@ -151,9 +184,9 @@ View the full commit history on [GitHub](https://github.com/sebastienrousseau/ba
   "name": "Bank Statement Parser",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Cross-platform",
-  "softwareVersion": "0.0.4",
-  "datePublished": "2026-03-15",
-  "releaseNotes": "Added parallel file parsing, true streaming for PAIN.001, performance optimisations (27K+ tx/s CAMT, 52K+ tx/s PAIN.001), Deduplicator class, in-memory parsing, secure ZIP processing.",
+  "softwareVersion": "0.0.8",
+  "datePublished": "2026-04-11",
+  "releaseNotes": "Multi-currency balance verification, hledger/beancount export, bulk directory scanner, account mapping rules, REST API microservice.",
   "downloadUrl": "https://pypi.org/project/bankstatementparser/",
   "license": "https://opensource.org/licenses/Apache-2.0",
   "author": {

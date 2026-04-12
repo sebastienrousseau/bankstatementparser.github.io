@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Analisador de extrato bancário versus alternativas"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Analisador de extrato bancário. Todos os direitos reservados."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Compare o analisador de extrato bancário com ferramentas mt-940, ofxparse, pycamt, pyiso20022 e SaaS como Ocrolus e Parseur. Comparação de recursos, preços e guia de migração."
 download: ""
 format-detection: "telephone=no"
@@ -107,72 +107,84 @@ site_software: "Shokunin, Rust"
 
 ---
 
-## Visão geral
+## Visão Geral
 
-Bank Statement Parser é a única biblioteca Python de código aberto que analisa seis formatos de extrato bancário com uma API unificada. Bibliotecas de formato único (mt-940, ofxparse, pycamt) cada uma lida com um formato. Ferramentas SaaS (Ocrolus, Parseur) oferecem OCR para PDFs, mas exigem o envio de dados externamente e custam entre US$ 49 e US$ 1.000 ou mais/mês.
+Bank Statement Parser é a única biblioteca Python de código aberto que analisa sete formatos de extrato bancário — incluindo PDF via pipeline híbrido com LLM — com uma API unificada. Bibliotecas de formato único (mt-940, ofxparse, pycamt) lidam com apenas um formato cada. Ferramentas SaaS (Ocrolus, Parseur) oferecem OCR na nuvem, mas exigem envio de dados externamente e custam US$ 49–US$ 1.000+/mês.
 
-## Alternativas de código aberto
+## Alternativas de Código Aberto
 
-### Bibliotecas de formato único
+### Bibliotecas de Formato Único
 
-A maioria dos analisadores de extratos bancários de código aberto lidam apenas com um formato. Se precisar de vários formatos, você deverá instalar e manter bibliotecas separadas com APIs, esquemas de saída e ciclos de atualização diferentes.
+A maioria dos parsers de extratos bancários de código aberto lida com apenas um formato. Se você precisa de vários formatos, terá que instalar e manter bibliotecas separadas com APIs, schemas de saída e ciclos de atualização diferentes.
 
-| Biblioteca | Formatar | Saída | Transmissão | Redação de PII | Desduplicação |
+| Biblioteca | Formatos | PDF | Saída | Verificação de Saldo | Exportação Contábil |
 |---|---|---|---|---|---|
-| **Analisador de extrato bancário** | 6 formatos | DataFrame do pandas | Sim | Sim (padrão) | Sim |
-| mt-940 (WoLpH) | Apenas MT940 | Objetos Python | Não | Não | Não |
-| ofxparse | Somente OFX | Objetos Python | Não | Não | Não |
-| pycamt | Somente CAMT.053 | Objetos Python | Não | Não | Não |
-| ferramentas ofx | Somente OFX v1/v2 | Objetos Python | Não | Não | Não |
+| **Bank Statement Parser** | 7 formatos | Pipeline híbrido | pandas DataFrame | Golden Rule | hledger, beancount |
+| mt-940 (WoLpH) | Apenas MT940 | Não | Objetos Python | Não | Não |
+| ofxparse | Apenas OFX | Não | Objetos Python | Não | Não |
+| pycamt | Apenas CAMT.053 | Não | Objetos Python | Não | Não |
+| ofxtools | Apenas OFX v1/v2 | Não | Objetos Python | Não | Não |
 
-### versus pyiso20022
+### vs pyiso20022
 
-pyiso20022 gera dataclasses Python a partir do catálogo completo de esquemas ISO 20022. É um kit de ferramentas ISO 20022 de uso geral para trabalhar com mensagens PACS, PAIN, CAMT e ADMI.
+pyiso20022 gera dataclasses Python a partir do catálogo completo de schemas ISO 20022. É um kit de ferramentas ISO 20022 de uso geral para trabalhar com mensagens PACS, PAIN, CAMT e ADMI.
 
-O Bank Statement Parser foi desenvolvido especificamente para analisar extratos bancários em DataFrames com recursos de produção:
+Bank Statement Parser foi feito especificamente para analisar extratos bancários em DataFrames com recursos de produção:
 
-| Recurso | Analisador de extrato bancário | pyiso20022 |
+| Recurso | Bank Statement Parser | pyiso20022 |
 |---|---|---|
-| Propósito | Análise de declaração + exportação | Kit de ferramentas de esquema ISO 20022 |
-| Saída | Pandas/Polars DataFrames | Classes de dados Python |
-| Formatos | 6 (incluindo não ISO) | Somente ISO 20022 |
-| Transmissão | Sim (memória limitada) | Não |
-| Redação de PII | Integrado | Não |
-| Desduplicação | Integrado | Não |
-| Segurança ZIP | Integrado | Não |
+| Propósito | Análise de extratos + extração + exportação | Kit de ferramentas de schema ISO 20022 |
+| Saída | pandas/Polars DataFrames | Dataclasses Python |
+| Formatos | 7 (incluindo PDF e não-ISO) | Apenas ISO 20022 |
+| Suporte a PDF | Pipeline híbrido (determinístico + LLM + visão) | Não |
+| Verificação de saldo | Golden Rule + multimoeda | Não |
+| REST API | FastAPI integrado | Não |
+| Enriquecimento | Categorização via LLM | Não |
+| Exportação contábil | hledger + beancount | Não |
+| Streaming | Sim (memória limitada) | Não |
+| Redação de PII | Integrada | Não |
+| Deduplicação | Hashes de transação idempotentes | Não |
 | CLI | Sim | Não |
 
-Use pyiso20022 se precisar trabalhar com o catálogo completo de mensagens ISO 20022. Use o Analisador de extratos bancários se precisar analisar extratos bancários em dados estruturados para análise, reconciliação ou relatórios.
+Use pyiso20022 se você precisa trabalhar com o catálogo completo de mensagens ISO 20022. Use Bank Statement Parser se você precisa analisar extratos bancários em dados estruturados para análise, reconciliação ou relatórios.
 
 ## Alternativas SaaS
 
-Ferramentas SaaS como Ocrolus, Parseur e Sensible oferecem análise de extratos bancários como um serviço em nuvem. Eles normalmente usam OCR para lidar com PDFs digitalizados e oferecem suporte a centenas de formatos específicos de bancos.
+Ferramentas SaaS como Ocrolus, Parseur e Sensible oferecem análise de extratos bancários como serviço na nuvem. Elas normalmente usam OCR para lidar com PDFs digitalizados e suportam centenas de formatos específicos de bancos.
 
-| Recurso | Analisador de extrato bancário | Ferramentas SaaS |
+| Recurso | Bank Statement Parser | Ferramentas SaaS |
 |---|---|---|
-| Privacidade de dados | 100% local, zero chamadas de rede | Dados enviados para nuvem |
-| Custo | Gratuito (Apache 2.0) | US$ 49–US$ 1.000 +/mês (a partir do primeiro trimestre de 2026) |
-| Formatos | 6 formatos estruturados | Centenas (via OCR) |
-| Suporte para PDF | Não (somente formatos estruturados) | Sim (baseado em OCR) |
-| Latência | <2 ms primeiro resultado | 1-30 segundos |
-| Taxa de transferência | Mais de 27.000 tx/segundo | Taxa de API limitada |
-| Aprisionamento do fornecedor | Nenhum | Sim |
-| Conformidade | Processamento local, SBOM | Varia de acordo com o provedor |
+| Privacidade de dados | 100% local (LLMs via Ollama) | Dados enviados para nuvem |
+| Custo | Gratuito (Apache 2.0) | US$ 49–US$ 1.000+/mês (Q1 2026) |
+| Formatos | 7 (estruturados + PDF) | Centenas (via OCR) |
+| Suporte a PDF | Sim — pipeline híbrido (determinístico + LLM + visão) | Sim (OCR na nuvem) |
+| Verificação de saldo | Golden Rule (automática) | Manual / limitada |
+| Latência | < 2 ms (estruturado), segundos (PDF+LLM) | 1–30 segundos |
+| Throughput | 27.000+ tx/segundo (estruturado) | Limitado por taxa de API |
+| REST API | FastAPI integrado | Proprietária |
+| Exportação contábil | hledger + beancount | Não |
+| Dependência de fornecedor | Nenhuma | Sim |
+| Conformidade | Processamento local, SBOM | Varia por provedor |
 
-## Analisadores baseados em LLM
+## Parsers Baseados em LLM
 
-Um número crescente de ferramentas (planos Inscribe, Unstract, Mozilla.ai) usa grandes modelos de linguagem para analisar extratos bancários, incluindo PDFs digitalizados. Quando o Chase redesenhou seu formato de declaração do consumidor no final de 2025, os analisadores baseados em modelos quebraram enquanto os analisadores LLM se adaptaram automaticamente.
+Um número crescente de ferramentas (Inscribe, Unstract, blueprints Mozilla.ai) usa modelos de linguagem grandes para analisar extratos bancários, incluindo PDFs digitalizados. Quando o Chase redesenhou seu formato de extrato para consumidores no final de 2025, parsers baseados em template quebraram, enquanto parsers LLM se adaptaram automaticamente.
 
-**Quando os analisadores LLM fazem sentido**: você recebe PDFs digitalizados de centenas de bancos com layouts imprevisíveis, e a extração aproximada (95-99% de precisão) é aceitável.
+**Bank Statement Parser agora inclui seu próprio pipeline híbrido com LLM** (v0.0.5+), que roda 100% localmente via Ollama. Ele combina o melhor das duas abordagens:
 
-**Quando o analisador de extratos bancários é a melhor escolha**: você precisa de resultados determinísticos e reproduzíveis para auditoria e conformidade. Você não pode enviar dados financeiros para APIs externas. Você precisa de latência inferior a milissegundos (contra 1 a 30 segundos para APIs LLM). Você deseja custo contínuo zero e nenhuma dependência de fornecedor.
+- **Formatos estruturados** (XML, CSV, OFX, MT940): Análise determinística — 100% de precisão, latência submilissegundo, custo zero com LLM.
+- **Extratos em PDF**: Roteamento por três caminhos (extração determinística de tabelas -> text-LLM -> vision-LLM) com verificação automática Golden Rule para detectar erros de extração.
 
-As ferramentas Bank Statement Parser e LLM resolvem diferentes problemas. Use o Bank Statement Parser para formatos estruturados (XML, CSV, OFX, MT940) onde você precisa de 100% de precisão, processamento local e reprodutibilidade de auditoria. Use ferramentas LLM para PDFs não estruturados onde a extração aproximada é aceitável.
+Diferente de parsers LLM que rodam apenas na nuvem, o pipeline híbrido do Bank Statement Parser:
+- Roda 100% localmente (Ollama) — nenhum dado sai da sua máquina.
+- Verifica toda extração com verificação de saldo (Golden Rule).
+- Suporta modo de revisão interativa para discrepâncias sinalizadas.
+- Produz hashes de transação idempotentes para ingestão incremental segura.
 
-**Metodologia de benchmark**: valores de desempenho medidos no Apple M2, Python 3.12, usando um arquivo CAMT.053 de 5.000 transações (2,1 MB). Os resultados foram em média superiores a 100 execuções. Reproduza localmente:`python -m bankstatementparser.bench`. Latência de SaaS com base na documentação da API publicada em abril de 2026.
+**Quando escolher parsers LLM em SaaS puro em vez do Bank Statement Parser**: Você recebe extratos de centenas de bancos com layouts de PDF muito diferentes e precisa de cobertura imediata sem rodar infraestrutura local.
 
-**Quando escolher o analisador de extrato bancário**: seu banco fornece exportações estruturadas (XML, CSV, OFX, MT940), você precisa de processamento local para conformidade ou deseja custo contínuo zero.
+**Quando escolher Bank Statement Parser**: Você precisa de processamento local para conformidade. Você quer verificação de saldo. Você precisa de exportação contábil. Você quer custo contínuo zero.
 
-**Quando escolher SaaS**: você recebe extratos em PDF digitalizados, precisa de OCR para centenas de formatos específicos de bancos ou deseja uma solução sem código.
+**Metodologia de benchmark**: Valores de desempenho medidos em Apple M2, Python 3.12, usando um arquivo CAMT.053 de 5.000 transações (2,1 MB). Resultados com média de 100 execuções. Reproduza localmente: `python -m bankstatementparser.bench`. Latência de SaaS baseada na documentação de API publicada em abril de 2026.
 
-[Veja casos de uso do mundo real ❯](/use-cases/index.html) | [Planeje sua migração MT940 para CAMT ❯](/migration/index.html)
+[Veja casos de uso reais ❯](/use-cases/index.html) | [Planeje sua migração MT940 para CAMT ❯](/migration/index.html)

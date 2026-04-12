@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Banka Ekstresi Ayrıştırıcı Güvenliği"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Banka Ekstresi Ayrıştırıcı. Her hakkı saklıdır."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Banka Ekstresi Ayrıştırıcının güvenlik özellikleri: XXE koruması, ZIP bombasını güçlendirme, PII düzenlemesi, tedarik zinciri güvenliği, deterministik çıktı ve imzalı yapılar."
 download: ""
 format-detection: "telephone=no"
@@ -107,72 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Hesap Özeti Ayrıştırıcı sıfır ağ çağrısı yapar, varsayılan olarak PII'yi düzenler, XXE saldırılarına karşı XML ayrıştırmayı güçlendirir ve SHA-256 karma kilitli bağımlılıklar ve bir CycloneDX SBOM ile birlikte gönderilir.
+**Ozet:** Bank Statement Parser tum verileri yerel olarak isler, varsayilan olarak PII'yi gizler, XXE saldirilarina karsi XML ayristirmayi guclendirir, LLM'leri Ollama uzerinden yerel calistirir ve SHA-256 hash kilitli bagimliliklar ile CycloneDX SBOM ile birlikte gelir.
 
 ## Tasarımdan Gelen Güvenlik
 
-Banka Ekstresi Ayrıştırıcısı, hassas finansal verileri işlemek için tasarlanmıştır. Her tasarım kararında güvenliğe, gizliliğe ve denetlenebilirliğe öncelik verilir.
+Bank Statement Parser, hassas finansal verileri işlemek için tasarlanmıştır. Her tasarım kararı güvenliğe, gizliliğe ve denetlenebilirliğe öncelik verir.
 
-## Sıfır Ağ Erişimi
+## Sıfır Bulut Bağımlılığı
 
-Tüm işlemler çalışma zamanınız içerisinde yerel olarak gerçekleşir. Kitaplık sıfır API çağrısı, sıfır bulut bağlantısı yapar ve sıfır telemetri toplar. XML ayrıştırıcıları açıkça yapılandırılmıştır`no_network=True`, `resolve_entities=False`, Ve`load_dtd=False`herhangi bir giden erişimi önlemek için.
+Tüm işlemler çalışma zamanınız içinde yerel olarak gerçekleşir. Deterministik ayrıştırıcılar sıfır ağ çağrısı yapar. Hibrit PDF pipeline, yerel LLM çıkarımı için Ollama kullanır -- bulut API'lerine veri gönderilmez. XML ayrıştırıcıları `no_network=True`, `resolve_entities=False` ve `load_dtd=False` ile açıkça yapılandırılarak giden erişim engellenir.
 
-## Kişisel Bilgilerin Düzenlenmesi
+## PII Redaksiyonu
 
-Kişisel olarak tanımlanabilir bilgiler (isimler, IBAN'lar, posta adresleri), CLI çıkışı ve akış modunda otomatik olarak çıkarılır. Bu, varsayılan olarak açıktır.
+Kişisel olarak tanımlanabilir bilgiler (adlar, IBAN'lar, posta adresleri) CLI çıkışı ve streaming modunda otomatik olarak gizlenir. Bu, varsayılan olarak açıktır.
 
-- **CLI**: Hassas alanlar şu şekilde gösterilir:`***REDACTED***`
-- **Akış**:`parse_streaming(redact_pii=True)`(varsayılan)
-- **Dışa aktarmalar**: CSV/JSON/Excel, sonraki işlemler için tüm verileri korur
-- **Kabul et**: Kullan`--show-pii`veya`redact_pii=False`Düzenlenmemiş çıktıya ihtiyacınız olduğunda
+- **CLI**: Hassas alanlar `***REDACTED***` olarak gösterilir
+- **Streaming**: `parse_streaming(redact_pii=True)` (varsayılan)
+- **Dışa aktarımlar**: CSV/JSON/Excel, sonraki işlemler için tam verileri korur
+- **İsteğe bağlı gösterim**: Gizlenmemiş çıktıya ihtiyacınız olduğunda `--show-pii` veya `redact_pii=False` kullanın
 
 ## XML Güvenliği (XXE Koruması)
 
-Tüm XML ayrıştırma kullanımları`lxml`güçlendirilmiş ayarlarla:
+Tüm XML ayrıştırma `lxml` ile güçlendirilmiş ayarlar kullanır:
 
-- `resolve_entities=False`-- XML varlık genişletme saldırılarını önler
--`no_network=True`-- ayrıştırıcıdan gelen tüm giden ağ erişimini engeller
--`load_dtd=False`-- DTD tabanlı saldırıları önler
-- İşlemeden önce ad alanı sıyırma - herhangi bir CAMT.053 varyantını güvenli bir şekilde işler
+- `resolve_entities=False` -- XML varlık genişletme saldırılarını önler
+- `no_network=True` -- ayrıştırıcıdan gelen tüm giden ağ erişimini engeller
+- `load_dtd=False` -- DTD tabanlı saldırıları önler
+- İşlemeden önce ad alanı temizleme -- herhangi bir CAMT.053 varyantını güvenle işler
 
 ## ZIP Arşiv Güvenliği
 
-`iter_secure_xml_entries()`çıkarmadan önce her ZIP üyesini doğrular:
+`iter_secure_xml_entries()` çıkarmadan önce her ZIP üyesini doğrular:
 
-- **Giriş boyutu sınırı**: Giriş başına 10 MB (yapılandırılabilir)
-- **Toplam boyut sınırı**: Toplam sıkıştırılmamış 50 MB (yapılandırılabilir)
-- **Sıkıştırma oranı sınırı**: 100:1 varsayılan -- ZIP bombalarını algılar
-- **Şifreli giriş reddi**: Şifreli girişler bir uyarıyla atlanır
-- **Disk yazma yok**: XML baytları doğrudan ayrıştırıcıya aktarılır.`from_bytes()`
+- **Giriş boyutu üst sınırı**: Giriş başına 10 MB (yapılandırılabilir)
+- **Toplam boyut üst sınırı**: Toplam sıkıştırılmamış 50 MB (yapılandırılabilir)
+- **Sıkıştırma oranı sınırı**: Varsayılan 100:1 -- ZIP bombalarını algılar
+- **Şifreli giriş reddi**: Şifreli girişler uyarıyla atlanır
+- **Disk yazma yok**: XML baytları `from_bytes()` ile doğrudan ayrıştırıcıya aktarılır
 
-## Yol Geçişini Önleme
+## Yol Geçişi Önleme
 
-Giriş doğrulama tehlikeli dosya yollarını engeller:
+Girdi doğrulama tehlikeli dosya yollarını engeller:
 
-- Boş baytlar, dizin geçiş modelleri (`../`) ve sembolik bağlantılar reddedilir
+- Null baytlar, dizin geçiş desenleri (`../`) ve sembolik bağlantılar reddedilir
 - Beklenen formatlara göre dosya uzantısı doğrulaması
 - Dosya boyutu sınırları (varsayılan 100 MB, yapılandırılabilir)
 
+## Bakiye Doğrulama (Altın Kural)
+
+Her PDF çıkarımı şu denklemle doğrulanır: `opening balance + credits − debits == closing balance`. Sonuçlar VERIFIED, DISCREPANCY veya FAILED olarak etiketlenir. Tutarsızlıklar `--type review` ile etkileşimli olarak incelenebilir.
+
 ## Deterministik Çıktı
 
-Aynı giriş dosyası göz önüne alındığında, ayrıştırıcı her çalıştırmada baytla aynı çıktıyı üretir. Rastgelelik yok, model çıkarımı yok, buluşsal örnekleme yok. Bu aşağıdakiler için kritiktir:
+Yapılandırılmış formatlar (CAMT, PAIN.001, CSV, OFX, QFX, MT940) için aynı girdi dosyası verildiğinde ayrıştırıcı her çalıştırmada bayt düzeyinde aynı çıktıyı üretir. Rastgelelik yok, model çıkarımı yok, buluşsal örnekleme yok. Bu şunlar için kritiktir:
 
-- **Denetim tekrarlanabilirliği**: Aynı dosyayı iki kez çalıştırın ve çıktıyı farklılaştırın
-- **Yasal uyumluluk**: Tutarlı bir işlem sergileyin
-- **CI doğrulaması**: 467 test, %100 branş kapsamıyla determinizmi güçlendiriyor
+- **Denetim tekrarlanabilirliği**: Aynı dosyayı iki kez çalıştırın ve çıktıları karşılaştırın
+- **Mevzuat uyumluluğu**: Tutarlı işleme gösterin
+- **CI doğrulaması**: 718 test, %100 dal kapsamıyla determinizmi güvence altına alır
 
 ## Tedarik Zinciri Güvenliği
 
-- **SHA-256 karma kilitli bağımlılıklar**: Her paket`poetry.lock`doğrulanmış dosya karmaları var
+- **SHA-256 hash kilitli bağımlılıklar**: `poetry.lock` içindeki her paketin doğrulanmış dosya hash'leri vardır
 - **CycloneDX SBOM**: Her sürüm bir Yazılım Malzeme Listesi içerir
-- **GitHub derleme kaynağı**: Onaylama her yapıyı kaynak taahhüdüne bağlar
-- **İmzalı taahhütler**: Tüm taahhütler SSH imzalıdır ve CI'da doğrulanmıştır
-- **Bağımlılık doğrulaması**:`scripts/verify_locked_hashes.py`tüm karmaları yerel olarak doğrular
+- **GitHub derleme kaynağı**: Onaylama her yapıyı kaynak commit'ine bağlar
+- **İmzalı commit'ler**: Tüm commit'ler SSH imzalıdır ve CI'da doğrulanır
+- **Bağımlılık doğrulaması**: `scripts/verify_locked_hashes.py` tüm hash'leri yerel olarak doğrular
 
-## Yerel Olarak Doğrula
+## Yerel Olarak Doğrulayın
 
 ```bash
-python -m pytest                          # 467 tests, 100% branch coverage
+python -m pytest                          # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py    # SHA-256 hash verification
 git log --show-signature -1               # Verify commit signature
 ```

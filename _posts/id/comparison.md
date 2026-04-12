@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Parser Laporan Bank vs Alternatif"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Pengurai Laporan Bank. Semua hak dilindungi undang-undang."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Bandingkan Parser Laporan Bank dengan mt-940, ofxparse, pycamt, pyiso20022, dan alat SaaS seperti Ocrolus dan Parseur. Perbandingan fitur, harga, dan panduan migrasi."
 download: ""
 format-detection: "telephone=no"
@@ -109,70 +109,82 @@ site_software: "Shokunin, Rust"
 
 ## Ringkasan
 
-Bank Statement Parser adalah satu-satunya pustaka Python sumber terbuka yang mengurai enam format laporan bank dengan API terpadu. Pustaka format tunggal (mt-940, ofxparse, pycamt) masing-masing menangani satu format. Alat SaaS (Ocrolus, Parseur) menawarkan OCR untuk PDF tetapi memerlukan pengiriman data secara eksternal dan biayanya $49–$1.000+/bulan.
+Bank Statement Parser adalah satu-satunya pustaka Python sumber terbuka yang mengurai tujuh format laporan bank — termasuk PDF via pipeline LLM hibrida — dengan API terpadu. Pustaka format tunggal (mt-940, ofxparse, pycamt) masing-masing menangani satu format. Alat SaaS (Ocrolus, Parseur) menawarkan OCR cloud tetapi mengharuskan pengiriman data ke pihak ketiga dan biayanya $49–$1.000+/bulan.
 
 ## Alternatif Sumber Terbuka
 
-### Perpustakaan Format Tunggal
+### Pustaka Format Tunggal
 
-Kebanyakan pengurai laporan bank sumber terbuka hanya menangani satu format. Jika Anda memerlukan beberapa format, Anda harus menginstal dan memelihara perpustakaan terpisah dengan API, skema keluaran, dan siklus pembaruan yang berbeda.
+Kebanyakan pengurai laporan bank sumber terbuka hanya menangani satu format. Jika Anda memerlukan beberapa format, Anda harus menginstal dan memelihara pustaka terpisah dengan API, skema output, dan siklus pembaruan yang berbeda.
 
-| Perpustakaan | Format | Keluaran | Mengalir | Redaksi PII | Deduplikasi |
+| Pustaka | Format | PDF | Output | Verifikasi Saldo | Ekspor Ledger |
 |---|---|---|---|---|---|
-| **Pengurai Laporan Bank** | 6 format | Bingkai Data panda | Ya | Ya (standar) | Ya |
-| mt-940 (WoLpH) | MT940 saja | Objek python | TIDAK | TIDAK | TIDAK |
-| sangat jelas | OFX saja | Objek python | TIDAK | TIDAK | TIDAK |
-| picamt | CAMT.053 saja | Objek python | TIDAK | TIDAK | TIDAK |
-| ofxtools | OFX v1/v2 saja | Objek python | TIDAK | TIDAK | TIDAK |
+| **Bank Statement Parser** | 7 format | Pipeline hibrida | pandas DataFrame | Golden Rule | hledger, beancount |
+| mt-940 (WoLpH) | MT940 saja | Tidak | Objek Python | Tidak | Tidak |
+| ofxparse | OFX saja | Tidak | Objek Python | Tidak | Tidak |
+| pycamt | CAMT.053 saja | Tidak | Objek Python | Tidak | Tidak |
+| ofxtools | OFX v1/v2 saja | Tidak | Objek Python | Tidak | Tidak |
 
 ### vs pyiso20022
 
-pyiso20022 menghasilkan kelas data Python dari katalog skema ISO 20022 lengkap. Ini adalah toolkit ISO 20022 tujuan umum untuk bekerja dengan pesan PACS, PAIN, CAMT, dan ADMI.
+pyiso20022 menghasilkan dataclass Python dari katalog skema ISO 20022 lengkap. Ini adalah toolkit ISO 20022 tujuan umum untuk bekerja dengan pesan PACS, PAIN, CAMT, dan ADMI.
 
-Parser Laporan Bank dibuat khusus untuk mengurai laporan bank ke dalam DataFrames dengan fitur produksi:
+Bank Statement Parser dibuat khusus untuk mengurai laporan bank ke dalam DataFrames dengan fitur produksi:
 
-| Fitur | Pengurai Laporan Bank | pyiso20022 |
+| Fitur | Bank Statement Parser | pyiso20022 |
 |---|---|---|
-| Tujuan | Penguraian pernyataan + ekspor | Toolkit skema ISO 20022 |
-| Keluaran | panda/Polar DataFrames | Kelas data Python |
-| Format | 6 (termasuk non-ISO) | ISO 20022 saja |
-| Mengalir | Ya (memori terbatas) | TIDAK |
-| redaksi PII | Bawaan | TIDAK |
-| Deduplikasi | Bawaan | TIDAK |
-| Keamanan ZIP | Bawaan | TIDAK |
-| CLI | Ya | TIDAK |
+| Tujuan | Penguraian laporan + ekstraksi + ekspor | Toolkit skema ISO 20022 |
+| Output | pandas/Polars DataFrames | Dataclass Python |
+| Format | 7 (termasuk PDF, non-ISO) | ISO 20022 saja |
+| Dukungan PDF | Pipeline hibrida (deterministik + LLM + vision) | Tidak |
+| Verifikasi saldo | Golden Rule + multi-mata uang | Tidak |
+| REST API | FastAPI bawaan | Tidak |
+| Pengayaan | Kategorisasi berbasis LLM | Tidak |
+| Ekspor ledger | hledger + beancount | Tidak |
+| Streaming | Ya (memori terbatas) | Tidak |
+| Redaksi PII | Bawaan | Tidak |
+| Deduplikasi | Hash transaksi idempoten | Tidak |
+| CLI | Ya | Tidak |
 
-Gunakan pyiso20022 jika Anda perlu bekerja dengan katalog pesan ISO 20022 lengkap. Gunakan Pengurai Laporan Bank jika Anda perlu mengurai laporan bank menjadi data terstruktur untuk analisis, rekonsiliasi, atau pelaporan.
+Gunakan pyiso20022 jika Anda perlu bekerja dengan katalog pesan ISO 20022 lengkap. Gunakan Bank Statement Parser jika Anda perlu mengurai laporan bank menjadi data terstruktur untuk analisis, rekonsiliasi, atau pelaporan.
 
 ## Alternatif SaaS
 
-Alat SaaS seperti Ocrolus, Parseur, dan Sensible menawarkan penguraian laporan bank sebagai layanan cloud. Mereka biasanya menggunakan OCR untuk menangani PDF yang dipindai dan mendukung ratusan format khusus bank.
+Alat SaaS seperti Ocrolus, Parseur, dan Sensible menawarkan penguraian laporan bank sebagai layanan cloud. Mereka biasanya menggunakan OCR untuk menangani PDF hasil pindai dan mendukung ratusan format khusus bank.
 
-| Fitur | Pengurai Laporan Bank | Alat SaaS |
+| Fitur | Bank Statement Parser | Alat SaaS |
 |---|---|---|
-| Privasi data | 100% lokal, tanpa panggilan jaringan | Data dikirim ke awan |
-| Biaya | Gratis (Apache 2.0) | $49–$1.000+/bulan (mulai Q1 2026) |
-| Format | 6 format terstruktur | Ratusan (melalui OCR) |
-| dukungan PDF | Tidak (hanya format terstruktur) | Ya (berbasis OCR) |
-| Latensi | <2 ms hasil pertama | 1-30 detik |
-| Hasil | 27.000+ tx/detik | Tingkat API terbatas |
-| Penguncian vendor | Tidak ada | Ya |
-| Kepatuhan | Pemrosesan lokal, SBOM | Bervariasi menurut penyedia |
+| Privasi data | 100% lokal (LLM via Ollama) | Data dikirim ke cloud |
+| Biaya | Gratis (Apache 2.0) | $49–$1.000+/bulan (per Q1 2026) |
+| Format | 7 (terstruktur + PDF) | Ratusan (via OCR) |
+| Dukungan PDF | Ya — pipeline hibrida (deterministik + LLM + vision) | Ya (cloud OCR) |
+| Verifikasi saldo | Golden Rule (otomatis) | Manual / terbatas |
+| Latensi | <2 ms (terstruktur), detik (PDF+LLM) | 1-30 detik |
+| Throughput | 27.000+ tx/detik (terstruktur) | Dibatasi rate API |
+| REST API | FastAPI bawaan | Proprietary |
+| Ekspor ledger | hledger + beancount | Tidak |
+| Vendor lock-in | Tidak ada | Ya |
+| Kepatuhan | Pemrosesan lokal, SBOM | Bervariasi per penyedia |
 
 ## Parser Berbasis LLM
 
-Semakin banyak alat (cetak biru Inscribe, Unstract, Mozilla.ai) yang menggunakan model bahasa besar untuk menguraikan laporan bank, termasuk PDF yang dipindai. Ketika Chase mendesain ulang format pernyataan konsumen pada akhir tahun 2025, parser berbasis template rusak sementara parser LLM beradaptasi secara otomatis.
+Semakin banyak alat (Inscribe, Unstract, cetak biru Mozilla.ai) menggunakan model bahasa besar untuk mengurai laporan bank, termasuk PDF hasil pindai. Ketika Chase mendesain ulang format laporan konsumennya pada akhir 2025, parser berbasis template rusak sementara parser LLM beradaptasi secara otomatis.
 
-**Ketika pengurai LLM masuk akal**: Anda menerima pindaian PDF dari ratusan bank dengan tata letak yang tidak dapat diprediksi, dan perkiraan ekstraksi (akurasi 95-99%) dapat diterima.
+**Bank Statement Parser kini menyertakan pipeline LLM hibrida sendiri** (v0.0.5+) yang berjalan sepenuhnya lokal via Ollama. Ini menggabungkan yang terbaik dari kedua pendekatan:
 
-**Ketika Pengurai Laporan Bank adalah pilihan yang lebih baik**: Anda memerlukan keluaran yang deterministik dan dapat direproduksi untuk audit dan kepatuhan. Anda tidak dapat mengirim data keuangan ke API eksternal. Anda memerlukan latensi sub-milidetik (vs 1-30 detik untuk LLM API). Anda ingin nol biaya berkelanjutan dan tidak ada ketergantungan vendor.
+- **Format terstruktur** (XML, CSV, OFX, MT940): Parsing deterministik — akurasi 100%, latensi sub-milidetik, tanpa biaya LLM.
+- **Laporan PDF**: Routing tiga jalur (ekstraksi tabel deterministik → text-LLM → vision-LLM) dengan verifikasi Golden Rule otomatis untuk menangkap kesalahan ekstraksi.
 
-Alat Parser Laporan Bank dan LLM memecahkan masalah yang berbeda. Gunakan Parser Laporan Bank untuk format terstruktur (XML, CSV, OFX, MT940) yang memerlukan akurasi 100%, pemrosesan lokal, dan reproduktifitas audit. Gunakan alat LLM untuk PDF tidak terstruktur yang perkiraan ekstraksinya dapat diterima.
+Berbeda dengan parser LLM khusus cloud, pipeline hibrida Bank Statement Parser:
+- Berjalan 100% lokal (Ollama) — tidak ada data yang keluar dari mesin Anda.
+- Memverifikasi setiap ekstraksi dengan verifikasi saldo (Golden Rule).
+- Mendukung mode tinjauan interaktif untuk ketidaksesuaian yang ditandai.
+- Menghasilkan hash transaksi idempoten untuk ingesti inkremental yang aman.
 
-**Metodologi tolok ukur**: Angka performa diukur pada Apple M2, Python 3.12, menggunakan file CAMT.053 5.000 transaksi (2,1 MB). Hasil rata-rata lebih dari 100 kali berjalan. Reproduksi secara lokal:`python -m bankstatementparser.bench`. Latensi SaaS berdasarkan dokumentasi API yang dipublikasikan pada April 2026.
+**Kapan memilih parser LLM SaaS murni daripada Bank Statement Parser**: Anda menerima laporan dari ratusan bank dengan tata letak PDF yang sangat berbeda dan membutuhkan cakupan langsung tanpa menjalankan infrastruktur lokal.
 
-**Kapan memilih Pengurai Laporan Bank**: Bank Anda menyediakan ekspor terstruktur (XML, CSV, OFX, MT940), Anda memerlukan pemrosesan lokal untuk kepatuhan, atau Anda ingin tanpa biaya berkelanjutan.
+**Kapan memilih Bank Statement Parser**: Anda memerlukan pemrosesan lokal untuk kepatuhan. Anda ingin verifikasi saldo. Anda memerlukan ekspor ledger. Anda ingin tanpa biaya berkelanjutan.
 
-**Kapan memilih SaaS**: Anda menerima laporan PDF yang dipindai, memerlukan OCR untuk ratusan format khusus bank, atau menginginkan solusi tanpa kode.
+**Metodologi benchmark**: Angka performa diukur pada Apple M2, Python 3.12, menggunakan file CAMT.053 5.000 transaksi (2,1 MB). Hasil dirata-ratakan dari 100 kali jalan. Reproduksi secara lokal: `python -m bankstatementparser.bench`. Latensi SaaS berdasarkan dokumentasi API yang dipublikasikan per April 2026.
 
-[Lihat kasus penggunaan di dunia nyata ❯](/use-cases/index.html) | [Rencanakan migrasi MT940 ke CAMT Anda ❯](/migration/index.html)
+[Lihat kasus penggunaan nyata ❯](/use-cases/index.html) | [Rencanakan migrasi MT940-ke-CAMT Anda ❯](/migration/index.html)

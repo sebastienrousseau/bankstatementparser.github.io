@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Game da Fassarar Bayanin Banki: Fasaloli, Tsarukan, da Ayyuka"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Fassarar Bayanin Banki. An kiyaye duk haƙƙoƙi."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Parser Statement Parser babban ɗakin karatu ne na Python mai buɗewa don tantance CAMT.053, PAIN.001, CSV, OFX, QFX, da MT940 cikin pandas DataFrames. 100% na gida, gyaran PII, 27K+ tx/s."
 download: ""
 format-detection: "telephone=no"
@@ -107,62 +107,74 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Fassarar Bayanin Banki babban ɗakin karatu ne na Python mai buɗewa wanda ke rarraba tsarin bayanin banki guda shida (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) cikin pandas DataFrames. 100% aiki na gida, gyara PII ta tsohuwa, 27K+ tx/s kayan aiki.
+**TL;DR:** Bank Statement Parser ɗakin karatu ne na Python mai buɗewa wanda ke fassara tsarin bayanin banki guda bakwai (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, da PDF) zuwa pandas DataFrames. Hybrid PDF pipeline tare da tabbatar da balance, REST API, ƙarin bayani, fitar da ledger, 27K+ tx/s kayan aiki.
 
-Parser Statement Parser babban ɗakin karatu ne na Python mai buɗewa wanda ke tantance bayanan banki daga tsari shida zuwa tsarin pandas DataFrames. Duk aiki yana faruwa a gida -- kiran cibiyar sadarwar sifili, fitarwa mai ƙima, da sabuntawar PII ta atomatik.
+Bank Statement Parser ɗakin karatu ne na Python mai buɗewa wanda ke tantance bayanan banki daga tsari bakwai zuwa tsararrun pandas DataFrames. Bangaren deterministic yana sarrafa tsarin da aka tsara a gida ba tare da kiran cibiyar sadarwa ba. Zaɓin hybrid PDF pipeline yana amfani da LLMs na gida (ta Ollama) don bayanan dijital da na bugu.
 
-## Wane Ne Wannan?
+## Wa Wannan Yake Yi Wa?
 
-- ** Ƙungiyoyin Baitulmali *** ƙaura daga MT940 zuwa CAMT.053 waɗanda ke buƙatar parser wanda ke sarrafa tsofaffi da sabbin tsare-tsare yayin canjin.
-- **Masu haɓaka Fintech ** gina sulhu, bayar da rahoto, ko bututun lissafin kuɗi waɗanda ke son dogaro guda ɗaya maimakon ɗinki tare mt940 + ofxparse + dabaru na CSV na al'ada.
-- ** Ƙungiyoyin yarda *** waɗanda ke buƙatar sake fasalin PII ta tsohuwa da shirye-shiryen dubawa, fitarwa mai ƙayyadaddun ƙayyadaddun ƙayyadaddun ƙayyadaddun ƙayyadaddun bayanai waɗanda ba su taɓa aika bayanai zuwa sabis na waje ba.
-- ** Duk wanda ya ƙi aika bayanan kuɗi masu mahimmanci zuwa SaaS na ɓangare na uku lokacin da kayan aiki na gida, buɗe tushen zai iya yin aikin.
+- **Ƙungiyoyin baitulmali** da ke ƙaura daga MT940 zuwa CAMT.053 waɗanda ke buƙatar parser wanda ke sarrafa tsofaffi da sabbin tsare-tsare yayin sauyin, da kuma bayanan PDF daga bankuna da ba sa ba da fitar da bayanai masu tsari.
+- **Masu haɓaka fintech** da ke gina sulhu, bayar da rahoto, ko bututun lissafin kuɗi waɗanda ke son dogaro guda ɗaya tare da tabbatar da balance, rarraba ma'amaloli, da fitar da ledger.
+- **Ƙungiyoyin bin doka** waɗanda ke buƙatar share PII ta tsohuwa, fitarwa tabbatacciya, da tabbatar da Golden Rule wanda ke gano bambance-bambance kafin su kai ga ledger.
+- **Masu amfani da plaintext-accounting** waɗanda ke son shigar da bayanan PDF na banki kai tsaye zuwa hledger ko beancount journals.
+- **Duk wanda** ya ƙi aika bayanan kuɗi masu mahimmanci zuwa SaaS na ɓangare na uku alhali kayan aiki na gida, buɗe tushen za su iya yin aikin.
 
-## Tsarin Tallafi
+## Tsarin da Ake Tallafawa
 
-| Tsarin | Daidaitawa | Nau'in Fayil | Fassara Class |
+| Tsarin | Ma'auni | Nau'in Fayil | Parser/Hanya |
 |---|---|---|---|
-| CAMT.053 | ISO 20022 Bayanin Banki-da-Abokin ciniki | `.xml` | `CamtParser` |
-| ZAFIN.001 | ISO 20022 Ƙaddamar da Canja wurin Kiredit | `.xml` | `Pain001Parser` |
+| CAMT.053 | ISO 20022 Bank-to-Customer Statement | `.xml` | `CamtParser` |
+| PAIN.001 | ISO 20022 Credit Transfer Initiation | `.xml` | `Pain001Parser` |
 | CSV | Fitar da banki na gaba ɗaya | `.csv` | `CsvStatementParser` |
-| OFX | Buɗe Musanya Kuɗi | `.ofx` | `OfxParser` |
+| OFX | Open Financial Exchange | `.ofx` | `OfxParser` |
 | QFX | Quicken Financial Exchange | `.qfx` | `QfxParser` |
-| Farashin MT940 | SWIFT misali | `.mt940`, `.sta` | `Mt940Parser` |
+| MT940 | SWIFT standard | `.mt940`, `.sta` | `Mt940Parser` |
+| PDF | Bayanan dijital da na bugu | `.pdf` | `smart_ingest()` |
 
-Duk nau'ikan suna samar da daidaitattun pandas DataFrames tare da daidaitattun sunayen ginshiƙai, suna yin tsarin sarrafa ƙasa-agnostic.
+Duk tsarukan suna samar da daidaitattun pandas DataFrames tare da daidaitattun sunayen ginshiƙai, suna sa tsarin sarrafa bayan haka ya zama format-agnostic.
 
-## Iyawar Maɓalli
+## Manyan Iyawa
 
-- ** Tsarin Gano Kai tsaye ***:`detect_statement_format()`gano tsarin;`create_parser()`tana mai da madaidaicin parser.
-- ** Watsawa Mai Yawo ***: Tsara manyan fayiloli (50 MB+, ma'amaloli 50K+) tare da ƙayyadaddun ƙwaƙwalwar ajiya ta amfani da`parse_streaming()`.
-- ** Gudanar da Daidaitawa ***: Fassara fayiloli da yawa a lokaci guda tare da`parse_files_parallel()`ta amfani da ProcessPoolExecutor.
-- ** Ƙaddamarwa ***: Gano ainihin kwafi da matches da ake zargi tare da ƙididdige ƙimar amincewa.
-- **Kwararren Ƙwaƙwalwar Ƙwaƙwalwa ***:`from_string()`kuma`from_bytes()`don SFTP da API ɗin ayyukan aiki ba tare da faifai I/O ba.
-- ** Amintaccen Tsarin ZIP ***:`iter_secure_xml_entries()`tare da iyakoki rabo na matsawa, iyakoki girman shigarwa, da rufaffen ƙin shigarwa.
-- ** Fitarwa ***: CSV, JSON, Excel (`.xlsx`), da kuma Polars DataFrames na zaɓi.
+- **Hybrid PDF Pipeline**: `smart_ingest()` yana turawa PDFs ta hanyoyi uku — ciro tebur na deterministic, text-LLM, ko vision-LLM — tare da tabbatar da Golden Rule balance ta atomatik.
+- **Gano Tsari Ta Atomatik**: `detect_statement_format()` yana gano tsarin; `create_parser()` yana ƙirƙira parser ɗin da ya dace.
+- **Tabbatar da Balance**: Duba Golden Rule (`opening + credits − debits == closing`) tare da matsayin VERIFIED/DISCREPANCY/FAILED.
+- **Tabbatar da Kuɗi Da Yawa**: `verify_balance_multi_currency()` yana rarraba ma'amaloli ta kuɗi don tabbatarwa mai zaman kanta.
+- **REST API**: FastAPI microservice tare da `/ingest` da `/health` endpoints don amfani a samarwa.
+- **Ƙarin Bayani**: Rarraba ma'amaloli ta LLM tare da schemas masu sauƙin canzawa (Plaid 13-category ta tsohuwa).
+- **Bitar Hulɗa**: Duba bambance-bambance tare da ayyukan accept/edit/skip/delete ta `--type review`.
+- **Fitar da Ledger**: `to_hledger()` da `to_beancount()` don tsarin plaintext-accounting.
+- **Binciken Tari**: `scan_and_ingest()` yana sarrafa manyan fayiloli tare da cire kwafi ta atomatik.
+- **Taswirar Asusun**: Ƙa'idodin taswirar asusun bisa regex daga JSON config don fitar da ledger.
+- **Streaming Parsing**: Sarrafa manyan fayiloli (50 MB+, ma'amaloli 50K+) tare da ƙayyadaddun ƙwaƙwalwar ajiya ta amfani da `parse_streaming()`.
+- **Sarrafa Daidaitawa**: Fassara fayiloli da yawa a lokaci guda tare da `parse_files_parallel()` ta amfani da ProcessPoolExecutor.
+- **Cire Kwafi**: Idempotent `transaction_hash` (MD5 fingerprint) don amintaccen shigar da bayani a hankali.
+- **Fassara a Ƙwaƙwalwar Ajiya**: `from_string()` da `from_bytes()` don SFTP da API workflows ba tare da faifai I/O ba.
+- **Amintaccen Sarrafa ZIP**: `iter_secure_xml_entries()` tare da iyakokin rabo na matsi, iyakokin girman shigarwa, da ƙin shigar da rufaffen.
+- **Fitarwa**: CSV, JSON, Excel (`.xlsx`), Polars DataFrames, hledger, da beancount journals.
 
 ## Tsaro Da Sirri
 
-- ** Gyaran PII ***: Sunaye, IBANs, da adireshi an rufe su ta tsohuwa a cikin fitowar CLI. Ficewa da`--show-pii`.
-- ** Kariyar XXE ***: Amfani da fa'idar XML`resolve_entities=False`, `no_network=True`, `load_dtd=False`.
-- ** Kariyar Bam na ZIP ***: Iyakar matsi (tsohuwar 100: 1), iyakoki girman shigarwa (10 MB), ƙin shigar da rufaffen.
-- ** Rigakafin Tafiya ***: Haɗarin toshe ƙirar ƙira da ƙudurin alamar alama.
-- ** Tsaron Sarkar Kaya ***: SHA-256 masu kulle-kulle masu dogara, CycloneDX SBOM, gina shaidar tabbatarwa.
+- **Share PII**: Sunaye, IBANs, da adireshi an rufe su ta tsohuwa a fitowar CLI. Kunna da `--show-pii`.
+- **Kariyar XXE**: Amfani da XML `resolve_entities=False`, `no_network=True`, `load_dtd=False`.
+- **Kariyar Bam na ZIP**: Iyakokin rabo na matsi (tsohuwa 100:1), iyakokin girman shigarwa (10 MB), ƙin shigar da rufaffen.
+- **Rigakafin Ƙetare Tafarki**: Toshe ƙirar haɗari da warware symlink.
+- **Tsaron Sarkar Kaya**: SHA-256 hash-locked dependencies, CycloneDX SBOM, shaidar tabbatar da gini.
+- **LLMs Na Gida Kaɗai**: Hybrid PDF pipeline yana amfani da Ollama don sarrafa gida — ba a aika bayanai zuwa APIs na cloud ba.
 
 ## Aiki
 
 | Ma'auni | Daraja |
 |---|---|
-| CAMT.053 fitarwa | 27,000+ tx/s |
-| PAIN.001 fitarwa | 52,000+ tx/s |
-| Latency Per-ma'amala (CAMT) | 37 micro seconds |
-| Latency na kowane ma'amala (PAIN.001) | 19 micro seconds |
-| Lokaci zuwa sakamako na farko | <2 ms |
-| Ƙwaƙwalwar ƙwaƙwalwa (1K-50K tx) | Constant (streaming) |
-| Gwajin ɗaukar hoto | 100% ɗaukar hoto |
-| Gwaji | 467 a cikin fayilolin gwaji 29 |
+| CAMT.053 throughput | 27,000+ tx/s |
+| PAIN.001 throughput | 52,000+ tx/s |
+| Jinkirin kowane ma'amala (CAMT) | 37 microseconds |
+| Jinkirin kowane ma'amala (PAIN.001) | 19 microseconds |
+| Lokaci zuwa sakamako na farko | < 2 ms |
+| Girman ƙwaƙwalwar ajiya (1K-50K tx) | Constant (streaming) |
+| Rufe gwaji | 100% branch coverage |
+| Gwaje-gwaje | 718 a cikin fayilolin gwaji 29 |
 
-## Fara Gina
+## Fara Ginawa
 
 [Fara da shigarwa da misalai ❯][01]
 

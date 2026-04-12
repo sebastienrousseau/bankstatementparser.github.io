@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "银行对账单解析器用例"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 银行对账单解析器。版权所有。"
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "财务团队、金融科技开发人员和合规官员如何使用银行对账单解析器进行 MT940 到 CAMT 的迁移、对账、审计管道和多银行整合。"
 download: ""
 format-detection: "telephone=no"
@@ -107,13 +107,41 @@ site_software: "Shokunin, Rust"
 
 ---
 
-银行对账单解析器处理现实世界的财务工作流程：财务团队的 MT940 到 CAMT 迁移、自动对账、具有 PII 编辑的合规管道、SFTP 摄取、多银行合并和安全 ZIP 批处理。
+Bank Statement Parser 处理真实的金融工作流：PDF 银行对账单摄取、MT940 到 CAMT 迁移、带余额校验的自动对账、合规管道、纯文本记账导出、REST API 部署、批量扫描和多银行合并。
 
-## 财务部：MT940 到 CAMT.053 迁移
+## PDF 银行对账单摄取
 
-**结果：** 在 SWIFT 迁移窗口（2025 年 11 月至 2028 年 11 月）期间，单个 API 调用可处理 MT940 和 CAMT.053，从而无需单独的解析管道。
+**效果：** 解析数字和扫描的 PDF 银行对账单，自动余额校验——无需云端 API，数据不会离开您的机器。
 
-全球资金团队正在 SWIFT 截止日期 2027 年 11 月之前从 MT940 迁移到 CAMT.053。银行对账单解析器使用单个 API 处理这两种格式，从而实现无缝转换。
+混合 PDF 管道将每个 PDF 路由至最优提取路径，并验证每次结果。
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+
+# Review discrepancies interactively
+# bankstatementparser --type review --input result.json
+```
+
+## 批量对账单处理
+
+**效果：** 单次调用即可扫描整个文件夹树（数百个 PDF、XML、CSV），自动跨文件去重。
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Files: {len(batch.results)}, Unique txns: {batch.unique_count}")
+```
+
+## 资金管理：MT940 到 CAMT.053 迁移
+
+**效果：** 在 SWIFT 迁移窗口（2025 年 11 月至 2028 年 11 月）期间，单次 API 调用即可处理 MT940 和 CAMT.053，无需维护单独的解析管道。
+
+全球资金管理团队正在 2027 年 11 月 SWIFT 截止日期前从 MT940 迁移到 CAMT.053。Bank Statement Parser 使用单一 API 处理两种格式，实现无缝过渡。
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -126,17 +154,23 @@ for file in daily_statement_files:
     load_to_treasury_system(df)
 ```
 
-## 自动对账
+## 带余额校验的自动对账
 
-**结果：** 具有内置重复数据删除功能的与格式无关的 DataFrame 可减少手动匹配工作，并在重复条目到达您的分类帐之前捕获它们。
+**效果：** 格式无关的 DataFrame 配合黄金法则校验和去重，在错误和重复项到达账本之前即予以捕获。
 
-自动解析银行对账单并与内部记录进行匹配。统一的 DataFrame 输出使得协调逻辑与格式无关。
+自动解析银行对账单、校验余额并与内部记录匹配。
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
+from bankstatementparser.hybrid import verify_balance_multi_currency
 
 parser = CamtParser("bank_statement.xml")
 bank_txns = parser.parse()
+
+# Verify balances per currency
+verification = verify_balance_multi_currency(bank_txns)
+for ccy, result in verification.items():
+    assert result.status == "VERIFIED", f"{ccy} balance mismatch!"
 
 # Deduplicate before reconciliation
 dedup = Deduplicator()
@@ -147,11 +181,39 @@ clean_txns = result.unique_transactions
 unmatched = reconcile(clean_txns, internal_ledger)
 ```
 
-## 合规性和审计渠道
+## 纯文本记账（hledger / beancount）
 
-**结果：** 确定性输出和自动 PII 修订可生成可审计的日志，无需额外工具即可满足监管可重复性要求。
+**效果：** 自动摄取 PDF 银行对账单，导出分类后的交易到 hledger 或 beancount 日记账格式。
 
-通过 PII 修订和确定性输出构建审计就绪管道。对于相同的输入，每次运行都会产生相同的结果，满足监管的再现性要求。
+```python
+from bankstatementparser.hybrid import smart_ingest
+from bankstatementparser.enrichment import Categorizer
+from bankstatementparser.export import to_hledger
+
+result = smart_ingest("statement.pdf")
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(result.transactions)
+journal = to_hledger(enriched, account="Assets:Bank:Checking")
+```
+
+## REST API 部署
+
+**效果：** 将 Bank Statement Parser 部署为微服务，通过 HTTP 接收对账单文件并返回结构化 JSON。
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+```
+
+```bash
+# Ingest a statement
+curl -X POST http://localhost:8000/ingest \
+  -F "file=@statement.pdf"
+```
+
+## 合规与审计管道
+
+**效果：** 确定性输出、自动 PII 脱敏和黄金法则校验，生成满足监管可重复性要求的审计就绪日志。
 
 ```python
 from bankstatementparser import CamtParser
@@ -166,11 +228,9 @@ for txn in parser.parse_streaming(redact_pii=True):
 parser.export_csv("archive/statement.csv")
 ```
 
-## SFTP 到 DataFrame 工作流程
+## SFTP 到 DataFrame 工作流
 
-**结果：** 使用零磁盘 I/O 直接从字节解析，本身适合 SFTP 和 API 驱动的银行连接工作流程。
-
-许多银行通过 SFTP 传送报表。直接从字节解析而不写入磁盘。
+**效果：** 直接从字节解析，零磁盘 I/O，原生适配 SFTP 和 API 驱动的银行连接工作流。
 
 ```python
 from bankstatementparser import CamtParser
@@ -182,9 +242,7 @@ df = parser.parse()
 
 ## 多银行合并
 
-**结果：** HSBC (CAMT)、Barclays (MT940)、Revolut (CSV) 和 Wise (OFX) 的并行解析在一次调用中生成单个标准化数据集。
-
-使用不同格式将多个银行的报表合并到一个标准化数据集中。
+**效果：** 并行解析 HSBC（CAMT）、Barclays（MT940）、Revolut（CSV）、Wise（OFX）和 Chase（PDF），生成单一标准化数据集。
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -199,11 +257,9 @@ results = parse_files_parallel([
 all_transactions = pd.concat([r.transactions for r in results if r.status == "success"])
 ```
 
-## 使用 ZIP 档案进行批处理
+## 使用 ZIP 档案批处理
 
-**结果：** 内置 ZIP 炸弹保护（100:1 比率限制、10 MB 条目上限、加密条目拒绝）可让您安全地处理月度报表存档。
-
-使用内置的 ZIP 炸弹防护功能安全地处理压缩声明存档。
+**效果：** 内置 ZIP 炸弹防护（100:1 压缩比限制、10 MB 条目上限、加密条目拒绝），安全处理月度对账单归档。
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
@@ -214,4 +270,4 @@ for entry in iter_secure_xml_entries("monthly_statements.zip"):
     save_to_warehouse(entry.source_name, df)
 ```
 
-[与替代方案比较❯](/comparison/index.html) | [规划 ISO 20022 迁移❯](/migration/index.html) | [开始使用❯](/getting-started/index.html)
+[与替代方案比较 ❯](/comparison/index.html) | [规划 ISO 20022 迁移 ❯](/migration/index.html) | [开始使用 ❯](/getting-started/index.html)

@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Jurnalul modificărilor analizatorului extras de cont"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Analizator extras de cont. Toate drepturile rezervate."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Istoricul lansărilor și jurnalul de modificări pentru Analizor extras de cont. Urmăriți noile funcții, îmbunătățiri și remedieri de erori în toate versiunile."
 download: ""
 format-detection: "telephone=no"
@@ -109,7 +109,36 @@ site_software: "Shokunin, Rust"
 
 Urmăriți dezvoltarea analizei extrasului de cont. Abonați-vă prin [RSS](/changelog/rss.xml) sau urmăriți [repozitivul GitHub](https://github.com/sebastienrousseau/bankstatementparser) pentru notificări de lansare.
 
-## v0.0.4 — 2026-03-15 (cel mai recent)
+## v0.0.8 — 2026-04-11 (Latest) — "Full Platform"
+
+- Multi-currency balance verification — `verify_balance_multi_currency()` groups by currency, runs Golden Rule per group.
+- hledger + beancount export — `to_hledger()` and `to_beancount()` in `bankstatementparser.export`.
+- Bulk directory scanner — `scan_and_ingest()` scans folder trees, deduplicates across batch.
+- Account mapping rules — `AccountMapper` with ordered regex rules from JSON config.
+- REST API — FastAPI wrapper with `/ingest` and `/health` endpoints (`[api]` extra).
+
+## v0.0.7 — 2026-04-08 — "Universal Vision"
+
+- Direct Ollama bridge (`ollama_direct_completion`) — bypasses LiteLLM long-prompt hang.
+- Strip mode (`VisionExtractor.strip_rows=True`) — splits dense pages into overlapping bands for small local models.
+- Recommended vision model changed from `llava` to `minicpm-v`.
+
+## v0.0.6 — 2026-04-08 — "Intelligence Layer"
+
+- Dropped Python 3.9 support (now 3.10-3.14).
+- Enrichment module (`Categorizer`, `EnrichedTransaction`, `DEFAULT_CATEGORY_SCHEMA`).
+- Interactive review mode with `--type review` CLI command.
+- Per-row bounding box extraction (`Transaction.source_bbox`).
+
+## v0.0.5 — 2026-04-08 — "Universal Extraction"
+
+- Hybrid PDF pipeline (`smart_ingest()`) with deterministic/text-LLM/vision-LLM routing.
+- `LLMExtractor` for digital PDFs via LiteLLM.
+- `VisionExtractor` for scanned PDFs via multimodal vision models.
+- Golden Rule balance verification (`opening + credits - debits == closing`).
+- Idempotent deduplication via `transaction_hash` (MD5 fingerprint).
+
+## v0.0.4 — 2026-03-15
 
 - S-a adăugat analiza paralelă a fișierelor cu`parse_files_parallel()`folosind ProcessPoolExecutor.
 - S-a adăugat fluxul real pentru fișiere mari PAIN.001 (50 MB+) cu memorie limitată.
@@ -126,7 +155,7 @@ Urmăriți dezvoltarea analizei extrasului de cont. Abonați-vă prin [RSS](/cha
 - S-a adăugat redarea PII (activată implicit în modul CLI și streaming).
 - S-au adăugat ajutoare de export pentru CSV, JSON și Excel.
 - S-a adăugat suport opțional Polars DataFrame.
-- Suita de teste extinsă la 467 de teste cu acoperire de 100% a ramurilor.
+- Suita de teste extinsă la 718 de teste cu acoperire de 100% a ramurilor.
 
 ## v0.0.2 — 2025-06-10
 
@@ -151,8 +180,8 @@ Vizualizați istoricul complet al comitărilor pe [GitHub](https://github.com/se
   "name": "Analizator extras de cont",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Merce platformă",
-  „softwareVersion”: „0.0.4”,
-  "datePublished": "2026-03-15",
+  „softwareVersion": "0.0.8”,
+  "datePublished": "2026-04-11",
   "releaseNotes": "Adăugat parsare paralelă a fișierelor, streaming real pentru PAIN.001, optimizări ale performanței (27K+ tx/s CAMT, 52K+ tx/s PAIN.001), clasa Deduplicator, analizare în memorie, procesare ZIP sigură.",
   "downloadUrl": "https://pypi.org/project/bankstatementparser/",
   "licență": "https://opensource.org/licenses/Apache-2.0",

@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Chụp ảnh kiến ​​trúc tòa nhà kính"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: "bankstatementparser.com"
 copyright: "© 2023-2026 Trình phân tích báo cáo ngân hàng. Mọi quyền được bảo lưu."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Thư viện Python mã nguồn mở để phân tích các bảng sao kê ngân hàng CAMT.053, PAIN.001, CSV, OFX, QFX và MT940 thành các DataFrames của gấu trúc. 27K+ tx/s, phát trực tuyến, biên tập PII, 100% cục bộ."
 download_url: "https://pypi.org/project/bankstatementparser/"
 download_title: "pip cài đặt bảng sao kê ngân hàng"
@@ -109,9 +109,9 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**Trình phân tích bảng kê ngân hàng** là thư viện Python mã nguồn mở phân tích bảng sao kê ngân hàng từ sáu định dạng (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) thành các DataFrames có cấu trúc. Tất cả quá trình xử lý đều chạy cục bộ — không có cuộc gọi mạng nào, đầu ra xác định và xử lý PII tự động.
+**Bank Statement Parser** là thư viện Python mã nguồn mở giúp phân tích sao kê ngân hàng từ bảy định dạng (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940 và PDF) thành các pandas DataFrames có cấu trúc. Toàn bộ quá trình xử lý chạy cục bộ — đầu ra xác định, tự động ẩn danh PII, và có pipeline PDF hybrid tùy chọn tự động chuyển qua LLM cục bộ khi cần.
 
-## Bắt đầu sau vài giây
+## Bắt đầu trong vài giây
 
 ```bash
 pip install bankstatementparser
@@ -125,62 +125,90 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # pandas DataFrame, ready to use
 ```
 
+```python
+# Parse PDFs with the hybrid pipeline (v0.0.5+)
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+```
+
 <img src="https://img.shields.io/github/stars/sebastienrousseau/bankstatementparser?style=for-the-badge&label=Stars" height="28" alt="GitHub Stars" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/dm/bankstatementparser?style=for-the-badge&label=Downloads" height="28" alt="Monthly Downloads" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/v/bankstatementparser?style=for-the-badge&label=PyPI" height="28" width="119" alt="PyPI Version" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/pyversions/bankstatementparser?style=for-the-badge&label=Python" height="28" width="347" alt="Python" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/l/bankstatementparser?style=for-the-badge&label=License" height="28" width="292" alt="License" loading="lazy" style="margin:0 .25rem .5rem 0" />
-<img src="https://img.shields.io/badge/tests-467%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
+<img src="https://img.shields.io/badge/tests-718%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/badge/coverage-100%25-brightgreen?style=for-the-badge" height="28" width="152" alt="Coverage" loading="lazy" style="margin:0 .25rem .5rem 0" />
 
-## Một thư viện, sáu định dạng
+## Một thư viện, bảy định dạng
 
-Phân tích CAMT.053, PAIN.001, CSV, OFX, QFX và MT940 thành các DataFrames gấu trúc có cấu trúc với một API thống nhất, duy nhất. Không cần phải cài đặt các gói riêng biệt cho từng định dạng.
+Phân tích CAMT.053, PAIN.001, CSV, OFX, QFX, MT940 và PDF thành các pandas DataFrames có cấu trúc với một API thống nhất duy nhất. Không cần cài đặt các gói riêng biệt cho từng định dạng.
 
-| Tính năng | Trình phân tích báo cáo ngân hàng | OSS định dạng đơn (mt940, ofxparse) | SaaS (Ocrolus, Parseur) |
+| Tính năng | Bank Statement Parser | OSS đơn định dạng (mt940, ofxparse) | SaaS (Ocrolus, Parseur) |
 |---|---|---|---|
-| Các định dạng được hỗ trợ | 6, API thống nhất | mỗi cái 1 cái | Nhiều (thông qua OCR) |
-| Quyền riêng tư dữ liệu | 100% nội hạt, không có cuộc gọi mạng | 100% địa phương | Dữ liệu được gửi ra bên ngoài |
-| Trị giá | Miễn phí, Apache 2.0 | Miễn phí | $49-$1,000+/tháng |
-| Biên tập PII | Tích hợp sẵn, bật theo mặc định | KHÔNG | Khác nhau |
-| Truyền phát | Bộ nhớ bị giới hạn | KHÔNG | không áp dụng |
-| Bảo mật ZIP | Làm cứng tích hợp | KHÔNG | không áp dụng |
-| Chống trùng lặp | Tích hợp với điểm tin cậy | KHÔNG | Một số |
+| Định dạng hỗ trợ | 7, API thống nhất | Mỗi gói 1 định dạng | Nhiều (qua OCR) |
+| Hỗ trợ PDF | Pipeline hybrid (deterministic + LLM + vision) | Không | Có (cloud OCR) |
+| Bảo mật dữ liệu | 100% cục bộ (LLM chạy cục bộ qua Ollama) | 100% cục bộ | Dữ liệu gửi ra ngoài |
+| Chi phí | Miễn phí, Apache 2.0 | Miễn phí | $49-$1,000+/tháng |
+| Xác minh số dư | Golden Rule (số dư đầu kỳ + có − nợ = số dư cuối kỳ) | Không | Tùy thuộc |
+| Ẩn danh PII | Tích hợp sẵn, bật mặc định | Không | Tùy thuộc |
+| Streaming | Bộ nhớ giới hạn | Không | N/A |
+| REST API | Tích hợp microservice FastAPI | Không | Có |
+| Chống trùng lặp | Hash giao dịch idempotent | Không | Một phần |
+| Xuất sổ cái | hledger + beancount | Không | Không |
 
-## Được xây dựng để chuyển đổi ISO 20022
+## Pipeline PDF Hybrid
 
-SWIFT đã đặt ra thời hạn chắc chắn: tất cả các tổ chức tài chính phải nhận được CAMT.053 trước tháng 11 năm 2027 và MT940/MT942/MT950 sẽ ngừng hoạt động hoàn toàn trước tháng 11 năm 2028. Trình phân tích cú pháp báo cáo ngân hàng xử lý cả định dạng MT940 cũ và ISO 20022 hiện đại (CAMT.053, PAIN.001) trong một API duy nhất, do đó quy trình phân tích cú pháp của bạn hoạt động trong quá trình chuyển đổi và hơn thế nữa.
+Bank Statement Parser v0.0.5+ bao gồm pipeline hybrid ba đường dẫn cho sao kê ngân hàng PDF:
+
+- **Đường dẫn A (Deterministic)**: Bảng PDF có cấu trúc được phân tích trực tiếp — miễn phí, nhanh nhất, không cần LLM.
+- **Đường dẫn B (Text-LLM)**: PDF kỹ thuật số có bố cục phức tạp được trích xuất qua LLM cục bộ (LiteLLM/Ollama).
+- **Đường dẫn C (Vision-LLM)**: Sao kê quét hoặc photocopy được xử lý bằng mô hình vision đa phương thức.
+
+Mọi kết quả trích xuất đều được xác minh bằng **Golden Rule**: `opening balance + credits − debits == closing balance`.
+
+## Được xây dựng cho cuộc chuyển đổi ISO 20022
+
+SWIFT đã đặt thời hạn rõ ràng: tất cả tổ chức tài chính phải nhận được CAMT.053 trước tháng 11/2027, và MT940/MT942/MT950 sẽ ngừng hoạt động hoàn toàn trước tháng 11/2028. Bank Statement Parser xử lý cả định dạng MT940 cũ và ISO 20022 hiện đại (CAMT.053, PAIN.001) trong một API duy nhất, giúp pipeline phân tích của bạn hoạt động trong suốt quá trình chuyển đổi và sau đó.
 
 ## Hiệu suất
 
-- **27.000+ giao dịch/giây** để phân tích cú pháp CAMT.053
-- **52.000+ giao dịch/giây** để phân tích cú pháp PAIN.001
-- **< 2 mili giây** thời gian để có kết quả đầu tiên
-- **Bộ nhớ không đổi** từ 1K đến 50K+ giao dịch thông qua phát trực tuyến
-- **467 bài kiểm tra** với phạm vi bao phủ 100% nhánh trên Python 3.9 đến 3.14
+- **27.000+ giao dịch/giây** cho phân tích CAMT.053
+- **52.000+ giao dịch/giây** cho phân tích PAIN.001
+- **< 2 ms** thời gian đến kết quả đầu tiên
+- **Bộ nhớ không đổi** từ 1K đến 50K+ giao dịch nhờ streaming
+- **718 bài kiểm tra** với 100% độ phủ nhánh trên Python 3.10 đến 3.14
 
-## Tại sao phải sử dụng Trình phân tích sao kê ngân hàng?
+## Tại sao chọn Bank Statement Parser?
 
-- **Tự động phát hiện định dạng**:`detect_statement_format()`xác định các tập tin tự động và`create_parser()`trả về trình phân tích cú pháp phù hợp.
-- **Quyền riêng tư đầu tiên**: Tính năng chỉnh sửa PII được bật theo mặc định. Các trường nhạy cảm (tên, IBAN, địa chỉ) được che trong đầu ra CLI. Chọn tham gia với`--show-pii`khi cần thiết.
-- **Sẵn sàng sản xuất**: Quá trình nhập ZIP an toàn (bảo vệ chống bom, từ chối mục nhập được mã hóa), xác thực đầu vào và ngăn chặn truyền tải đường dẫn.
-- **Đầu ra linh hoạt**: Xuất sang CSV, JSON, Excel hoặc chuyển đổi sang Polars DataFrames.
-- **Xử lý song song**: Phân tích nhiều tệp đồng thời với`parse_files_parallel()`.
+- **Trích xuất PDF Hybrid**: `smart_ingest()` xử lý PDF kỹ thuật số và PDF quét với tự động định tuyến và xác minh số dư.
+- **Tự động nhận dạng định dạng**: `detect_statement_format()` nhận dạng tệp tự động và `create_parser()` trả về trình phân tích phù hợp.
+- **Ưu tiên bảo mật**: Ẩn danh PII được bật mặc định. LLM chạy cục bộ qua Ollama — không có dữ liệu nào rời khỏi máy bạn.
+- **REST API**: Triển khai dưới dạng microservice FastAPI với các endpoint `/ingest` và `/health`.
+- **Làm giàu dữ liệu**: Phân loại giao dịch bằng LLM với schema tùy chỉnh (mặc định 13 danh mục Plaid).
+- **Xuất sổ cái**: Xuất sang định dạng hledger và beancount cho quy trình kế toán plaintext.
+- **Quét hàng loạt**: `scan_and_ingest()` xử lý cây thư mục với tự động chống trùng lặp liên tệp.
+- **Đa tiền tệ**: `verify_balance_multi_currency()` chạy xác minh Golden Rule theo nhóm tiền tệ.
+- **Sẵn sàng cho production**: Nhập ZIP an toàn, xác thực đầu vào, ngăn chặn path traversal, và chế độ xem xét tương tác.
+- **Đầu ra linh hoạt**: Xuất sang CSV, JSON, Excel, Polars, hledger, hoặc beancount.
+- **Xử lý song song**: Phân tích nhiều tệp đồng thời với `parse_files_parallel()`.
 
 
-## Được xây dựng để sản xuất
+## Được xây dựng cho production
 
-Trình phân tích báo cáo ngân hàng được thiết kế cho các nhóm ngân quỹ, nhà phát triển công nghệ tài chính và nhân viên tuân thủ xử lý dữ liệu tài chính nhạy cảm. Thư viện được sử dụng trong quy trình di chuyển MT940-sang-CAMT, hệ thống đối chiếu tự động và quy trình kiểm toán theo quy định trên khắp các tổ chức tài chính.
+Bank Statement Parser được thiết kế cho các nhóm ngân quỹ, nhà phát triển fintech, và nhân viên tuân thủ xử lý dữ liệu tài chính nhạy cảm. Thư viện được sử dụng trong pipeline chuyển đổi MT940-sang-CAMT, hệ thống đối chiếu tự động, nhập sao kê PDF, và quy trình kiểm toán theo quy định tại các tổ chức tài chính.
 
-- **467 bài kiểm tra** với phạm vi bao phủ 100% nhánh trên Python 3.9 đến 3.14
-- **Các phần phụ thuộc được khóa băm SHA-256** với CycloneDX SBOM cho mỗi bản phát hành
-- **Đầu ra xác định** — đầu vào giống hệt nhau tạo ra kết quả giống byte, mỗi lần chạy
-- **Apache 2.0 được cấp phép** — sử dụng tự do trong các hệ thống thương mại và nội bộ
+- **718 bài kiểm tra** với 100% độ phủ nhánh trên Python 3.10 đến 3.14
+- **Phụ thuộc khóa hash SHA-256** với CycloneDX SBOM cho mỗi bản phát hành
+- **Đầu ra xác định** — đầu vào giống nhau tạo ra kết quả giống byte, mọi lần chạy
+- **Giấy phép Apache 2.0** — sử dụng tự do trong hệ thống thương mại và nội bộ
 
-**Đánh giá các lựa chọn thay thế?** [Xem cách so sánh Trình phân tích bảng sao kê ngân hàng ❯](/comparison/index.html) | [Khám phá các trường hợp sử dụng trong thế giới thực ❯](/use-cases/index.html)
+**Đang đánh giá các lựa chọn thay thế?** [Xem so sánh Bank Statement Parser ❯](/comparison/index.html) | [Khám phá các trường hợp sử dụng thực tế ❯](/use-cases/index.html)
 
 [Bắt đầu ❯][01] | [Xem trên GitHub ❯][02] | [Xem trên PyPI ❯][03]
 
 [01]: /getting-started/index.html
-[02]:https://github.com/sebastienrousseau/bankstatementparser
+[02]: https://github.com/sebastienrousseau/bankstatementparser
 [03]: https://pypi.org/project/bankstatementparser/

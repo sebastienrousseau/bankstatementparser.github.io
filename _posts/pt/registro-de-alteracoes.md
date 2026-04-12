@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Log de alterações do analisador de extrato bancário"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Analisador de extrato bancário. Todos os direitos reservados."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Histórico de lançamento e changelog do Bank Statement Parser. Acompanhe novos recursos, melhorias e correções de bugs em todas as versões."
 download: ""
 format-detection: "telephone=no"
@@ -109,7 +109,36 @@ site_software: "Shokunin, Rust"
 
 Acompanhe o desenvolvimento do Analisador de Extratos Bancários. Assine via [RSS](/changelog/rss.xml) ou assista ao [repositório GitHub](https://github.com/sebastienrousseau/bankstatementparser) para notificações de lançamento.
 
-## v0.0.4 — 15/03/2026 (mais recente)
+## v0.0.8 — 2026-04-11 (Latest) — "Full Platform"
+
+- Multi-currency balance verification — `verify_balance_multi_currency()` groups by currency, runs Golden Rule per group.
+- hledger + beancount export — `to_hledger()` and `to_beancount()` in `bankstatementparser.export`.
+- Bulk directory scanner — `scan_and_ingest()` scans folder trees, deduplicates across batch.
+- Account mapping rules — `AccountMapper` with ordered regex rules from JSON config.
+- REST API — FastAPI wrapper with `/ingest` and `/health` endpoints (`[api]` extra).
+
+## v0.0.7 — 2026-04-08 — "Universal Vision"
+
+- Direct Ollama bridge (`ollama_direct_completion`) — bypasses LiteLLM long-prompt hang.
+- Strip mode (`VisionExtractor.strip_rows=True`) — splits dense pages into overlapping bands for small local models.
+- Recommended vision model changed from `llava` to `minicpm-v`.
+
+## v0.0.6 — 2026-04-08 — "Intelligence Layer"
+
+- Dropped Python 3.9 support (now 3.10-3.14).
+- Enrichment module (`Categorizer`, `EnrichedTransaction`, `DEFAULT_CATEGORY_SCHEMA`).
+- Interactive review mode with `--type review` CLI command.
+- Per-row bounding box extraction (`Transaction.source_bbox`).
+
+## v0.0.5 — 2026-04-08 — "Universal Extraction"
+
+- Hybrid PDF pipeline (`smart_ingest()`) with deterministic/text-LLM/vision-LLM routing.
+- `LLMExtractor` for digital PDFs via LiteLLM.
+- `VisionExtractor` for scanned PDFs via multimodal vision models.
+- Golden Rule balance verification (`opening + credits - debits == closing`).
+- Idempotent deduplication via `transaction_hash` (MD5 fingerprint).
+
+## v0.0.4 — 15/03/2026
 
 - Adicionada análise paralela de arquivos com`parse_files_parallel()`usando ProcessPoolExecutor.
 - Adicionado streaming verdadeiro para arquivos PAIN.001 grandes (50 MB+) com memória limitada.
@@ -126,7 +155,7 @@ Acompanhe o desenvolvimento do Analisador de Extratos Bancários. Assine via [RS
 - Adicionada redação de PII (ativada por padrão na CLI e no modo de streaming).
 - Adicionados auxiliares de exportação para CSV, JSON e Excel.
 - Adicionado suporte opcional para Polars DataFrame.
-- Conjunto de testes expandido para 467 testes com cobertura de 100% das filiais.
+- Conjunto de testes expandido para 718 testes com cobertura de 100% das filiais.
 
 ## v0.0.2 — 10/06/2025
 
@@ -151,7 +180,7 @@ Veja o histórico completo de commits no [GitHub](https://github.com/sebastienro
   "name": "Analisador de extrato bancário",
   "applicationCategory": "DesenvolvedorAplicativo",
   "operatingSystem": "Crossplataforma",
-  "softwareVersion": "0.0.4",
+  "softwareVersion": "0.0.8",
   "data de publicação": "15/03/2026",
   "releaseNotes": "Adicionada análise paralela de arquivos, streaming verdadeiro para PAIN.001, otimizações de desempenho (27K+ tx/s CAMT, 52K+ tx/s PAIN.001), classe Deduplicator, análise na memória, processamento ZIP seguro.",
   "downloadUrl": "https://pypi.org/project/bankstatementparser/",

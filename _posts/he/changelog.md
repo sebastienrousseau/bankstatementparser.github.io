@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "יומן שינויים של מנתח חשבונות בנק"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 מנתח חשבונות בנק. כֹּל הַזְכוּיוֹת שְׁמוּרוֹת."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "היסטוריית שחרורים ויומן שינויים עבור מנתח חשבונות בנק. עקוב אחר תכונות חדשות, שיפורים ותיקוני באגים בכל הגרסאות."
 download: ""
 format-detection: "telephone=no"
@@ -109,7 +109,36 @@ site_software: "Shokunin, Rust"
 
 עקוב אחר הפיתוח של מנתח חשבונות בנק. הירשם באמצעות [RSS](/changelog/rss.xml) או צפה ב[מאגר GitHub](https://github.com/sebastienrousseau/bankstatementparser) לקבלת הודעות שחרור.
 
-## v0.0.4 — 2026-03-15 (האחרון)
+## v0.0.8 — 2026-04-11 (Latest) — "Full Platform"
+
+- Multi-currency balance verification — `verify_balance_multi_currency()` groups by currency, runs Golden Rule per group.
+- hledger + beancount export — `to_hledger()` and `to_beancount()` in `bankstatementparser.export`.
+- Bulk directory scanner — `scan_and_ingest()` scans folder trees, deduplicates across batch.
+- Account mapping rules — `AccountMapper` with ordered regex rules from JSON config.
+- REST API — FastAPI wrapper with `/ingest` and `/health` endpoints (`[api]` extra).
+
+## v0.0.7 — 2026-04-08 — "Universal Vision"
+
+- Direct Ollama bridge (`ollama_direct_completion`) — bypasses LiteLLM long-prompt hang.
+- Strip mode (`VisionExtractor.strip_rows=True`) — splits dense pages into overlapping bands for small local models.
+- Recommended vision model changed from `llava` to `minicpm-v`.
+
+## v0.0.6 — 2026-04-08 — "Intelligence Layer"
+
+- Dropped Python 3.9 support (now 3.10-3.14).
+- Enrichment module (`Categorizer`, `EnrichedTransaction`, `DEFAULT_CATEGORY_SCHEMA`).
+- Interactive review mode with `--type review` CLI command.
+- Per-row bounding box extraction (`Transaction.source_bbox`).
+
+## v0.0.5 — 2026-04-08 — "Universal Extraction"
+
+- Hybrid PDF pipeline (`smart_ingest()`) with deterministic/text-LLM/vision-LLM routing.
+- `LLMExtractor` for digital PDFs via LiteLLM.
+- `VisionExtractor` for scanned PDFs via multimodal vision models.
+- Golden Rule balance verification (`opening + credits - debits == closing`).
+- Idempotent deduplication via `transaction_hash` (MD5 fingerprint).
+
+## v0.0.4 — 2026-03-15
 
 - נוסף ניתוח קובץ מקביל עם`parse_files_parallel()`באמצעות ProcessPoolExecutor.
 - הוספת סטרימינג אמיתי עבור קבצי PAIN.001 גדולים (50 MB+) עם זיכרון מוגבל.
@@ -126,7 +155,7 @@ site_software: "Shokunin, Rust"
 - הוספת עריכת PII (מופעל כברירת מחדל ב-CLI ובמצב סטרימינג).
 - נוספו עוזרי ייצוא עבור CSV, JSON ו-Excel.
 - נוספה תמיכה אופציונלית של Polars DataFrame.
-- חבילת בדיקות מורחבת ל-467 בדיקות עם 100% כיסוי סניפים.
+- חבילת בדיקות מורחבת ל-718 בדיקות עם 100% כיסוי סניפים.
 
 ## v0.0.2 — 2025-06-10
 
@@ -151,8 +180,8 @@ site_software: "Shokunin, Rust"
   "name": "מנתח דפי חשבון בנק",
   "applicationCategory": "יישום מפתח",
   "operatingSystem": "חוצה פלטפורמות",
-  "softwareVersion": "0.0.4",
-  "datePublished": "2026-03-15",
+  "softwareVersion": "0.0.8",
+  "datePublished": "2026-04-11",
   "releaseNotes": "נוספה ניתוח קבצים מקבילים, סטרימינג אמיתי עבור PAIN.001, אופטימיזציות של ביצועים (27K+ tx/s CAMT, 52K+ tx/s PAIN.001), Class Deduplicator, ניתוח בזיכרון, עיבוד ZIP מאובטח.",
   "downloadUrl": "https://pypi.org/project/bankstatementparser/",
   "רישיון": "https://opensource.org/licenses/Apache-2.0",

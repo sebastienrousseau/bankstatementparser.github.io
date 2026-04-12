@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Parser Gbólóhùn Bank vs Yiyan"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Itumọ Gbólóhùn Bank. Gbogbo awọn ẹtọ wa ni ipamọ."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Ṣe afiwe Parser Gbólóhùn Bank pẹlu mt-940, ofxparse, pycamt, pyiso20022, ati awọn irinṣẹ SaaS bii Ocrolus ati Parseur. Ifiwera ẹya, idiyele, ati itọsọna ijira."
 download: ""
 format-detection: "telephone=no"
@@ -109,70 +109,82 @@ site_software: "Shokunin, Rust"
 
 ## Akopọ
 
-Parser Gbólóhùn Bank jẹ nikan ni ibi-ikawe Python-ìmọ-orisun ti o ṣe itupalẹ awọn ọna kika alaye banki mẹfa pẹlu API iṣọkan kan. Awọn ile-ikawe ọna kika ẹyọkan (mt-940, ofxparse, pycamt) ọkọọkan mu ọna kika kan. Awọn irinṣẹ SaaS (Ocrolus, Parseur) nfunni ni OCR fun awọn PDF ṣugbọn nilo fifiranṣẹ data ni ita ati idiyele $49–$1,000+/oṣu.
+Bank Statement Parser jẹ ile-ikawe Python orisun-ṣiṣi kan ṣoṣo ti o ṣe itupalẹ awọn ọna kika alaye banki meje — pẹlu PDF nipasẹ opo gigun LLM aladapọ — pẹlu API iṣọkan kan. Awọn ile-ikawe ọna kika ẹyọkan (mt-940, ofxparse, pycamt) ọkọọkan mu ọna kika kan. Awọn irinṣẹ SaaS (Ocrolus, Parseur) nfunni ni OCR awọsanma ṣugbọn nilo fifiranṣẹ data ni ita ati idiyele $49–$1,000+/oṣu.
 
-## Awọn yiyan orisun orisun
+## Awọn Yiyan Orisun-Ṣiṣi
 
-### Nikan-kika ikawe
+### Awọn Ile-ikawe Ọna Kika Ẹyọkan
 
-Pupọ julọ awọn olutọpa alaye ile-ifowopamọ orisun ṣiṣi mu ọna kika kan nikan. Ti o ba nilo awọn ọna kika pupọ, o gbọdọ fi sori ẹrọ ati ṣetọju awọn ile-ikawe lọtọ pẹlu awọn API oriṣiriṣi, awọn eto igbejade, ati awọn iyipo imudojuiwọn.
+Pupọ julọ awọn parser alaye banki orisun-ṣiṣi mu ọna kika kan nikan. Ti o ba nilo awọn ọna kika pupọ, o gbọdọ fi sori ẹrọ ati ṣetọju awọn ile-ikawe lọtọ pẹlu awọn API oriṣiriṣi, awọn eto iṣelọpọ, ati awọn iyipo imudojuiwọn.
 
-| Ile-ikawe | Ọna kika | Abajade | Sisanwọle | PII Iyipada | Deduplication |
+| Ile-ikawe | Awọn Ọna Kika | PDF | Abajade | Iṣayẹwo Iwọntunwọnsi | Okeere Iwe Iroyin |
 |---|---|---|---|---|---|
-| **Itumọ Gbólóhùn Banki *** | 6 ọna kika | pandas DataFrame | Bẹẹni | Bẹẹni (aiyipada) | Bẹẹni |
-| mt-940 (WoLpH) | MT940 nikan | Python ohun | Rara | Rara | Rara |
-| ofxparse | OFX nikan | Python ohun | Rara | Rara | Rara |
-| pycamt | CAMT.053 nikan | Python ohun | Rara | Rara | Rara |
-| awọn irinṣẹ | OFX v1/v2 nikan | Python ohun | Rara | Rara | Rara |
+| **Bank Statement Parser** | 7 ọna kika | Opo gigun aladapọ | pandas DataFrame | Ofin Goolu | hledger, beancount |
+| mt-940 (WoLpH) | MT940 nikan | Rara | Python objects | Rara | Rara |
+| ofxparse | OFX nikan | Rara | Python objects | Rara | Rara |
+| pycamt | CAMT.053 nikan | Rara | Python objects | Rara | Rara |
+| ofxtools | OFX v1/v2 nikan | Rara | Python objects | Rara | Rara |
 
 ### vs pyiso20022
 
-pyiso20022 ṣe ipilẹṣẹ awọn kilasi data Python lati inu iwe-akọọlẹ eto eto ISO 20022 ni kikun. O jẹ ohun elo irinṣẹ ISO 20022 gbogbogbo-idi fun ṣiṣẹ pẹlu PACS, PAIN, CAMT, ati awọn ifiranṣẹ ADMI.
+pyiso20022 ṣe ipilẹṣẹ awọn kilasi data Python lati inu iwe-akọọlẹ ero ISO 20022 ni kikun. O jẹ ohun elo irinṣẹ ISO 20022 gbogbogbo fun ṣiṣẹ pẹlu awọn ifiranṣẹ PACS, PAIN, CAMT, ati ADMI.
 
-Parser Gbólóhùn Bank jẹ idi-itumọ ti awọn alaye ile-ifowopamọ sinu DataFrames pẹlu awọn ẹya iṣelọpọ:
+Bank Statement Parser ni a kọ ni pataki fun itupalẹ awọn alaye banki sinu DataFrames pẹlu awọn ẹya iṣelọpọ:
 
-| Ẹya ara ẹrọ | Parser Gbólóhùn Bank | pyiso20022 |
+| Ẹya Ara Ẹrọ | Bank Statement Parser | pyiso20022 |
 |---|---|---|
-| Idi | Iṣalaye gbólóhùn + okeere | Ohun elo irinṣẹ eto ISO 20022 |
-| Abajade | pandas / Pola DataFrames | Python dataclasses |
-| Awọn ọna kika | 6 (pẹlu ti kii-ISO) | ISO 20022 nikan |
+| Idi | Itupalẹ alaye + isediwon + okeere | Ohun elo irinṣẹ ero ISO 20022 |
+| Abajade | pandas/Polars DataFrames | Python dataclasses |
+| Awọn ọna kika | 7 (pẹlu PDF, ti kii-ISO) | ISO 20022 nikan |
+| Atilẹyin PDF | Opo gigun aladapọ (ipinnu + LLM + iran) | Rara |
+| Iṣayẹwo iwọntunwọnsi | Ofin Goolu + owo pupọ | Rara |
+| REST API | FastAPI ti a ṣe sinu | Rara |
+| Imudara | Isọri ti LLM ṣe | Rara |
+| Okeere iwe iroyin | hledger + beancount | Rara |
 | Sisanwọle | Bẹẹni (iranti ti o ni opin) | Rara |
-| Iyipada ninu owo-owo PII | Ti a ṣe sinu | Rara |
-| Deduplication | Ti a ṣe sinu | Rara |
-| Aabo ZIP | Ti a ṣe sinu | Rara |
+| Isọdọtun PII | Ti a ṣe sinu | Rara |
+| Yiyọ ẹda | Awọn hash iṣowo aláìyípadà | Rara |
 | CLI | Bẹẹni | Rara |
 
-Lo pyiso20022 ti o ba nilo lati ṣiṣẹ pẹlu katalogi ifiranṣẹ ISO 20022 ni kikun. Lo Parser Gbólóhùn Banki ti o ba nilo lati ṣe itupalẹ awọn alaye banki sinu data eleto fun itupalẹ, ilaja, tabi ijabọ.
+Lo pyiso20022 ti o ba nilo lati ṣiṣẹ pẹlu katalogi ifiranṣẹ ISO 20022 ni kikun. Lo Bank Statement Parser ti o ba nilo lati ṣe itupalẹ awọn alaye banki sinu data eleto fun itupalẹ, ilaja, tabi ijabọ.
 
 ## Awọn Yiyan SaaS
 
-Awọn irinṣẹ SaaS bii Ocrolus, Parseur, ati Sensible nfunni ni alaye asọye banki bi iṣẹ awọsanma kan. Wọn lo OCR ni igbagbogbo lati mu awọn PDF ti a ṣayẹwo ati ṣe atilẹyin awọn ọgọọgọrun awọn ọna kika pato-ifowo.
+Awọn irinṣẹ SaaS bii Ocrolus, Parseur, ati Sensible nfunni ni itupalẹ alaye banki bi iṣẹ awọsanma kan. Wọn lo OCR ni igbagbogbo lati mu awọn PDF ti a ṣe scan ati ṣe atilẹyin awọn ọgọọgọrun awọn ọna kika pato-banki.
 
-| Ẹya ara ẹrọ | Parser Gbólóhùn Bank | Awọn irinṣẹ SaaS |
+| Ẹya Ara Ẹrọ | Bank Statement Parser | Awọn Irinṣẹ SaaS |
 |---|---|---|
-| Aṣiri data | 100% agbegbe, awọn ipe nẹtiwọki odo | Data ranṣẹ si awọsanma |
-| Iye owo | Ọfẹ (Afun 2.0) | $49–$1,000+/osu (bi ti Q1 2026) |
-| Awọn ọna kika | 6 ti eleto ọna kika | Awọn ọgọọgọrun (nipasẹ OCR) |
-| PDF support | Rara (awọn ọna kika ti a ṣeto nikan) | Bẹẹni (orisun OCR) |
-| Lairi | <2 ms esi akọkọ | 1-30 aaya |
-| Gbigbe | 27,000+ tx/aaya | Oṣuwọn API ni opin |
+| Aṣiri data | 100% agbegbe (awọn LLM nipasẹ Ollama) | Data ranṣẹ si awọsanma |
+| Iye owo | Ọfẹ (Apache 2.0) | $49–$1,000+/oṣu (bi ti Q1 2026) |
+| Awọn ọna kika | 7 (ti a ṣeto + PDF) | Awọn ọgọọgọrun (nipasẹ OCR) |
+| Atilẹyin PDF | Bẹẹni — opo gigun aladapọ (ipinnu + LLM + iran) | Bẹẹni (OCR awọsanma) |
+| Iṣayẹwo iwọntunwọnsi | Ofin Goolu (laifọwọyi) | Afọwọ / opin |
+| Idaduro | <2 ms (ti a ṣeto), awọn iṣẹju-aaya (PDF+LLM) | 1-30 iṣẹju-aaya |
+| Igbejade | 27,000+ tx/iṣẹju-aaya (ti a ṣeto) | Oṣuwọn API ni opin |
+| REST API | FastAPI ti a ṣe sinu | Ti oluṣe nikan |
+| Okeere iwe iroyin | hledger + beancount | Rara |
 | Titiipa olutaja | Ko si | Bẹẹni |
-| Ibamu | Ṣiṣẹ agbegbe, SBOM | Iyatọ nipasẹ olupese |
+| Ibamu | Sisẹ agbegbe, SBOM | Iyatọ nipasẹ olupese |
 
-## LLM-orisun parsers
+## Awọn Parser Ti O Da Lori LLM
 
-Nọmba ti ndagba ti awọn irinṣẹ (Ikọwe, Unstract, Mozilla.ai blueprints) lo awọn awoṣe ede nla lati ṣe itupalẹ awọn alaye banki, pẹlu awọn PDF ti ṣayẹwo. Nigbati Chase ṣe atunto ọna kika alaye olumulo wọn ni ipari 2025, awọn parsers ti o da lori awoṣe fọ lakoko ti awọn parsers LLM ṣe adaṣe laifọwọyi.
+Nọmba ti ndagba ti awọn irinṣẹ (Inscribe, Unstract, Mozilla.ai blueprints) lo awọn awoṣe ede nla lati ṣe itupalẹ awọn alaye banki, pẹlu awọn PDF ti a ṣe scan. Nigbati Chase ṣe atunto ọna kika alaye olumulo wọn ni ipari 2025, awọn parser ti o da lori awoṣe fọ lakoko ti awọn parser LLM ṣe adaṣe laifọwọyi.
 
-**Nigbati awọn olutọpa LLM ba ni oye ***: O gba awọn PDF ti ṣayẹwo lati awọn ọgọọgọrun ti awọn banki pẹlu awọn ipilẹ airotẹlẹ, ati isediwon isunmọ (95-99% išedede) jẹ itẹwọgba.
+**Bank Statement Parser ni bayi ni opo gigun LLM aladapọ tirẹ** (v0.0.5+) ti o ṣiṣẹ ni agbegbe patapata nipasẹ Ollama. O ṣapọ ohun ti o dara julọ ninu awọn ọna meji:
 
-** Nigbati Parser Gbólóhùn Bank jẹ yiyan ti o dara julọ ***: O nilo ipinnu ipinnu, iṣelọpọ atunjade fun iṣayẹwo ati ibamu. O ko le fi data owo ranṣẹ si awọn API ita. O nilo airi-milli-aaya (vs 1-30 aaya fun LLM APIs). O fẹ iye owo ti nlọ lọwọ odo ko si si igbẹkẹle ataja.
+- **Awọn ọna kika ti a ṣeto** (XML, CSV, OFX, MT940): Itupalẹ ipinnu — deede 100%, idaduro ti ko to millisecond, iye owo LLM odo.
+- **Awọn alaye PDF**: Idarí ọna mẹta (isediwon tabili ipinnu → ọrọ-LLM → iran-LLM) pẹlu iṣayẹwo Ofin Goolu laifọwọyi lati mu awọn aṣiṣe isediwon.
 
-Parser Gbólóhùn Bank ati awọn irinṣẹ LLM yanju awọn iṣoro oriṣiriṣi. Lo Parser Gbólóhùn Bank fun awọn ọna kika ti a ṣeto (XML, CSV, OFX, MT940) nibiti o nilo deede 100%, sisẹ agbegbe, ati iṣatunṣe iṣatunṣe. Lo awọn irinṣẹ LLM fun awọn PDF ti a ko ṣeto nibiti isediwon isunmọ jẹ itẹwọgba.
+Ko dabi awọn parser LLM awọsanma nikan, opo gigun aladapọ Bank Statement Parser:
+- Ṣiṣẹ 100% ni agbegbe (Ollama) — ko si data ti o kuro ninu ẹrọ rẹ.
+- Ṣe iṣayẹwo gbogbo isediwon pẹlu iṣayẹwo iwọntunwọnsi (Ofin Goolu).
+- Ṣe atilẹyin ipo atunyẹwo ifọrọwanilẹnuwo fun awọn aiyede ti a samisi.
+- Ṣe agbejade awọn hash iṣowo aláìyípadà fun gbigbe afikun to ni aabo.
 
-** Ilana alakọbẹrẹ ***: Awọn iṣiro iṣẹ ṣiṣe lori Apple M2, Python 3.12, ni lilo faili CAMT.053-idunadura 5,000 (2.1 MB). Awọn abajade jẹ aropin lori awọn ṣiṣe 100. Tun ṣe ni agbegbe:`python -m bankstatementparser.bench`. Lairi SaaS ti o da lori awọn iwe API ti a tẹjade bi ti Oṣu Kẹrin ọdun 2026.
+**Nigbawo lati yan awọn parser LLM SaaS mimọ dipo Bank Statement Parser**: O gba awọn alaye lati awọn ọgọọgọrun banki pẹlu awọn ipilẹ PDF ti o yatọ pupọ ati pe o nilo agbegbe laisi ṣiṣe amayederun agbegbe.
 
-** Nigbawo lati yan Iṣayẹwo Gbólóhùn Banki ***: Ile-ifowopamọ rẹ n pese awọn ọja okeere ti eleto (XML, CSV, OFX, MT940), o nilo sisẹ agbegbe fun ibamu, tabi o fẹ idiyele ti nlọ lọwọ odo.
+**Nigbawo lati yan Bank Statement Parser**: O nilo sisẹ agbegbe fun ibamu. O fẹ iṣayẹwo iwọntunwọnsi. O nilo okeere iwe iroyin. O fẹ iye owo ti nlọ lọwọ odo.
 
-** Nigbawo lati yan SaaS ***: O gba awọn alaye PDF ti ṣayẹwo, nilo OCR fun awọn ọgọọgọrun awọn ọna kika ile-ifowopamọ kan, tabi fẹ ojutu ko si koodu.
+**Ilana iwọn**: Awọn isiro iṣẹ ṣiṣe lori Apple M2, Python 3.12, ni lilo faili CAMT.053 iṣowo-5,000 (2.1 MB). Awọn abajade jẹ aropin lori awọn ṣiṣe 100. Tun ṣe ni agbegbe: `python -m bankstatementparser.bench`. Idaduro SaaS da lori awọn iwe API ti a tẹjade bi ti Oṣu Kẹrin ọdun 2026.
 
-[Wo awọn ọran lilo aye gidi ❯](/use-cases/index.html) | [Gbiro iṣilọ MT940-si-CAMT rẹ ❯](/migration/index.html)
+[Wo awọn ọran lilo aye gidi ❯](/use-cases/index.html) | [Gbero iṣilọ MT940-si-CAMT rẹ ❯](/migration/index.html)

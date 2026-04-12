@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Registro de cambios del analizador de extractos bancarios"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Analizador de extractos bancarios. Reservados todos los derechos."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Historial de versiones y registro de cambios para Bank Statement Parser. Realice un seguimiento de las nuevas funciones, mejoras y correcciones de errores en todas las versiones."
 download: ""
 format-detection: "telephone=no"
@@ -109,7 +109,36 @@ site_software: "Shokunin, Rust"
 
 Siga el desarrollo del analizador de extractos bancarios. Suscríbase a través de [RSS](/changelog/rss.xml) o mire el [repositorio de GitHub](https://github.com/sebastienrousseau/bankstatementparser) para notificaciones de lanzamiento.
 
-## v0.0.4 — 2026-03-15 (Último)
+## v0.0.8 — 2026-04-11 (Latest) — "Full Platform"
+
+- Multi-currency balance verification — `verify_balance_multi_currency()` groups by currency, runs Golden Rule per group.
+- hledger + beancount export — `to_hledger()` and `to_beancount()` in `bankstatementparser.export`.
+- Bulk directory scanner — `scan_and_ingest()` scans folder trees, deduplicates across batch.
+- Account mapping rules — `AccountMapper` with ordered regex rules from JSON config.
+- REST API — FastAPI wrapper with `/ingest` and `/health` endpoints (`[api]` extra).
+
+## v0.0.7 — 2026-04-08 — "Universal Vision"
+
+- Direct Ollama bridge (`ollama_direct_completion`) — bypasses LiteLLM long-prompt hang.
+- Strip mode (`VisionExtractor.strip_rows=True`) — splits dense pages into overlapping bands for small local models.
+- Recommended vision model changed from `llava` to `minicpm-v`.
+
+## v0.0.6 — 2026-04-08 — "Intelligence Layer"
+
+- Dropped Python 3.9 support (now 3.10-3.14).
+- Enrichment module (`Categorizer`, `EnrichedTransaction`, `DEFAULT_CATEGORY_SCHEMA`).
+- Interactive review mode with `--type review` CLI command.
+- Per-row bounding box extraction (`Transaction.source_bbox`).
+
+## v0.0.5 — 2026-04-08 — "Universal Extraction"
+
+- Hybrid PDF pipeline (`smart_ingest()`) with deterministic/text-LLM/vision-LLM routing.
+- `LLMExtractor` for digital PDFs via LiteLLM.
+- `VisionExtractor` for scanned PDFs via multimodal vision models.
+- Golden Rule balance verification (`opening + credits - debits == closing`).
+- Idempotent deduplication via `transaction_hash` (MD5 fingerprint).
+
+## v0.0.4 — 2026-03-15
 
 - Se agregó análisis de archivos paralelo con`parse_files_parallel()`utilizando ProcessPoolExecutor.
 - Se agregó transmisión real para archivos PAIN.001 grandes (50 MB+) con memoria limitada.
@@ -126,7 +155,7 @@ Siga el desarrollo del analizador de extractos bancarios. Suscríbase a través 
 - Se agregó redacción de PII (activada de forma predeterminada en CLI y modo de transmisión).
 - Se agregaron ayudas de exportación para CSV, JSON y Excel.
 - Se agregó compatibilidad opcional con Polars DataFrame.
-- Conjunto de pruebas ampliado a 467 pruebas con cobertura de sucursales del 100 %.
+- Conjunto de pruebas ampliado a 718 pruebas con cobertura de sucursales del 100 %.
 
 ## v0.0.2 — 2025-06-10
 
@@ -151,8 +180,8 @@ Vea el historial de confirmaciones completo en [GitHub](https://github.com/sebas
   "name": "Analizador de extractos bancarios",
   "applicationCategory": "Aplicación de desarrollador",
   "operatingSystem": "Multiplataforma",
-  "softwareVersion": "0.0.4",
-  "datePublished": "2026-03-15",
+  "softwareVersion": "0.0.8",
+  "datePublished": "2026-04-11",
   "releaseNotes": "Se agregó análisis de archivos paralelo, transmisión real para PAIN.001, optimizaciones de rendimiento (27K+ tx/s CAMT, 52K+ tx/s PAIN.001), clase de deduplicador, análisis en memoria, procesamiento ZIP seguro.",
   "URL de descarga": "https://pypi.org/project/bankstatementparser/",
   "licencia": "https://opensource.org/licenses/Apache-2.0",

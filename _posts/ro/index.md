@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Fotografie arhitecturală a clădirii din sticlă"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: "bankstatementparser.com"
 copyright: "© 2023-2026 Analizator extras de cont. Toate drepturile rezervate."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Bibliotecă Python cu sursă deschisă pentru a analiza extrasele bancare CAMT.053, PAIN.001, CSV, OFX, QFX și MT940 în Pandas DataFrames. 27K+ tx/s, streaming, redarea PII, 100% local."
 download_url: "https://pypi.org/project/bankstatementparser/"
 download_title: "pip install bankstatementparser"
@@ -109,7 +109,7 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**Bank Statement Parser** este o bibliotecă Python open-source care analizează extrasele bancare din șase formate (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) în DataFrames structurate panda. Toată procesarea rulează local - zero apeluri de rețea, ieșire deterministă și redare automată a PII.
+**Bank Statement Parser** este o bibliotecă Python open-source care analizează extrase bancare din șapte formate (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940 și PDF) în DataFrames pandas structurate. Toată procesarea rulează local — ieșire deterministă, redactare automată a PII și un pipeline hibrid opțional pentru PDF care apelează LLM-uri locale atunci când este necesar.
 
 ## Începeți în câteva secunde
 
@@ -125,31 +125,53 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # pandas DataFrame, ready to use
 ```
 
+```python
+# Parse PDFs with the hybrid pipeline (v0.0.5+)
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+```
+
 <img src="https://img.shields.io/github/stars/sebastienrousseau/bankstatementparser?style=for-the-badge&label=Stars" height="28" alt="GitHub Stars" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/dm/bankstatementparser?style=for-the-badge&label=Downloads" height="28" alt="Monthly Downloads" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/v/bankstatementparser?style=for-the-badge&label=PyPI" height="28" width="119" alt="PyPI Version" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/pyversions/bankstatementparser?style=for-the-badge&label=Python" height="28" width="347" alt="Python" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/l/bankstatementparser?style=for-the-badge&label=License" height="28" width="292" alt="License" loading="lazy" style="margin:0 .25rem .5rem 0" />
-<img src="https://img.shields.io/badge/tests-467%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
+<img src="https://img.shields.io/badge/tests-718%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/badge/coverage-100%25-brightgreen?style=for-the-badge" height="28" width="152" alt="Coverage" loading="lazy" style="margin:0 .25rem .5rem 0" />
 
-## O bibliotecă, șase formate
+## O bibliotecă, șapte formate
 
-Analizați CAMT.053, PAIN.001, CSV, OFX, QFX și MT940 în DataFrames-uri panda structurate cu un singur API unificat. Nu este nevoie să instalați pachete separate pentru fiecare format.
+Analizați CAMT.053, PAIN.001, CSV, OFX, QFX, MT940 și PDF în DataFrames pandas structurate cu un singur API unificat. Nu trebuie să instalați pachete separate pentru fiecare format.
 
-| Caracteristică | Analizator extras de cont | OSS cu format unic (mt940, ofxparse) | SaaS (Ocrolus, Parseur) |
+| Funcționalitate | Bank Statement Parser | OSS cu format unic (mt940, ofxparse) | SaaS (Ocrolus, Parseur) |
 |---|---|---|---|
-| Formate acceptate | 6, API unificat | 1 fiecare | Multe (prin OCR) |
-| Confidențialitatea datelor | 100% local, zero apeluri de rețea | 100% local | Date trimise extern |
-| Cost | Gratuit, Apache 2.0 | Gratuit | 49 USD-1.000 USD+/lună |
-| Redactarea PII | Încorporat, activat în mod implicit | Nu | Variază |
-| Streaming | Memoria mărginită | Nu | N / A |
-| Securitate ZIP | Întărire încorporată | Nu | N / A |
-| Deduplicarea | Încorporat cu scoruri de încredere | Nu | Unele |
+| Formate suportate | 7, API unificat | 1 fiecare | Multe (prin OCR) |
+| Suport PDF | Pipeline hibrid (deterministic + LLM + vision) | Nu | Da (OCR cloud) |
+| Confidențialitatea datelor | 100% local (LLM-urile rulează local prin Ollama) | 100% local | Date trimise extern |
+| Cost | Gratuit, Apache 2.0 | Gratuit | 49–1.000+ $/lună |
+| Verificarea soldului | Regula de Aur (sold inițial + credite − debite = sold final) | Nu | Variază |
+| Redactare PII | Încorporată, activată implicit | Nu | Variază |
+| Streaming | Memorie limitată | Nu | N/A |
+| REST API | Microserviciu FastAPI încorporat | Nu | Da |
+| Deduplicare | Hash-uri idempotente ale tranzacțiilor | Nu | Parțial |
+| Export registru | hledger + beancount | Nu | Nu |
+
+## Pipeline hibrid pentru PDF
+
+Bank Statement Parser v0.0.5+ include un pipeline hibrid cu trei căi pentru extrasele bancare în format PDF:
+
+- **Calea A (Deterministă)**: Tabele PDF structurate analizate direct — gratuit, cel mai rapid, fără LLM.
+- **Calea B (Text-LLM)**: PDF-uri digitale cu layout complex extrase prin LLM local (LiteLLM/Ollama).
+- **Calea C (Vision-LLM)**: Extrase scanate sau fotocopiate procesate cu modele vizuale multimodale.
+
+Fiecare extracție este verificată cu **Regula de Aur**: `opening balance + credits − debits == closing balance`.
 
 ## Creat pentru migrarea ISO 20022
 
-SWIFT a stabilit termene ferme: toate instituțiile financiare trebuie să primească CAMT.053 până în noiembrie 2027, iar MT940/MT942/MT950 va fi retras complet până în noiembrie 2028. Bank Statement Parser se ocupă atât de formatele vechi MT940, cât și de ISO 20022 modern (CAMT.053, PAIN, în timpul tranziției, deci în canalul unic și tranziția) dincolo.
+SWIFT a stabilit termene ferme: toate instituțiile financiare trebuie să primească CAMT.053 până în noiembrie 2027, iar MT940/MT942/MT950 va fi retras complet până în noiembrie 2028. Bank Statement Parser gestionează atât formatele vechi MT940, cât și formatele moderne ISO 20022 (CAMT.053, PAIN.001) într-un singur API, astfel încât pipeline-ul de analiză funcționează în timpul tranziției și după aceea.
 
 ## Performanță
 
@@ -157,30 +179,36 @@ SWIFT a stabilit termene ferme: toate instituțiile financiare trebuie să prime
 - **52.000+ tranzacții/secundă** pentru analizarea PAIN.001
 - **< 2 ms** timp până la primul rezultat
 - **Memorie constantă** de la 1K la 50K+ tranzacții prin streaming
-- **467 de teste** cu acoperire de ramuri de 100% în Python 3.9 - 3.14
+- **718 teste** cu acoperire de 100% a ramurilor, pe Python 3.10 până la 3.14
 
-## De ce analizator extras de cont?
+## De ce Bank Statement Parser?
 
-- **Format Auto-Detection**:`detect_statement_format()`identifică fișierele automat și`create_parser()`returnează analizatorul corect.
-- **Privacy First**: redarea PII este activată în mod prestabilit. Câmpurile sensibile (nume, IBAN-uri, adrese) sunt mascate în ieșirea CLI. Înscrieți-vă cu`--show-pii`la nevoie.
-- **Production Ready**: asimilare securizată de fișiere ZIP (protecție cu bombe, respingere a intrărilor criptate), validare a intrărilor și prevenirea traversării căilor.
-- **Ieșire flexibilă**: exportați în CSV, JSON, Excel sau convertiți în Polars DataFrames.
-- **Procesare paralelă**: Analizați mai multe fișiere simultan cu`parse_files_parallel()`.
+- **Extracție hibridă PDF**: `smart_ingest()` gestionează PDF-uri digitale și scanate cu rutare automată și verificarea soldului.
+- **Detectare automată a formatului**: `detect_statement_format()` identifică fișierele automat, iar `create_parser()` returnează analizatorul corect.
+- **Confidențialitate mai întâi**: Redactarea PII este activată implicit. LLM-urile rulează local prin Ollama — nicio dată nu părăsește mașina.
+- **REST API**: Implementați ca microserviciu FastAPI cu endpoint-urile `/ingest` și `/health`.
+- **Îmbogățire**: Categorizarea tranzacțiilor prin LLM cu scheme conectabile (Plaid cu 13 categorii implicit).
+- **Export registru**: Export în formate hledger și beancount pentru fluxuri de contabilitate în text simplu.
+- **Scanare în masă**: `scan_and_ingest()` procesează arbori de foldere cu deduplicare automată între fișiere.
+- **Multi-valută**: `verify_balance_multi_currency()` execută verificarea Regulii de Aur pe fiecare grup de valută.
+- **Pregătit pentru producție**: Ingestie securizată ZIP, validare a intrărilor, prevenirea traversării căilor și mod de revizuire interactiv.
+- **Ieșire flexibilă**: Export în CSV, JSON, Excel, Polars, hledger sau beancount.
+- **Procesare paralelă**: Analizați mai multe fișiere simultan cu `parse_files_parallel()`.
 
 
 ## Construit pentru producție
 
-Analiza extrasului bancar este conceput pentru echipele de trezorerie, dezvoltatorii fintech și ofițerii de conformitate care procesează date financiare sensibile. Biblioteca este utilizată în conductele de migrare MT940 la CAMT, sistemele automate de reconciliere și fluxurile de lucru de audit de reglementare în cadrul instituțiilor financiare.
+Bank Statement Parser este conceput pentru echipe de trezorerie, dezvoltatori fintech și ofițeri de conformitate care procesează date financiare sensibile. Biblioteca este utilizată în pipeline-uri de migrare MT940-la-CAMT, sisteme automate de reconciliere, ingestie de extrase PDF și fluxuri de audit de reglementare în cadrul instituțiilor financiare.
 
-- **467 de teste** cu acoperire de ramuri de 100% în Python 3.9 - 3.14
-- **SHA-256 dependențe blocate cu hash** cu CycloneDX SBOM pentru fiecare lansare
-- **Ieșire deterministă** — intrare identică produce rezultate identice pentru octeți, la fiecare rulare
-- **Apache 2.0 licențiat** — utilizați liber în sistemele comerciale și interne
+- **718 teste** cu acoperire de 100% a ramurilor, pe Python 3.10 până la 3.14
+- **Dependențe blocate cu hash SHA-256** cu CycloneDX SBOM pentru fiecare versiune
+- **Ieșire deterministă** — aceleași date de intrare produc rezultate identice la nivel de octet, la fiecare rulare
+- **Licență Apache 2.0** — utilizați liber în sisteme comerciale și interne
 
-**Evaluați alternative?** [Vedeți cum se compară Analizatorul extras de cont ❯](/comparison/index.html) | [Explorați cazuri de utilizare din lumea reală ❯](/use-cases/index.html)
+**Evaluați alternative?** [Vedeți cum se compară Bank Statement Parser ❯](/comparison/index.html) | [Explorați cazuri reale de utilizare ❯](/use-cases/index.html)
 
-[Începeți ❯][01] | [Vizualizare pe GitHub ❯][02] | [Vizualizare pe PyPI ❯][03]
+[Începeți ❯][01] | [Vizualizați pe GitHub ❯][02] | [Vizualizați pe PyPI ❯][03]
 
 [01]: /getting-started/index.html
-[02]:https://github.com/sebastienrousseau/bankstatementparser
+[02]: https://github.com/sebastienrousseau/bankstatementparser
 [03]: https://pypi.org/project/bankstatementparser/

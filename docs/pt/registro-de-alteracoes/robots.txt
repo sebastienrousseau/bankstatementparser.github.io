@@ -1,2 +1,0 @@
-User-agent: *
-Sitemap: https://bankstatementparser.com/pt/registro-de-alteracoes/index.html/sitemap.xml

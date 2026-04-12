@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Průvodce migrací ISO 20022"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023–2026 Analyzátor bankovních výpisů. Všechna práva vyhrazena."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Praktický průvodce časovou osou migrace SWIFT ISO 20022 (2026–2028), přechodem z MT940 na CAMT.053 a tím, jak Parser bankovních výpisů pomáhá při migraci treasury týmům."
 download: ""
 format-detection: "telephone=no"
@@ -107,23 +107,23 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** SWIFT vyřadí MT940 do listopadu 2028. Parser výpisů z účtu zpracovává MT940 i CAMT.053 pomocí jediného rozhraní API, takže váš kanál analýzy funguje během přechodu i po něm.
+**TL;DR:** SWIFT vyřadí MT940 do listopadu 2028. Bank Statement Parser zpracovává jak MT940, tak CAMT.053 pomocí jediného API, takže váš pipeline funguje během přechodu i po něm.
 
 ## Proč na této migraci záleží
 
-Společnost SWIFT přestává používat starší formáty zpráv MT ve prospěch bohatšího standardu ISO 20022. Pro treasury a finanční týmy to znamená, že vaše procesy zpracování bankovních výpisů se musí vyvinout z MT940 na CAMT.053 před pevnými termíny.
+SWIFT přestává používat starší formáty zpráv MT ve prospěch bohatšího standardu ISO 20022. Pro treasury a finanční týmy to znamená, že vaše pipeline zpracování bankovních výpisů se musí vyvinout z MT940 na CAMT.053 před pevnými termíny.
 
 ## Časová osa migrace SWIFT
 
 | Datum | Milník | Dopad |
 |---|---|---|
-| **listopad 2025** | Koexistence MT-to-MX skončila pro přeshraniční platby | Zprávy PACS jsou nyní pouze ISO 20022 |
-| **listopad 2026** | Strukturované/hybridní adresy povinné; Multiinstrukce MT101 zamítnuta; Fáze řízení případů 1 | Formáty adres musí být v souladu; některé zprávy MT budou odmítnuty |
-| **Konec roku 2026** | Začíná přihlášení pro příjem CAMT.052/.053/.054 | Finanční instituce mohou začít přijímat nativní výpisy ISO |
-| **listopad 2027** | Všichni FI musí přijímat CAMT.053 nativně | SWIFT přestane převádět formát MT na ISO; vaše systémy musí analyzovat CAMT přímo |
-| **listopad 2028** | MT940/MT942/MT950/MT900/MT910 zcela vyřazeny | Starší formáty prohlášení již nejsou k dispozici; CAMT.052/.053/.054 jsou jedinou možností |
+| **Listopad 2025** | Koexistence MT-to-MX skončila pro přeshraniční platby | Zprávy PACS jsou nyní pouze ISO 20022 |
+| **Listopad 2026** | Strukturované/hybridní adresy povinné; MT101 multi-instrukce odmítnuta; Case Management fáze 1 | Formáty adres musí vyhovovat; některé MT zprávy budou odmítnuty |
+| **Konec 2026** | Začíná opt-in pro příjem CAMT.052/.053/.054 | Finanční instituce mohou začít přijímat nativní ISO výpisy |
+| **Listopad 2027** | Všechny FI musí přijímat CAMT.053 nativně | SWIFT přestane převádět MT formát na ISO; vaše systémy musí parsovat CAMT přímo |
+| **Listopad 2028** | MT940/MT942/MT950/MT900/MT910 plně vyřazeny | Starší formáty výpisů již nebudou dostupné; CAMT.052/.053/.054 jsou jedinou možností |
 
-## Co se změní pro váš kód
+## Co se změní ve vašem kódu
 
 ### Před: Pouze MT940
 
@@ -144,26 +144,29 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # Same DataFrame schema regardless of format
 ```
 
-The`detect_statement_format()`Funkce identifikuje, zda je soubor MT940, CAMT.053, PAIN.001 nebo jiný podporovaný formát. The`create_parser()`funkce vrací správný analyzátor. Váš následný kód funguje identicky bez ohledu na zdrojový formát.
+Funkce `detect_statement_format()` identifikuje, zda je soubor MT940, CAMT.053, PAIN.001 nebo jiný podporovaný formát. Funkce `create_parser()` vrátí správný parser. Váš následný kód funguje identicky bez ohledu na zdrojový formát.
 
 ## CAMT.053 vs MT940: Klíčové rozdíly
 
-| Funkce | MT940 | CAMT.053 |
+| Vlastnost | MT940 | CAMT.053 |
 |---|---|---|
-| Bohatost dat | Omezená pole | 3-5x více dat na transakci |
-| Znaková sada | Omezené (znaková sada SWIFT) | Plné Unicode |
+| Bohatost dat | Omezená pole | 3–5x více dat na transakci |
+| Znaková sada | Omezená (znaková sada SWIFT) | Plné Unicode |
 | Struktura | Plochý text se značkami | XML s jmennými prostory |
-| Vykazování zůstatku | Pouze otevírání/zavírání | Více typů vyvážení |
-| Reference | Jedno referenční pole | Více typů odkazů |
-| Manipulace s měnami | Základní | Plná multiměna se směnnými kurzy |
+| Reportování zůstatku | Pouze počáteční/konečný | Více typů zůstatků |
+| Reference | Jedno referenční pole | Více typů referencí |
+| Práce s měnami | Základní | Plná multi-měna se směnnými kurzy |
 
-## Jak pomáhá Parser výpisů z účtu
+## Jak Bank Statement Parser pomáhá
 
-- **Unified API**: Analyzujte MT940 i CAMT.053 stejným způsobem`parse()`metoda, vytvářející identická schémata DataFrame.
-- **Automatická detekce**: Není třeba znát formát předem.`detect_statement_format()`identifikuje automaticky.
-- **Agnostik jmenného prostoru**: Zvládá jakoukoli variantu CAMT.053 (001.02, 001.04 nebo obálky specifické pro banku) bez konfigurace.
-- **Streamování**: Zpracujte velké soubory CAMT (50 MB+, 50K+ transakcí) s omezenou pamětí.
-- **Testování migrace**: Spusťte oba analyzátory vedle sebe ve stejném časovém období, abyste ověřili konzistenci výstupu před přepnutím.
+- **Jednotné API**: Parsujte MT940, CAMT.053 a PDF výpisy stejným workflow s konzistentním DataFrame výstupem.
+- **Automatická detekce**: Není třeba znát formát předem. `detect_statement_format()` jej identifikuje automaticky.
+- **Hybridní PDF pipeline**: Banky poskytující během přechodu pouze PDF výpisy jsou obslouženy pomocí `smart_ingest()` s automatickým ověřením zůstatku.
+- **Nezávislost na jmenných prostorech**: Zvládá jakoukoli variantu CAMT.053 (001.02, 001.04 nebo bankovně specifické wrappery) bez konfigurace.
+- **Multi-měnové ověření**: `verify_balance_multi_currency()` provádí Golden Rule pro každou měnovou skupinu — nezbytné pro multi-měnové CAMT výpisy.
+- **Streaming**: Zpracování velkých CAMT souborů (50 MB+, 50K+ transakcí) s omezenou pamětí.
+- **Export do účetnictví**: Export přímo do formátu hledger nebo beancount deníku pro treasury účetnictví.
+- **Testování migrace**: Spusťte oba parsery vedle sebe na stejném období, abyste ověřili konzistenci výstupu před přepnutím.
 
 ## Začínáme
 
@@ -174,7 +177,7 @@ pip install bankstatementparser
 ```python
 from bankstatementparser import create_parser, detect_statement_format
 
-# Works with MT940 today, CAMT.053 tomorrow
+# Works with MT940 today, CAMT.053 tomorrow, PDF anytime
 for file in bank_statement_files:
     fmt = detect_statement_format(file)
     parser = create_parser(file, fmt)
@@ -182,6 +185,15 @@ for file in bank_statement_files:
     process(df)  # Your code doesn't change
 ```
 
-[Přečíst celou dokumentaci](/getting-started/index.html)
+Pro PDF výpisy od bank, které zatím nenabízejí strukturované CAMT exporty:
 
-[Porovnejte s alternativami ❯](/comparison/index.html) | [Viz případy použití v reálném světě ❯](/use-cases/index.html)
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+assert result.verification.status == "VERIFIED"
+```
+
+[Přečtěte si celou dokumentaci](/getting-started/index.html)
+
+[Porovnejte s alternativami ❯](/comparison/index.html) | [Podívejte se na reálné případy použití ❯](/use-cases/index.html)

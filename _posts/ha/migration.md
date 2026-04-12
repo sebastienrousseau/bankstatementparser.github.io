@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "ISO 20022 Jagoran Hijira"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Fassarar Bayanin Banki. An kiyaye duk haƙƙoƙi."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Jagora mai amfani ga tsarin ƙaura na SWIFT ISO 20022 (2026-2028), MT940 zuwa CAMT.053 miƙa mulki, da kuma yadda Fassarar Bayanin Banki ke taimaka wa ƙungiyoyin baitulmali ƙaura."
 download: ""
 format-detection: "telephone=no"
@@ -107,23 +107,23 @@ site_software: "Shokunin, Rust"
 
 ---
 
-** TL; DR: ** SWIFT zai yi ritaya MT940 a watan Nuwamba 2028. Bankin Bayanin Parser yana amfani da MT940 da CAMT.053 tare da API guda ɗaya, don haka bututun ku yana aiki a lokacin canji da kuma bayan.
+**TL;DR:** SWIFT zai yi ritaya da MT940 a Nuwamba 2028. Bank Statement Parser yana sarrafa MT940 da CAMT.053 tare da API guda ɗaya, don haka bututun fassarar ku yana aiki a lokacin sauyi da kuma bayan haka.
 
-## Me Yasa Wannan Hijira Yake Muhimmanci
+## Me Yasa Wannan Ƙaura Take da Muhimmanci
 
 SWIFT yana yin ritaya ga tsarin saƙon MT na gado don goyon bayan ingantacciyar ma'aunin ISO 20022. Ga ƙungiyoyin baitulmali da kuɗi, wannan yana nufin bututun sarrafa bayanan bankin ku dole ne su tashi daga MT940 zuwa CAMT.053 kafin ƙayyadaddun ƙarshe.
 
-## Lokacin Hijira SWIFT
+## Jadawalin Ƙaurar SWIFT
 
 | Kwanan wata | Muhimmi | Tasiri |
 |---|---|---|
-| **Nuwamba 2025** | Kasancewar MT-to-MX ya ƙare don biyan kuɗin kan iyaka | Saƙonnin PACS yanzu ISO 20022 ne kawai |
-| **Nuwamba 2026** | Adireshin da aka ƙera/samuwa na wajibi; An ƙi MT101 umarni da yawa; Matakin Gudanar da Harka 1 | Dole ne tsarin adireshi ya cika; wasu saƙonnin MT za a ƙi |
-| **Marigayi 2026** | Ficewar shiga ta fara karɓar CAMT.052/.053/.054 | Cibiyoyin kuɗi na iya fara karɓar bayanan ISO na asali |
-| **Nuwamba 2027** | Duk FIs dole ne su karɓi CAMT.053 na asali | SWIFT ya daina canza tsarin MT zuwa ISO; Dole ne tsarin ku ya rarraba CAMT kai tsaye |
-| **Nuwamba 2028** | MT940/MT942/MT950/MT900/MT910 cikakken ritaya | Ba a samun tsarin bayanan gado; CAMT.052/.053/.054 shine kawai zaɓi |
+| **Nuwamba 2025** | Kasancewar MT-to-MX ya ƙare don biyan kuɗi na kan iyaka | Saƙonnin PACS yanzu ISO 20022 ne kawai |
+| **Nuwamba 2026** | Adireshin tsararru/gauraye na wajibi; An ƙi MT101 umarni da yawa; Matakin Gudanar da Ƙararraki 1 | Tsarin adireshi dole ne ya cika; za a ƙi wasu saƙonnin MT |
+| **Ƙarshen 2026** | Zaɓin shiga ya fara don karɓar CAMT.052/.053/.054 | Cibiyoyin kuɗi za su iya fara karɓar bayanan ISO na asali |
+| **Nuwamba 2027** | Duk FIs dole ne su karɓi CAMT.053 na asali | SWIFT ya daina canza tsarin MT zuwa ISO; dole ne tsarin ku ya fassara CAMT kai tsaye |
+| **Nuwamba 2028** | MT940/MT942/MT950/MT900/MT910 cikakken ritaya | Ba a samun tsarin bayanan gado; CAMT.052/.053/.054 su ne kawai zaɓi |
 
-## Menene Canje-canje don Lambar ku
+## Menene ya Canja a Lambar ku
 
 ### Kafin: MT940 Kawai
 
@@ -134,7 +134,7 @@ parser = Mt940Parser("statement.mt940")
 df = parser.parse()
 ```
 
-### Bayan: Duk Formats tare da Ganewa ta atomatik
+### Bayan: Tsari Biyu tare da Gano ta Atomatik
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -144,26 +144,29 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # Same DataFrame schema regardless of format
 ```
 
-The`detect_statement_format()`Aiki yana gano ko fayil ɗin MT940 ne, CAMT.053, PAIN.001, ko kowane tsari mai goyan baya. The`create_parser()`Aiki yana dawo da madaidaicin parser. Lambar ku na ƙasa tana aiki iri ɗaya ba tare da la'akari da tsarin tushen ba.
+Aikin `detect_statement_format()` yana gano ko fayil ɗin MT940 ne, CAMT.053, PAIN.001, ko kowane tsari da ake tallafawa. Aikin `create_parser()` yana dawo da parser ɗin da ya dace. Lambar ku ta bayan haka tana aiki iri ɗaya ba tare da la'akari da tsarin tushen ba.
 
-## CAMT.053 vs MT940: Maɓallin Maɓalli
+## CAMT.053 vs MT940: Manyan Bambance-bambance
 
-| Siffar | Farashin MT940 | CAMT.053 |
+| Siffar | MT940 | CAMT.053 |
 |---|---|---|
 | Wadatar bayanai | Filaye masu iyaka | 3-5x ƙarin bayanai kowace ma'amala |
-| Saitin halaye | Limited (SWIFT Charset) | Cikakken Unicode |
-| Tsarin | Leken asiri rubutu tare da tags | XML tare da wuraren suna |
-| Balance rahoton | Budewa/rufewa kawai | Nau'in ma'auni da yawa |
-| Magana | Filin tunani guda ɗaya | Nau'o'in tunani da yawa |
-| Gudanar da kuɗi | Na asali | Cikakkun kuɗaɗe masu yawa tare da farashin musanya |
+| Saitin haruffa | Iyakantacce (SWIFT charset) | Cikakken Unicode |
+| Tsarin | Rubutu mai layi tare da tags | XML tare da namespaces |
+| Rahoton balance | Buɗewa/rufewa kawai | Nau'in balance da yawa |
+| Tunani | Filin tunani guda ɗaya | Nau'in tunani da yawa |
+| Sarrafa kuɗi | Na asali | Cikakkun kuɗi da yawa tare da farashin musanya |
 
-## Yadda Fassarar Bayanin Banki ke Taimakawa
+## Yadda Bank Statement Parser ke Taimakawa
 
-- ** API ɗin Haɗe-haɗe ***: Fasa duka MT940 da CAMT.053 tare da iri ɗaya`parse()`Hanyar, samar da tsarin DataFrame iri ɗaya.
-- ** Gano kai tsaye ***: Babu buƙatar sanin tsarin a gaba.`detect_statement_format()`gano shi ta atomatik.
-- **Sararin suna-agnostic ***: Yana ɗaukar kowane bambance-bambancen CAMT.053 (001.02, 001.04, ko naƙasa na musamman na banki) ba tare da daidaitawa ba.
-- ** Yawo ***: Tsara manyan fayilolin CAMT (50 MB+, 50K+ ma'amaloli) tare da ƙayyadaddun ƙwaƙwalwar ajiya.
-- ** Gwajin ƙaura ***: Guda duka biyun gefe-gefe akan kewayon kwanan wata don tabbatar da daidaiton fitarwa kafin sauyawa.
+- **API Mai Haɗin Kai**: Fassara MT940, CAMT.053, da bayanan PDF tare da aiki iri ɗaya, yana samar da daidaitaccen DataFrame.
+- **Gano ta Atomatik**: Babu buƙatar sanin tsarin a gaba. `detect_statement_format()` yana gano shi ta atomatik.
+- **Hybrid PDF pipeline**: Bankuna da ke ba da bayanan PDF kawai a lokacin sauyin ana sarrafa su ta `smart_ingest()` tare da tabbatar da balance ta atomatik.
+- **Namespace-agnostic**: Yana sarrafa kowane bambancen CAMT.053 (001.02, 001.04, ko naɗaɗɗen banki na musamman) ba tare da daidaitawa ba.
+- **Tabbatar da kuɗi da yawa**: `verify_balance_multi_currency()` yana gudanar da Golden Rule ga kowane rukunin kuɗi — muhimmi don bayanan CAMT na kuɗi da yawa.
+- **Streaming**: Sarrafa manyan fayilolin CAMT (50 MB+, 50K+ ma'amaloli) tare da ƙwaƙwalwar ajiya mai iyaka.
+- **Fitar da ledger**: Fitar kai tsaye zuwa tsarin hledger ko beancount journal don lissafin baitulmali.
+- **Gwajin ƙaura**: Gudanar da masu fassara biyu gefe-gefe akan kewayon kwanan wata iri ɗaya don tabbatar da daidaiton fitarwa kafin sauyawa.
 
 ## Farawa
 
@@ -174,7 +177,7 @@ pip install bankstatementparser
 ```python
 from bankstatementparser import create_parser, detect_statement_format
 
-# Works with MT940 today, CAMT.053 tomorrow
+# Works with MT940 today, CAMT.053 tomorrow, PDF anytime
 for file in bank_statement_files:
     fmt = detect_statement_format(file)
     parser = create_parser(file, fmt)
@@ -182,6 +185,15 @@ for file in bank_statement_files:
     process(df)  # Your code doesn't change
 ```
 
-[Karanta cikakkun takardun](/getting-started/index.html)
+Don bayanan PDF daga bankuna da ba su ba da fitar da CAMT masu tsari tukuna:
 
-[ Kwatanta da madadin ❯](/comparison/index.html) | [Duba shari'o'in amfani na zahiri ❯](/use-cases/index.html)
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+assert result.verification.status == "VERIFIED"
+```
+
+[Karanta cikakkun bayanai](/getting-started/index.html)
+
+[Kwatanta da madadin ❯](/comparison/index.html) | [Duba shari'o'in amfani na ainihi ❯](/use-cases/index.html)

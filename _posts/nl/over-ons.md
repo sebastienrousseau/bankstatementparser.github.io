@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Over bankafschriftparser: functies, formaten en prestaties"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Parser voor bankafschriften. Alle rechten voorbehouden."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Bank Statement Parser is een open-source Python-bibliotheek voor het parseren van CAMT.053, PAIN.001, CSV, OFX, QFX en MT940 in panda's DataFrames. 100% lokaal, PII-redactie, 27K+ tx/s."
 download: ""
 format-detection: "telephone=no"
@@ -40,7 +40,7 @@ referrer: "no-referrer"
 revisit-after: "7 days"
 robots: "index, follow"
 short_name: "bankstatementparser"
-subtitle: "Eén bibliotheek. Zes formaten. Geen netwerkoproepen."
+subtitle: "Eén bibliotheek. Zeven formaten. Geen netwerkoproepen."
 tags: "bank,verklaring,parser,financiën,python,camt,pain001,csv,ofx,qfx,mt940"
 theme_color: "rgb(73, 214, 251)"
 title: "Over bankafschriftparser: functies, formaten en prestaties"
@@ -107,64 +107,75 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Bankafschriftparser is een open-source Python-bibliotheek die zes bankafschriftformaten (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) parseert in panda's DataFrames. 100% lokale verwerking, standaard PII-redactie, 27K+ tx/s-doorvoer.
+**TL;DR:** Bank Statement Parser is een open-source Python-bibliotheek die zeven bankafschriftformaten (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940 en PDF) parseert in pandas DataFrames. Hybride PDF-pipeline met saldoverificatie, REST API, verrijking, ledger-export, 27K+ tx/s doorvoer.
 
-Bank Statement Parser is een open-source Python-bibliotheek die bankafschriften uit zes formaten parseert in gestructureerde panda's DataFrames. Alle verwerking vindt lokaal plaats: geen netwerkoproepen, deterministische uitvoer en automatische PII-redactie.
+Bank Statement Parser is een open-source Python-bibliotheek die bankafschriften uit zeven formaten parseert in gestructureerde pandas DataFrames. De deterministische kern verwerkt gestructureerde formaten lokaal zonder netwerkverkeer. De optionele hybride PDF-pipeline routeert via lokale LLM's (via Ollama) voor digitale en gescande afschriften.
 
 ## Voor wie is dit bedoeld?
 
-- **Treasury-teams** die migreren van MT940 naar CAMT.053 en die een parser nodig hebben die zowel oude als nieuwe formaten verwerkt tijdens de transitie.
-- **Fintech-ontwikkelaars** die pijplijnen voor afstemming, rapportage of boekhouding bouwen die één enkele afhankelijkheid willen in plaats van mt940 + ofxparse + aangepaste CSV-logica aan elkaar te naaien.
-- **Complianceteams** die standaard PII-redactie nodig hebben en audit-ready, deterministische output die nooit gegevens naar externe services verzendt.
-- **Iedereen** die weigert gevoelige financiële gegevens naar een SaaS van derden te sturen terwijl een lokale, open source-tool het werk kan doen.
+- **Treasury-teams** die migreren van MT940 naar CAMT.053 en een parser nodig hebben die beide formaten verwerkt tijdens de transitie, plus PDF-afschriften van banken zonder gestructureerde exports.
+- **Fintech-ontwikkelaars** die pipelines bouwen voor afstemming, rapportage of boekhouding en één afhankelijkheid willen met ingebouwde saldoverificatie, categorisatie en ledger-export.
+- **Complianceteams** die standaard PII-redactie nodig hebben, deterministische uitvoer en Golden Rule-verificatie die afwijkingen signaleert voordat ze het grootboek bereiken.
+- **Plaintext-accounting gebruikers** die geautomatiseerde opname willen van PDF-bankafschriften rechtstreeks naar hledger- of beancount-journalen.
+- **Iedereen** die weigert gevoelige financiële gegevens naar een SaaS van derden te sturen wanneer een lokale, open-source tool het werk kan doen.
 
 ## Ondersteunde formaten
 
-| Formaat | Standaard | Bestandstypen | Parser-klasse |
+| Formaat | Standaard | Bestandstypen | Parser/Methode |
 |---|---|---|---|
-| CAMT.053 | ISO 20022 Bank-naar-klantverklaring | `.xml` | `CamtParser` |
-| PIJN.001 | ISO 20022 Initiatie van kredietoverdracht | `.xml` | `Pain001Parser` |
+| CAMT.053 | ISO 20022 Bank-naar-klantafschrift | `.xml` | `CamtParser` |
+| PAIN.001 | ISO 20022 Credit Transfer Initiation | `.xml` | `Pain001Parser` |
 | CSV | Generieke bankexporten | `.csv` | `CsvStatementParser` |
-| OFX | Open financiële uitwisseling | `.ofx` | `OfxParser` |
-| QFX | Quicken financiële uitwisseling | `.qfx` | `QfxParser` |
+| OFX | Open Financial Exchange | `.ofx` | `OfxParser` |
+| QFX | Quicken Financial Exchange | `.qfx` | `QfxParser` |
 | MT940 | SWIFT-standaard | `.mt940`, `.sta` | `Mt940Parser` |
+| PDF | Digitale en gescande afschriften | `.pdf` | `smart_ingest()` |
 
-Alle formaten produceren genormaliseerde panda's DataFrames met consistente kolomnamen, waardoor downstream-verwerkingsformaten agnostisch worden.
+Alle formaten produceren genormaliseerde pandas DataFrames met consistente kolomnamen. Dat maakt verdere verwerking formaatobafhankelijk.
 
 ## Belangrijkste mogelijkheden
 
-- **Formaat automatische detectie**:`detect_statement_format()`identificeert het formaat;`create_parser()`Instantiseert de juiste parser.
-- **Streaming Parsing**: Verwerk grote bestanden (50 MB+, 50K+ transacties) met begrensd geheugen met behulp van`parse_streaming()`.
-- **Parallelle verwerking**: parseer meerdere bestanden gelijktijdig met`parse_files_parallel()`met behulp van ProcessPoolExecutor.
-- **Ontdubbeling**: detecteer exacte duplicaten en vermoedelijke overeenkomsten met verklaarbare betrouwbaarheidsscores.
-- **In-memory parseren**:`from_string()`En`from_bytes()`voor SFTP- en API-workflows zonder schijf-I/O.
-- **Veilige ZIP-verwerking**:`iter_secure_xml_entries()`met compressieverhoudingslimieten, limieten voor invoergroottes en gecodeerde invoerafwijzing.
-- **Exporteren**: CSV, JSON, Excel (`.xlsx`) en optionele Polars DataFrames.
+- **Hybride PDF-pipeline**: `smart_ingest()` routeert PDF's via drie paden — deterministische tabelextractie, tekst-LLM of vision-LLM — met automatische Golden Rule-saldoverificatie.
+- **Automatische formaatdetectie**: `detect_statement_format()` herkent het formaat; `create_parser()` maakt de juiste parser aan.
+- **Saldoverificatie**: Golden Rule-controle (`opening + credits − debits == closing`) met status VERIFIED/DISCREPANCY/FAILED.
+- **Multi-valutaverificatie**: `verify_balance_multi_currency()` groepeert transacties per valuta voor onafhankelijke verificatie.
+- **REST API**: FastAPI-microservice met `/ingest`- en `/health`-endpoints voor productieomgevingen.
+- **Verrijking**: LLM-gestuurde transactiecategorisatie met pluggable schema's (Plaid 13-categorie standaard).
+- **Interactieve beoordeling**: Loop afwijkingen door met accepteren/bewerken/overslaan/verwijderen via `--type review`.
+- **Ledger-export**: `to_hledger()` en `to_beancount()` voor plaintext-accounting workflows.
+- **Bulk scanning**: `scan_and_ingest()` verwerkt mappenbomen met automatische cross-file ontdubbeling.
+- **Rekeningkoppeling**: Regex-gebaseerde rekeningkoppelingsregels vanuit JSON-configuratie voor ledger-export.
+- **Streaming parsing**: Verwerk grote bestanden (50 MB+, 50K+ transacties) met begrensd geheugen via `parse_streaming()`.
+- **Parallelle verwerking**: Parseer meerdere bestanden gelijktijdig met `parse_files_parallel()` via ProcessPoolExecutor.
+- **Ontdubbeling**: Idempotente `transaction_hash` (MD5-vingerafdruk) voor veilige incrementele opname.
+- **In-memory parsing**: `from_string()` en `from_bytes()` voor SFTP- en API-workflows zonder schijf-I/O.
+- **Veilige ZIP-verwerking**: `iter_secure_xml_entries()` met compressieverhoudingslimieten, maximale invoergrootte en afwijzing van versleutelde bestanden.
+- **Export**: CSV, JSON, Excel (`.xlsx`), Polars DataFrames, hledger en beancount-journalen.
 
 ## Beveiliging en privacy
 
-- **PII-redactie**: namen, IBAN's en adressen worden standaard gemaskeerd in CLI-uitvoer. Meld u aan met`--show-pii`.
-- **XXE-beveiliging**: gebruik van XML-parsing`resolve_entities=False`, `no_network=True`, `load_dtd=False`.
-- **ZIP Bomb Protection**: Compressieverhoudingslimieten (standaard 100:1), maximale invoergrootte (10 MB), versleutelde invoerafwijzing.
-- **Path Traversal Prevention**: blokkeerlijst met gevaarlijke patronen en resolutie van symlinks.
-- **Supply Chain-beveiliging**: SHA-256 hash-locked afhankelijkheden, CycloneDX SBOM, attest van herkomst van build.
+- **PII-redactie**: Namen, IBAN's en adressen worden standaard gemaskeerd in CLI-uitvoer. Schakel in met `--show-pii`.
+- **XXE-bescherming**: XML-parsing gebruikt `resolve_entities=False`, `no_network=True`, `load_dtd=False`.
+- **ZIP-bombeveiliging**: Compressieverhoudingslimieten (standaard 100:1), maximale invoergrootte (10 MB), afwijzing van versleutelde bestanden.
+- **Pad-traversalpreventie**: Blokkeerlijst met gevaarlijke patronen en symlink-resolutie.
+- **Supply-chainbeveiliging**: SHA-256 hash-locked afhankelijkheden, CycloneDX SBOM, build-herkomstattest.
+- **Alleen lokale LLM's**: De hybride PDF-pipeline gebruikt Ollama voor lokale inferentie — geen gegevens naar cloud-API's.
 
-## Prestatie
+## Prestaties
 
-| Metrisch | Waarde |
+| Metriek | Waarde |
 |---|---|
 | CAMT.053-doorvoer | 27.000+ tx/s |
 | PAIN.001-doorvoer | 52.000+ tx/s |
 | Latentie per transactie (CAMT) | 37 microseconden |
 | Latentie per transactie (PAIN.001) | 19 microseconden |
-| Tijd voor het eerste resultaat | < 2 ms |
-| Geheugenschaling (1K-50K tx) | Constant (streaming) |
-| Testdekking | 100% vestigingsdekking |
-| Testen | 467 verdeeld over 29 testbestanden |
+| Tijd tot eerste resultaat | < 2 ms |
+| Geheugenschaling (1K–50K tx) | Constant (streaming) |
+| Testdekking | 100% branchdekking |
+| Tests | 718 verdeeld over 29 testbestanden |
 
 ## Begin met bouwen
 
 [Aan de slag met installatie en voorbeelden ❯][01]
 
 [01]: /getting-started/index.html "Aan de slag"
- "GitHub-opslagplaats"

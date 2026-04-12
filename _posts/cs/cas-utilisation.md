@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Případy použití analyzátoru bankovních výpisů"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023–2026 Analyzátor bankovních výpisů. Všechna práva vyhrazena."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Jak treasury týmy, fintech vývojáři a pracovníci odpovědní za dodržování předpisů používají Bank Statement Parser pro migraci z MT940 na CAMT, odsouhlasení, auditní kanály a konsolidaci více bank."
 download: ""
 format-detection: "telephone=no"
@@ -107,11 +107,39 @@ site_software: "Shokunin, Rust"
 
 ---
 
-Bank Statement Parser se zabývá finančními pracovními toky v reálném světě: migrace z MT940 na CAMT pro treasury týmy, automatizované odsouhlasení, kanály shody s PII redakcí, SFTP příjem, multibankovní konsolidace a bezpečné dávkové zpracování ZIP.
+Bank Statement Parser řeší reálné finanční workflows: zpracování PDF bankovních výpisů, migrace MT940-na-CAMT, automatizované odsouhlasení s ověřením zůstatku, compliance pipeline, export do plaintext-accounting, REST API nasazení, hromadné skenování a konsolidace více bank.
+
+## Zpracování PDF bankovních výpisů
+
+**Výsledek:** Parsování digitálních a naskenovaných PDF bankovních výpisů s automatickým ověřením zůstatku — bez cloudových API, žádná data neopustí váš počítač.
+
+Hybridní PDF pipeline směruje každý PDF optimální extrakční cestou a ověřuje každý výsledek.
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+
+# Review discrepancies interactively
+# bankstatementparser --type review --input result.json
+```
+
+## Hromadné zpracování výpisů
+
+**Výsledek:** Skenování celých adresářových stromů (stovky PDF, XML, CSV) s automatickou deduplikací napříč soubory v jednom volání.
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Files: {len(batch.results)}, Unique txns: {batch.unique_count}")
+```
 
 ## Treasury: Migrace MT940 na CAMT.053
 
-**Výsledek:** Jedno volání API zpracovává MT940 i CAMT.053 během okna migrace SWIFT (listopad 2025–listopad 2028), čímž se eliminuje potřeba samostatných kanálů analýzy.
+**Výsledek:** Jedno volání API zpracovává MT940 i CAMT.053 během migračního okna SWIFT (listopad 2025–listopad 2028), čímž eliminuje potřebu samostatných pipeline.
 
 Treasury týmy po celém světě migrují z MT940 na CAMT.053 před termínem SWIFT v listopadu 2027. Bank Statement Parser zpracovává oba formáty pomocí jediného API, takže přechod je bezproblémový.
 
@@ -126,17 +154,23 @@ for file in daily_statement_files:
     load_to_treasury_system(df)
 ```
 
-## Automatické odsouhlasení
+## Automatizované odsouhlasení s ověřením zůstatku
 
-**Výsledek:** DataFrame-Agnostické datové rámce s vestavěnou deduplikací snižují úsilí o ruční párování a zachycují duplicitní položky dříve, než se dostanou do vaší účetní knihy.
+**Výsledek:** Formátově nezávislé DataFrames s ověřením Golden Rule a deduplikací zachytí chyby a duplicity dříve, než se dostanou do vaší účetní knihy.
 
-Automaticky analyzujte bankovní výpisy a spárujte je s interními záznamy. Díky jednotnému výstupu DataFrame je logika usmíření bez formátování.
+Parsujte bankovní výpisy, ověřte zůstatky a automaticky je spárujte s interními záznamy.
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
+from bankstatementparser.hybrid import verify_balance_multi_currency
 
 parser = CamtParser("bank_statement.xml")
 bank_txns = parser.parse()
+
+# Verify balances per currency
+verification = verify_balance_multi_currency(bank_txns)
+for ccy, result in verification.items():
+    assert result.status == "VERIFIED", f"{ccy} balance mismatch!"
 
 # Deduplicate before reconciliation
 dedup = Deduplicator()
@@ -147,11 +181,39 @@ clean_txns = result.unique_transactions
 unmatched = reconcile(clean_txns, internal_ledger)
 ```
 
-## Compliance and Audit Pipelines
+## Plaintext accounting (hledger / beancount)
 
-**Výsledek:** Deterministický výstup a automatická redakce PII vytváří protokoly připravené pro audit, které splňují regulační požadavky na reprodukovatelnost bez dalších nástrojů.
+**Výsledek:** Automatické zpracování PDF bankovních výpisů a export kategorizovaných transakcí do formátu hledger nebo beancount deníku.
 
-Vytvářejte kanály připravené na audit s redakcí PII a deterministickým výstupem. Každý běh poskytuje stejné výsledky pro stejný vstup, splňující regulační požadavky na reprodukovatelnost.
+```python
+from bankstatementparser.hybrid import smart_ingest
+from bankstatementparser.enrichment import Categorizer
+from bankstatementparser.export import to_hledger
+
+result = smart_ingest("statement.pdf")
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(result.transactions)
+journal = to_hledger(enriched, account="Assets:Bank:Checking")
+```
+
+## Nasazení REST API
+
+**Výsledek:** Nasaďte Bank Statement Parser jako mikroservis, který přijímá soubory výpisů přes HTTP a vrací strukturovaný JSON.
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+```
+
+```bash
+# Ingest a statement
+curl -X POST http://localhost:8000/ingest \
+  -F "file=@statement.pdf"
+```
+
+## Compliance a auditní pipeline
+
+**Výsledek:** Deterministický výstup, automatická redakce PII a ověření Golden Rule produkují záznamy připravené pro audit, které splňují regulační požadavky na reprodukovatelnost.
 
 ```python
 from bankstatementparser import CamtParser
@@ -166,11 +228,9 @@ for txn in parser.parse_streaming(redact_pii=True):
 parser.export_csv("archive/statement.csv")
 ```
 
-## Pracovní postupy SFTP-to-DataFrame
+## SFTP-to-DataFrame workflows
 
-**Výsledek:** Analyzujte přímo z bajtů s nulovým diskovým I/O, což nativně zapadá do pracovních postupů pro připojení bank řízených SFTP a API.
-
-Mnoho bank doručuje výpisy přes SFTP. Analyzujte přímo z bajtů bez zápisu na disk.
+**Výsledek:** Parsujte přímo z bajtů s nulovým diskovým I/O, což nativně zapadá do SFTP a API workflows pro bankovní konektivitu.
 
 ```python
 from bankstatementparser import CamtParser
@@ -182,9 +242,7 @@ df = parser.parse()
 
 ## Konsolidace více bank
 
-**Výsledek:** Paralelní analýza napříč HSBC (CAMT), Barclays (MT940), Revolut (CSV) a Wise (OFX) vytváří jedinou normalizovanou datovou sadu v jednom volání.
-
-Konsolidujte výpisy z více bank pomocí různých formátů do jediné normalizované datové sady.
+**Výsledek:** Paralelní parsování napříč HSBC (CAMT), Barclays (MT940), Revolut (CSV), Wise (OFX) a Chase (PDF) vytváří jedinou normalizovanou datovou sadu.
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -199,11 +257,9 @@ results = parse_files_parallel([
 all_transactions = pd.concat([r.transactions for r in results if r.status == "success"])
 ```
 
-## Dávkové zpracování s archivy ZIP
+## Dávkové zpracování s ZIP archivy
 
-**Výsledek:** Vestavěná ochrana proti bombám ve formátu ZIP (limit poměru 100:1, vstupní limit 10 MB, odmítnutí šifrovaného záznamu) vám umožňuje bezpečně zpracovávat archivy měsíčních výpisů.
-
-Zpracovávejte archivy výpisů zazipovaných bezpečně pomocí vestavěné ochrany proti bombám ZIP.
+**Výsledek:** Vestavěná ochrana proti ZIP bombám (limit poměru 100:1, limit záznamu 10 MB, odmítnutí šifrovaných záznamů) vám umožňuje bezpečně zpracovávat archivy měsíčních výpisů.
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
@@ -214,4 +270,4 @@ for entry in iter_secure_xml_entries("monthly_statements.zip"):
     save_to_warehouse(entry.source_name, df)
 ```
 
-[Porovnejte s alternativami ❯](/comparison/index.html) | [Naplánujte si migraci na ISO 20022 ❯](/migration/index.html) | [Začínáme ❯](/getting-started/index.html)
+[Porovnejte s alternativami ❯](/comparison/index.html) | [Naplánujte si migraci na ISO 20022 ❯](/migration/index.html) | [Začít ❯](/getting-started/index.html)

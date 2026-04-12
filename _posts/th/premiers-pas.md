@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "ตึกสีขาวกับหน้าต่างสีดำ"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 ตัวแยกวิเคราะห์ใบแจ้งยอดบัญชีธนาคาร สงวนลิขสิทธิ์."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "เริ่มต้นใช้งาน Bank Statement Parser สำหรับ Python: ติดตั้ง แยกวิเคราะห์ไฟล์ CAMT/PAIN.001/CSV/OFX/QFX/MT940 และใช้เวิร์กโฟลว์การสตรีมหรือ CLI"
 download: ""
 format-detection: "telephone=no"
@@ -107,26 +107,43 @@ site_software: "Shokunin, Rust"
 
 ---
 
-## ความต้องการ
+## ข้อกำหนดเบื้องต้น
 
-- ไพธอน 3.9 ถึง 3.14
-- การเข้าถึงเทอร์มินัล (macOS, Linux หรือ WSL)
+- Python 3.10 ถึง 3.14
+- การเข้าถึง Terminal (macOS, Linux หรือ WSL)
 
-## ติดตั้ง
+## การติดตั้ง
 
 ```bash
+# ติดตั้งแบบพื้นฐาน (deterministic parsers เท่านั้น)
 pip install bankstatementparser
 ```
 
-สำหรับการสนับสนุน Polars DataFrame:
+ตัวเลือกเสริมสำหรับความสามารถเพิ่มเติม:
 
 ```bash
-pip install bankstatementparser[polars]
+# เส้นทาง Text-LLM สำหรับ PDF ดิจิทัล (litellm + pypdf)
+pip install 'bankstatementparser[hybrid]'
+
+# การดึงตารางที่แม่นยำยิ่งขึ้น (เพิ่ม pdfplumber)
+pip install 'bankstatementparser[hybrid-plus]'
+
+# เส้นทาง Vision-LLM สำหรับ PDF สแกน (เพิ่ม pypdfium2)
+pip install 'bankstatementparser[hybrid-vision]'
+
+# การจัดหมวดหมู่ธุรกรรมด้วย LLM
+pip install 'bankstatementparser[enrichment]'
+
+# REST API microservice (FastAPI + uvicorn)
+pip install 'bankstatementparser[api]'
+
+# รองรับ Polars DataFrame (ตัวเลือกเสริม)
+pip install 'bankstatementparser[polars]'
 ```
 
 ## เริ่มต้นอย่างรวดเร็ว
 
-### ตรวจจับอัตโนมัติและแยกวิเคราะห์รูปแบบใด ๆ
+### ตรวจจับอัตโนมัติและแยกวิเคราะห์รูปแบบที่มีโครงสร้าง
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -137,7 +154,7 @@ df = parser.parse()  # pandas DataFrame
 print(df.head())
 ```
 
-วิธีนี้ใช้ได้กับ`.xml`(CAMT/PAIN.001)`.csv`, `.ofx`, `.qfx`, `.mt940`, และ`.sta`ไฟล์.
+ใช้ได้กับไฟล์ `.xml` (CAMT/PAIN.001), `.csv`, `.ofx`, `.qfx`, `.mt940` และ `.sta`
 
 ### แยกวิเคราะห์ CAMT.053
 
@@ -157,9 +174,24 @@ parser = Pain001Parser("payment.xml")
 payments = parser.parse()
 ```
 
-## สตรีมมิ่งไฟล์ขนาดใหญ่
+### แยกวิเคราะห์ใบแจ้งยอดธนาคาร PDF (ไปป์ไลน์ไฮบริด)
 
-สำหรับไฟล์ที่มีธุรกรรมหลายพันรายการ ให้ใช้การสตรีมเพื่อจำกัดขอบเขตหน่วยความจำ:
+ไปป์ไลน์ไฮบริดจะส่ง PDF ผ่านเส้นทางการดึงข้อมูลสามเส้นทางอย่างชาญฉลาด:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+print(result.transactions)          # List of extracted transactions
+```
+
+การดึงข้อมูลทุกครั้งจะถูกตรวจสอบด้วย **Golden Rule**: `opening + credits − debits == closing`
+
+## การสตรีมไฟล์ขนาดใหญ่
+
+สำหรับไฟล์ที่มีธุรกรรมหลายพันรายการ ใช้การสตรีมเพื่อจำกัดหน่วยความจำ:
 
 ```python
 parser = CamtParser("large_statement.xml")
@@ -169,7 +201,7 @@ for transaction in parser.parse_streaming(redact_pii=True):
 
 ## การแยกวิเคราะห์ในหน่วยความจำ
 
-แยกวิเคราะห์จากไบต์ที่ไม่มีดิสก์ I/O -- มีประโยชน์สำหรับเวิร์กโฟลว์ SFTP หรือ API:
+แยกวิเคราะห์จากไบต์โดยไม่ต้องใช้ดิสก์ I/O -- เหมาะสำหรับเวิร์กโฟลว์ SFTP หรือ API:
 
 ```python
 xml_bytes = download_from_sftp()
@@ -193,9 +225,21 @@ for r in results:
     print(r.path, r.status, len(r.transactions), "rows")
 ```
 
-## การขจัดข้อมูลซ้ำซ้อน
+## การสแกนไดเรกทอรีจำนวนมาก
 
-ตรวจจับรายการที่ซ้ำกันทุกประการและการแข่งขันที่ต้องสงสัยด้วยคะแนนความมั่นใจ:
+ประมวลผลโฟลเดอร์ทั้งหมดพร้อมการขจัดข้อมูลซ้ำอัตโนมัติ:
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Processed: {len(batch.results)} files")
+print(f"Unique transactions: {batch.unique_count}")
+```
+
+## การขจัดข้อมูลซ้ำ
+
+Transaction hashes แบบ idempotent สำหรับการนำเข้าแบบ incremental อย่างปลอดภัย:
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
@@ -209,9 +253,61 @@ print(f"Exact duplicates: {len(result.exact_duplicates)}")
 print(f"Suspected matches: {len(result.suspected_matches)}")
 ```
 
-## การประมวลผล ZIP ที่ปลอดภัย
+## การจัดหมวดหมู่ธุรกรรม (Enrichment)
 
-ประมวลผลไฟล์ XML แบบซิปพร้อมการตรวจสอบความปลอดภัยในตัว (การป้องกันระเบิด การปฏิเสธรายการที่เข้ารหัส):
+จัดหมวดหมู่ธุรกรรมอัตโนมัติโดยใช้การจำแนกด้วย LLM:
+
+```python
+from bankstatementparser.enrichment import Categorizer
+
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(transactions)
+for txn in enriched:
+    print(f"{txn.description}: {txn.category}")
+```
+
+## การส่งออก Ledger (hledger / beancount)
+
+ส่งออกธุรกรรมเป็นรูปแบบ journal สำหรับบัญชีแบบ plaintext:
+
+```python
+from bankstatementparser.export import to_hledger, to_beancount
+
+journal = to_hledger(transactions, account="Assets:Bank:Checking")
+beancount_journal = to_beancount(transactions, account="Assets:Bank:Checking")
+```
+
+## การตรวจสอบยอดคงเหลือหลายสกุลเงิน
+
+ตรวจสอบยอดคงเหลือแยกตามกลุ่มสกุลเงิน:
+
+```python
+from bankstatementparser.hybrid import verify_balance_multi_currency
+
+results = verify_balance_multi_currency(transactions)
+for currency, verification in results.items():
+    print(f"{currency}: {verification.status}")
+```
+
+## REST API
+
+ใช้งานเป็น FastAPI microservice:
+
+```bash
+# เริ่มต้นเซิร์ฟเวอร์ API
+bankstatementparser-api --port 8000
+
+# สำหรับการ deploy แบบ container
+bankstatementparser-api --host 0.0.0.0 --port 9000
+```
+
+Endpoints:
+- `POST /ingest` -- แยกวิเคราะห์ไฟล์ใบแจ้งยอดธนาคาร
+- `GET /health` -- ตรวจสอบสถานะ
+
+## การประมวลผล ZIP อย่างปลอดภัย
+
+ประมวลผลไฟล์ XML ที่บีบอัดพร้อมการตรวจสอบความปลอดภัยในตัว (ป้องกัน bomb, ปฏิเสธรายการที่เข้ารหัส):
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
@@ -221,7 +317,7 @@ for entry in iter_secure_xml_entries("statements.zip"):
     print(f"{entry.source_name}: {len(parser.parse())} transactions")
 ```
 
-## ส่งออก
+## การส่งออก
 
 ```python
 parser = CamtParser("statement.xml")
@@ -230,83 +326,104 @@ parser.export_json("output.json")
 
 # Polars (requires bankstatementparser[polars])
 polars_df = parser.to_polars()
+
+# Excel
+parser.camt_to_excel("output.xlsx")
 ```
 
 ## การใช้งาน CLI
 
 ```bash
-# Parse and display
-python -m bankstatementparser.cli --type camt --input statement.xml
+# แยกวิเคราะห์รูปแบบที่มีโครงสร้าง
+bankstatementparser --type camt --input statement.xml
+bankstatementparser --type pain001 --input payment.xml
 
-# Export to CSV
-python -m bankstatementparser.cli --type camt --input statement.xml --output transactions.csv
+# ไปป์ไลน์ PDF แบบไฮบริด
+bankstatementparser --type ingest --input statement.pdf
+bankstatementparser --type ingest --input statement.pdf --output ledger.csv
 
-# Stream with PII visible
-python -m bankstatementparser.cli --type camt --input statement.xml --streaming --show-pii
+# โหมดตรวจสอบแบบโต้ตอบ
+bankstatementparser --type review --input result.json
+bankstatementparser --type review --input result.json --output reviewed.json
+
+# ส่งออกเป็น CSV พร้อมสตรีมมิง
+bankstatementparser --type camt --input statement.xml --output transactions.csv
+bankstatementparser --type camt --input statement.xml --streaming --show-pii
 ```
 
 ตัวเลือก CLI:
 
-- `--type {camt,pain001}`-- ประเภทพาร์เซอร์
--`--input <path>`-- ไฟล์อินพุต
--`--output <csv_path>`- ส่งออกเป็น CSV
--`--streaming`-- สตรีมไฟล์ขนาดใหญ่
--`--show-pii`-- แสดงช่องที่ละเอียดอ่อน (แก้ไขโดยค่าเริ่มต้น)
--`--max-size <MB>`-- ขีดจำกัดขนาดไฟล์
+- `--type {camt,pain001,ingest,review}` -- ประเภท parser หรือโหมด
+- `--input <path>` -- ไฟล์อินพุต
+- `--output <path>` -- ไฟล์ส่งออก (CSV หรือ JSON)
+- `--streaming` -- สตรีมไฟล์ขนาดใหญ่
+- `--show-pii` -- แสดงฟิลด์ที่ละเอียดอ่อน (ปกปิดตามค่าเริ่มต้น)
+- `--max-size <MB>` -- ขีดจำกัดขนาดไฟล์
 
-## การตั้งค่าการพัฒนาท้องถิ่น
+## การตั้งค่าสำหรับการพัฒนาในเครื่อง
 
 ```bash
 git clone https://github.com/sebastienrousseau/bankstatementparser.git
 cd bankstatementparser
 python3 -m venv .venv && source .venv/bin/activate
 pip install poetry && poetry install --with dev
+make install-hooks   # pre-commit hook runs `make verify` before every commit
 ```
 
-เรียกใช้ชุดทดสอบ:
+รันชุดทดสอบ:
 
 ```bash
 pytest
 ```
 
-## การอ้างอิง API
+## API Reference
 
 ### คลาส Parser
 
-| ระดับ | รูปแบบ | นำเข้า |
+| คลาส | รูปแบบ | Import |
 |---|---|---|
 | `CamtParser` | CAMT.053 (ISO 20022) | `from bankstatementparser import CamtParser` |
-| `Pain001Parser` | ความเจ็บปวด.001 (ISO 20022) | `from bankstatementparser import Pain001Parser` |
-| `CsvStatementParser` | ซีเอสวี | `from bankstatementparser import CsvStatementParser` |
-| `OfxParser` | โอเอฟเอ็กซ์ | `from bankstatementparser import OfxParser` |
-| `QfxParser` | คิวเอฟเอ็กซ์ | `from bankstatementparser import QfxParser` |
+| `Pain001Parser` | PAIN.001 (ISO 20022) | `from bankstatementparser import Pain001Parser` |
+| `CsvStatementParser` | CSV | `from bankstatementparser import CsvStatementParser` |
+| `OfxParser` | OFX | `from bankstatementparser import OfxParser` |
+| `QfxParser` | QFX | `from bankstatementparser import QfxParser` |
 | `Mt940Parser` | MT940 | `from bankstatementparser import Mt940Parser` |
+| `smart_ingest()` | PDF (ไปป์ไลน์ไฮบริด) | `from bankstatementparser.hybrid import smart_ingest` |
 
-### ฟังก์ชั่นยูทิลิตี้
+### ฟังก์ชันยูทิลิตี
 
-| การทำงาน | วัตถุประสงค์ |
+| ฟังก์ชัน | วัตถุประสงค์ |
 |---|---|
 | `detect_statement_format(path)` | ตรวจจับรูปแบบไฟล์อัตโนมัติ |
-| `create_parser(path, fmt)` | สร้างตัวแยกวิเคราะห์ที่เหมาะสม |
+| `create_parser(path, fmt)` | สร้าง parser ที่เหมาะสม |
 | `parse_files_parallel(paths)` | แยกวิเคราะห์หลายไฟล์พร้อมกัน |
-| `iter_secure_xml_entries(zip_path)` | ทำซ้ำรายการ ZIP อย่างปลอดภัย |
+| `iter_secure_xml_entries(zip_path)` | วนรายการ ZIP อย่างปลอดภัย |
+| `smart_ingest(path)` | ดึงข้อมูล PDF แบบไฮบริดพร้อมการตรวจสอบ |
+| `scan_and_ingest(dir, pattern)` | สแกนไดเรกทอรีจำนวนมาก |
+| `verify_balance_multi_currency(txns)` | ตรวจสอบยอดคงเหลือตามสกุลเงิน |
+| `to_hledger(txns, account)` | ส่งออกเป็นรูปแบบ hledger journal |
+| `to_beancount(txns, account)` | ส่งออกเป็นรูปแบบ beancount journal |
 
 ### คลาสข้อมูล
 
-| ระดับ | วัตถุประสงค์ |
+| คลาส | วัตถุประสงค์ |
 |---|---|
 | `Deduplicator` | ตรวจจับธุรกรรมที่ซ้ำกัน |
-| `DeduplicationResult` | ผลลัพธ์ที่มีการจับคู่ที่ไม่ซ้ำ ตรงทั้งหมด และต้องสงสัย |
+| `DeduplicationResult` | ผลลัพธ์พร้อมรายการไม่ซ้ำ ซ้ำตรง และต้องสงสัย |
 | `InputValidator` | ตรวจสอบเส้นทางและรูปแบบไฟล์ |
-| `Transaction` | บันทึกธุรกรรมที่เป็นมาตรฐาน |
+| `Transaction` | บันทึกธุรกรรมที่ปรับมาตรฐานแล้ว |
 | `FileResult` | ผลลัพธ์จากการแยกวิเคราะห์แบบขนาน |
-| `ZipXMLSource` | กระดาษห่อสมาชิก ZIP |
+| `ZipXMLSource` | wrapper สำหรับสมาชิก ZIP |
+| `IngestResult` | ผลลัพธ์ไปป์ไลน์ไฮบริดพร้อมการตรวจสอบ |
+| `VerificationResult` | ผลลัพธ์การตรวจสอบยอดคงเหลือ |
+| `Categorizer` | การจัดหมวดหมู่ธุรกรรมด้วย LLM |
+| `AccountMapper` | กฎแมปบัญชีด้วย regex |
 
 ### ข้อยกเว้น
 
-| ข้อยกเว้น | เมื่อถูกยกขึ้น |
+| ข้อยกเว้น | เมื่อถูกเรียก |
 |---|---|
-| `ParserError` | การแยกวิเคราะห์ความล้มเหลว |
+| `ParserError` | การแยกวิเคราะห์ล้มเหลว |
 | `ExportError` | การส่งออกล้มเหลว (CSV/JSON/Excel) |
 | `ValidationError` | การตรวจสอบอินพุตล้มเหลว |
-| `ZipSecurityError` | ความล้มเหลวในการตรวจสอบความปลอดภัยของ ZIP |
+| `ZipSecurityError` | การตรวจสอบความปลอดภัย ZIP ล้มเหลว |

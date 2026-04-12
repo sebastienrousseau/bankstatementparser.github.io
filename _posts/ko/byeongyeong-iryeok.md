@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "은행 명세서 파서 변경 내역"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 은행 명세서 파서. 모든 권리 보유."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "은행 계좌 명세서 파서의 출시 내역 및 변경 로그입니다. 모든 버전에서 새로운 기능, 개선 사항, 버그 수정을 추적하세요."
 download: ""
 format-detection: "telephone=no"
@@ -109,7 +109,36 @@ site_software: "Shokunin, Rust"
 
 은행 명세서 파서 개발을 따르십시오. [RSS](/changelog/rss.xml)를 통해 구독하거나 [GitHub 저장소](https://github.com/sebastienrousseau/bankstatementparser) 출시 알림용입니다.
 
-## v0.0.4 — 2026-03-15 (최신)
+## v0.0.8 — 2026-04-11 (Latest) — "Full Platform"
+
+- Multi-currency balance verification — `verify_balance_multi_currency()` groups by currency, runs Golden Rule per group.
+- hledger + beancount export — `to_hledger()` and `to_beancount()` in `bankstatementparser.export`.
+- Bulk directory scanner — `scan_and_ingest()` scans folder trees, deduplicates across batch.
+- Account mapping rules — `AccountMapper` with ordered regex rules from JSON config.
+- REST API — FastAPI wrapper with `/ingest` and `/health` endpoints (`[api]` extra).
+
+## v0.0.7 — 2026-04-08 — "Universal Vision"
+
+- Direct Ollama bridge (`ollama_direct_completion`) — bypasses LiteLLM long-prompt hang.
+- Strip mode (`VisionExtractor.strip_rows=True`) — splits dense pages into overlapping bands for small local models.
+- Recommended vision model changed from `llava` to `minicpm-v`.
+
+## v0.0.6 — 2026-04-08 — "Intelligence Layer"
+
+- Dropped Python 3.9 support (now 3.10-3.14).
+- Enrichment module (`Categorizer`, `EnrichedTransaction`, `DEFAULT_CATEGORY_SCHEMA`).
+- Interactive review mode with `--type review` CLI command.
+- Per-row bounding box extraction (`Transaction.source_bbox`).
+
+## v0.0.5 — 2026-04-08 — "Universal Extraction"
+
+- Hybrid PDF pipeline (`smart_ingest()`) with deterministic/text-LLM/vision-LLM routing.
+- `LLMExtractor` for digital PDFs via LiteLLM.
+- `VisionExtractor` for scanned PDFs via multimodal vision models.
+- Golden Rule balance verification (`opening + credits - debits == closing`).
+- Idempotent deduplication via `transaction_hash` (MD5 fingerprint).
+
+## v0.0.4 — 2026-03-15
 
 - 병렬 파일 구문 분석이 추가되었습니다.`parse_files_parallel()`ProcessPoolExecutor를 사용합니다.
 - 메모리가 제한된 대용량 PAIN.001 파일(50MB 이상)에 대한 트루 스트리밍을 추가했습니다.
@@ -126,7 +155,7 @@ site_software: "Shokunin, Rust"
 - PII 수정이 추가되었습니다(CLI 및 스트리밍 모드에서는 기본적으로 활성화됨).
 - CSV, JSON, Excel용 내보내기 도우미가 추가되었습니다.
 - 선택적인 Polars DataFrame 지원이 추가되었습니다.
-- 100% 분기 적용 범위를 갖춘 467개 테스트로 테스트 모음을 확장했습니다.
+- 100% 분기 적용 범위를 갖춘 718개 테스트로 테스트 모음을 확장했습니다.
 
 ## v0.0.2 — 2025-06-10
 
@@ -152,7 +181,7 @@ site_software: "Shokunin, Rust"
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "교차 플랫폼",
   "소프트웨어버전": "0.0.4",
-  "datePublished": "2026-03-15",
+  "datePublished": "2026-04-11",
   "releaseNotes": "병렬 파일 구문 분석, PAIN.001에 대한 진정한 스트리밍, 성능 최적화(27K+ tx/s CAMT, 52K+ tx/s PAIN.001), 중복 제거기 클래스, 메모리 내 구문 분석, 보안 ZIP 처리가 추가되었습니다.",
   "다운로드 URL": "https://pypi.org/project/bankstatementparser/",
   "라이센스": "https://opensource.org/licenses/Apache-2.0",

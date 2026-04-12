@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Journal des modifications de l'analyseur de relevé bancaire"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Analyseur de relevés bancaires. Tous droits réservés."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Historique des versions et journal des modifications pour l'analyseur de relevé bancaire. Suivez les nouvelles fonctionnalités, les améliorations et les corrections de bugs dans toutes les versions."
 download: ""
 format-detection: "telephone=no"
@@ -109,7 +109,36 @@ site_software: "Shokunin, Rust"
 
 Suivez le développement de l’analyseur de relevés bancaires. Abonnez-vous via [RSS](/changelog/rss.xml) ou regardez le [dépôt GitHub](https://github.com/sebastienrousseau/bankstatementparser) pour les notifications de version.
 
-## v0.0.4 — 2026-03-15 (dernier)
+## v0.0.8 — 2026-04-11 (Latest) — "Full Platform"
+
+- Multi-currency balance verification — `verify_balance_multi_currency()` groups by currency, runs Golden Rule per group.
+- hledger + beancount export — `to_hledger()` and `to_beancount()` in `bankstatementparser.export`.
+- Bulk directory scanner — `scan_and_ingest()` scans folder trees, deduplicates across batch.
+- Account mapping rules — `AccountMapper` with ordered regex rules from JSON config.
+- REST API — FastAPI wrapper with `/ingest` and `/health` endpoints (`[api]` extra).
+
+## v0.0.7 — 2026-04-08 — "Universal Vision"
+
+- Direct Ollama bridge (`ollama_direct_completion`) — bypasses LiteLLM long-prompt hang.
+- Strip mode (`VisionExtractor.strip_rows=True`) — splits dense pages into overlapping bands for small local models.
+- Recommended vision model changed from `llava` to `minicpm-v`.
+
+## v0.0.6 — 2026-04-08 — "Intelligence Layer"
+
+- Dropped Python 3.9 support (now 3.10-3.14).
+- Enrichment module (`Categorizer`, `EnrichedTransaction`, `DEFAULT_CATEGORY_SCHEMA`).
+- Interactive review mode with `--type review` CLI command.
+- Per-row bounding box extraction (`Transaction.source_bbox`).
+
+## v0.0.5 — 2026-04-08 — "Universal Extraction"
+
+- Hybrid PDF pipeline (`smart_ingest()`) with deterministic/text-LLM/vision-LLM routing.
+- `LLMExtractor` for digital PDFs via LiteLLM.
+- `VisionExtractor` for scanned PDFs via multimodal vision models.
+- Golden Rule balance verification (`opening + credits - debits == closing`).
+- Idempotent deduplication via `transaction_hash` (MD5 fingerprint).
+
+## v0.0.4 — 2026-03-15
 
 - Ajout de l'analyse de fichiers parallèles avec`parse_files_parallel()`en utilisant ProcessPoolExecutor.
 - Ajout d'un véritable streaming pour les gros fichiers PAIN.001 (50 Mo+) avec une mémoire limitée.
@@ -126,7 +155,7 @@ Suivez le développement de l’analyseur de relevés bancaires. Abonnez-vous vi
 - Ajout de la rédaction des PII (activée par défaut en mode CLI et streaming).
 - Ajout d'assistants d'exportation pour CSV, JSON et Excel.
 - Ajout de la prise en charge facultative de Polars DataFrame.
-- Suite de tests étendue à 467 tests avec une couverture de branche à 100 %.
+- Suite de tests étendue à 718 tests avec une couverture de branche à 100 %.
 
 ## v0.0.2 — 2025-06-10
 
@@ -151,8 +180,8 @@ Consultez l'historique complet des validations sur [GitHub](https://github.com/s
   "name": "Analyseur de relevé bancaire",
   "applicationCategory": "DéveloppeurApplication",
   "operatingSystem": "Multiplateforme",
-  "versionlogiciel": "0.0.4",
-  "datePublished": "2026-03-15",
+  "versionlogiciel": "0.0.8",
+  "datePublished": "2026-04-11",
   "releaseNotes": "Ajout de l'analyse de fichiers parallèles, véritable streaming pour PAIN.001, optimisations des performances (27K+ tx/s CAMT, 52K+ tx/s PAIN.001), classe Deduplicator, analyse en mémoire, traitement ZIP sécurisé.",
   "URLde téléchargement": "https://pypi.org/project/bankstatementparser/",
   "licence": "https://opensource.org/licenses/Apache-2.0",

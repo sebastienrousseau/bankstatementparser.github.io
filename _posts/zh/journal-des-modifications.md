@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "银行对账单解析器变更日志"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 银行对账单解析器。版权所有。"
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "银行对账单解析器的发布历史记录和变更日志。跟踪所有版本的新功能、改进和错误修复。"
 download: ""
 format-detection: "telephone=no"
@@ -109,6 +109,35 @@ site_software: "Shokunin, Rust"
 
 关注银行对账单解析器的开发。通过 [RSS](/changelog/rss.xml) 订阅或观看 [GitHub 存储库](https://github.com/sebastienrousseau/bankstatementparser) 用于发布通知。
 
+## v0.0.8 — 2026-04-11 (Latest) — "Full Platform"
+
+- Multi-currency balance verification — `verify_balance_multi_currency()` groups by currency, runs Golden Rule per group.
+- hledger + beancount export — `to_hledger()` and `to_beancount()` in `bankstatementparser.export`.
+- Bulk directory scanner — `scan_and_ingest()` scans folder trees, deduplicates across batch.
+- Account mapping rules — `AccountMapper` with ordered regex rules from JSON config.
+- REST API — FastAPI wrapper with `/ingest` and `/health` endpoints (`[api]` extra).
+
+## v0.0.7 — 2026-04-08 — "Universal Vision"
+
+- Direct Ollama bridge (`ollama_direct_completion`) — bypasses LiteLLM long-prompt hang.
+- Strip mode (`VisionExtractor.strip_rows=True`) — splits dense pages into overlapping bands for small local models.
+- Recommended vision model changed from `llava` to `minicpm-v`.
+
+## v0.0.6 — 2026-04-08 — "Intelligence Layer"
+
+- Dropped Python 3.9 support (now 3.10-3.14).
+- Enrichment module (`Categorizer`, `EnrichedTransaction`, `DEFAULT_CATEGORY_SCHEMA`).
+- Interactive review mode with `--type review` CLI command.
+- Per-row bounding box extraction (`Transaction.source_bbox`).
+
+## v0.0.5 — 2026-04-08 — "Universal Extraction"
+
+- Hybrid PDF pipeline (`smart_ingest()`) with deterministic/text-LLM/vision-LLM routing.
+- `LLMExtractor` for digital PDFs via LiteLLM.
+- `VisionExtractor` for scanned PDFs via multimodal vision models.
+- Golden Rule balance verification (`opening + credits - debits == closing`).
+- Idempotent deduplication via `transaction_hash` (MD5 fingerprint).
+
 ## v0.0.4 — 2026-03-15（最新）
 
 - 添加了并行文件解析`parse_files_parallel()`使用 ProcessPoolExecutor。
@@ -126,7 +155,7 @@ site_software: "Shokunin, Rust"
 - 添加了 PII 编辑（在 CLI 和流模式下默认启用）。
 - 添加了 CSV、JSON 和 Excel 的导出帮助程序。
 - 添加了可选的 Polars DataFrame 支持。
-- 将测试套件扩展至 467 个测试，分支覆盖率为 100%。
+- 将测试套件扩展至 718 个测试，分支覆盖率为 100%。
 
 ## v0.0.2 — 2025-06-10
 

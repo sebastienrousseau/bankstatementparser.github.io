@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "בניין לבן עם חלונות שחורים"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
-copyright: "© 2023-2026 מנתח חשבונות בנק. כֹּל הַזְכוּיוֹת שְׁמוּרוֹת."
-date: "Apr 01, 2026"
+copyright: "© 2023-2026 מנתח חשבונות בנק. כֹּל הַזְכוּיוֹת שְׁמוּרוֹת."
+date: "Apr 11, 2026"
 description: "התחל עם מנתח חשבונות בנק עבור Python: התקן, נתח קבצי CAMT/PAIN.001/CSV/OFX/QFX/MT940 והשתמש בזרימות עבודה בסטרימינג או ב-CLI."
 download: ""
 format-detection: "telephone=no"
@@ -109,24 +109,41 @@ site_software: "Shokunin, Rust"
 
 ## דרישות
 
-- Python 3.9 עד 3.14
-- גישה למסוף (macOS, Linux או WSL)
+- Python 3.10 עד 3.14
+- גישה לטרמינל (macOS, Linux או WSL)
 
-## התקן
+## התקנה
 
 ```bash
+# התקנה בסיסית (מנתחים דטרמיניסטיים בלבד)
 pip install bankstatementparser
 ```
 
-לתמיכה ב-Polars DataFrame:
+תוספות אופציונליות ליכולות נוספות:
 
 ```bash
-pip install bankstatementparser[polars]
+# נתיב Text-LLM לקבצי PDF דיגיטליים (litellm + pypdf)
+pip install 'bankstatementparser[hybrid]'
+
+# חילוץ טבלאות באיכות גבוהה יותר (מוסיף pdfplumber)
+pip install 'bankstatementparser[hybrid-plus]'
+
+# נתיב Vision-LLM לקבצי PDF סרוקים (מוסיף pypdfium2)
+pip install 'bankstatementparser[hybrid-vision]'
+
+# סיווג עסקאות מונע LLM
+pip install 'bankstatementparser[enrichment]'
+
+# שירות REST API (FastAPI + uvicorn)
+pip install 'bankstatementparser[api]'
+
+# תמיכה אופציונלית ב-Polars DataFrame
+pip install 'bankstatementparser[polars]'
 ```
 
 ## התחלה מהירה
 
-### זיהוי וניתוח אוטומטי של כל פורמט
+### זיהוי אוטומטי וניתוח כל פורמט מובנה
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -137,7 +154,7 @@ df = parser.parse()  # pandas DataFrame
 print(df.head())
 ```
 
-זה עובד עם`.xml`(CAMT/PAIN.001),`.csv`, `.ofx`, `.qfx`, `.mt940`, ו`.sta`קבצים.
+עובד עם קבצי `.xml` (CAMT/PAIN.001), `.csv`, `.ofx`, `.qfx`, `.mt940` ו-`.sta`.
 
 ### ניתוח CAMT.053
 
@@ -157,9 +174,24 @@ parser = Pain001Parser("payment.xml")
 payments = parser.parse()
 ```
 
-## הזרמת קבצים גדולים
+### ניתוח דפי חשבון PDF (Pipeline היברידי)
 
-עבור קבצים עם אלפי עסקאות, השתמש בסטרימינג כדי לשמור על זיכרון מוגבל:
+ה-pipeline ההיברידי מנתב קבצי PDF בצורה חכמה דרך שלושה נתיבי חילוץ:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+print(result.transactions)          # List of extracted transactions
+```
+
+כל חילוץ מאומת באמצעות **כלל הזהב**: `opening + credits − debits == closing`.
+
+## streaming קבצים גדולים
+
+עבור קבצים עם אלפי עסקאות, השתמש ב-streaming לשמירה על זיכרון מוגבל:
 
 ```python
 parser = CamtParser("large_statement.xml")
@@ -169,7 +201,7 @@ for transaction in parser.parse_streaming(redact_pii=True):
 
 ## ניתוח בזיכרון
 
-ניתוח מבתים ללא קלט/פלט דיסק -- שימושי עבור זרימות עבודה של SFTP או API:
+ניתוח מבתים ללא קלט/פלט דיסק -- שימושי לתהליכי SFTP או API:
 
 ```python
 xml_bytes = download_from_sftp()
@@ -177,9 +209,9 @@ parser = CamtParser.from_bytes(xml_bytes, source_name="daily.xml")
 transactions = parser.parse()
 ```
 
-## עיבוד קבצים מקביל
+## עיבוד קבצים מקבילי
 
-נתח קבצים מרובים במקביל:
+ניתוח מספר קבצים בו-זמנית:
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -193,9 +225,21 @@ for r in results:
     print(r.path, r.status, len(r.transactions), "rows")
 ```
 
+## סריקת תיקיות בכמות גדולה
+
+עיבוד עצי תיקיות שלמים עם מניעת כפילויות אוטומטית:
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Processed: {len(batch.results)} files")
+print(f"Unique transactions: {batch.unique_count}")
+```
+
 ## מניעת כפילויות
 
-זהה כפילויות מדויקות והתאמות חשודות עם ציוני ביטחון:
+hash עסקאות אידמפוטנטי לקליטה מצטברת בטוחה:
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
@@ -209,9 +253,61 @@ print(f"Exact duplicates: {len(result.exact_duplicates)}")
 print(f"Suspected matches: {len(result.suspected_matches)}")
 ```
 
+## סיווג עסקאות (העשרה)
+
+סיווג אוטומטי של עסקאות באמצעות LLM:
+
+```python
+from bankstatementparser.enrichment import Categorizer
+
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(transactions)
+for txn in enriched:
+    print(f"{txn.description}: {txn.category}")
+```
+
+## ייצוא ל-Ledger (hledger / beancount)
+
+ייצוא עסקאות לפורמטים של חשבונאות בטקסט:
+
+```python
+from bankstatementparser.export import to_hledger, to_beancount
+
+journal = to_hledger(transactions, account="Assets:Bank:Checking")
+beancount_journal = to_beancount(transactions, account="Assets:Bank:Checking")
+```
+
+## אימות יתרה רב-מטבעי
+
+אימות יתרות באופן עצמאי לכל קבוצת מטבע:
+
+```python
+from bankstatementparser.hybrid import verify_balance_multi_currency
+
+results = verify_balance_multi_currency(transactions)
+for currency, verification in results.items():
+    print(f"{currency}: {verification.status}")
+```
+
+## REST API
+
+פריסה כשירות FastAPI:
+
+```bash
+# הפעלת שרת ה-API
+bankstatementparser-api --port 8000
+
+# לפריסות בקונטיינר
+bankstatementparser-api --host 0.0.0.0 --port 9000
+```
+
+Endpoints:
+- `POST /ingest` -- ניתוח קובץ דף חשבון בנק
+- `GET /health` -- בדיקת תקינות
+
 ## עיבוד ZIP מאובטח
 
-עבד קובצי XML מכווץ עם בדיקות אבטחה מובנות (הגנה על פצצות, דחיית כניסה מוצפנת):
+עיבוד קבצי XML דחוסים עם בדיקות אבטחה מובנות (הגנת פצצות, דחיית ערכים מוצפנים):
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
@@ -230,29 +326,39 @@ parser.export_json("output.json")
 
 # Polars (requires bankstatementparser[polars])
 polars_df = parser.to_polars()
+
+# Excel
+parser.camt_to_excel("output.xlsx")
 ```
 
 ## שימוש ב-CLI
 
 ```bash
-# Parse and display
-python -m bankstatementparser.cli --type camt --input statement.xml
+# ניתוח פורמטים מובנים
+bankstatementparser --type camt --input statement.xml
+bankstatementparser --type pain001 --input payment.xml
 
-# Export to CSV
-python -m bankstatementparser.cli --type camt --input statement.xml --output transactions.csv
+# Pipeline היברידי ל-PDF
+bankstatementparser --type ingest --input statement.pdf
+bankstatementparser --type ingest --input statement.pdf --output ledger.csv
 
-# Stream with PII visible
-python -m bankstatementparser.cli --type camt --input statement.xml --streaming --show-pii
+# מצב סקירה אינטראקטיבי
+bankstatementparser --type review --input result.json
+bankstatementparser --type review --input result.json --output reviewed.json
+
+# ייצוא ל-CSV עם streaming
+bankstatementparser --type camt --input statement.xml --output transactions.csv
+bankstatementparser --type camt --input statement.xml --streaming --show-pii
 ```
 
 אפשרויות CLI:
 
-- `--type {camt,pain001}`-- סוג מנתח
--`--input <path>`-- קובץ קלט
--`--output <csv_path>`-- ייצא ל-CSV
--`--streaming`-- הזרמת קבצים גדולים
--`--show-pii`-- הצג שדות רגישים (מוכן כברירת מחדל)
--`--max-size <MB>`-- מגבלת גודל הקובץ
+- `--type {camt,pain001,ingest,review}` -- סוג מנתח או מצב
+- `--input <path>` -- קובץ קלט
+- `--output <path>` -- קובץ ייצוא (CSV או JSON)
+- `--streaming` -- streaming לקבצים גדולים
+- `--show-pii` -- הצג שדות רגישים (מוסתרים כברירת מחדל)
+- `--max-size <MB>` -- מגבלת גודל קובץ
 
 ## הגדרת פיתוח מקומי
 
@@ -261,9 +367,10 @@ git clone https://github.com/sebastienrousseau/bankstatementparser.git
 cd bankstatementparser
 python3 -m venv .venv && source .venv/bin/activate
 pip install poetry && poetry install --with dev
+make install-hooks   # pre-commit hook runs `make verify` before every commit
 ```
 
-הפעל את חבילת הבדיקה:
+הרצת חבילת הבדיקות:
 
 ```bash
 pytest
@@ -271,9 +378,9 @@ pytest
 
 ## הפניה ל-API
 
-### כיתות מנתח
+### מחלקות מנתח
 
-| מַחלָקָה | פוּרמָט | יְבוּא |
+| מחלקה | פורמט | ייבוא |
 |---|---|---|
 | `CamtParser` | CAMT.053 (ISO 20022) | `from bankstatementparser import CamtParser` |
 | `Pain001Parser` | PAIN.001 (ISO 20022) | `from bankstatementparser import Pain001Parser` |
@@ -281,32 +388,42 @@ pytest
 | `OfxParser` | OFX | `from bankstatementparser import OfxParser` |
 | `QfxParser` | QFX | `from bankstatementparser import QfxParser` |
 | `Mt940Parser` | MT940 | `from bankstatementparser import Mt940Parser` |
+| `smart_ingest()` | PDF (pipeline היברידי) | `from bankstatementparser.hybrid import smart_ingest` |
 
 ### פונקציות שירות
 
-| פוּנקצִיָה | מַטָרָה |
+| פונקציה | מטרה |
 |---|---|
 | `detect_statement_format(path)` | זיהוי אוטומטי של פורמט קובץ |
-| `create_parser(path, fmt)` | צור את המנתח המתאים |
-| `parse_files_parallel(paths)` | נתח קבצים מרובים בו-זמנית |
-| `iter_secure_xml_entries(zip_path)` | חזר על ערכי ZIP בצורה מאובטחת |
+| `create_parser(path, fmt)` | יצירת המנתח המתאים |
+| `parse_files_parallel(paths)` | ניתוח מספר קבצים בו-זמנית |
+| `iter_secure_xml_entries(zip_path)` | איטרציה מאובטחת על ערכי ZIP |
+| `smart_ingest(path)` | חילוץ PDF היברידי עם אימות |
+| `scan_and_ingest(dir, pattern)` | סריקת תיקיות בכמות גדולה |
+| `verify_balance_multi_currency(txns)` | אימות יתרה לכל מטבע |
+| `to_hledger(txns, account)` | ייצוא לפורמט יומן hledger |
+| `to_beancount(txns, account)` | ייצוא לפורמט יומן beancount |
 
-### כיתות נתונים
+### מחלקות נתונים
 
-| מַחלָקָה | מַטָרָה |
+| מחלקה | מטרה |
 |---|---|
 | `Deduplicator` | זיהוי עסקאות כפולות |
 | `DeduplicationResult` | תוצאה עם התאמות ייחודיות, מדויקות וחשודות |
-| `InputValidator` | אמת נתיבים ופורמטים של קבצים |
+| `InputValidator` | אימות נתיבים ופורמטים של קבצים |
 | `Transaction` | רשומת עסקה מנורמלת |
-| `FileResult` | תוצאה מניתוח מקביל |
+| `FileResult` | תוצאה מניתוח מקבילי |
 | `ZipXMLSource` | עטיפת חבר ZIP |
+| `IngestResult` | תוצאת pipeline היברידי עם אימות |
+| `VerificationResult` | תוצאת אימות יתרה |
+| `Categorizer` | סיווג עסקאות מונע LLM |
+| `AccountMapper` | כללי מיפוי חשבונות מבוססי regex |
 
-### חריגים
+### חריגות
 
-| חֲרִיגָה | כאשר גדלו |
+| חריגה | מתי מופעלת |
 |---|---|
 | `ParserError` | כשלים בניתוח |
 | `ExportError` | כשלים בייצוא (CSV/JSON/Excel) |
 | `ValidationError` | כשלים באימות קלט |
-| `ZipSecurityError` | כשלים בבדיקת אבטחה ZIP |
+| `ZipSecurityError` | כשלים בבדיקות אבטחת ZIP |

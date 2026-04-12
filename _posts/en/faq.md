@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Frequently Asked Questions about Bank Statement Parser"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Bank Statement Parser. All rights reserved."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Answers to common questions about Bank Statement Parser: data privacy, PII redaction, performance, ISO 20022 support, streaming, compliance, and treasury workflows."
 download: ""
 format-detection: "telephone=no"
@@ -56,11 +56,11 @@ generator: "Shokunin 🦀 (version 0.0.20)"
 item_description: "Answers to common questions about Bank Statement Parser: data privacy, PII redaction, performance, ISO 20022 support, streaming, compliance, and treasury workflows."
 item_guid: "https://bankstatementparser.com/faq/rss.xml"
 item_link: "https://bankstatementparser.com/faq/rss.xml"
-item_pub_date: "2026-04-01T00:00:00+00:00"
+item_pub_date: "2026-04-11T00:00:00+00:00"
 item_title: "Bank Statement Parser FAQ: Privacy, Performance, and Usage"
-last_build_date: "2026-04-01T00:00:00+00:00"
+last_build_date: "2026-04-11T00:00:00+00:00"
 managing_editor: "contact@bankstatementparser.com"
-pub_date: "2026-04-01T00:00:00+00:00"
+pub_date: "2026-04-11T00:00:00+00:00"
 ttl: "60"
 type: "website"
 webmaster: "contact@bankstatementparser.com"
@@ -100,7 +100,7 @@ author_website: "https://bankstatementparser.com"
 author_twitter: "@wwdseb"
 author_location: "London, UK"
 thanks: "Thanks for reading!"
-site_last_updated: "2026-04-01"
+site_last_updated: "2026-04-11"
 site_standards: "HTML5, CSS3, RSS, Atom, JSON, XML, YAML, Markdown, TOML"
 site_components: "Shokunin SSG, Shokunin CLI, Shokunin Templates, Kaishi Templates, Kaishi Themes"
 site_software: "Shokunin, Rust"
@@ -111,7 +111,7 @@ site_software: "Shokunin, Rust"
 
 ### Does any data leave my infrastructure?
 
-**No.** Bank Statement Parser operates as a stateless library. All processing -- parsing, PII redaction, archive extraction -- occurs within your local runtime memory. No API calls, no cloud services, no telemetry. XML parsers are hardened with `no_network=True`, blocking all outbound access at the parser level. Your financial data never leaves your environment.
+**No — not even for PDF extraction.** Bank Statement Parser operates as a stateless library. All processing -- parsing, PII redaction, archive extraction -- occurs within your local runtime memory. The hybrid PDF pipeline uses Ollama for local LLM inference — no cloud APIs. XML parsers are hardened with `no_network=True`, blocking all outbound access at the parser level. Your financial data never leaves your environment.
 
 ### How does PII redaction work?
 
@@ -123,7 +123,11 @@ Sensitive fields are masked before they reach your application logic. The parser
 
 ### Is the extraction process deterministic?
 
-**Yes -- byte-identical output on every run.** Given the same input file, the parser produces the same result every time. No randomness, no model inference, no heuristic sampling. CI enforces determinism with 467 tests at 100% branch coverage, including property-based fuzzing via Hypothesis.
+**Yes for structured formats -- byte-identical output on every run.** Given the same input file, the deterministic parsers (CAMT, PAIN.001, CSV, OFX, QFX, MT940) produce the same result every time. No randomness, no model inference, no heuristic sampling.
+
+For the hybrid PDF pipeline, LLM-based extraction paths may produce minor variations between runs. This is why every PDF extraction is verified with the **Golden Rule** (`opening + credits − debits == closing`) and flagged discrepancies can be reviewed interactively.
+
+CI enforces determinism with 718 tests at 100% branch coverage, including property-based fuzzing via Hypothesis.
 
 ### What compliance standards does the project follow?
 
@@ -150,6 +154,8 @@ Performance thresholds are validated in CI on every commit:
 | Per-transaction latency (CAMT) | 37 microseconds |
 | Per-transaction latency (PAIN.001) | 19 microseconds |
 | Time to first result | < 2 ms |
+
+PDF extraction speed depends on the routing path: deterministic (sub-second), text-LLM (seconds), vision-LLM (seconds per page).
 
 ### How are large files handled?
 
@@ -184,11 +190,13 @@ for r in results:
     print(r.path, r.status, len(r.transactions), "rows")
 ```
 
+For bulk PDF ingestion, use `scan_and_ingest()` which processes entire folder trees with automatic deduplication.
+
 ## Supported Formats
 
 ### Which bank statement formats are supported?
 
-| Format | Standard | File Types | Parser Class |
+| Format | Standard | File Types | Parser/Method |
 |---|---|---|---|
 | CAMT.053 | ISO 20022 Bank-to-Customer Statement | `.xml` | `CamtParser` |
 | PAIN.001 | ISO 20022 Credit Transfer Initiation | `.xml` | `Pain001Parser` |
@@ -196,6 +204,17 @@ for r in results:
 | OFX | Open Financial Exchange | `.ofx` | `OfxParser` |
 | QFX | Quicken Financial Exchange | `.qfx` | `QfxParser` |
 | MT940 | SWIFT standard | `.mt940`, `.sta` | `Mt940Parser` |
+| PDF | Digital and scanned statements | `.pdf` | `smart_ingest()` |
+
+### How does the hybrid PDF pipeline work?
+
+The hybrid pipeline (v0.0.5+) intelligently routes PDFs through three extraction paths:
+
+- **Path A (Deterministic)**: Structured PDF tables parsed directly — free, fastest, no LLM needed.
+- **Path B (Text-LLM)**: Digital PDFs with complex layouts extracted via local LLM (LiteLLM/Ollama).
+- **Path C (Vision-LLM)**: Scanned or photocopied statements processed with multimodal vision models.
+
+Every extraction is verified with the Golden Rule (`opening + credits − debits == closing`). Discrepancies can be reviewed interactively with `--type review`.
 
 ### Does the parser handle bank-specific dialects of CAMT.053?
 
@@ -217,17 +236,62 @@ All parsers produce standardised pandas DataFrames with consistent column types:
 | **PAIN.001** | `PmtInfId`, `PmtMtd`, `InstdAmt`, `Currency`, `CdtrNm`, `EndToEndId`, `MsgId`, `CreDtTm`, `NbOfTxs` |
 | **CSV/OFX/QFX/MT940** | `date`, `description`, `amount` (normalised) |
 
-You can also export to CSV, JSON, Excel, or convert to Polars DataFrames.
+You can also export to CSV, JSON, Excel, Polars DataFrames, hledger, or beancount journal format.
+
+## PDF and LLM Features
+
+### What LLM models does the hybrid pipeline support?
+
+The pipeline uses LiteLLM as the model abstraction layer, with a direct Ollama bridge for vision prompts. Recommended models:
+
+- **Text extraction**: Any LiteLLM-compatible model (local or remote).
+- **Vision extraction**: `ollama/minicpm-v` (recommended) for scanned PDFs.
+- **Categorisation**: Any LiteLLM-compatible model.
+
+All models can run 100% locally via Ollama — no API keys required.
+
+### What is the Golden Rule verification?
+
+Every PDF extraction is verified with the equation: `opening balance + credits − debits == closing balance`. Results are tagged as:
+
+- **VERIFIED**: Balances match exactly.
+- **DISCREPANCY**: Balances don't match — review recommended.
+- **FAILED**: Verification could not be performed (missing balance data).
+
+### Can I categorise transactions automatically?
+
+**Yes.** The enrichment module (v0.0.6+) provides LLM-powered transaction categorisation:
+
+```python
+from bankstatementparser.enrichment import Categorizer
+
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(transactions)
+```
+
+The default schema uses 13 Plaid-compatible categories. You can provide your own category schema.
+
+### Can I export to hledger or beancount?
+
+**Yes** (v0.0.8+). Export transactions to plaintext-accounting journal formats with account mapping:
+
+```python
+from bankstatementparser.export import to_hledger, to_beancount
+
+journal = to_hledger(transactions, account="Assets:Bank:Checking")
+```
 
 ## Treasury Workflows
 
 ### How does the parser handle multi-currency statements?
 
-**Each transaction preserves its original currency -- no implicit conversion.** The `Currency` field is extracted from the XML `Ccy` attribute per transaction. Multi-currency statements remain as-is. The `get_account_balances()` method returns opening and closing balances per account with original currency codes. Cross-currency reconciliation is left to your downstream logic, where you control the exchange rate source.
+**Each transaction preserves its original currency -- no implicit conversion.** The `Currency` field is extracted from the XML `Ccy` attribute per transaction. Multi-currency statements remain as-is. The `get_account_balances()` method returns opening and closing balances per account with original currency codes.
+
+Since v0.0.8, `verify_balance_multi_currency()` groups transactions by currency and runs the Golden Rule independently per group — useful for accounts that hold multiple currencies.
 
 ### Does the parser support both outgoing and incoming formats?
 
-**Yes.** `Pain001Parser` handles ISO 20022 PAIN.001 credit transfer initiation files (outgoing payments). `CamtParser` handles CAMT.053 bank-to-customer statement files (incoming reporting). Both support streaming, PII redaction, and export to CSV, JSON, and Excel. Use `detect_statement_format()` to identify the format automatically.
+**Yes.** `Pain001Parser` handles ISO 20022 PAIN.001 credit transfer initiation files (outgoing payments). `CamtParser` handles CAMT.053 bank-to-customer statement files (incoming reporting). Both support streaming, PII redaction, and export to CSV, JSON, Excel, hledger, and beancount. Use `detect_statement_format()` to identify the format automatically.
 
 ### What happens when a transaction entry is malformed?
 
@@ -235,10 +299,11 @@ Behaviour depends on the parsing mode:
 
 - **`parse()` (batch mode)** -- Malformed entries missing required fields (`Amount`, `Currency`, or `CdtDbtInd`) are skipped with a warning log. The rest of the statement parses normally.
 - **`parse_streaming()` (streaming mode)** -- Parse errors propagate immediately as exceptions. No silent data loss. This fail-fast behaviour is intentional for financial workflows where every transaction must be accounted for.
+- **`smart_ingest()` (hybrid PDF)** -- Extraction errors are captured in the `IngestResult` with verification status, allowing interactive review.
 
 ### How does deduplication work?
 
-The `Deduplicator` class detects exact duplicates and suspected matches with explainable confidence scores:
+Each transaction is assigned an idempotent `transaction_hash` (MD5 fingerprint) based on its key fields. This enables safe incremental ingestion — re-processing the same file produces the same hashes, so duplicates are detected automatically.
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
@@ -257,22 +322,26 @@ print(f"Suspected matches: {len(result.suspected_matches)}")
 ### How do I install Bank Statement Parser?
 
 ```bash
+# Core install (deterministic parsers only)
 pip install bankstatementparser
-```
 
-For optional Polars DataFrame support:
+# PDF hybrid pipeline
+pip install 'bankstatementparser[hybrid]'         # Text-LLM path
+pip install 'bankstatementparser[hybrid-vision]'   # Vision-LLM path
 
-```bash
-pip install bankstatementparser[polars]
+# Extras
+pip install 'bankstatementparser[enrichment]'      # Transaction categorisation
+pip install 'bankstatementparser[api]'             # REST API microservice
+pip install 'bankstatementparser[polars]'          # Polars DataFrame support
 ```
 
 ### Which Python versions are supported?
 
-Python 3.9 through 3.14. All versions are tested in CI with 467 tests at 100% branch coverage.
+Python 3.10 through 3.14. Python 3.9 support was dropped in v0.0.6 (EOL 2025-10-31). All versions are tested in CI with 718 tests at 100% branch coverage.
 
 ### What are the dependencies?
 
-The library has 5 direct dependencies:
+The core library has 5 direct dependencies:
 
 - `lxml` -- XML parsing with security hardening
 - `pandas` -- DataFrames and data manipulation
@@ -280,18 +349,30 @@ The library has 5 direct dependencies:
 - `pydantic` -- Data validation and models
 - `defusedxml` -- XXE protection
 
+Optional extras add: `litellm`, `pypdf`, `pdfplumber`, `pypdfium2`, `fastapi`, `uvicorn`, `polars`.
+
 All dependencies have SHA-256 hash-locked versions. The CycloneDX SBOM maps every runtime component.
 
 ### Does it work on macOS, Linux, and Windows?
 
 **Yes.** The library works on macOS, Linux, and Windows (via WSL). It has no platform-specific dependencies.
 
+### Is there a REST API?
+
+**Yes** (v0.0.8+). Install with `pip install 'bankstatementparser[api]'` and run:
+
+```bash
+bankstatementparser-api --port 8000
+```
+
+Endpoints: `POST /ingest` (parse a statement) and `GET /health` (health check).
+
 ## Reproducibility and Security
 
 ### How can I verify reproducibility?
 
 ```bash
-python -m pytest                              # 467 tests, 100% branch coverage
+python -m pytest                              # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py        # SHA-256 hash verification
 git log --show-signature -1                   # Verify commit signature
 ```
@@ -304,10 +385,11 @@ git log --show-signature -1                   # Verify commit signature
 - **Input Validation**: File size limits (100 MB default), extension/format validation
 - **Supply Chain**: SHA-256 hash-locked dependencies, CycloneDX SBOM, build provenance attestation
 - **Signed Commits**: Enforced in CI
+- **Local LLMs**: Hybrid PDF pipeline uses Ollama — no cloud API calls
 
 ### How does Bank Statement Parser compare to pyiso20022?
 
-pyiso20022 is a broad ISO 20022 toolkit that generates Python dataclasses from ISO XML schemas. It covers a wide range of ISO 20022 message types (PACS, PAIN, CAMT, ADMI) with schema validation. Bank Statement Parser is purpose-built for bank statement parsing with streaming support, PII redaction, deduplication, and a unified API across six formats including non-ISO formats (CSV, OFX, QFX, MT940). If you need to parse bank statements into DataFrames with production-grade security, use Bank Statement Parser. If you need to work with the full ISO 20022 message catalogue, use pyiso20022.
+pyiso20022 is a broad ISO 20022 toolkit that generates Python dataclasses from ISO XML schemas. It covers a wide range of ISO 20022 message types (PACS, PAIN, CAMT, ADMI) with schema validation. Bank Statement Parser is purpose-built for bank statement parsing with hybrid PDF support, balance verification, enrichment, ledger export, and a unified API across seven formats including non-ISO formats (CSV, OFX, QFX, MT940, PDF). If you need to parse bank statements into DataFrames with production-grade security, use Bank Statement Parser. If you need to work with the full ISO 20022 message catalogue, use pyiso20022.
 
 ### What are the SWIFT ISO 20022 migration deadlines?
 

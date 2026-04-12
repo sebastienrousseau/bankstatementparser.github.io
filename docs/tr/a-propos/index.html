@@ -17,7 +17,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Hesap Özeti Ayrıştırıcısı Hakkında: Özellikler, Formatlar ve Performans">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: kura.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: cloudcdn.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
     <meta name="msapplication-TileColor" content="rgb(73, 214, 251)">
     
     <link rel="alternate" href="https://bankstatementparser.com/tr/a-propos/index.html" hreflang="tr" />
@@ -27,7 +27,7 @@
     <link rel="apple-touch-icon" href="/images/icons/192x192.png" sizes="192x192" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
-    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#b0b8c1"}})});</script>
+    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#8f9aa5"}})});</script>
     <style>
       :root{--theme-color:rgb(73, 214, 251)}*{font-weight:400;box-sizing:border-box;margin:0}
       pre{margin:1.5rem 0;max-width:100%;overflow:auto;border-radius:.5rem;padding:1rem 1.25rem;background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);color:var(--c-code);display:block;font-family:'SF Mono',SFMono-Regular,Consolas,monospace;font-size:.8125rem;line-height:1.7;margin:1.5rem 0;max-width:100%;overflow:auto;padding:1rem 1.25rem;border-radius:.5rem}
@@ -105,13 +105,26 @@
       :focus-visible{outline:2px solid var(--c-accent);outline-offset:2px}
       @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
       @media print{body{color:#000!important;background:#fff!important}.site-nav,.site-footer,.skip-link{display:none!important}a{color:#000!important}a[href]::after{content:" (" attr(href) ")"}}
+          .search-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:flex-start;justify-content:center;padding:15vh 1rem 1rem}
+.search-overlay.open{display:flex}
+.search-box{background:var(--c-bg);border:1px solid var(--c-border);border-radius:.75rem;width:100%;max-width:560px;box-shadow:0 25px 50px -12px rgba(0,0,0,.25);overflow:hidden}
+.search-input{width:100%;padding:.875rem 1rem;border:none;background:transparent;color:var(--c-text);font-size:1rem;font-family:inherit;outline:none}
+.search-input::placeholder{color:var(--c-secondary)}
+.search-results{max-height:50vh;overflow-y:auto;border-top:1px solid var(--c-border)}
+.search-result{display:block;padding:.75rem 1rem;color:var(--c-text);text-decoration:none;border-bottom:1px solid var(--c-border)}
+.search-result:hover,.search-result.active{background:var(--c-surface);color:var(--c-accent);text-decoration:none}
+.search-result-title{font-weight:600;font-size:.9375rem}
+.search-result-desc{font-size:.8125rem;color:var(--c-secondary);margin-top:.125rem}
+.search-empty{padding:1.5rem 1rem;text-align:center;color:var(--c-secondary);font-size:.875rem}
+.search-footer{padding:.5rem 1rem;border-top:1px solid var(--c-border);font-size:.75rem;color:var(--c-secondary);display:flex;gap:1rem}
+.search-footer kbd{background:var(--c-surface);padding:.125rem .375rem;border-radius:.25rem;font-size:.6875rem;border:1px solid var(--c-border)}
     </style>
   </head>
   <body id="page-top" itemscope itemtype="http://schema.org/WebPage">
-    <a class="skip-link" href="#main">Skip to main content</a>
-    <nav class="site-nav" aria-label="Main navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+    <a class="skip-link" href="#main">Ana iceriye atla</a>
+    <nav class="site-nav" aria-label="Ana gezinme" itemscope itemtype="http://schema.org/SiteNavigationElement">
       <div class="nav-inner">
-        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="" /><span itemprop="name">Banka Hesap Özeti Ayrıştırıcı</span></a>
+        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="Bank Statement Parser logo" /><span itemprop="name">Banka Hesap Özeti Ayrıştırıcı</span></a>
         <ul class="nav-center">
           <li><a href="/tr/index.html">Ana Sayfa</a></li>
           <li><a href="/tr/a-propos/index.html">Hakkında</a></li>
@@ -120,7 +133,8 @@
           <li class="nav-item dropdown"><button class="dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" type="button">Kaynaklar</button><ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown"><li><a class="dropdown-item" href="/tr/cas-utilisation/index.html">Use Cases</a></li><li><a class="dropdown-item" href="/tr/migration/index.html">ISO 20022 Migration</a></li><li><a class="dropdown-item" href="/tr/securite/index.html">Security</a></li><li><a class="dropdown-item" href="/tr/alternatives/index.html">Alternatives</a></li><li><a class="dropdown-item" href="/tr/journal-des-modifications/index.html">Changelog</a></li><li><a class="dropdown-item" href="/tr/contribuer/index.html">Contribute</a></li><li><a class="dropdown-item" href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a class="dropdown-item" href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li></ul></li>
         </ul>
         <div class="nav-right">
-          <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">Karanlık</span></button>
+          <button id="searchTrigger" class="theme-toggle" aria-label="Search" style="margin-right:.25rem"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> <span class="search-shortcut" aria-hidden="true" style="font-size:.6875rem;opacity:.8"></span></button>
+          <button class="theme-toggle" id="themeToggle" aria-label="Koyu moda gec" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">Karanlık</span></button>
           <div style="position:relative;display:inline-block" class="lang-switcher">
             <button type="button" aria-label="TR, Change language" aria-expanded="false" style="color:var(--c-nav-muted);font-size:12px;font-weight:400;padding:.375rem .625rem;border:1px solid var(--c-border);border-radius:6rem;background:transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.25rem;outline:none">
               <span style="font-size:14px">🌐</span> TR
@@ -164,56 +178,58 @@
       </div>
       </nav>
     <header class="site-hero" style="padding:6rem 1.5rem 3rem">
-      <h1 style="font-size:clamp(2rem,4vw,2.75rem)">Banka Hesap Özeti Ayrıştırıcı</h1>
+      <h1 style="font-size:clamp(2rem,4vw,2.75rem)">Banka Ekstresi Ayrıştırıcısı Hakkında</h1>
       <p>Bir Kütüphane. Altı Format. Sıfır Ağ Çağrısı.</p>
     </header>
     <main id="main" class="site-main" tabindex="-1" aria-label="Page content">
-      <div class="text-start"><p>Banka Ekstresi Ayrıştırıcısı, altı formattaki banka ekstrelerini yapılandırılmış panda DataFrames'e ayrıştıran açık kaynaklı bir Python kütüphanesidir. Tüm işlemler yerel olarak gerçekleşir; sıfır ağ çağrısı, deterministik çıktı ve otomatik PII düzenlemesi.</p>
+      <div class="text-start"><p><strong>Özet:</strong> Bank Statement Parser, yedi banka ekstresi formatını (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940 ve PDF) pandas DataFrames'e dönüştüren açık kaynaklı bir Python kitaplığıdır. Hibrit PDF pipeline, bakiye doğrulama, REST API, zenginleştirme, defter dışa aktarımı, 27K+ tx/s aktarım hızı.</p>
+<p>Bank Statement Parser, yedi formattaki banka ekstrelerini yapılandırılmış pandas DataFrames'e dönüştüren açık kaynaklı bir Python kitaplığıdır. Deterministik çekirdek, yapılandırılmış formatları sıfır ağ çağrısıyla yerel olarak işler. İsteğe bağlı hibrit PDF pipeline, dijital ve taranmış ekstreler için yerel LLM'ler (Ollama üzerinden) kullanır.</p>
 <h2>Bu Kimin İçin?</h2>
 <ul>
-<li><strong>Hazine ekipleri</strong> MT940'tan CAMT.053'e geçiş yapıyor ve geçiş sırasında hem eski hem de yeni biçimleri işleyen bir ayrıştırıcıya ihtiyaç duyuyor.</li>
-<li><strong>Fintech geliştiricileri</strong> mt940 + ofxparse + özel CSV mantığını birleştirmek yerine tek bir bağımlılık isteyen mutabakat, raporlama veya muhasebe hatları oluşturuyor.</li>
-<li>Varsayılan olarak PII düzenlemesine ve harici hizmetlere hiçbir zaman veri göndermeyen, denetime hazır, deterministik çıktıya ihtiyaç duyan <strong>uyumluluk ekipleri</strong>.</li>
-<li><strong>Yerel, açık kaynaklı bir araç bu işi yapabileceği halde hassas mali verileri üçüncü taraf bir SaaS'a göndermeyi reddeden herkes</strong>.</li>
+<li>MT940'tan CAMT.053'e geçiş yapan ve geçiş sürecinde hem eski hem yeni formatları işleyen bir ayrıştırıcıya ihtiyaç duyan <strong>hazine ekipleri</strong>. Yapılandırılmış dışa aktarım sunmayan bankalardan gelen PDF ekstreler de dahil.</li>
+<li>Yerleşik bakiye doğrulama, sınıflandırma ve defter dışa aktarımı içeren tek bir bağımlılık isteyen mutabakat, raporlama veya muhasebe pipeline'ları oluşturan <strong>fintech geliştiricileri</strong>.</li>
+<li>Varsayılan PII redaksiyonu, deterministik çıktı ve tutarsızlıkları deftere ulaşmadan yakalayan Altın Kural doğrulamasına ihtiyaç duyan <strong>uyum ekipleri</strong>.</li>
+<li>PDF banka ekstrelerinden hledger veya beancount defterlerine otomatik veri alımı isteyen <strong>düz metin muhasebe kullanıcıları</strong>.</li>
+<li>Yerel, açık kaynaklı bir araç bu işi yapabilecekken hassas finansal verileri üçüncü taraf SaaS'a göndermeyi reddeden <strong>herkes</strong>.</li>
 </ul>
 <h2>Desteklenen Formatlar</h2>
 <div class="table-responsive"><table class="table">
 <thead>
 <tr>
-<th>Biçim</th>
+<th>Format</th>
 <th>Standart</th>
 <th>Dosya Türleri</th>
-<th>Ayrıştırıcı Sınıfı</th>
+<th>Ayrıştırıcı/Yöntem</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="text-left">CAMT.053</td>
-<td class="text-left">ISO 20022 Bankadan Müşteriye Beyanı</td>
+<td class="text-left">ISO 20022 Bankadan Müşteriye Ekstre</td>
 <td class="text-left"><code>.xml</code></td>
 <td class="text-left"><code>CamtParser</code></td>
 </tr>
 <tr>
-<td class="text-left">AĞ.001</td>
-<td class="text-left">ISO 20022 Kredi Transferi Başlangıcı</td>
+<td class="text-left">PAIN.001</td>
+<td class="text-left">ISO 20022 Kredi Transferi Başlatma</td>
 <td class="text-left"><code>.xml</code></td>
 <td class="text-left"><code>Pain001Parser</code></td>
 </tr>
 <tr>
 <td class="text-left">CSV</td>
-<td class="text-left">Jenerik banka ihracatı</td>
+<td class="text-left">Genel banka dışa aktarımları</td>
 <td class="text-left"><code>.csv</code></td>
 <td class="text-left"><code>CsvStatementParser</code></td>
 </tr>
 <tr>
 <td class="text-left">OFX</td>
-<td class="text-left">Açık Finansal Borsa</td>
+<td class="text-left">Open Financial Exchange</td>
 <td class="text-left"><code>.ofx</code></td>
 <td class="text-left"><code>OfxParser</code></td>
 </tr>
 <tr>
 <td class="text-left">QFX</td>
-<td class="text-left">Finansal Değişimi Hızlandırın</td>
+<td class="text-left">Quicken Financial Exchange</td>
 <td class="text-left"><code>.qfx</code></td>
 <td class="text-left"><code>QfxParser</code></td>
 </tr>
@@ -223,26 +239,42 @@
 <td class="text-left"><code>.mt940</code>, <code>.sta</code></td>
 <td class="text-left"><code>Mt940Parser</code></td>
 </tr>
+<tr>
+<td class="text-left">PDF</td>
+<td class="text-left">Dijital ve taranmış ekstreler</td>
+<td class="text-left"><code>.pdf</code></td>
+<td class="text-left"><code>smart_ingest()</code></td>
+</tr>
 </tbody>
 </table></div>
-<p>Tüm formatlar, tutarlı sütun adlarına sahip normalleştirilmiş pandalar DataFrames üreterek aşağı akış işlemeyi formattan bağımsız hale getirir.</p>
+<p>Tüm formatlar tutarlı sütun adlarına sahip normalleştirilmiş pandas DataFrames üretir. Bu sayede sonraki işlemler formattan bağımsız hale gelir.</p>
 <h2>Temel Yetenekler</h2>
 <ul>
-<li><strong>Otomatik Biçim Algılama</strong>:<code>detect_statement_format()</code>formatı tanımlar;<code>create_parser()</code>doğru ayrıştırıcıyı başlatır.</li>
-<li><strong>Akış Ayrıştırma</strong>: Sınırlı belleğe sahip büyük dosyaları (50 MB+, 50K+ işlem) kullanarak işleyin<code>parse_streaming()</code>.</li>
-<li><strong>Paralel İşleme</strong>: Birden fazla dosyayı aynı anda ayrıştırın<code>parse_files_parallel()</code>ProcessPoolExecutor'u kullanarak.</li>
-<li><strong>Tekilleştirme</strong>: Açıklanabilir güven puanlarıyla tam kopyaları ve şüpheli eşleşmeleri tespit edin.</li>
-<li><strong>Bellek İçi Ayrıştırma</strong>:<code>from_string()</code>Ve<code>from_bytes()</code>Disk G/Ç'si olmayan SFTP ve API iş akışları için.</li>
-<li><strong>Güvenli Posta İşleme</strong>:<code>iter_secure_xml_entries()</code>sıkıştırma oranı sınırları, giriş boyutu sınırları ve şifreli giriş reddi ile.</li>
-<li><strong>Dışa aktar</strong>: CSV, JSON, Excel (<code>.xlsx</code>) ve isteğe bağlı Polars DataFrames.</li>
+<li><strong>Hibrit PDF Pipeline</strong>: <code>smart_ingest()</code> PDF'leri üç yoldan geçirir — deterministik tablo çıkarımı, metin-LLM veya görüntü-LLM — otomatik Altın Kural bakiye doğrulamasıyla.</li>
+<li><strong>Otomatik Format Algılama</strong>: <code>detect_statement_format()</code> formatı tanır; <code>create_parser()</code> doğru ayrıştırıcıyı başlatır.</li>
+<li><strong>Bakiye Doğrulama</strong>: Altın Kural kontrolü (<code>opening + credits − debits == closing</code>) ile VERIFIED/DISCREPANCY/FAILED durumu.</li>
+<li><strong>Çoklu Para Birimi Doğrulaması</strong>: <code>verify_balance_multi_currency()</code> işlemleri para birimine göre gruplar ve bağımsız doğrulama yapar.</li>
+<li><strong>REST API</strong>: Üretim dağıtımları için <code>/ingest</code> ve <code>/health</code> uç noktalarına sahip FastAPI mikro hizmeti.</li>
+<li><strong>Zenginleştirme</strong>: Takılabilir şemalarla (varsayılan Plaid 13 kategori) LLM destekli işlem sınıflandırması.</li>
+<li><strong>Etkileşimli İnceleme</strong>: <code>--type review</code> ile tutarsızlıkları kabul et/düzenle/atla/sil eylemleriyle inceleyin.</li>
+<li><strong>Defter Dışa Aktarımı</strong>: Düz metin muhasebe iş akışları için <code>to_hledger()</code> ve <code>to_beancount()</code>.</li>
+<li><strong>Toplu Tarama</strong>: <code>scan_and_ingest()</code> klasör ağaçlarını otomatik çapraz dosya tekilleştirmesiyle işler.</li>
+<li><strong>Hesap Eşleme</strong>: Defter dışa aktarımı için JSON yapılandırmasından regex tabanlı hesap eşleme kuralları.</li>
+<li><strong>Streaming Ayrıştırma</strong>: <code>parse_streaming()</code> ile büyük dosyaları (50 MB+, 50K+ işlem) sınırlı bellekle işleyin.</li>
+<li><strong>Paralel İşleme</strong>: ProcessPoolExecutor kullanarak <code>parse_files_parallel()</code> ile birden fazla dosyayı eş zamanlı ayrıştırın.</li>
+<li><strong>Tekilleştirme</strong>: Güvenli artımlı veri alımı için idempotent <code>transaction_hash</code> (MD5 parmak izi).</li>
+<li><strong>Bellekte Ayrıştırma</strong>: Disk G/Ç olmadan SFTP ve API iş akışları için <code>from_string()</code> ve <code>from_bytes()</code>.</li>
+<li><strong>Güvenli ZIP İşleme</strong>: Sıkıştırma oranı sınırları, giriş boyutu üst sınırları ve şifreli giriş reddi ile <code>iter_secure_xml_entries()</code>.</li>
+<li><strong>Dışa Aktarım</strong>: CSV, JSON, Excel (<code>.xlsx</code>), Polars DataFrames, hledger ve beancount defterleri.</li>
 </ul>
 <h2>Güvenlik ve Gizlilik</h2>
 <ul>
-<li><strong>PII Düzenlemesi</strong>: CLI çıkışında adlar, IBAN'lar ve adresler varsayılan olarak maskelenir. Şununla etkinleştirin:<code>--show-pii</code>.</li>
-<li><strong>XXE Koruması</strong>: XML ayrıştırma kullanımları<code>resolve_entities=False</code>, <code>no_network=True</code>, <code>load_dtd=False</code>.</li>
-<li><strong>ZIP Bomba Koruması</strong>: Sıkıştırma oranı sınırları (varsayılan 100:1), giriş boyutu sınırları (10 MB), şifreli giriş reddi.</li>
-<li><strong>Yol Geçişini Önleme</strong>: Tehlikeli model engelleme listesi ve sembolik bağlantı çözümü.</li>
-<li><strong>Tedarik Zinciri Güvenliği</strong>: SHA-256 karma kilitli bağımlılıklar, CycloneDX SBOM, kaynak doğrulaması oluşturun.</li>
+<li><strong>PII Redaksiyonu</strong>: CLI çıkışında adlar, IBAN'lar ve adresler varsayılan olarak maskelenir. Gerektiğinde <code>--show-pii</code> ile gösterin.</li>
+<li><strong>XXE Koruması</strong>: XML ayrıştırma <code>resolve_entities=False</code>, <code>no_network=True</code>, <code>load_dtd=False</code> kullanır.</li>
+<li><strong>ZIP Bomba Koruması</strong>: Sıkıştırma oranı sınırları (varsayılan 100:1), giriş boyutu üst sınırları (10 MB), şifreli giriş reddi.</li>
+<li><strong>Yol Geçişi Önleme</strong>: Tehlikeli desen engelleme listesi ve sembolik bağlantı çözümlemesi.</li>
+<li><strong>Tedarik Zinciri Güvenliği</strong>: SHA-256 hash kilitli bağımlılıklar, CycloneDX SBOM, derleme kaynak doğrulaması.</li>
+<li><strong>Yalnızca Yerel LLM'ler</strong>: Hibrit PDF pipeline, yerel çıkarım için Ollama kullanır — bulut API'lerine veri gönderilmez.</li>
 </ul>
 <h2>Performans</h2>
 <table>
@@ -254,12 +286,12 @@
 </thead>
 <tbody>
 <tr>
-<td class="text-left">CAMT.053 verimi</td>
-<td class="text-left">27.000+ aktarım/sn</td>
+<td class="text-left">CAMT.053 aktarım hızı</td>
+<td class="text-left">27.000+ tx/s</td>
 </tr>
 <tr>
-<td class="text-left">PAIN.001 verimi</td>
-<td class="text-left">52.000'den fazla aktarım/sn</td>
+<td class="text-left">PAIN.001 aktarım hızı</td>
+<td class="text-left">52.000+ tx/s</td>
 </tr>
 <tr>
 <td class="text-left">İşlem başına gecikme (CAMT)</td>
@@ -270,25 +302,25 @@
 <td class="text-left">19 mikrosaniye</td>
 </tr>
 <tr>
-<td class="text-left">İlk sonuca ulaşma zamanı</td>
+<td class="text-left">İlk sonuca ulaşma süresi</td>
 <td class="text-left">&lt; 2 ms</td>
 </tr>
 <tr>
-<td class="text-left">Bellek ölçeklendirme (1K-50K tx)</td>
-<td class="text-left">Sabit (akış)</td>
+<td class="text-left">Bellek ölçekleme (1K-50K tx)</td>
+<td class="text-left">Sabit (streaming)</td>
 </tr>
 <tr>
 <td class="text-left">Test kapsamı</td>
-<td class="text-left">%100 şube kapsamı</td>
+<td class="text-left">%100 dal kapsamı</td>
 </tr>
 <tr>
 <td class="text-left">Testler</td>
-<td class="text-left">29 test dosyasında 467</td>
+<td class="text-left">29 test dosyasında 718</td>
 </tr>
 </tbody>
 </table>
-<h2>İnşa Etmeye Başlayın</h2>
-<p><a href="/getting-started/index.html" title="Başlarken">Kurulum ve örneklere başlayın ❯</a></p>
+<h2>Geliştirmeye Başlayın</h2>
+<p><a href="/getting-started/index.html" title="Başlarken">Kurulum ve örneklerle başlayın ❯</a></p>
 <p>&quot;GitHub Deposu&quot;</p>
 </div>
     </main>
@@ -304,7 +336,7 @@
         </ul>
       </div>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"Hesap Özeti Ayrıştırıcısı, CAMT.053, PAIN.001, CSV, OFX, QFX ve MT940'ı panda DataFrames'e ayrıştırmak için kullanılan açık kaynaklı bir Python kitaplığıdır. %100 yerel, PII redaksiyonu, 27.000+ tx/s.","headline":"Bir Kütüphane. Altı Format. Sıfır Ağ Çağrısı.","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"tr-TR","mainEntityOfPage":"https://bankstatementparser.com/tr/a-propos/index.html","name":"Banka Hesap Özeti Ayrıştırıcı","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"Hesap Özeti Ayrıştırıcısı, CAMT.053, PAIN.001, CSV, OFX, QFX ve MT940'ı panda DataFrames'e ayrıştırmak için kullanılan açık kaynaklı bir Python kitaplığıdır. %100 yerel, PII redaksiyonu, 27.000+ tx/s.","headline":"Bir Kütüphane. Altı Format. Sıfır Ağ Çağrısı.","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"tr-TR","mainEntityOfPage":"https://bankstatementparser.com/tr/a-propos/index.html","name":"Banka Ekstresi Ayrıştırıcısı Hakkında","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
     <script>
     (function(){
       // Language switcher toggle
@@ -327,8 +359,8 @@
         document.documentElement.setAttribute("data-theme",theme);localStorage.setItem("theme",theme);
         document.querySelectorAll(".theme-icon-dark,.theme-icon-dark-m").forEach(function(e){e.style.display=theme==="dark"?"none":""});
         document.querySelectorAll(".theme-icon-light,.theme-icon-light-m").forEach(function(e){e.style.display=theme==="dark"?"":"none"});
-        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"Light":"Dark"});
-        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"Switch to light mode":"Switch to dark mode")});
+        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"Acik":"Koyu"});
+        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"Acik moda gec":"Koyu moda gec")});
       }
       var saved=localStorage.getItem("theme");
       if(saved){setTheme(saved)}else if(window.matchMedia("(prefers-color-scheme:dark)").matches){setTheme("dark")}
@@ -343,5 +375,57 @@
     })();
     </script>
     <script defer src="/main.js"></script>
-  </body>
+      <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Ara...">
+      <div class="search-box">
+        <input class="search-input" id="searchInput" type="search" placeholder="Ara..." autocomplete="off" aria-label="Ara..." />
+        <div class="search-results" id="searchResults"></div>
+        <div class="search-footer"><span><kbd>&uarr;</kbd><kbd>&darr;</kbd> Navigate</span><span><kbd>&crarr;</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var pages=[{t:"Home",d:"Parse 7 bank statement formats including PDF, 100% local",u:"/tr/index.html",k:"aktarımı aktarın akışları akışlarında alabilmelidir alacak algılama alternatifleri altın alımı alımında apache aynı ayrı ayrıştırma ayrıştırıcıyı ayrıştırılır ayrıştırın açık açıktır açılış ağaçlarını bakiye bank banka bayt bağlı bağımlılıklar başlay"},{t:"About",d:"Features, formats, hybrid PDF pipeline, performance overview",u:"/tr/a-propos/index.html",k:"adlar adlarına adresler aktarım aktarımları aktarımı akışları algılama altın alımı araç artımlı ayrıştırma ayrıştırıcıya ayrıştırıcıyöntem ayrıştırıcıyı ayrıştırın açık ağaçlarını bakiye bank banka bankadan bankalardan bağlantı bağlı bağımlılık bağım"},{t:"Getting Started",d:"Installation, extras, PDF pipeline, REST API, CLI reference",u:"/tr/premiers-pas/index.html",k:"aktar aktarma aktarım aktarımı aktarın akıllıca akışla akışları alanları algıla altın alımı amacıyla amaç artımlı ayrıştır ayrıştırma ayrıştırıcı ayrıştırıcıyı ayrıştırın ağaçlarını bakiye bakiyeleri banka baytlardan bağlı bağımsız başlangıç beancoun"},{t:"FAQ",d:"Privacy, hybrid PDF, Golden Rule, performance, compliance",u:"/tr/faq/index.html",k:"adlarını admi adresler adreslerini adımdan aktarabilir aktarabilirsiniz aktarmaları aktarılır aktarım aktarımları aktarımı aktarın akıllıca akışları alabilmesi alacakborç alacaklı alacaktır alanlar alanları alanlarına alanlarını alanı alanına alanınd"},{t:"Use Cases",d:"Treasury, PDF ingestion, reconciliation, ledger export, REST API",u:"/tr/cas-utilisation/index.html",k:"aktarımı aktarın akışları akışlarına akışlarını altın alımı alın arşivlerini arşivleriyle aylık ayrı ayrıştırma ayrıştırın ağaçlarını bakiye bakiyeleri bank banka barclays baytlardan bağlantı bağımsız beancount bomba boyunca bulut camt chase dahili d"},{t:"Migration",d:"ISO 20022 timeline, MT940 to CAMT.053, PDF fallback",u:"/tr/migration/index.html",k:"adres adresler aktarımı aktarın akışyla alanlar alanlı alanı alanından algılama algılamalı almak almalı almaya altın anlamına arada aralığında artık aynı ayrıştırma ayrıştırmalı ayrıştırıcıyı ayrıştırın açılışkapanış aşama bakiye bank banka bankalar "},{t:"Security",d:"XXE protection, PII redaction, local LLMs, Golden Rule",u:"/tr/securite/index.html",k:"adlar adresleri aktarılır aktarımlar alanlar alanı algılar altın altına alır arşiv atlanır ayarlar aynı ayristirmayi ayrıştırma ayrıştırıcı ayrıştırıcıdan ayrıştırıcılar ayrıştırıcıları ayrıştırıcıya açıktır açıkça bagimliliklar bakiye bank bayt bayt"},{t:"Comparison",d:"vs mt-940, ofxparse, pyiso20022, SaaS, hybrid LLM pipeline",u:"/tr/alternatives/index.html",k:"admi aktarım aktarımı aktarımına alternatifleri altyapı altın alımı alıyorsanız amaç amaçlı analiz ancak apache apple araç araçları artımlı aylık ayrı ayrıştıran ayrıştırma ayrıştırmak ayrıştırmayı ayrıştırıcılarından ayrıştırıcılarını ayrıştırıcısı "},{t:"Changelog",d:"Release history: v0.0.8, v0.0.7, v0.0.6, v0.0.5, v0.0.4",u:"/tr/journal-des-modifications/index.html",k:"abone account across aktarma akış algılama applicationcategory aracılığıyla arası arayüzü artık arşivi ayrıştırma ayrıştırıcı ayrıştırıcısı açıktır aşıyor balance bands banka bankadan batch bağlam bağlı başlatma beancount bellek belleğe bildirimler b"},{t:"Contribute",d:"Report issues, submit code, documentation, sponsorship",u:"/tr/contribuer/index.html",k:"adımlar ayrıştırmayı ayrıştırıcısı açık açıklama açıklaması banka bildirin buldunuz bulunulur camiası dalı depoyu desteğiniz değişiklikleriniz docstring dokümantasyon dokümantasyonu düzeltin düşünün edin ekibinize ekleyin ekstresi finans geliştiricil"},{t:"Contact",d:"GitHub issues for open-source, form for business inquiries",u:"/tr/contact/index.html",k:"almayı açık aşağıdaki aşağıdan bildiriminiz desteği düzgün edilmesini fayda formu fırsatları genel geri geçin haber hata iletişime ilgili istekleri isteriz için işle kanalı kaynak kitaplıkla kullanın lütfen ortaklık raporları sağlamasını sağlar seçin"},{t:"Privacy",d:"Privacy policy, analytics, GDPR, cookies",u:"/tr/confidentialite/index.html",k:"adresindeki adresinizi adresten adınızı alanı altındaki amacıyla amaç analitik analiz analizi analytics anlamak anonimleştirilmiş ardından avrupa ayarlarından ayrıştırıcı ayrıştırıcısı açık açıklamaktadır aşağıdaki banka bankstatementparsercom bilere"},{t:"Terms",d:"Terms of use, Apache 2.0 license, disclaimers",u:"/tr/conditions/index.html",k:"adresten aittir amaca amaçlarla amaçlı ancak anlaşması anlaşmazlık apache arizi ayrıştırıcı ayrıştırılması açik açık açıklandığı aşağıdakilerden aşağıdakileri banka bankstatementparsercom bağlantılar bağlantıları bağlı belirli bizimle bulunanlar bunl"}];
+      var overlay=document.getElementById("searchOverlay");
+      var input=document.getElementById("searchInput");
+      var results=document.getElementById("searchResults");
+      var trigger=document.getElementById("searchTrigger");
+      var activeIdx=-1;
+      var isMac=/Mac|iPhone|iPad|iPod/.test(navigator.platform||navigator.userAgent||"");
+      var shortcutSpans=document.querySelectorAll(".search-shortcut");
+      for(var s=0;s<shortcutSpans.length;s++){shortcutSpans[s].textContent=isMac?"⌘K":"Ctrl+K"}
+      function openSearch(){overlay.classList.add("open");input.value="";input.focus();activeIdx=-1;renderResults("")}
+      function closeSearch(){overlay.classList.remove("open");input.value="";results.innerHTML="";activeIdx=-1}
+      function fuzzy(q,text){q=q.toLowerCase();text=text.toLowerCase();if(text.indexOf(q)!==-1)return true;var qi=0;for(var ti=0;ti<text.length&&qi<q.length;ti++){if(text[ti]===q[qi])qi++}return qi===q.length}
+      function renderResults(q){
+        var filtered=[];
+        if(q.length>0){for(var i=0;i<pages.length;i++){var p=pages[i];if(fuzzy(q,p.t)||fuzzy(q,p.d)||(p.k&&fuzzy(q,p.k)))filtered.push(p)}}
+        if(q.length===0){results.innerHTML="";activeIdx=-1;return}
+        if(filtered.length===0){results.innerHTML='<div class="search-empty">No results for "'+q.replace(/</g,"&lt;")+'"</div>';activeIdx=-1;return}
+        var html="";
+        for(var j=0;j<filtered.length;j++){
+          html+='<a class="search-result'+(j===0?" active":"")+'" href="'+filtered[j].u+'" data-idx="'+j+'"><div class="search-result-title">'+filtered[j].t+'</div><div class="search-result-desc">'+filtered[j].d+'</div></a>';
+        }
+        results.innerHTML=html;
+        activeIdx=0;
+      }
+      function updateActive(){
+        var items=results.querySelectorAll(".search-result");
+        for(var i=0;i<items.length;i++){items[i].classList.toggle("active",i===activeIdx)}
+        if(items[activeIdx]){items[activeIdx].scrollIntoView({block:"nearest"})}
+      }
+      if(trigger){trigger.addEventListener("click",function(e){e.preventDefault();openSearch()})}
+      document.addEventListener("keydown",function(e){
+        if((isMac?e.metaKey:e.ctrlKey)&&e.key==="k"){e.preventDefault();if(overlay.classList.contains("open")){closeSearch()}else{openSearch()};return}
+        if(!overlay.classList.contains("open"))return;
+        if(e.key==="Escape"){e.preventDefault();closeSearch();return}
+        var items=results.querySelectorAll(".search-result");
+        if(e.key==="ArrowDown"){e.preventDefault();if(items.length){activeIdx=(activeIdx+1)%items.length;updateActive()};return}
+        if(e.key==="ArrowUp"){e.preventDefault();if(items.length){activeIdx=(activeIdx-1+items.length)%items.length;updateActive()};return}
+        if(e.key==="Enter"){e.preventDefault();if(items[activeIdx]){window.location.href=items[activeIdx].getAttribute("href")};return}
+      });
+      input.addEventListener("input",function(){activeIdx=-1;renderResults(input.value.trim())});
+      overlay.addEventListener("click",function(e){if(e.target===overlay)closeSearch()});
+    })();
+    </script>
+<script defer src="/bootstrap.bundle.min.js"></script></body>
 </html>

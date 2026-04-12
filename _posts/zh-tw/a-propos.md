@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "關於銀行對帳單解析器：功能、格式和效能"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 銀行對帳單解析器。版權所有。"
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Bank Statement Parser 是一個開源 Python 函式庫，用於將 CAMT.053、PAIN.001、CSV、OFX、QFX 和 MT940 解析為 pandas DataFrame。 100% 本地、PII 修訂、27K+ tx/s。"
 download: ""
 format-detection: "telephone=no"
@@ -107,64 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** 銀行對帳單解析器是一個開源 Python 函式庫，可將六種銀行對帳單格式（CAMT.053、PAIN.001、CSV、OFX、QFX、MT940）解析為 pandas DataFrame。 100% 本地處理，預設 PII 編輯，27K+ tx/s 吞吐量。
+**TL;DR:** Bank Statement Parser 是一個開源 Python 函式庫，可將七種銀行對帳單格式（CAMT.053、PAIN.001、CSV、OFX、QFX、MT940 及 PDF）解析為 pandas DataFrame。混合 PDF 管線搭配餘額驗證、REST API、交易增強、帳本匯出，吞吐量達 27K+ tx/s。
 
-銀行對帳單解析器是一個開源 Python 函式庫，可將六種格式的銀行對帳單解析為結構化的 pandas DataFrame。所有處理都在本地進行——零網路呼叫、確定性輸出和自動 PII 編輯。
+Bank Statement Parser 是一個開源 Python 函式庫，可將七種格式的銀行對帳單解析為結構化的 pandas DataFrame。確定性核心在本機處理結構化格式，零網路呼叫。可選的混合 PDF 管線透過本機 LLM（經由 Ollama）處理數位及掃描對帳單。
 
-## 這是給誰的？
+## 適用對象
 
-- **財務團隊**從 MT940 遷移到 CAMT.053，他們需要一個在過渡期間同時處理新舊格式的解析器。
-- **金融科技開發人員** 建立對帳、報表或會計管道，他們想要單一依賴項，而不是將 mt940 + ofxparse + 自訂 CSV 邏輯拼接在一起。
-- **合規團隊**，需要預設 PII 修訂和稽核就緒、確定性輸出，從不將資料傳送至外部服務。
-- 當本地開源工具可以完成這項工作時，**任何人** 拒絕將敏感財務資料發送到第三方 SaaS。
+- **財務團隊**：正從 MT940 遷移至 CAMT.053，需要一個在過渡期間同時處理新舊格式的解析器，加上處理銀行未提供結構化匯出的 PDF 對帳單。
+- **金融科技開發人員**：建構對帳、報表或記帳管線，想要單一依賴項並內建餘額驗證、分類及帳本匯出功能。
+- **合規團隊**：需要預設 PII 遮蔽、確定性輸出，以及可在差異進入帳本前標記的黃金法則驗證。
+- **純文字記帳使用者**：想要從 PDF 銀行對帳單自動匯入 hledger 或 beancount 日記帳。
+- **任何人**：當本機開源工具就能完成工作時，拒絕將敏感財務資料傳送至第三方 SaaS。
 
 ## 支援的格式
 
-| 格式 | 標準 | 文件類型 | 解析器類別 |
+| 格式 | 標準 | 檔案類型 | 解析器/方法 |
 |---|---|---|---|
-| CAMT.053 | ISO 20022 銀行對客戶聲明 | `.xml` | `CamtParser` |
-| 疼痛.001 | ISO 20022 學分轉移啟動 | `.xml` | `Pain001Parser` |
-| CSV | 一般銀行出口 | `.csv` | `CsvStatementParser` |
-| 氧氟沙星 | 開放金融交易所 | `.ofx` | `OfxParser` |
-| QFX | 加快金融交流 | `.qfx` | `QfxParser` |
-| MT940 | SWIFT標準 | `.mt940`, `.sta` | `Mt940Parser` |
+| CAMT.053 | ISO 20022 銀行對客戶對帳單 | `.xml` | `CamtParser` |
+| PAIN.001 | ISO 20022 貸記轉帳啟動 | `.xml` | `Pain001Parser` |
+| CSV | 一般銀行匯出 | `.csv` | `CsvStatementParser` |
+| OFX | Open Financial Exchange | `.ofx` | `OfxParser` |
+| QFX | Quicken Financial Exchange | `.qfx` | `QfxParser` |
+| MT940 | SWIFT 標準 | `.mt940`, `.sta` | `Mt940Parser` |
+| PDF | 數位及掃描對帳單 | `.pdf` | `smart_ingest()` |
 
-所有格式都會產生具有一致列名的標準化 pandas DataFrame，從而使下游處理與格式無關。
+所有格式都會產生具有一致欄位名稱的標準化 pandas DataFrame，使下游處理與格式無關。
 
-## 關鍵能力
+## 核心功能
 
-- **格式自動偵測**：`detect_statement_format()`標識格式；`create_parser()`實例化正確的解析器。
-- **串流解析**：使用有限記憶體處理大檔案（50 MB+、50K+ 事務）`parse_streaming()`。
-- **並行處理**：同時解析多個文件`parse_files_parallel()`使用 ProcessPoolExecutor。
-- **重複資料刪除**：透過可解釋的置信度分數檢測精確的重複項和可疑匹配項。
-- **記憶體中解析**：`from_string()`和`from_bytes()`適用於無磁碟 I/O 的 SFTP 和 API 工作流程。
-- **安全 ZIP 處理**：`iter_secure_xml_entries()`具有壓縮比限制、條目大小上限和加密條目拒絕。
-- **匯出**：CSV、JSON、Excel（`.xlsx`）和可選的 Polars 資料幀。
+- **混合 PDF 管線**：`smart_ingest()` 將 PDF 路由至三條路徑——確定性表格擷取、文字 LLM 或視覺 LLM——並自動執行黃金法則餘額驗證。
+- **格式自動偵測**：`detect_statement_format()` 辨識格式；`create_parser()` 實例化對應的解析器。
+- **餘額驗證**：黃金法則檢查（`opening + credits − debits == closing`），狀態為 VERIFIED / DISCREPANCY / FAILED。
+- **多幣別驗證**：`verify_balance_multi_currency()` 依幣別群組分組交易，獨立驗證。
+- **REST API**：FastAPI 微服務，提供 `/ingest` 及 `/health` 端點，可用於正式部署。
+- **交易增強**：LLM 驅動的交易分類，支援可插拔的分類架構（預設為 Plaid 13 類別）。
+- **互動式審核**：透過 `--type review` 逐筆檢視差異，可執行接受/編輯/跳過/刪除操作。
+- **帳本匯出**：`to_hledger()` 及 `to_beancount()` 支援純文字記帳工作流程。
+- **批次掃描**：`scan_and_ingest()` 處理整個資料夾樹狀結構，自動跨檔案去重。
+- **帳戶對應**：從 JSON 設定檔讀取正規表示式帳戶對應規則，用於帳本匯出。
+- **串流解析**：使用 `parse_streaming()` 處理大型檔案（50 MB+、50K+ 筆交易），記憶體用量固定。
+- **平行處理**：透過 `parse_files_parallel()` 使用 ProcessPoolExecutor 同時解析多個檔案。
+- **去重**：冪等 `transaction_hash`（MD5 指紋），適用於安全的增量匯入。
+- **記憶體中解析**：`from_string()` 及 `from_bytes()` 適用於 SFTP 和 API 工作流程，無磁碟 I/O。
+- **安全 ZIP 處理**：`iter_secure_xml_entries()` 具有壓縮比限制、條目大小上限及加密條目拒絕功能。
+- **匯出**：CSV、JSON、Excel（`.xlsx`）、Polars DataFrame、hledger 及 beancount 日記帳。
 
 ## 安全與隱私
 
-- **PII 修訂**：預設情況下，CLI 輸出中會封鎖名稱、IBAN 和位址。選擇加入`--show-pii`。
-- **XXE保護**：XML解析使用`resolve_entities=False`, `no_network=True`, `load_dtd=False`。
-- **ZIP 炸彈保護**：壓縮比限制（預設為 100:1）、條目大小上限 (10 MB)、加密條目拒絕。
-- **路徑遍歷預防**：危險模式阻止清單和符號連結解析。
-- **供應鏈安全性**：SHA-256 雜湊鎖定依賴項、CycloneDX SBOM、建置來源證明。
+- **PII 遮蔽**：預設在 CLI 輸出中遮蔽姓名、IBAN 及地址。透過 `--show-pii` 選擇顯示。
+- **XXE 保護**：XML 解析使用 `resolve_entities=False`、`no_network=True`、`load_dtd=False`。
+- **ZIP 炸彈保護**：壓縮比限制（預設 100:1）、條目大小上限（10 MB）、加密條目拒絕。
+- **路徑遍歷防護**：危險模式阻擋清單及符號連結解析。
+- **供應鏈安全**：SHA-256 雜湊鎖定相依性、CycloneDX SBOM、建置來源證明。
+- **僅限本機 LLM**：混合 PDF 管線使用 Ollama 進行本機推論——不會將資料傳送至雲端 API。
 
-＃＃ 表現
+## 效能
 
-| 公制 | 價值 |
+| 指標 | 數值 |
 |---|---|
-| CAMT.053吞吐量 | 27,000+ 筆交易/秒 |
-| PAIN.001吞吐量 | 52,000+ 筆交易/秒 |
-| 每一次交易延遲 (CAMT) | 37微秒 |
-| 每筆交易延遲 (PAIN.001) | 19微秒 |
-| 獲得第一個結果的時間 | < 2 毫秒 |
-| 記憶體擴充（1K-50K tx） | 恆定（流） |
-| 測試覆蓋率 | 100%分支機構覆蓋 |
-| 測試 | 29 個測試文件中有 467 個 |
+| CAMT.053 吞吐量 | 27,000+ tx/s |
+| PAIN.001 吞吐量 | 52,000+ tx/s |
+| 每筆交易延遲（CAMT） | 37 微秒 |
+| 每筆交易延遲（PAIN.001） | 19 微秒 |
+| 首次回傳結果時間 | < 2 ms |
+| 記憶體擴展（1K-50K tx） | 固定（串流） |
+| 測試覆蓋率 | 100% 分支覆蓋率 |
+| 測試數量 | 29 個測試檔案中共 718 項 |
 
-## 開始構建
+## 開始建構
 
-[開始安裝和範例❯][01]
+[開始安裝與範例 ❯][01]
 
-[01]：/getting-started/index.html“入門”
+[01]: /getting-started/index.html “入門”
  “GitHub 儲存庫”

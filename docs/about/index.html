@@ -2,13 +2,13 @@
 <html lang="en-GB">
   <head>
     <meta charset="utf-8" />
-    <meta itemprop="datePublished" content="2026-04-01T00:00:00+00:00" id="date">
-    <meta itemprop="dateModified" content="2026-04-01T00:00:00+00:00" id="last-modified">
+    <meta itemprop="datePublished" content="2026-04-11T00:00:00+00:00" id="date">
+    <meta itemprop="dateModified" content="2026-04-11T00:00:00+00:00" id="last-modified">
     <title>About Bank Statement Parser: Features, Formats, and Performance</title>
     <meta name="theme-color" content="rgb(73, 214, 251)" />
     <meta name="measurement-id" content="G-FL9DEBFHN1" />
     <meta name="author" content="Sebastien Rousseau">
-<meta name="description" content="Bank Statement Parser is an open-source Python library for parsing CAMT.053, PAIN.001, CSV, OFX, QFX, and MT940 into pandas DataFrames. 100% local, PII redaction, 27K+ tx/s.">
+<meta name="description" content="Bank Statement Parser is an open-source Python library for parsing CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, and PDF into pandas DataFrames. Hybrid PDF pipeline, REST API, 27K+ tx/s.">
 <meta name="keywords" content="bank statement parser python, CAMT.053 parser, PAIN.001 parser, ISO 20022 python library, MT940 parser, OFX QFX parser, open source bank parser, local financial data processing, PII redaction banking, MT940 to CAMT migration">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -17,18 +17,18 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="About Bank Statement Parser: Features, Formats, and Performance">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: kura.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: cloudcdn.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
     <meta name="msapplication-TileColor" content="rgb(73, 214, 251)">
     
     <meta property="og:title" content="About Bank Statement Parser: Features, Formats, and Performance" />
-    <meta property="og:description" content="Bank Statement Parser is an open-source Python library for parsing CAMT.053, PAIN.001, CSV, OFX, QFX, and MT940 into pandas DataFrames. 100% local, PII redaction, 27K+ tx/s." />
+    <meta property="og:description" content="Bank Statement Parser is an open-source Python library for parsing CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, and PDF into pandas DataFrames. Hybrid PDF pipeline, REST API, 27K+ tx/s." />
     <meta property="og:image" content="/images/logos/bankstatementparser.webp" />
     <meta property="og:url" content="https://bankstatementparser.com/about/index.html" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_GB" />
     <meta property="og:site_name" content="Bank Statement Parser" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="About Bank Statement Parser: 6 Formats, 27K+ tx/s, 100% Local" />
+    <meta name="twitter:title" content="About Bank Statement Parser: 7 Formats, 27K+ tx/s, 100% Local" />
     <meta name="twitter:description" content="Open-source Python library: parse CAMT.053, PAIN.001, CSV, OFX, QFX, MT940 into DataFrames. 100% local, PII redaction, 27K+ tx/s." />
     <meta name="twitter:image" content="/images/logos/bankstatementparser.webp" />
     <meta name="twitter:site" content="@wwdseb" />
@@ -39,7 +39,7 @@
     <link rel="apple-touch-icon" href="/images/icons/192x192.png" sizes="192x192" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
-    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#b0b8c1"}});document.querySelectorAll("pre").forEach(function(pre){var btn=document.createElement("button");btn.className="copy-btn";btn.textContent="Copy";btn.setAttribute("aria-label","Copy code to clipboard");btn.addEventListener("click",function(){var text=pre.textContent.replace(/^Copy(ed!)?/,"").trim();if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){btn.textContent="Copied!";setTimeout(function(){btn.textContent="Copy"},2000)}).catch(function(){fallbackCopy(text,btn)})}else{fallbackCopy(text,btn)}});pre.appendChild(btn)});function fallbackCopy(text,btn){var ta=document.createElement("textarea");ta.value=text;ta.style.cssText="position:fixed;left:-9999px";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");btn.textContent="Copied!";setTimeout(function(){btn.textContent="Copy"},2000)}catch(e){}document.body.removeChild(ta)}});</script>
+    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#8f9aa5"}});document.querySelectorAll("pre").forEach(function(pre){var btn=document.createElement("button");btn.className="copy-btn";btn.textContent="Copy";btn.setAttribute("aria-label","Copy code to clipboard");btn.addEventListener("click",function(){var text=pre.textContent.replace(/^Copy(ed!)?/,"").trim();if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){btn.textContent="Copied!";setTimeout(function(){btn.textContent="Copy"},2000)}).catch(function(){fallbackCopy(text,btn)})}else{fallbackCopy(text,btn)}});pre.appendChild(btn)});function fallbackCopy(text,btn){var ta=document.createElement("textarea");ta.value=text;ta.style.cssText="position:fixed;left:-9999px";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");btn.textContent="Copied!";setTimeout(function(){btn.textContent="Copy"},2000)}catch(e){}document.body.removeChild(ta)}});</script>
     <style>
       :root{--theme-color:rgb(73, 214, 251)}*{font-weight:400;box-sizing:border-box;margin:0}
       pre{margin:1.5rem 0;max-width:100%;overflow:auto;border-radius:.5rem;padding:1rem 1.25rem;background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);color:var(--c-code);display:block;font-family:'SF Mono',SFMono-Regular,Consolas,monospace;font-size:.8125rem;line-height:1.7;margin:1.5rem 0;max-width:100%;overflow:auto;padding:1rem 1.25rem;border-radius:.5rem}
@@ -137,7 +137,7 @@
     <a class="skip-link" href="#main">Skip to main content</a>
     <nav class="site-nav" aria-label="Main navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
       <div class="nav-inner">
-        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="" /><span itemprop="name">Bank Statement Parser</span></a>
+        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="Bank Statement Parser logo" /><span itemprop="name">Bank Statement Parser</span></a>
         <ul class="nav-center">
           <li><a href="/index.html">Home</a></li>
           <li><a href="/about/index.html">About</a></li>
@@ -146,7 +146,7 @@
           <li class="nav-item dropdown"><button class="dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" type="button">Resources</button><ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown"><li><a class="dropdown-item" href="/use-cases/index.html">Use Cases</a></li><li><a class="dropdown-item" href="/migration/index.html">ISO 20022 Migration</a></li><li><a class="dropdown-item" href="/security/index.html">Security</a></li><li><a class="dropdown-item" href="/comparison/index.html">Alternatives</a></li><li><a class="dropdown-item" href="/changelog/index.html">Changelog</a></li><li><a class="dropdown-item" href="/contribute/index.html">Contribute</a></li><li><a class="dropdown-item" href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a class="dropdown-item" href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li></ul></li>
         </ul>
         <div class="nav-right">
-          <button id="searchTrigger" class="theme-toggle" aria-label="Search" style="margin-right:.25rem"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> <span class="search-shortcut" style="font-size:.6875rem;opacity:.8"></span></button>
+          <button id="searchTrigger" class="theme-toggle" aria-label="Search" style="margin-right:.25rem"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> <span class="search-shortcut" aria-hidden="true" style="font-size:.6875rem;opacity:.8"></span></button>
           <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">Dark</span></button>
           <div style="position:relative;display:inline-block" class="lang-switcher">
             <button type="button" aria-label="EN, Change language" aria-expanded="false" style="color:var(--c-nav-muted);font-size:12px;font-weight:400;padding:.375rem .625rem;border:1px solid var(--c-border);border-radius:6rem;background:transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.25rem;outline:none">
@@ -192,16 +192,17 @@
       </nav>
     <header class="site-hero" style="padding:6rem 1.5rem 3rem">
       <h1 style="font-size:clamp(2rem,4vw,2.75rem)">About the Bank Statement Parser</h1>
-      <p>One Library. Six Formats. Zero Network Calls.</p>
+      <p>One Library. Seven Formats. Hybrid PDF Pipeline. Zero Network Calls.</p>
     </header>
     <main id="main" class="site-main" tabindex="-1" aria-label="Page content">
-      <div class="text-start"><p><strong>TL;DR:</strong> Bank Statement Parser is an open-source Python library that parses six bank statement formats (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) into pandas DataFrames. 100% local processing, PII redaction by default, 27K+ tx/s throughput.</p>
-<p>Bank Statement Parser is an open-source Python library that parses bank statements from six formats into structured pandas DataFrames. All processing happens locally -- zero network calls, deterministic output, and automatic PII redaction.</p>
+      <div class="text-start"><p><strong>TL;DR:</strong> Bank Statement Parser is an open-source Python library that parses seven bank statement formats (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, and PDF) into pandas DataFrames. Hybrid PDF pipeline with balance verification, REST API, enrichment, ledger export, 27K+ tx/s throughput.</p>
+<p>Bank Statement Parser is an open-source Python library that parses bank statements from seven formats into structured pandas DataFrames. The deterministic core processes structured formats locally with zero network calls. The optional hybrid PDF pipeline routes through local LLMs (via Ollama) for digital and scanned statements.</p>
 <h2>Who Is This For?</h2>
 <ul>
-<li><strong>Treasury teams</strong> migrating from MT940 to CAMT.053 who need a parser that handles both old and new formats during the transition.</li>
-<li><strong>Fintech developers</strong> building reconciliation, reporting, or accounting pipelines who want a single dependency instead of stitching together mt940 + ofxparse + custom CSV logic.</li>
-<li><strong>Compliance teams</strong> who need PII redaction by default and audit-ready, deterministic output that never sends data to external services.</li>
+<li><strong>Treasury teams</strong> migrating from MT940 to CAMT.053 who need a parser that handles both old and new formats during the transition, plus PDF statements from banks that don't offer structured exports.</li>
+<li><strong>Fintech developers</strong> building reconciliation, reporting, or accounting pipelines who want a single dependency with built-in balance verification, categorisation, and ledger export.</li>
+<li><strong>Compliance teams</strong> who need PII redaction by default, deterministic output, and Golden Rule verification that flags discrepancies before they reach the ledger.</li>
+<li><strong>Plaintext-accounting users</strong> who want automated ingestion from PDF bank statements directly into hledger or beancount journals.</li>
 <li><strong>Anyone</strong> who refuses to send sensitive financial data to a third-party SaaS when a local, open-source tool can do the job.</li>
 </ul>
 <h2>Supported Formats</h2>
@@ -211,7 +212,7 @@
 <th>Format</th>
 <th>Standard</th>
 <th>File Types</th>
-<th>Parser Class</th>
+<th>Parser/Method</th>
 </tr>
 </thead>
 <tbody>
@@ -251,18 +252,33 @@
 <td class="text-left"><code>.mt940</code>, <code>.sta</code></td>
 <td class="text-left"><code>Mt940Parser</code></td>
 </tr>
+<tr>
+<td class="text-left">PDF</td>
+<td class="text-left">Digital and scanned statements</td>
+<td class="text-left"><code>.pdf</code></td>
+<td class="text-left"><code>smart_ingest()</code></td>
+</tr>
 </tbody>
 </table></div>
 <p>All formats produce normalised pandas DataFrames with consistent column names, making downstream processing format-agnostic.</p>
 <h2>Key Capabilities</h2>
 <ul>
+<li><strong>Hybrid PDF Pipeline</strong>: <code>smart_ingest()</code> routes PDFs through three paths — deterministic table extraction, text-LLM, or vision-LLM — with automatic Golden Rule balance verification.</li>
 <li><strong>Format Auto-Detection</strong>: <code>detect_statement_format()</code> identifies the format; <code>create_parser()</code> instantiates the right parser.</li>
+<li><strong>Balance Verification</strong>: Golden Rule check (<code>opening + credits − debits == closing</code>) with VERIFIED/DISCREPANCY/FAILED status.</li>
+<li><strong>Multi-Currency Verification</strong>: <code>verify_balance_multi_currency()</code> groups transactions by currency for independent verification.</li>
+<li><strong>REST API</strong>: FastAPI microservice with <code>/ingest</code> and <code>/health</code> endpoints for production deployments.</li>
+<li><strong>Enrichment</strong>: LLM-powered transaction categorisation with pluggable schemas (Plaid 13-category default).</li>
+<li><strong>Interactive Review</strong>: Walk through discrepancies with accept/edit/skip/delete actions via <code>--type review</code>.</li>
+<li><strong>Ledger Export</strong>: <code>to_hledger()</code> and <code>to_beancount()</code> for plaintext-accounting workflows.</li>
+<li><strong>Bulk Scanning</strong>: <code>scan_and_ingest()</code> processes folder trees with automatic cross-file deduplication.</li>
+<li><strong>Account Mapping</strong>: Regex-based account mapping rules from JSON config for ledger export.</li>
 <li><strong>Streaming Parsing</strong>: Process large files (50 MB+, 50K+ transactions) with bounded memory using <code>parse_streaming()</code>.</li>
 <li><strong>Parallel Processing</strong>: Parse multiple files concurrently with <code>parse_files_parallel()</code> using ProcessPoolExecutor.</li>
-<li><strong>Deduplication</strong>: Detect exact duplicates and suspected matches with explainable confidence scores.</li>
+<li><strong>Deduplication</strong>: Idempotent <code>transaction_hash</code> (MD5 fingerprint) for safe incremental ingestion.</li>
 <li><strong>In-Memory Parsing</strong>: <code>from_string()</code> and <code>from_bytes()</code> for SFTP and API workflows with no disk I/O.</li>
 <li><strong>Secure ZIP Processing</strong>: <code>iter_secure_xml_entries()</code> with compression ratio limits, entry size caps, and encrypted entry rejection.</li>
-<li><strong>Export</strong>: CSV, JSON, Excel (<code>.xlsx</code>), and optional Polars DataFrames.</li>
+<li><strong>Export</strong>: CSV, JSON, Excel (<code>.xlsx</code>), Polars DataFrames, hledger, and beancount journals.</li>
 </ul>
 <h2>Security And Privacy</h2>
 <ul>
@@ -271,6 +287,7 @@
 <li><strong>ZIP Bomb Protection</strong>: Compression ratio limits (100:1 default), entry size caps (10 MB), encrypted entry rejection.</li>
 <li><strong>Path Traversal Prevention</strong>: Dangerous pattern blocklist and symlink resolution.</li>
 <li><strong>Supply Chain Security</strong>: SHA-256 hash-locked dependencies, CycloneDX SBOM, build provenance attestation.</li>
+<li><strong>Local LLMs Only</strong>: The hybrid PDF pipeline uses Ollama for local inference — no data sent to cloud APIs.</li>
 </ul>
 <h2>Performance</h2>
 <table>
@@ -311,7 +328,7 @@
 </tr>
 <tr>
 <td class="text-left">Tests</td>
-<td class="text-left">467 across 29 test files</td>
+<td class="text-left">718 across 29 test files</td>
 </tr>
 </tbody>
 </table>
@@ -332,30 +349,16 @@
         </ul>
       </div>
     </footer>
-    <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search">
+    <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search documentation">
       <div class="search-box">
-        <input class="search-input" id="searchInput" type="search" placeholder="Search documentation..." autocomplete="off" aria-label="Search" />
+        <input class="search-input" id="searchInput" type="search" placeholder="Search documentation..." autocomplete="off" aria-label="Search documentation" />
         <div class="search-results" id="searchResults"></div>
         <div class="search-footer"><span><kbd>&uarr;</kbd><kbd>&darr;</kbd> Navigate</span><span><kbd>&crarr;</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div>
       </div>
     </div>
     <script>
     (function(){
-      var pages=[
-        {t:"Home",d:"Parse 6 bank statement formats in Python, 100% local",u:"/index.html"},
-        {t:"About",d:"Features, formats, performance, and security overview",u:"/about/index.html"},
-        {t:"Getting Started",d:"Installation, quick start, CLI, API reference",u:"/getting-started/index.html"},
-        {t:"FAQ",d:"Privacy, performance, compliance, and usage questions",u:"/faq/index.html"},
-        {t:"Use Cases",d:"Treasury, reconciliation, compliance, SFTP, multi-bank",u:"/use-cases/index.html"},
-        {t:"Migration",d:"ISO 20022 timeline, MT940 to CAMT.053 transition",u:"/migration/index.html"},
-        {t:"Security",d:"XXE protection, PII redaction, supply chain security",u:"/security/index.html"},
-        {t:"Comparison",d:"vs mt-940, ofxparse, pyiso20022, SaaS tools, LLM parsers",u:"/comparison/index.html"},
-        {t:"Changelog",d:"Release history: v0.0.4, v0.0.3, v0.0.2, v0.0.1",u:"/changelog/index.html"},
-        {t:"Contribute",d:"Report issues, submit code, documentation, sponsorship",u:"/contribute/index.html"},
-        {t:"Contact",d:"GitHub issues for open-source, form for business inquiries",u:"/contact/index.html"},
-        {t:"Privacy",d:"Privacy policy, analytics, GDPR, cookies",u:"/privacy/index.html"},
-        {t:"Terms",d:"Terms of use, Apache 2.0 license, disclaimers",u:"/terms/index.html"}
-      ];
+      var pages=[{t:"Home",d:"Parse 7 bank statement formats including PDF, 100% local",u:"/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"About",d:"Features, formats, hybrid PDF pipeline, performance overview",u:"/about/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"Getting Started",d:"Installation, extras, PDF pipeline, REST API, CLI reference",u:"/getting-started/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"FAQ",d:"Privacy, hybrid PDF, Golden Rule, performance, compliance",u:"/faq/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"Use Cases",d:"Treasury, PDF ingestion, reconciliation, ledger export, REST API",u:"/use-cases/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"Migration",d:"ISO 20022 timeline, MT940 to CAMT.053, PDF fallback",u:"/migration/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"Security",d:"XXE protection, PII redaction, local LLMs, Golden Rule",u:"/security/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"Comparison",d:"vs mt-940, ofxparse, pyiso20022, SaaS, hybrid LLM pipeline",u:"/comparison/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"Changelog",d:"Release history: v0.0.8, v0.0.7, v0.0.6, v0.0.5, v0.0.4",u:"/changelog/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"Contribute",d:"Report issues, submit code, documentation, sponsorship",u:"/contribute/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"Contact",d:"GitHub issues for open-source, form for business inquiries",u:"/contact/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"Privacy",d:"Privacy policy, analytics, GDPR, cookies",u:"/privacy/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"},{t:"Terms",d:"Terms of use, Apache 2.0 license, disclaimers",u:"/terms/index.html",k:"accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c"}];
       var overlay=document.getElementById("searchOverlay");
       var input=document.getElementById("searchInput");
       var results=document.getElementById("searchResults");
@@ -369,7 +372,7 @@
       function fuzzy(q,text){q=q.toLowerCase();text=text.toLowerCase();if(text.indexOf(q)!==-1)return true;var qi=0;for(var ti=0;ti<text.length&&qi<q.length;ti++){if(text[ti]===q[qi])qi++}return qi===q.length}
       function renderResults(q){
         var filtered=[];
-        if(q.length>0){for(var i=0;i<pages.length;i++){var p=pages[i];if(fuzzy(q,p.t)||fuzzy(q,p.d))filtered.push(p)}}
+        if(q.length>0){for(var i=0;i<pages.length;i++){var p=pages[i];if(fuzzy(q,p.t)||fuzzy(q,p.d)||(p.k&&fuzzy(q,p.k)))filtered.push(p)}}
         if(q.length===0){results.innerHTML="";activeIdx=-1;return}
         if(filtered.length===0){results.innerHTML='<div class="search-empty">No results for "'+q.replace(/</g,"&lt;")+'"</div>';activeIdx=-1;return}
         var html="";
@@ -398,7 +401,7 @@
       overlay.addEventListener("click",function(e){if(e.target===overlay)closeSearch()});
     })();
     </script>
-    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"Bank Statement Parser is an open-source Python library for parsing CAMT.053, PAIN.001, CSV, OFX, QFX, and MT940 into pandas DataFrames. 100% local, PII redaction, 27K+ tx/s.","headline":"One Library. Six Formats. Zero Network Calls.","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"en-GB","mainEntityOfPage":"https://bankstatementparser.com/about/index.html","name":"About the Bank Statement Parser","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-11T00:00:00+00:00","datePublished":"2026-04-11T00:00:00+00:00","description":"Bank Statement Parser is an open-source Python library for parsing CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, and PDF into pandas DataFrames. Hybrid PDF pipeline, REST API, 27K+ tx/s.","headline":"One Library. Seven Formats. Hybrid PDF Pipeline. Zero Network Calls.","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"en-GB","mainEntityOfPage":"https://bankstatementparser.com/about/index.html","name":"About the Bank Statement Parser","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
     <script>
     (function(){
       // Language switcher toggle
@@ -437,5 +440,5 @@
     })();
     </script>
     <script defer src="/main.js"></script>
-  </body>
+  <script defer src="/bootstrap.bundle.min.js"></script></body>
 </html>

@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Analyseur de relevés bancaires et alternatives"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Analyseur de relevés bancaires. Tous droits réservés."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Comparez l'analyseur de relevés bancaires avec les outils mt-940, ofxparse, pycamt, pyiso20022 et SaaS comme Ocrolus et Parseur. Comparaison des fonctionnalités, tarification et guide de migration."
 download: ""
 format-detection: "telephone=no"
@@ -43,7 +43,7 @@ short_name: "bankstatementparser"
 subtitle: "Comment l'analyseur de relevé bancaire se compare"
 tags: "comparaison, alternatives, mt940, ofxparse, pyiso20022, saas"
 theme_color: "rgb(73, 214, 251)"
-title: "Analyseur de relevés bancaires et alternatives : comparaison open source et SaaS"
+title: "Analyseur de relevés bancaires et alternatives : comparaison open source et SaaS"
 url: "https://bankstatementparser.com/fr/alternatives/index.html"
 viewport: "width=device-width, initial-scale=1, shrink-to-fit=no"
 
@@ -57,7 +57,7 @@ item_description: "Comparez l'analyseur de relevés bancaires avec les outils mt
 item_guid: "https://bankstatementparser.com/fr/alternatives/rss.xml"
 item_link: "https://bankstatementparser.com/fr/alternatives/rss.xml"
 item_pub_date: "2026-04-01T00:00:00+00:00"
-item_title: "Analyseur de relevés bancaires et alternatives : comparaison open source et SaaS"
+item_title: "Analyseur de relevés bancaires et alternatives : comparaison open source et SaaS"
 last_build_date: "2026-04-01T00:00:00+00:00"
 managing_editor: "contact@bankstatementparser.com"
 pub_date: "2026-04-01T00:00:00+00:00"
@@ -73,7 +73,7 @@ apple-mobile-web-app-capable: "yes"
 mobile-web-app-capable: "yes"
 apple-mobile-web-app-status-bar-inset: "black"
 apple-mobile-web-app-status-bar-style: "black-translucent"
-apple-mobile-web-app-title: "Analyseur de relevés bancaires et alternatives : comparaison open source et SaaS"
+apple-mobile-web-app-title: "Analyseur de relevés bancaires et alternatives : comparaison open source et SaaS"
 apple-touch-fullscreen: "yes"
 
 # MS Application - The MS Application front matter (YAML).
@@ -91,7 +91,7 @@ twitter_description: "Comparez l'analyseur de relevés bancaires avec les outils
 twitter_image: "/images/logos/bankstatementparser.webp"
 twitter_image_alt: "Logo de l'analyseur de relevés bancaires, renforcez votre analyse financière avec une extraction transparente des données"
 twitter_site: "@wwdseb"
-twitter_title: "Analyseur de relevés bancaires et alternatives : comparaison open source et SaaS"
+twitter_title: "Analyseur de relevés bancaires et alternatives : comparaison open source et SaaS"
 twitter_url: "https://bankstatementparser.com/fr/alternatives/index.html"
 
 # Humans.txt - The Humans.txt front matter (YAML).
@@ -107,72 +107,84 @@ site_software: "Shokunin, Rust"
 
 ---
 
-## Aperçu
+## Vue d'ensemble
 
-Bank Statement Parser est la seule bibliothèque Python open source qui analyse six formats de relevés bancaires avec une API unifiée. Les bibliothèques monoformat (mt-940, ofxparse, pycamt) gèrent chacune un format. Les outils SaaS (Ocrolus, Parseur) proposent l'OCR pour les PDF mais nécessitent l'envoi de données en externe et coûtent entre 49 $ et plus de 1 000 $/mois.
+Bank Statement Parser est la seule bibliothèque Python open source qui analyse sept formats de relevés bancaires — dont le PDF via un pipeline LLM hybride — avec une API unifiée. Les bibliothèques monoformat (mt-940, ofxparse, pycamt) gèrent chacune un seul format. Les outils SaaS (Ocrolus, Parseur) proposent de l'OCR cloud mais exigent l'envoi de données à l'extérieur et coûtent de 49 $ à 1 000 $+/mois.
 
 ## Alternatives open source
 
-### Bibliothèques à format unique
+### Bibliothèques monoformat
 
-La plupart des analyseurs de relevés bancaires open source ne gèrent qu'un seul format. Si vous avez besoin de plusieurs formats, vous devez installer et gérer des bibliothèques distinctes avec des API, des schémas de sortie et des cycles de mise à jour différents.
+La plupart des analyseurs de relevés bancaires open source ne gèrent qu'un seul format. Si vous avez besoin de plusieurs formats, vous devez installer et maintenir des bibliothèques séparées avec des API, des schémas de sortie et des cycles de mise à jour différents.
 
-| Bibliothèque | Format | Sortir | Streaming | Rédaction des informations personnelles | Déduplication |
+| Bibliothèque | Formats | PDF | Sortie | Vérification du solde | Export comptable |
 |---|---|---|---|---|---|
-| **Analyseur de relevés bancaires** | 6 formats | Cadre de données pandas | Oui | Oui (par défaut) | Oui |
-| mt-940 (WoLpH) | MT940 uniquement | Objets Python | Non | Non | Non |
-| d'xparse | OFX uniquement | Objets Python | Non | Non | Non |
-| pycamt | CAMT.053 uniquement | Objets Python | Non | Non | Non |
-| d'outils x | OFX v1/v2 uniquement | Objets Python | Non | Non | Non |
+| **Bank Statement Parser** | 7 formats | Pipeline hybride | pandas DataFrame | Règle d'or | hledger, beancount |
+| mt-940 (WoLpH) | MT940 uniquement | Non | Objets Python | Non | Non |
+| ofxparse | OFX uniquement | Non | Objets Python | Non | Non |
+| pycamt | CAMT.053 uniquement | Non | Objets Python | Non | Non |
+| ofxtools | OFX v1/v2 uniquement | Non | Objets Python | Non | Non |
 
-### contre pyiso20022
+### vs pyiso20022
 
-pyiso20022 génère des classes de données Python à partir du catalogue complet de schémas ISO 20022. Il s'agit d'une boîte à outils ISO 20022 à usage général permettant de travailler avec les messages PACS, PAIN, CAMT et ADMI.
+pyiso20022 génère des dataclasses Python à partir du catalogue complet des schémas ISO 20022. C'est un outil généraliste pour travailler avec les messages PACS, PAIN, CAMT et ADMI.
 
-Bank Statement Parser est spécialement conçu pour analyser les relevés bancaires dans des DataFrames avec des fonctionnalités de production :
+Bank Statement Parser est conçu spécifiquement pour analyser les relevés bancaires en DataFrames avec des fonctionnalités de production :
 
-| Fonctionnalité | Analyseur de relevé bancaire | pyiso20022 |
+| Fonctionnalité | Bank Statement Parser | pyiso20022 |
 |---|---|---|
-| But | Analyse des instructions + exportation | Boîte à outils de schéma ISO 20022 |
-| Sortir | Pandas/Polars DataFrames | Classes de données Python |
-| Formats | 6 (y compris non ISO) | ISO 20022 uniquement |
-| Streaming | Oui (mémoire limitée) | Non |
-| Rédaction des informations personnelles | Intégré | Non |
-| Déduplication | Intégré | Non |
-| Sécurité ZIP | Intégré | Non |
+| Objectif | Analyse + extraction + export de relevés | Boîte à outils de schémas ISO 20022 |
+| Sortie | DataFrames pandas/Polars | Dataclasses Python |
+| Formats | 7 (dont PDF et non-ISO) | ISO 20022 uniquement |
+| Support PDF | Pipeline hybride (déterministe + LLM + vision) | Non |
+| Vérification du solde | Règle d'or + multi-devises | Non |
+| API REST | FastAPI intégré | Non |
+| Enrichissement | Catégorisation par LLM | Non |
+| Export comptable | hledger + beancount | Non |
+| Streaming | Oui (mémoire bornée) | Non |
+| Masquage des données personnelles | Intégré | Non |
+| Déduplication | Hash idempotent des transactions | Non |
 | CLI | Oui | Non |
 
-Utilisez pyiso20022 si vous devez travailler avec le catalogue complet de messages ISO 20022. Utilisez Bank Statement Parser si vous devez analyser des relevés bancaires en données structurées à des fins d'analyse, de rapprochement ou de reporting.
+Utilisez pyiso20022 si vous devez travailler avec le catalogue complet des messages ISO 20022. Utilisez Bank Statement Parser si vous devez analyser des relevés bancaires en données structurées pour l'analyse, le rapprochement ou le reporting.
 
 ## Alternatives SaaS
 
-Les outils SaaS comme Ocrolus, Parseur et Sensible proposent l'analyse des relevés bancaires en tant que service cloud. Ils utilisent généralement l'OCR pour gérer les PDF numérisés et prennent en charge des centaines de formats spécifiques aux banques.
+Les outils SaaS comme Ocrolus, Parseur et Sensible proposent l'analyse de relevés bancaires en tant que service cloud. Ils utilisent généralement l'OCR pour traiter les PDF scannés et prennent en charge des centaines de formats spécifiques aux banques.
 
-| Fonctionnalité | Analyseur de relevé bancaire | Outils SaaS |
+| Fonctionnalité | Bank Statement Parser | Outils SaaS |
 |---|---|---|
-| Confidentialité des données | 100 % local, aucun appel réseau | Données envoyées vers le cloud |
-| Coût | Gratuit (Apache 2.0) | 49 $ à 1 000 $+/mois (à partir du premier trimestre 2026) |
-| Formats | 6 formats structurés | Des centaines (via OCR) |
-| Prise en charge des PDF | Non (formats structurés uniquement) | Oui (basé sur OCR) |
-| Latence | <2 ms premier résultat | 1-30 secondes |
-| Débit | Plus de 27 000 émissions/seconde | Débit API limité |
-| Verrouillage du fournisseur | Aucun | Oui |
-| Conformité | Traitement local, SBOM | Varie selon le fournisseur |
+| Confidentialité des données | 100 % local (LLM via Ollama) | Données envoyées vers le cloud |
+| Coût | Gratuit (Apache 2.0) | 49 $ à 1 000 $+/mois (au T1 2026) |
+| Formats | 7 (structurés + PDF) | Des centaines (via OCR) |
+| Support PDF | Oui — pipeline hybride (déterministe + LLM + vision) | Oui (OCR cloud) |
+| Vérification du solde | Règle d'or (automatique) | Manuelle / limitée |
+| Latence | < 2 ms (structuré), secondes (PDF+LLM) | 1 à 30 secondes |
+| Débit | 27 000+ tx/seconde (structuré) | Limité par l'API |
+| API REST | FastAPI intégré | Propriétaire |
+| Export comptable | hledger + beancount | Non |
+| Dépendance fournisseur | Aucune | Oui |
+| Conformité | Traitement local, SBOM | Variable selon le fournisseur |
 
-## Analyseurs basés sur LLM
+## Analyseurs basés sur des LLM
 
-Un nombre croissant d'outils (Inscribe, Unstract, plans Mozilla.ai) utilisent de grands modèles de langage pour analyser les relevés bancaires, y compris les PDF numérisés. Lorsque Chase a repensé son format de déclaration du consommateur fin 2025, les analyseurs basés sur des modèles se sont cassés tandis que les analyseurs LLM se sont adaptés automatiquement.
+Un nombre croissant d'outils (Inscribe, Unstract, Mozilla.ai blueprints) utilisent des grands modèles de langage pour analyser les relevés bancaires, y compris les PDF scannés. Quand Chase a revu la mise en page de ses relevés grand public fin 2025, les analyseurs basés sur des modèles ont cassé tandis que les analyseurs LLM se sont adaptés automatiquement.
 
-**Quand les analyseurs LLM ont du sens** : Vous recevez des PDF numérisés provenant de centaines de banques avec des mises en page imprévisibles, et une extraction approximative (précision de 95 à 99 %) est acceptable.
+**Bank Statement Parser inclut désormais son propre pipeline LLM hybride** (v0.0.5+) qui fonctionne entièrement en local via Ollama. Il combine le meilleur des deux approches :
 
-**Lorsque l'analyseur de relevés bancaires est le meilleur choix** : vous avez besoin d'une sortie déterministe et reproductible pour l'audit et la conformité. Vous ne pouvez pas envoyer de données financières à des API externes. Vous avez besoin d'une latence inférieure à la milliseconde (contre 1 à 30 secondes pour les API LLM). Vous ne voulez aucun coût permanent et aucune dépendance vis-à-vis du fournisseur.
+- **Formats structurés** (XML, CSV, OFX, MT940) : analyse déterministe — 100 % de précision, latence sous la milliseconde, zéro coût LLM.
+- **Relevés PDF** : routage à trois voies (extraction déterministe de tableaux, text-LLM, vision-LLM) avec vérification automatique par la Règle d'or pour détecter les erreurs d'extraction.
 
-Les outils Bank Statement Parser et LLM résolvent différents problèmes. Utilisez Bank Statement Parser pour les formats structurés (XML, CSV, OFX, MT940) pour lesquels vous avez besoin d'une précision à 100 %, d'un traitement local et d'une reproductibilité de l'audit. Utilisez les outils LLM pour les PDF non structurés où une extraction approximative est acceptable.
+Contrairement aux analyseurs LLM cloud, le pipeline hybride de Bank Statement Parser :
+- Fonctionne 100 % en local (Ollama) — aucune donnée ne quitte votre machine.
+- Vérifie chaque extraction avec la vérification du solde (Règle d'or).
+- Propose un mode de revue interactif pour les écarts signalés.
+- Produit des hash de transactions idempotents pour une ingestion incrémentale fiable.
 
-**Méthodologie de référence** : chiffres de performances mesurés sur Apple M2, Python 3.12, à l'aide d'un fichier CAMT.053 de 5 000 transactions (2,1 Mo). Les résultats étaient en moyenne sur 100 exécutions. Reproduire localement :`python -m bankstatementparser.bench`. Latence SaaS basée sur la documentation API publiée en avril 2026.
+**Quand choisir un analyseur LLM SaaS plutôt que Bank Statement Parser** : vous recevez des relevés de centaines de banques avec des mises en page PDF très différentes et vous avez besoin d'une couverture prête à l'emploi sans infrastructure locale.
 
-**Quand choisir l'analyseur de relevés bancaires** : Votre banque propose des exportations structurées (XML, CSV, OFX, MT940), vous avez besoin d'un traitement local pour des raisons de conformité ou vous souhaitez un coût permanent nul.
+**Quand choisir Bank Statement Parser** : vous avez besoin d'un traitement local pour la conformité. Vous voulez la vérification du solde. Vous avez besoin d'export comptable. Vous voulez zéro coût récurrent.
 
-**Quand choisir SaaS** : Vous recevez des relevés PDF numérisés, vous avez besoin d'OCR pour des centaines de formats spécifiques à la banque ou vous souhaitez une solution sans code.
+**Méthodologie de benchmark** : les chiffres de performance sont mesurés sur Apple M2, Python 3.12, avec un fichier CAMT.053 de 5 000 transactions (2,1 Mo). Résultats moyennés sur 100 exécutions. Reproduisez en local : `python -m bankstatementparser.bench`. La latence SaaS est basée sur la documentation API publiée en avril 2026.
 
-[Voir les cas d'utilisation réels ❯](/use-cases/index.html) | [Planifiez votre migration MT940 vers CAMT ❯](/migration/index.html)
+[Découvrez des cas d'utilisation concrets ❯](/use-cases/index.html) | [Planifiez votre migration MT940 vers CAMT ❯](/migration/index.html)

@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Tungkol sa Bank Statement Parser: Mga Tampok, Format, at Pagganap"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Bank Statement Parser. Lahat ng karapatan ay nakalaan."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Ang Bank Statement Parser ay isang open-source na Python library para sa pag-parse ng CAMT.053, PAIN.001, CSV, OFX, QFX, at MT940 sa mga pandas DataFrames. 100% lokal, PII redaction, 27K+ tx/s."
 download: ""
 format-detection: "telephone=no"
@@ -107,47 +107,59 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Ang Bank Statement Parser ay isang open-source na Python library na nag-parse ng anim na bank statement format (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) sa mga pandas DataFrames. 100% lokal na pagproseso, PII redaction bilang default, 27K+ tx/s throughput.
+**TL;DR:** Ang Bank Statement Parser ay isang open-source na Python library na nag-pa-parse ng pitong bank statement format (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, at PDF) sa mga pandas DataFrames. Hybrid PDF pipeline na may beripikasyon ng balanse, REST API, enrichment, ledger export, 27K+ tx/s throughput.
 
-Ang Bank Statement Parser ay isang open-source na Python library na nag-parse ng mga bank statement mula sa anim na format sa structured pandas DataFrames. Nangyayari ang lahat ng pagpoproseso nang lokal -- zero na tawag sa network, deterministikong output, at awtomatikong PII redaction.
+Ang Bank Statement Parser ay isang open-source na Python library na nag-pa-parse ng mga bank statement mula sa pitong format sa structured pandas DataFrames. Pinoproseso ng deterministikong core ang mga structured na format nang lokal na walang tawag sa network. Ang opsyonal na hybrid PDF pipeline ay dumadaan sa mga lokal na LLM (sa pamamagitan ng Ollama) para sa mga digital at na-scan na statement.
 
 ## Para Kanino Ito?
 
-- **Mga Treasury team** na lumilipat mula MT940 patungong CAMT.053 na nangangailangan ng parser na humahawak sa luma at bagong mga format sa panahon ng paglipat.
-- **Ang mga developer ng Fintech** ay nagtatayo ng mga pipeline ng reconciliation, pag-uulat, o accounting na gusto ng iisang dependency sa halip na pagsamahin ang mt940 + ofxparse + custom na CSV logic.
-- **Mga koponan sa pagsunod** na nangangailangan ng PII redaction bilang default at handa sa pag-audit, deterministikong output na hindi kailanman nagpapadala ng data sa mga panlabas na serbisyo.
-- **Sinuman** na tumangging magpadala ng sensitibong data sa pananalapi sa isang third-party na SaaS kapag magagawa ng isang lokal, open-source na tool ang trabaho.
+- **Mga treasury team** na lumilipat mula MT940 patungong CAMT.053 na nangangailangan ng parser na humahawak sa luma at bagong format sa panahon ng transisyon, pati na rin ang mga PDF statement mula sa mga bangko na hindi nag-aalok ng structured na export.
+- **Mga fintech developer** na nagtatayo ng reconciliation, reporting, o accounting pipeline na gusto ng iisang dependency na may built-in na beripikasyon ng balanse, kategorisasyon, at ledger export.
+- **Mga compliance team** na nangangailangan ng PII redaction bilang default, deterministikong output, at Golden Rule na beripikasyon na nagba-flag ng mga diskrepansya bago makarating sa ledger.
+- **Mga gumagamit ng plaintext-accounting** na gustong mag-automate ng ingestion mula sa mga PDF bank statement diretso sa hledger o beancount na mga journal.
+- **Sinuman** na tumangging magpadala ng sensitibong data sa pananalapi sa isang third-party na SaaS kapag kayang gawin ng isang lokal, open-source na tool ang trabaho.
 
 ## Mga Sinusuportahang Format
 
-| Format | Pamantayan | Mga Uri ng File | Klase ng Parser |
+| Format | Pamantayan | Mga Uri ng File | Parser/Paraan |
 |---|---|---|---|
 | CAMT.053 | ISO 20022 Bank-to-Customer Statement | `.xml` | `CamtParser` |
-| SAKIT.001 | ISO 20022 Credit Transfer Initiation | `.xml` | `Pain001Parser` |
-| CSV | Mga generic na pag-export ng bangko | `.csv` | `CsvStatementParser` |
-| OFX | Buksan ang Financial Exchange | `.ofx` | `OfxParser` |
-| QFX | Pabilisin ang Financial Exchange | `.qfx` | `QfxParser` |
-| MT940 | pamantayan ng SWIFT | `.mt940`, `.sta` | `Mt940Parser` |
+| PAIN.001 | ISO 20022 Credit Transfer Initiation | `.xml` | `Pain001Parser` |
+| CSV | Mga generic na bank export | `.csv` | `CsvStatementParser` |
+| OFX | Open Financial Exchange | `.ofx` | `OfxParser` |
+| QFX | Quicken Financial Exchange | `.qfx` | `QfxParser` |
+| MT940 | Pamantayan ng SWIFT | `.mt940`, `.sta` | `Mt940Parser` |
+| PDF | Mga digital at na-scan na statement | `.pdf` | `smart_ingest()` |
 
-Ang lahat ng mga format ay gumagawa ng mga normalized na pandas DataFrames na may pare-parehong mga pangalan ng column, na ginagawang downstream processing format-agnostic.
+Lahat ng format ay gumagawa ng mga normalised na pandas DataFrames na may pare-parehong mga pangalan ng column, kaya format-agnostic ang downstream processing.
 
 ## Mga Pangunahing Kakayahan
 
-- **Format Auto-Detection**:`detect_statement_format()`kinikilala ang format;`create_parser()`ini-instantiate ang tamang parser.
-- **Streaming Parsing**: Iproseso ang malalaking file (50 MB+, 50K+ na transaksyon) na may bounded memory gamit ang`parse_streaming()`.
-- **Parallel Processing**: Mag-parse ng maraming file nang sabay-sabay`parse_files_parallel()`gamit ang ProcessPoolExecutor.
-- **Deduplication**: Tuklasin ang mga eksaktong duplicate at pinaghihinalaang tugma na may maipaliwanag na mga marka ng kumpiyansa.
-- **In-Memory Parsing**:`from_string()`at`from_bytes()`para sa mga workflow ng SFTP at API na walang disk I/O.
-- **Secure na Pagproseso ng ZIP**:`iter_secure_xml_entries()`na may mga limitasyon sa compression ratio, mga takip sa laki ng entry, at naka-encrypt na pagtanggi sa entry.
-- **I-export**: CSV, JSON, Excel (`.xlsx`), at opsyonal na Polars DataFrames.
+- **Hybrid PDF Pipeline**: Niru-route ng `smart_ingest()` ang mga PDF sa tatlong landas — deterministic table extraction, text-LLM, o vision-LLM — na may awtomatikong Golden Rule na beripikasyon ng balanse.
+- **Format Auto-Detection**: Kinikilala ng `detect_statement_format()` ang format; ini-instantiate ng `create_parser()` ang tamang parser.
+- **Beripikasyon ng Balanse**: Golden Rule check (`opening + credits − debits == closing`) na may VERIFIED/DISCREPANCY/FAILED na status.
+- **Multi-Currency na Beripikasyon**: Ginagrupong `verify_balance_multi_currency()` ang mga transaksyon ayon sa currency para sa independyenteng beripikasyon.
+- **REST API**: FastAPI microservice na may `/ingest` at `/health` na mga endpoint para sa production deployment.
+- **Enrichment**: LLM-powered na kategorisasyon ng transaksyon na may pluggable na mga schema (Plaid 13-category na default).
+- **Interactive Review**: Suriin ang mga diskrepansya gamit ang accept/edit/skip/delete na mga aksyon sa pamamagitan ng `--type review`.
+- **Ledger Export**: `to_hledger()` at `to_beancount()` para sa plaintext-accounting na mga workflow.
+- **Bulk Scanning**: Pinoproseso ng `scan_and_ingest()` ang mga folder tree na may awtomatikong cross-file na deduplikasyon.
+- **Account Mapping**: Regex-based na account mapping rule mula sa JSON config para sa ledger export.
+- **Streaming Parsing**: Iproseso ang malalaking file (50 MB+, 50K+ na transaksyon) na may bounded memory gamit ang `parse_streaming()`.
+- **Parallel Processing**: Mag-parse ng maraming file nang sabay-sabay gamit ang `parse_files_parallel()` na gumagamit ng ProcessPoolExecutor.
+- **Deduplication**: Idempotent na `transaction_hash` (MD5 fingerprint) para sa ligtas na incremental ingestion.
+- **In-Memory Parsing**: `from_string()` at `from_bytes()` para sa mga SFTP at API workflow na walang disk I/O.
+- **Secure na Pagproseso ng ZIP**: `iter_secure_xml_entries()` na may compression ratio limit, entry size cap, at encrypted entry rejection.
+- **Export**: CSV, JSON, Excel (`.xlsx`), Polars DataFrames, hledger, at beancount na mga journal.
 
 ## Seguridad at Privacy
 
-- **PII Redaction**: Ang mga pangalan, IBAN, at address ay naka-mask bilang default sa CLI output. Mag-opt in gamit ang`--show-pii`.
-- **Proteksyon ng XXE**: Mga gamit sa pag-parse ng XML`resolve_entities=False`, `no_network=True`, `load_dtd=False`.
-- **ZIP Bomb Protection**: Mga limitasyon sa compression ratio (100:1 default), entry size caps (10 MB), encrypted entry rejection.
-- **Path Traversal Prevention**: Mapanganib na pattern blocklist at resolution ng symlink.
+- **PII Redaction**: Ang mga pangalan, IBAN, at address ay naka-mask bilang default sa CLI output. Mag-opt in gamit ang `--show-pii`.
+- **Proteksyon sa XXE**: Gumagamit ang XML parsing ng `resolve_entities=False`, `no_network=True`, `load_dtd=False`.
+- **ZIP Bomb Protection**: Mga limitasyon sa compression ratio (100:1 default), entry size cap (10 MB), encrypted entry rejection.
+- **Path Traversal Prevention**: Mapanganib na pattern blocklist at symlink resolution.
 - **Supply Chain Security**: SHA-256 hash-locked dependencies, CycloneDX SBOM, build provenance attestation.
+- **Lokal na LLM Lamang**: Gumagamit ang hybrid PDF pipeline ng Ollama para sa lokal na inference — walang data na ipinapadala sa mga cloud API.
 
 ## Pagganap
 
@@ -157,10 +169,10 @@ Ang lahat ng mga format ay gumagawa ng mga normalized na pandas DataFrames na ma
 | PAIN.001 throughput | 52,000+ tx/s |
 | Per-transaction latency (CAMT) | 37 microseconds |
 | Per-transaction latency (PAIN.001) | 19 microseconds |
-| Oras para sa unang resulta | < 2 ms |
+| Oras hanggang sa unang resulta | < 2 ms |
 | Pag-scale ng memorya (1K-50K tx) | Constant (streaming) |
-| Saklaw ng pagsubok | 100% saklaw ng sangay |
-| Mga pagsubok | 467 sa 29 na test file |
+| Saklaw ng pagsubok | 100% branch coverage |
+| Mga pagsubok | 718 sa 29 na test file |
 
 ## Simulan ang Pagbuo
 

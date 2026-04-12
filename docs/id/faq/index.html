@@ -4,20 +4,20 @@
     <meta charset="utf-8" />
     <meta itemprop="datePublished" content="2026-04-01T00:00:00+00:00" id="date">
     <meta itemprop="dateModified" content="2026-04-01T00:00:00+00:00" id="last-modified">
-    <title>FAQ Parser Laporan Bank: Privasi, Performa, dan Penggunaan</title>
+    <title>FAQ Parser Laporan Bank: Privasi, Kinerja, dan Penggunaan</title>
     <meta name="theme-color" content="rgb(73, 214, 251)" />
     <meta name="measurement-id" content="G-FL9DEBFHN1" />
     <meta name="author" content="Sebastien Rousseau">
-<meta name="description" content="Jawaban atas pertanyaan umum tentang Parser Laporan Bank: privasi data, penyembunyian PII, performa, dukungan ISO 20022, streaming, kepatuhan, dan alur kerja perbendaharaan.">
-<meta name="keywords" content="FAQ parser laporan bank, pertanyaan parser CAMT, FAQ PAIN.001, FAQ python ISO 20022, penyembunyian PII perbankan, performa parser bank, privasi data keuangan, FAQ parser MT940, parser streaming python, kepatuhan laporan bank">
+<meta name="description" content="Jawaban atas pertanyaan umum tentang Parser Laporan Bank: privasi data, redaksi PII, kinerja, dukungan ISO 20022, streaming, kepatuhan, dan alur kerja perbendaharaan.">
+<meta name="keywords" content="FAQ parser laporan bank, pertanyaan parser CAMT, FAQ PAIN.001, FAQ python ISO 20022, perbankan redaksi PII, kinerja parser bank, privasi data keuangan, FAQ parser MT940, python parser streaming, kepatuhan laporan bank">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="accessibility" content="ARIA, fullKeyboardControl, noFlashingHazard" />
     <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="FAQ Parser Laporan Bank: Privasi, Performa, dan Penggunaan">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: kura.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
+<meta name="apple-mobile-web-app-title" content="FAQ Parser Laporan Bank: Privasi, Kinerja, dan Penggunaan">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: cloudcdn.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
     <meta name="msapplication-TileColor" content="rgb(73, 214, 251)">
     
     <link rel="alternate" href="https://bankstatementparser.com/id/faq/index.html" hreflang="id" />
@@ -27,7 +27,7 @@
     <link rel="apple-touch-icon" href="/images/icons/192x192.png" sizes="192x192" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
-    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#b0b8c1"}})});</script>
+    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#8f9aa5"}})});</script>
     <style>
       :root{--theme-color:rgb(73, 214, 251)}*{font-weight:400;box-sizing:border-box;margin:0}
       pre{margin:1.5rem 0;max-width:100%;overflow:auto;border-radius:.5rem;padding:1rem 1.25rem;background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);color:var(--c-code);display:block;font-family:'SF Mono',SFMono-Regular,Consolas,monospace;font-size:.8125rem;line-height:1.7;margin:1.5rem 0;max-width:100%;overflow:auto;padding:1rem 1.25rem;border-radius:.5rem}
@@ -138,13 +138,26 @@
       .faq-container .accordion-body th{font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--c-secondary);font-size:.75rem}
       .faq-container .accordion-body pre{margin:1rem 0;border-radius:.5rem}
       .faq-container .accordion-body ul,.faq-container .accordion-body ol{margin:.75rem 0}
+          .search-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:flex-start;justify-content:center;padding:15vh 1rem 1rem}
+.search-overlay.open{display:flex}
+.search-box{background:var(--c-bg);border:1px solid var(--c-border);border-radius:.75rem;width:100%;max-width:560px;box-shadow:0 25px 50px -12px rgba(0,0,0,.25);overflow:hidden}
+.search-input{width:100%;padding:.875rem 1rem;border:none;background:transparent;color:var(--c-text);font-size:1rem;font-family:inherit;outline:none}
+.search-input::placeholder{color:var(--c-secondary)}
+.search-results{max-height:50vh;overflow-y:auto;border-top:1px solid var(--c-border)}
+.search-result{display:block;padding:.75rem 1rem;color:var(--c-text);text-decoration:none;border-bottom:1px solid var(--c-border)}
+.search-result:hover,.search-result.active{background:var(--c-surface);color:var(--c-accent);text-decoration:none}
+.search-result-title{font-weight:600;font-size:.9375rem}
+.search-result-desc{font-size:.8125rem;color:var(--c-secondary);margin-top:.125rem}
+.search-empty{padding:1.5rem 1rem;text-align:center;color:var(--c-secondary);font-size:.875rem}
+.search-footer{padding:.5rem 1rem;border-top:1px solid var(--c-border);font-size:.75rem;color:var(--c-secondary);display:flex;gap:1rem}
+.search-footer kbd{background:var(--c-surface);padding:.125rem .375rem;border-radius:.25rem;font-size:.6875rem;border:1px solid var(--c-border)}
     </style>
   </head>
   <body id="page-top" itemscope itemtype="http://schema.org/WebPage">
-    <a class="skip-link" href="#main">Skip to main content</a>
-    <nav class="site-nav" aria-label="Main navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+    <a class="skip-link" href="#main">Langsung ke konten utama</a>
+    <nav class="site-nav" aria-label="Navigasi utama" itemscope itemtype="http://schema.org/SiteNavigationElement">
       <div class="nav-inner">
-        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="" /><span itemprop="name">Parser Laporan Bank</span></a>
+        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="Bank Statement Parser logo" /><span itemprop="name">Parser Laporan Bank</span></a>
         <ul class="nav-center">
           <li><a href="/id/index.html">Beranda</a></li>
           <li><a href="/id/a-propos/index.html">Tentang</a></li>
@@ -153,7 +166,8 @@
           <li class="nav-item dropdown"><button class="dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" type="button">Sumber Daya</button><ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown"><li><a class="dropdown-item" href="/id/cas-utilisation/index.html">Use Cases</a></li><li><a class="dropdown-item" href="/id/migration/index.html">ISO 20022 Migration</a></li><li><a class="dropdown-item" href="/id/securite/index.html">Security</a></li><li><a class="dropdown-item" href="/id/alternatives/index.html">Alternatives</a></li><li><a class="dropdown-item" href="/id/journal-des-modifications/index.html">Changelog</a></li><li><a class="dropdown-item" href="/id/contribuer/index.html">Contribute</a></li><li><a class="dropdown-item" href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a class="dropdown-item" href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li></ul></li>
         </ul>
         <div class="nav-right">
-          <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">Gelap</span></button>
+          <button id="searchTrigger" class="theme-toggle" aria-label="Search" style="margin-right:.25rem"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> <span class="search-shortcut" aria-hidden="true" style="font-size:.6875rem;opacity:.8"></span></button>
+          <button class="theme-toggle" id="themeToggle" aria-label="Beralih ke mode gelap" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">Gelap</span></button>
           <div style="position:relative;display:inline-block" class="lang-switcher">
             <button type="button" aria-label="ID, Change language" aria-expanded="false" style="color:var(--c-nav-muted);font-size:12px;font-weight:400;padding:.375rem .625rem;border:1px solid var(--c-border);border-radius:6rem;background:transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.25rem;outline:none">
               <span style="font-size:14px">🌐</span> ID
@@ -197,35 +211,37 @@
       </div>
       </nav>
     <header class="site-hero" style="padding:6rem 1.5rem 3rem">
-      <h1 style="font-size:clamp(2rem,4vw,2.75rem)">Pertanyaan yang Sering Diajukan</h1>
+      <h1 style="font-size:clamp(2rem,4vw,2.75rem)">Pertanyaan Umum</h1>
       <p>Pertanyaan Umum Tentang Parser Laporan Bank</p>
     </header>
     <main id="main" class="site-main" tabindex="-1" aria-label="Page content">
       <div class="text-start">
-        <div id="faq-raw" class="faq-raw-content"><h2>Privasi Data dan Kepatuhan</h2>
+        <div id="faq-raw" class="faq-raw-content"><h2>Privasi dan Kepatuhan Data</h2>
 <h3>Apakah ada data yang keluar dari infrastruktur saya?</h3>
-<p><strong>Tidak.</strong> Parser Laporan Bank beroperasi sebagai pustaka stateless. Semua pemrosesan -- penguraian, penyembunyian PII, ekstraksi arsip -- terjadi di memori runtime lokal Anda. Tidak ada panggilan API, tidak ada layanan cloud, tidak ada telemetri. Parser XML diperkeras dengan <code>no_network=True</code>, memblokir semua akses keluar di tingkat parser. Data keuangan Anda tidak pernah meninggalkan lingkungan Anda.</p>
-<h3>Bagaimana cara kerja penyembunyian PII?</h3>
-<p>Bidang sensitif disamarkan sebelum mencapai logika aplikasi Anda. Parser mengidentifikasi nama debitur, nama kreditur, IBAN, dan alamat pos, menggantinya dengan <code>***REDACTED***</code> dalam output konsol dan mode streaming.</p>
+<p><strong>Tidak — bahkan untuk ekstraksi PDF.</strong> Bank Statement Parser beroperasi sebagai pustaka stateless. Semua pemrosesan -- penguraian, redaksi PII, ekstraksi arsip -- terjadi dalam memori runtime lokal Anda. Pipeline PDF hibrida menggunakan Ollama untuk inferensi LLM lokal — tanpa API cloud. Parser XML diperkuat dengan <code>no_network=True</code>, memblokir semua akses keluar di tingkat parser. Data keuangan Anda tidak pernah keluar dari lingkungan Anda.</p>
+<h3>Bagaimana cara kerja redaksi PII?</h3>
+<p>Bidang sensitif disamarkan sebelum mencapai logika aplikasi Anda. Parser mengidentifikasi nama debitur, nama kreditur, IBAN, dan alamat pos, menggantikannya dengan <code>***REDACTED***</code> dalam output konsol dan mode streaming.</p>
 <ul>
-<li><strong>Penyembunyian aktif secara default</strong> dalam output CLI dan mode streaming.</li>
-<li><strong>Ekspor file</strong> (CSV, JSON, Excel) mempertahankan data yang tidak disembunyikan untuk pemrosesan hilir.</li>
+<li><strong>Redaksi aktif secara default</strong> dalam output CLI dan mode streaming.</li>
+<li><strong>Ekspor file</strong> (CSV, JSON, Excel) menyimpan data tanpa redaksi untuk pemrosesan hilir.</li>
 <li><strong>Aktifkan</strong> data lengkap dengan <code>--show-pii</code> di CLI atau <code>redact_pii=False</code> di API.</li>
 </ul>
-<h3>Apakah proses ekstraksi deterministik?</h3>
-<p><strong>Ya -- output byte-identik pada setiap eksekusi.</strong> Dengan file input yang sama, parser menghasilkan hasil yang sama setiap kali. Tidak ada keacakan, tidak ada inferensi model, tidak ada sampling heuristik. CI menegakkan determinisme dengan 467 tes pada 100% cakupan cabang, termasuk fuzzing berbasis properti melalui Hypothesis.</p>
+<h3>Apakah proses ekstraksi bersifat deterministik?</h3>
+<p><strong>Ya untuk format terstruktur -- output identik byte pada setiap proses.</strong> Dengan file input yang sama, parser deterministik (CAMT, PAIN.001, CSV, OFX, QFX, MT940) menghasilkan hasil yang sama setiap saat. Tidak ada keacakan, tidak ada inferensi model, tidak ada sampling heuristik.</p>
+<p>Untuk pipeline PDF hibrida, jalur ekstraksi berbasis LLM mungkin menghasilkan variasi kecil antar proses. Oleh karena itu setiap ekstraksi PDF diverifikasi dengan <strong>Golden Rule</strong> (<code>opening + credits − debits == closing</code>) dan ketidaksesuaian yang ditandai dapat ditinjau secara interaktif.</p>
+<p>CI menerapkan determinisme dengan 718 pengujian pada cakupan cabang 100%, termasuk fuzzing berbasis properti via Hypothesis.</p>
 <h3>Standar kepatuhan apa yang diikuti proyek ini?</h3>
-<p>Proyek ini memelihara dokumentasi selaras ISO 13485 dengan keterlacakan penuh:</p>
+<p>Proyek ini memelihara dokumentasi selaras ISO 13485 dengan kemampuan penelusuran penuh:</p>
 <ul>
-<li><strong>Daftar Risiko</strong> terkuantifikasi dengan penilaian keparahan/probabilitas dan penilaian risiko residual.</li>
-<li><strong>Rencana Verifikasi dan Validasi</strong> dengan 19 langkah gerbang di 5 fase.</li>
+<li><strong>Daftar Risiko</strong> terukur dengan penilaian tingkat keparahan/probabilitas dan penilaian risiko sisa.</li>
+<li><strong>Rencana Verifikasi dan Validasi</strong> dengan 19 langkah terjaga dalam 5 fase.</li>
 <li><strong>Prosedur Kontrol Perubahan</strong> dengan penilaian dampak dan protokol rollback.</li>
-<li><strong>Daftar SOUP</strong> mencakup semua dependensi dengan tingkat risiko dan pelacakan EOL.</li>
-<li><strong>Matriks Keterlacakan</strong> memetakan input desain ke implementasi dan verifikasi.</li>
+<li><strong>Daftar SOUP</strong> yang mencakup semua dependensi dengan tingkat risiko dan pelacakan EOL.</li>
+<li><strong>Matriks Ketertelusuran</strong> yang memetakan masukan desain ke implementasi dan verifikasi.</li>
 </ul>
-<p>Setiap rilis menyertakan SBOM CycloneDX, checksum SHA-256, dan atestasi asal build GitHub.</p>
+<p>Setiap rilis mencakup CycloneDX SBOM, checksum SHA-256, dan pengesahan provenance build GitHub.</p>
 <h2>Performa dan Skalabilitas</h2>
-<h3>Seberapa cepat Parser Laporan Bank?</h3>
+<h3>Seberapa cepat Bank Statement Parser?</h3>
 <p>Ambang batas performa divalidasi di CI pada setiap commit:</p>
 <div class="table-responsive"><table class="table">
 <thead>
@@ -244,33 +260,34 @@
 <td class="text-left">52.000+ transaksi/detik</td>
 </tr>
 <tr>
-<td class="text-left">Latensi per-transaksi (CAMT)</td>
+<td class="text-left">Latensi per transaksi (CAMT)</td>
 <td class="text-left">37 mikrodetik</td>
 </tr>
 <tr>
-<td class="text-left">Latensi per-transaksi (PAIN.001)</td>
+<td class="text-left">Latensi per transaksi (PAIN.001)</td>
 <td class="text-left">19 mikrodetik</td>
 </tr>
 <tr>
 <td class="text-left">Waktu ke hasil pertama</td>
-<td class="text-left">&lt; 2 md</td>
+<td class="text-left">&lt; 2 ms</td>
 </tr>
 </tbody>
 </table></div>
-<h3>Bagaimana file besar ditangani?</h3>
-<p><strong>Streaming dengan memori terbatas -- diuji pada 50.000 transaksi per file.</strong> Gunakan <code>parse_streaming()</code> untuk memproses file XML secara inkremental. Setiap transaksi di-yield sebagai dictionary; elemen dibersihkan setelah diproses untuk mencegah pertumbuhan memori. Memori tidak berskala dengan ukuran file -- tes 50K-transaksi (25+ MB) menggunakan kurang dari 2x memori tes 10K-transaksi.</p>
-<p>Untuk file melebihi 50 MB (misalnya batch PAIN.001 host-to-host dengan 100K+ pembayaran), parser melakukan streaming melalui file sementara dengan stripping namespace berbasis chunk -- dokumen lengkap tidak pernah dimuat ke memori.</p>
+<p>Kecepatan ekstraksi PDF bergantung pada jalur routing: deterministik (sub-detik), text-LLM (beberapa detik), vision-LLM (beberapa detik per halaman).</p>
+<h3>Bagaimana cara menangani file besar?</h3>
+<p><strong>Streaming dengan memori terbatas -- diuji pada 50.000 transaksi per file.</strong> Gunakan <code>parse_streaming()</code> untuk memproses file XML secara bertahap. Setiap transaksi dihasilkan sebagai dictionary; elemen dihapus setelah pemrosesan untuk mencegah pertumbuhan memori. Memori tidak bertambah seiring ukuran file -- pengujian 50K transaksi (25+ MB) menggunakan kurang dari 2x memori pengujian 10K transaksi.</p>
+<p>Untuk file melebihi 50 MB (misalnya, batch PAIN.001 host-to-host dengan 100K+ pembayaran), parser mengalir melalui file sementara dengan stripping namespace berbasis chunk -- dokumen lengkap tidak pernah dimuat ke memori.</p>
 <h3>Bagaimana arsip ZIP diproses dengan aman?</h3>
 <p><code>iter_secure_xml_entries()</code> memvalidasi setiap anggota sebelum ekstraksi:</p>
 <ul>
 <li><strong>Batas ukuran entri</strong> (default 10 MB per entri)</li>
-<li><strong>Batas ukuran total tidak terkompresi</strong> (default 50 MB)</li>
+<li><strong>Total batas ukuran tidak terkompresi</strong> (default 50 MB)</li>
 <li><strong>Batas rasio kompresi</strong> (default 100:1) untuk mencegah bom ZIP</li>
 <li><strong>Penolakan entri terenkripsi</strong></li>
 </ul>
-<p>Tidak ada file yang ditulis ke disk. Byte XML diteruskan langsung ke parser melalui <code>from_bytes()</code>.</p>
-<h3>Bisakah saya menganalisis beberapa file secara paralel?</h3>
-<p><strong>Ya.</strong> Gunakan <code>parse_files_parallel()</code> yang mendistribusikan pekerjaan di seluruh <code>ProcessPoolExecutor</code>:</p>
+<p>Tidak ada file yang ditulis ke disk. Byte XML diteruskan langsung ke parser via <code>from_bytes()</code>.</p>
+<h3>Bisakah saya mengurai banyak file secara paralel?</h3>
+<p><strong>Ya.</strong> Gunakan <code>parse_files_parallel()</code> yang mendistribusikan pekerjaan di <code>ProcessPoolExecutor</code>:</p>
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">parse_files_parallel
 </span><span style="color:#c0c5ce;">
@@ -283,15 +300,16 @@
 </span><span style="color:#c0c5ce;">    </span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(r.path, r.status, </span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(r.transactions), &quot;</span><span style="color:#a3be8c;">rows</span><span style="color:#c0c5ce;">&quot;)
 </span></pre>
 </code></pre>
+<p>Untuk ingesti PDF massal, gunakan <code>scan_and_ingest()</code> yang memproses seluruh pohon folder dengan deduplikasi otomatis.</p>
 <h2>Format yang Didukung</h2>
-<h3>Format laporan bank apa saja yang didukung?</h3>
+<h3>Format laporan bank apa yang didukung?</h3>
 <table>
 <thead>
 <tr>
 <th>Format</th>
 <th>Standar</th>
-<th>Tipe File</th>
-<th>Kelas Parser</th>
+<th>Jenis File</th>
+<th>Parser/Metode</th>
 </tr>
 </thead>
 <tbody>
@@ -309,7 +327,7 @@
 </tr>
 <tr>
 <td class="text-left">CSV</td>
-<td class="text-left">Ekspor bank generik</td>
+<td class="text-left">Ekspor bank umum</td>
 <td class="text-left"><code>.csv</code></td>
 <td class="text-left"><code>CsvStatementParser</code></td>
 </tr>
@@ -331,15 +349,29 @@
 <td class="text-left"><code>.mt940</code>, <code>.sta</code></td>
 <td class="text-left"><code>Mt940Parser</code></td>
 </tr>
+<tr>
+<td class="text-left">PDF</td>
+<td class="text-left">Laporan digital dan hasil pindai</td>
+<td class="text-left"><code>.pdf</code></td>
+<td class="text-left"><code>smart_ingest()</code></td>
+</tr>
 </tbody>
 </table>
-<h3>Apakah parser menangani dialek bank-spesifik dari CAMT.053?</h3>
-<p><strong>Ya -- agnostik namespace secara desain.</strong> Parser menghapus namespace XML sebelum pemrosesan, menangani varian CAMT.053 apa pun (<code>camt.053.001.02</code>, <code>camt.053.001.04</code>, atau pembungkus bank proprietary) tanpa konfigurasi spesifik namespace. Kueri XPath menargetkan struktur elemen, bukan URI namespace.</p>
-<p>Untuk bank yang membungkus CAMT dalam amplop kustom, gunakan <code>from_string()</code> atau <code>from_bytes()</code> untuk memasukkan dokumen dalam secara langsung.</p>
-<h3>Bisakah saya memetakan header kolom CSV kustom ke skema standar?</h3>
-<p><strong>Ya -- normalisasi otomatis, tanpa konfigurasi.</strong> <code>CsvStatementParser</code> mengenali variasi header umum: <code>&quot;Date&quot;</code>, <code>&quot;Transaction Date&quot;</code>, <code>&quot;Booking Date&quot;</code> semuanya dipetakan ke bidang <code>date</code>. <code>&quot;Amount&quot;</code>, <code>&quot;Value&quot;</code>, <code>&quot;Sum&quot;</code> dipetakan ke <code>amount</code>. Kolom kredit/debit terpisah (misalnya <code>&quot;Credit&quot;</code> dan <code>&quot;Debit&quot;</code>) dideteksi dan digabungkan menjadi satu jumlah bertanda secara otomatis.</p>
+<h3>Bagaimana cara kerja pipeline PDF hibrida?</h3>
+<p>Pipeline hibrida (v0.0.5+) secara cerdas merutekan PDF melalui tiga jalur ekstraksi:</p>
+<ul>
+<li><strong>Jalur A (Deterministik)</strong>: Tabel PDF terstruktur diurai langsung — gratis, tercepat, tanpa LLM.</li>
+<li><strong>Jalur B (Text-LLM)</strong>: PDF digital dengan tata letak kompleks diekstrak via LLM lokal (LiteLLM/Ollama).</li>
+<li><strong>Jalur C (Vision-LLM)</strong>: Laporan hasil pindai atau fotokopi diproses dengan model vision multimodal.</li>
+</ul>
+<p>Setiap ekstraksi diverifikasi dengan Golden Rule (<code>opening + credits − debits == closing</code>). Ketidaksesuaian dapat ditinjau secara interaktif dengan <code>--type review</code>.</p>
+<h3>Apakah parser menangani dialek khusus bank CAMT.053?</h3>
+<p><strong>Ya -- namespace-agnostic secara desain.</strong> Parser menghapus namespace XML sebelum diproses, menangani varian CAMT.053 apa pun (<code>camt.053.001.02</code>, <code>camt.053.001.04</code>, atau pembungkus bank proprietary) tanpa konfigurasi khusus namespace. Query XPath menargetkan struktur elemen, bukan URI namespace.</p>
+<p>Untuk bank yang membungkus CAMT dalam amplop khusus, gunakan <code>from_string()</code> atau <code>from_bytes()</code> untuk memasukkan dokumen bagian dalam secara langsung.</p>
+<h3>Bisakah saya memetakan header kolom CSV khusus ke skema standar?</h3>
+<p><strong>Ya -- normalisasi otomatis, tanpa konfigurasi.</strong> <code>CsvStatementParser</code> mengenali variasi header umum: <code>&quot;Date&quot;</code>, <code>&quot;Transaction Date&quot;</code>, <code>&quot;Booking Date&quot;</code> semua dipetakan ke field <code>date</code>. <code>&quot;Amount&quot;</code>, <code>&quot;Value&quot;</code>, <code>&quot;Sum&quot;</code> dipetakan ke <code>amount</code>. Kolom kredit/debit terpisah (misalnya <code>&quot;Credit&quot;</code> dan <code>&quot;Debit&quot;</code>) terdeteksi dan digabungkan menjadi satu jumlah bertanda secara otomatis.</p>
 <h3>Apa format outputnya?</h3>
-<p>Semua parser menghasilkan DataFrames pandas terstandarisasi dengan tipe kolom konsisten:</p>
+<p>Semua parser menghasilkan pandas DataFrames standar dengan tipe kolom konsisten:</p>
 <table>
 <thead>
 <tr>
@@ -362,20 +394,56 @@
 </tr>
 </tbody>
 </table>
-<p>Anda juga dapat mengekspor ke CSV, JSON, Excel, atau mengkonversi ke DataFrames Polars.</p>
+<p>Anda juga dapat mengekspor ke CSV, JSON, Excel, Polars DataFrames, hledger, atau format jurnal beancount.</p>
+<h2>Fitur PDF dan LLM</h2>
+<h3>Model LLM apa yang didukung pipeline hibrida?</h3>
+<p>Pipeline menggunakan LiteLLM sebagai lapisan abstraksi model, dengan bridge Ollama langsung untuk prompt vision. Model yang direkomendasikan:</p>
+<ul>
+<li><strong>Ekstraksi teks</strong>: Model apa pun yang kompatibel LiteLLM (lokal atau remote).</li>
+<li><strong>Ekstraksi vision</strong>: <code>ollama/minicpm-v</code> (direkomendasikan) untuk PDF hasil pindai.</li>
+<li><strong>Kategorisasi</strong>: Model apa pun yang kompatibel LiteLLM.</li>
+</ul>
+<p>Semua model dapat berjalan 100% lokal via Ollama — tanpa API key.</p>
+<h3>Apa itu verifikasi Golden Rule?</h3>
+<p>Setiap ekstraksi PDF diverifikasi dengan persamaan: <code>opening balance + credits − debits == closing balance</code>. Hasilnya ditandai sebagai:</p>
+<ul>
+<li><strong>VERIFIED</strong>: Saldo cocok persis.</li>
+<li><strong>DISCREPANCY</strong>: Saldo tidak cocok — tinjauan disarankan.</li>
+<li><strong>FAILED</strong>: Verifikasi tidak dapat dilakukan (data saldo tidak lengkap).</li>
+</ul>
+<h3>Bisakah saya mengkategorikan transaksi secara otomatis?</h3>
+<p><strong>Ya.</strong> Modul enrichment (v0.0.6+) menyediakan kategorisasi transaksi berbasis LLM:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser.enrichment </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">Categorizer
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">categorizer = </span><span style="color:#8fa1b3;">Categorizer</span><span style="color:#c0c5ce;">()
+</span><span style="color:#c0c5ce;">enriched = categorizer.</span><span style="color:#8fa1b3;">categorize_batch</span><span style="color:#c0c5ce;">(transactions)
+</span></pre>
+</code></pre>
+<p>Skema default menggunakan 13 kategori kompatibel Plaid. Anda dapat menyediakan skema kategori Anda sendiri.</p>
+<h3>Bisakah saya mengekspor ke hledger atau beancount?</h3>
+<p><strong>Ya</strong> (v0.0.8+). Ekspor transaksi ke format jurnal plaintext-accounting dengan pemetaan akun:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser.export </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">to_hledger, to_beancount
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">journal = </span><span style="color:#8fa1b3;">to_hledger</span><span style="color:#c0c5ce;">(transactions, </span><span style="color:#bf616a;">account</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">Assets:Bank:Checking</span><span style="color:#c0c5ce;">&quot;)
+</span></pre>
+</code></pre>
 <h2>Alur Kerja Perbendaharaan</h2>
 <h3>Bagaimana parser menangani laporan multi-mata uang?</h3>
-<p><strong>Setiap transaksi mempertahankan mata uang aslinya -- tanpa konversi implisit.</strong> Bidang <code>Currency</code> diekstrak dari atribut XML <code>Ccy</code> per transaksi. Laporan multi-mata uang tetap apa adanya. Metode <code>get_account_balances()</code> mengembalikan saldo pembukaan dan penutupan per akun dengan kode mata uang asli. Rekonsiliasi lintas mata uang diserahkan ke logika hilir Anda, di mana Anda mengendalikan sumber kurs.</p>
+<p><strong>Setiap transaksi mempertahankan mata uang aslinya -- tanpa konversi implisit.</strong> Field <code>Currency</code> diekstraksi dari atribut XML <code>Ccy</code> per transaksi. Laporan multi-mata uang tetap apa adanya. Metode <code>get_account_balances()</code> mengembalikan saldo pembukaan dan penutupan per akun dengan kode mata uang asli.</p>
+<p>Sejak v0.0.8, <code>verify_balance_multi_currency()</code> mengelompokkan transaksi per mata uang dan menjalankan Golden Rule secara independen per kelompok — berguna untuk akun yang menyimpan beberapa mata uang.</p>
 <h3>Apakah parser mendukung format keluar dan masuk?</h3>
-<p><strong>Ya.</strong> <code>Pain001Parser</code> menangani file inisiasi transfer kredit ISO 20022 PAIN.001 (pembayaran keluar). <code>CamtParser</code> menangani file laporan bank-ke-nasabah CAMT.053 (pelaporan masuk). Keduanya mendukung streaming, penyembunyian PII, dan ekspor ke CSV, JSON, dan Excel. Gunakan <code>detect_statement_format()</code> untuk mengidentifikasi format secara otomatis.</p>
-<h3>Apa yang terjadi ketika entri transaksi cacat?</h3>
-<p>Perilaku tergantung pada mode penguraian:</p>
+<p><strong>Ya.</strong> <code>Pain001Parser</code> menangani file inisiasi transfer kredit ISO 20022 PAIN.001 (pembayaran keluar). <code>CamtParser</code> menangani file laporan bank-ke-pelanggan CAMT.053 (pelaporan masuk). Keduanya mendukung streaming, redaksi PII, dan ekspor ke CSV, JSON, Excel, hledger, dan beancount. Gunakan <code>detect_statement_format()</code> untuk mengidentifikasi format secara otomatis.</p>
+<h3>Apa yang terjadi bila entri transaksi salah format?</h3>
+<p>Perilaku bergantung pada mode penguraian:</p>
 <ul>
-<li><strong><code>parse()</code> (mode batch)</strong> -- Entri cacat yang kekurangan bidang wajib (<code>Amount</code>, <code>Currency</code>, atau <code>CdtDbtInd</code>) dilewati dengan log peringatan. Sisa laporan diuraikan secara normal.</li>
-<li><strong><code>parse_streaming()</code> (mode streaming)</strong> -- Kesalahan penguraian langsung dipropagasi sebagai pengecualian. Tidak ada kehilangan data diam-diam. Perilaku fail-fast ini disengaja untuk alur kerja keuangan di mana setiap transaksi harus dipertanggungjawabkan.</li>
+<li><strong><code>parse()</code> (mode batch)</strong> -- Entri yang salah format tanpa field wajib (<code>Amount</code>, <code>Currency</code>, atau <code>CdtDbtInd</code>) dilewati dengan log peringatan. Sisa laporan diurai secara normal.</li>
+<li><strong><code>parse_streaming()</code> (mode streaming)</strong> -- Kesalahan penguraian langsung menyebar sebagai exception. Tidak ada kehilangan data diam-diam. Perilaku fail-fast ini disengaja untuk alur kerja keuangan di mana setiap transaksi harus dipertanggungjawabkan.</li>
+<li><strong><code>smart_ingest()</code> (PDF hibrida)</strong> -- Kesalahan ekstraksi ditangkap dalam <code>IngestResult</code> dengan status verifikasi, memungkinkan tinjauan interaktif.</li>
 </ul>
 <h3>Bagaimana cara kerja deduplikasi?</h3>
-<p>Kelas <code>Deduplicator</code> mendeteksi duplikat tepat dan kecocokan yang dicurigai dengan skor kepercayaan yang dapat dijelaskan:</p>
+<p>Setiap transaksi diberi <code>transaction_hash</code> idempoten (fingerprint MD5) berdasarkan field kuncinya. Ini memungkinkan ingesti inkremental yang aman — memproses ulang file yang sama menghasilkan hash yang sama, sehingga duplikat terdeteksi otomatis.</p>
 <pre><code class="language-python"><pre style="background-color:#2b303b;">
 <span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">CamtParser, Deduplicator
 </span><span style="color:#c0c5ce;">
@@ -389,64 +457,78 @@
 </span></pre>
 </code></pre>
 <h2>Instalasi dan Kompatibilitas</h2>
-<h3>Bagaimana cara menginstal Parser Laporan Bank?</h3>
+<h3>Bagaimana cara menginstal Bank Statement Parser?</h3>
 <pre><code class="language-bash"><pre style="background-color:#2b303b;">
-<span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser
+<span style="color:#65737e;"># Core install (deterministic parsers only)
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#65737e;"># PDF hybrid pipeline
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[hybrid]</span><span style="color:#c0c5ce;">&#39;         </span><span style="color:#65737e;"># Text-LLM path
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[hybrid-vision]</span><span style="color:#c0c5ce;">&#39;   </span><span style="color:#65737e;"># Vision-LLM path
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#65737e;"># Extras
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[enrichment]</span><span style="color:#c0c5ce;">&#39;      </span><span style="color:#65737e;"># Transaction categorisation
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[api]</span><span style="color:#c0c5ce;">&#39;             </span><span style="color:#65737e;"># REST API microservice
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[polars]</span><span style="color:#c0c5ce;">&#39;          </span><span style="color:#65737e;"># Polars DataFrame support
 </span></pre>
 </code></pre>
-<p>Untuk dukungan DataFrame Polars opsional:</p>
-<pre><code class="language-bash"><pre style="background-color:#2b303b;">
-<span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser</span><span style="color:#b48ead;">[</span><span style="color:#c0c5ce;">polars</span><span style="color:#b48ead;">]
-</span></pre>
-</code></pre>
-<h3>Versi Python apa yang didukung?</h3>
-<p>Python 3.9 hingga 3.14. Semua versi diuji di CI dengan 467 tes pada 100% cakupan cabang.</p>
+<h3>Versi Python mana yang didukung?</h3>
+<p>Python 3.10 hingga 3.14. Dukungan Python 3.9 dihentikan di v0.0.6 (EOL 2025-10-31). Semua versi diuji di CI dengan 718 pengujian pada cakupan cabang 100%.</p>
 <h3>Apa saja dependensinya?</h3>
-<p>Pustaka ini memiliki 5 dependensi langsung:</p>
+<p>Pustaka inti memiliki 5 dependensi langsung:</p>
 <ul>
-<li><code>lxml</code> -- Penguraian XML dengan pengerasan keamanan</li>
+<li><code>lxml</code> -- Penguraian XML dengan penguatan keamanan</li>
 <li><code>pandas</code> -- DataFrames dan manipulasi data</li>
 <li><code>openpyxl</code> -- Ekspor Excel</li>
 <li><code>pydantic</code> -- Validasi data dan model</li>
 <li><code>defusedxml</code> -- Perlindungan XXE</li>
 </ul>
-<p>Semua dependensi memiliki versi terkunci hash SHA-256. SBOM CycloneDX memetakan setiap komponen runtime.</p>
-<h3>Apakah berfungsi di macOS, Linux, dan Windows?</h3>
-<p><strong>Ya.</strong> Pustaka ini berfungsi di macOS, Linux, dan Windows (melalui WSL). Tidak ada dependensi spesifik platform.</p>
-<h2>Reproduktibilitas dan Keamanan</h2>
-<h3>Bagaimana cara memverifikasi reproduktibilitas?</h3>
+<p>Ekstra opsional menambahkan: <code>litellm</code>, <code>pypdf</code>, <code>pdfplumber</code>, <code>pypdfium2</code>, <code>fastapi</code>, <code>uvicorn</code>, <code>polars</code>.</p>
+<p>Semua dependensi memiliki versi hash-lock SHA-256. CycloneDX SBOM memetakan setiap komponen runtime.</p>
+<h3>Apakah ini berfungsi di macOS, Linux, dan Windows?</h3>
+<p><strong>Ya.</strong> Pustaka berfungsi di macOS, Linux, dan Windows (via WSL). Tidak memiliki dependensi khusus platform.</p>
+<h3>Apakah ada REST API?</h3>
+<p><strong>Ya</strong> (v0.0.8+). Instal dengan <code>pip install 'bankstatementparser[api]'</code> dan jalankan:</p>
 <pre><code class="language-bash"><pre style="background-color:#2b303b;">
-<span style="color:#8fa1b3;">python</span><span style="color:#d9848a;"> -m</span><span style="color:#c0c5ce;"> pytest                              </span><span style="color:#8f9aa5;"># 467 tes, 100% cakupan cabang
-</span><span style="color:#8fa1b3;">python</span><span style="color:#c0c5ce;"> scripts/verify_locked_hashes.py        </span><span style="color:#8f9aa5;"># Verifikasi hash SHA-256
-</span><span style="color:#8fa1b3;">git</span><span style="color:#c0c5ce;"> log</span><span style="color:#d9848a;"> --show-signature -1                   </span><span style="color:#8f9aa5;"># Verifikasi tanda tangan commit
+<span style="color:#8fa1b3;">bankstatementparser-api</span><span style="color:#bf616a;"> --port</span><span style="color:#c0c5ce;"> 8000
 </span></pre>
 </code></pre>
-<h3>Perlindungan keamanan apa yang sudah ada?</h3>
+<p>Endpoint: <code>POST /ingest</code> (parsing laporan) dan <code>GET /health</code> (pemeriksaan kesehatan).</p>
+<h2>Reproduksibilitas dan Keamanan</h2>
+<h3>Bagaimana cara memverifikasi reproduktifitas?</h3>
+<pre><code class="language-bash"><pre style="background-color:#2b303b;">
+<span style="color:#8fa1b3;">python</span><span style="color:#bf616a;"> -m</span><span style="color:#c0c5ce;"> pytest                              </span><span style="color:#65737e;"># 718 tests, 100% branch coverage
+</span><span style="color:#8fa1b3;">python</span><span style="color:#c0c5ce;"> scripts/verify_locked_hashes.py        </span><span style="color:#65737e;"># SHA-256 hash verification
+</span><span style="color:#8fa1b3;">git</span><span style="color:#c0c5ce;"> log</span><span style="color:#bf616a;"> --show-signature -1                   </span><span style="color:#65737e;"># Verify commit signature
+</span></pre>
+</code></pre>
+<h3>Perlindungan keamanan apa yang tersedia?</h3>
 <ul>
 <li><strong>Perlindungan XXE</strong>: <code>resolve_entities=False</code>, <code>no_network=True</code>, <code>load_dtd=False</code></li>
 <li><strong>Perlindungan Bom ZIP</strong>: Batas rasio kompresi, batas ukuran entri, penolakan entri terenkripsi</li>
-<li><strong>Pencegahan Traversal Jalur</strong>: Daftar blokir pola berbahaya dan resolusi symlink</li>
+<li><strong>Pencegahan Path Traversal</strong>: Daftar blokir pola berbahaya dan resolusi symlink</li>
 <li><strong>Validasi Input</strong>: Batas ukuran file (default 100 MB), validasi ekstensi/format</li>
-<li><strong>Rantai Pasok</strong>: Dependensi terkunci hash SHA-256, SBOM CycloneDX, atestasi asal build</li>
-<li><strong>Commit Bertanda Tangan</strong>: Ditegakkan di CI</li>
+<li><strong>Rantai Pasokan</strong>: Dependensi dikunci hash SHA-256, CycloneDX SBOM, pengesahan provenance build</li>
+<li><strong>Commit Bertanda Tangan</strong>: Diberlakukan di CI</li>
+<li><strong>LLM Lokal</strong>: Pipeline PDF hibrida menggunakan Ollama — tanpa panggilan API cloud</li>
 </ul>
-<h3>Bagaimana perbandingan Parser Laporan Bank dengan pyiso20022?</h3>
-<p>pyiso20022 adalah toolkit ISO 20022 luas yang menghasilkan dataclass Python dari skema XML ISO. Ini mencakup berbagai tipe pesan ISO 20022 (PACS, PAIN, CAMT, ADMI) dengan validasi skema. Parser Laporan Bank dibangun khusus untuk penguraian laporan bank dengan dukungan streaming, penyembunyian PII, deduplikasi, dan API terpadu di enam format termasuk format non-ISO (CSV, OFX, QFX, MT940). Jika Anda perlu menganalisis laporan bank ke DataFrames dengan keamanan tingkat produksi, gunakan Parser Laporan Bank. Jika Anda perlu bekerja dengan katalog pesan ISO 20022 penuh, gunakan pyiso20022.</p>
-<h3>Apa tenggat waktu migrasi SWIFT ISO 20022?</h3>
+<h3>Bagaimana Bank Statement Parser dibandingkan dengan pyiso20022?</h3>
+<p>pyiso20022 adalah toolkit ISO 20022 luas yang menghasilkan dataclass Python dari skema ISO XML. Ini mencakup berbagai jenis pesan ISO 20022 (PACS, PAIN, CAMT, ADMI) dengan validasi skema. Bank Statement Parser dibuat khusus untuk penguraian laporan bank dengan dukungan PDF hibrida, verifikasi saldo, pengayaan, ekspor ledger, dan API terpadu di tujuh format termasuk format non-ISO (CSV, OFX, QFX, MT940, PDF). Jika Anda perlu mengurai laporan bank ke dalam DataFrames dengan keamanan tingkat produksi, gunakan Bank Statement Parser. Jika Anda perlu bekerja dengan katalog pesan ISO 20022 lengkap, gunakan pyiso20022.</p>
+<h3>Kapan tenggat waktu migrasi SWIFT ISO 20022?</h3>
 <p>SWIFT telah menerbitkan garis waktu migrasi bertahap:</p>
 <ul>
-<li><strong>November 2026</strong>: Alamat terstruktur dan hibrida menjadi wajib. Pesan multi-instruksi MT101 akan ditolak. Fase 1 Manajemen Kasus dimulai.</li>
-<li><strong>November 2027</strong>: Semua lembaga keuangan harus dapat menerima laporan CAMT.053 secara native. SWIFT akan berhenti mengkonversi format MT ke ISO.</li>
-<li><strong>November 2028</strong>: Penghentian penuh MT940, MT942, MT950, MT900, dan MT910. Ini akan digantikan oleh padanan CAMT.052, CAMT.053, dan CAMT.054.</li>
+<li><strong>November 2026</strong>: Alamat terstruktur dan hibrida menjadi wajib. Pesan multi-instruksi MT101 akan ditolak. Manajemen Kasus Fase 1 dimulai.</li>
+<li><strong>November 2027</strong>: Semua lembaga keuangan harus dapat menerima laporan CAMT.053 secara native. SWIFT akan berhenti mengonversi MT ke format ISO.</li>
+<li><strong>November 2028</strong>: Pensiun penuh MT940, MT942, MT950, MT900, dan MT910. Ini akan digantikan oleh padanan CAMT.052, CAMT.053, dan CAMT.054.</li>
 </ul>
-<p>Parser Laporan Bank mendukung baik format lama MT940 maupun format modern CAMT.053/PAIN.001, menjadikannya ideal untuk periode transisi.</p>
+<p>Bank Statement Parser mendukung format MT940 lama dan format CAMT.053/PAIN.001 modern, sehingga ideal untuk masa transisi.</p>
 </div>
         <div id="faq-accordion" class="faq-container"></div>
       </div>
     </main>
     <footer class="site-footer" aria-label="footer">
       <div class="footer-inner">
-        <span>© 2023-2026 Parser Laporan Bank. Semua hak dilindungi.</span>
+        <span>© 2023-2026 Pengurai Laporan Bank. Semua hak dilindungi undang-undang.</span>
         <ul class="footer-links">
           <li><a href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li>
           <li><a href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li>
@@ -456,7 +538,7 @@
         </ul>
       </div>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"Jawaban atas pertanyaan umum tentang Parser Laporan Bank: privasi data, penyembunyian PII, performa, dukungan ISO 20022, streaming, kepatuhan, dan alur kerja perbendaharaan.","headline":"Pertanyaan Umum Tentang Parser Laporan Bank","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"id-ID","mainEntityOfPage":"https://bankstatementparser.com/id/faq/index.html","name":"Pertanyaan yang Sering Diajukan","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"Jawaban atas pertanyaan umum tentang Parser Laporan Bank: privasi data, redaksi PII, kinerja, dukungan ISO 20022, streaming, kepatuhan, dan alur kerja perbendaharaan.","headline":"Pertanyaan Umum Tentang Parser Laporan Bank","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"id-ID","mainEntityOfPage":"https://bankstatementparser.com/id/faq/index.html","name":"Pertanyaan Umum","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
     <script>
     // FAQ accordion builder
     (function(){
@@ -553,8 +635,8 @@
         document.documentElement.setAttribute("data-theme",theme);localStorage.setItem("theme",theme);
         document.querySelectorAll(".theme-icon-dark,.theme-icon-dark-m").forEach(function(e){e.style.display=theme==="dark"?"none":""});
         document.querySelectorAll(".theme-icon-light,.theme-icon-light-m").forEach(function(e){e.style.display=theme==="dark"?"":"none"});
-        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"Light":"Dark"});
-        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"Switch to light mode":"Switch to dark mode")});
+        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"Terang":"Gelap"});
+        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"Beralih ke mode terang":"Beralih ke mode gelap")});
       }
       var saved=localStorage.getItem("theme");
       if(saved){setTheme(saved)}else if(window.matchMedia("(prefers-color-scheme:dark)").matches){setTheme("dark")}
@@ -564,5 +646,57 @@
     })();
     </script>
     <script defer src="/main.js"></script>
-  </body>
+      <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Cari...">
+      <div class="search-box">
+        <input class="search-input" id="searchInput" type="search" placeholder="Cari..." autocomplete="off" aria-label="Cari..." />
+        <div class="search-results" id="searchResults"></div>
+        <div class="search-footer"><span><kbd>&uarr;</kbd><kbd>&darr;</kbd> Navigate</span><span><kbd>&crarr;</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var pages=[{t:"Home",d:"Parse 7 bank statement formats including PDF, 100% local",u:"/id/index.html",k:"accounting adalah akan akhir aktif alternatif alur aman anda apache atau audit awal bank banyak bawaan beancount bebas beberapa berbasis berfungsi berjalan berlisensi bersamaan bervariasi biaya bila byte cabang cakupan camt cloud cyclonedx dalam dari"},{t:"About",d:"Features, formats, hybrid PDF pipeline, performance overview",u:"/id/a-propos/index.html"},{t:"Getting Started",d:"Installation, extras, PDF pipeline, REST API, CLI reference",u:"/id/premiers-pas/index.html"},{t:"FAQ",d:"Privacy, hybrid PDF, Golden Rule, performance, compliance",u:"/id/faq/index.html",k:"abstraksi accounting adalah adanya admi agnostic akan akses aktif aktifkan akun alamat alur aman ambang amplop anda anggota antar apakah aplikasi arsip asli aslinya atau atribut bagaimana bagian bahkan bank banyak batas batch beancount beberapa beker"},{t:"Use Cases",d:"Treasury, PDF ingestion, reconciliation, ledger export, REST API",u:"/id/cas-utilisation/index.html"},{t:"Migration",d:"ISO 20022 timeline, MT940 to CAMT.053, PDF fallback",u:"/id/migration/index.html",k:"agnostic akan akhir akuntansi alamat alur anda apakah atau bagaimana bank banyak batas beancount beberapa belum berakhir beralih berarti berbagai berdampingan berevolusi berfungsi berhenti berubah besar camt charset dahulu dampak dapat dari dasar dat"},{t:"Security",d:"XXE protection, PII redaction, local LLMs, Golden Rule",u:"/id/securite/index.html"},{t:"Comparison",d:"vs mt-940, ofxparse, pyiso20022, SaaS, hybrid LLM pipeline",u:"/id/alternatives/index.html"},{t:"Changelog",d:"Release history: v0.0.8, v0.0.7, v0.0.6, v0.0.5, v0.0.4",u:"/id/journal-des-modifications/index.html"},{t:"Contribute",d:"Report issues, submit code, documentation, sponsorship",u:"/id/contribuer/index.html"},{t:"Contact",d:"GitHub issues for open-source, form for business inquiries",u:"/id/contact/index.html",k:"anda atau bagi baik bawah benar bermanfaat bisnis dengan dilacak dukungan fitur formulir gunakan hubungi ingin kami kemitraan komunitas laporan masukan memastikan memiliki mendengar peluang pendapat permintaan perpustakaan pertanyaan pilih saluran si"},{t:"Privacy",d:"Privacy policy, analytics, GDPR, cookies",u:"/id/confidentialite/index.html"},{t:"Terms",d:"Terms of use, Apache 2.0 license, disclaimers",u:"/id/conditions/index.html"}];
+      var overlay=document.getElementById("searchOverlay");
+      var input=document.getElementById("searchInput");
+      var results=document.getElementById("searchResults");
+      var trigger=document.getElementById("searchTrigger");
+      var activeIdx=-1;
+      var isMac=/Mac|iPhone|iPad|iPod/.test(navigator.platform||navigator.userAgent||"");
+      var shortcutSpans=document.querySelectorAll(".search-shortcut");
+      for(var s=0;s<shortcutSpans.length;s++){shortcutSpans[s].textContent=isMac?"⌘K":"Ctrl+K"}
+      function openSearch(){overlay.classList.add("open");input.value="";input.focus();activeIdx=-1;renderResults("")}
+      function closeSearch(){overlay.classList.remove("open");input.value="";results.innerHTML="";activeIdx=-1}
+      function fuzzy(q,text){q=q.toLowerCase();text=text.toLowerCase();if(text.indexOf(q)!==-1)return true;var qi=0;for(var ti=0;ti<text.length&&qi<q.length;ti++){if(text[ti]===q[qi])qi++}return qi===q.length}
+      function renderResults(q){
+        var filtered=[];
+        if(q.length>0){for(var i=0;i<pages.length;i++){var p=pages[i];if(fuzzy(q,p.t)||fuzzy(q,p.d)||(p.k&&fuzzy(q,p.k)))filtered.push(p)}}
+        if(q.length===0){results.innerHTML="";activeIdx=-1;return}
+        if(filtered.length===0){results.innerHTML='<div class="search-empty">No results for "'+q.replace(/</g,"&lt;")+'"</div>';activeIdx=-1;return}
+        var html="";
+        for(var j=0;j<filtered.length;j++){
+          html+='<a class="search-result'+(j===0?" active":"")+'" href="'+filtered[j].u+'" data-idx="'+j+'"><div class="search-result-title">'+filtered[j].t+'</div><div class="search-result-desc">'+filtered[j].d+'</div></a>';
+        }
+        results.innerHTML=html;
+        activeIdx=0;
+      }
+      function updateActive(){
+        var items=results.querySelectorAll(".search-result");
+        for(var i=0;i<items.length;i++){items[i].classList.toggle("active",i===activeIdx)}
+        if(items[activeIdx]){items[activeIdx].scrollIntoView({block:"nearest"})}
+      }
+      if(trigger){trigger.addEventListener("click",function(e){e.preventDefault();openSearch()})}
+      document.addEventListener("keydown",function(e){
+        if((isMac?e.metaKey:e.ctrlKey)&&e.key==="k"){e.preventDefault();if(overlay.classList.contains("open")){closeSearch()}else{openSearch()};return}
+        if(!overlay.classList.contains("open"))return;
+        if(e.key==="Escape"){e.preventDefault();closeSearch();return}
+        var items=results.querySelectorAll(".search-result");
+        if(e.key==="ArrowDown"){e.preventDefault();if(items.length){activeIdx=(activeIdx+1)%items.length;updateActive()};return}
+        if(e.key==="ArrowUp"){e.preventDefault();if(items.length){activeIdx=(activeIdx-1+items.length)%items.length;updateActive()};return}
+        if(e.key==="Enter"){e.preventDefault();if(items[activeIdx]){window.location.href=items[activeIdx].getAttribute("href")};return}
+      });
+      input.addEventListener("input",function(){activeIdx=-1;renderResults(input.value.trim())});
+      overlay.addEventListener("click",function(e){if(e.target===overlay)closeSearch()});
+    })();
+    </script>
+</body>
 </html>

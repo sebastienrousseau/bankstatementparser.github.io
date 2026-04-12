@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Guida alla migrazione ISO 20022"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Analizzatore di estratti conto bancari. Tutti i diritti riservati."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Una guida pratica alla cronologia della migrazione SWIFT ISO 20022 (2026-2028), alla transizione da MT940 a CAMT.053 e al modo in cui Bank Statement Parser aiuta i team di tesoreria a migrare."
 download: ""
 format-detection: "telephone=no"
@@ -107,23 +107,23 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** SWIFT ritirerà MT940 entro novembre 2028. Bank Statement Parser gestisce sia MT940 che CAMT.053 con un'unica API, quindi la pipeline di analisi funziona durante e dopo la transizione.
+**In breve:** SWIFT ritirerà MT940 entro novembre 2028. Bank Statement Parser gestisce sia MT940 che CAMT.053 con un'unica API, quindi la pipeline di parsing funziona durante la transizione e oltre.
 
 ## Perché questa migrazione è importante
 
-SWIFT sta ritirando i formati di messaggi MT legacy a favore del più ricco standard ISO 20022. Per i team di tesoreria e finanza, ciò significa che le pipeline di elaborazione degli estratti conto bancari devono evolversi da MT940 a CAMT.053 prima delle scadenze rigide.
+SWIFT sta ritirando i formati di messaggi MT legacy a favore del più ricco standard ISO 20022. Per i team di tesoreria e finanza, le pipeline di elaborazione degli estratti conto devono evolversi da MT940 a CAMT.053 prima delle scadenze definitive.
 
-## Cronologia della migrazione SWIFT
+## Timeline della migrazione SWIFT
 
-| Data | Pietra miliare | Impatto |
+| Data | Tappa | Impatto |
 |---|---|---|
-| **Novembre 2025** | La coesistenza MT-MX è terminata per i pagamenti transfrontalieri | I messaggi PACS ora sono solo ISO 20022 |
-| **Novembre 2026** | Indirizzi strutturati/ibridi obbligatori; Multiistruzione MT101 rifiutata; Fase di gestione del caso 1 | I formati degli indirizzi devono essere conformi; alcuni messaggi MT verranno rifiutati |
-| **Fine 2026** | Inizia l'attivazione per ricevere CAMT.052/.053/.054 | Gli istituti finanziari possono iniziare a ricevere dichiarazioni ISO native |
-| **Novembre 2027** | Tutti gli FI devono ricevere CAMT.053 nativamente | SWIFT interrompe la conversione del formato MT in ISO; i tuoi sistemi devono analizzare direttamente CAMT |
-| **Novembre 2028** | MT940/MT942/MT950/MT900/MT910 completamente in pensione | I formati di dichiarazione legacy non sono più disponibili; CAMT.052/.053/.054 sono l'unica opzione |
+| **Novembre 2025** | Fine della coesistenza MT-MX per i pagamenti transfrontalieri | I messaggi PACS sono ora solo ISO 20022 |
+| **Novembre 2026** | Indirizzi strutturati/ibridi obbligatori; multi-istruzione MT101 rifiutata; Fase 1 gestione casi | I formati degli indirizzi devono essere conformi; alcuni messaggi MT verranno rifiutati |
+| **Fine 2026** | Inizio dell'opt-in per ricevere CAMT.052/.053/.054 | Gli istituti finanziari possono iniziare a ricevere estratti ISO nativi |
+| **Novembre 2027** | Tutti gli istituti devono ricevere CAMT.053 nativamente | SWIFT cessa la conversione da formato MT a ISO; i sistemi devono analizzare CAMT direttamente |
+| **Novembre 2028** | MT940/MT942/MT950/MT900/MT910 completamente ritirati | I formati di estratto legacy non sono più disponibili; CAMT.052/.053/.054 sono l'unica opzione |
 
-## Cosa cambia per il tuo codice
+## Cosa cambia nel codice
 
 ### Prima: solo MT940
 
@@ -144,28 +144,31 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # Same DataFrame schema regardless of format
 ```
 
-IL`detect_statement_format()`La funzione identifica se il file è MT940, CAMT.053, PAIN.001 o qualsiasi altro formato supportato. IL`create_parser()`la funzione restituisce il parser corretto. Il tuo codice downstream funziona in modo identico indipendentemente dal formato sorgente.
+La funzione `detect_statement_format()` identifica se il file è MT940, CAMT.053, PAIN.001 o qualsiasi altro formato supportato. La funzione `create_parser()` restituisce il parser corretto. Il codice a valle funziona in modo identico indipendentemente dal formato sorgente.
 
 ## CAMT.053 vs MT940: differenze chiave
 
 | Caratteristica | MT940 | CAMT.053 |
 |---|---|---|
-| Ricchezza di dati | Campi limitati | 3-5 volte più dati per transazione |
-| Set di caratteri | Limitato (set di caratteri SWIFT) | Unicode completo |
-| Struttura | Testo piatto con tag | XML con spazi dei nomi |
-| Reporting del saldo | Solo apertura/chiusura | Diversi tipi di equilibrio |
-| Riferimenti | Campo di riferimento unico | Tipi di riferimento multipli |
-| Gestione valutaria | Di base | Multivaluta completa con tassi di cambio |
+| Ricchezza dati | Campi limitati | 3-5x più dati per transazione |
+| Set di caratteri | Limitato (charset SWIFT) | Unicode completo |
+| Struttura | Testo piano con tag | XML con namespace |
+| Reporting del saldo | Solo apertura/chiusura | Molteplici tipi di saldo |
+| Riferimenti | Campo di riferimento singolo | Tipi di riferimento multipli |
+| Gestione valutaria | Base | Multi-valuta completa con tassi di cambio |
 
-## Come aiuta il parser dell'estratto conto
+## Come aiuta Bank Statement Parser
 
-- **API unificata**: analizza sia MT940 che CAMT.053 con lo stesso`parse()`metodo, producendo schemi DataFrame identici.
-- **Rilevamento automatico**: non è necessario conoscere il formato in anticipo.`detect_statement_format()`lo identifica automaticamente.
-- **Indipendente dallo spazio dei nomi**: gestisce qualsiasi variante CAMT.053 (001.02, 001.04 o wrapper specifici della banca) senza configurazione.
-- **Streaming**: elabora file CAMT di grandi dimensioni (50 MB+, 50.000+ transazioni) con memoria limitata.
-- **Test di migrazione**: esegui entrambi i parser fianco a fianco nello stesso intervallo di date per verificare la coerenza dell'output prima del passaggio.
+- **API unificata**: analizza MT940, CAMT.053 e estratti conto PDF con lo stesso flusso di lavoro, producendo output DataFrame coerenti.
+- **Rilevamento automatico**: non serve conoscere il formato in anticipo. `detect_statement_format()` lo identifica automaticamente.
+- **Pipeline PDF ibrida**: le banche che forniscono solo estratti PDF durante la transizione vengono gestite da `smart_ingest()` con verifica automatica del saldo.
+- **Indipendente dal namespace**: gestisce qualsiasi variante CAMT.053 (001.02, 001.04 o wrapper specifici della banca) senza configurazione.
+- **Verifica multi-valuta**: `verify_balance_multi_currency()` esegue la Golden Rule per ogni gruppo di valuta — essenziale per gli estratti CAMT multi-valuta.
+- **Streaming**: elabora file CAMT di grandi dimensioni (50 MB+, 50K+ transazioni) con memoria limitata.
+- **Esportazione contabile**: esporta direttamente in formato journal hledger o beancount per la contabilità di tesoreria.
+- **Test di migrazione**: eseguire entrambi i parser in parallelo sullo stesso periodo per verificare la coerenza dell'output prima del passaggio.
 
-## Iniziare
+## Per iniziare
 
 ```bash
 pip install bankstatementparser
@@ -174,7 +177,7 @@ pip install bankstatementparser
 ```python
 from bankstatementparser import create_parser, detect_statement_format
 
-# Works with MT940 today, CAMT.053 tomorrow
+# Works with MT940 today, CAMT.053 tomorrow, PDF anytime
 for file in bank_statement_files:
     fmt = detect_statement_format(file)
     parser = create_parser(file, fmt)
@@ -182,6 +185,15 @@ for file in bank_statement_files:
     process(df)  # Your code doesn't change
 ```
 
+Per gli estratti conto PDF da banche che non offrono ancora esportazioni CAMT strutturate:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+assert result.verification.status == "VERIFIED"
+```
+
 [Leggi la documentazione completa](/getting-started/index.html)
 
-[Confronta con alternative ❯](/comparison/index.html) | [Vedi casi d'uso reali ❯](/use-cases/index.html)
+[Confronta con le alternative ❯](/comparison/index.html) | [Scopri i casi d'uso reali ❯](/use-cases/index.html)

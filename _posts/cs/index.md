@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Architektonické fotografie skleněné budovy"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: "bankstatementparser.com"
 copyright: "© 2023–2026 Analyzátor bankovních výpisů. Všechna práva vyhrazena."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Open-source knihovna Python pro analýzu bankovních výpisů CAMT.053, PAIN.001, CSV, OFX, QFX a MT940 do datových rámců pandas. 27K+ tx/s, streamování, redakce PII, 100% místní."
 download_url: "https://pypi.org/project/bankstatementparser/"
 download_title: "pip install bankstatementparser"
@@ -109,9 +109,9 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**Bank Statement Parser** je open-source Python knihovna, která analyzuje bankovní výpisy ze šesti formátů (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) do strukturovaných datových rámců pandas. Veškeré zpracování probíhá lokálně – nulová síťová volání, deterministický výstup a automatická redakce PII.
+**Bank Statement Parser** je open-source Python knihovna, která analyzuje bankovní výpisy ze sedmi formátů (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940 a PDF) do strukturovaných pandas DataFrames. Veškeré zpracování probíhá lokálně — deterministický výstup, automatická redakce PII a volitelný hybridní PDF pipeline, který v případě potřeby směruje přes lokální LLM.
 
-## Začněte během několika sekund
+## Začněte během sekund
 
 ```bash
 pip install bankstatementparser
@@ -125,62 +125,90 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # pandas DataFrame, ready to use
 ```
 
+```python
+# Parse PDFs with the hybrid pipeline (v0.0.5+)
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+```
+
 <img src="https://img.shields.io/github/stars/sebastienrousseau/bankstatementparser?style=for-the-badge&label=Stars" height="28" alt="GitHub Stars" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/dm/bankstatementparser?style=for-the-badge&label=Downloads" height="28" alt="Monthly Downloads" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/v/bankstatementparser?style=for-the-badge&label=PyPI" height="28" width="119" alt="PyPI Version" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/pyversions/bankstatementparser?style=for-the-badge&label=Python" height="28" width="347" alt="Python" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/l/bankstatementparser?style=for-the-badge&label=License" height="28" width="292" alt="License" loading="lazy" style="margin:0 .25rem .5rem 0" />
-<img src="https://img.shields.io/badge/tests-467%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
+<img src="https://img.shields.io/badge/tests-718%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/badge/coverage-100%25-brightgreen?style=for-the-badge" height="28" width="152" alt="Coverage" loading="lazy" style="margin:0 .25rem .5rem 0" />
 
-## Jedna knihovna, šest formátů
+## Jedna knihovna, sedm formátů
 
-Analyzujte CAMT.053, PAIN.001, CSV, OFX, QFX a MT940 do strukturovaných datových rámců pandas pomocí jediného jednotného rozhraní API. Není třeba instalovat samostatné balíčky pro každý formát.
+Analyzujte CAMT.053, PAIN.001, CSV, OFX, QFX, MT940 a PDF do strukturovaných pandas DataFrames pomocí jediného API. Není třeba instalovat samostatné balíčky pro každý formát.
 
-| Funkce | Analyzátor bankovních výpisů | Jednoformátový OSS (mt940, ofxparse) | SaaS (Ocrolus, Parseur) |
+| Funkce | Bank Statement Parser | Jednoformátový OSS (mt940, ofxparse) | SaaS (Ocrolus, Parseur) |
 |---|---|---|---|
-| Podporované formáty | 6, jednotné API | 1 každý | Mnoho (přes OCR) |
-| Ochrana osobních údajů | 100% místní, nulová síťová volání | 100% místní | Data odeslaná externě |
-| Náklady | Zdarma, Apache 2.0 | Uvolnit | 49–1 000 $/měsíc |
-| redakce PII | Vestavěný, ve výchozím nastavení zapnutý | Žádný | Liší se |
-| Streamování | Omezená paměť | Žádný | N/A |
-| Zabezpečení ZIP | Vestavěné kalení | Žádný | N/A |
-| Deduplikace | Vestavěné se skóre spolehlivosti | Žádný | Nějaký |
+| Podporované formáty | 7, jednotné API | 1 každý | Mnoho (přes OCR) |
+| Podpora PDF | Hybridní pipeline (deterministický + LLM + vision) | Ne | Ano (cloud OCR) |
+| Ochrana dat | 100% lokální (LLM běží lokálně přes Ollama) | 100% lokální | Data odesílána externě |
+| Náklady | Zdarma, Apache 2.0 | Zdarma | 49–1 000+ $/měs. |
+| Ověření zůstatku | Golden Rule (počáteční + kredity − debety = konečný) | Ne | Různé |
+| Redakce PII | Vestavěná, ve výchozím nastavení zapnutá | Ne | Různé |
+| Streaming | Omezená paměť | Ne | N/A |
+| REST API | Vestavěný FastAPI mikroservis | Ne | Ano |
+| Deduplikace | Idempotentní transakční hashe | Ne | Částečně |
+| Export do účetnictví | hledger + beancount | Ne | Ne |
+
+## Hybridní PDF pipeline
+
+Bank Statement Parser v0.0.5+ obsahuje tříúrovňový hybridní pipeline pro PDF bankovní výpisy:
+
+- **Cesta A (Deterministická)**: Strukturované PDF tabulky analyzovány přímo — zdarma, nejrychlejší, bez LLM.
+- **Cesta B (Text-LLM)**: Digitální PDF se složitým rozložením extrahována přes lokální LLM (LiteLLM/Ollama).
+- **Cesta C (Vision-LLM)**: Naskenované nebo fotokopírované výpisy zpracovány multimodálními vision modely.
+
+Každá extrakce je ověřena pomocí **Golden Rule**: `opening balance + credits − debits == closing balance`.
 
 ## Vytvořeno pro migraci ISO 20022
 
-Společnost SWIFT stanovila pevné termíny: všechny finanční instituce musí obdržet CAMT.053 do listopadu 2027 a MT940/MT942/MT950 bude plně vyřazena do listopadu 2028. Analyzátor výpisů z účtu zpracovává starší formáty MT940 i moderní formáty ISO 20022 (CAMT.053, PAIN a API1 funguje během jednoho přechodu, PAIN.00).
+SWIFT stanovil pevné termíny: všechny finanční instituce musí přijímat CAMT.053 do listopadu 2027 a MT940/MT942/MT950 budou plně vyřazeny do listopadu 2028. Bank Statement Parser zpracovává jak starší MT940, tak moderní ISO 20022 formáty (CAMT.053, PAIN.001) v jednom API. Váš pipeline tak funguje během přechodu i po něm.
 
 ## Výkon
 
 - **27 000+ transakcí za sekundu** pro analýzu CAMT.053
 - **52 000+ transakcí za sekundu** pro analýzu PAIN.001
 - **< 2 ms** čas do prvního výsledku
-- **Konstantní paměť** od 1 000 do 50 000+ transakcí prostřednictvím streamování
-- **467 testů** se 100% pokrytím větví v Pythonu 3.9 až 3.14
+- **Konstantní paměť** od 1K do 50K+ transakcí díky streamingu
+- **718 testů** se 100% pokrytím větví v Pythonu 3.10 až 3.14
 
-## Proč analyzátor výpisů z účtu?
+## Proč Bank Statement Parser?
 
-- **Automatická detekce formátu**:`detect_statement_format()`automaticky identifikuje soubory a`create_parser()`vrátí správný analyzátor.
-- **Privacy First**: Redakce PII je ve výchozím nastavení zapnutá. Citlivá pole (jména, IBAN, adresy) jsou ve výstupu CLI maskována. Přihlásit se pomocí`--show-pii`když je potřeba.
-- **Produkce připravena**: Bezpečné přijímání ZIP (ochrana proti bombám, odmítnutí šifrovaného vstupu), ověření vstupu a zabránění průchodu cesty.
-- **Flexibilní výstup**: Export do CSV, JSON, Excel nebo převod do Polar DataFrames.
-- **Paralelní zpracování**: Analyzujte více souborů současně`parse_files_parallel()`.
+- **Hybridní extrakce PDF**: `smart_ingest()` zpracovává digitální i naskenované PDF s automatickým směrováním a ověřením zůstatku.
+- **Automatická detekce formátu**: `detect_statement_format()` identifikuje soubory automaticky a `create_parser()` vrátí správný parser.
+- **Ochrana soukromí**: Redakce PII je ve výchozím nastavení zapnutá. LLM běží lokálně přes Ollama — žádná data neopustí váš počítač.
+- **REST API**: Nasaďte jako FastAPI mikroservis s endpointy `/ingest` a `/health`.
+- **Obohacení**: LLM kategorizace transakcí s připojitelnými schématy (výchozí 13 kategorií Plaid).
+- **Export do účetnictví**: Export do formátů hledger a beancount pro plaintext-accounting workflows.
+- **Hromadné skenování**: `scan_and_ingest()` zpracovává adresářové stromy s automatickou deduplikací napříč soubory.
+- **Multi-měna**: `verify_balance_multi_currency()` provádí ověření Golden Rule pro každou měnovou skupinu.
+- **Připraveno pro produkci**: Bezpečné zpracování ZIP, validace vstupů, ochrana proti path traversal a interaktivní režim kontroly.
+- **Flexibilní výstup**: Export do CSV, JSON, Excel, Polars, hledger nebo beancount.
+- **Paralelní zpracování**: Analyzujte více souborů současně pomocí `parse_files_parallel()`.
 
 
-## Postaveno pro výrobu
+## Postaveno pro produkci
 
-Bank Statement Parser je určen pro treasury týmy, fintech vývojáře a úředníky pro dodržování předpisů, kteří zpracovávají citlivá finanční data. Knihovna se používá v migračních kanálech MT940-CAMT, automatizovaných systémech odsouhlasení a pracovních postupech regulačních auditů napříč finančními institucemi.
+Bank Statement Parser je navržen pro treasury týmy, fintech vývojáře a compliance pracovníky zpracovávající citlivá finanční data. Knihovna se používá v migračních pipeline MT940-na-CAMT, automatizovaných systémech odsouhlasení, při zpracování PDF výpisů a ve workflow regulačních auditů napříč finančními institucemi.
 
-- **467 testů** se 100% pokrytím větví v Pythonu 3.9 až 3.14
+- **718 testů** se 100% pokrytím větví v Pythonu 3.10 až 3.14
 - **SHA-256 hash-locked závislosti** s CycloneDX SBOM pro každé vydání
 - **Deterministický výstup** — identický vstup produkuje bajtově identické výsledky při každém spuštění
-- **Licence Apache 2.0** – volně k použití v komerčních a interních systémech
+- **Licence Apache 2.0** — volně k použití v komerčních a interních systémech
 
-**Vyhodnocování alternativ?** [Podívejte se, jak porovnává analyzátor výpisů z účtu ❯](/comparison/index.html) | [Prozkoumejte případy použití v reálném světě ❯](/use-cases/index.html)
+**Porovnáváte alternativy?** [Podívejte se, jak si Bank Statement Parser stojí ❯](/comparison/index.html) | [Prozkoumejte reálné případy použití ❯](/use-cases/index.html)
 
-[Začínáme ❯][01] | [Zobrazit na GitHubu ❯][02] | [Zobrazit na PyPI ❯][03]
+[Začít ❯][01] | [Zobrazit na GitHubu ❯][02] | [Zobrazit na PyPI ❯][03]
 
-[01]: /začínáme/index.html
-[02]:https://github.com/sebastienrousseau/bankstatementparser
+[01]: /getting-started/index.html
+[02]: https://github.com/sebastienrousseau/bankstatementparser
 [03]: https://pypi.org/project/bankstatementparser/

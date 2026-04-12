@@ -4,20 +4,20 @@
     <meta charset="utf-8" />
     <meta itemprop="datePublished" content="2026-04-01T00:00:00+00:00" id="date">
     <meta itemprop="dateModified" content="2026-04-01T00:00:00+00:00" id="last-modified">
-    <title>銀行取引明細書パーサーFAQ：プライバシー、パフォーマンス、使用法</title>
+    <title>Bank Statement Parser FAQ: プライバシー、パフォーマンス、および使用法</title>
     <meta name="theme-color" content="rgb(73, 214, 251)" />
     <meta name="measurement-id" content="G-FL9DEBFHN1" />
     <meta name="author" content="Sebastien Rousseau">
-<meta name="description" content="銀行取引明細書パーサーに関するよくある質問への回答：データプライバシー、PIIマスキング、パフォーマンス、ISO 20022サポート、ストリーミング。">
-<meta name="keywords" content="銀行取引明細書パーサーFAQ, CAMTパーサー質問, PIIマスキング">
+<meta name="description" content="Bank Statement Parser に関するよくある質問への回答: データ プライバシー、PII 編集、パフォーマンス、ISO 20022 サポート、ストリーミング、コンプライアンス、財務ワークフロー。">
+<meta name="keywords" content="銀行取引明細書パーサーの FAQ、CAMT パーサーの質問、PAIN.001 FAQ、ISO 20022 Python FAQ、PII 編集バンキング、銀行パーサーのパフォーマンス、財務データのプライバシー、MT940 パーサーの FAQ、ストリーミング パーサー Python、銀行取引明細書のコンプライアンス">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="accessibility" content="ARIA, fullKeyboardControl, noFlashingHazard" />
     <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="銀行取引明細書パーサーFAQ：プライバシー、パフォーマンス、使用法">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: kura.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
+<meta name="apple-mobile-web-app-title" content="Bank Statement Parser FAQ: プライバシー、パフォーマンス、および使用法">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: cloudcdn.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" />
     <meta name="msapplication-TileColor" content="rgb(73, 214, 251)">
     
     <link rel="alternate" href="https://bankstatementparser.com/ja/faq/index.html" hreflang="ja" />
@@ -27,7 +27,7 @@
     <link rel="apple-touch-icon" href="/images/icons/192x192.png" sizes="192x192" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
-    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#b0b8c1"}})});</script>
+    <script>document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("pre[lang]").forEach(function(el){el.setAttribute("data-lang",el.getAttribute("lang"));el.removeAttribute("lang")});document.querySelectorAll("pre>code>pre[style]").forEach(function(inner){var outer=inner.parentElement.parentElement;outer.style.cssText=inner.getAttribute("style")+";border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none";outer.innerHTML=inner.innerHTML;outer.removeAttribute("class")});document.querySelectorAll("pre span[style]").forEach(function(el){var s=el.getAttribute("style");if(s&&s.indexOf("#65737e")!==-1){el.style.color="#8f9aa5"}})});</script>
     <style>
       :root{--theme-color:rgb(73, 214, 251)}*{font-weight:400;box-sizing:border-box;margin:0}
       pre{margin:1.5rem 0;max-width:100%;overflow:auto;border-radius:.5rem;padding:1rem 1.25rem;background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);color:var(--c-code);display:block;font-family:'SF Mono',SFMono-Regular,Consolas,monospace;font-size:.8125rem;line-height:1.7;margin:1.5rem 0;max-width:100%;overflow:auto;padding:1rem 1.25rem;border-radius:.5rem}
@@ -138,13 +138,26 @@
       .faq-container .accordion-body th{font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--c-secondary);font-size:.75rem}
       .faq-container .accordion-body pre{margin:1rem 0;border-radius:.5rem}
       .faq-container .accordion-body ul,.faq-container .accordion-body ol{margin:.75rem 0}
+          .search-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:flex-start;justify-content:center;padding:15vh 1rem 1rem}
+.search-overlay.open{display:flex}
+.search-box{background:var(--c-bg);border:1px solid var(--c-border);border-radius:.75rem;width:100%;max-width:560px;box-shadow:0 25px 50px -12px rgba(0,0,0,.25);overflow:hidden}
+.search-input{width:100%;padding:.875rem 1rem;border:none;background:transparent;color:var(--c-text);font-size:1rem;font-family:inherit;outline:none}
+.search-input::placeholder{color:var(--c-secondary)}
+.search-results{max-height:50vh;overflow-y:auto;border-top:1px solid var(--c-border)}
+.search-result{display:block;padding:.75rem 1rem;color:var(--c-text);text-decoration:none;border-bottom:1px solid var(--c-border)}
+.search-result:hover,.search-result.active{background:var(--c-surface);color:var(--c-accent);text-decoration:none}
+.search-result-title{font-weight:600;font-size:.9375rem}
+.search-result-desc{font-size:.8125rem;color:var(--c-secondary);margin-top:.125rem}
+.search-empty{padding:1.5rem 1rem;text-align:center;color:var(--c-secondary);font-size:.875rem}
+.search-footer{padding:.5rem 1rem;border-top:1px solid var(--c-border);font-size:.75rem;color:var(--c-secondary);display:flex;gap:1rem}
+.search-footer kbd{background:var(--c-surface);padding:.125rem .375rem;border-radius:.25rem;font-size:.6875rem;border:1px solid var(--c-border)}
     </style>
   </head>
   <body id="page-top" itemscope itemtype="http://schema.org/WebPage">
-    <a class="skip-link" href="#main">Skip to main content</a>
-    <nav class="site-nav" aria-label="Main navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+    <a class="skip-link" href="#main">メインコンテンツへ</a>
+    <nav class="site-nav" aria-label="メインナビゲーション" itemscope itemtype="http://schema.org/SiteNavigationElement">
       <div class="nav-inner">
-        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="" /><span itemprop="name">銀行取引明細書パーサー</span></a>
+        <a class="nav-brand" href="/" itemprop="url"><img width="32" height="32" src="/images/logos/bankstatementparser.webp" alt="Bank Statement Parser logo" /><span itemprop="name">銀行取引明細書パーサー</span></a>
         <ul class="nav-center">
           <li><a href="/ja/index.html">ホーム</a></li>
           <li><a href="/ja/a-propos/index.html">概要</a></li>
@@ -153,7 +166,8 @@
           <li class="nav-item dropdown"><button class="dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" type="button">リソース</button><ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown"><li><a class="dropdown-item" href="/ja/cas-utilisation/index.html">Use Cases</a></li><li><a class="dropdown-item" href="/ja/migration/index.html">ISO 20022 Migration</a></li><li><a class="dropdown-item" href="/ja/securite/index.html">Security</a></li><li><a class="dropdown-item" href="/ja/alternatives/index.html">Alternatives</a></li><li><a class="dropdown-item" href="/ja/journal-des-modifications/index.html">Changelog</a></li><li><a class="dropdown-item" href="/ja/contribuer/index.html">Contribute</a></li><li><a class="dropdown-item" href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a class="dropdown-item" href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li></ul></li>
         </ul>
         <div class="nav-right">
-          <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">ダーク</span></button>
+          <button id="searchTrigger" class="theme-toggle" aria-label="Search" style="margin-right:.25rem"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> <span class="search-shortcut" aria-hidden="true" style="font-size:.6875rem;opacity:.8"></span></button>
+          <button class="theme-toggle" id="themeToggle" aria-label="ダークモードに切り替え" type="button"><svg viewBox="0 0 24 24" class="theme-icon-dark" aria-hidden="true"><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewBox="0 0 24 24" class="theme-icon-light" aria-hidden="true" style="display:none"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class="theme-label">ダーク</span></button>
           <div style="position:relative;display:inline-block" class="lang-switcher">
             <button type="button" aria-label="JA, Change language" aria-expanded="false" style="color:var(--c-nav-muted);font-size:12px;font-weight:400;padding:.375rem .625rem;border:1px solid var(--c-border);border-radius:6rem;background:transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.25rem;outline:none">
               <span style="font-size:14px">🌐</span> JA
@@ -198,47 +212,323 @@
       </nav>
     <header class="site-hero" style="padding:6rem 1.5rem 3rem">
       <h1 style="font-size:clamp(2rem,4vw,2.75rem)">よくある質問</h1>
-      <p>銀行取引明細書パーサーに関するよくある質問</p>
+      <p>Bank Statement Parser に関するよくある質問</p>
     </header>
     <main id="main" class="site-main" tabindex="-1" aria-label="Page content">
       <div class="text-start">
         <div id="faq-raw" class="faq-raw-content"><h2>データプライバシーとコンプライアンス</h2>
-<h3>データは私のインフラから離れますか？</h3>
-<p>**いいえ。**銀行取引明細書パーサーはステートレスライブラリとして動作します。すべての処理はローカルランタイムメモリ内で行われます。API呼び出しなし、クラウドサービスなし、テレメトリなし。</p>
-<h3>PIIマスキングはどのように機能しますか？</h3>
-<p>機密フィールドはアプリケーションロジックに到達する前にマスクされます。パーサーは債務者名、債権者名、IBAN、郵便住所を識別し、<code>***REDACTED***</code>に置き換えます。</p>
+<h3>インフラストラクチャからデータが流出することはありますか?</h3>
+<p><strong>いいえ — PDF 抽出においてもです。</strong> Bank Statement Parser はステートレスライブラリとして動作します。すべての処理（解析、PII 秘匿化、アーカイブ抽出）はローカルのランタイムメモリ内で行われます。ハイブリッド PDF パイプラインは Ollama を使用してローカル LLM 推論を行います。クラウド API は使用しません。XML パーサーは <code>no_network=True</code> で強化されており、パーサーレベルですべての送信アクセスをブロックします。財務データが環境から離れることはありません。</p>
+<h3>PII 秘匿化はどのように機能しますか?</h3>
+<p>機密フィールドは、アプリケーションロジックに到達する前にマスクされます。パーサーは債務者名、債権者名、IBAN、住所を識別し、コンソール出力およびストリーミングモードで <code>***REDACTED***</code> に置き換えます。</p>
+<ul>
+<li><strong>秘匿化は CLI 出力およびストリーミングモードでデフォルトでオンです</strong>。</li>
+<li><strong>ファイルエクスポート</strong>（CSV、JSON、Excel）は後続処理のために秘匿化されていないデータを保持します。</li>
+<li><strong>オプトイン</strong>で完全なデータを取得するには、CLI で <code>--show-pii</code>、API で <code>redact_pii=False</code> を使用します。</li>
+</ul>
+<h3>抽出プロセスは確定的ですか?</h3>
+<p><strong>構造化形式では「はい」— 実行するたびにバイト同一の出力が得られます。</strong> 同じ入力ファイルを指定すると、確定的パーサー（CAMT、PAIN.001、CSV、OFX、QFX、MT940）は毎回同じ結果を生成します。ランダム性、モデル推論、ヒューリスティックサンプリングはありません。</p>
+<p>ハイブリッド PDF パイプラインでは、LLM ベースの抽出パスで実行間にわずかな差異が生じる場合があります。そのため、すべての PDF 抽出は<strong>ゴールデンルール</strong>（<code>opening + credits − debits == closing</code>）で検証され、フラグされた不一致はインタラクティブにレビューできます。</p>
+<p>CI は Hypothesis によるプロパティベースファジングを含む、100% ブランチカバレッジの 718 テストで確定性を強制します。</p>
+<h3>プロジェクトはどのようなコンプライアンス基準に従っていますか?</h3>
+<p>プロジェクトは、完全なトレーサビリティを備えた ISO 13485 準拠のドキュメントを維持しています。</p>
+<ul>
+<li>重大度/確率スコアリングと残留リスク評価を備えた定量化された<strong>リスクレジスタ</strong>。</li>
+<li>5 フェーズにわたる 19 のゲートステップを含む<strong>検証・妥当性確認計画</strong>。</li>
+<li>影響評価とロールバックプロトコルを含む<strong>変更管理手順</strong>。</li>
+<li>リスクレベルと EOL 追跡を伴うすべての依存関係をカバーする <strong>SOUP レジスタ</strong>。</li>
+<li>設計入力を実装および検証にマッピングする<strong>トレーサビリティマトリックス</strong>。</li>
+</ul>
+<p>すべてのリリースには CycloneDX SBOM、SHA-256 チェックサム、GitHub ビルド来歴証明書が含まれています。</p>
 <h2>パフォーマンスとスケーラビリティ</h2>
+<h3>Bank Statement Parser の速度はどれくらいですか?</h3>
+<p>パフォーマンスしきい値は、コミットごとに CI で検証されます。</p>
 <div class="table-responsive"><table class="table">
 <thead>
 <tr>
-<th>測定</th>
+<th>指標</th>
 <th>値</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="text-left">CAMT.053スループット</td>
-<td class="text-left">27,000+トランザクション/秒</td>
+<td class="text-left">CAMT.053 スループット</td>
+<td class="text-left">27,000+ トランザクション/秒</td>
 </tr>
 <tr>
-<td class="text-left">PAIN.001スループット</td>
-<td class="text-left">52,000+トランザクション/秒</td>
+<td class="text-left">PAIN.001 スループット</td>
+<td class="text-left">52,000+ トランザクション/秒</td>
+</tr>
+<tr>
+<td class="text-left">トランザクションあたりのレイテンシ（CAMT）</td>
+<td class="text-left">37 マイクロ秒</td>
+</tr>
+<tr>
+<td class="text-left">トランザクションあたりのレイテンシ（PAIN.001）</td>
+<td class="text-left">19 マイクロ秒</td>
+</tr>
+<tr>
+<td class="text-left">最初の結果が得られるまでの時間</td>
+<td class="text-left">&lt; 2 ms</td>
 </tr>
 </tbody>
 </table></div>
-<h2>インストールと互換性</h2>
-<pre><code class="language-bash"><pre style="background-color:#2b303b;">
-<span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser
+<p>PDF 抽出速度はルーティングパスによります: 確定的（1 秒未満）、テキスト LLM（数秒）、ビジョン LLM（ページあたり数秒）。</p>
+<h3>大きなファイルはどのように処理されますか?</h3>
+<p><strong>制限されたメモリでのストリーミング — ファイルあたり 50,000 トランザクションでテスト済みです。</strong> <code>parse_streaming()</code> で XML ファイルを段階的に処理します。各トランザクションは辞書として生成され、処理後に要素がクリアされるためメモリの増加を防ぎます。メモリはファイルサイズに比例しません — 50K トランザクションテスト（25 MB+）は 10K トランザクションテストの 2 倍未満のメモリを使用します。</p>
+<p>50 MB を超えるファイル（例: 100K+ 件の支払いを含むホスト間 PAIN.001 バッチ）の場合、パーサーはチャンクベースの名前空間ストリッピングで一時ファイルをストリーミングします。完全なドキュメントがメモリにロードされることはありません。</p>
+<h3>ZIP アーカイブはどのように安全に処理されますか?</h3>
+<p><code>iter_secure_xml_entries()</code> は抽出前に各メンバーを検証します。</p>
+<ul>
+<li><strong>エントリサイズ上限</strong>（デフォルト: エントリあたり 10 MB）</li>
+<li><strong>非圧縮合計サイズ上限</strong>（デフォルト: 50 MB）</li>
+<li><strong>圧縮率制限</strong>（デフォルト: 100:1）で ZIP 爆弾を防止</li>
+<li><strong>暗号化エントリの拒否</strong></li>
+</ul>
+<p>ファイルはディスクに書き込まれません。XML バイトは <code>from_bytes()</code> でパーサーに直接渡されます。</p>
+<h3>複数のファイルを並列で解析できますか?</h3>
+<p><strong>はい。</strong> <code>parse_files_parallel()</code> が <code>ProcessPoolExecutor</code> に作業を分散します:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">parse_files_parallel
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">results = </span><span style="color:#8fa1b3;">parse_files_parallel</span><span style="color:#c0c5ce;">([
+</span><span style="color:#c0c5ce;">    &quot;</span><span style="color:#a3be8c;">statements/jan.xml</span><span style="color:#c0c5ce;">&quot;,
+</span><span style="color:#c0c5ce;">    &quot;</span><span style="color:#a3be8c;">statements/feb.xml</span><span style="color:#c0c5ce;">&quot;,
+</span><span style="color:#c0c5ce;">    &quot;</span><span style="color:#a3be8c;">statements/mar.xml</span><span style="color:#c0c5ce;">&quot;,
+</span><span style="color:#c0c5ce;">])
+</span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">r </span><span style="color:#b48ead;">in </span><span style="color:#c0c5ce;">results:
+</span><span style="color:#c0c5ce;">    </span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(r.path, r.status, </span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(r.transactions), &quot;</span><span style="color:#a3be8c;">rows</span><span style="color:#c0c5ce;">&quot;)
 </span></pre>
 </code></pre>
-<p>Python 3.9〜3.14がサポートされています。</p>
+<p>一括 PDF 取り込みには、<code>scan_and_ingest()</code> がフォルダツリー全体を自動重複排除で処理します。</p>
+<h2>サポートされている形式</h2>
+<h3>どの銀行取引明細書形式がサポートされていますか?</h3>
+<table>
+<thead>
+<tr>
+<th>形式</th>
+<th>標準</th>
+<th>ファイルの種類</th>
+<th>パーサー/メソッド</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="text-left">CAMT.053</td>
+<td class="text-left">ISO 20022 銀行対顧客明細書</td>
+<td class="text-left"><code>.xml</code></td>
+<td class="text-left"><code>CamtParser</code></td>
+</tr>
+<tr>
+<td class="text-left">PAIN.001</td>
+<td class="text-left">ISO 20022 送金指図</td>
+<td class="text-left"><code>.xml</code></td>
+<td class="text-left"><code>Pain001Parser</code></td>
+</tr>
+<tr>
+<td class="text-left">CSV</td>
+<td class="text-left">一般的な銀行エクスポート</td>
+<td class="text-left"><code>.csv</code></td>
+<td class="text-left"><code>CsvStatementParser</code></td>
+</tr>
+<tr>
+<td class="text-left">OFX</td>
+<td class="text-left">Open Financial Exchange</td>
+<td class="text-left"><code>.ofx</code></td>
+<td class="text-left"><code>OfxParser</code></td>
+</tr>
+<tr>
+<td class="text-left">QFX</td>
+<td class="text-left">Quicken Financial Exchange</td>
+<td class="text-left"><code>.qfx</code></td>
+<td class="text-left"><code>QfxParser</code></td>
+</tr>
+<tr>
+<td class="text-left">MT940</td>
+<td class="text-left">SWIFT 標準</td>
+<td class="text-left"><code>.mt940</code>, <code>.sta</code></td>
+<td class="text-left"><code>Mt940Parser</code></td>
+</tr>
+<tr>
+<td class="text-left">PDF</td>
+<td class="text-left">デジタルおよびスキャン明細書</td>
+<td class="text-left"><code>.pdf</code></td>
+<td class="text-left"><code>smart_ingest()</code></td>
+</tr>
+</tbody>
+</table>
+<h3>ハイブリッド PDF パイプラインはどのように動作しますか?</h3>
+<p>ハイブリッドパイプライン（v0.0.5+）は PDF を 3 つの抽出パスにインテリジェントに振り分けます。</p>
+<ul>
+<li><strong>パス A（確定的）</strong>: 構造化 PDF テーブルを直接解析します。無料で最速、LLM 不要です。</li>
+<li><strong>パス B（テキスト LLM）</strong>: 複雑なレイアウトのデジタル PDF をローカル LLM（LiteLLM/Ollama）で抽出します。</li>
+<li><strong>パス C（ビジョン LLM）</strong>: スキャンやコピーされた明細書をマルチモーダルビジョンモデルで処理します。</li>
+</ul>
+<p>すべての抽出はゴールデンルール（<code>opening + credits − debits == closing</code>）で検証されます。不一致は <code>--type review</code> でインタラクティブにレビューできます。</p>
+<h3>パーサーは CAMT.053 の銀行固有の方言を処理しますか?</h3>
+<p><strong>はい — 設計上名前空間に依存しません。</strong> パーサーは処理前に XML 名前空間を除去し、あらゆる CAMT.053 バリアント（<code>camt.053.001.02</code>、<code>camt.053.001.04</code>、または独自の銀行ラッパー）を名前空間固有の設定なしで処理します。XPath クエリは名前空間 URI ではなく要素構造を対象とします。</p>
+<p>CAMT をカスタムエンベロープでラップする銀行の場合は、<code>from_string()</code> または <code>from_bytes()</code> で内部ドキュメントを直接渡してください。</p>
+<h3>カスタム CSV 列ヘッダーを標準スキーマにマップできますか?</h3>
+<p><strong>はい — 自動正規化、設定不要です。</strong> <code>CsvStatementParser</code> は一般的なヘッダーのバリエーションを認識します: <code>&quot;Date&quot;</code>、<code>&quot;Transaction Date&quot;</code>、<code>&quot;Booking Date&quot;</code> はすべて <code>date</code> フィールドにマップされます。<code>&quot;Amount&quot;</code>、<code>&quot;Value&quot;</code>、<code>&quot;Sum&quot;</code> は <code>amount</code> にマップされます。貸方/借方の分割列（例: <code>&quot;Credit&quot;</code> と <code>&quot;Debit&quot;</code>）は検出され、単一の符号付き金額に自動結合されます。</p>
+<h3>出力形式は何ですか?</h3>
+<p>すべてのパーサーは、一貫した列タイプを持つ標準化された pandas DataFrame を生成します。</p>
+<table>
+<thead>
+<tr>
+<th>形式</th>
+<th>主要カラム</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="text-left"><strong>CAMT</strong></td>
+<td class="text-left"><code>Amount</code>, <code>Currency</code>, <code>DrCr</code>, <code>Debtor</code>, <code>Creditor</code>, <code>Reference</code>, <code>ValDt</code>, <code>BookgDt</code>, <code>AccountId</code></td>
+</tr>
+<tr>
+<td class="text-left"><strong>PAIN.001</strong></td>
+<td class="text-left"><code>PmtInfId</code>, <code>PmtMtd</code>, <code>InstdAmt</code>, <code>Currency</code>, <code>CdtrNm</code>, <code>EndToEndId</code>, <code>MsgId</code>, <code>CreDtTm</code>, <code>NbOfTxs</code></td>
+</tr>
+<tr>
+<td class="text-left"><strong>CSV/OFX/QFX/MT940</strong></td>
+<td class="text-left"><code>date</code>, <code>description</code>, <code>amount</code>（正規化済み）</td>
+</tr>
+</tbody>
+</table>
+<p>CSV、JSON、Excel、Polars DataFrame、hledger、beancount ジャーナル形式にもエクスポートできます。</p>
+<h2>PDF と LLM の機能</h2>
+<h3>ハイブリッドパイプラインはどの LLM モデルをサポートしていますか?</h3>
+<p>パイプラインはモデル抽象化レイヤーとして LiteLLM を使用し、ビジョンプロンプト用に直接 Ollama ブリッジを備えています。推奨モデル:</p>
+<ul>
+<li><strong>テキスト抽出</strong>: LiteLLM 互換の任意のモデル（ローカルまたはリモート）。</li>
+<li><strong>ビジョン抽出</strong>: <code>ollama/minicpm-v</code>（推奨）。スキャン PDF 向けです。</li>
+<li><strong>分類</strong>: LiteLLM 互換の任意のモデル。</li>
+</ul>
+<p>すべてのモデルは Ollama 経由で 100% ローカル実行可能です。API キーは不要です。</p>
+<h3>ゴールデンルール検証とは何ですか?</h3>
+<p>すべての PDF 抽出は <code>opening balance + credits − debits == closing balance</code> の式で検証されます。結果は以下のようにタグ付けされます:</p>
+<ul>
+<li><strong>VERIFIED</strong>: 残高が一致します。</li>
+<li><strong>DISCREPANCY</strong>: 残高が一致しません — レビューを推奨します。</li>
+<li><strong>FAILED</strong>: 検証を実行できませんでした（残高データが不足）。</li>
+</ul>
+<h3>トランザクションを自動分類できますか?</h3>
+<p><strong>はい。</strong> エンリッチメントモジュール（v0.0.6+）が LLM によるトランザクション分類を提供します:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser.enrichment </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">Categorizer
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">categorizer = </span><span style="color:#8fa1b3;">Categorizer</span><span style="color:#c0c5ce;">()
+</span><span style="color:#c0c5ce;">enriched = categorizer.</span><span style="color:#8fa1b3;">categorize_batch</span><span style="color:#c0c5ce;">(transactions)
+</span></pre>
+</code></pre>
+<p>デフォルトスキーマは 13 の Plaid 互換カテゴリを使用します。独自のカテゴリスキーマも指定できます。</p>
+<h3>hledger や beancount にエクスポートできますか?</h3>
+<p><strong>はい</strong>（v0.0.8+）。アカウントマッピング付きでプレーンテキスト会計ジャーナル形式にエクスポートします:</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser.export </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">to_hledger, to_beancount
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">journal = </span><span style="color:#8fa1b3;">to_hledger</span><span style="color:#c0c5ce;">(transactions, </span><span style="color:#bf616a;">account</span><span style="color:#c0c5ce;">=&quot;</span><span style="color:#a3be8c;">Assets:Bank:Checking</span><span style="color:#c0c5ce;">&quot;)
+</span></pre>
+</code></pre>
+<h2>財務ワークフロー</h2>
+<h3>パーサーはマルチ通貨明細書をどのように処理しますか?</h3>
+<p><strong>各トランザクションは元の通貨を保持します — 暗黙的な変換は行いません。</strong> <code>Currency</code> フィールドは XML の <code>Ccy</code> 属性からトランザクションごとに抽出されます。マルチ通貨明細書はそのまま残ります。<code>get_account_balances()</code> メソッドは、元の通貨コードで口座ごとの期首残高と期末残高を返します。</p>
+<p>v0.0.8 以降、<code>verify_balance_multi_currency()</code> はトランザクションを通貨ごとにグループ化し、各グループで独立してゴールデンルールを実行します。複数通貨を保有する口座に便利です。</p>
+<h3>パーサーは送信形式と受信形式の両方をサポートしていますか?</h3>
+<p><strong>はい。</strong> <code>Pain001Parser</code> は ISO 20022 PAIN.001 送金指図ファイル（送金）を処理します。<code>CamtParser</code> は CAMT.053 銀行対顧客明細書ファイル（受信レポート）を処理します。どちらもストリーミング、PII 秘匿化、CSV、JSON、Excel、hledger、beancount へのエクスポートをサポートします。<code>detect_statement_format()</code> でフォーマットを自動的に識別します。</p>
+<h3>トランザクションエントリの形式が不正な場合はどうなりますか?</h3>
+<p>動作は解析モードによって異なります:</p>
+<ul>
+<li><strong><code>parse()</code>（バッチモード）</strong> -- 必須フィールド（<code>Amount</code>、<code>Currency</code>、<code>CdtDbtInd</code>）がないエントリは警告ログとともにスキップされます。明細書の残りは通常どおり解析されます。</li>
+<li><strong><code>parse_streaming()</code>（ストリーミングモード）</strong> -- 解析エラーは例外として即座に伝播します。サイレントデータ損失はありません。このフェイルファスト動作は、すべてのトランザクションを考慮する必要がある財務ワークフローを意図しています。</li>
+<li><strong><code>smart_ingest()</code>（ハイブリッド PDF）</strong> -- 抽出エラーは <code>IngestResult</code> に検証ステータスとともに記録され、インタラクティブレビューが可能です。</li>
+</ul>
+<h3>重複排除はどのように機能しますか?</h3>
+<p>各トランザクションには、主要フィールドに基づくべき等な <code>transaction_hash</code>（MD5 フィンガープリント）が割り当てられます。これにより安全なインクリメンタル取り込みが可能になります。同じファイルを再処理しても同じハッシュが生成されるため、重複が自動的に検出されます。</p>
+<pre><code class="language-python"><pre style="background-color:#2b303b;">
+<span style="color:#b48ead;">from </span><span style="color:#c0c5ce;">bankstatementparser </span><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">CamtParser, Deduplicator
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#c0c5ce;">parser = </span><span style="color:#8fa1b3;">CamtParser</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">statement.xml</span><span style="color:#c0c5ce;">&quot;)
+</span><span style="color:#c0c5ce;">dedup = </span><span style="color:#8fa1b3;">Deduplicator</span><span style="color:#c0c5ce;">()
+</span><span style="color:#c0c5ce;">result = dedup.</span><span style="color:#8fa1b3;">deduplicate</span><span style="color:#c0c5ce;">(dedup.</span><span style="color:#8fa1b3;">from_dataframe</span><span style="color:#c0c5ce;">(parser.</span><span style="color:#8fa1b3;">parse</span><span style="color:#c0c5ce;">()))
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Unique: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(result.unique_transactions)}&quot;)
+</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Exact duplicates: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(result.exact_duplicates)}&quot;)
+</span><span style="color:#96b5b4;">print</span><span style="color:#c0c5ce;">(</span><span style="color:#b48ead;">f</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">Suspected matches: </span><span style="color:#c0c5ce;">{</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(result.suspected_matches)}&quot;)
+</span></pre>
+</code></pre>
+<h2>インストールと互換性</h2>
+<h3>Bank Statement Parser をインストールするにはどうすればよいですか?</h3>
+<pre><code class="language-bash"><pre style="background-color:#2b303b;">
+<span style="color:#65737e;"># コアインストール（確定的パーサーのみ）
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install bankstatementparser
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#65737e;"># PDF ハイブリッドパイプライン
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[hybrid]</span><span style="color:#c0c5ce;">&#39;         </span><span style="color:#65737e;"># テキスト LLM パス
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[hybrid-vision]</span><span style="color:#c0c5ce;">&#39;   </span><span style="color:#65737e;"># ビジョン LLM パス
+</span><span style="color:#c0c5ce;">
+</span><span style="color:#65737e;"># エクストラ
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[enrichment]</span><span style="color:#c0c5ce;">&#39;      </span><span style="color:#65737e;"># トランザクション分類
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[api]</span><span style="color:#c0c5ce;">&#39;             </span><span style="color:#65737e;"># REST API マイクロサービス
+</span><span style="color:#8fa1b3;">pip</span><span style="color:#c0c5ce;"> install &#39;</span><span style="color:#a3be8c;">bankstatementparser[polars]</span><span style="color:#c0c5ce;">&#39;          </span><span style="color:#65737e;"># Polars DataFrame サポート
+</span></pre>
+</code></pre>
+<h3>どのバージョンの Python がサポートされていますか?</h3>
+<p>Python 3.10〜3.14。Python 3.9 のサポートは v0.0.6 で廃止されました（EOL 2025-10-31）。すべてのバージョンは CI で 100% ブランチカバレッジの 718 テストでテストされています。</p>
+<h3>依存関係は何ですか?</h3>
+<p>コアライブラリには 5 つの直接依存関係があります:</p>
+<ul>
+<li><code>lxml</code> -- セキュリティ強化付き XML 解析</li>
+<li><code>pandas</code> -- DataFrame とデータ操作</li>
+<li><code>openpyxl</code> -- Excel エクスポート</li>
+<li><code>pydantic</code> -- データ検証とモデル</li>
+<li><code>defusedxml</code> -- XXE 保護</li>
+</ul>
+<p>オプションのエクストラとして <code>litellm</code>、<code>pypdf</code>、<code>pdfplumber</code>、<code>pypdfium2</code>、<code>fastapi</code>、<code>uvicorn</code>、<code>polars</code> が追加されます。</p>
+<p>すべての依存関係は SHA-256 ハッシュロックされたバージョンを持ちます。CycloneDX SBOM がすべてのランタイムコンポーネントをマッピングします。</p>
+<h3>macOS、Linux、Windows で動作しますか?</h3>
+<p><strong>はい。</strong> ライブラリは macOS、Linux、Windows（WSL 経由）で動作します。プラットフォーム固有の依存関係はありません。</p>
+<h3>REST API はありますか?</h3>
+<p><strong>はい</strong>（v0.0.8+）。<code>pip install 'bankstatementparser[api]'</code> でインストールし、以下を実行します:</p>
+<pre><code class="language-bash"><pre style="background-color:#2b303b;">
+<span style="color:#8fa1b3;">bankstatementparser-api</span><span style="color:#bf616a;"> --port</span><span style="color:#c0c5ce;"> 8000
+</span></pre>
+</code></pre>
+<p>エンドポイント: <code>POST /ingest</code>（明細書を解析）と <code>GET /health</code>（ヘルスチェック）。</p>
+<h2>再現性とセキュリティ</h2>
+<h3>再現性を確認するにはどうすればよいですか?</h3>
+<pre><code class="language-bash"><pre style="background-color:#2b303b;">
+<span style="color:#8fa1b3;">python</span><span style="color:#bf616a;"> -m</span><span style="color:#c0c5ce;"> pytest                              </span><span style="color:#65737e;"># 718 tests, 100% branch coverage
+</span><span style="color:#8fa1b3;">python</span><span style="color:#c0c5ce;"> scripts/verify_locked_hashes.py        </span><span style="color:#65737e;"># SHA-256 hash verification
+</span><span style="color:#8fa1b3;">git</span><span style="color:#c0c5ce;"> log</span><span style="color:#bf616a;"> --show-signature -1                   </span><span style="color:#65737e;"># Verify commit signature
+</span></pre>
+</code></pre>
+<h3>どのようなセキュリティ保護が組み込まれていますか?</h3>
+<ul>
+<li><strong>XXE 保護</strong>: <code>resolve_entities=False</code>、<code>no_network=True</code>、<code>load_dtd=False</code></li>
+<li><strong>ZIP 爆弾保護</strong>: 圧縮率制限、エントリサイズ上限、暗号化エントリ拒否</li>
+<li><strong>パストラバーサル防止</strong>: 危険パターンのブロックリストとシンボリックリンク解決</li>
+<li><strong>入力検証</strong>: ファイルサイズ制限（デフォルト 100 MB）、拡張子/形式検証</li>
+<li><strong>サプライチェーン</strong>: SHA-256 ハッシュロック依存関係、CycloneDX SBOM、ビルド来歴証明書</li>
+<li><strong>署名済みコミット</strong>: CI で強制</li>
+<li><strong>ローカル LLM</strong>: ハイブリッド PDF パイプラインは Ollama を使用 — クラウド API 呼び出しなし</li>
+</ul>
+<h3>Bank Statement Parser は pyiso20022 とどう違いますか?</h3>
+<p>pyiso20022 は ISO XML スキーマから Python データクラスを生成する汎用 ISO 20022 ツールキットです。スキーマ検証により幅広い ISO 20022 メッセージタイプ（PACS、PAIN、CAMT、ADMI）をカバーします。Bank Statement Parser は、ハイブリッド PDF サポート、残高検証、エンリッチメント、台帳エクスポート、CSV・OFX・QFX・MT940・PDF を含む 7 形式にわたる統合 API を備えた銀行取引明細書解析の専用ツールです。本番グレードのセキュリティで銀行取引明細書を DataFrame に解析する必要がある場合は Bank Statement Parser を使用してください。完全な ISO 20022 メッセージカタログを操作する必要がある場合は pyiso20022 を使用してください。</p>
+<h3>SWIFT ISO 20022 の移行期限はいつですか?</h3>
+<p>SWIFT は段階的な移行タイムラインを公開しています:</p>
+<ul>
+<li><strong>2026 年 11 月</strong>: 構造化アドレスとハイブリッドアドレスが必須になります。MT101 の複数命令メッセージは拒否されます。ケースマネジメントフェーズ 1 が開始されます。</li>
+<li><strong>2027 年 11 月</strong>: すべての金融機関が CAMT.053 明細書をネイティブに受信できる必要があります。SWIFT は MT から ISO 形式への変換を停止します。</li>
+<li><strong>2028 年 11 月</strong>: MT940、MT942、MT950、MT900、MT910 が完全に廃止されます。これらは CAMT.052、CAMT.053、CAMT.054 に置き換えられます。</li>
+</ul>
+<p>Bank Statement Parser はレガシーの MT940 形式と最新の CAMT.053/PAIN.001 形式の両方をサポートしているため、移行期間に最適です。</p>
 </div>
         <div id="faq-accordion" class="faq-container"></div>
       </div>
     </main>
     <footer class="site-footer" aria-label="footer">
       <div class="footer-inner">
-        <span>© 2023-2026 銀行取引明細書パーサー. All rights reserved.</span>
+        <span>© 2023-2026 銀行取引明細書パーサー。無断転載を禁じます。</span>
         <ul class="footer-links">
           <li><a href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub</a></li>
           <li><a href="https://pypi.org/project/bankstatementparser/" target="_blank" rel="noopener noreferrer">PyPI</a></li>
@@ -248,7 +538,7 @@
         </ul>
       </div>
     </footer>
-    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"銀行取引明細書パーサーに関するよくある質問への回答：データプライバシー、PIIマスキング、パフォーマンス、ISO 20022サポート、ストリーミング。","headline":"銀行取引明細書パーサーに関するよくある質問","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"ja-JP","mainEntityOfPage":"https://bankstatementparser.com/ja/faq/index.html","name":"よくある質問","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-01T00:00:00+00:00","datePublished":"2026-04-01T00:00:00+00:00","description":"Bank Statement Parser に関するよくある質問への回答: データ プライバシー、PII 編集、パフォーマンス、ISO 20022 サポート、ストリーミング、コンプライアンス、財務ワークフロー。","headline":"Bank Statement Parser に関するよくある質問","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"ja-JP","mainEntityOfPage":"https://bankstatementparser.com/ja/faq/index.html","name":"よくある質問","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script>
     <script>
     // FAQ accordion builder
     (function(){
@@ -345,8 +635,8 @@
         document.documentElement.setAttribute("data-theme",theme);localStorage.setItem("theme",theme);
         document.querySelectorAll(".theme-icon-dark,.theme-icon-dark-m").forEach(function(e){e.style.display=theme==="dark"?"none":""});
         document.querySelectorAll(".theme-icon-light,.theme-icon-light-m").forEach(function(e){e.style.display=theme==="dark"?"":"none"});
-        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"Light":"Dark"});
-        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"Switch to light mode":"Switch to dark mode")});
+        document.querySelectorAll(".theme-label,.theme-label-m").forEach(function(e){e.textContent=theme==="dark"?"ライト":"ダーク"});
+        document.querySelectorAll("#themeToggle").forEach(function(e){e.setAttribute("aria-label",theme==="dark"?"ライトモードに切り替え":"ダークモードに切り替え")});
       }
       var saved=localStorage.getItem("theme");
       if(saved){setTheme(saved)}else if(window.matchMedia("(prefers-color-scheme:dark)").matches){setTheme("dark")}
@@ -356,5 +646,57 @@
     })();
     </script>
     <script defer src="/main.js"></script>
-  </body>
+      <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="検索...">
+      <div class="search-box">
+        <input class="search-input" id="searchInput" type="search" placeholder="検索..." autocomplete="off" aria-label="検索..." />
+        <div class="search-results" id="searchResults"></div>
+        <div class="search-footer"><span><kbd>&uarr;</kbd><kbd>&darr;</kbd> Navigate</span><span><kbd>&crarr;</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var pages=[{t:"ホーム",d:"Parse 7 bank statement formats including PDF, 100% local",u:"/ja/index.html",k:"apache a確定的 bank beancount bテキスト camt camtpaincsvofxqfxmtpdf csvjsonexcelpolarshledgerbeancount cyclonedx cビジョン dataframe fastapi getting github hledger llmlitellmollamaで抽出します mtofxparse ocrolusparseur ollama pain pandas parser plaid pypi python rest"},{t:"概要",d:"Features, formats, hybrid PDF pipeline, performance overview",u:"/ja/gaiyo/index.html",k:"accepteditskipdelete apiエンリッチメント台帳エクスポート bank beancount camt csvjsonexcelpolars dataframe dataframehledgerbeancount exchange fastapi financial getting github hledger json llmollama llmに振り分け自動ゴールデンルール残高検証を行います llmビジョン mb暗号化エントリ拒否 ollama open pain pand"},{t:"はじめに",d:"Installation, extras, PDF pipeline, REST API, CLI reference",u:"/ja/hajimeni/index.html",k:"beancount camt camtpain fastapi hledger json pain pdfハイブリッドパイプライン python rest あらゆる構造化形式を自動検出して解析 すべての抽出は つの抽出パスにインテリジェントに振り分けます で検証されます なしでバイトから解析しますsftp によるトランザクション分類 による自動トランザクション分類を行います の使用法 べき等なトランザクションハッシュで安全なインクリメンタル取り込みを実現します を解析する インストール インポー"},{t:"FAQ",d:"Privacy, hybrid PDF, Golden Rule, performance, compliance",u:"/ja/faq/index.html",k:"a確定的 bank beancount bテキスト camt camtcamtcamt camtpain csvjsonexcelpolars csvjsonexcelは後続処理のために秘匿化されていないデータを保持します csvofxqfxmt cyclonedx cビジョン dataframe dataframehledgerbeancount discrepancy excel exchange failed financial hledger hypothesis litellm llm"},{t:"ユースケース",d:"Treasury, PDF ingestion, reconciliation, ledger export, REST API",u:"/ja/yusu-kesu/index.html",k:"bank beancount camt dataframe hledger hsbccamtbarclaysmtrevolutcsvwiseofxchasepdfの並列解析で単一の正規化データセットを生成します json parser pdfxmlcsvを rest sftp statement swift が台帳に到達する前にエラーと重複を検出します で両方の形式を処理しシームレスな移行を実現します なしでバイトから直接解析しsftp の両方を処理し個別の解析パイプラインが不要になります はp"},{t:"移行ガイド",d:"ISO 20022 timeline, MT940 to CAMT.053, PDF fallback",u:"/ja/migration/index.html",k:"bank beancount camt dataframe hledger mtcamtpainその他のサポート形式のいずれかを識別します mtcamtpdf mtmtmtmtmt pacs parser statement swift tldr unicode がどのように役立つか が唯一の選択肢 が完全廃止 が自動残高検証で処理します が自動的に識別します が通貨グループごとにゴールデンルールを実行しますマルチ通貨 この移行が重要な理由 すべての で処理するため解析パイプラインは移行中もその"},{t:"セキュリティ",d:"XXE protection, PII redaction, local LLMs, Golden Rule",u:"/ja/security/index.html",k:"bank camt csvjsonexcel cyclonedx diff github mb構成可能 null ollama parser sbom statement tldr verifieddiscrepancyfailed あらゆる がすべてのハッシュをローカルで検証 すべての すべてのコミットは すべてのリリースにソフトウェア部品表が含まれます すべての処理はランタイム内でローカルに行われます確定的パーサーはネットワーク呼び出しを一切行いませんハイブリッド でインタラクティブにレビュ"},{t:"比較",d:"vs mt-940, ofxparse, pyiso20022, SaaS, hybrid LLM pipeline",u:"/ja/hikaku/index.html",k:"api出力スキーマ更新サイクルを持つ個別のライブラリをインストールして保守する必要があります apple bank beancount camt dataframe fastapi hledger llmで自動ゴールデンルール検証により抽出エラーを検出します mbを使用して測定結果は mpython ms構造化数秒pdfllm ocrolusparseursensible ofxparse ofxparsepycamtはそれぞれ ofxtools ollama pandas pandaspola"},{t:"変更履歴",d:"Release history: v0.0.8, v0.0.7, v0.0.6, v0.0.5, v0.0.4",u:"/ja/henkou-rireki/index.html",k:"account across applicationcategory balance bands bank batch beancount bounding bridge bulk bypasses camt camtk changed command config csvjsonexcel csvofxqfxmt currency dataframe deduplicates deduplication deduplicator dense deterministictext digital "},{t:"貢献",d:"Report issues, submit code, documentation, sponsorship",u:"/ja/kouken/index.html",k:"bank docstring examples github parser python statement がチームの時間を節約する場合は すべてのコミットには署名が必要です すべてのコードが合格する必要があります糸くずと型チェック すべてのプル でプロジェクトをスポンサーする のバージョンとオペレーティング のブランチ を改善します カバレッジを維持する必要があります コードを送信する コード内の コード標準 システム スイートを実行します スタイルとパターンに従います タイプミスを修正する"},{t:"お問い合わせ",d:"GitHub issues for open-source, form for business inquiries",u:"/ja/contact/index.html",k:"github ぜひご意見をお待ちしております技術的な質問ビジネス上の問い合わせフィードバックなどがある場合は以下から最適なチャネルをお選びください で問題を開いてください オープンソースのサポート バグレポート機能リクエストライブラリに関する技術的な質問については ビジネスに関するお問い合わせパートナーシップの機会または一般的なご質問については以下のフォームをご利用ください 連絡する"},{t:"プライバシー",d:"Privacy policy, analytics, GDPR, cookies",u:"/ja/privacy/index.html",k:"analytics analyticsではcookieを使用しています bank bankstatementparsercom clarity cookie fldebfhn formspree gdpr google googleアナリティクス microsoft parser python statement お問い合わせフォーム お問い合わせフォームの送信内容 か月microsoft がなくても機能し続けます このプライバシー このポリシーの変更 これらの権利を行使するにはこのページの下部"},{t:"利用規約",d:"Terms of use, Apache 2.0 license, disclaimers",u:"/ja/riyou-kiyaku/index.html",k:"apache bank bankstatementparsercom githubpypigooglemicrosoft parser rousseau sebastien statement あなたは合法的な目的にのみウェブサイトを使用することができますあなたは以下のことを行わないことに同意します いかなる場合においても著者著作権所有者または寄稿者はソフトウェアまたは このソフトウェアは銀行取引明細書ファイルを独自のシステム上でローカルに解析するために提供されますあなたは以下について単独で責任"}];
+      var overlay=document.getElementById("searchOverlay");
+      var input=document.getElementById("searchInput");
+      var results=document.getElementById("searchResults");
+      var trigger=document.getElementById("searchTrigger");
+      var activeIdx=-1;
+      var isMac=/Mac|iPhone|iPad|iPod/.test(navigator.platform||navigator.userAgent||"");
+      var shortcutSpans=document.querySelectorAll(".search-shortcut");
+      for(var s=0;s<shortcutSpans.length;s++){shortcutSpans[s].textContent=isMac?"⌘K":"Ctrl+K"}
+      function openSearch(){overlay.classList.add("open");input.value="";input.focus();activeIdx=-1;renderResults("")}
+      function closeSearch(){overlay.classList.remove("open");input.value="";results.innerHTML="";activeIdx=-1}
+      function fuzzy(q,text){q=q.toLowerCase();text=text.toLowerCase();if(text.indexOf(q)!==-1)return true;var qi=0;for(var ti=0;ti<text.length&&qi<q.length;ti++){if(text[ti]===q[qi])qi++}return qi===q.length}
+      function renderResults(q){
+        var filtered=[];
+        if(q.length>0){for(var i=0;i<pages.length;i++){var p=pages[i];if(fuzzy(q,p.t)||fuzzy(q,p.d)||(p.k&&fuzzy(q,p.k)))filtered.push(p)}}
+        if(q.length===0){results.innerHTML="";activeIdx=-1;return}
+        if(filtered.length===0){results.innerHTML='<div class="search-empty">No results for "'+q.replace(/</g,"&lt;")+'"</div>';activeIdx=-1;return}
+        var html="";
+        for(var j=0;j<filtered.length;j++){
+          html+='<a class="search-result'+(j===0?" active":"")+'" href="'+filtered[j].u+'" data-idx="'+j+'"><div class="search-result-title">'+filtered[j].t+'</div><div class="search-result-desc">'+filtered[j].d+'</div></a>';
+        }
+        results.innerHTML=html;
+        activeIdx=0;
+      }
+      function updateActive(){
+        var items=results.querySelectorAll(".search-result");
+        for(var i=0;i<items.length;i++){items[i].classList.toggle("active",i===activeIdx)}
+        if(items[activeIdx]){items[activeIdx].scrollIntoView({block:"nearest"})}
+      }
+      if(trigger){trigger.addEventListener("click",function(e){e.preventDefault();openSearch()})}
+      document.addEventListener("keydown",function(e){
+        if((isMac?e.metaKey:e.ctrlKey)&&e.key==="k"){e.preventDefault();if(overlay.classList.contains("open")){closeSearch()}else{openSearch()};return}
+        if(!overlay.classList.contains("open"))return;
+        if(e.key==="Escape"){e.preventDefault();closeSearch();return}
+        var items=results.querySelectorAll(".search-result");
+        if(e.key==="ArrowDown"){e.preventDefault();if(items.length){activeIdx=(activeIdx+1)%items.length;updateActive()};return}
+        if(e.key==="ArrowUp"){e.preventDefault();if(items.length){activeIdx=(activeIdx-1+items.length)%items.length;updateActive()};return}
+        if(e.key==="Enter"){e.preventDefault();if(items[activeIdx]){window.location.href=items[activeIdx].getAttribute("href")};return}
+      });
+      input.addEventListener("input",function(){activeIdx=-1;renderResults(input.value.trim())});
+      overlay.addEventListener("click",function(e){if(e.target===overlay)closeSearch()});
+    })();
+    </script>
+</body>
 </html>

@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Banka Ekstresi Ayrıştırıcı Kullanım Durumları"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Banka Ekstresi Ayrıştırıcı. Her hakkı saklıdır."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Hazine ekipleri, fintech geliştiricileri ve uyumluluk görevlileri, MT940'tan CAMT'ye geçiş, mutabakat, denetim hatları ve çoklu banka konsolidasyonu için Hesap Özeti Ayrıştırıcıyı nasıl kullanıyor?"
 download: ""
 format-detection: "telephone=no"
@@ -107,13 +107,41 @@ site_software: "Shokunin, Rust"
 
 ---
 
-Hesap Özeti Ayrıştırıcısı gerçek dünyadaki finansal iş akışlarını yönetir: hazine ekipleri için MT940'tan CAMT'ye geçiş, otomatik mutabakat, PII redaksiyonuyla uyumluluk ardışık düzenleri, SFTP alımı, çoklu banka konsolidasyonu ve güvenli ZIP toplu işleme.
+Bank Statement Parser gerçek dünyadaki finansal iş akışlarını yönetir: PDF banka ekstresi alımı, MT940'tan CAMT'ye geçiş, bakiye doğrulamalı otomatik mutabakat, uyumluluk pipeline'ları, düz metin muhasebe dışa aktarımı, REST API dağıtımları, toplu tarama ve çoklu banka konsolidasyonu.
+
+## PDF Banka Ekstresi Alımı
+
+**Sonuç:** Dijital ve taranmış PDF banka ekstrelerini otomatik bakiye doğrulamasıyla ayrıştırın — bulut API'si yok, hiçbir veri makinenizden çıkmaz.
+
+Hibrit PDF pipeline her PDF'yi en uygun çıkarım yolundan geçirir ve her sonucu doğrular.
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+
+# Review discrepancies interactively
+# bankstatementparser --type review --input result.json
+```
+
+## Toplu Ekstre İşleme
+
+**Sonuç:** Klasör ağaçlarını (yüzlerce PDF, XML, CSV) tek bir çağrıda otomatik çapraz dosya tekilleştirmesiyle tarayın.
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Files: {len(batch.results)}, Unique txns: {batch.unique_count}")
+```
 
 ## Hazine: MT940'tan CAMT.053'e Geçiş
 
-**Sonuç:** SWIFT geçiş penceresi (Kasım 2025 – Kasım 2028) sırasında tek bir API çağrısı hem MT940'ı hem de CAMT.053'ü işleyerek ayrı ayrıştırma ardışık düzenlerine olan ihtiyacı ortadan kaldırır.
+**Sonuç:** SWIFT geçiş penceresi (Kasım 2025-Kasım 2028) boyunca tek bir API çağrısı hem MT940'ı hem de CAMT.053'ü işler. Ayrı ayrıştırma pipeline'larına gerek kalmaz.
 
-Dünya çapındaki hazine ekipleri, Kasım 2027 SWIFT son tarihinden önce MT940'tan CAMT.053'e geçiş yapıyor. Hesap Özeti Ayrıştırıcısı her iki formatı da tek bir API ile işleyerek geçişi sorunsuz hale getirir.
+Dünya çapındaki hazine ekipleri, Kasım 2027 SWIFT son tarihinden önce MT940'tan CAMT.053'e geçiş yapıyor. Bank Statement Parser her iki formatı da tek bir API ile işleyerek geçişi sorunsuz kılar.
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -126,17 +154,23 @@ for file in daily_statement_files:
     load_to_treasury_system(df)
 ```
 
-## Otomatik Mutabakat
+## Bakiye Doğrulamalı Otomatik Mutabakat
 
-**Sonuç:** Yerleşik veri tekilleştirme özelliğine sahip formattan bağımsız DataFrames, manuel eşleştirme çabasını azaltır ve yinelenen girişleri defterinize ulaşmadan yakalar.
+**Sonuç:** Altın Kural doğrulaması ve tekilleştirmeli formattan bağımsız DataFrames, hataları ve kopyaları defterinize ulaşmadan yakalar.
 
-Banka ekstrelerini ayrıştırın ve dahili kayıtlarla otomatik olarak eşleştirin. Birleştirilmiş DataFrame çıkışı, mutabakat mantığını formattan bağımsız hale getirir.
+Banka ekstrelerini ayrıştırın, bakiyeleri doğrulayın ve dahili kayıtlarla otomatik eşleştirin.
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
+from bankstatementparser.hybrid import verify_balance_multi_currency
 
 parser = CamtParser("bank_statement.xml")
 bank_txns = parser.parse()
+
+# Verify balances per currency
+verification = verify_balance_multi_currency(bank_txns)
+for ccy, result in verification.items():
+    assert result.status == "VERIFIED", f"{ccy} balance mismatch!"
 
 # Deduplicate before reconciliation
 dedup = Deduplicator()
@@ -147,11 +181,39 @@ clean_txns = result.unique_transactions
 unmatched = reconcile(clean_txns, internal_ledger)
 ```
 
-## Uyumluluk ve Denetim İşlem Hatları
+## Düz Metin Muhasebe (hledger / beancount)
 
-**Sonuç:** Deterministik çıktı ve otomatik PII düzenlemesi, ek araç gerektirmeden düzenleyici tekrarlanabilirlik gereksinimlerini karşılayan, denetime hazır günlükler üretir.
+**Sonuç:** PDF banka ekstrelerini otomatik alın ve sınıflandırılmış işlemleri hledger veya beancount defter formatına aktarın.
 
-PII redaksiyonu ve deterministik çıktı ile denetime hazır işlem hatları oluşturun. Her çalıştırma aynı girdi için aynı sonuçları üreterek düzenleyici tekrarlanabilirlik gerekliliklerini karşılar.
+```python
+from bankstatementparser.hybrid import smart_ingest
+from bankstatementparser.enrichment import Categorizer
+from bankstatementparser.export import to_hledger
+
+result = smart_ingest("statement.pdf")
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(result.transactions)
+journal = to_hledger(enriched, account="Assets:Bank:Checking")
+```
+
+## REST API Dağıtımı
+
+**Sonuç:** Bank Statement Parser'ı HTTP üzerinden ekstre dosyaları kabul eden ve yapılandırılmış JSON döndüren bir mikro hizmet olarak dağıtın.
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+```
+
+```bash
+# Ingest a statement
+curl -X POST http://localhost:8000/ingest \
+  -F "file=@statement.pdf"
+```
+
+## Uyumluluk ve Denetim Pipeline'ları
+
+**Sonuç:** Deterministik çıktı, otomatik PII redaksiyonu ve Altın Kural doğrulaması, düzenleyici tekrarlanabilirlik gereksinimlerini karşılayan denetime hazır günlükler üretir.
 
 ```python
 from bankstatementparser import CamtParser
@@ -168,9 +230,7 @@ parser.export_csv("archive/statement.csv")
 
 ## SFTP'den DataFrame'e İş Akışları
 
-**Sonuç:** Sıfır disk G/Ç ile doğrudan baytlardan ayrıştırın ve SFTP ve API odaklı banka bağlantı iş akışlarına yerel olarak uyum sağlayın.
-
-Birçok banka hesap özetlerini SFTP aracılığıyla sunar. Diske yazmadan doğrudan baytlardan ayrıştırın.
+**Sonuç:** Sıfır disk G/Ç ile doğrudan baytlardan ayrıştırın. SFTP ve API odaklı banka bağlantı iş akışlarına doğal olarak uyum sağlar.
 
 ```python
 from bankstatementparser import CamtParser
@@ -182,9 +242,7 @@ df = parser.parse()
 
 ## Çoklu Banka Konsolidasyonu
 
-**Sonuç:** HSBC (CAMT), Barclays (MT940), Revolut (CSV) ve Wise (OFX) genelinde paralel ayrıştırma, tek çağrıda tek bir normalleştirilmiş veri kümesi üretir.
-
-Farklı formatlar kullanarak birden fazla bankadan gelen ekstreleri tek bir normalleştirilmiş veri kümesinde birleştirin.
+**Sonuç:** HSBC (CAMT), Barclays (MT940), Revolut (CSV), Wise (OFX) ve Chase (PDF) genelinde paralel ayrıştırma tek bir normalleştirilmiş veri kümesi üretir.
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -201,9 +259,7 @@ all_transactions = pd.concat([r.transactions for r in results if r.status == "su
 
 ## ZIP Arşivleriyle Toplu İşleme
 
-**Sonuç:** Yerleşik ZIP bomba koruması (100:1 oran sınırı, 10 MB giriş sınırı, şifreli giriş reddi), aylık ekstre arşivlerini güvenli bir şekilde işlemenizi sağlar.
-
-Yerleşik ZIP bomba korumasıyla sıkıştırılmış ekstre arşivlerini güvenli bir şekilde işleyin.
+**Sonuç:** Yerleşik ZIP bomba koruması (100:1 oran sınırı, 10 MB giriş üst sınırı, şifreli giriş reddi) aylık ekstre arşivlerini güvenle işlemenizi sağlar.
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser

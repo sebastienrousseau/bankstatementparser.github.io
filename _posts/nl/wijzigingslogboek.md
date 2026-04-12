@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Wijzigingslogboek voor parser van bankafschriften"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Parser voor bankafschriften. Alle rechten voorbehouden."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Releasegeschiedenis en wijzigingslogboek voor bankafschriftparser. Volg nieuwe functies, verbeteringen en bugfixes in alle versies."
 download: ""
 format-detection: "telephone=no"
@@ -109,6 +109,35 @@ site_software: "Shokunin, Rust"
 
 Volg de ontwikkeling van de bankafschriftparser. Abonneer je via [RSS](/changelog/rss.xml) of bekijk de [GitHub-repository](https://github.com/sebastienrousseau/bankstatementparser) voor releasemeldingen.
 
+## v0.0.8 — 2026-04-11 (Latest) — "Full Platform"
+
+- Multi-currency balance verification — `verify_balance_multi_currency()` groups by currency, runs Golden Rule per group.
+- hledger + beancount export — `to_hledger()` and `to_beancount()` in `bankstatementparser.export`.
+- Bulk directory scanner — `scan_and_ingest()` scans folder trees, deduplicates across batch.
+- Account mapping rules — `AccountMapper` with ordered regex rules from JSON config.
+- REST API — FastAPI wrapper with `/ingest` and `/health` endpoints (`[api]` extra).
+
+## v0.0.7 — 2026-04-08 — "Universal Vision"
+
+- Direct Ollama bridge (`ollama_direct_completion`) — bypasses LiteLLM long-prompt hang.
+- Strip mode (`VisionExtractor.strip_rows=True`) — splits dense pages into overlapping bands for small local models.
+- Recommended vision model changed from `llava` to `minicpm-v`.
+
+## v0.0.6 — 2026-04-08 — "Intelligence Layer"
+
+- Dropped Python 3.9 support (now 3.10-3.14).
+- Enrichment module (`Categorizer`, `EnrichedTransaction`, `DEFAULT_CATEGORY_SCHEMA`).
+- Interactive review mode with `--type review` CLI command.
+- Per-row bounding box extraction (`Transaction.source_bbox`).
+
+## v0.0.5 — 2026-04-08 — "Universal Extraction"
+
+- Hybrid PDF pipeline (`smart_ingest()`) with deterministic/text-LLM/vision-LLM routing.
+- `LLMExtractor` for digital PDFs via LiteLLM.
+- `VisionExtractor` for scanned PDFs via multimodal vision models.
+- Golden Rule balance verification (`opening + credits - debits == closing`).
+- Idempotent deduplication via `transaction_hash` (MD5 fingerprint).
+
 ## v0.0.4 — 15-03-2026 (laatste)
 
 - Parallelle bestandsparsering toegevoegd met`parse_files_parallel()`met behulp van ProcessPoolExecutor.
@@ -126,7 +155,7 @@ Volg de ontwikkeling van de bankafschriftparser. Abonneer je via [RSS](/changelo
 - PII-redactie toegevoegd (standaard ingeschakeld in CLI- en streamingmodus).
 - Exporthulpmiddelen toegevoegd voor CSV, JSON en Excel.
 - Optionele Polars DataFrame-ondersteuning toegevoegd.
-- Uitgebreide testsuite naar 467 tests met 100% vestigingsdekking.
+- Uitgebreide testsuite naar 718 tests met 100% vestigingsdekking.
 
 ## v0.0.2 — 10-06-2025
 

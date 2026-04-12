@@ -1,2 +1,0 @@
-User-agent: *
-Sitemap: https://bankstatementparser.com/cs/journal-des-modifications/index.html/sitemap.xml

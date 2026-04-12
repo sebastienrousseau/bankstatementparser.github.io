@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Белое здание с черными окнами"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Парсер банковских выписок. Все права защищены."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Начните работу с анализатором банковских выписок для Python: установите, анализируйте файлы CAMT/PAIN.001/CSV/OFX/QFX/MT940 и используйте потоковую передачу или рабочие процессы CLI."
 download: ""
 format-detection: "telephone=no"
@@ -109,24 +109,41 @@ site_software: "Shokunin, Rust"
 
 ## Требования
 
-- Питон 3.9–3.14
-- Терминальный доступ (macOS, Linux или WSL)
+- Python 3.10–3.14
+- Доступ к терминалу (macOS, Linux или WSL)
 
-## Установить
+## Установка
 
 ```bash
+# Базовая установка (только детерминированные парсеры)
 pip install bankstatementparser
 ```
 
-Для поддержки Polars DataFrame:
+Дополнительные модули для расширенных возможностей:
 
 ```bash
-pip install bankstatementparser[polars]
+# Text-LLM путь для цифровых PDF (litellm + pypdf)
+pip install 'bankstatementparser[hybrid]'
+
+# Более точное извлечение таблиц (добавляет pdfplumber)
+pip install 'bankstatementparser[hybrid-plus]'
+
+# Vision-LLM путь для сканированных PDF (добавляет pypdfium2)
+pip install 'bankstatementparser[hybrid-vision]'
+
+# Категоризация транзакций на основе LLM
+pip install 'bankstatementparser[enrichment]'
+
+# REST API микросервис (FastAPI + uvicorn)
+pip install 'bankstatementparser[api]'
+
+# Поддержка Polars DataFrame (опционально)
+pip install 'bankstatementparser[polars]'
 ```
 
 ## Быстрый старт
 
-### Автоматическое обнаружение и анализ любого формата
+### Автоопределение и разбор любого структурированного формата
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -137,9 +154,9 @@ df = parser.parse()  # pandas DataFrame
 print(df.head())
 ```
 
-Это работает с`.xml`(CAMT/PAIN.001),`.csv`, `.ofx`, `.qfx`, `.mt940`, и`.sta`файлы.
+Работает с файлами `.xml` (CAMT/PAIN.001), `.csv`, `.ofx`, `.qfx`, `.mt940` и `.sta`.
 
-### Анализ CAMT.053
+### Разбор CAMT.053
 
 ```python
 from bankstatementparser import CamtParser
@@ -157,9 +174,24 @@ parser = Pain001Parser("payment.xml")
 payments = parser.parse()
 ```
 
-## Потоковая передача больших файлов
+### Разбор PDF-выписок (гибридный pipeline)
 
-Для файлов с тысячами транзакций используйте потоковую передачу, чтобы ограничить память:
+Гибридный pipeline автоматически направляет PDF по оптимальному пути извлечения:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+print(result.transactions)          # List of extracted transactions
+```
+
+Каждое извлечение проверяется **Золотым правилом**: `opening + credits − debits == closing`.
+
+## Потоковый разбор больших файлов
+
+Для файлов с тысячами транзакций используйте streaming для ограничения памяти:
 
 ```python
 parser = CamtParser("large_statement.xml")
@@ -167,9 +199,9 @@ for transaction in parser.parse_streaming(redact_pii=True):
     process(transaction)  # Memory stays constant
 ```
 
-## Парсинг в памяти
+## Разбор в памяти
 
-Анализ байтов без дискового ввода-вывода — полезно для рабочих процессов SFTP или API:
+Разбор из байтов без дискового ввода-вывода — подходит для SFTP и API-сценариев:
 
 ```python
 xml_bytes = download_from_sftp()
@@ -179,7 +211,7 @@ transactions = parser.parse()
 
 ## Параллельная обработка файлов
 
-Парсить несколько файлов одновременно:
+Разбор нескольких файлов одновременно:
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -193,9 +225,21 @@ for r in results:
     print(r.path, r.status, len(r.transactions), "rows")
 ```
 
+## Массовое сканирование каталогов
+
+Обработка деревьев каталогов с автоматической дедупликацией:
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Processed: {len(batch.results)} files")
+print(f"Unique transactions: {batch.unique_count}")
+```
+
 ## Дедупликация
 
-Обнаружение точных дубликатов и предполагаемых совпадений с помощью оценок достоверности:
+Идемпотентные hash транзакций для безопасной инкрементальной загрузки:
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
@@ -209,9 +253,61 @@ print(f"Exact duplicates: {len(result.exact_duplicates)}")
 print(f"Suspected matches: {len(result.suspected_matches)}")
 ```
 
+## Категоризация транзакций (обогащение)
+
+Автоматическая категоризация транзакций с помощью LLM:
+
+```python
+from bankstatementparser.enrichment import Categorizer
+
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(transactions)
+for txn in enriched:
+    print(f"{txn.description}: {txn.category}")
+```
+
+## Экспорт в бухгалтерию (hledger / beancount)
+
+Экспорт транзакций в форматы plaintext-accounting:
+
+```python
+from bankstatementparser.export import to_hledger, to_beancount
+
+journal = to_hledger(transactions, account="Assets:Bank:Checking")
+beancount_journal = to_beancount(transactions, account="Assets:Bank:Checking")
+```
+
+## Мультивалютная проверка баланса
+
+Независимая проверка баланса по каждой группе валют:
+
+```python
+from bankstatementparser.hybrid import verify_balance_multi_currency
+
+results = verify_balance_multi_currency(transactions)
+for currency, verification in results.items():
+    print(f"{currency}: {verification.status}")
+```
+
+## REST API
+
+Развёртывание как микросервис FastAPI:
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+
+# For container deployments
+bankstatementparser-api --host 0.0.0.0 --port 9000
+```
+
+Эндпоинты:
+- `POST /ingest` -- Разбор файла банковской выписки
+- `GET /health` -- Проверка состояния
+
 ## Безопасная обработка ZIP
 
-Обработка сжатых XML-файлов с помощью встроенных проверок безопасности (защита от бомб, отклонение зашифрованного ввода):
+Обработка ZIP-архивов XML со встроенными проверками безопасности (защита от бомб, отклонение зашифрованных записей):
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
@@ -230,29 +326,39 @@ parser.export_json("output.json")
 
 # Polars (requires bankstatementparser[polars])
 polars_df = parser.to_polars()
+
+# Excel
+parser.camt_to_excel("output.xlsx")
 ```
 
 ## Использование CLI
 
 ```bash
-# Parse and display
-python -m bankstatementparser.cli --type camt --input statement.xml
+# Разбор структурированных форматов
+bankstatementparser --type camt --input statement.xml
+bankstatementparser --type pain001 --input payment.xml
 
-# Export to CSV
-python -m bankstatementparser.cli --type camt --input statement.xml --output transactions.csv
+# Гибридный PDF-pipeline
+bankstatementparser --type ingest --input statement.pdf
+bankstatementparser --type ingest --input statement.pdf --output ledger.csv
 
-# Stream with PII visible
-python -m bankstatementparser.cli --type camt --input statement.xml --streaming --show-pii
+# Интерактивный режим просмотра
+bankstatementparser --type review --input result.json
+bankstatementparser --type review --input result.json --output reviewed.json
+
+# Экспорт в CSV с потоковым режимом
+bankstatementparser --type camt --input statement.xml --output transactions.csv
+bankstatementparser --type camt --input statement.xml --streaming --show-pii
 ```
 
 Опции CLI:
 
-- `--type {camt,pain001}`-- тип парсера
--`--input <path>`-- входной файл
--`--output <csv_path>`-- экспорт в CSV
--`--streaming`-- потоковая передача больших файлов
--`--show-pii`-- показать чувствительные поля (по умолчанию отредактированы)
--`--max-size <MB>`-- ограничение размера файла
+- `--type {camt,pain001,ingest,review}` -- тип парсера или режим
+- `--input <path>` -- входной файл
+- `--output <path>` -- файл экспорта (CSV или JSON)
+- `--streaming` -- потоковый режим для больших файлов
+- `--show-pii` -- показать конфиденциальные поля (по умолчанию замаскированы)
+- `--max-size <MB>` -- ограничение размера файла
 
 ## Настройка локальной разработки
 
@@ -261,52 +367,63 @@ git clone https://github.com/sebastienrousseau/bankstatementparser.git
 cd bankstatementparser
 python3 -m venv .venv && source .venv/bin/activate
 pip install poetry && poetry install --with dev
+make install-hooks   # pre-commit hook runs `make verify` before every commit
 ```
 
-Запустите набор тестов:
+Запуск тестов:
 
 ```bash
 pytest
 ```
 
-## Справочник по API
+## Справочник API
 
-### Классы парсера
+### Классы парсеров
 
-| Сорт | Формат | Импорт |
+| Класс | Формат | Импорт |
 |---|---|---|
-| `CamtParser` | КАМТ.053 (ИСО 20022) | `from bankstatementparser import CamtParser` |
-| `Pain001Parser` | ПЕЙН.001 (ИСО 20022) | `from bankstatementparser import Pain001Parser` |
-| `CsvStatementParser` | CSV-файл | `from bankstatementparser import CsvStatementParser` |
-| `OfxParser` | ОФКС | `from bankstatementparser import OfxParser` |
+| `CamtParser` | CAMT.053 (ISO 20022) | `from bankstatementparser import CamtParser` |
+| `Pain001Parser` | PAIN.001 (ISO 20022) | `from bankstatementparser import Pain001Parser` |
+| `CsvStatementParser` | CSV | `from bankstatementparser import CsvStatementParser` |
+| `OfxParser` | OFX | `from bankstatementparser import OfxParser` |
 | `QfxParser` | QFX | `from bankstatementparser import QfxParser` |
-| `Mt940Parser` | МТ940 | `from bankstatementparser import Mt940Parser` |
+| `Mt940Parser` | MT940 | `from bankstatementparser import Mt940Parser` |
+| `smart_ingest()` | PDF (гибридный pipeline) | `from bankstatementparser.hybrid import smart_ingest` |
 
-### Служебные функции
+### Вспомогательные функции
 
-| Функция | Цель |
+| Функция | Назначение |
 |---|---|
-| `detect_statement_format(path)` | Автоматическое определение формата файла |
-| `create_parser(path, fmt)` | Создайте соответствующий парсер |
-| `parse_files_parallel(paths)` | Парсить несколько файлов одновременно |
-| `iter_secure_xml_entries(zip_path)` | Безопасное повторение записей ZIP |
+| `detect_statement_format(path)` | Автоопределение формата файла |
+| `create_parser(path, fmt)` | Создание нужного парсера |
+| `parse_files_parallel(paths)` | Параллельный разбор нескольких файлов |
+| `iter_secure_xml_entries(zip_path)` | Безопасный перебор записей ZIP |
+| `smart_ingest(path)` | Гибридное извлечение из PDF с проверкой |
+| `scan_and_ingest(dir, pattern)` | Массовое сканирование каталогов |
+| `verify_balance_multi_currency(txns)` | Проверка баланса по валютам |
+| `to_hledger(txns, account)` | Экспорт в формат журнала hledger |
+| `to_beancount(txns, account)` | Экспорт в формат журнала beancount |
 
 ### Классы данных
 
-| Сорт | Цель |
+| Класс | Назначение |
 |---|---|
-| `Deduplicator` | Обнаружение повторяющихся транзакций |
+| `Deduplicator` | Обнаружение дублей транзакций |
 | `DeduplicationResult` | Результат с уникальными, точными и предполагаемыми совпадениями |
-| `InputValidator` | Проверка путей и форматов файлов |
+| `InputValidator` | Валидация путей и форматов файлов |
 | `Transaction` | Нормализованная запись транзакции |
-| `FileResult` | Результат параллельного анализа |
-| `ZipXMLSource` | Оболочка члена ZIP |
+| `FileResult` | Результат параллельного разбора |
+| `ZipXMLSource` | Обёртка для записи ZIP |
+| `IngestResult` | Результат гибридного pipeline с проверкой |
+| `VerificationResult` | Результат проверки баланса |
+| `Categorizer` | Категоризация транзакций на основе LLM |
+| `AccountMapper` | Правила маппинга счетов на основе регулярных выражений |
 
 ### Исключения
 
-| Исключение | Когда поднят |
+| Исключение | Когда возникает |
 |---|---|
-| `ParserError` | Сбои разбора |
+| `ParserError` | Ошибки разбора |
 | `ExportError` | Ошибки экспорта (CSV/JSON/Excel) |
-| `ValidationError` | Ошибки проверки ввода |
-| `ZipSecurityError` | Сбои проверки безопасности ZIP |
+| `ValidationError` | Ошибки валидации ввода |
+| `ZipSecurityError` | Ошибки проверки безопасности ZIP |

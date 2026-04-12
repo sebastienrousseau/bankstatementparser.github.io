@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Analyzátor bankovních výpisů vs alternativy"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023–2026 Analyzátor bankovních výpisů. Všechna práva vyhrazena."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Porovnejte Bank Statement Parser s nástroji mt-940, ofxparse, pycamt, pyiso20022 a SaaS jako Ocrolus a Parseur. Porovnání funkcí, ceny a průvodce migrací."
 download: ""
 format-detection: "telephone=no"
@@ -109,70 +109,82 @@ site_software: "Shokunin, Rust"
 
 ## Přehled
 
-Bank Statement Parser je jediná open-source knihovna Pythonu, která analyzuje šest formátů bankovních výpisů pomocí jednotného API. Jednoformátové knihovny (mt-940, ofxparse, pycamt) zpracovávají každý jeden formát. Nástroje SaaS (Ocrolus, Parseur) nabízejí OCR pro soubory PDF, ale vyžadují externí odesílání dat a stojí 49–1 000 $ měsíčně a více.
+Bank Statement Parser je jediná open-source Python knihovna, která analyzuje sedm formátů bankovních výpisů — včetně PDF přes hybridní LLM pipeline — s jednotným API. Jednoformátové knihovny (mt-940, ofxparse, pycamt) zpracovávají každá jeden formát. SaaS nástroje (Ocrolus, Parseur) nabízejí cloud OCR, ale vyžadují odesílání dat externě a stojí 49–1 000+ $/měsíc.
 
-## Alternativy s otevřeným zdrojem
+## Open-source alternativy
 
 ### Jednoformátové knihovny
 
-Většina analyzátorů bankovních výpisů s otevřeným zdrojovým kódem zpracovává pouze jeden formát. Pokud potřebujete více formátů, musíte nainstalovat a udržovat samostatné knihovny s různými rozhraními API, výstupními schématy a cykly aktualizací.
+Většina open-source parserů bankovních výpisů zpracovává pouze jeden formát. Pokud potřebujete více formátů, musíte instalovat a udržovat samostatné knihovny s různými API, výstupními schématy a cykly aktualizací.
 
-| Knihovna | Formát | Výstup | Streamování | Redakce PII | Deduplikace |
+| Knihovna | Formáty | PDF | Výstup | Ověření zůstatku | Export do účetnictví |
 |---|---|---|---|---|---|
-| **Parser bankovních výpisů** | 6 formátů | Pandas DataFrame | Ano | Ano (výchozí) | Ano |
-| mt-940 (WoLpH) | Pouze MT940 | Objekty Pythonu | Žádný | Žádný | Žádný |
-| ofxparse | Pouze OFX | Objekty Pythonu | Žádný | Žádný | Žádný |
-| pycamt | Pouze CAMT.053 | Objekty Pythonu | Žádný | Žádný | Žádný |
-| ofxtools | Pouze OFX v1/v2 | Objekty Pythonu | Žádný | Žádný | Žádný |
+| **Bank Statement Parser** | 7 formátů | Hybridní pipeline | pandas DataFrame | Golden Rule | hledger, beancount |
+| mt-940 (WoLpH) | Pouze MT940 | Ne | Objekty Pythonu | Ne | Ne |
+| ofxparse | Pouze OFX | Ne | Objekty Pythonu | Ne | Ne |
+| pycamt | Pouze CAMT.053 | Ne | Objekty Pythonu | Ne | Ne |
+| ofxtools | Pouze OFX v1/v2 | Ne | Objekty Pythonu | Ne | Ne |
 
 ### vs pyiso20022
 
-pyiso20022 generuje datové třídy Pythonu z úplného katalogu schémat ISO 20022. Jedná se o univerzální sadu nástrojů ISO 20022 pro práci se zprávami PACS, PAIN, CAMT a ADMI.
+pyiso20022 generuje Python dataclasses z úplného katalogu schémat ISO 20022. Jedná se o univerzální sadu nástrojů ISO 20022 pro práci se zprávami PACS, PAIN, CAMT a ADMI.
 
-Bank Statement Parser je účelově vyvinutý pro analýzu bankovních výpisů do DataFrames s produkčními funkcemi:
+Bank Statement Parser je účelově vytvořen pro parsování bankovních výpisů do DataFrames s produkčními funkcemi:
 
-| Funkce | Analyzátor bankovních výpisů | pyiso20022 |
+| Funkce | Bank Statement Parser | pyiso20022 |
 |---|---|---|
-| Účel | Analýza výpisu + export | Sada nástrojů pro schémata ISO 20022 |
-| Výstup | datové rámce pandas/Polars | Datové třídy Pythonu |
-| Formáty | 6 (včetně non-ISO) | Pouze ISO 20022 |
-| Streamování | Ano (omezená paměť) | Žádný |
-| redakce PII | Vestavěný | Žádný |
-| Deduplikace | Vestavěný | Žádný |
-| Zabezpečení ZIP | Vestavěný | Žádný |
-| CLI | Ano | Žádný |
+| Účel | Parsování výpisů + extrakce + export | Sada nástrojů pro ISO 20022 schémata |
+| Výstup | pandas/Polars DataFrames | Python dataclasses |
+| Formáty | 7 (včetně PDF, non-ISO) | Pouze ISO 20022 |
+| Podpora PDF | Hybridní pipeline (deterministický + LLM + vision) | Ne |
+| Ověření zůstatku | Golden Rule + multi-měna | Ne |
+| REST API | Vestavěný FastAPI | Ne |
+| Obohacení | LLM kategorizace | Ne |
+| Export do účetnictví | hledger + beancount | Ne |
+| Streaming | Ano (omezená paměť) | Ne |
+| Redakce PII | Vestavěná | Ne |
+| Deduplikace | Idempotentní transakční hashe | Ne |
+| CLI | Ano | Ne |
 
-Pokud potřebujete pracovat s úplným katalogem zpráv ISO 20022, použijte pyiso20022. Pokud potřebujete analyzovat bankovní výpisy do strukturovaných dat pro analýzu, odsouhlasení nebo vykazování, použijte analyzátor bankovních výpisů.
+Použijte pyiso20022, pokud potřebujete pracovat s úplným katalogem zpráv ISO 20022. Použijte Bank Statement Parser, pokud potřebujete parsovat bankovní výpisy do strukturovaných dat pro analýzu, odsouhlasení nebo reporting.
 
-## Alternativy SaaS
+## SaaS alternativy
 
-Nástroje SaaS jako Ocrolus, Parseur a Sensible nabízejí analýzu bankovních výpisů jako cloudovou službu. Obvykle používají OCR ke zpracování naskenovaných PDF a podporují stovky formátů specifických pro banky.
+SaaS nástroje jako Ocrolus, Parseur a Sensible nabízejí parsování bankovních výpisů jako cloudovou službu. Obvykle používají OCR ke zpracování naskenovaných PDF a podporují stovky formátů specifických pro banky.
 
-| Funkce | Analyzátor bankovních výpisů | Nástroje SaaS |
+| Funkce | Bank Statement Parser | SaaS nástroje |
 |---|---|---|
-| Ochrana osobních údajů | 100% místní, nulová síťová volání | Data odeslaná do cloudu |
-| Náklady | Zdarma (Apache 2.0) | 49 $–1 000 $ měsíčně a více (k 1. čtvrtletí 2026) |
-| Formáty | 6 strukturovaných formátů | Stovky (přes OCR) |
-| Podpora PDF | Ne (pouze strukturované formáty) | Ano (na základě OCR) |
-| Latence | <2 ms první výsledek | 1-30 sekund |
-| Propustnost | 27 000+ tx/s | Rychlost API omezena |
-| Uzamčení dodavatele | Žádný | Ano |
-| Dodržování | Lokální zpracování, SBOM | Liší se podle poskytovatele |
+| Ochrana dat | 100% lokální (LLM přes Ollama) | Data odesílána do cloudu |
+| Náklady | Zdarma (Apache 2.0) | 49–1 000+ $/měs. (k Q1 2026) |
+| Formáty | 7 (strukturované + PDF) | Stovky (přes OCR) |
+| Podpora PDF | Ano — hybridní pipeline (deterministický + LLM + vision) | Ano (cloud OCR) |
+| Ověření zůstatku | Golden Rule (automatické) | Manuální / omezené |
+| Latence | <2 ms (strukturované), sekundy (PDF+LLM) | 1–30 sekund |
+| Propustnost | 27 000+ tx/s (strukturované) | API rate-limited |
+| REST API | Vestavěný FastAPI | Proprietární |
+| Export do účetnictví | hledger + beancount | Ne |
+| Vendor lock-in | Žádný | Ano |
+| Compliance | Lokální zpracování, SBOM | Liší se podle poskytovatele |
 
-## analyzátory založené na LLM
+## Parsery založené na LLM
 
-Rostoucí počet nástrojů (Inscribe, Unstract, plány Mozilla.ai) využívá velké jazykové modely k analýze bankovních výpisů, včetně naskenovaných PDF. Když Chase koncem roku 2025 přepracoval svůj formát spotřebitelských prohlášení, analyzátory založené na šablonách se rozbily, zatímco analyzátory LLM se automaticky přizpůsobily.
+Rostoucí počet nástrojů (Inscribe, Unstract, Mozilla.ai blueprints) využívá velké jazykové modely k parsování bankovních výpisů, včetně naskenovaných PDF. Když Chase koncem roku 2025 přepracoval formát svých spotřebitelských výpisů, parsery založené na šablonách přestaly fungovat, zatímco LLM parsery se automaticky přizpůsobily.
 
-**Když analyzátory LLM dávají smysl**: Obdržíte naskenované soubory PDF od stovek bank s nepředvídatelným rozvržením a přibližná extrakce (přesnost 95–99 %) je přijatelná.
+**Bank Statement Parser nyní obsahuje vlastní hybridní LLM pipeline** (v0.0.5+), který běží výhradně lokálně přes Ollama. Kombinuje to nejlepší z obou přístupů:
 
-**Když je analyzátor výpisů z účtu lepší volbou**: Potřebujete deterministický, reprodukovatelný výstup pro audit a dodržování předpisů. Nemůžete odesílat finanční data na externí rozhraní API. Potřebujete submilisekundovou latenci (oproti 1–30 sekundám pro LLM API). Chcete nulové průběžné náklady a žádnou závislost na prodejci.
+- **Strukturované formáty** (XML, CSV, OFX, MT940): Deterministické parsování — 100% přesnost, submilisekundová latence, nulové LLM náklady.
+- **PDF výpisy**: Tříúrovňové směrování (deterministická extrakce tabulek → text-LLM → vision-LLM) s automatickým ověřením Golden Rule pro zachycení chyb extrakce.
 
-Nástroje Bank State Parser a LLM řeší různé problémy. Použijte Bank State Parser pro strukturované formáty (XML, CSV, OFX, MT940), kde potřebujete 100% přesnost, lokální zpracování a reprodukovatelnost auditu. Používejte nástroje LLM pro nestrukturované soubory PDF, kde je přijatelná přibližná extrakce.
+Na rozdíl od čistě cloudových LLM parserů hybridní pipeline Bank Statement Parser:
+- Běží 100% lokálně (Ollama) — žádná data neopustí váš počítač.
+- Ověřuje každou extrakci pomocí ověření zůstatku (Golden Rule).
+- Podporuje interaktivní režim kontroly pro označené nesrovnalosti.
+- Produkuje idempotentní transakční hashe pro bezpečné inkrementální zpracování.
 
-**Srovnávací metodologie**: Údaje o výkonu měřené na Apple M2, Python 3.12, pomocí souboru CAMT.053 s 5 000 transakcemi (2,1 MB). Výsledky byly v průměru přes 100 běhů. Reprodukujte lokálně:`python -m bankstatementparser.bench`. Latence SaaS na základě zveřejněné dokumentace API k dubnu 2026.
+**Kdy zvolit čistě SaaS LLM parsery místo Bank Statement Parser**: Přijímáte výpisy od stovek bank s velmi odlišnými PDF rozvržením a potřebujete okamžité pokrytí bez provozování lokální infrastruktury.
 
-**Kdy zvolit Analyzátor výpisů z účtu**: Vaše banka poskytuje strukturované exporty (XML, CSV, OFX, MT940), potřebujete místní zpracování, abyste splnili požadavky, nebo chcete nulové průběžné náklady.
+**Kdy zvolit Bank Statement Parser**: Potřebujete lokální zpracování pro compliance. Chcete ověření zůstatku. Potřebujete export do účetnictví. Chcete nulové průběžné náklady.
 
-**Kdy zvolit SaaS**: Dostáváte naskenované výpisy PDF, potřebujete OCR pro stovky formátů specifických pro banky nebo chcete řešení bez kódu.
+**Metodologie benchmarku**: Údaje o výkonu měřeny na Apple M2, Python 3.12, pomocí souboru CAMT.053 s 5 000 transakcemi (2,1 MB). Výsledky průměrovány přes 100 běhů. Reprodukujte lokálně: `python -m bankstatementparser.bench`. Latence SaaS na základě publikované API dokumentace k dubnu 2026.
 
-[Viz případy použití v reálném světě ❯](/use-cases/index.html) | [Naplánujte si migraci z MT940 na CAMT ❯](/migration/index.html)
+[Podívejte se na reálné případy použití ❯](/use-cases/index.html) | [Naplánujte si migraci MT940-na-CAMT ❯](/migration/index.html)

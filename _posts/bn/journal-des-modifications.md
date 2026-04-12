@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "ব্যাঙ্ক স্টেটমেন্ট পার্সার চেঞ্জলগ"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 ব্যাঙ্ক স্টেটমেন্ট পার্সার। সর্বস্বত্ব সংরক্ষিত"
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "ব্যাঙ্ক স্টেটমেন্ট পার্সারের জন্য রিলিজ ইতিহাস এবং চেঞ্জলগ। সমস্ত সংস্করণ জুড়ে নতুন বৈশিষ্ট্য, উন্নতি এবং বাগ সংশোধনগুলি ট্র্যাক করুন৷"
 download: ""
 format-detection: "telephone=no"
@@ -109,7 +109,36 @@ site_software: "Shokunin, Rust"
 
 ব্যাংক স্টেটমেন্ট পার্সার উন্নয়ন অনুসরণ করুন. [RSS](/changelog/rss.xml) এর মাধ্যমে সদস্যতা নিন বা [GitHub সংগ্রহস্থল]( দেখুনhttps://github.com/sebastienrousseau/bankstatementparser) প্রকাশের বিজ্ঞপ্তির জন্য।
 
-## v0.0.4 — 2026-03-15 (সর্বশেষ)
+## v0.0.8 — 2026-04-11 (Latest) — "Full Platform"
+
+- Multi-currency balance verification — `verify_balance_multi_currency()` groups by currency, runs Golden Rule per group.
+- hledger + beancount export — `to_hledger()` and `to_beancount()` in `bankstatementparser.export`.
+- Bulk directory scanner — `scan_and_ingest()` scans folder trees, deduplicates across batch.
+- Account mapping rules — `AccountMapper` with ordered regex rules from JSON config.
+- REST API — FastAPI wrapper with `/ingest` and `/health` endpoints (`[api]` extra).
+
+## v0.0.7 — 2026-04-08 — "Universal Vision"
+
+- Direct Ollama bridge (`ollama_direct_completion`) — bypasses LiteLLM long-prompt hang.
+- Strip mode (`VisionExtractor.strip_rows=True`) — splits dense pages into overlapping bands for small local models.
+- Recommended vision model changed from `llava` to `minicpm-v`.
+
+## v0.0.6 — 2026-04-08 — "Intelligence Layer"
+
+- Dropped Python 3.9 support (now 3.10-3.14).
+- Enrichment module (`Categorizer`, `EnrichedTransaction`, `DEFAULT_CATEGORY_SCHEMA`).
+- Interactive review mode with `--type review` CLI command.
+- Per-row bounding box extraction (`Transaction.source_bbox`).
+
+## v0.0.5 — 2026-04-08 — "Universal Extraction"
+
+- Hybrid PDF pipeline (`smart_ingest()`) with deterministic/text-LLM/vision-LLM routing.
+- `LLMExtractor` for digital PDFs via LiteLLM.
+- `VisionExtractor` for scanned PDFs via multimodal vision models.
+- Golden Rule balance verification (`opening + credits - debits == closing`).
+- Idempotent deduplication via `transaction_hash` (MD5 fingerprint).
+
+## v0.0.4 — 2026-03-15
 
 - এর সাথে সমান্তরাল ফাইল পার্সিং যোগ করা হয়েছে`parse_files_parallel()`ProcessPoolExecutor ব্যবহার করে।
 - আবদ্ধ মেমরি সহ বড় PAIN.001 ফাইল (50 MB+) এর জন্য সত্য স্ট্রিমিং যোগ করা হয়েছে।
@@ -126,7 +155,7 @@ site_software: "Shokunin, Rust"
 - PII রিডাকশন যোগ করা হয়েছে (সিএলআই এবং স্ট্রিমিং মোডে ডিফল্টরূপে চালু)।
 - CSV, JSON, এবং Excel এর জন্য রপ্তানি সহায়ক যোগ করা হয়েছে।
 - ঐচ্ছিক পোলার ডেটাফ্রেম সমর্থন যোগ করা হয়েছে।
-- 100% শাখা কভারেজ সহ 467 টি পরীক্ষায় প্রসারিত পরীক্ষা স্যুট।
+- 100% শাখা কভারেজ সহ 718 টি পরীক্ষায় প্রসারিত পরীক্ষা স্যুট।
 
 ## v0.0.2 — 2025-06-10
 
@@ -151,7 +180,7 @@ site_software: "Shokunin, Rust"
   "নাম": "ব্যাংক স্টেটমেন্ট পার্সার",
   "applicationCategory": "ডেভেলপার অ্যাপ্লিকেশন",
   "operatingSystem": "ক্রস-প্ল্যাটফর্ম",
-  "softwareVersion": "0.0.4",
+  "softwareVersion": "0.0.8",
   "তারিখ প্রকাশ": "2026-03-15",
   "releaseNotes": "সংযোজিত সমান্তরাল ফাইল পার্সিং, PAIN.001 এর জন্য সত্য স্ট্রিমিং, কর্মক্ষমতা অপ্টিমাইজেশন (27K+ tx/s CAMT, 52K+ tx/s PAIN.001), ডিডুপ্লিকেটর ক্লাস, ইন-মেমরি পার্সিং, নিরাপদ জিপ প্রক্রিয়াকরণ।",
   "downloadUrl": "https://pypi.org/project/bankstatementparser/",

@@ -4,7 +4,7 @@
   align="right"
   alt="Logo of Bank Statement Parser"
   height="261"
-  src="https://kura.pro/bankstatementparser/images/logos/bankstatementparser.webp"
+  src="https://cloudcdn.pro/bankstatementparser/images/logos/bankstatementparser.webp"
   width="261"
   />
 

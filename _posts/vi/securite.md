@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Bảo mật của Trình phân tích sao kê ngân hàng"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Trình phân tích báo cáo ngân hàng. Mọi quyền được bảo lưu."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Các tính năng bảo mật của Trình phân tích bảng sao kê ngân hàng: bảo vệ XXE, tăng cường bom ZIP, biên tập PII, bảo mật chuỗi cung ứng, đầu ra xác định và các bản dựng đã ký."
 download: ""
 format-detection: "telephone=no"
@@ -107,72 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Trình phân tích cú pháp ngân hàng không thực hiện cuộc gọi mạng nào, sắp xếp lại PII theo mặc định, tăng cường phân tích cú pháp XML để chống lại các cuộc tấn công XXE và cung cấp các phần phụ thuộc được khóa băm SHA-256 và CycloneDX SBOM.
+**TL;DR:** Bank Statement Parser xử lý toàn bộ dữ liệu cục bộ, ẩn danh PII mặc định, tăng cường phân tích XML chống tấn công XXE, chạy LLM cục bộ qua Ollama, và đi kèm phụ thuộc khóa hash SHA-256 và CycloneDX SBOM.
 
 ## Bảo mật theo thiết kế
 
-Trình phân tích báo cáo ngân hàng được xây dựng để xử lý dữ liệu tài chính nhạy cảm. Mọi quyết định thiết kế đều ưu tiên bảo mật, quyền riêng tư và khả năng kiểm toán.
+Bank Statement Parser được xây dựng để xử lý dữ liệu tài chính nhạy cảm. Mọi quyết định thiết kế đều ưu tiên bảo mật, quyền riêng tư và khả năng kiểm toán.
 
-## Không có quyền truy cập mạng
+## Không phụ thuộc cloud
 
-Tất cả quá trình xử lý diễn ra cục bộ trong thời gian chạy của bạn. Thư viện không thực hiện lệnh gọi API, không kết nối đám mây và không thu thập dữ liệu đo từ xa. Trình phân tích cú pháp XML được cấu hình rõ ràng với`no_network=True`, `resolve_entities=False`, Và`load_dtd=False`để ngăn chặn mọi truy cập ra bên ngoài.
+Toàn bộ quá trình xử lý diễn ra cục bộ trong runtime của bạn. Các trình phân tích xác định không thực hiện cuộc gọi mạng nào. Pipeline PDF hybrid sử dụng Ollama cho suy luận LLM cục bộ — không có dữ liệu nào được gửi đến cloud API. Trình phân tích XML được cấu hình rõ ràng với `no_network=True`, `resolve_entities=False`, và `load_dtd=False` để ngăn chặn mọi truy cập ra bên ngoài.
 
-## Biên tập PII
+## Ẩn danh PII
 
-Thông tin nhận dạng cá nhân (tên, IBAN, địa chỉ gửi thư) được tự động sắp xếp lại ở chế độ phát trực tuyến và đầu ra CLI. Tính năng này được bật theo mặc định.
+Thông tin nhận dạng cá nhân (tên, IBAN, địa chỉ bưu chính) được tự động ẩn danh trong đầu ra CLI và chế độ streaming. Tính năng này được bật mặc định.
 
-- **CLI**: Các trường nhạy cảm hiển thị dưới dạng`***REDACTED***`
-- **Truyền phát**:`parse_streaming(redact_pii=True)`(mặc định)
-- **Xuất**: CSV/JSON/Excel giữ lại toàn bộ dữ liệu để xử lý tiếp theo
-- **Chọn tham gia**: Sử dụng`--show-pii`hoặc`redact_pii=False`khi bạn cần đầu ra chưa được chỉnh sửa
+- **CLI**: Các trường nhạy cảm hiển thị dạng `***REDACTED***`
+- **Streaming**: `parse_streaming(redact_pii=True)` (mặc định)
+- **Xuất dữ liệu**: CSV/JSON/Excel giữ nguyên dữ liệu đầy đủ cho xử lý downstream
+- **Bật hiển thị**: Sử dụng `--show-pii` hoặc `redact_pii=False` khi cần đầu ra chưa ẩn danh
 
 ## Bảo mật XML (Bảo vệ XXE)
 
-Tất cả việc sử dụng phân tích cú pháp XML`lxml`với cài đặt cứng:
+Toàn bộ phân tích XML sử dụng `lxml` với cài đặt tăng cường:
 
-- `resolve_entities=False`-- ngăn chặn các cuộc tấn công mở rộng thực thể XML
--`no_network=True`-- chặn tất cả quyền truy cập mạng gửi đi từ trình phân tích cú pháp
--`load_dtd=False`-- ngăn chặn các cuộc tấn công dựa trên DTD
-- Loại bỏ không gian tên trước khi xử lý -- xử lý mọi biến thể CAMT.053 một cách an toàn
+- `resolve_entities=False` -- ngăn tấn công mở rộng thực thể XML
+- `no_network=True` -- chặn mọi truy cập mạng ra bên ngoài từ parser
+- `load_dtd=False` -- ngăn tấn công dựa trên DTD
+- Loại bỏ namespace trước khi xử lý -- xử lý mọi biến thể CAMT.053 an toàn
 
-## Bảo mật kho lưu trữ ZIP
+## Bảo mật tệp ZIP
 
-`iter_secure_xml_entries()`xác thực mọi thành viên ZIP trước khi trích xuất:
+`iter_secure_xml_entries()` xác thực mọi thành viên ZIP trước khi trích xuất:
 
-- **Giới hạn kích thước mục nhập**: 10 MB mỗi mục nhập (có thể định cấu hình)
-- **Giới hạn tổng kích thước**: Tổng dung lượng không nén là 50 MB (có thể định cấu hình)
-- **Giới hạn tỷ lệ nén**: mặc định 100:1 -- phát hiện bom ZIP
-- **Từ chối mục nhập được mã hóa**: Các mục nhập được mã hóa bị bỏ qua kèm theo cảnh báo
-- **Không ghi vào đĩa**: Các byte XML chuyển trực tiếp tới trình phân tích cú pháp thông qua`from_bytes()`
+- **Giới hạn kích thước mục nhập**: 10 MB mỗi mục nhập (có thể cấu hình)
+- **Giới hạn tổng kích thước**: 50 MB tổng không nén (có thể cấu hình)
+- **Giới hạn tỷ lệ nén**: Mặc định 100:1 -- phát hiện ZIP bomb
+- **Từ chối mục nhập mã hóa**: Mục nhập mã hóa bị bỏ qua kèm cảnh báo
+- **Không ghi vào đĩa**: Byte XML chuyển trực tiếp đến parser qua `from_bytes()`
 
-## Ngăn chặn truyền tải đường dẫn
+## Ngăn chặn Path Traversal
 
 Xác thực đầu vào chặn các đường dẫn tệp nguy hiểm:
 
-- Byte rỗng, mẫu truyền tải thư mục (`../`) và các liên kết tượng trưng bị từ chối
-- Xác thực phần mở rộng tệp theo các định dạng mong đợi
-- Giới hạn kích thước tệp (mặc định 100 MB, có thể định cấu hình)
+- Byte null, mẫu truyền tải thư mục (`../`), và symlink bị từ chối
+- Xác thực extension tệp theo các định dạng mong đợi
+- Giới hạn kích thước tệp (mặc định 100 MB, có thể cấu hình)
+
+## Xác minh số dư (Golden Rule)
+
+Mọi kết quả trích xuất PDF đều được xác minh bằng phương trình: `opening balance + credits − debits == closing balance`. Kết quả được gắn nhãn VERIFIED, DISCREPANCY, hoặc FAILED. Các sai lệch có thể được xem xét tương tác với `--type review`.
 
 ## Đầu ra xác định
 
-Với cùng một tệp đầu vào, trình phân tích cú pháp tạo ra đầu ra giống byte mỗi lần chạy. Không có sự ngẫu nhiên, không có suy luận mô hình, không có lấy mẫu heuristic. Điều này rất quan trọng đối với:
+Với các định dạng có cấu trúc (CAMT, PAIN.001, CSV, OFX, QFX, MT940), cùng một tệp đầu vào, trình phân tích tạo đầu ra giống byte mỗi lần chạy. Không ngẫu nhiên, không suy luận mô hình, không lấy mẫu heuristic. Điều này quan trọng cho:
 
-- **Khả năng tái tạo kiểm tra**: Chạy cùng một tệp hai lần và phân biệt đầu ra
-- **Tuân thủ quy định**: Thể hiện quy trình xử lý nhất quán
-- **Xác minh CI**: 467 bài kiểm tra thực thi tính xác định với phạm vi bao phủ 100% chi nhánh
+- **Tái tạo kiểm toán**: Chạy cùng tệp hai lần và so sánh đầu ra
+- **Tuân thủ quy định**: Chứng minh xử lý nhất quán
+- **Xác minh CI**: 718 bài kiểm tra đảm bảo tính xác định với 100% độ phủ nhánh
 
-## An ninh chuỗi cung ứng
+## Bảo mật chuỗi cung ứng
 
-- **Các phần phụ thuộc được khóa băm SHA-256**: Mọi gói trong`poetry.lock`đã xác minh băm tập tin
-- **CycloneDX SBOM**: Mỗi bản phát hành đều bao gồm Danh mục vật liệu phần mềm
-- **Nguồn gốc bản dựng GitHub**: Chứng thực liên kết từng tạo phẩm với cam kết nguồn của nó
-- **Cam kết đã ký**: Tất cả các cam kết đều được ký và xác minh SSH trong CI
-- **Xác minh người phụ thuộc**:`scripts/verify_locked_hashes.py`xác thực tất cả các giá trị băm cục bộ
+- **Phụ thuộc khóa hash SHA-256**: Mọi gói trong `poetry.lock` có hash tệp đã xác minh
+- **CycloneDX SBOM**: Mỗi bản phát hành bao gồm Software Bill of Materials
+- **Nguồn gốc bản dựng GitHub**: Chứng thực liên kết mỗi artifact với commit nguồn
+- **Commit có chữ ký**: Tất cả commit được ký SSH và xác minh trong CI
+- **Xác minh phụ thuộc**: `scripts/verify_locked_hashes.py` xác thực tất cả hash cục bộ
 
 ## Xác minh cục bộ
 
 ```bash
-python -m pytest                          # 467 tests, 100% branch coverage
+python -m pytest                          # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py    # SHA-256 hash verification
 git log --show-signature -1               # Verify commit signature
 ```

@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Panduan Migrasi ISO 20022"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Pengurai Laporan Bank. Semua hak dilindungi undang-undang."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Panduan praktis mengenai garis waktu migrasi SWIFT ISO 20022 (2026-2028), transisi MT940 ke CAMT.053, dan bagaimana Bank Statement Parser membantu tim treasury melakukan migrasi."
 download: ""
 format-detection: "telephone=no"
@@ -107,21 +107,21 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** SWIFT akan menghentikan MT940 pada bulan November 2028. Bank Statement Parser menangani MT940 dan CAMT.053 dengan satu API, sehingga pipeline parsing Anda berfungsi selama transisi dan setelahnya.
+**TL;DR:** SWIFT akan menghentikan MT940 pada November 2028. Bank Statement Parser menangani MT940 dan CAMT.053 dengan satu API, sehingga pipeline parsing Anda berfungsi selama transisi dan setelahnya.
 
 ## Mengapa Migrasi Ini Penting
 
-SWIFT menghentikan format pesan MT lama dan mendukung standar ISO 20022 yang lebih kaya. Untuk tim perbendaharaan dan keuangan, ini berarti jalur pemrosesan laporan bank Anda harus berevolusi dari MT940 ke CAMT.053 sebelum tenggat waktu yang sulit.
+SWIFT menghentikan format pesan MT lama demi standar ISO 20022 yang lebih kaya. Untuk tim perbendaharaan dan keuangan, ini berarti pipeline pemrosesan laporan bank Anda harus berevolusi dari MT940 ke CAMT.053 sebelum tenggat waktu final.
 
 ## Garis Waktu Migrasi SWIFT
 
-| Tanggal | Tonggak pencapaian | Dampak |
+| Tanggal | Tonggak Pencapaian | Dampak |
 |---|---|---|
 | **November 2025** | Koeksistensi MT-ke-MX berakhir untuk pembayaran lintas batas | Pesan PACS sekarang hanya ISO 20022 |
-| **November 2026** | Alamat terstruktur/hibrida wajib; Multi-instruksi MT101 ditolak; Manajemen Kasus Tahap 1 | Format alamat harus mematuhi; beberapa pesan MT akan ditolak |
-| **Akhir 2026** | Keikutsertaan dimulai untuk menerima CAMT.052/.053/.054 | Lembaga keuangan dapat mulai menerima pernyataan ISO asli |
-| **November 2027** | Semua FI harus menerima CAMT.053 secara asli | SWIFT berhenti mengubah format MT ke ISO; sistem Anda harus mengurai CAMT secara langsung |
-| **November 2028** | MT940/MT942/MT950/MT900/MT910 pensiun sepenuhnya | Format pernyataan lama tidak lagi tersedia; CAMT.052/.053/.054 adalah satu-satunya pilihan |
+| **November 2026** | Alamat terstruktur/hibrida wajib; multi-instruksi MT101 ditolak; Manajemen Kasus Fase 1 | Format alamat harus patuh; beberapa pesan MT akan ditolak |
+| **Akhir 2026** | Opt-in dimulai untuk menerima CAMT.052/.053/.054 | Lembaga keuangan dapat mulai menerima laporan ISO native |
+| **November 2027** | Semua FI harus menerima CAMT.053 secara native | SWIFT berhenti mengonversi format MT ke ISO; sistem Anda harus mengurai CAMT langsung |
+| **November 2028** | MT940/MT942/MT950/MT900/MT910 pensiun sepenuhnya | Format laporan lama tidak lagi tersedia; CAMT.052/.053/.054 satu-satunya pilihan |
 
 ## Apa yang Berubah pada Kode Anda
 
@@ -144,26 +144,29 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # Same DataFrame schema regardless of format
 ```
 
-Itu`detect_statement_format()`fungsi mengidentifikasi apakah file tersebut MT940, CAMT.053, PAIN.001, atau format lain yang didukung. Itu`create_parser()`fungsi mengembalikan parser yang benar. Kode hilir Anda berfungsi sama, apa pun format sumbernya.
+Fungsi `detect_statement_format()` mengidentifikasi apakah file tersebut MT940, CAMT.053, PAIN.001, atau format lain yang didukung. Fungsi `create_parser()` mengembalikan parser yang tepat. Kode hilir Anda berfungsi identik tanpa memandang format sumber.
 
 ## CAMT.053 vs MT940: Perbedaan Utama
 
 | Fitur | MT940 | CAMT.053 |
 |---|---|---|
-| Kekayaan data | Bidang terbatas | 3-5x lebih banyak data per transaksi |
-| Kumpulan karakter | Terbatas (rangkaian karakter Swift) | Unikode Penuh |
+| Kekayaan data | Field terbatas | 3-5x lebih banyak data per transaksi |
+| Set karakter | Terbatas (charset SWIFT) | Unicode penuh |
 | Struktur | Teks datar dengan tag | XML dengan namespace |
 | Pelaporan saldo | Pembukaan/penutupan saja | Berbagai jenis saldo |
-| Referensi | Bidang referensi tunggal | Berbagai jenis referensi |
+| Referensi | Satu field referensi | Berbagai jenis referensi |
 | Penanganan mata uang | Dasar | Multi-mata uang penuh dengan nilai tukar |
 
-## Bagaimana Parser Laporan Bank Membantu
+## Bagaimana Bank Statement Parser Membantu
 
-- **API Terpadu**: Parsing MT940 dan CAMT.053 dengan yang sama`parse()`metode, menghasilkan skema DataFrame yang identik.
-- **Deteksi otomatis**: Tidak perlu mengetahui formatnya terlebih dahulu.`detect_statement_format()`mengidentifikasinya secara otomatis.
+- **API Terpadu**: Parsing MT940, CAMT.053, dan laporan PDF dengan alur kerja yang sama, menghasilkan output DataFrame konsisten.
+- **Deteksi otomatis**: Tidak perlu mengetahui format terlebih dahulu. `detect_statement_format()` mengidentifikasinya secara otomatis.
+- **Pipeline PDF hibrida**: Bank yang hanya menyediakan laporan PDF selama transisi ditangani oleh `smart_ingest()` dengan verifikasi saldo otomatis.
 - **Namespace-agnostic**: Menangani varian CAMT.053 apa pun (001.02, 001.04, atau wrapper khusus bank) tanpa konfigurasi.
-- **Streaming**: Memproses file CAMT besar (50 MB+, 50K+ transaksi) dengan memori terbatas.
-- **Pengujian migrasi**: Jalankan kedua parser secara berdampingan pada rentang tanggal yang sama untuk memverifikasi konsistensi keluaran sebelum beralih.
+- **Verifikasi multi-mata uang**: `verify_balance_multi_currency()` menjalankan Golden Rule per kelompok mata uang — penting untuk laporan CAMT multi-mata uang.
+- **Streaming**: Proses file CAMT besar (50 MB+, 50K+ transaksi) dengan memori terbatas.
+- **Ekspor ledger**: Ekspor langsung ke format jurnal hledger atau beancount untuk akuntansi treasury.
+- **Pengujian migrasi**: Jalankan kedua parser berdampingan pada rentang tanggal yang sama untuk memverifikasi konsistensi output sebelum beralih.
 
 ## Memulai
 
@@ -174,7 +177,7 @@ pip install bankstatementparser
 ```python
 from bankstatementparser import create_parser, detect_statement_format
 
-# Works with MT940 today, CAMT.053 tomorrow
+# Works with MT940 today, CAMT.053 tomorrow, PDF anytime
 for file in bank_statement_files:
     fmt = detect_statement_format(file)
     parser = create_parser(file, fmt)
@@ -182,6 +185,15 @@ for file in bank_statement_files:
     process(df)  # Your code doesn't change
 ```
 
+Untuk laporan PDF dari bank yang belum menawarkan ekspor CAMT terstruktur:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+assert result.verification.status == "VERIFIED"
+```
+
 [Baca dokumentasi selengkapnya](/getting-started/index.html)
 
-[Bandingkan dengan alternatif ❯](/comparison/index.html) | [Lihat kasus penggunaan di dunia nyata ❯](/use-cases/index.html)
+[Bandingkan dengan alternatif ❯](/comparison/index.html) | [Lihat kasus penggunaan nyata ❯](/use-cases/index.html)

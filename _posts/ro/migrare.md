@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Ghid de migrare ISO 20022"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Analizator extras de cont. Toate drepturile rezervate."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Un ghid practic pentru cronologia migrației SWIFT ISO 20022 (2026-2028), tranziția MT940 la CAMT.053 și modul în care Analizatorul de extrase bancare ajută echipele de trezorerie să migreze."
 download: ""
 format-detection: "telephone=no"
@@ -107,25 +107,25 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** SWIFT va retrage MT940 până în noiembrie 2028. Analizor de extrase de cont se ocupă atât de MT940, cât și de CAMT.053 cu un singur API, astfel încât canalul dvs. de analiză funcționează în timpul tranziției și după.
+**TL;DR:** SWIFT va retrage MT940 până în noiembrie 2028. Bank Statement Parser gestionează atât MT940, cât și CAMT.053 cu un singur API, astfel încât pipeline-ul de parsare funcționează în timpul tranziției și după aceea.
 
 ## De ce este importantă această migrație
 
-SWIFT retrage formatele vechi de mesaje MT în favoarea standardului ISO 20022 mai bogat. Pentru echipele de trezorerie și finanțe, aceasta înseamnă că conductele dvs. de procesare a extraselor bancare trebuie să evolueze de la MT940 la CAMT.053 înainte de termenele limită stricte.
+SWIFT retrage formatele vechi de mesaje MT în favoarea standardului ISO 20022, mai bogat în date. Pentru echipele de trezorerie și finanțe, aceasta înseamnă că pipeline-urile de procesare a extraselor bancare trebuie să evolueze de la MT940 la CAMT.053 înainte de termenele ferme.
 
 ## Cronologia migrației SWIFT
 
-| Data | Piatra de hotar | Impact |
+| Dată | Reper | Impact |
 |---|---|---|
-| **noiembrie 2025** | Coexistența MT la MX sa încheiat pentru plățile transfrontaliere | Mesajele PACS sunt acum doar ISO 20022 |
-| **noiembrie 2026** | Adresele structurate/hibride obligatorii; Multi-instrucțiune MT101 respinsă; Managementul cazului Faza 1 | Formatele de adrese trebuie să respecte; unele mesaje MT vor fi respinse |
-| **Sfârșitul anului 2026** | Începe înscrierea pentru primirea CAMT.052/.053/.054 | Instituțiile financiare pot începe să primească declarații ISO native |
-| **noiembrie 2027** | Toate FI trebuie să primească CAMT.053 nativ | SWIFT oprește conversia formatului MT în ISO; sistemele dumneavoastră trebuie să analizeze direct CAMT |
-| **noiembrie 2028** | MT940/MT942/MT950/MT900/MT910 retras complet | Formatele de declarații vechi nu mai sunt disponibile; CAMT.052/.053/.054 sunt singura opțiune |
+| **Noiembrie 2025** | Coexistența MT-MX s-a încheiat pentru plățile transfrontaliere | Mesajele PACS sunt acum exclusiv ISO 20022 |
+| **Noiembrie 2026** | Adresele structurate/hibride obligatorii; MT101 multi-instrucțiune respins; Management cazuri Faza 1 | Formatele de adrese trebuie să se conformeze; unele mesaje MT vor fi respinse |
+| **Sfârșitul 2026** | Începe perioada de înscriere pentru primirea CAMT.052/.053/.054 | Instituțiile financiare pot începe să primească extrase ISO native |
+| **Noiembrie 2027** | Toate instituțiile financiare trebuie să primească CAMT.053 nativ | SWIFT oprește conversia formatului MT în ISO; sistemele trebuie să parseze CAMT direct |
+| **Noiembrie 2028** | MT940/MT942/MT950/MT900/MT910 retrase complet | Formatele vechi de extrase nu mai sunt disponibile; CAMT.052/.053/.054 sunt singura opțiune |
 
-## Ce se schimbă pentru codul dvs
+## Ce se schimbă în codul dumneavoastră
 
-### Înainte: Numai MT940
+### Înainte: Doar MT940
 
 ```python
 from bankstatementparser import Mt940Parser
@@ -134,7 +134,7 @@ parser = Mt940Parser("statement.mt940")
 df = parser.parse()
 ```
 
-### După: Ambele formate cu Auto-Detection
+### După: Ambele formate cu detectare automată
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -144,28 +144,31 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # Same DataFrame schema regardless of format
 ```
 
-The`detect_statement_format()`funcția identifică dacă fișierul este MT940, CAMT.053, PAIN.001 sau orice alt format acceptat. The`create_parser()`funcția returnează analizatorul corect. Codul dvs. din aval funcționează identic, indiferent de formatul sursă.
+Funcția `detect_statement_format()` identifică dacă fișierul este MT940, CAMT.053, PAIN.001 sau orice alt format suportat. Funcția `create_parser()` returnează parserul corect. Codul ulterior funcționează identic, indiferent de formatul sursă.
 
 ## CAMT.053 vs MT940: diferențe cheie
 
 | Caracteristică | MT940 | CAMT.053 |
 |---|---|---|
-| Bogăția de date | Câmpuri limitate | De 3-5 ori mai multe date per tranzacție |
-| Set de caractere | Limitat (set de caractere SWIFT) | Unicode complet |
-| Structura | Text plat cu etichete | XML cu spații de nume |
-| Raportarea soldului | Doar deschidere/închidere | Mai multe tipuri de echilibru |
-| Referințe | Câmp de referință unic | Mai multe tipuri de referință |
-| Manevrarea valutei | De bază | Multi-valută completă cu rate de schimb |
+| Bogăția datelor | Câmpuri limitate | De 3-5 ori mai multe date per tranzacție |
+| Set de caractere | Limitat (set caractere SWIFT) | Unicode complet |
+| Structură | Text simplu cu etichete | XML cu namespace-uri |
+| Raportare solduri | Doar deschidere/închidere | Mai multe tipuri de solduri |
+| Referințe | Un singur câmp de referință | Mai multe tipuri de referințe |
+| Gestionare valute | De bază | Multi-valută completă cu rate de schimb |
 
-## Cum ajută analizatorul extras de cont
+## Cum ajută Bank Statement Parser
 
-- **Unified API**: analizați atât MT940, cât și CAMT.053 cu același lucru`parse()`metoda, producând scheme DataFrame identice.
-- **Detecție automată**: nu este nevoie să cunoașteți formatul în avans.`detect_statement_format()`îl identifică automat.
-- **Namspace-agnostic**: gestionează orice variantă CAMT.053 (001.02, 001.04 sau wrapper-uri specifice băncii) fără configurație.
-- **Streaming**: procesați fișiere CAMT mari (50 MB+, 50K+ tranzacții) cu memorie limitată.
-- **Testare de migrare**: rulați ambele analizoare unul lângă altul în același interval de date pentru a verifica coerența rezultatelor înainte de a comuta.
+- **API unificat**: Parsați MT940, CAMT.053 și extrase PDF cu același flux de lucru, producând ieșire DataFrame consistentă.
+- **Detectare automată**: Nu este nevoie să cunoașteți formatul în avans. `detect_statement_format()` îl identifică automat.
+- **Pipeline hibrid PDF**: Băncile care oferă doar extrase PDF în timpul tranziției sunt gestionate de `smart_ingest()` cu verificare automată a soldului.
+- **Namespace-agnostic**: Gestionează orice variantă CAMT.053 (001.02, 001.04 sau învelișuri specifice băncii) fără configurație.
+- **Verificare multi-valută**: `verify_balance_multi_currency()` execută Regula de Aur pe fiecare grup de valută — esențial pentru extrasele CAMT multi-valută.
+- **Streaming**: Procesați fișiere CAMT mari (50 MB+, 50K+ tranzacții) cu memorie limitată.
+- **Export registru**: Export direct în format jurnal hledger sau beancount pentru contabilitatea de trezorerie.
+- **Testare de migrare**: Rulați ambele parsere în paralel pe același interval de date pentru a verifica consistența înainte de a comuta.
 
-## Noțiuni de bază
+## Primii pași
 
 ```bash
 pip install bankstatementparser
@@ -174,7 +177,7 @@ pip install bankstatementparser
 ```python
 from bankstatementparser import create_parser, detect_statement_format
 
-# Works with MT940 today, CAMT.053 tomorrow
+# Works with MT940 today, CAMT.053 tomorrow, PDF anytime
 for file in bank_statement_files:
     fmt = detect_statement_format(file)
     parser = create_parser(file, fmt)
@@ -182,6 +185,15 @@ for file in bank_statement_files:
     process(df)  # Your code doesn't change
 ```
 
+Pentru extrase PDF de la bănci care nu oferă încă exporturi CAMT structurate:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+assert result.verification.status == "VERIFIED"
+```
+
 [Citiți documentația completă](/getting-started/index.html)
 
-[Comparați cu alternative ❯](/comparison/index.html) | [Vedeți cazurile de utilizare din lumea reală ❯](/use-cases/index.html)
+[Comparați cu alternative ❯](/comparison/index.html) | [Vedeți cazuri reale de utilizare ❯](/use-cases/index.html)

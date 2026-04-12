@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Nipa Parser Gbólóhùn Bank: Awọn ẹya ara ẹrọ, Awọn ọna kika, ati Iṣe"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Itumọ Gbólóhùn Bank. Gbogbo awọn ẹtọ wa ni ipamọ."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Parser Gbólóhùn Banki jẹ ile-ikawe Python orisun-ìmọ fun sisọ CAMT.053, PAIN.001, CSV, OFX, QFX, ati MT940 sinu pandas DataFrames. 100% agbegbe, atunṣe PII, 27K+ tx/s."
 download: ""
 format-detection: "telephone=no"
@@ -107,64 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-** TL; DR: ** Parser Gbólóhùn Banki jẹ orisun-ìmọ-orisun Python ìkàwé ti o paroko mefa awọn ọna kika gbólóhùn banki (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) sinu pandas DataFrames. 100% sisẹ agbegbe, atunṣe PII nipasẹ aiyipada, 27K+ tx/s losi.
+**TL;DR:** Bank Statement Parser jẹ ile-ikawe Python orisun-ṣiṣi ti o ṣe itupalẹ awọn ọna kika alaye banki meje (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, ati PDF) sinu pandas DataFrames. Opo gigun PDF aladapọ pẹlu iṣayẹwo iwọntunwọnsi, REST API, imudara, okeere iwe iroyin, iyara 27K+ tx/s.
 
-Parser Gbólóhùn Banki jẹ ile-ikawe Python orisun-ìmọ ti o ṣe itupalẹ awọn alaye banki lati awọn ọna kika mẹfa sinu pandas DataFrames ti a ṣeto. Gbogbo iṣẹ ṣiṣe n ṣẹlẹ ni agbegbe - awọn ipe nẹtiwọọki odo, iṣelọpọ ipinnu, ati isọdọtun PII laifọwọyi.
+Bank Statement Parser jẹ ile-ikawe Python orisun-ṣiṣi ti o ṣe itupalẹ awọn alaye banki lati awọn ọna kika meje sinu pandas DataFrames ti a ṣeto. Ipilẹ ipinnu n ṣe ilana awọn ọna kika ti a ṣeto ni agbegbe lai pe nẹtiwọọki rara. Opo gigun PDF aladapọ ti o jẹ iyan n darí nipasẹ awọn LLM agbegbe (nipasẹ Ollama) fun awọn alaye oni-nọmba ati ti a ṣe scan.
 
 ## Tani Eyi Fun?
 
-- ** Awọn ẹgbẹ Išura *** gbigbe lati MT940 si CAMT.053 ti o nilo parser ti o mu awọn ọna kika atijọ ati tuntun lakoko iyipada.
-- **Fintech Difelopa ** ile ilaja, iroyin, tabi iṣiro pipelines ti o fẹ kan nikan gbára dipo ti stitching jọ mt940 + ofxparse + aṣa CSV kannaa.
-- ** Awọn ẹgbẹ ibamu *** ti o nilo atunṣe PII nipasẹ aiyipada ati iṣayẹwo-ṣetan, iṣelọpọ ipinnu ti ko firanṣẹ data si awọn iṣẹ ita.
-- ** Ẹnikẹni ti o kọ lati firanṣẹ data owo ifura si SaaS ẹni-kẹta nigbati agbegbe kan, ohun elo orisun-ìmọ le ṣe iṣẹ naa.
+- **Awọn ẹgbẹ iṣura** ti n yi lati MT940 si CAMT.053 ti o nilo parser ti o le mu awọn ọna kika atijọ ati tuntun lakoko iyipada, pẹlu awọn alaye PDF lati awọn banki ti ko pese okeere ti a ṣeto.
+- **Awọn olupilẹṣẹ fintech** ti n kọ awọn opo gigun ilaja, ijabọ, tabi iṣiro ti o fẹ igbẹkẹle kan ṣoṣo pẹlu iṣayẹwo iwọntunwọnsi, ipin, ati okeere iwe iroyin ti a ṣe sinu.
+- **Awọn ẹgbẹ ibamu** ti o nilo isọdọtun PII nipasẹ aiyipada, iṣelọpọ ipinnu, ati iṣayẹwo Ofin Goolu ti o samisi awọn aiyede ṣaaju ki wọn de iwe iroyin.
+- **Awọn olumulo iṣiro ọrọ-lasan** ti o fẹ gbigbe aifọwọyi lati awọn alaye banki PDF taara sinu awọn iwe iroyin hledger tabi beancount.
+- **Ẹnikẹni** ti o kọ lati fi data owo ifura ranṣẹ si SaaS ẹni-kẹta nigbati ohun elo agbegbe orisun-ṣiṣi le ṣe iṣẹ naa.
 
-## Awọn ọna kika atilẹyin
+## Awọn Ọna Kika Ti A Ṣe Atilẹyin
 
-| Ọna kika | Standard | Awọn oriṣi faili | Kilasi Parser |
+| Ọna kika | Boṣewa | Awọn Oriṣi Faili | Parser/Ọna |
 |---|---|---|---|
-| CAMT.053 | ISO 20022 Bank-to-Onibara Gbólóhùn | `.xml` | `CamtParser` |
-| Ìrora.001 | ISO 20022 Kirẹditi Gbigbe Bibere | `.xml` | `Pain001Parser` |
-| CSV | Generic ifowo okeere | `.csv` | `CsvStatementParser` |
-| OFX | Ṣiṣii Iṣowo Iṣowo | `.ofx` | `OfxParser` |
-| QFX | Quicken Owo Exchange | `.qfx` | `QfxParser` |
-| MT940 | boṣewa SWIFT | `.mt940`, `.sta` | `Mt940Parser` |
+| CAMT.053 | ISO 20022 Banki-si-Onibara Gbólóhùn | `.xml` | `CamtParser` |
+| PAIN.001 | ISO 20022 Ibẹrẹ Gbigbe Kirẹditi | `.xml` | `Pain001Parser` |
+| CSV | Okeere banki gbogbogbo | `.csv` | `CsvStatementParser` |
+| OFX | Open Financial Exchange | `.ofx` | `OfxParser` |
+| QFX | Quicken Financial Exchange | `.qfx` | `QfxParser` |
+| MT940 | Boṣewa SWIFT | `.mt940`, `.sta` | `Mt940Parser` |
+| PDF | Awọn alaye oni-nọmba ati ti a ṣe scan | `.pdf` | `smart_ingest()` |
 
-Gbogbo awọn ọna kika ṣe agbejade pandas deede DataFrames pẹlu awọn orukọ ọwọn ti o ni ibamu, ṣiṣe ọna kika-agnostic ni isalẹ ṣiṣan.
+Gbogbo awọn ọna kika ṣe agbejade pandas DataFrames deede pẹlu awọn orukọ ọwọn ti o ni ibamu, ti o jẹ ki sisẹ ṣiṣan isalẹ jẹ aibikita ọna kika.
 
-## Awọn agbara bọtini
+## Awọn Agbara Pataki
 
-- ** Ọna kika-iwari aifọwọyi ***:`detect_statement_format()`ṣe idanimọ ọna kika;`create_parser()`instantiates awọn ọtun parser.
-* Ṣiṣayẹwo ṣiṣanwọle ***: Ṣiṣẹ awọn faili nla (50 MB+, awọn iṣowo 50K+) pẹlu iranti ti o ni opin nipa lilo`parse_streaming()`.
-- ** Iṣagbese ni afiwe ***: Ṣe itupalẹ awọn faili lọpọlọpọ nigbakanna pẹlu`parse_files_parallel()`lilo ProcessPoolExecutor.
-- ** Iyọkuro ***: Wa awọn ẹda-ẹda deede ati awọn ifura pẹlu awọn ikun igbẹkẹle asọye.
-- ** Iṣayẹwo inu-iranti ***:`from_string()`ati`from_bytes()`fun SFTP ati API workflows pẹlu ko si disk I/O.
-- ** Ṣiṣeto ZIP to ni aabo ***:`iter_secure_xml_entries()`pẹlu awọn opin ipin ipin funmorawon, awọn bọtini iwọn titẹsi, ati ijusile iwọle ti paroko.
-- ** okeere ***: CSV, JSON, Tayo (`.xlsx`), ati iyan Polars DataFrames.
+- **Opo Gigun PDF Aladapọ**: `smart_ingest()` darí awọn PDF nipasẹ ọna mẹta — isediwon tabili ipinnu, ọrọ-LLM, tabi iran-LLM — pẹlu iṣayẹwo iwọntunwọnsi Ofin Goolu laifọwọyi.
+- **Iwari Ọna Kika Aifọwọyi**: `detect_statement_format()` ṣe idanimọ ọna kika; `create_parser()` ṣe imuṣiṣẹ parser to tọ.
+- **Iṣayẹwo Iwọntunwọnsi**: Ayẹwo Ofin Goolu (`opening + credits − debits == closing`) pẹlu ipo VERIFIED/DISCREPANCY/FAILED.
+- **Iṣayẹwo Owo Pupọ**: `verify_balance_multi_currency()` ṣe akojọpọ awọn iṣowo nipasẹ owo fun iṣayẹwo ominira.
+- **REST API**: Iṣẹ-kekere FastAPI pẹlu awọn endpoint `/ingest` ati `/health` fun imuṣiṣẹ iṣelọpọ.
+- **Imudara**: Isọri iṣowo ti LLM ṣe pẹlu awọn ero ti a le ṣe atunṣe (aiyipada ẹka 13 Plaid).
+- **Atunyẹwo Ifọrọwanilẹnuwo**: Rin nipasẹ awọn aiyede pẹlu awọn iṣe gba/ṣatunkọ/fo/pa nipasẹ `--type review`.
+- **Okeere Iwe Iroyin**: `to_hledger()` ati `to_beancount()` fun awọn ṣiṣan iṣiro ọrọ-lasan.
+- **Ayẹwo Pupọ**: `scan_and_ingest()` ṣe ilana awọn igi folda pẹlu yiyọ ẹda laifọwọyi kọja awọn faili.
+- **Ìtọ́ka Àkáǹtì**: Awọn ofin ìtọ́ka àkáǹtì ti o da lori regex lati eto JSON fun okeere iwe iroyin.
+- **Itupalẹ Sisanwọle**: Ṣe ilana awọn faili nla (50 MB+, awọn iṣowo 50K+) pẹlu iranti ti o ni opin nipa lilo `parse_streaming()`.
+- **Sisẹ ni Afiwe**: Ṣe itupalẹ awọn faili lọpọlọpọ nigbakanna pẹlu `parse_files_parallel()` nipa lilo ProcessPoolExecutor.
+- **Yiyọ Ẹda**: `transaction_hash` aláìyípadà (àtẹ́ka MD5) fun gbigbe afikun to ni aabo.
+- **Itupalẹ Inu-Iranti**: `from_string()` ati `from_bytes()` fun awọn ṣiṣan SFTP ati API lai si disk I/O.
+- **Sisẹ ZIP To Ni Aabo**: `iter_secure_xml_entries()` pẹlu awọn opin ipin funmorawon, awọn bọtini iwọn titẹsi, ati ijusile iwọle ti paroko.
+- **Okeere**: CSV, JSON, Excel (`.xlsx`), Polars DataFrames, hledger, ati awọn iwe iroyin beancount.
 
-## Aabo Ati Asiri
+## Aabo Ati Ikọkọ
 
-- ** Iyipada PII ***: Awọn orukọ, IBANs, ati awọn adirẹsi ti wa ni boju-boju nipasẹ aiyipada ni iṣelọpọ CLI. Jade ni pẹlu`--show-pii`.
-- ** XXE Idaabobo ***: XML itusilẹ awọn lilo`resolve_entities=False`, `no_network=True`, `load_dtd=False`.
-- ** Idaabobo bombu ZIP ***: Awọn opin ipin ipin funmorawon (aiyipada 100: 1 aiyipada), awọn bọtini iwọn iwọle (10 MB), ijusile iwọle ti paroko.
-- ** Idena ipa-ọna ipa-ọna ***: atokọ apẹrẹ eewu ati ipinnu ami asopọ.
-- ** Aabo Pq Ipese ***: SHA-256 awọn igbẹkẹle titiipa hash, CycloneDX SBOM, kọ ẹri ẹri.
+- **Isọdọtun PII**: Awọn orukọ, IBANs, ati awọn adirẹsi ni a boju nipasẹ aiyipada ninu iṣelọpọ CLI. Yan wọle pẹlu `--show-pii`.
+- **Idaabobo XXE**: Itupalẹ XML lo `resolve_entities=False`, `no_network=True`, `load_dtd=False`.
+- **Idaabobo Bombu ZIP**: Awọn opin ipin funmorawon (aiyipada 100:1), awọn bọtini iwọn iwọle (10 MB), ijusile iwọle ti paroko.
+- **Idena Ipa-ọna Rin-kakiri**: Atokọ apẹrẹ eewu ati ipinnu ami asopọ.
+- **Aabo Ẹwọn Ipese**: Awọn igbẹkẹle ti SHA-256 hash tiipa, CycloneDX SBOM, ẹri iṣelọpọ ikole.
+- **Awọn LLM Agbegbe Nikan**: Opo gigun PDF aladapọ lo Ollama fun iṣawari agbegbe — ko si data ti a fi ranṣẹ si awọn API awọsanma.
 
-## Iṣe
+## Iṣẹ
 
 | Metiriki | Iye |
 |---|---|
-| CAMT.053 igbejade | 27,000+ tx/s |
-| PARA.001 igbejade | 52,000+ tx/s |
-| Lairi-idunadura kan (CAMT) | 37 iṣẹju-aaya |
-| Lairi-idunadura kan (PAIN.001) | 19 iṣẹju-aaya |
-| Akoko lati akọkọ esi | <2 ms |
-| Iṣawọn iranti (1K-50K tx) | Ibakan (sisanwọle) |
-| Igbeyewo agbegbe | 100% eka agbegbe |
-| Idanwo | 467 kọja awọn faili idanwo 29 |
+| Igbejade CAMT.053 | 27,000+ tx/s |
+| Igbejade PAIN.001 | 52,000+ tx/s |
+| Idaduro fun-iṣowo kan (CAMT) | 37 microseconds |
+| Idaduro fun-iṣowo kan (PAIN.001) | 19 microseconds |
+| Akoko si abajade akọkọ | < 2 ms |
+| Iwọn iranti (1K-50K tx) | Ibakan (sisanwọle) |
+| Agbegbe idanwo | 100% agbegbe ẹka |
+| Awọn idanwo | 718 kọja awọn faili idanwo 29 |
 
-## Bẹrẹ Ilé
+## Bẹrẹ Kikọ
 
 [Bẹrẹ pẹlu fifi sori ẹrọ ati awọn apẹẹrẹ ❯][01]
 
-[01]: /getting-start/index.html "Bibẹrẹ"
+[01]: /getting-started/index.html "Bibẹrẹ"
  "Ibi ipamọ GitHub"

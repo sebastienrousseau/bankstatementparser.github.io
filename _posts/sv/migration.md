@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "ISO 20022 Migration Guide"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Bank Statement Parser. Alla rättigheter reserverade."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "En praktisk guide till SWIFT ISO 20022-migreringstidslinjen (2026-2028), MT940 till CAMT.053-övergången och hur Bank Statement Parser hjälper treasury-team att migrera."
 download: ""
 format-detection: "telephone=no"
@@ -107,25 +107,25 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** SWIFT kommer att avveckla MT940 i november 2028. Bank Statement Parser hanterar både MT940 och CAMT.053 med ett enda API, så din analyspipeline fungerar under och efter övergången.
+**TL;DR:** SWIFT kommer att avveckla MT940 i november 2028. Bank Statement Parser hanterar både MT940 och CAMT.053 med ett enda API, så din pipeline fungerar under övergången och därefter.
 
-## Varför denna migration är viktig
+## Varför denna migrering är viktig
 
-SWIFT drar tillbaka äldre MT-meddelandeformat till förmån för den rikare ISO 20022-standarden. För treasury- och finansteam innebär detta att dina bankutdragsbearbetningspipelines måste utvecklas från MT940 till CAMT.053 innan de hårda tidsfristerna.
+SWIFT avvecklar äldre MT-meddelandeformat till förmån för den rikare ISO 20022-standarden. För treasury- och finansteam innebär detta att dina pipelines för kontoutdragsbearbetning måste utvecklas från MT940 till CAMT.053 före de hårda tidsfristerna.
 
-## SWIFT migreringstidslinje
+## SWIFT-migreringstidslinje
 
-| Datum | Milstolpe | Inverkan |
+| Datum | Milstolpe | Påverkan |
 |---|---|---|
-| **November 2025** | Samexistensen mellan MT och MX upphörde för gränsöverskridande betalningar | PACS-meddelanden är nu endast ISO 20022 |
-| **November 2026** | Strukturerade/hybridadresser obligatoriska; MT101 multi-instruktion avvisad; Ärendehantering Fas 1 | Adressformat måste följa; vissa MT-meddelanden kommer att avvisas |
-| **Sent 2026** | Opt-in börjar för att ta emot CAMT.052/.053/.054 | Finansiella institutioner kan börja ta emot inhemska ISO-utlåtanden |
-| **November 2027** | Alla FI:er måste ta emot CAMT.053 inbyggt | SWIFT slutar konvertera MT-format till ISO; dina system måste analysera CAMT direkt |
-| **November 2028** | MT940/MT942/MT950/MT900/MT910 helt pensionerad | Äldre uttalandeformat är inte längre tillgängliga; CAMT.052/.053/.054 är det enda alternativet |
+| **November 2025** | Samexistens MT-MX upphörde för gränsöverskridande betalningar | PACS-meddelanden är nu enbart ISO 20022 |
+| **November 2026** | Strukturerade/hybridadresser obligatoriska; MT101 multi-instruktion avvisas; Ärendehantering Fas 1 | Adressformat måste följa; vissa MT-meddelanden avvisas |
+| **Sent 2026** | Opt-in börjar för att ta emot CAMT.052/.053/.054 | Finansinstitut kan börja ta emot ISO-utdrag |
+| **November 2027** | Alla FI:er måste ta emot CAMT.053 direkt | SWIFT slutar konvertera MT till ISO; dina system måste tolka CAMT direkt |
+| **November 2028** | MT940/MT942/MT950/MT900/MT910 helt avvecklade | Äldre utdragsformat inte längre tillgängliga; CAMT.052/.053/.054 är enda alternativet |
 
 ## Vad ändras för din kod
 
-### Före: Endast MT940
+### Före: Enbart MT940
 
 ```python
 from bankstatementparser import Mt940Parser
@@ -134,7 +134,7 @@ parser = Mt940Parser("statement.mt940")
 df = parser.parse()
 ```
 
-### Efter: Båda formaten med automatisk upptäckt
+### Efter: Båda formaten med autodetektering
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -144,28 +144,31 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # Same DataFrame schema regardless of format
 ```
 
-De`detect_statement_format()`funktionen identifierar om filen är MT940, CAMT.053, PAIN.001 eller något annat format som stöds. De`create_parser()`funktion returnerar rätt analysator. Din nedströmskod fungerar identiskt oavsett källformat.
+Funktionen `detect_statement_format()` identifierar om filen är MT940, CAMT.053, PAIN.001 eller något annat format som stöds. Funktionen `create_parser()` returnerar rätt parser. Din nedströmskod fungerar identiskt oavsett källformat.
 
 ## CAMT.053 vs MT940: Nyckelskillnader
 
-| Särdrag | MT940 | CAMT.053 |
+| Funktion | MT940 | CAMT.053 |
 |---|---|---|
-| Datarikedom | Begränsade fält | 3-5 gånger mer data per transaktion |
-| Karaktärsuppsättning | Begränsad (SWIFT-teckenuppsättning) | Fullständig Unicode |
-| Strukturera | Platt text med taggar | XML med namnrymder |
-| Balansrapportering | Endast öppning/stängning | Flera balanstyper |
-| Referenser | Enstaka referensfält | Flera referenstyper |
-| Valutahantering | Grundläggande | Full multi-valuta med växelkurser |
+| Datarikedom | Begränsade fält | 3–5x mer data per transaktion |
+| Teckenuppsättning | Begränsad (SWIFT charset) | Full Unicode |
+| Struktur | Platt text med taggar | XML med namnrymder |
+| Saldorapportering | Enbart ingående/utgående | Flera saldotyper |
+| Referenser | Ett enda referensfält | Flera referenstyper |
+| Valutahantering | Grundläggande | Full multivaluta med växelkurser |
 
-## Hur kontoutdrag Parser hjälper
+## Hur Bank Statement Parser hjälper
 
-- **Unified API**: Analysera både MT940 och CAMT.053 med samma`parse()`metod, som producerar identiska DataFrame-scheman.
-- **Automatisk upptäckt**: Inget behov av att veta formatet i förväg.`detect_statement_format()`identifierar det automatiskt.
-- **Namespace-agnostic**: Hanterar alla CAMT.053-varianter (001.02, 001.04 eller bankspecifika wrappers) utan konfiguration.
-- **Streaming**: Behandla stora CAMT-filer (50 MB+, 50K+ transaktioner) med begränsat minne.
-- **Migrationstest**: Kör båda parsarna sida vid sida på samma datumintervall för att verifiera utdatakonsistensen innan du byter.
+- **Enhetligt API**: Tolka MT940, CAMT.053 och PDF-utdrag med samma arbetsflöde och få konsekvent DataFrame-utdata.
+- **Autodetektering**: Inget behov av att veta formatet i förväg. `detect_statement_format()` identifierar det automatiskt.
+- **Hybrid-PDF-pipeline**: Banker som enbart levererar PDF-utdrag under övergången hanteras av `smart_ingest()` med automatisk saldoverifiering.
+- **Namnrymdsagnostisk**: Hanterar alla CAMT.053-varianter (001.02, 001.04 eller bankspecifika omslag) utan konfiguration.
+- **Multivaluta-verifiering**: `verify_balance_multi_currency()` kör Golden Rule per valutgrupp — viktigt för CAMT-utdrag med flera valutor.
+- **Streaming**: Bearbeta stora CAMT-filer (50 MB+, 50K+ transaktioner) med begränsat minne.
+- **Ledger-export**: Exportera direkt till hledger- eller beancount-journalformat för treasury-bokföring.
+- **Migreringstest**: Kör båda parsrarna sida vid sida på samma datumintervall för att verifiera utdatakonsistens innan du byter.
 
-## Komma igång
+## Kom igång
 
 ```bash
 pip install bankstatementparser
@@ -174,7 +177,7 @@ pip install bankstatementparser
 ```python
 from bankstatementparser import create_parser, detect_statement_format
 
-# Works with MT940 today, CAMT.053 tomorrow
+# Works with MT940 today, CAMT.053 tomorrow, PDF anytime
 for file in bank_statement_files:
     fmt = detect_statement_format(file)
     parser = create_parser(file, fmt)
@@ -182,6 +185,15 @@ for file in bank_statement_files:
     process(df)  # Your code doesn't change
 ```
 
+För PDF-utdrag från banker som ännu inte erbjuder strukturerade CAMT-exporter:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+assert result.verification.status == "VERIFIED"
+```
+
 [Läs hela dokumentationen](/getting-started/index.html)
 
-[Jämför med alternativ ❯](/comparison/index.html) | [Se användningsfall i verkliga världen ❯](/use-cases/index.html)
+[Jämför med alternativ ❯](/comparison/index.html) | [Se verkliga användningsfall ❯](/use-cases/index.html)

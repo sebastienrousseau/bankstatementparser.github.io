@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "O clădire albă cu ferestre negre"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Analizator extras de cont. Toate drepturile rezervate."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Începeți cu analizatorul de extrase de cont pentru Python: instalați, analizați fișierele CAMT/PAIN.001/CSV/OFX/QFX/MT940 și utilizați fluxurile de lucru în flux sau CLI."
 download: ""
 format-detection: "telephone=no"
@@ -109,24 +109,41 @@ site_software: "Shokunin, Rust"
 
 ## Cerințe
 
-- Python 3.9 până la 3.14
+- Python 3.10 până la 3.14
 - Acces la terminal (macOS, Linux sau WSL)
 
-## Instalează
+## Instalare
 
 ```bash
+# Instalare de bază (doar parsere deterministe)
 pip install bankstatementparser
 ```
 
-Pentru suportul Polars DataFrame:
+Extensii opționale pentru funcționalități suplimentare:
 
 ```bash
-pip install bankstatementparser[polars]
+# Calea Text-LLM pentru PDF-uri digitale (litellm + pypdf)
+pip install 'bankstatementparser[hybrid]'
+
+# Extracție de tabele cu fidelitate mai mare (adaugă pdfplumber)
+pip install 'bankstatementparser[hybrid-plus]'
+
+# Calea Vision-LLM pentru PDF-uri scanate (adaugă pypdfium2)
+pip install 'bankstatementparser[hybrid-vision]'
+
+# Categorizare a tranzacțiilor prin LLM
+pip install 'bankstatementparser[enrichment]'
+
+# Microserviciu REST API (FastAPI + uvicorn)
+pip install 'bankstatementparser[api]'
+
+# Suport opțional pentru DataFrames Polars
+pip install 'bankstatementparser[polars]'
 ```
 
 ## Pornire rapidă
 
-### Detectează automat și analizează orice format
+### Detectare automată și analizare a oricărui format structurat
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -137,9 +154,9 @@ df = parser.parse()  # pandas DataFrame
 print(df.head())
 ```
 
-Aceasta funcționează cu`.xml`(CAMT/PAIN.001),`.csv`, `.ofx`, `.qfx`, `.mt940`, și`.sta`fişiere.
+Funcționează cu fișiere `.xml` (CAMT/PAIN.001), `.csv`, `.ofx`, `.qfx`, `.mt940` și `.sta`.
 
-### Analizați CAMT.053
+### Analizare CAMT.053
 
 ```python
 from bankstatementparser import CamtParser
@@ -148,7 +165,7 @@ parser = CamtParser("statement.xml")
 transactions = parser.parse()
 ```
 
-### Analizează PAIN.001
+### Analizare PAIN.001
 
 ```python
 from bankstatementparser import Pain001Parser
@@ -157,9 +174,24 @@ parser = Pain001Parser("payment.xml")
 payments = parser.parse()
 ```
 
-## Streaming de fișiere mari
+### Analizare extrase bancare PDF (pipeline hibrid)
 
-Pentru fișierele cu mii de tranzacții, utilizați fluxul pentru a păstra memoria limitată:
+Pipeline-ul hibrid rutează inteligent PDF-urile prin trei căi de extracție:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+print(result.transactions)          # List of extracted transactions
+```
+
+Fiecare extracție este verificată cu **Regula de Aur**: `opening + credits − debits == closing`.
+
+## Streaming pentru fișiere mari
+
+Pentru fișiere cu mii de tranzacții, folosiți streaming pentru a menține memoria limitată:
 
 ```python
 parser = CamtParser("large_statement.xml")
@@ -167,9 +199,9 @@ for transaction in parser.parse_streaming(redact_pii=True):
     process(transaction)  # Memory stays constant
 ```
 
-## Analizare în memorie
+## Parsare în memorie
 
-Analizați din octeți fără I/O pe disc -- util pentru fluxurile de lucru SFTP sau API:
+Analizați din octeți fără I/O pe disc — util pentru fluxuri SFTP sau API:
 
 ```python
 xml_bytes = download_from_sftp()
@@ -193,9 +225,21 @@ for r in results:
     print(r.path, r.status, len(r.transactions), "rows")
 ```
 
+## Scanare în masă a directoarelor
+
+Procesați arbori întregi de foldere cu deduplicare automată:
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Processed: {len(batch.results)} files")
+print(f"Unique transactions: {batch.unique_count}")
+```
+
 ## Deduplicare
 
-Detectați duplicatele exacte și potrivirile suspectate cu scoruri de încredere:
+Hash-uri idempotente ale tranzacțiilor pentru ingestie incrementală sigură:
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
@@ -209,9 +253,61 @@ print(f"Exact duplicates: {len(result.exact_duplicates)}")
 print(f"Suspected matches: {len(result.suspected_matches)}")
 ```
 
+## Categorizare tranzacții (îmbogățire)
+
+Categorizați automat tranzacțiile folosind clasificare prin LLM:
+
+```python
+from bankstatementparser.enrichment import Categorizer
+
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(transactions)
+for txn in enriched:
+    print(f"{txn.description}: {txn.category}")
+```
+
+## Export registru (hledger / beancount)
+
+Exportați tranzacții în formate de jurnal pentru contabilitate în text simplu:
+
+```python
+from bankstatementparser.export import to_hledger, to_beancount
+
+journal = to_hledger(transactions, account="Assets:Bank:Checking")
+beancount_journal = to_beancount(transactions, account="Assets:Bank:Checking")
+```
+
+## Verificare sold multi-valută
+
+Verificați soldurile independent pe fiecare grup de valută:
+
+```python
+from bankstatementparser.hybrid import verify_balance_multi_currency
+
+results = verify_balance_multi_currency(transactions)
+for currency, verification in results.items():
+    print(f"{currency}: {verification.status}")
+```
+
+## REST API
+
+Implementați ca microserviciu FastAPI:
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+
+# For container deployments
+bankstatementparser-api --host 0.0.0.0 --port 9000
+```
+
+Endpoint-uri:
+- `POST /ingest` -- Analizează un fișier de extras bancar
+- `GET /health` -- Verificare de stare
+
 ## Procesare ZIP securizată
 
-Procesați fișierele XML arhivate cu verificări de securitate încorporate (protecție împotriva bombelor, respingerea intrării criptate):
+Procesați fișiere XML arhivate cu verificări de securitate încorporate (protecție bomb, respingere intrări criptate):
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
@@ -230,37 +326,48 @@ parser.export_json("output.json")
 
 # Polars (requires bankstatementparser[polars])
 polars_df = parser.to_polars()
+
+# Excel
+parser.camt_to_excel("output.xlsx")
 ```
 
 ## Utilizare CLI
 
 ```bash
-# Parse and display
-python -m bankstatementparser.cli --type camt --input statement.xml
+# Parse structured formats
+bankstatementparser --type camt --input statement.xml
+bankstatementparser --type pain001 --input payment.xml
 
-# Export to CSV
-python -m bankstatementparser.cli --type camt --input statement.xml --output transactions.csv
+# Hybrid PDF pipeline
+bankstatementparser --type ingest --input statement.pdf
+bankstatementparser --type ingest --input statement.pdf --output ledger.csv
 
-# Stream with PII visible
-python -m bankstatementparser.cli --type camt --input statement.xml --streaming --show-pii
+# Interactive review mode
+bankstatementparser --type review --input result.json
+bankstatementparser --type review --input result.json --output reviewed.json
+
+# Export to CSV with streaming
+bankstatementparser --type camt --input statement.xml --output transactions.csv
+bankstatementparser --type camt --input statement.xml --streaming --show-pii
 ```
 
 Opțiuni CLI:
 
-- `--type {camt,pain001}`-- tip parser
--`--input <path>`-- fișier de intrare
--`--output <csv_path>`-- export în CSV
--`--streaming`-- transmiteți în flux fișiere mari
--`--show-pii`-- afișează câmpurile sensibile (redactate implicit)
--`--max-size <MB>`-- limită de dimensiune a fișierului
+- `--type {camt,pain001,ingest,review}` -- tipul parserului sau modul
+- `--input <path>` -- fișier de intrare
+- `--output <path>` -- fișier de export (CSV sau JSON)
+- `--streaming` -- streaming pentru fișiere mari
+- `--show-pii` -- afișează câmpurile sensibile (redactate implicit)
+- `--max-size <MB>` -- limită de dimensiune a fișierului
 
-## Configurarea dezvoltării locale
+## Configurare dezvoltare locală
 
 ```bash
 git clone https://github.com/sebastienrousseau/bankstatementparser.git
 cd bankstatementparser
 python3 -m venv .venv && source .venv/bin/activate
 pip install poetry && poetry install --with dev
+make install-hooks   # pre-commit hook runs `make verify` before every commit
 ```
 
 Rulați suita de teste:
@@ -271,7 +378,7 @@ pytest
 
 ## Referință API
 
-### Clase de analizator
+### Clase parser
 
 | Clasă | Format | Import |
 |---|---|---|
@@ -281,32 +388,42 @@ pytest
 | `OfxParser` | OFX | `from bankstatementparser import OfxParser` |
 | `QfxParser` | QFX | `from bankstatementparser import QfxParser` |
 | `Mt940Parser` | MT940 | `from bankstatementparser import Mt940Parser` |
+| `smart_ingest()` | PDF (pipeline hibrid) | `from bankstatementparser.hybrid import smart_ingest` |
 
 ### Funcții utilitare
 
-| Funcţie | Scop |
+| Funcție | Scop |
 |---|---|
-| `detect_statement_format(path)` | Detectează automat formatul de fișier |
-| `create_parser(path, fmt)` | Creați analizatorul adecvat |
-| `parse_files_parallel(paths)` | Analizați mai multe fișiere simultan |
-| `iter_secure_xml_entries(zip_path)` | Repetați intrările ZIP în siguranță |
+| `detect_statement_format(path)` | Detectare automată a formatului fișierului |
+| `create_parser(path, fmt)` | Crearea parserului corespunzător |
+| `parse_files_parallel(paths)` | Analizare a mai multor fișiere simultan |
+| `iter_secure_xml_entries(zip_path)` | Iterare securizată a intrărilor ZIP |
+| `smart_ingest(path)` | Extracție hibridă PDF cu verificare |
+| `scan_and_ingest(dir, pattern)` | Scanare în masă a directoarelor |
+| `verify_balance_multi_currency(txns)` | Verificare sold pe fiecare valută |
+| `to_hledger(txns, account)` | Export în format jurnal hledger |
+| `to_beancount(txns, account)` | Export în format jurnal beancount |
 
 ### Clase de date
 
 | Clasă | Scop |
 |---|---|
-| `Deduplicator` | Detectează tranzacțiile duplicate |
+| `Deduplicator` | Detectare tranzacții duplicate |
 | `DeduplicationResult` | Rezultat cu potriviri unice, exacte și suspectate |
-| `InputValidator` | Validați căile și formatele fișierelor |
+| `InputValidator` | Validare căi și formate de fișiere |
 | `Transaction` | Înregistrare normalizată a tranzacțiilor |
-| `FileResult` | Rezultat din analiza paralelă |
-| `ZipXMLSource` | Înveliș pentru membri ZIP |
+| `FileResult` | Rezultat din parsare paralelă |
+| `ZipXMLSource` | Wrapper pentru membrii ZIP |
+| `IngestResult` | Rezultat pipeline hibrid cu verificare |
+| `VerificationResult` | Rezultat verificare sold |
+| `Categorizer` | Categorizare tranzacții prin LLM |
+| `AccountMapper` | Reguli de mapare conturi bazate pe regex |
 
 ### Excepții
 
-| Excepţie | Când este Ridicat |
+| Excepție | Când este ridicată |
 |---|---|
-| `ParserError` | Eșecurile de analiză |
-| `ExportError` | Eșecuri la export (CSV/JSON/Excel) |
-| `ValidationError` | Eșecuri de validare a intrărilor |
-| `ZipSecurityError` | Eșecuri ale verificării de securitate ZIP |
+| `ParserError` | Erori de parsare |
+| `ExportError` | Erori la export (CSV/JSON/Excel) |
+| `ValidationError` | Erori de validare a intrărilor |
+| `ZipSecurityError` | Erori la verificarea securității ZIP |

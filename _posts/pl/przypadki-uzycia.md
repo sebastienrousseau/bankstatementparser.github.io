@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Przypadki użycia analizatora wyciągów bankowych"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Parser wyciągów bankowych. Wszelkie prawa zastrzeżone."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Jak zespoły skarbowe, programiści fintech i specjaliści ds. zgodności korzystają z analizatora wyciągów bankowych do migracji, uzgadniania, uzgadniania, audytów i konsolidacji wielu banków z MT940 do CAMT."
 download: ""
 format-detection: "telephone=no"
@@ -107,13 +107,41 @@ site_software: "Shokunin, Rust"
 
 ---
 
-Parser wyciągów bankowych obsługuje przepływy pracy w świecie rzeczywistym: migrację z MT940 do CAMT dla zespołów skarbowych, automatyczne uzgadnianie, potoki zgodności z redakcją danych osobowych, przetwarzanie SFTP, konsolidację wielu banków i bezpieczne przetwarzanie wsadowe ZIP.
+Bank Statement Parser obsługuje rzeczywiste przepływy pracy finansowej: przetwarzanie wyciągów bankowych PDF, migrację MT940-do-CAMT, automatyczne uzgadnianie z weryfikacją salda, pipeline'y zgodności, eksport do plaintext-accounting, wdrożenia REST API, masowe skanowanie i konsolidację wielu banków.
 
-## Skarbiec: Migracja z MT940 do CAMT.053
+## Przetwarzanie wyciągów bankowych PDF
 
-**Wynik:** pojedyncze wywołanie interfejsu API obsługuje zarówno MT940, jak i CAMT.053 w oknie migracji SWIFT (listopad 2025–listopad 2028), eliminując potrzebę stosowania oddzielnych potoków analizy.
+**Wynik:** Parsowanie cyfrowych i zeskanowanych wyciągów bankowych PDF z automatyczną weryfikacją salda — bez chmurowych API, żadne dane nie opuszczają maszyny.
 
-Zespoły skarbowe na całym świecie migrują z MT940 do CAMT.053 przed ostatecznym terminem SWIFT przypadającym na listopad 2027 r. Parser wyciągów bankowych obsługuje oba formaty za pomocą jednego interfejsu API, dzięki czemu przejście jest płynne.
+Hybrydowy pipeline PDF kieruje każdy plik PDF przez optymalną ścieżkę ekstrakcji i weryfikuje każdy wynik.
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+
+# Review discrepancies interactively
+# bankstatementparser --type review --input result.json
+```
+
+## Masowe przetwarzanie wyciągów
+
+**Wynik:** Skanowanie całych drzew folderów (setki plików PDF, XML, CSV) z automatyczną deduplikacją między plikami w jednym wywołaniu.
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Files: {len(batch.results)}, Unique txns: {batch.unique_count}")
+```
+
+## Skarbiec: Migracja MT940 do CAMT.053
+
+**Wynik:** Jedno wywołanie API obsługuje zarówno MT940, jak i CAMT.053 w oknie migracji SWIFT (listopad 2025–listopad 2028), eliminując potrzebę oddzielnych pipeline'ów parsowania.
+
+Zespoły skarbowe na całym świecie migrują z MT940 do CAMT.053 przed terminem SWIFT w listopadzie 2027. Bank Statement Parser obsługuje oba formaty za pomocą jednego API, co czyni przejście płynnym.
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -126,17 +154,23 @@ for file in daily_statement_files:
     load_to_treasury_system(df)
 ```
 
-## Automatyczne uzgadnianie
+## Automatyczne uzgadnianie z weryfikacją salda
 
-**Wynik:** Ramki danych niezależne od formatu z wbudowaną deduplikacją zmniejszają wysiłek związany z ręcznym dopasowywaniem i wychwytują zduplikowane wpisy, zanim dotrą do księgi głównej.
+**Wynik:** DataFrames niezależne od formatu z weryfikacją Golden Rule i deduplikacją wychwytują błędy i duplikaty, zanim trafią do księgi.
 
-Automatycznie analizuj wyciągi bankowe i dopasowuj je do zapisów wewnętrznych. Ujednolicone dane wyjściowe DataFrame sprawiają, że logika uzgadniania jest niezależna od formatu.
+Parsowanie wyciągów bankowych, weryfikacja sald i automatyczne dopasowywanie do zapisów wewnętrznych.
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
+from bankstatementparser.hybrid import verify_balance_multi_currency
 
 parser = CamtParser("bank_statement.xml")
 bank_txns = parser.parse()
+
+# Verify balances per currency
+verification = verify_balance_multi_currency(bank_txns)
+for ccy, result in verification.items():
+    assert result.status == "VERIFIED", f"{ccy} balance mismatch!"
 
 # Deduplicate before reconciliation
 dedup = Deduplicator()
@@ -147,11 +181,39 @@ clean_txns = result.unique_transactions
 unmatched = reconcile(clean_txns, internal_ledger)
 ```
 
-## Potoki zgodności i audytu
+## Plaintext Accounting (hledger / beancount)
 
-**Wynik:** Deterministyczne dane wyjściowe i automatyczna redakcja informacji umożliwiających identyfikację umożliwiają utworzenie dzienników gotowych do audytu, które spełniają wymogi regulacyjne w zakresie odtwarzalności bez dodatkowego narzędzi.
+**Wynik:** Automatyczny import wyciągów bankowych PDF i eksport skategoryzowanych transakcji do formatu dziennika hledger lub beancount.
 
-Twórz potoki gotowe do audytu z redakcją informacji umożliwiających identyfikację i deterministycznymi wynikami. Każda seria daje identyczne wyniki dla tych samych danych wejściowych, spełniając regulacyjne wymagania dotyczące powtarzalności.
+```python
+from bankstatementparser.hybrid import smart_ingest
+from bankstatementparser.enrichment import Categorizer
+from bankstatementparser.export import to_hledger
+
+result = smart_ingest("statement.pdf")
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(result.transactions)
+journal = to_hledger(enriched, account="Assets:Bank:Checking")
+```
+
+## Wdrożenie REST API
+
+**Wynik:** Wdrożenie Bank Statement Parser jako mikroserwisu, który przyjmuje pliki wyciągów przez HTTP i zwraca ustrukturyzowany JSON.
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+```
+
+```bash
+# Ingest a statement
+curl -X POST http://localhost:8000/ingest \
+  -F "file=@statement.pdf"
+```
+
+## Pipeline'y zgodności i audytu
+
+**Wynik:** Deterministyczne wyniki, automatyczna redakcja PII i weryfikacja Golden Rule tworzą logi gotowe do audytu, które spełniają wymogi regulacyjne dotyczące powtarzalności.
 
 ```python
 from bankstatementparser import CamtParser
@@ -166,11 +228,9 @@ for txn in parser.parse_streaming(redact_pii=True):
 parser.export_csv("archive/statement.csv")
 ```
 
-## Przepływy pracy SFTP do ramki danych
+## Przepływy pracy SFTP-do-DataFrame
 
-**Wynik:** Analizuj bezpośrednio z bajtów przy zerowej liczbie operacji we/wy na dysku, dopasowując się natywnie do przepływów pracy związanych z łącznością bankową opartą na SFTP i API.
-
-Wiele banków dostarcza wyciągi za pośrednictwem protokołu SFTP. Analizuj bezpośrednio z bajtów bez zapisywania na dysku.
+**Wynik:** Parsowanie bezpośrednio z bajtów przy zerowych operacjach dyskowych, naturalnie wpasowujące się w przepływy pracy łączności bankowej oparte na SFTP i API.
 
 ```python
 from bankstatementparser import CamtParser
@@ -182,9 +242,7 @@ df = parser.parse()
 
 ## Konsolidacja wielu banków
 
-**Wynik:** Równoległe parsowanie w bankach HSBC (CAMT), Barclays (MT940), Revolut (CSV) i Wise (OFX) tworzy pojedynczy znormalizowany zbiór danych w jednym wywołaniu.
-
-Konsoliduj wyciągi z wielu banków przy użyciu różnych formatów w jeden znormalizowany zbiór danych.
+**Wynik:** Równoległe parsowanie z HSBC (CAMT), Barclays (MT940), Revolut (CSV), Wise (OFX) i Chase (PDF) tworzy jeden znormalizowany zbiór danych.
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -203,8 +261,6 @@ all_transactions = pd.concat([r.transactions for r in results if r.status == "su
 
 **Wynik:** Wbudowana ochrona przed bombami ZIP (limit proporcji 100:1, limit wpisów 10 MB, odrzucanie wpisów zaszyfrowanych) umożliwia bezpieczne przetwarzanie miesięcznych archiwów wyciągów.
 
-Bezpiecznie przetwarzaj spakowane archiwa wyciągów dzięki wbudowanej ochronie przed bombami ZIP.
-
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
 
@@ -214,4 +270,4 @@ for entry in iter_secure_xml_entries("monthly_statements.zip"):
     save_to_warehouse(entry.source_name, df)
 ```
 
-[Porównaj z alternatywami ❯](/comparison/index.html) | [Zaplanuj migrację do ISO 20022 ❯](/migration/index.html) | [Rozpocznij ❯](/getting-started/index.html)
+[Porównaj z alternatywami ❯](/comparison/index.html) | [Zaplanuj migrację ISO 20022 ❯](/migration/index.html) | [Rozpocznij ❯](/getting-started/index.html)

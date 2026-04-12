@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "צילום אדריכלי של בניין זכוכית"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: "bankstatementparser.com"
-copyright: "© 2023-2026 מנתח חשבונות בנק. כֹּל הַזְכוּיוֹת שְׁמוּרוֹת."
-date: "Apr 01, 2026"
+copyright: "© 2023-2026 מנתח חשבונות בנק. כֹּל הַזְכוּיוֹת שְׁמוּרוֹת."
+date: "Apr 11, 2026"
 description: "ספריית Python בקוד פתוח לנתח דפי חשבון בנק CAMT.053, PAIN.001, CSV, OFX, QFX ו-MT940 לתוך פנדה DataFrames. 27K+ tx/s, סטרימינג, עריכת PII, 100% מקומי."
 download_url: "https://pypi.org/project/bankstatementparser/"
 download_title: "pip להתקין את bankstatementparser"
@@ -109,7 +109,7 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**Bank Statement Parser** היא ספריית Python בקוד פתוח המנתחת דפי בנק משישה פורמטים (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) לתוך DataFrames מובנים של פנדות. כל העיבוד מתנהל באופן מקומי - אפס שיחות רשת, פלט דטרמיניסטי ועיבוד PII אוטומטי.
+**Bank Statement Parser** היא ספריית Python בקוד פתוח שמנתחת דפי חשבון בנק משבעה פורמטים (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940 ו-PDF) לתוך DataFrames מובנים של pandas. כל העיבוד רץ מקומית — פלט דטרמיניסטי, עריכת PII אוטומטית, ו-pipeline היברידי אופציונלי ל-PDF שמנתב דרך LLMs מקומיים בעת הצורך.
 
 ## התחל תוך שניות
 
@@ -125,62 +125,90 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # pandas DataFrame, ready to use
 ```
 
+```python
+# Parse PDFs with the hybrid pipeline (v0.0.5+)
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+```
+
 <img src="https://img.shields.io/github/stars/sebastienrousseau/bankstatementparser?style=for-the-badge&label=Stars" height="28" alt="GitHub Stars" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/dm/bankstatementparser?style=for-the-badge&label=Downloads" height="28" alt="Monthly Downloads" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/v/bankstatementparser?style=for-the-badge&label=PyPI" height="28" width="119" alt="PyPI Version" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/pyversions/bankstatementparser?style=for-the-badge&label=Python" height="28" width="347" alt="Python" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/l/bankstatementparser?style=for-the-badge&label=License" height="28" width="292" alt="License" loading="lazy" style="margin:0 .25rem .5rem 0" />
-<img src="https://img.shields.io/badge/tests-467%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
+<img src="https://img.shields.io/badge/tests-718%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/badge/coverage-100%25-brightgreen?style=for-the-badge" height="28" width="152" alt="Coverage" loading="lazy" style="margin:0 .25rem .5rem 0" />
 
-## ספרייה אחת, שישה פורמטים
+## ספרייה אחת, שבעה פורמטים
 
-נתח CAMT.053, PAIN.001, CSV, OFX, QFX ו-MT940 לתוך DataFrames של פנדות מובנות עם API יחיד ומאוחד. אין צורך להתקין חבילות נפרדות עבור כל פורמט.
+נתח CAMT.053, PAIN.001, CSV, OFX, QFX, MT940 ו-PDF לתוך DataFrames מובנים של pandas עם API יחיד ומאוחד. אין צורך להתקין חבילות נפרדות לכל פורמט.
 
-| תכונה | מנתח דפי בנק | OSS בפורמט יחיד (mt940, ofxparse) | SaaS (Ocrolus, Parseur) |
+| תכונה | Bank Statement Parser | OSS בפורמט יחיד (mt940, ofxparse) | SaaS (Ocrolus, Parseur) |
 |---|---|---|---|
-| פורמטים נתמכים | 6, API מאוחד | 1 כל אחד | רבים (באמצעות OCR) |
-| פרטיות נתונים | 100% מקומי, אפס שיחות רשת | 100% מקומי | נתונים נשלחים חיצונית |
-| עֲלוּת | חינם, Apache 2.0 | לְשַׁחְרֵר | $49-$1,000+ לחודש |
-| עריכת PII | מובנה, פועל כברירת מחדל | לֹא | משתנה |
-| נְהִירָה | זיכרון מוגבל | לֹא | לא |
-| אבטחת ZIP | התקשות מובנית | לֹא | לא |
-| מניעת כפילות | מובנה עם ציוני ביטחון | לֹא | כַּמָה |
+| פורמטים נתמכים | 7, API מאוחד | 1 כל אחד | רבים (באמצעות OCR) |
+| תמיכה ב-PDF | Pipeline היברידי (דטרמיניסטי + LLM + vision) | לא | כן (OCR בענן) |
+| פרטיות נתונים | 100% מקומי (LLMs רצים מקומית דרך Ollama) | 100% מקומי | נתונים נשלחים החוצה |
+| עלות | חינם, Apache 2.0 | חינם | $49-$1,000+/חודש |
+| אימות יתרה | כלל הזהב (פתיחה + זיכויים − חיובים = סגירה) | לא | משתנה |
+| עריכת PII | מובנית, פועלת כברירת מחדל | לא | משתנה |
+| streaming | זיכרון מוגבל | לא | לא רלוונטי |
+| REST API | שירות FastAPI מובנה | לא | כן |
+| מניעת כפילויות | hash עסקאות אידמפוטנטי | לא | חלקי |
+| ייצוא ל-Ledger | hledger + beancount | לא | לא |
 
-## נבנה עבור הגירה של ISO 20022
+## Pipeline היברידי ל-PDF
 
-SWIFT קבעה מועדים תקיפים: כל המוסדות הפיננסיים חייבים לקבל CAMT.053 עד נובמבר 2027, ו-MT940/MT942/MT950 יופסק במלואו עד נובמבר 2028. מנתח חשבונות בנק מטפל גם בפורמטים מדור קודם של MT940 וגם בפורמטים מודרניים של ISO 20022 (CAMT.053, כך שה-PIN שלך ב-PIN.053) במהלך המעבר ומעבר לו.
+Bank Statement Parser v0.0.5+ כולל pipeline היברידי בשלושה נתיבים לדפי חשבון PDF:
+
+- **נתיב A (דטרמיניסטי)**: טבלאות PDF מובנות מנותחות ישירות — חינם, המהיר ביותר, ללא צורך ב-LLM.
+- **נתיב B (Text-LLM)**: קבצי PDF דיגיטליים עם פריסות מורכבות נחלצים דרך LLM מקומי (LiteLLM/Ollama).
+- **נתיב C (Vision-LLM)**: דפי חשבון סרוקים או מצולמים מעובדים עם מודלים חזותיים רב-ממדיים.
+
+כל חילוץ מאומת באמצעות **כלל הזהב**: `opening balance + credits − debits == closing balance`.
+
+## נבנה להגירת ISO 20022
+
+SWIFT קבעה מועדים ברורים: כל המוסדות הפיננסיים חייבים לקבל CAMT.053 עד נובמבר 2027, ו-MT940/MT942/MT950 יצאו משימוש לחלוטין עד נובמבר 2028. Bank Statement Parser מטפל גם בפורמט MT940 הישן וגם בפורמטים המודרניים של ISO 20022 (CAMT.053, PAIN.001) ב-API יחיד, כך שה-pipeline שלך עובד במהלך המעבר וגם אחריו.
 
 ## ביצועים
 
-- **27,000+ עסקאות לשנייה** עבור ניתוח CAMT.053
-- **52,000+ עסקאות לשנייה** עבור ניתוח PAIN.001
-- **< 2 אלפיות השנייה** זמן עד לתוצאה הראשונה
-- **זיכרון קבוע** מ-1K עד 50K+ עסקאות באמצעות סטרימינג
-- **467 בדיקות** עם כיסוי של 100% סניפים ברחבי Python 3.9 עד 3.14
+- **27,000+ עסקאות לשנייה** לניתוח CAMT.053
+- **52,000+ עסקאות לשנייה** לניתוח PAIN.001
+- **< 2 מילישניות** עד לתוצאה הראשונה
+- **זיכרון קבוע** מ-1K עד 50K+ עסקאות באמצעות streaming
+- **718 בדיקות** עם כיסוי של 100% branches ב-Python 3.10 עד 3.14
 
-## מדוע מנתח דפי חשבון בנק?
+## למה Bank Statement Parser?
 
-- **פורמט זיהוי אוטומטי**:`detect_statement_format()`מזהה קבצים באופן אוטומטי ו`create_parser()`מחזיר את המנתח הימני.
-- **פרטיות ראשית**: עריכת PII מופעלת כברירת מחדל. שדות רגישים (שמות, IBANs, כתובות) מוסווים בפלט CLI. הצטרף עם`--show-pii`בעת הצורך.
-- **מוכן לייצור**: קליטת ZIP מאובטחת (הגנה על פצצות, דחיית כניסה מוצפנת), אימות קלט ומניעת חציית נתיב.
-- **פלט גמיש**: ייצא ל-CSV, JSON, Excel, או המר ל-Polars DataFrames.
-- **עיבוד מקביל**: ניתוח מספר קבצים במקביל`parse_files_parallel()`.
+- **חילוץ PDF היברידי**: `smart_ingest()` מטפל ב-PDF דיגיטליים וסרוקים עם ניתוב אוטומטי ואימות יתרה.
+- **זיהוי אוטומטי של פורמט**: `detect_statement_format()` מזהה קבצים אוטומטית ו-`create_parser()` מחזיר את המנתח המתאים.
+- **פרטיות בראש סדר העדיפויות**: עריכת PII פועלת כברירת מחדל. LLMs רצים מקומית דרך Ollama — שום נתון לא עוזב את המחשב שלך.
+- **REST API**: פריסה כשירות FastAPI עם endpoints של `/ingest` ו-`/health`.
+- **העשרה**: סיווג עסקאות מונע LLM עם סכמות ניתנות לחיבור (ברירת מחדל: 13 קטגוריות של Plaid).
+- **ייצוא ל-Ledger**: ייצוא ל-hledger ו-beancount לתהליכי חשבונאות בטקסט.
+- **סריקה בכמות גדולה**: `scan_and_ingest()` מעבד עצי תיקיות עם מניעת כפילויות אוטומטית בין קבצים.
+- **רב-מטבעי**: `verify_balance_multi_currency()` מריץ אימות כלל הזהב לכל קבוצת מטבע.
+- **מוכן לייצור**: קליטת ZIP מאובטחת, אימות קלט, מניעת חציית נתיבים, ומצב סקירה אינטראקטיבי.
+- **פלט גמיש**: ייצוא ל-CSV, JSON, Excel, Polars, hledger, או beancount.
+- **עיבוד מקבילי**: ניתוח מספר קבצים בו-זמנית עם `parse_files_parallel()`.
 
 
 ## נבנה לייצור
 
-מנתח חשבונות בנק מיועד לצוותי אוצר, מפתחי פינטק וקציני ציות המעבדים נתונים פיננסיים רגישים. הספרייה משמשת בצינורות הגירה של MT940 ל-CAMT, מערכות התאמה אוטומטיות וזרימות עבודה של ביקורת רגולטורית בין מוסדות פיננסיים.
+Bank Statement Parser מיועד לצוותי אוצר, מפתחי פינטק וקציני ציות המעבדים נתונים פיננסיים רגישים. הספרייה משמשת ב-pipelines של הגירה מ-MT940 ל-CAMT, מערכות התאמה אוטומטיות, קליטת דפי חשבון PDF, ותהליכי ביקורת רגולטוריים במוסדות פיננסיים.
 
-- **467 בדיקות** עם כיסוי של 100% סניפים ברחבי Python 3.9 עד 3.14
-- **SHA-256 תלות נעולות hash** עם CycloneDX SBOM לכל מהדורה
-- **פלט דטרמיניסטי** - קלט זהה מייצר תוצאות זהות בתים, בכל הפעלה
-- **מורשה Apache 2.0** - שימוש חופשי במערכות מסחריות ופנימיות
+- **718 בדיקות** עם כיסוי של 100% branches ב-Python 3.10 עד 3.14
+- **תלויות נעולות ב-SHA-256 hash** עם CycloneDX SBOM לכל גרסה
+- **פלט דטרמיניסטי** — קלט זהה מייצר תוצאות זהות בתים, בכל הרצה
+- **רישיון Apache 2.0** — שימוש חופשי במערכות מסחריות ופנימיות
 
-**הערכת חלופות?** [ראה כיצד מנתח דפי בנק משווה ❯](/comparison/index.html) | [גלה מקרי שימוש בעולם האמיתי ❯](/use-cases/index.html)
+**בודקים חלופות?** [ראו כיצד Bank Statement Parser משתווה ❯](/comparison/index.html) | [גלו מקרי שימוש מהעולם האמיתי ❯](/use-cases/index.html)
 
-[התחל ❯][01] | [הצג ב-GitHub ❯][02] | [הצג ב-PyPI ❯][03]
+[התחל ❯][01] | [צפה ב-GitHub ❯][02] | [צפה ב-PyPI ❯][03]
 
 [01]: /getting-started/index.html
-[02]:https://github.com/sebastienrousseau/bankstatementparser
+[02]: https://github.com/sebastienrousseau/bankstatementparser
 [03]: https://pypi.org/project/bankstatementparser/

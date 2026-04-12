@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Banka Ekstresi Ayrıştırıcı ve Alternatifler"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Banka Ekstresi Ayrıştırıcı. Her hakkı saklıdır."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Banka Ekstresi Ayrıştırıcısını mt-940, ofxparse, pycamt, pyiso20022 ve Ocrolus ve Parseur gibi SaaS araçlarıyla karşılaştırın. Özellik karşılaştırması, fiyatlandırma ve geçiş kılavuzu."
 download: ""
 format-detection: "telephone=no"
@@ -109,70 +109,82 @@ site_software: "Shokunin, Rust"
 
 ## Genel Bakış
 
-Banka Ekstresi Ayrıştırıcısı, altı banka ekstresi formatını birleşik bir API ile ayrıştıran tek açık kaynaklı Python kütüphanesidir. Tek formatlı kitaplıkların (mt-940, ofxparse, pycamt) her biri bir formatı işler. SaaS araçları (Ocrolus, Parseur), PDF'ler için OCR sunar ancak verilerin harici olarak gönderilmesini gerektirir ve aylık 49–1.000 ABD Doları + tutarında bir maliyete sahiptir.
+Bank Statement Parser, yedi banka ekstresi formatını -- PDF dahil, hibrit LLM pipeline ile -- birleşik bir API ile ayrıştıran tek açık kaynaklı Python kitaplığıdır. Tek formatlı kitaplıklar (mt-940, ofxparse, pycamt) her biri yalnızca bir formatı işler. SaaS araçları (Ocrolus, Parseur) bulut OCR sunar ancak verilerin dışarı gönderilmesini gerektirir ve aylık 49$-1.000$+ maliyete sahiptir.
 
 ## Açık Kaynak Alternatifleri
 
 ### Tek Formatlı Kitaplıklar
 
-Çoğu açık kaynak banka ekstresi ayrıştırıcısı yalnızca tek bir biçimi işler. Birden fazla formata ihtiyacınız varsa farklı API'lere, çıktı şemalarına ve güncelleme döngülerine sahip ayrı kitaplıklar kurmanız ve sürdürmeniz gerekir.
+Çoğu açık kaynak banka ekstresi ayrıştırıcısı yalnızca tek bir formatı işler. Birden fazla formata ihtiyacınız varsa farklı API'lere, çıktı şemalarına ve güncelleme döngülerine sahip ayrı kitaplıklar kurmanız ve sürdürmeniz gerekir.
 
-| Kütüphane | Biçim | Çıkış | Akış | Kişisel Bilgilerin Düzenlenmesi | Tekilleştirme |
+| Kitaplık | Formatlar | PDF | Çıktı | Bakiye Doğrulama | Defter Dışa Aktarımı |
 |---|---|---|---|---|---|
-| **Banka Ekstresi Ayrıştırıcı** | 6 format | pandalar DataFrame | Evet | Evet (varsayılan) | Evet |
-| mt-940 (WoLpH) | Yalnızca MT940 | Python nesneleri | HAYIR | HAYIR | HAYIR |
-| ofxparse | Yalnızca OFX | Python nesneleri | HAYIR | HAYIR | HAYIR |
-| kamera | Yalnızca CAMT.053 | Python nesneleri | HAYIR | HAYIR | HAYIR |
-| ofxtools | Yalnızca OFX v1/v2 | Python nesneleri | HAYIR | HAYIR | HAYIR |
+| **Bank Statement Parser** | 7 format | Hibrit pipeline | pandas DataFrame | Altın Kural | hledger, beancount |
+| mt-940 (WoLpH) | Yalnızca MT940 | Hayır | Python nesneleri | Hayır | Hayır |
+| ofxparse | Yalnızca OFX | Hayır | Python nesneleri | Hayır | Hayır |
+| pycamt | Yalnızca CAMT.053 | Hayır | Python nesneleri | Hayır | Hayır |
+| ofxtools | Yalnızca OFX v1/v2 | Hayır | Python nesneleri | Hayır | Hayır |
 
-### vs pyiso20022
+### pyiso20022 ile Karşılaştırma
 
 pyiso20022, tam ISO 20022 şema kataloğundan Python veri sınıfları oluşturur. PACS, PAIN, CAMT ve ADMI mesajlarıyla çalışmaya yönelik genel amaçlı bir ISO 20022 araç setidir.
 
-Banka Ekstresi Ayrıştırıcısı, üretim özelliklerine sahip banka ekstrelerini DataFrames'e ayrıştırmak için özel olarak tasarlanmıştır:
+Bank Statement Parser, üretim özelliklerine sahip banka ekstrelerini DataFrames'e ayrıştırmak için özel olarak tasarlanmıştır:
 
-| Özellik | Banka Ekstresi Ayrıştırıcı | pyiso20022 |
+| Özellik | Bank Statement Parser | pyiso20022 |
 |---|---|---|
-| Amaç | İfade ayrıştırma + dışa aktarma | ISO 20022 şema araç seti |
-| Çıkış | pandalar/Polars DataFrames | Python veri sınıfları |
-| Formatlar | 6 (ISO olmayanlar dahil) | Yalnızca ISO 20022 |
-| Akış | Evet (sınırlı hafıza) | HAYIR |
-| Kimlik bilgileri redaksiyonu | Yerleşik | HAYIR |
-| Tekilleştirme | Yerleşik | HAYIR |
-| Posta güvenliği | Yerleşik | HAYIR |
-| CLI | Evet | HAYIR |
+| Amaç | Ekstre ayrıştırma + çıkarım + dışa aktarım | ISO 20022 şema araç seti |
+| Çıktı | pandas/Polars DataFrames | Python veri sınıfları |
+| Formatlar | 7 (PDF ve ISO dışı dahil) | Yalnızca ISO 20022 |
+| PDF desteği | Hibrit pipeline (deterministik + LLM + görüntü) | Hayır |
+| Bakiye doğrulama | Altın Kural + çoklu para birimi | Hayır |
+| REST API | Yerleşik FastAPI | Hayır |
+| Zenginleştirme | LLM destekli sınıflandırma | Hayır |
+| Defter dışa aktarımı | hledger + beancount | Hayır |
+| Streaming | Evet (sınırlı bellek) | Hayır |
+| PII redaksiyonu | Yerleşik | Hayır |
+| Tekilleştirme | Idempotent işlem hash'leri | Hayır |
+| CLI | Evet | Hayır |
 
-ISO 20022 mesaj kataloğunun tamamıyla çalışmanız gerekiyorsa pyiso20022'yi kullanın. Analiz, mutabakat veya raporlama için banka ekstrelerini yapılandırılmış verilere ayrıştırmanız gerekiyorsa Hesap Özeti Ayrıştırıcısını kullanın.
+ISO 20022 mesaj kataloğunun tamamıyla çalışmanız gerekiyorsa pyiso20022'yi kullanın. Analiz, mutabakat veya raporlama için banka ekstrelerini yapılandırılmış verilere dönüştürmeniz gerekiyorsa Bank Statement Parser'ı kullanın.
 
 ## SaaS Alternatifleri
 
 Ocrolus, Parseur ve Sensible gibi SaaS araçları, banka ekstresi ayrıştırmayı bir bulut hizmeti olarak sunar. Taranmış PDF'leri işlemek için genellikle OCR kullanırlar ve yüzlerce bankaya özgü formatı desteklerler.
 
-| Özellik | Banka Ekstresi Ayrıştırıcı | SaaS Araçları |
+| Özellik | Bank Statement Parser | SaaS Araçları |
 |---|---|---|
-| Veri gizliliği | %100 yerel, sıfır ağ çağrısı | Buluta gönderilen veriler |
-| Maliyet | Ücretsiz (Apache 2.0) | 49 ABD Doları–1.000 ABD Doları+/ay (2026 1. Çeyrek itibarıyla) |
-| Formatlar | 6 yapılandırılmış format | Yüzlerce (OCR aracılığıyla) |
-| PDF desteği | Hayır (yalnızca yapılandırılmış formatlar) | Evet (OCR tabanlı) |
-| Gecikme | <2 ms ilk sonuç | 1-30 saniye |
-| Verim | 27.000+ TX/saniye | API hızı sınırlı |
-| Satıcıya kilitlenme | Hiçbiri | Evet |
+| Veri gizliliği | %100 yerel (LLM'ler Ollama ile) | Veriler buluta gönderilir |
+| Maliyet | Ücretsiz (Apache 2.0) | 49$-1.000$+/ay (2026 1. Çeyrek itibarıyla) |
+| Formatlar | 7 (yapılandırılmış + PDF) | Yüzlerce (OCR ile) |
+| PDF desteği | Evet — hibrit pipeline (deterministik + LLM + görüntü) | Evet (bulut OCR) |
+| Bakiye doğrulama | Altın Kural (otomatik) | Manuel / sınırlı |
+| Gecikme | <2 ms (yapılandırılmış), saniyeler (PDF+LLM) | 1-30 saniye |
+| Aktarım hızı | 27.000+ tx/saniye (yapılandırılmış) | API hız sınırlı |
+| REST API | Yerleşik FastAPI | Özel mülk |
+| Defter dışa aktarımı | hledger + beancount | Hayır |
+| Satıcıya bağımlılık | Yok | Evet |
 | Uyumluluk | Yerel işleme, SBOM | Sağlayıcıya göre değişir |
 
-## Yüksek Lisans Tabanlı Ayrıştırıcılar
+## LLM Tabanlı Ayrıştırıcılar
 
-Giderek artan sayıda araç (Inscribe, Unstract, Mozilla.ai planları), taranmış PDF'ler de dahil olmak üzere banka hesap özetlerini ayrıştırmak için büyük dil modelleri kullanıyor. Chase, 2025'in sonlarında tüketici bildirimi formatını yeniden tasarladığında, şablon tabanlı ayrıştırıcılar bozuldu, LLM ayrıştırıcıları ise otomatik olarak adapte oldu.
+Giderek artan sayıda araç (Inscribe, Unstract, Mozilla.ai planları), taranmış PDF'ler dahil banka ekstrelerini ayrıştırmak için büyük dil modelleri kullanıyor. Chase, 2025 sonlarında tüketici ekstresi formatını yeniden tasarladığında şablon tabanlı ayrıştırıcılar bozuldu; LLM ayrıştırıcıları ise otomatik olarak uyum sağladı.
 
-**LLM ayrıştırıcıları mantıklı olduğunda**: Yüzlerce bankadan öngörülemeyen düzenlere sahip taranmış PDF'ler alırsınız ve yaklaşık çıkarma (%95-99 doğruluk) kabul edilebilirdir.
+**Bank Statement Parser artık kendi hibrit LLM pipeline'ını içeriyor** (v0.0.5+) ve tamamen yerel olarak Ollama üzerinden çalışır. Her iki yaklaşımın en iyisini birleştirir:
 
-**Banka Ekstresi Ayrıştırıcısı daha iyi bir seçim olduğunda**: Denetim ve uyumluluk için belirleyici, tekrarlanabilir çıktıya ihtiyacınız var. Finansal verileri harici API'lere gönderemezsiniz. Milisaniyenin altında bir gecikmeye ihtiyacınız var (LLM API'leri için 1-30 saniyeye karşılık). Devam eden maliyetin sıfır olmasını ve satıcı bağımlılığının olmamasını istiyorsunuz.
+- **Yapılandırılmış formatlar** (XML, CSV, OFX, MT940): Deterministik ayrıştırma — %100 doğruluk, milisaniye altı gecikme, sıfır LLM maliyeti.
+- **PDF ekstreler**: Üç yollu yönlendirme (deterministik tablo çıkarımı -> metin-LLM -> görüntü-LLM) ve çıkarım hatalarını yakalamak için otomatik Altın Kural doğrulaması.
 
-Banka Ekstresi Ayrıştırıcı ve LLM araçları farklı sorunları çözer. %100 doğruluk, yerel işleme ve denetim tekrarlanabilirliğine ihtiyaç duyduğunuz yapılandırılmış formatlar (XML, CSV, OFX, MT940) için Hesap Özeti Ayrıştırıcısını kullanın. Yaklaşık çıkarmanın kabul edilebilir olduğu yapılandırılmamış PDF'ler için LLM araçlarını kullanın.
+Yalnızca bulut tabanlı LLM ayrıştırıcılarından farklı olarak, Bank Statement Parser'ın hibrit pipeline'ı:
+- %100 yerel çalışır (Ollama) — hiçbir veri makinenizden çıkmaz.
+- Her çıkarımı bakiye doğrulamasıyla (Altın Kural) kontrol eder.
+- İşaretlenen tutarsızlıklar için etkileşimli inceleme modunu destekler.
+- Güvenli artımlı veri alımı için idempotent işlem hash'leri üretir.
 
-**Karşılaştırma metodolojisi**: Performans rakamları, 5.000 işlemlik CAMT.053 dosyası (2,1 MB) kullanılarak Apple M2, Python 3.12'de ölçülmüştür. Sonuçların ortalaması 100 çalıştırmanın üzerindeydi. Yerel olarak çoğaltın:`python -m bankstatementparser.bench`. SaaS gecikmesi, Nisan 2026 itibarıyla yayınlanan API belgelerine dayanmaktadır.
+**Saf SaaS LLM ayrıştırıcılarını Bank Statement Parser yerine ne zaman tercih etmelisiniz**: Yüzlerce bankadan çok farklı PDF düzenlerine sahip ekstreler alıyorsanız ve yerel altyapı kurmadan hazır kapsam istiyorsanız.
 
-**Banka Ekstresi Ayrıştırıcısı ne zaman seçilmelidir**: Bankanız yapılandırılmış dışa aktarımlar (XML, CSV, OFX, MT940) sağlıyor, uyumluluk için yerel işleme ihtiyacınız var veya devam eden maliyetin sıfır olmasını istiyorsunuz.
+**Bank Statement Parser'ı ne zaman tercih etmelisiniz**: Uyumluluk için yerel işlemeye ihtiyacınız var. Bakiye doğrulaması istiyorsunuz. Defter dışa aktarımına ihtiyacınız var. Devam eden maliyetin sıfır olmasını istiyorsunuz.
 
-**SaaS'ı ne zaman seçmelisiniz**: Taranmış PDF ekstreleri alıyorsunuz, yüzlerce bankaya özel format için OCR'ye ihtiyacınız var veya kodsuz bir çözüm istiyorsunuz.
+**Karşılaştırma metodolojisi**: Performans rakamları Apple M2, Python 3.12 üzerinde 5.000 işlemlik CAMT.053 dosyası (2,1 MB) ile ölçülmüştür. Sonuçlar 100 çalıştırmanın ortalamasıdır. Yerel olarak tekrarlayın: `python -m bankstatementparser.bench`. SaaS gecikme süreleri Nisan 2026 itibarıyla yayınlanan API belgelerine dayanmaktadır.
 
-[Gerçek dünyadaki kullanım örneklerine bakın ❯](/use-cases/index.html) | [MT940'tan CAMT'ye geçişinizi planlayın ❯](/migration/index.html)
+[Gerçek dünya kullanım örneklerini görün ❯](/use-cases/index.html) | [MT940'tan CAMT'ye geçişinizi planlayın ❯](/migration/index.html)

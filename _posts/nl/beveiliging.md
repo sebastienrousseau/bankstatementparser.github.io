@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Parserbeveiliging van bankafschriften"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Parser voor bankafschriften. Alle rechten voorbehouden."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Beveiligingsfuncties van Bank Statement Parser: XXE-bescherming, ZIP-bomverharding, PII-redactie, beveiliging van de toeleveringsketen, deterministische uitvoer en ondertekende builds."
 download: ""
 format-detection: "telephone=no"
@@ -107,72 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Bankafschriftparser doet geen netwerkoproepen, redigeert PII standaard, verhardt XML-parsing tegen XXE-aanvallen en wordt geleverd met SHA-256 hash-locked afhankelijkheden en een CycloneDX SBOM.
+**TL;DR:** Bank Statement Parser verwerkt alle gegevens lokaal, redigeert PII standaard, verhardt XML-parsing tegen XXE-aanvallen, draait LLM's lokaal via Ollama en wordt geleverd met SHA-256 hash-locked afhankelijkheden en een CycloneDX SBOM.
 
 ## Beveiliging door ontwerp
 
-Bankafschriftparser is gebouwd voor het verwerken van gevoelige financiële gegevens. Bij elke ontwerpbeslissing wordt prioriteit gegeven aan beveiliging, privacy en controleerbaarheid.
+Bank Statement Parser is gebouwd voor het verwerken van gevoelige financiële gegevens. Elke ontwerpbeslissing geeft prioriteit aan beveiliging, privacy en controleerbaarheid.
 
-## Geen netwerktoegang
+## Geen cloudafhankelijkheid
 
-Alle verwerking gebeurt lokaal binnen uw runtime. De bibliotheek maakt geen API-aanroepen, geen cloudverbindingen en verzamelt geen telemetrie. XML-parsers worden expliciet geconfigureerd met`no_network=True`, `resolve_entities=False`, En`load_dtd=False`om uitgaande toegang te voorkomen.
+Alle verwerking gebeurt lokaal binnen uw runtime. De deterministische parsers maken nul netwerkoproepen. De hybride PDF-pipeline gebruikt Ollama voor lokale LLM-inferentie — er worden geen gegevens naar cloud-API's gestuurd. XML-parsers zijn expliciet geconfigureerd met `no_network=True`, `resolve_entities=False` en `load_dtd=False` om uitgaande toegang te voorkomen.
 
 ## PII-redactie
 
-Persoonlijk identificeerbare informatie (namen, IBAN's, postadressen) wordt automatisch geredigeerd in de CLI-uitvoer- en streamingmodus. Dit staat standaard aan.
+Persoonlijk identificeerbare informatie (namen, IBAN's, postadressen) wordt automatisch geredigeerd in CLI-uitvoer en streaming-modus. Dit staat standaard aan.
 
-- **CLI**: Gevoelige velden worden weergegeven als`***REDACTED***`
-- **Streamen**:`parse_streaming(redact_pii=True)`(standaard)
-- **Exports**: CSV/JSON/Excel behoudt de volledige gegevens voor downstream-verwerking
-- **Opt-in**: gebruik`--show-pii`of`redact_pii=False`wanneer u niet-geredigeerde uitvoer nodig heeft
+- **CLI**: Gevoelige velden worden weergegeven als `***REDACTED***`
+- **Streaming**: `parse_streaming(redact_pii=True)` (standaard)
+- **Exports**: CSV/JSON/Excel behoudt volledige gegevens voor verdere verwerking
+- **Opt-in**: Gebruik `--show-pii` of `redact_pii=False` wanneer u niet-geredigeerde uitvoer nodig heeft
 
-## XML-beveiliging (XXE-beveiliging)
+## XML-beveiliging (XXE-bescherming)
 
-Alle XML-parseertoepassingen`lxml`met geharde instellingen:
+Alle XML-parsing gebruikt `lxml` met geharde instellingen:
 
-- `resolve_entities=False`-- voorkomt uitbreidingsaanvallen op XML-entiteiten
--`no_network=True`-- blokkeert alle uitgaande netwerktoegang van de parser
--`load_dtd=False`-- voorkomt op DTD gebaseerde aanvallen
-- Strippen van naamruimte vóór verwerking - verwerkt elke CAMT.053-variant veilig
+- `resolve_entities=False` -- voorkomt XML entity expansion-aanvallen
+- `no_network=True` -- blokkeert alle uitgaande netwerktoegang van de parser
+- `load_dtd=False` -- voorkomt DTD-gebaseerde aanvallen
+- Naamruimtestripping vóór verwerking -- verwerkt elke CAMT.053-variant veilig
 
 ## ZIP-archiefbeveiliging
 
-`iter_secure_xml_entries()`valideert elk ZIP-lid vóór extractie:
+`iter_secure_xml_entries()` valideert elk ZIP-bestand vóór extractie:
 
-- **Maximale invoergrootte**: 10 MB per invoer (configureerbaar)
+- **Maximale invoergrootte**: 10 MB per bestand (configureerbaar)
 - **Totale maximale grootte**: 50 MB totaal ongecomprimeerd (configureerbaar)
-- **Limiet compressieverhouding**: standaard 100:1 - detecteert ZIP-bommen
-- **Gecodeerde invoer geweigerd**: gecodeerde gegevens worden overgeslagen met een waarschuwing
-- **Geen schijfschrijfbewerkingen**: XML-bytes gaan rechtstreeks naar de parser via`from_bytes()`
+- **Compressieverhoudingslimiet**: standaard 100:1 -- detecteert ZIP-bommen
+- **Afwijzing van versleutelde bestanden**: Versleutelde bestanden worden overgeslagen met een waarschuwing
+- **Geen schijfschrijfbewerkingen**: XML-bytes gaan rechtstreeks naar de parser via `from_bytes()`
 
-## Preventie van padovergang
+## Pad-traversalpreventie
 
 Invoervalidatie blokkeert gevaarlijke bestandspaden:
 
-- Null bytes, patronen voor het doorlopen van mappen (`../`), en symlinks worden afgewezen
-- Validatie van bestandsextensies ten opzichte van verwachte formaten
+- Null bytes, directory-traversalpatronen (`../`) en symlinks worden afgewezen
+- Validatie van bestandsextensies tegen verwachte formaten
 - Bestandsgroottelimieten (standaard 100 MB, configureerbaar)
 
-## Deterministische output
+## Saldoverificatie (Golden Rule)
 
-Gegeven hetzelfde invoerbestand produceert de parser elke run byte-identieke uitvoer. Geen willekeur, geen modelgevolgtrekking, geen heuristische bemonstering. Dit is van cruciaal belang voor:
+Elke PDF-extractie wordt geverifieerd met de formule: `opening balance + credits − debits == closing balance`. Resultaten worden gemarkeerd als VERIFIED, DISCREPANCY of FAILED. Afwijkingen kunt u interactief beoordelen met `--type review`.
 
-- **Reproduceerbaarheid van audit**: voer hetzelfde bestand twee keer uit en verschil de uitvoer
-- **Naleving van de regelgeving**: toon consistente verwerking
-- **CI-verificatie**: 467 tests dwingen determinisme af met 100% vestigingsdekking
+## Deterministische uitvoer
 
-## Beveiliging van de toeleveringsketen
+Voor gestructureerde formaten (CAMT, PAIN.001, CSV, OFX, QFX, MT940) produceert de parser bij hetzelfde invoerbestand elke run byte-identieke uitvoer. Geen willekeur, geen modelinferentie, geen heuristische bemonstering. Dit is essentieel voor:
 
-- **SHA-256 hash-locked afhankelijkheden**: elk pakket in`poetry.lock`heeft bestandshashes geverifieerd
-- **CycloneDX SBOM**: elke release bevat een softwarestuklijst
-- **GitHub build herkomst**: Attestation koppelt elk artefact aan zijn broncommit
+- **Auditreproduceerbaarheid**: Voer hetzelfde bestand twee keer uit en vergelijk de uitvoer
+- **Naleving van regelgeving**: Toon consistente verwerking aan
+- **CI-verificatie**: 718 tests dwingen determinisme af met 100% branchdekking
+
+## Supply-chainbeveiliging
+
+- **SHA-256 hash-locked afhankelijkheden**: Elk pakket in `poetry.lock` heeft geverifieerde bestandshashes
+- **CycloneDX SBOM**: Elke release bevat een Software Bill of Materials
+- **GitHub build-herkomst**: Attestation koppelt elk artefact aan zijn broncommit
 - **Ondertekende commits**: Alle commits zijn SSH-ondertekend en geverifieerd in CI
-- **Afhankelijkheidsverificatie**:`scripts/verify_locked_hashes.py`valideert alle hashes lokaal
+- **Afhankelijkheidsverificatie**: `scripts/verify_locked_hashes.py` valideert alle hashes lokaal
 
 ## Lokaal verifiëren
 
 ```bash
-python -m pytest                          # 467 tests, 100% branch coverage
+python -m pytest                          # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py    # SHA-256 hash verification
 git log --show-signature -1               # Verify commit signature
 ```

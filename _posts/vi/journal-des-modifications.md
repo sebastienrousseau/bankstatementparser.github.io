@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Nhật ký thay đổi của trình phân tích báo cáo ngân hàng"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Trình phân tích báo cáo ngân hàng. Mọi quyền được bảo lưu."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Lịch sử phát hành và nhật ký thay đổi của Trình phân tích sao kê ngân hàng. Theo dõi các tính năng mới, cải tiến và sửa lỗi trên tất cả các phiên bản."
 download: ""
 format-detection: "telephone=no"
@@ -109,6 +109,35 @@ site_software: "Shokunin, Rust"
 
 Theo dõi sự phát triển của Trình phân tích sao kê ngân hàng. Đăng ký qua [RSS](/changelog/rss.xml) hoặc xem [kho GitHub](https://github.com/sebastienrousseau/bankstatementparser) để biết thông báo phát hành.
 
+## v0.0.8 — 2026-04-11 (Latest) — "Full Platform"
+
+- Multi-currency balance verification — `verify_balance_multi_currency()` groups by currency, runs Golden Rule per group.
+- hledger + beancount export — `to_hledger()` and `to_beancount()` in `bankstatementparser.export`.
+- Bulk directory scanner — `scan_and_ingest()` scans folder trees, deduplicates across batch.
+- Account mapping rules — `AccountMapper` with ordered regex rules from JSON config.
+- REST API — FastAPI wrapper with `/ingest` and `/health` endpoints (`[api]` extra).
+
+## v0.0.7 — 2026-04-08 — "Universal Vision"
+
+- Direct Ollama bridge (`ollama_direct_completion`) — bypasses LiteLLM long-prompt hang.
+- Strip mode (`VisionExtractor.strip_rows=True`) — splits dense pages into overlapping bands for small local models.
+- Recommended vision model changed from `llava` to `minicpm-v`.
+
+## v0.0.6 — 2026-04-08 — "Intelligence Layer"
+
+- Dropped Python 3.9 support (now 3.10-3.14).
+- Enrichment module (`Categorizer`, `EnrichedTransaction`, `DEFAULT_CATEGORY_SCHEMA`).
+- Interactive review mode with `--type review` CLI command.
+- Per-row bounding box extraction (`Transaction.source_bbox`).
+
+## v0.0.5 — 2026-04-08 — "Universal Extraction"
+
+- Hybrid PDF pipeline (`smart_ingest()`) with deterministic/text-LLM/vision-LLM routing.
+- `LLMExtractor` for digital PDFs via LiteLLM.
+- `VisionExtractor` for scanned PDFs via multimodal vision models.
+- Golden Rule balance verification (`opening + credits - debits == closing`).
+- Idempotent deduplication via `transaction_hash` (MD5 fingerprint).
+
 ## v0.0.4 — 15-03-2026 (Mới nhất)
 
 - Đã thêm phân tích tệp song song với`parse_files_parallel()`sử dụng ProcessPoolExecutor.
@@ -126,7 +155,7 @@ Theo dõi sự phát triển của Trình phân tích sao kê ngân hàng. Đăn
 - Đã thêm tính năng chỉnh sửa PII (bật theo mặc định trong CLI và chế độ phát trực tuyến).
 - Đã thêm trình trợ giúp xuất cho CSV, JSON và Excel.
 - Đã thêm hỗ trợ Polars DataFrame tùy chọn.
-- Bộ thử nghiệm mở rộng lên 467 thử nghiệm với phạm vi bao phủ 100% chi nhánh.
+- Bộ thử nghiệm mở rộng lên 718 thử nghiệm với phạm vi bao phủ 100% chi nhánh.
 
 ## v0.0.2 — 2025-06-10
 
@@ -151,8 +180,8 @@ Xem toàn bộ lịch sử cam kết trên [GitHub](https://github.com/sebastien
   "name": "Trình phân tích sao kê ngân hàng",
   "applicationCategory": "Ứng dụng dành cho nhà phát triển",
   "OperatingSystem": "Đa nền tảng",
-  "softwareVersion": "0.0.4",
-  "datePublished": "2026-03-15",
+  "softwareVersion": "0.0.8",
+  "datePublished": "2026-04-11",
   "releaseNotes": "Đã thêm tính năng phân tích tệp song song, phát trực tuyến thực cho PAIN.001, tối ưu hóa hiệu suất (27K+ tx/s CAMT, 52K+ tx/s PAIN.001), lớp Loại bỏ trùng lặp, phân tích cú pháp trong bộ nhớ, xử lý ZIP an toàn.",
   "downloadUrl": "https://pypi.org/project/bankstatementparser/",
   "giấy phép": "https://opensource.org/licenses/Apache-2.0",

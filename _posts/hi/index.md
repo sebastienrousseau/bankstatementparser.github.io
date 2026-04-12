@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "कांच की इमारत की वास्तुकला फोटोग्राफी"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: "bankstatementparser.com"
 copyright: "© 2023-2026 बैंक स्टेटमेंट पार्सर। सर्वाधिकार सुरक्षित।"
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "पांडा डेटाफ़्रेम में CAMT.053, PAIN.001, CSV, OFX, QFX और MT940 बैंक स्टेटमेंट को पार्स करने के लिए ओपन-सोर्स पायथन लाइब्रेरी। 27K+ tx/s, स्ट्रीमिंग, PII रिडक्शन, 100% स्थानीय।"
 download_url: "https://pypi.org/project/bankstatementparser/"
 download_title: "पिप इंस्टाल बैंकस्टेटमेंटपार्सर"
@@ -109,9 +109,9 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**बैंक स्टेटमेंट पार्सर** एक ओपन-सोर्स पायथन लाइब्रेरी है जो छह प्रारूपों (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) से बैंक स्टेटमेंट को संरचित पांडा डेटाफ्रेम में पार्स करता है। सभी प्रोसेसिंग स्थानीय रूप से चलती है - शून्य नेटवर्क कॉल, नियतात्मक आउटपुट और स्वचालित पीआईआई रिडक्शन।
+**Bank Statement Parser** एक ओपन-सोर्स Python लाइब्रेरी है जो सात प्रारूपों (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, और PDF) से बैंक स्टेटमेंट को संरचित pandas DataFrames में पार्स करती है। सारी प्रोसेसिंग स्थानीय रूप से चलती है — नियतात्मक आउटपुट, स्वचालित PII रिडक्शन, और एक वैकल्पिक hybrid PDF pipeline जो ज़रूरत पड़ने पर स्थानीय LLM के माध्यम से रूट करती है।
 
-## सेकंडों में आरंभ करें
+## सेकंडों में शुरू करें
 
 ```bash
 pip install bankstatementparser
@@ -125,62 +125,90 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # pandas DataFrame, ready to use
 ```
 
+```python
+# Parse PDFs with the hybrid pipeline (v0.0.5+)
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+```
+
 <img src="https://img.shields.io/github/stars/sebastienrousseau/bankstatementparser?style=for-the-badge&label=Stars" height="28" alt="GitHub Stars" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/dm/bankstatementparser?style=for-the-badge&label=Downloads" height="28" alt="Monthly Downloads" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/v/bankstatementparser?style=for-the-badge&label=PyPI" height="28" width="119" alt="PyPI Version" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/pyversions/bankstatementparser?style=for-the-badge&label=Python" height="28" width="347" alt="Python" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/l/bankstatementparser?style=for-the-badge&label=License" height="28" width="292" alt="License" loading="lazy" style="margin:0 .25rem .5rem 0" />
-<img src="https://img.shields.io/badge/tests-467%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
+<img src="https://img.shields.io/badge/tests-718%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/badge/coverage-100%25-brightgreen?style=for-the-badge" height="28" width="152" alt="Coverage" loading="lazy" style="margin:0 .25rem .5rem 0" />
 
-## एक पुस्तकालय, छह प्रारूप
+## एक लाइब्रेरी, सात प्रारूप
 
-एकल, एकीकृत एपीआई के साथ CAMT.053, PAIN.001, CSV, OFX, QFX और MT940 को संरचित पांडा डेटाफ़्रेम में पार्स करें। प्रत्येक प्रारूप के लिए अलग-अलग पैकेज स्थापित करने की आवश्यकता नहीं है।
+एक ही एकीकृत API से CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, और PDF को संरचित pandas DataFrames में पार्स करें। हर प्रारूप के लिए अलग पैकेज इंस्टॉल करने की ज़रूरत नहीं।
 
-| विशेषता | बैंक स्टेटमेंट पार्सर | एकल-प्रारूप OSS (mt940, ofxparse) | सास (ओक्रोलस, पार्सूर) |
+| विशेषता | Bank Statement Parser | एकल-प्रारूप OSS (mt940, ofxparse) | SaaS (Ocrolus, Parseur) |
 |---|---|---|---|
-| प्रारूप समर्थित | 6, एकीकृत एपीआई | 1 प्रत्येक | अनेक (ओसीआर के माध्यम से) |
-| डाटा प्राइवेसी | 100% स्थानीय, शून्य नेटवर्क कॉल | 100% स्थानीय | डेटा बाहरी रूप से भेजा गया |
-| लागत | मुफ़्त, अपाचे 2.0 | मुक्त | $49-$1,000+/महीना |
-| पीआईआई संशोधन | अंतर्निर्मित, डिफ़ॉल्ट रूप से चालू | नहीं | भिन्न |
-| स्ट्रीमिंग | बंधी हुई स्मृति | नहीं | एन/ए |
-| ज़िप सुरक्षा | अंतर्निर्मित सख्त होना | नहीं | एन/ए |
-| डिडुप्लीकेशन | आत्मविश्वास स्कोर के साथ निर्मित | नहीं | कुछ |
+| समर्थित प्रारूप | 7, एकीकृत API | 1 प्रत्येक | अनेक (OCR के माध्यम से) |
+| PDF सपोर्ट | Hybrid pipeline (deterministic + LLM + vision) | नहीं | हाँ (cloud OCR) |
+| डेटा गोपनीयता | 100% स्थानीय (LLM Ollama के माध्यम से स्थानीय रूप से चलते हैं) | 100% स्थानीय | डेटा बाहर भेजा जाता है |
+| लागत | मुफ़्त, Apache 2.0 | मुफ़्त | $49-$1,000+/महीना |
+| बैलेंस सत्यापन | Golden Rule (opening + credits − debits = closing) | नहीं | भिन्न |
+| PII रिडक्शन | अंतर्निर्मित, डिफ़ॉल्ट रूप से चालू | नहीं | भिन्न |
+| Streaming | सीमित मेमोरी | नहीं | N/A |
+| REST API | अंतर्निर्मित FastAPI माइक्रोसर्विस | नहीं | हाँ |
+| डिडुप्लीकेशन | Idempotent transaction hashes | नहीं | कुछ |
+| Ledger निर्यात | hledger + beancount | नहीं | नहीं |
+
+## Hybrid PDF Pipeline
+
+Bank Statement Parser v0.0.5+ में PDF बैंक स्टेटमेंट के लिए तीन-पथ hybrid pipeline शामिल है:
+
+- **Path A (Deterministic)**: संरचित PDF टेबल सीधे पार्स होती हैं — मुफ़्त, सबसे तेज़, कोई LLM नहीं चाहिए।
+- **Path B (Text-LLM)**: जटिल लेआउट वाली डिजिटल PDF स्थानीय LLM (LiteLLM/Ollama) के माध्यम से निकाली जाती हैं।
+- **Path C (Vision-LLM)**: स्कैन या फोटोकॉपी किए गए स्टेटमेंट multimodal vision मॉडल से प्रोसेस होते हैं।
+
+हर extraction **Golden Rule** से सत्यापित होती है: `opening balance + credits − debits == closing balance`।
 
 ## ISO 20022 माइग्रेशन के लिए निर्मित
 
-स्विफ्ट ने निश्चित समय सीमा निर्धारित की है: सभी वित्तीय संस्थानों को नवंबर 2027 तक CAMT.053 प्राप्त करना होगा, और MT940/MT942/MT950 नवंबर 2028 तक पूरी तरह से बंद हो जाएगा। बैंक स्टेटमेंट पार्सर पुराने MT940 और आधुनिक ISO 20022 प्रारूप (CAMT.053, PAIN.001) दोनों को एक ही एपीआई में संभालता है, इसलिए आपकी पार्सिंग पाइपलाइन संक्रमण के दौरान और उसके बाद भी काम करती है।
+SWIFT ने निश्चित समय सीमा तय की है: सभी वित्तीय संस्थानों को नवंबर 2027 तक CAMT.053 प्राप्त करना होगा, और MT940/MT942/MT950 नवंबर 2028 तक पूरी तरह बंद हो जाएगा। Bank Statement Parser पुराने MT940 और आधुनिक ISO 20022 प्रारूपों (CAMT.053, PAIN.001) दोनों को एक ही API में संभालता है, इसलिए आपकी parsing pipeline संक्रमण के दौरान और उसके बाद भी काम करती है।
 
 ## प्रदर्शन
 
 - CAMT.053 पार्सिंग के लिए **27,000+ लेनदेन/सेकंड**
-- **PAIN.001 पार्सिंग के लिए 52,000+ लेनदेन/सेकंड**
-- **<2 एमएस** पहले परिणाम तक का समय
-- **निरंतर मेमोरी** स्ट्रीमिंग के माध्यम से 1K से 50K+ लेनदेन तक
-- **467 परीक्षण** पायथन 3.9 से 3.14 तक 100% शाखा कवरेज के साथ
+- PAIN.001 पार्सिंग के लिए **52,000+ लेनदेन/सेकंड**
+- **< 2 ms** पहले परिणाम तक का समय
+- **स्थिर मेमोरी** streaming के माध्यम से 1K से 50K+ लेनदेन तक
+- **718 टेस्ट** Python 3.10 से 3.14 तक 100% branch coverage के साथ
 
-## बैंक स्टेटमेंट पार्सर क्यों?
+## Bank Statement Parser क्यों?
 
-- **प्रारूप ऑटो-डिटेक्शन**:`detect_statement_format()`फ़ाइलों को स्वचालित रूप से पहचानता है और`create_parser()`सही पार्सर लौटाता है।
-- **गोपनीयता पहले**: पीआईआई रिडक्शन डिफ़ॉल्ट रूप से चालू है। संवेदनशील फ़ील्ड (नाम, आईबीएएन, पते) सीएलआई आउटपुट में छिपे हुए हैं। इसके साथ ऑप्ट इन करें`--show-pii`जब जरूरत है।
-- **उत्पादन के लिए तैयार**: सुरक्षित ज़िप अंतर्ग्रहण (बम सुरक्षा, एन्क्रिप्टेड प्रविष्टि अस्वीकृति), इनपुट सत्यापन, और पथ ट्रैवर्सल रोकथाम।
-- **लचीला आउटपुट**: CSV, JSON, Excel में निर्यात करें, या पोलर डेटाफ़्रेम में कनवर्ट करें।
-- **समानांतर प्रसंस्करण**: एकाधिक फ़ाइलों को एक साथ पार्स करें`parse_files_parallel()`.
+- **Hybrid PDF Extraction**: `smart_ingest()` डिजिटल और स्कैन PDF दोनों को स्वचालित routing और बैलेंस सत्यापन के साथ संभालता है।
+- **प्रारूप ऑटो-डिटेक्शन**: `detect_statement_format()` फ़ाइलों को अपने आप पहचानता है और `create_parser()` सही पार्सर लौटाता है।
+- **गोपनीयता पहले**: PII रिडक्शन डिफ़ॉल्ट रूप से चालू है। LLM Ollama के माध्यम से स्थानीय रूप से चलते हैं — कोई डेटा आपकी मशीन से बाहर नहीं जाता।
+- **REST API**: FastAPI माइक्रोसर्विस के रूप में `/ingest` और `/health` endpoints के साथ डिप्लॉय करें।
+- **Enrichment**: प्लगेबल स्कीमा (Plaid 13-category डिफ़ॉल्ट) के साथ LLM-संचालित लेनदेन वर्गीकरण।
+- **Ledger निर्यात**: plaintext-accounting वर्कफ़्लो के लिए hledger और beancount जर्नल फ़ॉर्मेट में निर्यात करें।
+- **बल्क स्कैनिंग**: `scan_and_ingest()` फ़ोल्डर ट्री को स्वचालित cross-file डिडुप्लीकेशन के साथ प्रोसेस करता है।
+- **Multi-Currency**: `verify_balance_multi_currency()` प्रत्येक currency group पर Golden Rule सत्यापन चलाता है।
+- **प्रोडक्शन रेडी**: सुरक्षित ZIP ingestion, इनपुट वैलिडेशन, path traversal रोकथाम, और इंटरैक्टिव रिव्यू मोड।
+- **लचीला आउटपुट**: CSV, JSON, Excel, Polars, hledger, या beancount में निर्यात करें।
+- **समानांतर प्रोसेसिंग**: `parse_files_parallel()` से कई फ़ाइलें एक साथ पार्स करें।
 
 
-## उत्पादन के लिए निर्मित
+## प्रोडक्शन के लिए निर्मित
 
-बैंक स्टेटमेंट पार्सर को ट्रेजरी टीमों, फिनटेक डेवलपर्स और संवेदनशील वित्तीय डेटा को संसाधित करने वाले अनुपालन अधिकारियों के लिए डिज़ाइन किया गया है। लाइब्रेरी का उपयोग वित्तीय संस्थानों में MT940-टू-CAMT माइग्रेशन पाइपलाइनों, स्वचालित समाधान प्रणालियों और नियामक ऑडिट वर्कफ़्लोज़ में किया जाता है।
+Bank Statement Parser को ट्रेजरी टीमों, फिनटेक डेवलपर्स, और संवेदनशील वित्तीय डेटा प्रोसेस करने वाले कंप्लायंस अधिकारियों के लिए डिज़ाइन किया गया है। लाइब्रेरी का उपयोग MT940-से-CAMT माइग्रेशन pipelines, स्वचालित reconciliation सिस्टम, PDF स्टेटमेंट ingestion, और वित्तीय संस्थानों में regulatory audit वर्कफ़्लो में किया जाता है।
 
-- **467 परीक्षण** पायथन 3.9 से 3.14 तक 100% शाखा कवरेज के साथ
-- **SHA-256 हैश-लॉक निर्भरताएँ** प्रत्येक रिलीज़ के लिए CycloneDX SBOM के साथ
-- **नियतात्मक आउटपुट** - समान इनपुट प्रत्येक रन पर बाइट-समान परिणाम उत्पन्न करता है
-- **Apache 2.0 लाइसेंस प्राप्त** - वाणिज्यिक और आंतरिक प्रणालियों में स्वतंत्र रूप से उपयोग करें
+- **718 टेस्ट** Python 3.10 से 3.14 तक 100% branch coverage के साथ
+- **SHA-256 hash-locked dependencies** हर रिलीज़ के लिए CycloneDX SBOM के साथ
+- **नियतात्मक आउटपुट** — समान इनपुट हर बार byte-identical परिणाम देता है
+- **Apache 2.0 लाइसेंस** — व्यावसायिक और आंतरिक सिस्टम में स्वतंत्र रूप से उपयोग करें
 
-**विकल्पों का मूल्यांकन?** [देखें कि बैंक स्टेटमेंट पार्सर तुलना कैसे करता है ❯](/comparison/index.html) | [वास्तविक दुनिया में उपयोग के मामलों का अन्वेषण करें ❯](/use-cases/index.html)
+**विकल्पों का मूल्यांकन कर रहे हैं?** [देखें Bank Statement Parser की तुलना कैसे होती है ❯](/comparison/index.html) | [वास्तविक उपयोग के मामले देखें ❯](/use-cases/index.html)
 
-[आरंभ करें ❯][01] | [GitHub पर देखें ❯][02] | [पीईपीआई पर देखें ❯][03]
+[शुरू करें ❯][01] | [GitHub पर देखें ❯][02] | [PyPI पर देखें ❯][03]
 
 [01]: /getting-started/index.html
-[02]:https://github.com/sebastienrousseau/bankstatementparser
+[02]: https://github.com/sebastienrousseau/bankstatementparser
 [03]: https://pypi.org/project/bankstatementparser/

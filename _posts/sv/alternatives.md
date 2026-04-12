@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Kontoutdragstolkare vs alternativ"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Bank Statement Parser. Alla rättigheter reserverade."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Jämför Bank Statement Parser med mt-940, ofxparse, pycamt, pyiso20022 och SaaS-verktyg som Ocrolus och Parseur. Funktionsjämförelse, prissättning och migreringsguide."
 download: ""
 format-detection: "telephone=no"
@@ -109,70 +109,82 @@ site_software: "Shokunin, Rust"
 
 ## Översikt
 
-Bank Statement Parser är det enda Python-biblioteket med öppen källkod som analyserar sex kontoutdragsformat med ett enhetligt API. Enformatsbibliotek (mt-940, ofxparse, pycamt) hanterar vart och ett format. SaaS-verktyg (Ocrolus, Parseur) erbjuder OCR för PDF-filer men kräver att data skickas externt och kostar $49–$1 000+/månad.
+Bank Statement Parser är det enda Python-biblioteket med öppen källkod som tolkar sju kontoutdragsformat — inklusive PDF via en hybrid-LLM-pipeline — med ett enhetligt API. Enkelformatsbibliotek (mt-940, ofxparse, pycamt) hanterar var sitt format. SaaS-verktyg (Ocrolus, Parseur) erbjuder moln-OCR men kräver att data skickas externt och kostar $49–$1 000+/månad.
 
 ## Alternativ med öppen källkod
 
 ### Enkelformatsbibliotek
 
-De flesta öppen källkodsanalyser av bankutdrag hanterar endast ett format. Om du behöver flera format måste du installera och underhålla separata bibliotek med olika API:er, utdatascheman och uppdateringscykler.
+De flesta öppen källkods-parsers för kontoutdrag hanterar bara ett format. Om du behöver flera format måste du installera och underhålla separata bibliotek med olika API:er, utdatascheman och uppdateringscykler.
 
-| Bibliotek | Formatera | Produktion | Streaming | PII-redaktion | Deduplicering |
+| Bibliotek | Format | PDF | Utdata | Saldoverifiering | Ledger-export |
 |---|---|---|---|---|---|
-| **Kontostatsanalysator** | 6 format | pandas DataFrame | Ja | Ja (standard) | Ja |
-| mt-940 (WoLpH) | Endast MT940 | Python-objekt | Inga | Inga | Inga |
-| ofxparse | Endast OFX | Python-objekt | Inga | Inga | Inga |
-| pycamt | Endast CAMT.053 | Python-objekt | Inga | Inga | Inga |
-| ofxtools | Endast OFX v1/v2 | Python-objekt | Inga | Inga | Inga |
+| **Bank Statement Parser** | 7 format | Hybrid-pipeline | pandas DataFrame | Golden Rule | hledger, beancount |
+| mt-940 (WoLpH) | Enbart MT940 | Nej | Python-objekt | Nej | Nej |
+| ofxparse | Enbart OFX | Nej | Python-objekt | Nej | Nej |
+| pycamt | Enbart CAMT.053 | Nej | Python-objekt | Nej | Nej |
+| ofxtools | Enbart OFX v1/v2 | Nej | Python-objekt | Nej | Nej |
 
 ### vs pyiso20022
 
 pyiso20022 genererar Python-dataklasser från hela ISO 20022-schemakatalogen. Det är en allmän ISO 20022-verktygslåda för att arbeta med PACS-, PAIN-, CAMT- och ADMI-meddelanden.
 
-Bank Statement Parser är specialbyggd för att analysera kontoutdrag till DataFrames med produktionsfunktioner:
+Bank Statement Parser är specialbyggd för att tolka kontoutdrag till DataFrames med produktionsfunktioner:
 
-| Särdrag | Bankutdrag Parser | pyiso20022 |
+| Funktion | Bank Statement Parser | pyiso20022 |
 |---|---|---|
-| Ändamål | Utlåtandeparsning + export | ISO 20022 schema verktygslåda |
-| Produktion | pandor/Polars DataFrames | Python-dataklasser |
-| Format | 6 (inklusive icke-ISO) | Endast ISO 20022 |
-| Streaming | Ja (avgränsat minne) | Inga |
-| PII-redigering | Inbyggt | Inga |
-| Deduplicering | Inbyggt | Inga |
-| ZIP-säkerhet | Inbyggt | Inga |
-| CLI | Ja | Inga |
+| Syfte | Utdragstolkning + extraktion + export | ISO 20022-schemaverktygslåda |
+| Utdata | pandas/Polars DataFrames | Python-dataklasser |
+| Format | 7 (inklusive PDF, icke-ISO) | Enbart ISO 20022 |
+| PDF-stöd | Hybrid-pipeline (deterministisk + LLM + vision) | Nej |
+| Saldoverifiering | Golden Rule + multivaluta | Nej |
+| REST API | Inbyggd FastAPI | Nej |
+| Berikande | LLM-driven kategorisering | Nej |
+| Ledger-export | hledger + beancount | Nej |
+| Streaming | Ja (begränsat minne) | Nej |
+| PII-redaktion | Inbyggd | Nej |
+| Deduplicering | Idempotenta transaktionshashar | Nej |
+| CLI | Ja | Nej |
 
-Använd pyiso20022 om du behöver arbeta med hela ISO 20022-meddelandekatalogen. Använd kontoutdragsparser om du behöver analysera kontoutdrag till strukturerad data för analys, avstämning eller rapportering.
+Använd pyiso20022 om du behöver arbeta med hela ISO 20022-meddelandekatalogen. Använd Bank Statement Parser om du behöver tolka kontoutdrag till strukturerad data för analys, avstämning eller rapportering.
 
 ## SaaS-alternativ
 
-SaaS-verktyg som Ocrolus, Parseur och Sensible erbjuder analys av kontoutdrag som en molntjänst. De använder vanligtvis OCR för att hantera skannade PDF-filer och stöder hundratals bankspecifika format.
+SaaS-verktyg som Ocrolus, Parseur och Sensible erbjuder kontoutdragstolkning som en molntjänst. De använder vanligtvis OCR för att hantera skannade PDF:er och stöder hundratals bankspecifika format.
 
-| Särdrag | Bankutdrag Parser | SaaS-verktyg |
+| Funktion | Bank Statement Parser | SaaS-verktyg |
 |---|---|---|
-| Datasekretess | 100 % lokala, noll nätverkssamtal | Data skickas till molnet |
-| Kosta | Gratis (Apache 2.0) | $49–$1 000+/månad (från och med första kvartalet 2026) |
-| Format | 6 strukturerade format | Hundratals (via OCR) |
-| PDF-stöd | Nej (endast strukturerade format) | Ja (OCR-baserat) |
-| Latens | <2 ms första resultat | 1-30 sekunder |
-| Genomströmning | 27 000+ tx/sekund | API-hastighetsbegränsad |
-| Försäljarlåsning | Ingen | Ja |
-| Efterlevnad | Lokal bearbetning, SBOM | Varierar beroende på leverantör |
+| Datasekretess | 100 % lokalt (LLM:er via Ollama) | Data skickas till molnet |
+| Kostnad | Gratis (Apache 2.0) | $49–$1 000+/mån (per Q1 2026) |
+| Format | 7 (strukturerade + PDF) | Hundratals (via OCR) |
+| PDF-stöd | Ja — hybrid-pipeline (deterministisk + LLM + vision) | Ja (moln-OCR) |
+| Saldoverifiering | Golden Rule (automatisk) | Manuell / begränsad |
+| Latens | <2 ms (strukturerat), sekunder (PDF+LLM) | 1–30 sekunder |
+| Genomströmning | 27 000+ tx/sekund (strukturerat) | API-hastighetsbegränsad |
+| REST API | Inbyggd FastAPI | Proprietär |
+| Ledger-export | hledger + beancount | Nej |
+| Leverantörslåsning | Ingen | Ja |
+| Efterlevnad | Lokal bearbetning, SBOM | Varierar per leverantör |
 
 ## LLM-baserade parsers
 
-Ett växande antal verktyg (Inscribe, Unstract, Mozilla.ai ritningar) använder stora språkmodeller för att analysera kontoutdrag, inklusive skannade PDF-filer. När Chase gjorde om sitt konsumentutlåtandeformat i slutet av 2025, gick mallbaserade parsers sönder medan LLM-parsers anpassade sig automatiskt.
+Ett växande antal verktyg (Inscribe, Unstract, Mozilla.ai blueprints) använder stora språkmodeller för att tolka kontoutdrag, inklusive skannade PDF:er. När Chase designade om sitt konsumentutdragsformat i slutet av 2025 gick mallbaserade parsers sönder medan LLM-parsers anpassade sig automatiskt.
 
-**När LLM-tolkar är meningsfulla**: Du får skannade PDF-filer från hundratals banker med oförutsägbara layouter, och ungefärlig extrahering (95-99 % noggrannhet) är acceptabel.
+**Bank Statement Parser inkluderar nu sin egen hybrid-LLM-pipeline** (v0.0.5+) som körs helt lokalt via Ollama. Den kombinerar det bästa från båda metoderna:
 
-**När Bank Statement Parser är det bättre valet**: Du behöver deterministiska, reproducerbara utdata för granskning och efterlevnad. Du kan inte skicka ekonomisk data till externa API:er. Du behöver fördröjning under millisekunder (mot 1–30 sekunder för LLM APIs). Du vill ha noll löpande kostnad och inget leverantörsberoende.
+- **Strukturerade format** (XML, CSV, OFX, MT940): Deterministisk tolkning — 100 % noggrannhet, sub-millisekunders latens, noll LLM-kostnad.
+- **PDF-utdrag**: Trevägsdirigering (deterministisk tabellextraktion → text-LLM → vision-LLM) med automatisk Golden Rule-verifiering för att fånga extraktionsfel.
 
-Bank Statement Parser och LLM-verktyg löser olika problem. Använd Bank Statement Parser för strukturerade format (XML, CSV, OFX, MT940) där du behöver 100 % noggrannhet, lokal bearbetning och revisionsreproducerbarhet. Använd LLM-verktyg för ostrukturerade PDF-filer där ungefärlig extrahering är acceptabel.
+Till skillnad från molnbaserade LLM-parsers gör Bank Statement Parsers hybrid-pipeline följande:
+- Körs 100 % lokalt (Ollama) — ingen data lämnar din maskin.
+- Verifierar varje extraktion med saldoverifiering (Golden Rule).
+- Stöder interaktivt granskningsläge för flaggade avvikelser.
+- Producerar idempotenta transaktionshashar för säker inkrementell inmatning.
 
-**Benchmark-metodik**: Prestandasiffror mätt på Apple M2, Python 3.12, med en CAMT.053-fil med 5 000 transaktioner (2,1 MB). Resultaten var i genomsnitt över 100 körningar. Reproducera lokalt:`python -m bankstatementparser.bench`. SaaS-latens baserad på publicerad API-dokumentation från och med april 2026.
+**När du bör välja rena SaaS-LLM-parsers framför Bank Statement Parser**: Du tar emot utdrag från hundratals banker med vitt skilda PDF-layouter och behöver täckning direkt utan lokal infrastruktur.
 
-**När du ska välja Bank Statement Parser**: Din bank tillhandahåller strukturerad export (XML, CSV, OFX, MT940), du behöver lokal bearbetning för efterlevnad eller så vill du ha noll pågående kostnad.
+**När du bör välja Bank Statement Parser**: Du behöver lokal bearbetning för efterlevnad. Du vill ha saldoverifiering. Du behöver ledger-export. Du vill ha noll löpande kostnad.
 
-**När ska du välja SaaS**: Du får skannade PDF-utdrag, behöver OCR för hundratals bankspecifika format eller vill ha en kodfri lösning.
+**Benchmark-metodik**: Prestandasiffror mätta på Apple M2, Python 3.12, med en CAMT.053-fil med 5 000 transaktioner (2,1 MB). Resultat genomsnitt över 100 körningar. Reproducera lokalt: `python -m bankstatementparser.bench`. SaaS-latens baserad på publicerad API-dokumentation per april 2026.
 
-[Se användningsfall i verkliga världen ❯](/use-cases/index.html) | [Planera din MT940-till-CAMT-migrering ❯](/migration/index.html)
+[Se verkliga användningsfall ❯](/use-cases/index.html) | [Planera din MT940-till-CAMT-migrering ❯](/migration/index.html)

@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Bank Statement Parser vs Alternatives"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Bank Statement Parser. All rights reserved."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Compare Bank Statement Parser with mt-940, ofxparse, pycamt, pyiso20022, and SaaS tools like Ocrolus and Parseur. Feature comparison, pricing, and migration guide."
 download: ""
 format-detection: "telephone=no"
@@ -56,11 +56,11 @@ generator: "Shokunin 🦀 (version 0.0.20)"
 item_description: "Compare Bank Statement Parser with mt-940, ofxparse, pycamt, pyiso20022, and SaaS tools like Ocrolus and Parseur. Feature comparison, pricing, and migration guide."
 item_guid: "https://bankstatementparser.com/comparison/rss.xml"
 item_link: "https://bankstatementparser.com/comparison/rss.xml"
-item_pub_date: "2026-04-01T00:00:00+00:00"
+item_pub_date: "2026-04-11T00:00:00+00:00"
 item_title: "Bank Statement Parser vs Alternatives: Open-Source and SaaS Comparison"
-last_build_date: "2026-04-01T00:00:00+00:00"
+last_build_date: "2026-04-11T00:00:00+00:00"
 managing_editor: "contact@bankstatementparser.com"
-pub_date: "2026-04-01T00:00:00+00:00"
+pub_date: "2026-04-11T00:00:00+00:00"
 ttl: "60"
 type: "website"
 webmaster: "contact@bankstatementparser.com"
@@ -100,7 +100,7 @@ author_website: "https://bankstatementparser.com"
 author_twitter: "@wwdseb"
 author_location: "London, UK"
 thanks: "Thanks for reading!"
-site_last_updated: "2026-04-01"
+site_last_updated: "2026-04-11"
 site_standards: "HTML5, CSS3, RSS, Atom, JSON, XML, YAML, Markdown, TOML"
 site_components: "Shokunin SSG, Shokunin CLI, Shokunin Templates, Shokunin Themes, Kaishi SSG, Kaishi CLI, Kaishi Templates, Kaishi Themes"
 site_software: "Shokunin, Rust"
@@ -109,7 +109,7 @@ site_software: "Shokunin, Rust"
 
 ## Overview
 
-Bank Statement Parser is the only open-source Python library that parses six bank statement formats with a unified API. Single-format libraries (mt-940, ofxparse, pycamt) each handle one format. SaaS tools (Ocrolus, Parseur) offer OCR for PDFs but require sending data externally and cost $49–$1,000+/month.
+Bank Statement Parser is the only open-source Python library that parses seven bank statement formats — including PDF via a hybrid LLM pipeline — with a unified API. Single-format libraries (mt-940, ofxparse, pycamt) each handle one format. SaaS tools (Ocrolus, Parseur) offer cloud OCR but require sending data externally and cost $49–$1,000+/month.
 
 ## Open-Source Alternatives
 
@@ -117,13 +117,13 @@ Bank Statement Parser is the only open-source Python library that parses six ban
 
 Most open-source bank statement parsers handle one format only. If you need multiple formats, you must install and maintain separate libraries with different APIs, output schemas, and update cycles.
 
-| Library | Format | Output | Streaming | PII Redaction | Deduplication |
+| Library | Formats | PDF | Output | Balance Verification | Ledger Export |
 |---|---|---|---|---|---|
-| **Bank Statement Parser** | 6 formats | pandas DataFrame | Yes | Yes (default) | Yes |
-| mt-940 (WoLpH) | MT940 only | Python objects | No | No | No |
-| ofxparse | OFX only | Python objects | No | No | No |
-| pycamt | CAMT.053 only | Python objects | No | No | No |
-| ofxtools | OFX v1/v2 only | Python objects | No | No | No |
+| **Bank Statement Parser** | 7 formats | Hybrid pipeline | pandas DataFrame | Golden Rule | hledger, beancount |
+| mt-940 (WoLpH) | MT940 only | No | Python objects | No | No |
+| ofxparse | OFX only | No | Python objects | No | No |
+| pycamt | CAMT.053 only | No | Python objects | No | No |
+| ofxtools | OFX v1/v2 only | No | Python objects | No | No |
 
 ### vs pyiso20022
 
@@ -133,13 +133,17 @@ Bank Statement Parser is purpose-built for parsing bank statements into DataFram
 
 | Feature | Bank Statement Parser | pyiso20022 |
 |---|---|---|
-| Purpose | Statement parsing + export | ISO 20022 schema toolkit |
+| Purpose | Statement parsing + extraction + export | ISO 20022 schema toolkit |
 | Output | pandas/Polars DataFrames | Python dataclasses |
-| Formats | 6 (including non-ISO) | ISO 20022 only |
+| Formats | 7 (including PDF, non-ISO) | ISO 20022 only |
+| PDF support | Hybrid pipeline (deterministic + LLM + vision) | No |
+| Balance verification | Golden Rule + multi-currency | No |
+| REST API | Built-in FastAPI | No |
+| Enrichment | LLM-powered categorisation | No |
+| Ledger export | hledger + beancount | No |
 | Streaming | Yes (bounded memory) | No |
 | PII redaction | Built-in | No |
-| Deduplication | Built-in | No |
-| ZIP security | Built-in | No |
+| Deduplication | Idempotent transaction hashes | No |
 | CLI | Yes | No |
 
 Use pyiso20022 if you need to work with the full ISO 20022 message catalogue. Use Bank Statement Parser if you need to parse bank statements into structured data for analysis, reconciliation, or reporting.
@@ -150,12 +154,15 @@ SaaS tools like Ocrolus, Parseur, and Sensible offer bank statement parsing as a
 
 | Feature | Bank Statement Parser | SaaS Tools |
 |---|---|---|
-| Data privacy | 100% local, zero network calls | Data sent to cloud |
+| Data privacy | 100% local (LLMs via Ollama) | Data sent to cloud |
 | Cost | Free (Apache 2.0) | $49–$1,000+/month (as of Q1 2026) |
-| Formats | 6 structured formats | Hundreds (via OCR) |
-| PDF support | No (structured formats only) | Yes (OCR-based) |
-| Latency | <2 ms first result | 1-30 seconds |
-| Throughput | 27,000+ tx/second | API rate-limited |
+| Formats | 7 (structured + PDF) | Hundreds (via OCR) |
+| PDF support | Yes — hybrid pipeline (deterministic + LLM + vision) | Yes (cloud OCR) |
+| Balance verification | Golden Rule (automatic) | Manual / limited |
+| Latency | <2 ms (structured), seconds (PDF+LLM) | 1-30 seconds |
+| Throughput | 27,000+ tx/second (structured) | API rate-limited |
+| REST API | Built-in FastAPI | Proprietary |
+| Ledger export | hledger + beancount | No |
 | Vendor lock-in | None | Yes |
 | Compliance | Local processing, SBOM | Varies by provider |
 
@@ -163,16 +170,21 @@ SaaS tools like Ocrolus, Parseur, and Sensible offer bank statement parsing as a
 
 A growing number of tools (Inscribe, Unstract, Mozilla.ai blueprints) use large language models to parse bank statements, including scanned PDFs. When Chase redesigned their consumer statement format in late 2025, template-based parsers broke while LLM parsers adapted automatically.
 
-**When LLM parsers make sense**: You receive scanned PDFs from hundreds of banks with unpredictable layouts, and approximate extraction (95-99% accuracy) is acceptable.
+**Bank Statement Parser now includes its own hybrid LLM pipeline** (v0.0.5+) that runs entirely locally via Ollama. It combines the best of both approaches:
 
-**When Bank Statement Parser is the better choice**: You need deterministic, reproducible output for audit and compliance. You cannot send financial data to external APIs. You need sub-millisecond latency (vs 1-30 seconds for LLM APIs). You want zero ongoing cost and no vendor dependency.
+- **Structured formats** (XML, CSV, OFX, MT940): Deterministic parsing — 100% accuracy, sub-millisecond latency, zero LLM cost.
+- **PDF statements**: Three-path routing (deterministic table extraction → text-LLM → vision-LLM) with automatic Golden Rule verification to catch extraction errors.
 
-Bank Statement Parser and LLM tools solve different problems. Use Bank Statement Parser for structured formats (XML, CSV, OFX, MT940) where you need 100% accuracy, local processing, and audit reproducibility. Use LLM tools for unstructured PDFs where approximate extraction is acceptable.
+Unlike cloud-only LLM parsers, Bank Statement Parser's hybrid pipeline:
+- Runs 100% locally (Ollama) — no data leaves your machine.
+- Verifies every extraction with balance verification (Golden Rule).
+- Supports interactive review mode for flagged discrepancies.
+- Produces idempotent transaction hashes for safe incremental ingestion.
+
+**When to choose pure SaaS LLM parsers over Bank Statement Parser**: You receive statements from hundreds of banks with wildly different PDF layouts and need out-of-the-box coverage without running local infrastructure.
+
+**When to choose Bank Statement Parser**: You need local processing for compliance. You want balance verification. You need ledger export. You want zero ongoing cost.
 
 **Benchmark methodology**: Performance figures measured on Apple M2, Python 3.12, using a 5,000-transaction CAMT.053 file (2.1 MB). Results averaged over 100 runs. Reproduce locally: `python -m bankstatementparser.bench`. SaaS latency based on published API documentation as of April 2026.
-
-**When to choose Bank Statement Parser**: Your bank provides structured exports (XML, CSV, OFX, MT940), you need local processing for compliance, or you want zero ongoing cost.
-
-**When to choose SaaS**: You receive scanned PDF statements, need OCR for hundreds of bank-specific formats, or want a no-code solution.
 
 [See real-world use cases ❯](/use-cases/index.html) | [Plan your MT940-to-CAMT migration ❯](/migration/index.html)

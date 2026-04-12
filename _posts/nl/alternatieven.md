@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Bankafschriftparser versus alternatieven"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Parser voor bankafschriften. Alle rechten voorbehouden."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Vergelijk Bankafschriftparser met mt-940, ofxparse, pycamt, pyiso20022 en SaaS-tools zoals Ocrolus en Parseur. Functievergelijking, prijzen en migratiegids."
 download: ""
 format-detection: "telephone=no"
@@ -109,70 +109,82 @@ site_software: "Shokunin, Rust"
 
 ## Overzicht
 
-Bankafschriftparser is de enige open-source Python-bibliotheek die zes bankafschriftformaten parseert met een uniforme API. Bibliotheken met één formaat (mt-940, ofxparse, pycamt) verwerken elk één formaat. SaaS-tools (Ocrolus, Parseur) bieden OCR voor PDF's, maar vereisen het extern verzenden van gegevens en kosten $ 49-$ 1.000+/maand.
+Bank Statement Parser is de enige open-source Python-bibliotheek die zeven bankafschriftformaten parseert — inclusief PDF via een hybride LLM-pipeline — met een uniforme API. Bibliotheken met één formaat (mt-940, ofxparse, pycamt) verwerken elk één formaat. SaaS-tools (Ocrolus, Parseur) bieden cloud-OCR, maar vereisen het extern verzenden van gegevens en kosten $49–$1.000+/maand.
 
-## Open source-alternatieven
+## Open-source alternatieven
 
 ### Bibliotheken met één formaat
 
-De meeste open-source parsers voor bankafschriften verwerken slechts één formaat. Als u meerdere indelingen nodig heeft, moet u afzonderlijke bibliotheken met verschillende API's, uitvoerschema's en updatecycli installeren en onderhouden.
+De meeste open-source parsers voor bankafschriften verwerken slechts één formaat. Als u meerdere formaten nodig heeft, moet u afzonderlijke bibliotheken installeren en onderhouden met verschillende API's, uitvoerschema's en updatecycli.
 
-| Bibliotheek | Formaat | Uitvoer | Streamen | PII-redactie | Ontdubbeling |
+| Bibliotheek | Formaten | PDF | Uitvoer | Saldoverificatie | Ledger-export |
 |---|---|---|---|---|---|
-| **Bankafschriftparser** | 6 formaten | panda's DataFrame | Ja | Ja (standaard) | Ja |
-| MT-940 (WoLpH) | Alleen MT940 | Python-objecten | Nee | Nee | Nee |
-| vanxparse | Alleen OFX | Python-objecten | Nee | Nee | Nee |
-| pycamt | Alleen CAMT.053 | Python-objecten | Nee | Nee | Nee |
-| ofxtools | Alleen OFX v1/v2 | Python-objecten | Nee | Nee | Nee |
+| **Bank Statement Parser** | 7 formaten | Hybride pipeline | pandas DataFrame | Golden Rule | hledger, beancount |
+| mt-940 (WoLpH) | Alleen MT940 | Nee | Python-objecten | Nee | Nee |
+| ofxparse | Alleen OFX | Nee | Python-objecten | Nee | Nee |
+| pycamt | Alleen CAMT.053 | Nee | Python-objecten | Nee | Nee |
+| ofxtools | Alleen OFX v1/v2 | Nee | Python-objecten | Nee | Nee |
 
-### versus pyiso20022
+### vs pyiso20022
 
-pyiso20022 genereert Python-dataklassen uit de volledige ISO 20022-schemacatalogus. Het is een ISO 20022-toolkit voor algemene doeleinden voor het werken met PACS-, PAIN-, CAMT- en ADMI-berichten.
+pyiso20022 genereert Python-dataklassen uit de volledige ISO 20022-schemacatalogus. Het is een algemene ISO 20022-toolkit voor het werken met PACS-, PAIN-, CAMT- en ADMI-berichten.
 
-Bankafschriftparser is speciaal gebouwd voor het parseren van bankafschriften in DataFrames met productiefuncties:
+Bank Statement Parser is specifiek gebouwd voor het parseren van bankafschriften naar DataFrames met productiefuncties:
 
-| Functie | Parser voor bankafschriften | pyiso20022 |
+| Functie | Bank Statement Parser | pyiso20022 |
 |---|---|---|
-| Doel | Verklaring parseren + exporteren | ISO 20022-schematoolkit |
-| Uitvoer | panda's/Polars DataFrames | Python-dataklassen |
-| Formaten | 6 (inclusief niet-ISO) | Alleen ISO 20022 |
-| Streamen | Ja (begrensd geheugen) | Nee |
+| Doel | Afschriften parseren + extractie + export | ISO 20022-schematoolkit |
+| Uitvoer | pandas/Polars DataFrames | Python-dataklassen |
+| Formaten | 7 (inclusief PDF, niet-ISO) | Alleen ISO 20022 |
+| PDF-ondersteuning | Hybride pipeline (deterministisch + LLM + vision) | Nee |
+| Saldoverificatie | Golden Rule + multi-valuta | Nee |
+| REST API | Ingebouwde FastAPI | Nee |
+| Verrijking | LLM-gestuurde categorisatie | Nee |
+| Ledger-export | hledger + beancount | Nee |
+| Streaming | Ja (begrensd geheugen) | Nee |
 | PII-redactie | Ingebouwd | Nee |
-| Ontdubbeling | Ingebouwd | Nee |
-| ZIP-beveiliging | Ingebouwd | Nee |
+| Ontdubbeling | Idempotente transactie-hashes | Nee |
 | CLI | Ja | Nee |
 
-Gebruik pyiso20022 als u met de volledige ISO 20022-berichtencatalogus moet werken. Gebruik Bankafschriftparser als u bankafschriften moet parseren in gestructureerde gegevens voor analyse, afstemming of rapportage.
+Gebruik pyiso20022 als u met de volledige ISO 20022-berichtencatalogus moet werken. Gebruik Bank Statement Parser als u bankafschriften moet parseren naar gestructureerde gegevens voor analyse, afstemming of rapportage.
 
 ## SaaS-alternatieven
 
-SaaS-tools zoals Ocrolus, Parseur en Sensible bieden het parseren van bankafschriften als een cloudservice. Ze gebruiken doorgaans OCR om gescande PDF's te verwerken en ondersteunen honderden bankspecifieke formaten.
+SaaS-tools zoals Ocrolus, Parseur en Sensible bieden het parseren van bankafschriften als cloudservice. Ze gebruiken doorgaans OCR om gescande PDF's te verwerken en ondersteunen honderden bankspecifieke formaten.
 
-| Functie | Parser voor bankafschriften | SaaS-tools |
+| Functie | Bank Statement Parser | SaaS-tools |
 |---|---|---|
-| Gegevensprivacy | 100% lokaal, geen netwerkoproepen | Gegevens verzonden naar de cloud |
-| Kosten | Gratis (Apache 2.0) | $ 49–$ 1.000+/maand (vanaf Q1 2026) |
-| Formaten | 6 gestructureerde formaten | Honderden (via OCR) |
-| PDF-ondersteuning | Nee (alleen gestructureerde formaten) | Ja (OCR-gebaseerd) |
-| Latentie | <2 ms eerste resultaat | 1-30 seconden |
-| Doorvoer | 27.000+ tx/seconde | API-snelheid beperkt |
+| Gegevensprivacy | 100% lokaal (LLM's via Ollama) | Gegevens verzonden naar de cloud |
+| Kosten | Gratis (Apache 2.0) | $49–$1.000+/maand (vanaf Q1 2026) |
+| Formaten | 7 (gestructureerd + PDF) | Honderden (via OCR) |
+| PDF-ondersteuning | Ja — hybride pipeline (deterministisch + LLM + vision) | Ja (cloud-OCR) |
+| Saldoverificatie | Golden Rule (automatisch) | Handmatig / beperkt |
+| Latentie | <2 ms (gestructureerd), seconden (PDF+LLM) | 1–30 seconden |
+| Doorvoer | 27.000+ tx/seconde (gestructureerd) | API-snelheidslimiet |
+| REST API | Ingebouwde FastAPI | Eigen protocol |
+| Ledger-export | hledger + beancount | Nee |
 | Leverancierslock-in | Geen | Ja |
 | Naleving | Lokale verwerking, SBOM | Verschilt per aanbieder |
 
 ## LLM-gebaseerde parsers
 
-Een groeiend aantal tools (Inscribe, Unstract, Mozilla.ai blueprints) gebruiken grote taalmodellen om bankafschriften te parseren, inclusief gescande PDF's. Toen Chase eind 2025 het formaat van hun consumentenverklaringen opnieuw ontwierp, gingen op sjablonen gebaseerde parsers kapot, terwijl LLM-parsers zich automatisch aanpasten.
+Een groeiend aantal tools (Inscribe, Unstract, Mozilla.ai blueprints) gebruikt grote taalmodellen om bankafschriften te parseren, inclusief gescande PDF's. Toen Chase eind 2025 het formaat van hun consumentenafschriften opnieuw ontwierp, gingen template-gebaseerde parsers kapot terwijl LLM-parsers zich automatisch aanpasten.
 
-**Als LLM-parsers zinvol zijn**: u ontvangt gescande PDF's van honderden banken met onvoorspelbare lay-outs, en een geschatte extractie (nauwkeurigheid van 95-99%) is acceptabel.
+**Bank Statement Parser bevat nu een eigen hybride LLM-pipeline** (v0.0.5+) die volledig lokaal draait via Ollama. Het combineert het beste van beide benaderingen:
 
-**Wanneer Parser van bankafschriften de betere keuze is**: u hebt deterministische, reproduceerbare output nodig voor audits en compliance. U kunt geen financiële gegevens naar externe API's verzenden. U hebt een latentie van minder dan een milliseconde nodig (versus 1-30 seconden voor LLM API's). U wilt nul lopende kosten en geen leveranciersafhankelijkheid.
+- **Gestructureerde formaten** (XML, CSV, OFX, MT940): Deterministische parsing — 100% nauwkeurigheid, sub-milliseconde latentie, nul LLM-kosten.
+- **PDF-afschriften**: Drievoudige routering (deterministische tabelextractie → tekst-LLM → vision-LLM) met automatische Golden Rule-verificatie om extractiefouten te detecteren.
 
-Bankafschriftparser en LLM-tools lossen verschillende problemen op. Gebruik Bank Statement Parser voor gestructureerde formaten (XML, CSV, OFX, MT940) waarbij u 100% nauwkeurigheid, lokale verwerking en auditreproduceerbaarheid nodig heeft. Gebruik LLM-tools voor ongestructureerde PDF's waarbij geschatte extractie acceptabel is.
+In tegenstelling tot cloud-only LLM-parsers biedt de hybride pipeline van Bank Statement Parser:
+- Draait 100% lokaal (Ollama) — geen gegevens verlaten uw machine.
+- Verifieert elke extractie met saldoverificatie (Golden Rule).
+- Ondersteunt interactieve beoordelingsmodus voor gemarkeerde afwijkingen.
+- Produceert idempotente transactie-hashes voor veilige incrementele opname.
 
-**Benchmarkmethodologie**: prestatiecijfers gemeten op Apple M2, Python 3.12, met behulp van een CAMT.053-bestand met 5.000 transacties (2,1 MB). De resultaten waren gemiddeld over 100 runs. Lokaal reproduceren:`python -m bankstatementparser.bench`. SaaS-latentie gebaseerd op gepubliceerde API-documentatie uit april 2026.
+**Wanneer u pure SaaS LLM-parsers kiest boven Bank Statement Parser**: U ontvangt afschriften van honderden banken met sterk verschillende PDF-lay-outs en heeft directe dekking nodig zonder lokale infrastructuur.
 
-**Wanneer kiest u voor Bankafschriftparser**: Uw bank biedt gestructureerde exporten (XML, CSV, OFX, MT940), u heeft lokale verwerking nodig voor naleving, of u wilt geen doorlopende kosten.
+**Wanneer u Bank Statement Parser kiest**: U heeft lokale verwerking nodig voor naleving. U wilt saldoverificatie. U heeft ledger-export nodig. U wilt nul doorlopende kosten.
 
-**Wanneer u voor SaaS kiest**: u ontvangt gescande PDF-afschriften, heeft OCR nodig voor honderden bankspecifieke formaten of wilt een oplossing zonder code.
+**Benchmarkmethodologie**: Prestatiecijfers gemeten op Apple M2, Python 3.12, met een CAMT.053-bestand van 5.000 transacties (2,1 MB). Resultaten gemiddeld over 100 runs. Lokaal reproduceren: `python -m bankstatementparser.bench`. SaaS-latentie gebaseerd op gepubliceerde API-documentatie per april 2026.
 
 [Zie praktijkvoorbeelden ❯](/use-cases/index.html) | [Plan uw MT940-naar-CAMT-migratie ❯](/migration/index.html)

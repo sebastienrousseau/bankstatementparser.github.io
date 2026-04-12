@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "En vit byggnad med svarta fönster"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Bank Statement Parser. Alla rättigheter reserverade."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Kom igång med Bank Statement Parser för Python: installera, analysera CAMT/PAIN.001/CSV/OFX/QFX/MT940-filer och använd streaming- eller CLI-arbetsflöden."
 download: ""
 format-detection: "telephone=no"
@@ -109,24 +109,41 @@ site_software: "Shokunin, Rust"
 
 ## Krav
 
-- Python 3.9 till 3.14
+- Python 3.10 till 3.14
 - Terminalåtkomst (macOS, Linux eller WSL)
 
 ## Installera
 
 ```bash
+# Grundinstallation (enbart deterministiska parsers)
 pip install bankstatementparser
 ```
 
-För Polars DataFrame-stöd:
+Valfria tillägg för ytterligare funktioner:
 
 ```bash
-pip install bankstatementparser[polars]
+# Text-LLM-väg för digitala PDF:er (litellm + pypdf)
+pip install 'bankstatementparser[hybrid]'
+
+# Högre kvalitet på tabellextraktion (lägger till pdfplumber)
+pip install 'bankstatementparser[hybrid-plus]'
+
+# Vision-LLM-väg för skannade PDF:er (lägger till pypdfium2)
+pip install 'bankstatementparser[hybrid-vision]'
+
+# LLM-driven transaktionskategorisering
+pip install 'bankstatementparser[enrichment]'
+
+# REST API-mikrotjänst (FastAPI + uvicorn)
+pip install 'bankstatementparser[api]'
+
+# Valfritt Polars DataFrame-stöd
+pip install 'bankstatementparser[polars]'
 ```
 
 ## Snabbstart
 
-### Autoupptäck och analysera alla format
+### Autodetektera och tolka alla strukturerade format
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -137,9 +154,9 @@ df = parser.parse()  # pandas DataFrame
 print(df.head())
 ```
 
-Detta fungerar med`.xml`(CAMT/PAIN.001),`.csv`, `.ofx`, `.qfx`, `.mt940`, och`.sta`filer.
+Detta fungerar med `.xml` (CAMT/PAIN.001), `.csv`, `.ofx`, `.qfx`, `.mt940` och `.sta`-filer.
 
-### Analysera CAMT.053
+### Tolka CAMT.053
 
 ```python
 from bankstatementparser import CamtParser
@@ -148,7 +165,7 @@ parser = CamtParser("statement.xml")
 transactions = parser.parse()
 ```
 
-### Analysera PAIN.001
+### Tolka PAIN.001
 
 ```python
 from bankstatementparser import Pain001Parser
@@ -157,7 +174,22 @@ parser = Pain001Parser("payment.xml")
 payments = parser.parse()
 ```
 
-## Strömmande stora filer
+### Tolka PDF-kontoutdrag (hybrid-pipeline)
+
+Hybrid-pipelinen dirigerar PDF:er intelligent genom tre extraktionsvägar:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+print(result.transactions)          # List of extracted transactions
+```
+
+Varje extraktion verifieras med **Golden Rule**: `opening + credits − debits == closing`.
+
+## Streaming av stora filer
 
 För filer med tusentals transaktioner, använd streaming för att hålla minnet begränsat:
 
@@ -167,9 +199,9 @@ for transaction in parser.parse_streaming(redact_pii=True):
     process(transaction)  # Memory stays constant
 ```
 
-## In-Memory Parsing
+## In-memory-tolkning
 
-Analysera från byte utan disk I/O -- användbart för SFTP- eller API-arbetsflöden:
+Tolka från byte utan disk-I/O — användbart för SFTP- eller API-arbetsflöden:
 
 ```python
 xml_bytes = download_from_sftp()
@@ -177,9 +209,9 @@ parser = CamtParser.from_bytes(xml_bytes, source_name="daily.xml")
 transactions = parser.parse()
 ```
 
-## Parallell filbehandling
+## Parallell filbearbetning
 
-Analysera flera filer samtidigt:
+Tolka flera filer samtidigt:
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -193,9 +225,21 @@ for r in results:
     print(r.path, r.status, len(r.transactions), "rows")
 ```
 
+## Massbearbetning av mappar
+
+Bearbeta hela mappträd med automatisk deduplicering:
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Processed: {len(batch.results)} files")
+print(f"Unique transactions: {batch.unique_count}")
+```
+
 ## Deduplicering
 
-Upptäck exakta dubbletter och misstänkta matchningar med konfidenspoäng:
+Idempotenta transaktionshashar för säker inkrementell inmatning:
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
@@ -209,9 +253,61 @@ print(f"Exact duplicates: {len(result.exact_duplicates)}")
 print(f"Suspected matches: {len(result.suspected_matches)}")
 ```
 
+## Transaktionskategorisering (berikande)
+
+Kategorisera transaktioner automatiskt med LLM-driven klassificering:
+
+```python
+from bankstatementparser.enrichment import Categorizer
+
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(transactions)
+for txn in enriched:
+    print(f"{txn.description}: {txn.category}")
+```
+
+## Ledger-export (hledger / beancount)
+
+Exportera transaktioner till plaintext-accounting-journalformat:
+
+```python
+from bankstatementparser.export import to_hledger, to_beancount
+
+journal = to_hledger(transactions, account="Assets:Bank:Checking")
+beancount_journal = to_beancount(transactions, account="Assets:Bank:Checking")
+```
+
+## Multivaluta-saldoverifiering
+
+Verifiera saldon oberoende per valutgrupp:
+
+```python
+from bankstatementparser.hybrid import verify_balance_multi_currency
+
+results = verify_balance_multi_currency(transactions)
+for currency, verification in results.items():
+    print(f"{currency}: {verification.status}")
+```
+
+## REST API
+
+Driftsätt som en FastAPI-mikrotjänst:
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+
+# For container deployments
+bankstatementparser-api --host 0.0.0.0 --port 9000
+```
+
+Ändpunkter:
+- `POST /ingest` — Tolka en kontoutdragsfil
+- `GET /health` — Hälsokontroll
+
 ## Säker ZIP-bearbetning
 
-Bearbeta zippade XML-filer med inbyggda säkerhetskontroller (bombskydd, krypterad inmatningsavvisning):
+Bearbeta zippade XML-filer med inbyggda säkerhetskontroller (bombskydd, avvisning av krypterade poster):
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
@@ -221,7 +317,7 @@ for entry in iter_secure_xml_entries("statements.zip"):
     print(f"{entry.source_name}: {len(parser.parse())} transactions")
 ```
 
-## Exportera
+## Export
 
 ```python
 parser = CamtParser("statement.xml")
@@ -230,37 +326,48 @@ parser.export_json("output.json")
 
 # Polars (requires bankstatementparser[polars])
 polars_df = parser.to_polars()
+
+# Excel
+parser.camt_to_excel("output.xlsx")
 ```
 
 ## CLI-användning
 
 ```bash
-# Parse and display
-python -m bankstatementparser.cli --type camt --input statement.xml
+# Parse structured formats
+bankstatementparser --type camt --input statement.xml
+bankstatementparser --type pain001 --input payment.xml
 
-# Export to CSV
-python -m bankstatementparser.cli --type camt --input statement.xml --output transactions.csv
+# Hybrid PDF pipeline
+bankstatementparser --type ingest --input statement.pdf
+bankstatementparser --type ingest --input statement.pdf --output ledger.csv
 
-# Stream with PII visible
-python -m bankstatementparser.cli --type camt --input statement.xml --streaming --show-pii
+# Interactive review mode
+bankstatementparser --type review --input result.json
+bankstatementparser --type review --input result.json --output reviewed.json
+
+# Export to CSV with streaming
+bankstatementparser --type camt --input statement.xml --output transactions.csv
+bankstatementparser --type camt --input statement.xml --streaming --show-pii
 ```
 
 CLI-alternativ:
 
-- `--type {camt,pain001}`-- parsertyp
--`--input <path>`-- indatafil
--`--output <csv_path>`-- exportera till CSV
--`--streaming`-- streama stora filer
--`--show-pii`-- visa känsliga fält (redigerad som standard)
--`--max-size <MB>`-- filstorleksgräns
+- `--type {camt,pain001,ingest,review}` — parsertyp eller läge
+- `--input <path>` — indatafil
+- `--output <path>` — exportfil (CSV eller JSON)
+- `--streaming` — streama stora filer
+- `--show-pii` — visa känsliga fält (redakterade som standard)
+- `--max-size <MB>` — filstorleksgräns
 
-## Lokal utveckling Setup
+## Lokal utvecklingsmiljö
 
 ```bash
 git clone https://github.com/sebastienrousseau/bankstatementparser.git
 cd bankstatementparser
 python3 -m venv .venv && source .venv/bin/activate
 pip install poetry && poetry install --with dev
+make install-hooks   # pre-commit hook runs `make verify` before every commit
 ```
 
 Kör testsviten:
@@ -273,7 +380,7 @@ pytest
 
 ### Parser-klasser
 
-| Klass | Formatera | Importera |
+| Klass | Format | Import |
 |---|---|---|
 | `CamtParser` | CAMT.053 (ISO 20022) | `from bankstatementparser import CamtParser` |
 | `Pain001Parser` | PAIN.001 (ISO 20022) | `from bankstatementparser import Pain001Parser` |
@@ -281,32 +388,42 @@ pytest
 | `OfxParser` | OFX | `from bankstatementparser import OfxParser` |
 | `QfxParser` | QFX | `from bankstatementparser import QfxParser` |
 | `Mt940Parser` | MT940 | `from bankstatementparser import Mt940Parser` |
+| `smart_ingest()` | PDF (hybrid-pipeline) | `from bankstatementparser.hybrid import smart_ingest` |
 
 ### Verktygsfunktioner
 
-| Fungera | Ändamål |
+| Funktion | Syfte |
 |---|---|
-| `detect_statement_format(path)` | Autoupptäck filformat |
-| `create_parser(path, fmt)` | Skapa lämplig analysator |
-| `parse_files_parallel(paths)` | Analysera flera filer samtidigt |
+| `detect_statement_format(path)` | Autodetektera filformat |
+| `create_parser(path, fmt)` | Skapa lämplig parser |
+| `parse_files_parallel(paths)` | Tolka flera filer samtidigt |
 | `iter_secure_xml_entries(zip_path)` | Iterera ZIP-poster säkert |
+| `smart_ingest(path)` | Hybrid-PDF-extraktion med verifiering |
+| `scan_and_ingest(dir, pattern)` | Massbearbetning av mappar |
+| `verify_balance_multi_currency(txns)` | Saldoverifiering per valuta |
+| `to_hledger(txns, account)` | Exportera till hledger-journalformat |
+| `to_beancount(txns, account)` | Exportera till beancount-journalformat |
 
 ### Dataklasser
 
-| Klass | Ändamål |
+| Klass | Syfte |
 |---|---|
 | `Deduplicator` | Upptäck dubbletter av transaktioner |
 | `DeduplicationResult` | Resultat med unika, exakta och misstänkta matchningar |
 | `InputValidator` | Validera filsökvägar och format |
 | `Transaction` | Normaliserad transaktionspost |
-| `FileResult` | Resultat från parallell analys |
+| `FileResult` | Resultat från parallell tolkning |
 | `ZipXMLSource` | ZIP-medlemsomslag |
+| `IngestResult` | Hybrid-pipelineresultat med verifiering |
+| `VerificationResult` | Saldoverifieringsutfall |
+| `Categorizer` | LLM-driven transaktionskategorisering |
+| `AccountMapper` | Regex-baserade kontomappningsregler |
 
 ### Undantag
 
-| Undantag | När uppvuxen |
+| Undantag | När det kastas |
 |---|---|
-| `ParserError` | Analysfel |
+| `ParserError` | Tolkningsfel |
 | `ExportError` | Exportfel (CSV/JSON/Excel) |
 | `ValidationError` | Indatavalideringsfel |
-| `ZipSecurityError` | ZIP säkerhetskontroll misslyckades |
+| `ZipSecurityError` | ZIP-säkerhetskontroll misslyckades |

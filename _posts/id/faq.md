@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Pertanyaan yang Sering Diajukan tentang Parser Laporan Bank"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Pengurai Laporan Bank. Semua hak dilindungi undang-undang."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Jawaban atas pertanyaan umum tentang Parser Laporan Bank: privasi data, redaksi PII, kinerja, dukungan ISO 20022, streaming, kepatuhan, dan alur kerja perbendaharaan."
 download: ""
 format-detection: "telephone=no"
@@ -111,66 +111,72 @@ site_software: "Shokunin, Rust"
 
 ### Apakah ada data yang keluar dari infrastruktur saya?
 
-**Tidak.** Parser Laporan Bank beroperasi sebagai perpustakaan tanpa negara. Semua pemrosesan -- penguraian, redaksi PII, ekstraksi arsip -- terjadi dalam memori waktu proses lokal Anda. Tidak ada panggilan API, tidak ada layanan cloud, tidak ada telemetri. Parser XML diperkuat dengan`no_network=True`, memblokir semua akses keluar di tingkat parser. Data keuangan Anda tidak pernah meninggalkan lingkungan Anda.
+**Tidak — bahkan untuk ekstraksi PDF.** Bank Statement Parser beroperasi sebagai pustaka stateless. Semua pemrosesan -- penguraian, redaksi PII, ekstraksi arsip -- terjadi dalam memori runtime lokal Anda. Pipeline PDF hibrida menggunakan Ollama untuk inferensi LLM lokal — tanpa API cloud. Parser XML diperkuat dengan `no_network=True`, memblokir semua akses keluar di tingkat parser. Data keuangan Anda tidak pernah keluar dari lingkungan Anda.
 
 ### Bagaimana cara kerja redaksi PII?
 
-Bidang sensitif ditutup sebelum mencapai logika aplikasi Anda. Parser mengidentifikasi nama debitur, nama kreditur, IBAN, dan alamat pos, menggantikannya dengan`***REDACTED***`dalam keluaran konsol dan mode streaming.
+Bidang sensitif disamarkan sebelum mencapai logika aplikasi Anda. Parser mengidentifikasi nama debitur, nama kreditur, IBAN, dan alamat pos, menggantikannya dengan `***REDACTED***` dalam output konsol dan mode streaming.
 
-- **Redaksi diaktifkan secara default** dalam output CLI dan mode streaming.
-- **Ekspor file** (CSV, JSON, Excel) menyimpan data yang belum disunting untuk pemrosesan hilir.
-- **Ikut serta** untuk mendapatkan data lengkap dengan`--show-pii`di CLI atau`redact_pii=False`di API.
+- **Redaksi aktif secara default** dalam output CLI dan mode streaming.
+- **Ekspor file** (CSV, JSON, Excel) menyimpan data tanpa redaksi untuk pemrosesan hilir.
+- **Aktifkan** data lengkap dengan `--show-pii` di CLI atau `redact_pii=False` di API.
 
 ### Apakah proses ekstraksi bersifat deterministik?
 
-**Ya -- output identik dengan byte pada setiap proses.** Dengan file input yang sama, parser menghasilkan hasil yang sama setiap saat. Tidak ada keacakan, tidak ada inferensi model, tidak ada pengambilan sampel heuristik. CI menerapkan determinisme dengan 467 pengujian pada cakupan cabang 100%, termasuk fuzzing berbasis properti melalui Hipotesis.
+**Ya untuk format terstruktur -- output identik byte pada setiap proses.** Dengan file input yang sama, parser deterministik (CAMT, PAIN.001, CSV, OFX, QFX, MT940) menghasilkan hasil yang sama setiap saat. Tidak ada keacakan, tidak ada inferensi model, tidak ada sampling heuristik.
+
+Untuk pipeline PDF hibrida, jalur ekstraksi berbasis LLM mungkin menghasilkan variasi kecil antar proses. Oleh karena itu setiap ekstraksi PDF diverifikasi dengan **Golden Rule** (`opening + credits − debits == closing`) dan ketidaksesuaian yang ditandai dapat ditinjau secara interaktif.
+
+CI menerapkan determinisme dengan 718 pengujian pada cakupan cabang 100%, termasuk fuzzing berbasis properti via Hypothesis.
 
 ### Standar kepatuhan apa yang diikuti proyek ini?
 
-Proyek ini memelihara dokumentasi yang selaras dengan ISO 13485 dengan kemampuan penelusuran penuh:
+Proyek ini memelihara dokumentasi selaras ISO 13485 dengan kemampuan penelusuran penuh:
 
-- **Daftar Risiko** yang terukur dengan penilaian tingkat keparahan/probabilitas dan penilaian risiko sisa.
-- **Rencana Verifikasi dan Validasi** dengan 19 langkah tertutup dalam 5 fase.
+- **Daftar Risiko** terukur dengan penilaian tingkat keparahan/probabilitas dan penilaian risiko sisa.
+- **Rencana Verifikasi dan Validasi** dengan 19 langkah terjaga dalam 5 fase.
 - **Prosedur Kontrol Perubahan** dengan penilaian dampak dan protokol rollback.
 - **Daftar SOUP** yang mencakup semua dependensi dengan tingkat risiko dan pelacakan EOL.
-- Masukan desain pemetaan **Matriks Ketertelusuran** untuk implementasi dan verifikasi.
+- **Matriks Ketertelusuran** yang memetakan masukan desain ke implementasi dan verifikasi.
 
-Setiap rilis mencakup CycloneDX SBOM, checksum SHA-256, dan pengesahan asal build GitHub.
+Setiap rilis mencakup CycloneDX SBOM, checksum SHA-256, dan pengesahan provenance build GitHub.
 
 ## Performa dan Skalabilitas
 
-### Seberapa cepat Pengurai Laporan Bank?
+### Seberapa cepat Bank Statement Parser?
 
-Ambang batas performa divalidasi di CI pada setiap penerapan:
+Ambang batas performa divalidasi di CI pada setiap commit:
 
 | Metrik | Nilai |
 |---|---|
-| Keluaran CAMT.053 | 27.000+ transaksi/detik |
+| Throughput CAMT.053 | 27.000+ transaksi/detik |
 | Throughput PAIN.001 | 52.000+ transaksi/detik |
 | Latensi per transaksi (CAMT) | 37 mikrodetik |
 | Latensi per transaksi (PAIN.001) | 19 mikrodetik |
-| Saatnya untuk hasil pertama | < 2 ms |
+| Waktu ke hasil pertama | < 2 ms |
+
+Kecepatan ekstraksi PDF bergantung pada jalur routing: deterministik (sub-detik), text-LLM (beberapa detik), vision-LLM (beberapa detik per halaman).
 
 ### Bagaimana cara menangani file besar?
 
-**Streaming dengan memori terbatas -- diuji pada 50.000 transaksi per file.** Penggunaan`parse_streaming()`untuk memproses file XML secara bertahap. Setiap transaksi dihasilkan sebagai kamus; elemen dihapus setelah pemrosesan untuk mencegah pertumbuhan memori. Memori tidak disesuaikan dengan ukuran file -- pengujian transaksi 50K (25+ MB) menggunakan kurang dari 2x memori pengujian transaksi 10K.
+**Streaming dengan memori terbatas -- diuji pada 50.000 transaksi per file.** Gunakan `parse_streaming()` untuk memproses file XML secara bertahap. Setiap transaksi dihasilkan sebagai dictionary; elemen dihapus setelah pemrosesan untuk mencegah pertumbuhan memori. Memori tidak bertambah seiring ukuran file -- pengujian 50K transaksi (25+ MB) menggunakan kurang dari 2x memori pengujian 10K transaksi.
 
-Untuk file yang melebihi 50 MB (misalnya, kumpulan PAIN.001 host-ke-host dengan pembayaran 100K+), parser mengalir melalui file sementara dengan pengupasan namespace berbasis potongan -- dokumen lengkap tidak pernah dimuat ke dalam memori.
+Untuk file melebihi 50 MB (misalnya, batch PAIN.001 host-to-host dengan 100K+ pembayaran), parser mengalir melalui file sementara dengan stripping namespace berbasis chunk -- dokumen lengkap tidak pernah dimuat ke memori.
 
 ### Bagaimana arsip ZIP diproses dengan aman?
 
-`iter_secure_xml_entries()`memvalidasi setiap anggota sebelum ekstraksi:
+`iter_secure_xml_entries()` memvalidasi setiap anggota sebelum ekstraksi:
 
 - **Batas ukuran entri** (default 10 MB per entri)
-- **Total batas ukuran yang tidak dikompresi** (default 50 MB)
+- **Total batas ukuran tidak terkompresi** (default 50 MB)
 - **Batas rasio kompresi** (default 100:1) untuk mencegah bom ZIP
 - **Penolakan entri terenkripsi**
 
-Tidak ada file yang ditulis ke disk. XML byte diteruskan langsung ke parser melalui`from_bytes()`.
+Tidak ada file yang ditulis ke disk. Byte XML diteruskan langsung ke parser via `from_bytes()`.
 
 ### Bisakah saya mengurai banyak file secara paralel?
 
-**Ya.** Gunakan`parse_files_parallel()`yang mendistribusikan pekerjaan di a`ProcessPoolExecutor`:
+**Ya.** Gunakan `parse_files_parallel()` yang mendistribusikan pekerjaan di `ProcessPoolExecutor`:
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -184,61 +190,120 @@ for r in results:
     print(r.path, r.status, len(r.transactions), "rows")
 ```
 
+Untuk ingesti PDF massal, gunakan `scan_and_ingest()` yang memproses seluruh pohon folder dengan deduplikasi otomatis.
+
 ## Format yang Didukung
 
 ### Format laporan bank apa yang didukung?
 
-| Format | Standar | Jenis File | Kelas Parser |
+| Format | Standar | Jenis File | Parser/Metode |
 |---|---|---|---|
-| CAMT.053 | Pernyataan Bank-ke-Pelanggan ISO 20022 | `.xml` | `CamtParser` |
-| SAKIT.001 | Inisiasi Transfer Kredit ISO 20022 | `.xml` | `Pain001Parser` |
+| CAMT.053 | ISO 20022 Bank-to-Customer Statement | `.xml` | `CamtParser` |
+| PAIN.001 | ISO 20022 Credit Transfer Initiation | `.xml` | `Pain001Parser` |
 | CSV | Ekspor bank umum | `.csv` | `CsvStatementParser` |
-| OFX | Buka Pertukaran Keuangan | `.ofx` | `OfxParser` |
-| QFX | Mempercepat Pertukaran Keuangan | `.qfx` | `QfxParser` |
-| MT940 | standar SWIFT | `.mt940`, `.sta` | `Mt940Parser` |
+| OFX | Open Financial Exchange | `.ofx` | `OfxParser` |
+| QFX | Quicken Financial Exchange | `.qfx` | `QfxParser` |
+| MT940 | Standar SWIFT | `.mt940`, `.sta` | `Mt940Parser` |
+| PDF | Laporan digital dan hasil pindai | `.pdf` | `smart_ingest()` |
+
+### Bagaimana cara kerja pipeline PDF hibrida?
+
+Pipeline hibrida (v0.0.5+) secara cerdas merutekan PDF melalui tiga jalur ekstraksi:
+
+- **Jalur A (Deterministik)**: Tabel PDF terstruktur diurai langsung — gratis, tercepat, tanpa LLM.
+- **Jalur B (Text-LLM)**: PDF digital dengan tata letak kompleks diekstrak via LLM lokal (LiteLLM/Ollama).
+- **Jalur C (Vision-LLM)**: Laporan hasil pindai atau fotokopi diproses dengan model vision multimodal.
+
+Setiap ekstraksi diverifikasi dengan Golden Rule (`opening + credits − debits == closing`). Ketidaksesuaian dapat ditinjau secara interaktif dengan `--type review`.
 
 ### Apakah parser menangani dialek khusus bank CAMT.053?
 
-**Ya -- namespace-agnostic berdasarkan desain.** Parser menghapus namespace XML sebelum diproses, menangani varian CAMT.053 (`camt.053.001.02`, `camt.053.001.04`, atau pembungkus bank berpemilik) tanpa konfigurasi khusus namespace. XPath menanyakan struktur elemen target, bukan URI namespace.
+**Ya -- namespace-agnostic secara desain.** Parser menghapus namespace XML sebelum diproses, menangani varian CAMT.053 apa pun (`camt.053.001.02`, `camt.053.001.04`, atau pembungkus bank proprietary) tanpa konfigurasi khusus namespace. Query XPath menargetkan struktur elemen, bukan URI namespace.
 
-Untuk bank yang membungkus CAMT dalam amplop khusus, gunakan`from_string()`atau`from_bytes()`untuk memasukkan dokumen bagian dalam secara langsung.
+Untuk bank yang membungkus CAMT dalam amplop khusus, gunakan `from_string()` atau `from_bytes()` untuk memasukkan dokumen bagian dalam secara langsung.
 
 ### Bisakah saya memetakan header kolom CSV khusus ke skema standar?
 
-**Ya -- normalisasi otomatis, konfigurasi nol.**`CsvStatementParser`mengenali variasi header yang umum:`"Date"`, `"Transaction Date"`, `"Booking Date"`semua peta ke`date`bidang.`"Amount"`, `"Value"`, `"Sum"`peta ke`amount`. Pisahkan kolom kredit/debit (mis.,`"Credit"`Dan`"Debit"`) terdeteksi dan digabungkan menjadi satu jumlah yang ditandatangani secara otomatis.
+**Ya -- normalisasi otomatis, tanpa konfigurasi.** `CsvStatementParser` mengenali variasi header umum: `"Date"`, `"Transaction Date"`, `"Booking Date"` semua dipetakan ke field `date`. `"Amount"`, `"Value"`, `"Sum"` dipetakan ke `amount`. Kolom kredit/debit terpisah (misalnya `"Credit"` dan `"Debit"`) terdeteksi dan digabungkan menjadi satu jumlah bertanda secara otomatis.
 
-### Apa format keluarannya?
+### Apa format outputnya?
 
-Semua parser menghasilkan DataFrame panda standar dengan tipe kolom yang konsisten:
+Semua parser menghasilkan pandas DataFrames standar dengan tipe kolom konsisten:
 
-| Format | Kolom Kunci |
+| Format | Kolom Utama |
 |---|---|
 | **CAMT** | `Amount`, `Currency`, `DrCr`, `Debtor`, `Creditor`, `Reference`, `ValDt`, `BookgDt`, `AccountId` |
-| **RASA SAKIT.001** | `PmtInfId`, `PmtMtd`, `InstdAmt`, `Currency`, `CdtrNm`, `EndToEndId`, `MsgId`, `CreDtTm`, `NbOfTxs` |
-| **CSV/OFX/QFX/MT940** | `date`, `description`, `amount`(dinormalisasi) |
+| **PAIN.001** | `PmtInfId`, `PmtMtd`, `InstdAmt`, `Currency`, `CdtrNm`, `EndToEndId`, `MsgId`, `CreDtTm`, `NbOfTxs` |
+| **CSV/OFX/QFX/MT940** | `date`, `description`, `amount` (dinormalisasi) |
 
-Anda juga dapat mengekspor ke CSV, JSON, Excel, atau mengonversi ke Polars DataFrames.
+Anda juga dapat mengekspor ke CSV, JSON, Excel, Polars DataFrames, hledger, atau format jurnal beancount.
+
+## Fitur PDF dan LLM
+
+### Model LLM apa yang didukung pipeline hibrida?
+
+Pipeline menggunakan LiteLLM sebagai lapisan abstraksi model, dengan bridge Ollama langsung untuk prompt vision. Model yang direkomendasikan:
+
+- **Ekstraksi teks**: Model apa pun yang kompatibel LiteLLM (lokal atau remote).
+- **Ekstraksi vision**: `ollama/minicpm-v` (direkomendasikan) untuk PDF hasil pindai.
+- **Kategorisasi**: Model apa pun yang kompatibel LiteLLM.
+
+Semua model dapat berjalan 100% lokal via Ollama — tanpa API key.
+
+### Apa itu verifikasi Golden Rule?
+
+Setiap ekstraksi PDF diverifikasi dengan persamaan: `opening balance + credits − debits == closing balance`. Hasilnya ditandai sebagai:
+
+- **VERIFIED**: Saldo cocok persis.
+- **DISCREPANCY**: Saldo tidak cocok — tinjauan disarankan.
+- **FAILED**: Verifikasi tidak dapat dilakukan (data saldo tidak lengkap).
+
+### Bisakah saya mengkategorikan transaksi secara otomatis?
+
+**Ya.** Modul enrichment (v0.0.6+) menyediakan kategorisasi transaksi berbasis LLM:
+
+```python
+from bankstatementparser.enrichment import Categorizer
+
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(transactions)
+```
+
+Skema default menggunakan 13 kategori kompatibel Plaid. Anda dapat menyediakan skema kategori Anda sendiri.
+
+### Bisakah saya mengekspor ke hledger atau beancount?
+
+**Ya** (v0.0.8+). Ekspor transaksi ke format jurnal plaintext-accounting dengan pemetaan akun:
+
+```python
+from bankstatementparser.export import to_hledger, to_beancount
+
+journal = to_hledger(transactions, account="Assets:Bank:Checking")
+```
 
 ## Alur Kerja Perbendaharaan
 
-### Bagaimana cara parser menangani pernyataan multi-mata uang?
+### Bagaimana parser menangani laporan multi-mata uang?
 
-**Setiap transaksi mempertahankan mata uang aslinya -- tidak ada konversi implisit.** The`Currency`bidang diekstraksi dari XML`Ccy`atribut per transaksi. Laporan multi-mata uang tetap apa adanya. Itu`get_account_balances()`metode mengembalikan saldo pembukaan dan penutupan per akun dengan kode mata uang asli. Rekonsiliasi lintas mata uang diserahkan pada logika hilir Anda, di mana Anda mengontrol sumber nilai tukar.
+**Setiap transaksi mempertahankan mata uang aslinya -- tanpa konversi implisit.** Field `Currency` diekstraksi dari atribut XML `Ccy` per transaksi. Laporan multi-mata uang tetap apa adanya. Metode `get_account_balances()` mengembalikan saldo pembukaan dan penutupan per akun dengan kode mata uang asli.
+
+Sejak v0.0.8, `verify_balance_multi_currency()` mengelompokkan transaksi per mata uang dan menjalankan Golden Rule secara independen per kelompok — berguna untuk akun yang menyimpan beberapa mata uang.
 
 ### Apakah parser mendukung format keluar dan masuk?
 
-**Ya.**`Pain001Parser`menangani file inisiasi transfer kredit ISO 20022 PAIN.001 (pembayaran keluar).`CamtParser`menangani file laporan bank-ke-pelanggan CAMT.053 (pelaporan masuk). Keduanya mendukung streaming, redaksi PII, dan ekspor ke CSV, JSON, dan Excel. Menggunakan`detect_statement_format()`untuk mengidentifikasi format secara otomatis.
+**Ya.** `Pain001Parser` menangani file inisiasi transfer kredit ISO 20022 PAIN.001 (pembayaran keluar). `CamtParser` menangani file laporan bank-ke-pelanggan CAMT.053 (pelaporan masuk). Keduanya mendukung streaming, redaksi PII, dan ekspor ke CSV, JSON, Excel, hledger, dan beancount. Gunakan `detect_statement_format()` untuk mengidentifikasi format secara otomatis.
 
 ### Apa yang terjadi bila entri transaksi salah format?
 
 Perilaku bergantung pada mode penguraian:
 
-- **`parse()`(mode batch)** -- Entri yang salah formatnya tidak berisi kolom yang wajib diisi (`Amount`, `Currency`, atau`CdtDbtInd`) dilewati dengan log peringatan. Pernyataan lainnya diurai secara normal.
-- **`parse_streaming()`(mode streaming)** -- Kesalahan penguraian langsung menyebar sebagai pengecualian. Tidak ada kehilangan data secara diam-diam. Perilaku gagal-cepat ini disengaja untuk alur kerja keuangan di mana setiap transaksi harus dipertanggungjawabkan.
+- **`parse()` (mode batch)** -- Entri yang salah format tanpa field wajib (`Amount`, `Currency`, atau `CdtDbtInd`) dilewati dengan log peringatan. Sisa laporan diurai secara normal.
+- **`parse_streaming()` (mode streaming)** -- Kesalahan penguraian langsung menyebar sebagai exception. Tidak ada kehilangan data diam-diam. Perilaku fail-fast ini disengaja untuk alur kerja keuangan di mana setiap transaksi harus dipertanggungjawabkan.
+- **`smart_ingest()` (PDF hibrida)** -- Kesalahan ekstraksi ditangkap dalam `IngestResult` dengan status verifikasi, memungkinkan tinjauan interaktif.
 
 ### Bagaimana cara kerja deduplikasi?
 
-Itu`Deduplicator`kelas mendeteksi duplikat persis dan dugaan kecocokan dengan skor keyakinan yang dapat dijelaskan:
+Setiap transaksi diberi `transaction_hash` idempoten (fingerprint MD5) berdasarkan field kuncinya. Ini memungkinkan ingesti inkremental yang aman — memproses ulang file yang sama menghasilkan hash yang sama, sehingga duplikat terdeteksi otomatis.
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
@@ -254,68 +319,85 @@ print(f"Suspected matches: {len(result.suspected_matches)}")
 
 ## Instalasi dan Kompatibilitas
 
-### Bagaimana cara menginstal Pengurai Laporan Bank?
+### Bagaimana cara menginstal Bank Statement Parser?
 
 ```bash
+# Core install (deterministic parsers only)
 pip install bankstatementparser
+
+# PDF hybrid pipeline
+pip install 'bankstatementparser[hybrid]'         # Text-LLM path
+pip install 'bankstatementparser[hybrid-vision]'   # Vision-LLM path
+
+# Extras
+pip install 'bankstatementparser[enrichment]'      # Transaction categorisation
+pip install 'bankstatementparser[api]'             # REST API microservice
+pip install 'bankstatementparser[polars]'          # Polars DataFrame support
 ```
 
-Untuk dukungan opsional Polars DataFrame:
+### Versi Python mana yang didukung?
 
-```bash
-pip install bankstatementparser[polars]
-```
-
-### Versi Python manakah yang didukung?
-
-Python 3.9 hingga 3.14. Semua versi diuji di CI dengan 467 pengujian pada cakupan cabang 100%.
+Python 3.10 hingga 3.14. Dukungan Python 3.9 dihentikan di v0.0.6 (EOL 2025-10-31). Semua versi diuji di CI dengan 718 pengujian pada cakupan cabang 100%.
 
 ### Apa saja dependensinya?
 
-Perpustakaan memiliki 5 dependensi langsung:
+Pustaka inti memiliki 5 dependensi langsung:
 
-- `lxml`-- Penguraian XML dengan penguatan keamanan
--`pandas`-- DataFrames dan manipulasi data
--`openpyxl`- Ekspor Excel
--`pydantic`-- Validasi data dan model
--`defusedxml`-- Perlindungan XXE
+- `lxml` -- Penguraian XML dengan penguatan keamanan
+- `pandas` -- DataFrames dan manipulasi data
+- `openpyxl` -- Ekspor Excel
+- `pydantic` -- Validasi data dan model
+- `defusedxml` -- Perlindungan XXE
+
+Ekstra opsional menambahkan: `litellm`, `pypdf`, `pdfplumber`, `pypdfium2`, `fastapi`, `uvicorn`, `polars`.
 
 Semua dependensi memiliki versi hash-lock SHA-256. CycloneDX SBOM memetakan setiap komponen runtime.
 
-### Apakah ini berfungsi di MacOS, Linux, dan Windows?
+### Apakah ini berfungsi di macOS, Linux, dan Windows?
 
-**Ya.** Pustaka berfungsi di macOS, Linux, dan Windows (melalui WSL). Itu tidak memiliki ketergantungan khusus platform.
+**Ya.** Pustaka berfungsi di macOS, Linux, dan Windows (via WSL). Tidak memiliki dependensi khusus platform.
+
+### Apakah ada REST API?
+
+**Ya** (v0.0.8+). Instal dengan `pip install 'bankstatementparser[api]'` dan jalankan:
+
+```bash
+bankstatementparser-api --port 8000
+```
+
+Endpoint: `POST /ingest` (parsing laporan) dan `GET /health` (pemeriksaan kesehatan).
 
 ## Reproduksibilitas dan Keamanan
 
 ### Bagaimana cara memverifikasi reproduktifitas?
 
 ```bash
-python -m pytest                              # 467 tests, 100% branch coverage
+python -m pytest                              # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py        # SHA-256 hash verification
 git log --show-signature -1                   # Verify commit signature
 ```
 
-### Perlindungan keamanan apa yang ada di dalamnya?
+### Perlindungan keamanan apa yang tersedia?
 
-- **Perlindungan XXE**:`resolve_entities=False`, `no_network=True`, `load_dtd=False`
+- **Perlindungan XXE**: `resolve_entities=False`, `no_network=True`, `load_dtd=False`
 - **Perlindungan Bom ZIP**: Batas rasio kompresi, batas ukuran entri, penolakan entri terenkripsi
-- **Pencegahan Traversal Jalur**: Daftar blokir pola berbahaya dan resolusi symlink
+- **Pencegahan Path Traversal**: Daftar blokir pola berbahaya dan resolusi symlink
 - **Validasi Input**: Batas ukuran file (default 100 MB), validasi ekstensi/format
-- **Rantai Pasokan**: Dependensi yang dikunci hash SHA-256, CycloneDX SBOM, pengesahan asal pembuatan
-- **Komitmen yang Ditandatangani**: Diberlakukan di CI
+- **Rantai Pasokan**: Dependensi dikunci hash SHA-256, CycloneDX SBOM, pengesahan provenance build
+- **Commit Bertanda Tangan**: Diberlakukan di CI
+- **LLM Lokal**: Pipeline PDF hibrida menggunakan Ollama — tanpa panggilan API cloud
 
-### Bagaimana Parser Laporan Bank dibandingkan dengan pyiso20022?
+### Bagaimana Bank Statement Parser dibandingkan dengan pyiso20022?
 
-pyiso20022 adalah toolkit ISO 20022 luas yang menghasilkan kelas data Python dari skema ISO XML. Ini mencakup berbagai jenis pesan ISO 20022 (PACS, PAIN, CAMT, ADMI) dengan validasi skema. Parser Laporan Bank dibuat khusus untuk penguraian laporan bank dengan dukungan streaming, redaksi PII, deduplikasi, dan API terpadu dalam enam format termasuk format non-ISO (CSV, OFX, QFX, MT940). Jika Anda perlu mengurai laporan bank ke dalam DataFrames dengan keamanan tingkat produksi, gunakan Pengurai Laporan Bank. Jika Anda perlu bekerja dengan katalog pesan ISO 20022 lengkap, gunakan pyiso20022.
+pyiso20022 adalah toolkit ISO 20022 luas yang menghasilkan dataclass Python dari skema ISO XML. Ini mencakup berbagai jenis pesan ISO 20022 (PACS, PAIN, CAMT, ADMI) dengan validasi skema. Bank Statement Parser dibuat khusus untuk penguraian laporan bank dengan dukungan PDF hibrida, verifikasi saldo, pengayaan, ekspor ledger, dan API terpadu di tujuh format termasuk format non-ISO (CSV, OFX, QFX, MT940, PDF). Jika Anda perlu mengurai laporan bank ke dalam DataFrames dengan keamanan tingkat produksi, gunakan Bank Statement Parser. Jika Anda perlu bekerja dengan katalog pesan ISO 20022 lengkap, gunakan pyiso20022.
 
-### Kapan batas waktu migrasi SWIFT ISO 20022?
+### Kapan tenggat waktu migrasi SWIFT ISO 20022?
 
 SWIFT telah menerbitkan garis waktu migrasi bertahap:
 
-- **November 2026**: Alamat terstruktur dan hibrid menjadi wajib. Pesan multi-instruksi MT101 akan ditolak. Manajemen Kasus Fase 1 dimulai.
-- **November 2027**: Semua lembaga keuangan harus dapat menerima laporan CAMT.053 secara asli. SWIFT akan berhenti mengonversi MT ke format ISO.
-- **November 2028**: Pensiun penuh MT940, MT942, MT950, MT900, dan MT910. Ini akan digantikan oleh yang setara dengan CAMT.052, CAMT.053, dan CAMT.054.
+- **November 2026**: Alamat terstruktur dan hibrida menjadi wajib. Pesan multi-instruksi MT101 akan ditolak. Manajemen Kasus Fase 1 dimulai.
+- **November 2027**: Semua lembaga keuangan harus dapat menerima laporan CAMT.053 secara native. SWIFT akan berhenti mengonversi MT ke format ISO.
+- **November 2028**: Pensiun penuh MT940, MT942, MT950, MT900, dan MT910. Ini akan digantikan oleh padanan CAMT.052, CAMT.053, dan CAMT.054.
 
-Parser Laporan Bank mendukung format MT940 lama dan format CAMT.053/PAIN.001 modern, sehingga ideal untuk masa transisi.
+Bank Statement Parser mendukung format MT940 lama dan format CAMT.053/PAIN.001 modern, sehingga ideal untuk masa transisi.
 

@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Banka Ekstresi Ayrıştırıcı Değişiklik Günlüğü"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Banka Ekstresi Ayrıştırıcı. Her hakkı saklıdır."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Hesap Özeti Ayrıştırıcısı için sürüm geçmişi ve değişiklik günlüğü. Tüm sürümlerdeki yeni özellikleri, iyileştirmeleri ve hata düzeltmelerini takip edin."
 download: ""
 format-detection: "telephone=no"
@@ -109,7 +109,36 @@ site_software: "Shokunin, Rust"
 
 Banka Ekstresi Ayrıştırıcı gelişimini takip edin. [RSS](/changelog/rss.xml) aracılığıyla abone olun veya [GitHub deposunu] izleyin(https://github.com/sebastienrousseau/bankstatementparser) sürüm bildirimleri için.
 
-## v0.0.4 — 2026-03-15 (En Son)
+## v0.0.8 — 2026-04-11 (Latest) — "Full Platform"
+
+- Multi-currency balance verification — `verify_balance_multi_currency()` groups by currency, runs Golden Rule per group.
+- hledger + beancount export — `to_hledger()` and `to_beancount()` in `bankstatementparser.export`.
+- Bulk directory scanner — `scan_and_ingest()` scans folder trees, deduplicates across batch.
+- Account mapping rules — `AccountMapper` with ordered regex rules from JSON config.
+- REST API — FastAPI wrapper with `/ingest` and `/health` endpoints (`[api]` extra).
+
+## v0.0.7 — 2026-04-08 — "Universal Vision"
+
+- Direct Ollama bridge (`ollama_direct_completion`) — bypasses LiteLLM long-prompt hang.
+- Strip mode (`VisionExtractor.strip_rows=True`) — splits dense pages into overlapping bands for small local models.
+- Recommended vision model changed from `llava` to `minicpm-v`.
+
+## v0.0.6 — 2026-04-08 — "Intelligence Layer"
+
+- Dropped Python 3.9 support (now 3.10-3.14).
+- Enrichment module (`Categorizer`, `EnrichedTransaction`, `DEFAULT_CATEGORY_SCHEMA`).
+- Interactive review mode with `--type review` CLI command.
+- Per-row bounding box extraction (`Transaction.source_bbox`).
+
+## v0.0.5 — 2026-04-08 — "Universal Extraction"
+
+- Hybrid PDF pipeline (`smart_ingest()`) with deterministic/text-LLM/vision-LLM routing.
+- `LLMExtractor` for digital PDFs via LiteLLM.
+- `VisionExtractor` for scanned PDFs via multimodal vision models.
+- Golden Rule balance verification (`opening + credits - debits == closing`).
+- Idempotent deduplication via `transaction_hash` (MD5 fingerprint).
+
+## v0.0.4 — 2026-03-15
 
 - Paralel dosya ayrıştırma eklendi`parse_files_parallel()`ProcessPoolExecutor'u kullanarak.
 - Sınırlı belleğe sahip büyük PAIN.001 dosyaları (50 MB+) için gerçek akış eklendi.
@@ -126,7 +155,7 @@ Banka Ekstresi Ayrıştırıcı gelişimini takip edin. [RSS](/changelog/rss.xml
 - PII düzenlemesi eklendi (CLI ve akış modunda varsayılan olarak açıktır).
 - CSV, JSON ve Excel için dışa aktarma yardımcıları eklendi.
 - İsteğe bağlı Polars DataFrame desteği eklendi.
-- Test paketi %100 branş kapsamıyla 467 teste genişletildi.
+- Test paketi %100 branş kapsamıyla 718 teste genişletildi.
 
 ## v0.0.2 — 2025-06-10
 

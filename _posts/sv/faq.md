@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Vanliga frågor om Bank Statement Parser"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Bank Statement Parser. Alla rättigheter reserverade."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Svar på vanliga frågor om Bank Statement Parser: datasekretess, PII-redigering, prestanda, ISO 20022-stöd, streaming, efterlevnad och treasury-arbetsflöden."
 download: ""
 format-detection: "telephone=no"
@@ -111,29 +111,33 @@ site_software: "Shokunin, Rust"
 
 ### Lämnar någon data min infrastruktur?
 
-**Nej.** Bank Statement Parser fungerar som ett statslöst bibliotek. All bearbetning - parsning, PII-redigering, arkivextraktion - sker i ditt lokala körtidsminne. Inga API-anrop, inga molntjänster, ingen telemetri. XML-tolkare är härdade med`no_network=True`, blockerar all utgående åtkomst på parsernivå. Dina ekonomiska data lämnar aldrig din miljö.
+**Nej — inte ens för PDF-extraktion.** Bank Statement Parser fungerar som ett statslöst bibliotek. All bearbetning — tolkning, PII-redaktion, arkivextraktion — sker i ditt lokala körtidsminne. Hybrid-PDF-pipelinen använder Ollama för lokal LLM-inferens — inga moln-API:er. XML-tolkare är härdade med `no_network=True`, vilket blockerar all utgående åtkomst på parsernivå. Dina finansiella data lämnar aldrig din miljö.
 
-### Hur fungerar PII-redigering?
+### Hur fungerar PII-redaktion?
 
-Känsliga fält maskeras innan de når din applikationslogik. Parsern identifierar gäldenärsnamn, borgenärsnamn, IBAN och postadresser och ersätter dem med`***REDACTED***`i konsolutgång och streamingläge.
+Känsliga fält maskeras innan de når din applikationslogik. Parsern identifierar gäldenärsnamn, borgenärsnamn, IBAN och postadresser och ersätter dem med `***REDACTED***` i konsolutdata och streamingläge.
 
-- **Redaktion är på som standard** i CLI-utgång och streamingläge.
-- **Filexport** (CSV, JSON, Excel) behåller oredigerade data för nedströmsbehandling.
-- **Välj in** för fullständig data med`--show-pii`på CLI eller`redact_pii=False`i API:t.
+- **Redaktion är på som standard** i CLI-utdata och streamingläge.
+- **Filexport** (CSV, JSON, Excel) behåller oredakterade data för nedströmsbearbetning.
+- **Aktivera** full data med `--show-pii` i CLI eller `redact_pii=False` i API:t.
 
 ### Är extraktionsprocessen deterministisk?
 
-**Ja -- byte-identisk utdata vid varje körning.** Givet samma indatafil, producerar parsern samma resultat varje gång. Ingen slumpmässighet, ingen modellinferens, ingen heuristisk sampling. CI upprätthåller determinism med 467 tester med 100 % filialtäckning, inklusive egendomsbaserad fuzzing via Hypothesis.
+**Ja för strukturerade format — byte-identisk utdata vid varje körning.** Givet samma indatafil producerar de deterministiska parsrarna (CAMT, PAIN.001, CSV, OFX, QFX, MT940) samma resultat varje gång. Ingen slumpmässighet, ingen modellinferens, ingen heuristisk sampling.
+
+För hybrid-PDF-pipelinen kan LLM-baserade extraktionsvägar ge mindre variationer mellan körningar. Därför verifieras varje PDF-extraktion med **Golden Rule** (`opening + credits − debits == closing`) och flaggade avvikelser kan granskas interaktivt.
+
+CI upprätthåller determinism med 718 tester vid 100 % grenstäckning, inklusive egenskapsbaserad fuzzing via Hypothesis.
 
 ### Vilka efterlevnadsstandarder följer projektet?
 
 Projektet upprätthåller ISO 13485-anpassad dokumentation med full spårbarhet:
 
 - Ett kvantifierat **Riskregister** med allvarlighets-/sannolikhetspoäng och kvarstående riskbedömning.
-- En **Verifiering och valideringsplan** med 19 gated steg över 5 faser.
+- En **Verifierings- och valideringsplan** med 19 gated steg över 5 faser.
 - En **Procedur för förändringskontroll** med konsekvensbedömning och återställningsprotokoll.
-- Ett **SOUP Register** som täcker alla beroenden med risknivåer och EOL-spårning.
-- En **Spårbarhetsmatris** kartlägger designingångar till implementering och verifiering.
+- Ett **SOUP-register** som täcker alla beroenden med risknivåer och EOL-spårning.
+- En **Spårbarhetsmatris** som kartlägger designindata till implementering och verifiering.
 
 Varje utgåva inkluderar en CycloneDX SBOM, SHA-256-kontrollsummor och GitHub-byggt härkomstintyg.
 
@@ -141,36 +145,38 @@ Varje utgåva inkluderar en CycloneDX SBOM, SHA-256-kontrollsummor och GitHub-by
 
 ### Hur snabb är Bank Statement Parser?
 
-Prestationströsklar valideras i CI vid varje commit:
+Prestandatrösklar valideras i CI vid varje commit:
 
-| Metrisk | Värde |
+| Mått | Värde |
 |---|---|
 | CAMT.053 genomströmning | 27 000+ transaktioner/sekund |
 | PAIN.001 genomströmning | 52 000+ transaktioner/sekund |
 | Latens per transaktion (CAMT) | 37 mikrosekunder |
 | Latens per transaktion (PAIN.001) | 19 mikrosekunder |
-| Dags för första resultat | < 2 ms |
+| Tid till första resultat | < 2 ms |
+
+PDF-extraktionshastighet beror på dirigeringsvägen: deterministisk (under en sekund), text-LLM (sekunder), vision-LLM (sekunder per sida).
 
 ### Hur hanteras stora filer?
 
-**Streaming med begränsat minne -- testade vid 50 000 transaktioner per fil.** Använd`parse_streaming()`för att bearbeta XML-filer stegvis. Varje transaktion ges som en ordbok; element rensas efter bearbetning för att förhindra minnestillväxt. Minnet skalas inte med filstorleken - 50K-transaktionstestet (25+ MB) använder mindre än 2x minnet av 10K-transaktionstestet.
+**Streaming med begränsat minne — testat vid 50 000 transaktioner per fil.** Använd `parse_streaming()` för att bearbeta XML-filer stegvis. Varje transaktion returneras som en dictionary; element rensas efter bearbetning för att förhindra minnestillväxt. Minnet skalas inte med filstorleken — 50K-transaktionstestet (25+ MB) använder mindre än 2x minnet jämfört med 10K-transaktionstestet.
 
-För filer som överstiger 50 MB (t.ex. värd-till-värd PAIN.001-batcher med 100 000+ betalningar), strömmar parsern genom en temporär fil med chunk-baserad namnrymdstrippning -- hela dokumentet laddas aldrig in i minnet.
+För filer som överstiger 50 MB (t.ex. värd-till-värd PAIN.001-batcher med 100K+ betalningar) strömmar parsern genom en temporär fil med chunk-baserad namnrymdstrippning — hela dokumentet laddas aldrig in i minnet.
 
 ### Hur behandlas ZIP-arkiv säkert?
 
-`iter_secure_xml_entries()`validerar varje medlem innan extrahering:
+`iter_secure_xml_entries()` validerar varje medlem innan extrahering:
 
-- **Entry size cap** (standard 10 MB per post)
+- **Storlekstak per post** (standard 10 MB per post)
 - **Totalt okomprimerat storlekstak** (standard 50 MB)
 - **Kompressionsförhållandegräns** (standard 100:1) för att förhindra ZIP-bomber
-- **Krypterad inmatningsavvisning**
+- **Avvisning av krypterade poster**
 
-Ingen fil skrivs till disken. XML-bytes skickas direkt till parsern via`from_bytes()`.
+Ingen fil skrivs till disk. XML-bytes skickas direkt till parsern via `from_bytes()`.
 
-### Kan jag analysera flera filer parallellt?
+### Kan jag tolka flera filer parallellt?
 
-**Ja.** Använd`parse_files_parallel()`som fördelar arbete över en`ProcessPoolExecutor`:
+**Ja.** Använd `parse_files_parallel()` som fördelar arbete över en `ProcessPoolExecutor`:
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -184,61 +190,120 @@ for r in results:
     print(r.path, r.status, len(r.transactions), "rows")
 ```
 
+För mass-PDF-inmatning, använd `scan_and_ingest()` som bearbetar hela mappträd med automatisk deduplicering.
+
 ## Format som stöds
 
 ### Vilka kontoutdragsformat stöds?
 
-| Formatera | Standard | Filtyper | Parser klass |
+| Format | Standard | Filtyper | Parser/metod |
 |---|---|---|---|
-| CAMT.053 | ISO 20022 bank-till-kund-uttalande | `.xml` | `CamtParser` |
-| PAIN.001 | Initiering av tillgodoräknande enligt ISO 20022 | `.xml` | `Pain001Parser` |
+| CAMT.053 | ISO 20022 Bank-to-Customer Statement | `.xml` | `CamtParser` |
+| PAIN.001 | ISO 20022 Credit Transfer Initiation | `.xml` | `Pain001Parser` |
 | CSV | Generisk bankexport | `.csv` | `CsvStatementParser` |
-| OFX | Öppna finansiell börs | `.ofx` | `OfxParser` |
+| OFX | Open Financial Exchange | `.ofx` | `OfxParser` |
 | QFX | Quicken Financial Exchange | `.qfx` | `QfxParser` |
 | MT940 | SWIFT standard | `.mt940`, `.sta` | `Mt940Parser` |
+| PDF | Digitala och skannade utdrag | `.pdf` | `smart_ingest()` |
+
+### Hur fungerar hybrid-PDF-pipelinen?
+
+Hybrid-pipelinen (v0.0.5+) dirigerar PDF:er intelligent genom tre extraktionsvägar:
+
+- **Väg A (Deterministisk)**: Strukturerade PDF-tabeller tolkas direkt — gratis, snabbast, ingen LLM behövs.
+- **Väg B (Text-LLM)**: Digitala PDF:er med komplexa layouter extraheras via lokal LLM (LiteLLM/Ollama).
+- **Väg C (Vision-LLM)**: Skannade eller fotokopierade utdrag bearbetas med multimodala vision-modeller.
+
+Varje extraktion verifieras med Golden Rule (`opening + credits − debits == closing`). Avvikelser kan granskas interaktivt med `--type review`.
 
 ### Hanterar parsern bankspecifika dialekter av CAMT.053?
 
-**Ja -- namnrymds-agnostisk av design.** Parsern tar bort XML-namnrymder innan bearbetning och hanterar alla CAMT.053-varianter (`camt.053.001.02`, `camt.053.001.04`, eller proprietära bankomslag) utan namnområdesspecifik konfiguration. XPath-frågor målelementstruktur, inte namnområdes-URI.
+**Ja — namnrymdsagnostisk av design.** Parsern tar bort XML-namnrymder innan bearbetning och hanterar alla CAMT.053-varianter (`camt.053.001.02`, `camt.053.001.04` eller proprietära bankomslag) utan namnrymdsspecifik konfiguration. XPath-frågor riktar sig mot elementstruktur, inte namnrymds-URI:er.
 
-För banker som slår in CAMT i ett anpassat kuvert, använd`from_string()`eller`from_bytes()`för att mata det inre dokumentet direkt.
+För banker som slår in CAMT i ett anpassat kuvert, använd `from_string()` eller `from_bytes()` för att mata det inre dokumentet direkt.
 
 ### Kan jag mappa anpassade CSV-kolumnrubriker till standardschemat?
 
-**Ja -- automatisk normalisering, nollkonfiguration.**`CsvStatementParser`känner igen vanliga rubrikvarianter:`"Date"`, `"Transaction Date"`, `"Booking Date"`alla kartor till`date`fält.`"Amount"`, `"Value"`, `"Sum"`karta till`amount`. Dela kredit-/debetkolumner (t.ex.`"Credit"`och`"Debit"`) upptäcks och kombineras automatiskt till ett enda signerat belopp.
+**Ja — automatisk normalisering, noll konfiguration.** `CsvStatementParser` känner igen vanliga rubrikvarianter: `"Date"`, `"Transaction Date"`, `"Booking Date"` mappas alla till `date`-fältet. `"Amount"`, `"Value"`, `"Sum"` mappas till `amount`. Uppdelade kredit-/debetkolumner (t.ex. `"Credit"` och `"Debit"`) upptäcks och kombineras automatiskt till ett enda signerat belopp.
 
 ### Vad är utdataformatet?
 
 Alla parsers producerar standardiserade pandas DataFrames med konsekventa kolumntyper:
 
-| Formatera | Nyckelkolumner |
+| Format | Nyckelkolumner |
 |---|---|
 | **CAMT** | `Amount`, `Currency`, `DrCr`, `Debtor`, `Creditor`, `Reference`, `ValDt`, `BookgDt`, `AccountId` |
-| **PIN.001** | `PmtInfId`, `PmtMtd`, `InstdAmt`, `Currency`, `CdtrNm`, `EndToEndId`, `MsgId`, `CreDtTm`, `NbOfTxs` |
-| **CSV/OFX/QFX/MT940** | `date`, `description`, `amount`(normaliserad) |
+| **PAIN.001** | `PmtInfId`, `PmtMtd`, `InstdAmt`, `Currency`, `CdtrNm`, `EndToEndId`, `MsgId`, `CreDtTm`, `NbOfTxs` |
+| **CSV/OFX/QFX/MT940** | `date`, `description`, `amount` (normaliserad) |
 
-Du kan också exportera till CSV, JSON, Excel eller konvertera till Polars DataFrames.
+Du kan också exportera till CSV, JSON, Excel, Polars DataFrames, hledger eller beancount-journalformat.
 
-## Treasury arbetsflöden
+## PDF- och LLM-funktioner
 
-### Hur hanterar tolken uttalanden i flera valutor?
+### Vilka LLM-modeller stöder hybrid-pipelinen?
 
-**Varje transaktion behåller sin ursprungliga valuta -- ingen implicit konvertering.** Den`Currency`fältet extraheras från XML`Ccy`attribut per transaktion. Utdrag i flera valutor förblir som de är. De`get_account_balances()`metod returnerar ingående och utgående balanser per konto med ursprungliga valutakoder. Valutaavstämning överlåts till din nedströmslogik, där du kontrollerar växelkurskällan.
+Pipelinen använder LiteLLM som modellabstraktionslager, med en direkt Ollama-brygga för vision-prompts. Rekommenderade modeller:
+
+- **Textextraktion**: Alla LiteLLM-kompatibla modeller (lokala eller fjärr).
+- **Vision-extraktion**: `ollama/minicpm-v` (rekommenderad) för skannade PDF:er.
+- **Kategorisering**: Alla LiteLLM-kompatibla modeller.
+
+Alla modeller kan köras 100 % lokalt via Ollama — inga API-nycklar krävs.
+
+### Vad är Golden Rule-verifiering?
+
+Varje PDF-extraktion verifieras med ekvationen: `opening balance + credits − debits == closing balance`. Resultat taggas som:
+
+- **VERIFIED**: Saldon stämmer exakt.
+- **DISCREPANCY**: Saldon stämmer inte — granskning rekommenderas.
+- **FAILED**: Verifiering kunde inte utföras (saknade saldodata).
+
+### Kan jag kategorisera transaktioner automatiskt?
+
+**Ja.** Berikningsmodulen (v0.0.6+) erbjuder LLM-driven transaktionskategorisering:
+
+```python
+from bankstatementparser.enrichment import Categorizer
+
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(transactions)
+```
+
+Standardschemat använder 13 Plaid-kompatibla kategorier. Du kan tillhandahålla ett eget kategorischema.
+
+### Kan jag exportera till hledger eller beancount?
+
+**Ja** (v0.0.8+). Exportera transaktioner till plaintext-accounting-journalformat med kontomappning:
+
+```python
+from bankstatementparser.export import to_hledger, to_beancount
+
+journal = to_hledger(transactions, account="Assets:Bank:Checking")
+```
+
+## Treasury-arbetsflöden
+
+### Hur hanterar parsern utdrag i flera valutor?
+
+**Varje transaktion behåller sin ursprungliga valuta — ingen implicit konvertering.** `Currency`-fältet extraheras från XML-attributet `Ccy` per transaktion. Utdrag i flera valutor förblir som de är. Metoden `get_account_balances()` returnerar ingående och utgående saldon per konto med ursprungliga valutakoder.
+
+Sedan v0.0.8 grupperar `verify_balance_multi_currency()` transaktioner per valuta och kör Golden Rule oberoende per grupp — användbart för konton som innehåller flera valutor.
 
 ### Stöder parsern både utgående och inkommande format?
 
-**Ja.**`Pain001Parser`hanterar ISO 20022 PAIN.001 initieringsfiler för kreditöverföringar (utgående betalningar).`CamtParser`hanterar CAMT.053 bank-till-kund-utdragsfiler (inkommande rapportering). Båda stöder streaming, PII-redigering och export till CSV, JSON och Excel. Använda`detect_statement_format()`för att identifiera formatet automatiskt.
+**Ja.** `Pain001Parser` hanterar ISO 20022 PAIN.001-filer för kreditöverföringar (utgående betalningar). `CamtParser` hanterar CAMT.053 bank-till-kund-utdragsfiler (inkommande rapportering). Båda stöder streaming, PII-redaktion och export till CSV, JSON, Excel, hledger och beancount. Använd `detect_statement_format()` för att identifiera formatet automatiskt.
 
 ### Vad händer när en transaktionspost är felaktig?
 
-Beteende beror på analysläget:
+Beteendet beror på tolkningsläget:
 
-- **`parse()`(batchläge)** -- Felaktiga poster saknar obligatoriska fält (`Amount`, `Currency`, eller`CdtDbtInd`) hoppas över med en varningslogg. Resten av påståendet tolkas normalt.
--**`parse_streaming()`(strömningsläge)** -- Analysfel sprids omedelbart som undantag. Ingen tyst dataförlust. Detta misslyckade beteende är avsiktligt för finansiella arbetsflöden där varje transaktion måste redovisas.
+- **`parse()` (batchläge)** — Felaktiga poster som saknar obligatoriska fält (`Amount`, `Currency` eller `CdtDbtInd`) hoppas över med en varningslogg. Resten av utdraget tolkas normalt.
+- **`parse_streaming()` (streamingläge)** — Tolkningsfel sprids omedelbart som undantag. Ingen tyst dataförlust. Detta fail-fast-beteende är avsiktligt för finansiella arbetsflöden där varje transaktion måste redovisas.
+- **`smart_ingest()` (hybrid-PDF)** — Extraktionsfel fångas i `IngestResult` med verifieringsstatus, vilket möjliggör interaktiv granskning.
 
 ### Hur fungerar deduplicering?
 
-De`Deduplicator`klass upptäcker exakta dubbletter och misstänkta matchningar med förklarliga konfidenspoäng:
+Varje transaktion tilldelas en idempotent `transaction_hash` (MD5-fingeravtryck) baserat på dess nyckelfält. Detta möjliggör säker inkrementell inmatning — att bearbeta samma fil igen ger samma hashar, så dubbletter upptäcks automatiskt.
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
@@ -257,65 +322,82 @@ print(f"Suspected matches: {len(result.suspected_matches)}")
 ### Hur installerar jag Bank Statement Parser?
 
 ```bash
+# Core install (deterministic parsers only)
 pip install bankstatementparser
-```
 
-För valfritt Polars DataFrame-stöd:
+# PDF hybrid pipeline
+pip install 'bankstatementparser[hybrid]'         # Text-LLM path
+pip install 'bankstatementparser[hybrid-vision]'   # Vision-LLM path
 
-```bash
-pip install bankstatementparser[polars]
+# Extras
+pip install 'bankstatementparser[enrichment]'      # Transaction categorisation
+pip install 'bankstatementparser[api]'             # REST API microservice
+pip install 'bankstatementparser[polars]'          # Polars DataFrame support
 ```
 
 ### Vilka Python-versioner stöds?
 
-Python 3.9 till 3.14. Alla versioner är testade i CI med 467 tester med 100 % grentäckning.
+Python 3.10 till 3.14. Stöd för Python 3.9 togs bort i v0.0.6 (EOL 2025-10-31). Alla versioner testas i CI med 718 tester vid 100 % grenstäckning.
 
-### Vilka är beroenden?
+### Vilka är beroendena?
 
-Biblioteket har 5 direkta beroenden:
+Kärnbiblioteket har 5 direkta beroenden:
 
-- `lxml`-- XML-tolkning med säkerhetshärdning
--`pandas`-- Dataramar och datamanipulation
--`openpyxl`-- Excel export
--`pydantic`-- Datavalidering och modeller
--`defusedxml`-- XXE skydd
+- `lxml` — XML-tolkning med säkerhetshärdning
+- `pandas` — DataFrames och datamanipulation
+- `openpyxl` — Excel-export
+- `pydantic` — Datavalidering och modeller
+- `defusedxml` — XXE-skydd
+
+Valfria tillägg lägger till: `litellm`, `pypdf`, `pdfplumber`, `pypdfium2`, `fastapi`, `uvicorn`, `polars`.
 
 Alla beroenden har SHA-256 hash-låsta versioner. CycloneDX SBOM mappar varje runtime-komponent.
 
 ### Fungerar det på macOS, Linux och Windows?
 
-**Ja.** Biblioteket fungerar på macOS, Linux och Windows (via WSL). Den har inga plattformsspecifika beroenden.
+**Ja.** Biblioteket fungerar på macOS, Linux och Windows (via WSL). Det har inga plattformsspecifika beroenden.
+
+### Finns det ett REST API?
+
+**Ja** (v0.0.8+). Installera med `pip install 'bankstatementparser[api]'` och kör:
+
+```bash
+bankstatementparser-api --port 8000
+```
+
+Ändpunkter: `POST /ingest` (tolka ett utdrag) och `GET /health` (hälsokontroll).
 
 ## Reproducerbarhet och säkerhet
 
 ### Hur kan jag verifiera reproducerbarhet?
 
 ```bash
-python -m pytest                              # 467 tests, 100% branch coverage
+python -m pytest                              # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py        # SHA-256 hash verification
 git log --show-signature -1                   # Verify commit signature
 ```
 
 ### Vilka säkerhetsskydd är inbyggda?
 
-- **XXE-skydd**:`resolve_entities=False`, `no_network=True`, `load_dtd=False`
-- **ZIP Bomb Protection**: Kompressionsförhållandegränser, inträdesstorlekstak, krypterad inträdesavvisning
-- **Path Traversal Prevention**: Spärrlista för farliga mönster och symlinkupplösning
+- **XXE-skydd**: `resolve_entities=False`, `no_network=True`, `load_dtd=False`
+- **ZIP-bombskydd**: Kompressionsförhållandegränser, storlekstak per post, avvisning av krypterade poster
+- **Vägtraverseringsskydd**: Spärrlista för farliga mönster och symlinkupplösning
 - **Indatavalidering**: Filstorleksgränser (100 MB standard), tilläggs-/formatvalidering
-- **Supply Chain**: SHA-256 hash-låsta beroenden, CycloneDX SBOM, bygg härkomstintyg
-- **Signerade åtaganden**: Tillämpas i CI
+- **Supply chain**: SHA-256 hash-låsta beroenden, CycloneDX SBOM, härkomstintyg för byggen
+- **Signerade commits**: Tillämpas i CI
+- **Lokala LLM:er**: Hybrid-PDF-pipelinen använder Ollama — inga moln-API-anrop
 
-### Hur jämför kontoutdrag Parser med pyiso20022?
+### Hur jämför Bank Statement Parser med pyiso20022?
 
-pyiso20022 är en bred ISO 20022-verktygssats som genererar Python-dataklasser från ISO XML-scheman. Den täcker ett brett utbud av ISO 20022 meddelandetyper (PACS, PAIN, CAMT, ADMI) med schemavalidering. Bank Statement Parser är specialbyggd för att analysera kontoutdrag med stöd för streaming, PII-redigering, deduplicering och ett enhetligt API över sex format inklusive icke-ISO-format (CSV, OFX, QFX, MT940). Om du behöver tolka kontoutdrag till DataFrames med säkerhet i produktionsklass, använd Bank Statement Parser. Om du behöver arbeta med hela ISO 20022-meddelandekatalogen, använd pyiso20022.
+pyiso20022 är en bred ISO 20022-verktygslåda som genererar Python-dataklasser från ISO XML-scheman. Den täcker ett brett utbud av ISO 20022-meddelandetyper (PACS, PAIN, CAMT, ADMI) med schemavalidering. Bank Statement Parser är specialbyggd för kontoutdragstolkning med hybrid-PDF-stöd, saldoverifiering, berikande, ledger-export och ett enhetligt API över sju format inklusive icke-ISO-format (CSV, OFX, QFX, MT940, PDF). Om du behöver tolka kontoutdrag till DataFrames med produktionsklassad säkerhet, använd Bank Statement Parser. Om du behöver arbeta med hela ISO 20022-meddelandekatalogen, använd pyiso20022.
 
 ### Vilka är deadlines för SWIFT ISO 20022-migrering?
 
 SWIFT har publicerat en tidslinje för stegvis migrering:
 
-- **November 2026**: Strukturerade och hybridadresser blir obligatoriska. MT101 multi-instruktionsmeddelanden kommer att avvisas. Ärendehantering Fas 1 börjar.
-- **November 2027**: Alla finansiella institutioner måste kunna ta emot CAMT.053-utdrag inbyggt. SWIFT kommer att sluta konvertera MT till ISO-format.
-- **November 2028**: Full pensionering av MT940, MT942, MT950, MT900 och MT910. Dessa kommer att ersättas av CAMT.052, CAMT.053 och CAMT.054 motsvarigheter.
+- **November 2026**: Strukturerade och hybridadresser blir obligatoriska. MT101-multiinstruktionsmeddelanden kommer att avvisas. Ärendehantering Fas 1 börjar.
+- **November 2027**: Alla finansinstitut måste kunna ta emot CAMT.053-utdrag. SWIFT slutar konvertera MT till ISO-format.
+- **November 2028**: Full avveckling av MT940, MT942, MT950, MT900 och MT910. Dessa ersätts av CAMT.052, CAMT.053 och CAMT.054.
 
 Bank Statement Parser stöder både det äldre MT940-formatet och de moderna CAMT.053/PAIN.001-formaten, vilket gör det idealiskt för övergångsperioden.
 

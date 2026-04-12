@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Bank Gbólóhùn Parser Aabo"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Itumọ Gbólóhùn Bank. Gbogbo awọn ẹtọ wa ni ipamọ."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Awọn ẹya aabo ti Parser Gbólóhùn Bank: Idaabobo XXE, líle bombu ZIP, atunṣe PII, aabo pq ipese, iṣelọpọ ipinnu, ati awọn ile ti a fowo si."
 download: ""
 format-detection: "telephone=no"
@@ -107,72 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-** TL; DR: ** Itumọ Gbólóhùn Banki ṣe awọn ipe nẹtiwọọki odo, ṣe atunṣe PII nipasẹ aiyipada, ṣe lile itọka XML si ikọlu XXE, ati awọn ọkọ oju omi pẹlu awọn igbẹkẹle titiipa hash SHA-256 ati CycloneDX SBOM kan.
+**TL;DR:** Bank Statement Parser ṣe ilana gbogbo data ni agbegbe, ṣe isọdọtun PII nipasẹ aiyipada, ṣe lile itupalẹ XML si ikọlu XXE, ṣe iṣiṣẹ awọn LLM ni agbegbe nipasẹ Ollama, ati gbe pẹlu awọn igbẹkẹle ti SHA-256 hash tiipa ati CycloneDX SBOM.
 
-## Aabo nipasẹ Oniru
+## Aabo Nipasẹ Apẹrẹ
 
-Parser Gbólóhùn Bank jẹ itumọ ti fun sisẹ data owo ifura. Gbogbo ipinnu apẹrẹ ṣe pataki aabo, aṣiri, ati iṣayẹwo.
+Bank Statement Parser ni a kọ fun sisẹ data inawo ifura. Gbogbo ipinnu apẹrẹ ṣe pataki aabo, ikọkọ, ati agbara iṣayẹwo.
 
-## Wiwọle Nẹtiwọọki Odo
+## Igbẹkẹle Awọsanma Odo
 
-Gbogbo ilana n ṣẹlẹ ni agbegbe laarin akoko asiko rẹ. Ile-ikawe n ṣe awọn ipe API odo, awọn asopọ awọsanma odo, ati gbigba telemetry odo. Awọn parsers XML ti wa ni tunto kedere pẹlu`no_network=True`, `resolve_entities=False`, ati`load_dtd=False`lati ṣe idiwọ wiwọle eyikeyi ti o njade lo.
+Gbogbo sisẹ n ṣẹlẹ ni agbegbe laarin asiko ṣiṣe rẹ. Awọn parser ipinnu ko ṣe ipe nẹtiwọọki rara. Opo gigun PDF aladapọ lo Ollama fun iṣawari LLM agbegbe — ko si data ti a fi ranṣẹ si awọn API awọsanma. A ṣe iṣeto awọn parser XML ni kedere pẹlu `no_network=True`, `resolve_entities=False`, ati `load_dtd=False` lati ṣe idiwọ wiwọle eyikeyi ti o njade.
 
-## PII Atunṣe
+## Isọdọtun PII
 
-Alaye idanimọ tikalararẹ (awọn orukọ, IBANs, awọn adirẹsi ifiweranṣẹ) jẹ atunṣe laifọwọyi ni iṣelọpọ CLI ati ipo ṣiṣanwọle. Eyi wa ni titan nipasẹ aiyipada.
+Alaye idanimọ tikalararẹ (awọn orukọ, IBANs, awọn adirẹsi ifiweranṣẹ) ni a sọ di mimọ laifọwọyi ninu iṣelọpọ CLI ati ipo sisanwọle. Eyi wa ni titan nipasẹ aiyipada.
 
-- ** CLI ***: Awọn aaye ifarako fihan bi`***REDACTED***`
-- ** Sisanwọle ***:`parse_streaming(redact_pii=True)`(aiyipada)
-- ** Awọn okeere ***: CSV/JSON/Excel ṣe idaduro data kikun fun sisẹ isalẹ
-- ** Jade-ni ***: Lo`--show-pii`tabi`redact_pii=False`nigbati o nilo unredacted o wu
+- **CLI**: Awọn aaye ifura fihan bi `***REDACTED***`
+- **Sisanwọle**: `parse_streaming(redact_pii=True)` (aiyipada)
+- **Awọn okeere**: CSV/JSON/Excel ṣe idaduro data kikun fun sisẹ isalẹ
+- **Yan wọle**: Lo `--show-pii` tabi `redact_pii=False` nigbati o nilo iṣelọpọ ti ko ni isọdọtun
 
 ## Aabo XML (Idaabobo XXE)
 
-Gbogbo awọn lilo XML ti ntupalẹ`lxml`pẹlu awọn eto lile:
+Gbogbo itupalẹ XML lo `lxml` pẹlu awọn eto lile:
 
-- `resolve_entities=False`-- ṣe idilọwọ awọn ikọlu imugboroja nkan XML
--`no_network=True`-- dina gbogbo iraye si nẹtiwọọki ti njade lati ọdọ olutọpa
--`load_dtd=False`- ṣe idilọwọ awọn ikọlu orisun DTD
-Yiyọ orukọ aaye ṣaaju ṣiṣe -- mu eyikeyi iyatọ CAMT.053 lailewu
+- `resolve_entities=False` -- ṣe idiwọ awọn ikọlu imugboroja nkan XML
+- `no_network=True` -- dina gbogbo iraye si nẹtiwọọki ti njade lati parser
+- `load_dtd=False` -- ṣe idiwọ awọn ikọlu ti o da lori DTD
+- Yiyọ aaye orukọ ṣaaju sisẹ -- mu eyikeyi iyatọ CAMT.053 lailewu
 
-## Aabo Ile ifipamọ ZIP
+## Aabo Ile Ipamọ ZIP
 
-`iter_secure_xml_entries()`fọwọsi gbogbo ọmọ ẹgbẹ ZIP ṣaaju isediwon:
+`iter_secure_xml_entries()` ṣe ifọwọsi gbogbo ọmọ ẹgbẹ ZIP ṣaaju isediwon:
 
-- ** Fila iwọn titẹ sii ***: 10 MB fun titẹ sii (iṣeto atunto)
-- ** Lapapọ iwọn fila ***: 50 MB lapapọ ti a ko fi sii (tunto)
-- ** Iwọn ipin ipin funmorawon ***: 100: 1 aiyipada -- ṣe awari awọn bombu ZIP
-- ** Ijusile titẹsi ti paroko ***: Awọn titẹ sii ti paroko ti wa ni fo pẹlu ikilọ kan
-- ** Ko si disk ti o kọwe ***: awọn baiti XML kọja taara si parser nipasẹ`from_bytes()`
+- **Fila iwọn titẹ sii**: 10 MB fun titẹ sii (atunto ṣee ṣe)
+- **Lapapọ iwọn fila**: 50 MB lapapọ ti a ko fi sinu (atunto ṣee ṣe)
+- **Opin ipin funmorawon**: aiyipada 100:1 -- ṣe iwari awọn bombu ZIP
+- **Ijusile titẹsi ti paroko**: Awọn titẹ sii ti paroko ni a fo pẹlu ikilọ
+- **Ko si kikọ si disk**: Awọn baiti XML kọja taara si parser nipasẹ `from_bytes()`
 
-## Idena Gbigbe Ona
+## Idena Ipa-ọna Rin-kakiri
 
-Ifọwọsi igbewọle ṣe idilọwọ awọn ọna faili ti o lewu:
+Ifọwọsi titẹ sii dina awọn ọna faili ti o lewu:
 
-- Awọn baiti asan, awọn ilana itọka itọsọna (`../`), ati awọn symlinks ti wa ni kọ
-- Afọwọsi itẹsiwaju faili lodi si awọn ọna kika ti a nireti
-- Awọn opin iwọn faili (aiyipada 100 MB, atunto)
+- Awọn baiti asan, awọn ilana rin-kakiri itọsọna (`../`), ati awọn symlinks ni a kọ
+- Ifọwọsi itẹsiwaju faili lodi si awọn ọna kika ti a nireti
+- Awọn opin iwọn faili (aiyipada 100 MB, atunto ṣee ṣe)
 
-## Abajade ipinnu
+## Iṣayẹwo Iwọntunwọnsi (Ofin Goolu)
 
-Fi fun faili igbewọle kanna, parser n ṣe agbejade baiti-ikankan ni gbogbo ṣiṣe. Ko si aileto, ko si itọkasi awoṣe, ko si iṣapẹẹrẹ heuristic. Eyi ṣe pataki fun:
+A ṣe iṣayẹwo gbogbo isediwon PDF pẹlu idogba: `opening balance + credits − debits == closing balance`. A samisi awọn abajade bi VERIFIED, DISCREPANCY, tabi FAILED. Awọn aiyede le ṣe atunyẹwo ni ifọrọwanilẹnuwo pẹlu `--type review`.
 
-- ** Atunyẹwo iṣayẹwo ***: Ṣiṣe faili kanna lẹẹmeji ki o yatọ si abajade
-- ** Ibamu ilana ***: Ṣe afihan sisẹ deede
-- ** CI ijerisi ***: Awọn idanwo 467 fi agbara mu ipinnu ipinnu pẹlu 100% agbegbe agbegbe
+## Iṣelọpọ Ipinnu
 
-## Ipese pq Aabo
+Fun awọn ọna kika ti a ṣeto (CAMT, PAIN.001, CSV, OFX, QFX, MT940), fifun faili igbewọle kanna, parser ṣe agbejade iṣelọpọ baiti-kan-naa ni gbogbo ṣiṣe. Ko si aileto, ko si itọkasi awoṣe, ko si iṣapẹẹrẹ heuristic. Eyi ṣe pataki fun:
 
-- ** SHA-256 awọn igbẹkẹle titiipa hash ***: Gbogbo package ni`poetry.lock`ti jẹrisi awọn hashes faili
-- ** CycloneDX SBOM ***: Gbogbo itusilẹ pẹlu Iwe-aṣẹ Ohun elo Software kan
-- ** GitHub kọ provenance ***: Ijẹrisi ṣe asopọ ohun-ọṣọ kọọkan si adehun orisun rẹ
-- ** Awọn adehun ti o fowo si ***: Gbogbo awọn adehun jẹ ami-SSH ati rii daju ni CI
-- ** Ijeri igbẹkẹle ***:`scripts/verify_locked_hashes.py`validates gbogbo hashes tibile
+- **Isọdọtun iṣayẹwo**: Ṣiṣe faili kanna lẹẹmeji ki o ṣe afiwe iṣelọpọ
+- **Ibamu ilana**: Ṣe afihan sisẹ deede
+- **Ijẹrisi CI**: Awọn idanwo 718 fi agbara mu ipinnu pẹlu agbegbe ẹka 100%
 
-## Ṣe idaniloju Ni agbegbe
+## Aabo Ẹwọn Ipese
+
+- **Awọn igbẹkẹle ti SHA-256 hash tiipa**: Gbogbo package ninu `poetry.lock` ni awọn hash faili ti a ṣe idaniloju
+- **CycloneDX SBOM**: Gbogbo itusilẹ pẹlu Iwe-aṣẹ Ohun elo Sọftiwia
+- **Ẹri ikole GitHub**: Ijẹrisi ṣe asopọ ohun-ọṣọ kọọkan si igbimọ orisun rẹ
+- **Awọn igbimọ ti a fọwọ si**: Gbogbo awọn igbimọ jẹ fifi-SSH-fọwọ si ati rii daju ni CI
+- **Ijẹrisi igbẹkẹle**: `scripts/verify_locked_hashes.py` ṣe idaniloju gbogbo awọn hash ni agbegbe
+
+## Ṣe Idaniloju Ni Agbegbe
 
 ```bash
-python -m pytest                          # 467 tests, 100% branch coverage
+python -m pytest                          # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py    # SHA-256 hash verification
 git log --show-signature -1               # Verify commit signature
 ```

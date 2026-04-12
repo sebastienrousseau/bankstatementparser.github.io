@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "बैंक स्टेटमेंट पार्सर उपयोग के मामले"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 बैंक स्टेटमेंट पार्सर। सर्वाधिकार सुरक्षित।"
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "ट्रेजरी टीमें, फिनटेक डेवलपर्स और अनुपालन अधिकारी MT940-टू-CAMT माइग्रेशन, सुलह, ऑडिट पाइपलाइन और मल्टी-बैंक समेकन के लिए बैंक स्टेटमेंट पार्सर का उपयोग कैसे करते हैं।"
 download: ""
 format-detection: "telephone=no"
@@ -107,13 +107,41 @@ site_software: "Shokunin, Rust"
 
 ---
 
-बैंक स्टेटमेंट पार्सर वास्तविक दुनिया के वित्तीय वर्कफ़्लो को संभालता है: ट्रेजरी टीमों के लिए MT940-टू-CAMT माइग्रेशन, स्वचालित समाधान, PII रिडक्शन के साथ अनुपालन पाइपलाइन, SFTP अंतर्ग्रहण, मल्टी-बैंक समेकन और सुरक्षित ज़िप बैच प्रोसेसिंग।
+Bank Statement Parser वास्तविक वित्तीय वर्कफ़्लो संभालता है: PDF बैंक स्टेटमेंट ingestion, MT940-से-CAMT माइग्रेशन, बैलेंस सत्यापन के साथ स्वचालित reconciliation, कंप्लायंस pipelines, plaintext-accounting निर्यात, REST API deployments, बल्क स्कैनिंग, और मल्टी-बैंक consolidation।
 
-## ट्रेजरी: MT940 से CAMT.053 स्थानांतरण
+## PDF बैंक स्टेटमेंट Ingestion
 
-**परिणाम:** स्विफ्ट माइग्रेशन विंडो (नवंबर 2025-नवंबर 2028) के दौरान एक एकल एपीआई कॉल MT940 और CAMT.053 दोनों को संभालती है, जिससे अलग-अलग पार्सिंग पाइपलाइनों की आवश्यकता समाप्त हो जाती है।
+**परिणाम:** डिजिटल और स्कैन PDF बैंक स्टेटमेंट को स्वचालित बैलेंस सत्यापन के साथ पार्स करें — कोई cloud API नहीं, कोई डेटा आपकी मशीन से बाहर नहीं जाता।
 
-नवंबर 2027 की स्विफ्ट समय सीमा से पहले दुनिया भर में ट्रेजरी टीमें MT940 से CAMT.053 पर माइग्रेट कर रही हैं। बैंक स्टेटमेंट पार्सर एक ही एपीआई के साथ दोनों प्रारूपों को संभालता है, जिससे संक्रमण सहज हो जाता है।
+Hybrid PDF pipeline हर PDF को इष्टतम extraction path से रूट करती है और हर परिणाम verify करती है।
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+
+# Review discrepancies interactively
+# bankstatementparser --type review --input result.json
+```
+
+## बल्क स्टेटमेंट प्रोसेसिंग
+
+**परिणाम:** पूरे फ़ोल्डर ट्री (सैकड़ों PDF, XML, CSV) को एक ही कॉल में स्वचालित cross-file डिडुप्लीकेशन के साथ स्कैन करें।
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Files: {len(batch.results)}, Unique txns: {batch.unique_count}")
+```
+
+## ट्रेजरी: MT940 से CAMT.053 माइग्रेशन
+
+**परिणाम:** SWIFT माइग्रेशन विंडो (नवंबर 2025–नवंबर 2028) के दौरान एक ही API कॉल MT940 और CAMT.053 दोनों को संभालती है, अलग-अलग parsing pipelines की ज़रूरत नहीं।
+
+नवंबर 2027 की SWIFT समय सीमा से पहले दुनिया भर में ट्रेजरी टीमें MT940 से CAMT.053 पर माइग्रेट कर रही हैं। Bank Statement Parser एक ही API से दोनों प्रारूप संभालता है, जिससे संक्रमण सहज हो जाता है।
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -126,17 +154,23 @@ for file in daily_statement_files:
     load_to_treasury_system(df)
 ```
 
-## स्वचालित सुलह
+## बैलेंस सत्यापन के साथ स्वचालित Reconciliation
 
-**परिणाम:** अंतर्निहित डिडुप्लीकेशन के साथ प्रारूप-अज्ञेयवादी डेटाफ़्रेम मैन्युअल मिलान प्रयास को कम करते हैं और डुप्लिकेट प्रविष्टियों को आपके बहीखाता तक पहुंचने से पहले पकड़ लेते हैं।
+**परिणाम:** Golden Rule सत्यापन और डिडुप्लीकेशन के साथ format-agnostic DataFrames त्रुटियों और डुप्लिकेट को आपके ledger तक पहुँचने से पहले पकड़ लेते हैं।
 
-बैंक विवरण को पार्स करें और आंतरिक रिकॉर्ड से स्वचालित रूप से मिलान करें। एकीकृत डेटाफ़्रेम आउटपुट समाधान तर्क प्रारूप-अज्ञेयवादी बनाता है।
+बैंक स्टेटमेंट पार्स करें, बैलेंस verify करें, और आंतरिक रिकॉर्ड से स्वचालित मिलान करें।
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
+from bankstatementparser.hybrid import verify_balance_multi_currency
 
 parser = CamtParser("bank_statement.xml")
 bank_txns = parser.parse()
+
+# Verify balances per currency
+verification = verify_balance_multi_currency(bank_txns)
+for ccy, result in verification.items():
+    assert result.status == "VERIFIED", f"{ccy} balance mismatch!"
 
 # Deduplicate before reconciliation
 dedup = Deduplicator()
@@ -147,11 +181,39 @@ clean_txns = result.unique_transactions
 unmatched = reconcile(clean_txns, internal_ledger)
 ```
 
-## अनुपालन और लेखापरीक्षा पाइपलाइन
+## Plaintext Accounting (hledger / beancount)
 
-**परिणाम:** नियतात्मक आउटपुट और स्वचालित पीआईआई रिडक्शन ऑडिट-तैयार लॉग का उत्पादन करते हैं जो अतिरिक्त टूलींग के बिना नियामक प्रतिलिपि प्रस्तुत करने योग्यता आवश्यकताओं को पूरा करते हैं।
+**परिणाम:** PDF बैंक स्टेटमेंट से स्वचालित ingestion और वर्गीकृत लेनदेन को hledger या beancount journal format में निर्यात करें।
 
-पीआईआई रिडक्शन और नियतात्मक आउटपुट के साथ ऑडिट-तैयार पाइपलाइन बनाएं। प्रत्येक रन समान इनपुट के लिए समान परिणाम उत्पन्न करता है, जो नियामक प्रतिलिपि प्रस्तुत करने योग्यता आवश्यकताओं को पूरा करता है।
+```python
+from bankstatementparser.hybrid import smart_ingest
+from bankstatementparser.enrichment import Categorizer
+from bankstatementparser.export import to_hledger
+
+result = smart_ingest("statement.pdf")
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(result.transactions)
+journal = to_hledger(enriched, account="Assets:Bank:Checking")
+```
+
+## REST API Deployment
+
+**परिणाम:** Bank Statement Parser को एक माइक्रोसर्विस के रूप में डिप्लॉय करें जो HTTP के माध्यम से स्टेटमेंट फ़ाइलें स्वीकार करे और संरचित JSON लौटाए।
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+```
+
+```bash
+# Ingest a statement
+curl -X POST http://localhost:8000/ingest \
+  -F "file=@statement.pdf"
+```
+
+## कंप्लायंस और ऑडिट Pipelines
+
+**परिणाम:** नियतात्मक आउटपुट, स्वचालित PII रिडक्शन, और Golden Rule सत्यापन ऐसे audit-ready लॉग बनाते हैं जो regulatory reproducibility आवश्यकताओं को पूरा करते हैं।
 
 ```python
 from bankstatementparser import CamtParser
@@ -166,11 +228,9 @@ for txn in parser.parse_streaming(redact_pii=True):
 parser.export_csv("archive/statement.csv")
 ```
 
-## एसएफटीपी-टू-डेटाफ़्रेम वर्कफ़्लोज़
+## SFTP-से-DataFrame वर्कफ़्लो
 
-**परिणाम:** शून्य डिस्क I/O के साथ बाइट्स से सीधे पार्स, एसएफटीपी और एपीआई-संचालित बैंक कनेक्टिविटी वर्कफ़्लो में मूल रूप से फ़िट होना।
-
-कई बैंक एसएफटीपी के माध्यम से विवरण वितरित करते हैं। डिस्क पर लिखे बिना बाइट्स से सीधे पार्स करें।
+**परिणाम:** शून्य डिस्क I/O के साथ bytes से सीधे पार्स, SFTP और API-driven बैंक कनेक्टिविटी वर्कफ़्लो में मूल रूप से फ़िट होता है।
 
 ```python
 from bankstatementparser import CamtParser
@@ -180,11 +240,9 @@ parser = CamtParser.from_bytes(xml_bytes, source_name="daily.xml")
 df = parser.parse()
 ```
 
-## मल्टी-बैंक समेकन
+## मल्टी-बैंक Consolidation
 
-**परिणाम:** एचएसबीसी (सीएएमटी), बार्कलेज (एमटी940), रेवोल्यूट (सीएसवी), और वाइज (ओएफएक्स) में समानांतर पार्सिंग एक कॉल में एकल सामान्यीकृत डेटासेट तैयार करता है।
-
-विभिन्न प्रारूपों का उपयोग करके कई बैंकों के विवरणों को एक सामान्यीकृत डेटासेट में समेकित करें।
+**परिणाम:** HSBC (CAMT), Barclays (MT940), Revolut (CSV), Wise (OFX), और Chase (PDF) में समानांतर पार्सिंग एक ही normalised dataset तैयार करता है।
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -199,11 +257,9 @@ results = parse_files_parallel([
 all_transactions = pd.concat([r.transactions for r in results if r.status == "success"])
 ```
 
-## ज़िप अभिलेखागार के साथ बैच प्रोसेसिंग
+## ZIP Archives के साथ बैच प्रोसेसिंग
 
-**परिणाम:** अंतर्निहित ज़िप बम सुरक्षा (100:1 अनुपात सीमा, 10 एमबी प्रवेश सीमा, एन्क्रिप्टेड प्रविष्टि अस्वीकृति) आपको मासिक विवरण संग्रह को सुरक्षित रूप से संसाधित करने की सुविधा देता है।
-
-अंतर्निहित ज़िप बम सुरक्षा के साथ ज़िपित कथन संग्रह को सुरक्षित रूप से संसाधित करें।
+**परिणाम:** अंतर्निहित ZIP bomb protection (100:1 ratio limit, 10 MB entry cap, encrypted entry rejection) से आप मासिक स्टेटमेंट archives सुरक्षित रूप से प्रोसेस कर सकते हैं।
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
@@ -214,4 +270,4 @@ for entry in iter_secure_xml_entries("monthly_statements.zip"):
     save_to_warehouse(entry.source_name, df)
 ```
 
-[विकल्पों के साथ तुलना करें ❯](/comparison/index.html) | [अपने आईएसओ 20022 माइग्रेशन की योजना बनाएं ❯](/migration/index.html) | [आरंभ करें ❯](/getting-started/index.html)
+[विकल्पों से तुलना करें ❯](/comparison/index.html) | [अपने ISO 20022 माइग्रेशन की योजना बनाएं ❯](/migration/index.html) | [शुरू करें ❯](/getting-started/index.html)

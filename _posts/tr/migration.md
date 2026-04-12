@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "ISO 20022 Geçiş Kılavuzu"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Banka Ekstresi Ayrıştırıcı. Her hakkı saklıdır."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "SWIFT ISO 20022 geçiş zaman çizelgesine (2026-2028), MT940'tan CAMT.053'e geçişe ve Banka Ekstresi Ayrıştırıcısının hazine ekiplerinin geçişine nasıl yardımcı olduğuna ilişkin pratik bir kılavuz."
 download: ""
 format-detection: "telephone=no"
@@ -107,20 +107,20 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** SWIFT, MT940'ı Kasım 2028 itibarıyla kullanımdan kaldıracak. Banka Ekstresi Ayrıştırıcısı hem MT940'ı hem de CAMT.053'ü tek bir API ile işler, böylece ayrıştırma işlem hattınız geçiş sırasında ve sonrasında çalışır.
+**Özet:** SWIFT, MT940'ı Kasım 2028 itibarıyla kullanımdan kald��racak. Bank Statement Parser hem MT940'ı hem de CAMT.053'ü tek bir API ile işler, böylece ayrıştırma pipeline'ınız geçiş sırasında ve sonrasında çalışır.
 
 ## Bu Geçiş Neden Önemli?
 
-SWIFT, daha zengin ISO 20022 standardı lehine eski MT mesaj formatlarını kullanımdan kaldırıyor. Hazine ve finans ekipleri için bu, banka hesap özeti işleme işlem hatlarınızın zorlu son teslim tarihlerinden önce MT940'tan CAMT.053'e geçmesi gerektiği anlamına gelir.
+SWIFT, daha zengin ISO 20022 standardı lehine eski MT mesaj formatlarını kullanımdan kaldırıyor. Hazine ve finans ekipleri için bu, banka ekstresi işleme pipeline'larınızın zorunlu son tarihlerden önce MT940'tan CAMT.053'e geçmesi gerektiği anlamına gelir.
 
 ## SWIFT Geçiş Zaman Çizelgesi
 
-| Tarih | Dönüm noktası | Darbe |
+| Tarih | Kilometre Taşı | Etki |
 |---|---|---|
-| **Kasım 2025** | Sınır ötesi ödemelerde MT'den MX'e bir arada kullanım sona erdi | PACS mesajları artık yalnızca ISO 20022'dir |
-| **Kasım 2026** | Yapılandırılmış/karma adresler zorunludur; MT101 çoklu talimatı reddedildi; Vaka Yönetimi Aşama 1 | Adres formatları uyumlu olmalıdır; bazı MT mesajları reddedilecek |
-| **2026 Sonu** | CAMT.052/.053/.054 almak için katılım başlıyor | Finansal kurumlar yerel ISO beyanlarını almaya başlayabilir |
-| **Kasım 2027** | Tüm FI'lar CAMT.053'ü yerel olarak almalıdır | SWIFT, MT formatını ISO'ya dönüştürmeyi durdurur; sistemlerinizin CAMT'yi doğrudan ayrıştırması gerekir |
+| **Kasım 2025** | Sınır ötesi ödemelerde MT-MX bir arada yaşam sona erdi | PACS mesajları artık yalnızca ISO 20022'dir |
+| **Kasım 2026** | Yapılandırılmış/karma adresler zorunlu; MT101 çoklu talimat reddedildi; Vaka Yönetimi Aşama 1 | Adres formatları uyumlu olmalı; bazı MT mesajları reddedilecek |
+| **2026 Sonu** | CAMT.052/.053/.054 almak için katılım başlıyor | Finans kuruluşları yerel ISO ekstrelerini almaya başlayabilir |
+| **Kasım 2027** | Tüm finans kuruluşları CAMT.053'ü doğrudan almalı | SWIFT, MT formatını ISO'ya dönüştürmeyi durdurur; sistemleriniz CAMT'yi doğrudan ayrıştırmalı |
 | **Kasım 2028** | MT940/MT942/MT950/MT900/MT910 tamamen kullanımdan kaldırıldı | Eski ekstre formatları artık mevcut değil; CAMT.052/.053/.054 tek seçenektir |
 
 ## Kodunuz İçin Neler Değişiyor?
@@ -144,25 +144,28 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # Same DataFrame schema regardless of format
 ```
 
-`detect_statement_format()`işlevi, dosyanın MT940, CAMT.053, PAIN.001 veya desteklenen herhangi bir formatta olup olmadığını tanımlar.`create_parser()`işlev doğru ayrıştırıcıyı döndürür. Aşağı akış kodunuz, kaynak biçiminden bağımsız olarak aynı şekilde çalışır.
+`detect_statement_format()` fonksiyonu dosyanın MT940, CAMT.053, PAIN.001 veya desteklenen başka bir formatta olup olmadığını tanır. `create_parser()` fonksiyonu doğru ayrıştırıcıyı döndürür. Sonraki kodunuz kaynak formatından bağımsız olarak aynı şekilde çalışır.
 
 ## CAMT.053 ve MT940: Temel Farklılıklar
 
 | Özellik | MT940 | CAMT.053 |
 |---|---|---|
-| Veri zenginliği | Sınırlı alanlar | İşlem başına 3-5 kat daha fazla veri |
+| Veri zenginli��i | Sınırlı alanlar | İşlem başına 3-5 kat daha fazla veri |
 | Karakter seti | Sınırlı (SWIFT karakter seti) | Tam Unicode |
-| Yapı | Etiketleri içeren düz metin | Ad alanlı XML |
-| Bakiye raporlama | Yalnızca açma/kapama | Çoklu bakiye türleri |
+| Yapı | Etiketli düz metin | Ad alanlı XML |
+| Bakiye raporlama | Yalnızca açılış/kapanış | Çoklu bakiye türleri |
 | Referanslar | Tek referans alanı | Çoklu referans türleri |
-| Para birimi kullanımı | Temel | Döviz kurları ile tam çoklu para birimi |
+| Para birimi kullanımı | Temel | Döviz kurlarıyla tam çoklu para birimi |
 
-## Banka Ekstresi Ayrıştırıcısı Nasıl Yardımcı Olur?
+## Bank Statement Parser Nasıl Yardımcı Olur?
 
-- **Birleşik API**: Hem MT940 hem de CAMT.053'ü aynı şekilde ayrıştırın`parse()`özdeş DataFrame şemaları üreten yöntem.
-- **Otomatik algılama**: Formatı önceden bilmenize gerek yoktur.`detect_statement_format()`otomatik olarak tanımlar.
-- **Ad alanından bağımsız**: Herhangi bir CAMT.053 değişkenini (001.02, 001.04 veya bankaya özgü sarmalayıcıları) yapılandırma olmadan işler.
-- **Akış**: Büyük CAMT dosyalarını (50 MB+, 50K+ işlem) sınırlı bellekle işleyin.
+- **Birleşik API**: MT940, CAMT.053 ve PDF ekstrelerini aynı iş akış��yla ayrıştırın; tutarlı DataFrame çıktısı üretin.
+- **Otomatik algılama**: Formatı önceden bilmenize gerek yok. `detect_statement_format()` otomatik olarak tanır.
+- **Hibrit PDF pipeline**: Geçiş sırasında yalnızca PDF ekstre sunan bankalar, otomatik bakiye doğrulamalı `smart_ingest()` ile işlenir.
+- **Ad alanından bağımsız**: Herhangi bir CAMT.053 varyantını (001.02, 001.04 veya bankaya özgü sarmalayıcılar) yapılandırma olmadan işler.
+- **Çoklu para birimi doğrulaması**: `verify_balance_multi_currency()` Altın Kuralı para birimi grubuna göre çalıştırır -- çoklu para birimli CAMT ekstreleri için gereklidir.
+- **Streaming**: Büyük CAMT dosyalarını (50 MB+, 50K+ işlem) sınırlı bellekle işleyin.
+- **Defter dışa aktarımı**: Hazine muhasebesi için doğrudan hledger veya beancount defter formatına aktarın.
 - **Geçiş testi**: Geçiş yapmadan önce çıktı tutarlılığını doğrulamak için her iki ayrıştırıcıyı aynı tarih aralığında yan yana çalıştırın.
 
 ## Başlarken
@@ -174,7 +177,7 @@ pip install bankstatementparser
 ```python
 from bankstatementparser import create_parser, detect_statement_format
 
-# Works with MT940 today, CAMT.053 tomorrow
+# Works with MT940 today, CAMT.053 tomorrow, PDF anytime
 for file in bank_statement_files:
     fmt = detect_statement_format(file)
     parser = create_parser(file, fmt)
@@ -182,6 +185,15 @@ for file in bank_statement_files:
     process(df)  # Your code doesn't change
 ```
 
+Henüz yapılandırılmış CAMT dışa aktarımı sunmayan bankalardan gelen PDF ekstreler için:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+assert result.verification.status == "VERIFIED"
+```
+
 [Belgelerin tamamını okuyun](/getting-started/index.html)
 
-[Alternatiflerle karşılaştırın ❯](/comparison/index.html) | [Gerçek dünyadaki kullanım senaryolarına bakın ❯](/use-cases/index.html)
+[Alternatiflerle karşılaştırın ❯](/comparison/index.html) | [Gerçek dünya kullanım örneklerini görün ❯](/use-cases/index.html)

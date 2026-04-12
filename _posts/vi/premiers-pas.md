@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Tòa nhà màu trắng với cửa sổ màu đen"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Trình phân tích báo cáo ngân hàng. Mọi quyền được bảo lưu."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Bắt đầu với Trình phân tích bảng kê ngân hàng cho Python: cài đặt, phân tích các tệp CAMT/PAIN.001/CSV/OFX/QFX/MT940 và sử dụng quy trình phát trực tuyến hoặc CLI."
 download: ""
 format-detection: "telephone=no"
@@ -109,24 +109,41 @@ site_software: "Shokunin, Rust"
 
 ## Yêu cầu
 
-- Python 3,9 đến 3,14
-- Truy cập thiết bị đầu cuối (macOS, Linux hoặc WSL)
+- Python 3.10 đến 3.14
+- Truy cập terminal (macOS, Linux, hoặc WSL)
 
 ## Cài đặt
 
 ```bash
+# Cài đặt cơ bản (chỉ trình phân tích xác định)
 pip install bankstatementparser
 ```
 
-Để được hỗ trợ Polars DataFrame:
+Các gói mở rộng tùy chọn cho khả năng bổ sung:
 
 ```bash
-pip install bankstatementparser[polars]
+# Đường dẫn Text-LLM cho PDF kỹ thuật số (litellm + pypdf)
+pip install 'bankstatementparser[hybrid]'
+
+# Trích xuất bảng độ chính xác cao hơn (thêm pdfplumber)
+pip install 'bankstatementparser[hybrid-plus]'
+
+# Đường dẫn Vision-LLM cho PDF quét (thêm pypdfium2)
+pip install 'bankstatementparser[hybrid-vision]'
+
+# Phân loại giao dịch bằng LLM
+pip install 'bankstatementparser[enrichment]'
+
+# Microservice REST API (FastAPI + uvicorn)
+pip install 'bankstatementparser[api]'
+
+# Hỗ trợ Polars DataFrame tùy chọn
+pip install 'bankstatementparser[polars]'
 ```
 
 ## Bắt đầu nhanh
 
-### Tự động phát hiện và phân tích mọi định dạng
+### Tự động nhận dạng và phân tích mọi định dạng có cấu trúc
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -137,7 +154,7 @@ df = parser.parse()  # pandas DataFrame
 print(df.head())
 ```
 
-Điều này hoạt động với`.xml`(CAMT/PAIN.001),`.csv`, `.ofx`, `.qfx`, `.mt940`, Và`.sta`tập tin.
+Hoạt động với các tệp `.xml` (CAMT/PAIN.001), `.csv`, `.ofx`, `.qfx`, `.mt940`, và `.sta`.
 
 ### Phân tích CAMT.053
 
@@ -157,9 +174,24 @@ parser = Pain001Parser("payment.xml")
 payments = parser.parse()
 ```
 
-## Truyền phát các tệp lớn
+### Phân tích sao kê PDF ngân hàng (Pipeline Hybrid)
 
-Đối với các tệp có hàng nghìn giao dịch, hãy sử dụng tính năng phát trực tuyến để giữ giới hạn bộ nhớ:
+Pipeline hybrid tự động định tuyến PDF qua ba đường dẫn trích xuất:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+print(result.transactions)          # List of extracted transactions
+```
+
+Mọi kết quả trích xuất đều được xác minh bằng **Golden Rule**: `opening + credits − debits == closing`.
+
+## Streaming tệp lớn
+
+Với các tệp có hàng nghìn giao dịch, sử dụng streaming để giữ bộ nhớ giới hạn:
 
 ```python
 parser = CamtParser("large_statement.xml")
@@ -167,9 +199,9 @@ for transaction in parser.parse_streaming(redact_pii=True):
     process(transaction)  # Memory stays constant
 ```
 
-## Phân tích cú pháp trong bộ nhớ
+## Phân tích trong bộ nhớ
 
-Phân tích cú pháp từ byte mà không cần I/O đĩa -- hữu ích cho quy trình làm việc SFTP hoặc API:
+Phân tích từ bytes mà không cần I/O đĩa -- hữu ích cho quy trình SFTP hoặc API:
 
 ```python
 xml_bytes = download_from_sftp()
@@ -193,9 +225,21 @@ for r in results:
     print(r.path, r.status, len(r.transactions), "rows")
 ```
 
+## Quét thư mục hàng loạt
+
+Xử lý toàn bộ cây thư mục với tự động chống trùng lặp:
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Processed: {len(batch.results)} files")
+print(f"Unique transactions: {batch.unique_count}")
+```
+
 ## Chống trùng lặp
 
-Phát hiện các bản sao chính xác và các kết quả trùng khớp đáng ngờ bằng điểm tin cậy:
+Hash giao dịch idempotent cho nhập dữ liệu gia tăng an toàn:
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
@@ -209,9 +253,61 @@ print(f"Exact duplicates: {len(result.exact_duplicates)}")
 print(f"Suspected matches: {len(result.suspected_matches)}")
 ```
 
+## Phân loại giao dịch (Làm giàu dữ liệu)
+
+Tự động phân loại giao dịch bằng LLM:
+
+```python
+from bankstatementparser.enrichment import Categorizer
+
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(transactions)
+for txn in enriched:
+    print(f"{txn.description}: {txn.category}")
+```
+
+## Xuất sổ cái (hledger / beancount)
+
+Xuất giao dịch sang định dạng sổ nhật ký kế toán plaintext:
+
+```python
+from bankstatementparser.export import to_hledger, to_beancount
+
+journal = to_hledger(transactions, account="Assets:Bank:Checking")
+beancount_journal = to_beancount(transactions, account="Assets:Bank:Checking")
+```
+
+## Xác minh số dư đa tiền tệ
+
+Xác minh số dư độc lập theo nhóm tiền tệ:
+
+```python
+from bankstatementparser.hybrid import verify_balance_multi_currency
+
+results = verify_balance_multi_currency(transactions)
+for currency, verification in results.items():
+    print(f"{currency}: {verification.status}")
+```
+
+## REST API
+
+Triển khai dưới dạng microservice FastAPI:
+
+```bash
+# Khởi động máy chủ API
+bankstatementparser-api --port 8000
+
+# Cho triển khai container
+bankstatementparser-api --host 0.0.0.0 --port 9000
+```
+
+Các endpoint:
+- `POST /ingest` -- Phân tích tệp sao kê ngân hàng
+- `GET /health` -- Kiểm tra sức khỏe
+
 ## Xử lý ZIP an toàn
 
-Xử lý các tệp XML đã nén bằng tính năng kiểm tra bảo mật tích hợp (bảo vệ chống bom, từ chối mục nhập được mã hóa):
+Xử lý các tệp XML nén với kiểm tra bảo mật tích hợp (bảo vệ bomb, từ chối mục nhập mã hóa):
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
@@ -221,7 +317,7 @@ for entry in iter_secure_xml_entries("statements.zip"):
     print(f"{entry.source_name}: {len(parser.parse())} transactions")
 ```
 
-## Xuất khẩu
+## Xuất dữ liệu
 
 ```python
 parser = CamtParser("statement.xml")
@@ -230,29 +326,39 @@ parser.export_json("output.json")
 
 # Polars (requires bankstatementparser[polars])
 polars_df = parser.to_polars()
+
+# Excel
+parser.camt_to_excel("output.xlsx")
 ```
 
-## Cách sử dụng CLI
+## Sử dụng CLI
 
 ```bash
-# Parse and display
-python -m bankstatementparser.cli --type camt --input statement.xml
+# Phân tích các định dạng có cấu trúc
+bankstatementparser --type camt --input statement.xml
+bankstatementparser --type pain001 --input payment.xml
 
-# Export to CSV
-python -m bankstatementparser.cli --type camt --input statement.xml --output transactions.csv
+# Pipeline PDF hybrid
+bankstatementparser --type ingest --input statement.pdf
+bankstatementparser --type ingest --input statement.pdf --output ledger.csv
 
-# Stream with PII visible
-python -m bankstatementparser.cli --type camt --input statement.xml --streaming --show-pii
+# Chế độ xem xét tương tác
+bankstatementparser --type review --input result.json
+bankstatementparser --type review --input result.json --output reviewed.json
+
+# Xuất CSV với streaming
+bankstatementparser --type camt --input statement.xml --output transactions.csv
+bankstatementparser --type camt --input statement.xml --streaming --show-pii
 ```
 
 Tùy chọn CLI:
 
-- `--type {camt,pain001}`-- loại trình phân tích cú pháp
--`--input <path>`-- tập tin đầu vào
--`--output <csv_path>`-- xuất sang CSV
--`--streaming`-- truyền phát các tập tin lớn
--`--show-pii`-- hiển thị các trường nhạy cảm (được xử lý lại theo mặc định)
--`--max-size <MB>`-- giới hạn kích thước tập tin
+- `--type {camt,pain001,ingest,review}` -- loại trình phân tích hoặc chế độ
+- `--input <path>` -- tệp đầu vào
+- `--output <path>` -- tệp xuất (CSV hoặc JSON)
+- `--streaming` -- streaming tệp lớn
+- `--show-pii` -- hiển thị trường nhạy cảm (ẩn danh mặc định)
+- `--max-size <MB>` -- giới hạn kích thước tệp
 
 ## Thiết lập phát triển cục bộ
 
@@ -261,19 +367,20 @@ git clone https://github.com/sebastienrousseau/bankstatementparser.git
 cd bankstatementparser
 python3 -m venv .venv && source .venv/bin/activate
 pip install poetry && poetry install --with dev
+make install-hooks   # pre-commit hook runs `make verify` before every commit
 ```
 
-Chạy bộ thử nghiệm:
+Chạy bộ kiểm tra:
 
 ```bash
 pytest
 ```
 
-## Tham khảo API
+## Tham chiếu API
 
-### Lớp phân tích cú pháp
+### Lớp Parser
 
-| Lớp học | Định dạng | Nhập khẩu |
+| Lớp | Định dạng | Import |
 |---|---|---|
 | `CamtParser` | CAMT.053 (ISO 20022) | `from bankstatementparser import CamtParser` |
 | `Pain001Parser` | PAIN.001 (ISO 20022) | `from bankstatementparser import Pain001Parser` |
@@ -281,32 +388,42 @@ pytest
 | `OfxParser` | OFX | `from bankstatementparser import OfxParser` |
 | `QfxParser` | QFX | `from bankstatementparser import QfxParser` |
 | `Mt940Parser` | MT940 | `from bankstatementparser import Mt940Parser` |
+| `smart_ingest()` | PDF (pipeline hybrid) | `from bankstatementparser.hybrid import smart_ingest` |
 
-### Chức năng tiện ích
+### Hàm tiện ích
 
-| Chức năng | Mục đích |
+| Hàm | Mục đích |
 |---|---|
-| `detect_statement_format(path)` | Tự động phát hiện định dạng tập tin |
-| `create_parser(path, fmt)` | Tạo trình phân tích cú pháp thích hợp |
+| `detect_statement_format(path)` | Tự động nhận dạng định dạng tệp |
+| `create_parser(path, fmt)` | Tạo trình phân tích phù hợp |
 | `parse_files_parallel(paths)` | Phân tích đồng thời nhiều tệp |
-| `iter_secure_xml_entries(zip_path)` | Lặp lại các mục ZIP một cách an toàn |
+| `iter_secure_xml_entries(zip_path)` | Lặp qua các mục ZIP an toàn |
+| `smart_ingest(path)` | Trích xuất PDF hybrid với xác minh |
+| `scan_and_ingest(dir, pattern)` | Quét thư mục hàng loạt |
+| `verify_balance_multi_currency(txns)` | Xác minh số dư theo tiền tệ |
+| `to_hledger(txns, account)` | Xuất sang định dạng hledger journal |
+| `to_beancount(txns, account)` | Xuất sang định dạng beancount journal |
 
 ### Lớp dữ liệu
 
-| Lớp học | Mục đích |
+| Lớp | Mục đích |
 |---|---|
 | `Deduplicator` | Phát hiện giao dịch trùng lặp |
-| `DeduplicationResult` | Kết quả có kết quả trùng khớp duy nhất, chính xác và đáng ngờ |
+| `DeduplicationResult` | Kết quả với giao dịch duy nhất, trùng chính xác, và nghi ngờ trùng |
 | `InputValidator` | Xác thực đường dẫn và định dạng tệp |
-| `Transaction` | Hồ sơ giao dịch chuẩn hóa |
-| `FileResult` | Kết quả phân tích song song |
-| `ZipXMLSource` | Trình bao bọc thành viên ZIP |
+| `Transaction` | Bản ghi giao dịch chuẩn hóa |
+| `FileResult` | Kết quả từ phân tích song song |
+| `ZipXMLSource` | Wrapper thành viên ZIP |
+| `IngestResult` | Kết quả pipeline hybrid với xác minh |
+| `VerificationResult` | Kết quả xác minh số dư |
+| `Categorizer` | Phân loại giao dịch bằng LLM |
+| `AccountMapper` | Quy tắc ánh xạ tài khoản dựa trên regex |
 
 ### Ngoại lệ
 
-| Ngoại lệ | Khi nâng lên |
+| Ngoại lệ | Khi nào phát sinh |
 |---|---|
-| `ParserError` | Lỗi phân tích cú pháp |
-| `ExportError` | Lỗi xuất (CSV/JSON/Excel) |
+| `ParserError` | Lỗi phân tích |
+| `ExportError` | Lỗi xuất dữ liệu (CSV/JSON/Excel) |
 | `ValidationError` | Lỗi xác thực đầu vào |
 | `ZipSecurityError` | Lỗi kiểm tra bảo mật ZIP |

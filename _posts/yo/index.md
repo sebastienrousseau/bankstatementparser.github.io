@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Aworan ayaworan ti ile gilasi"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: "bankstatementparser.com"
 copyright: "© 2023-2026 Itumọ Gbólóhùn Bank. Gbogbo awọn ẹtọ wa ni ipamọ."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Ibi ikawe Python orisun-ìmọ lati sọ CAMT.053, PAIN.001, CSV, OFX, QFX, ati awọn alaye banki MT940 sinu pandas DataFrames. 27K+ tx/s, ṣiṣanwọle, atunṣe PII, 100% agbegbe."
 download_url: "https://pypi.org/project/bankstatementparser/"
 download_title: "pip fi sori ẹrọ bankstatementparser"
@@ -109,9 +109,9 @@ site_software: "Shokunin, Rust"
 
 ---
 
-** Iṣayẹwo Gbólóhùn Banki *** jẹ ile-ikawe Python orisun ṣiṣi ti o ṣe itupalẹ awọn alaye banki lati awọn ọna kika mẹfa (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) sinu pandas DataFrames ti iṣeto. Gbogbo sisẹ n ṣiṣẹ ni agbegbe - awọn ipe nẹtiwọọki odo, iṣelọpọ ipinnu, ati isọdọtun PII laifọwọyi.
+**Bank Statement Parser** jẹ ile-ikawe Python orisun-ṣiṣi ti o ṣe itupalẹ awọn alaye banki lati awọn ọna kika meje (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, ati PDF) sinu pandas DataFrames ti iṣeto. Gbogbo sisẹ n ṣiṣẹ ni agbegbe — iṣelọpọ ipinnu, isọdọtun PII laifọwọyi, ati opo gigun PDF aladapọ ti o lo awọn LLM agbegbe nigbati o nilo.
 
-## Bẹrẹ ni iṣẹju-aaya
+## Bẹrẹ ni Iṣẹju-aaya
 
 ```bash
 pip install bankstatementparser
@@ -125,62 +125,90 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # pandas DataFrame, ready to use
 ```
 
+```python
+# Parse PDFs with the hybrid pipeline (v0.0.5+)
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+```
+
 <img src="https://img.shields.io/github/stars/sebastienrousseau/bankstatementparser?style=for-the-badge&label=Stars" height="28" alt="GitHub Stars" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/dm/bankstatementparser?style=for-the-badge&label=Downloads" height="28" alt="Monthly Downloads" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/v/bankstatementparser?style=for-the-badge&label=PyPI" height="28" width="119" alt="PyPI Version" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/pyversions/bankstatementparser?style=for-the-badge&label=Python" height="28" width="347" alt="Python" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/l/bankstatementparser?style=for-the-badge&label=License" height="28" width="292" alt="License" loading="lazy" style="margin:0 .25rem .5rem 0" />
-<img src="https://img.shields.io/badge/tests-467%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
+<img src="https://img.shields.io/badge/tests-718%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/badge/coverage-100%25-brightgreen?style=for-the-badge" height="28" width="152" alt="Coverage" loading="lazy" style="margin:0 .25rem .5rem 0" />
 
-## Ile-ikawe Kan, Awọn ọna kika mẹfa
+## Ile-ikawe Kan, Awọn Ọna Kika Meje
 
-Parse CAMT.053, PAIN.001, CSV, OFX, QFX, ati MT940 sinu pandas DataFrames ti iṣeto pẹlu ẹyọkan, API iṣọkan. Ko si ye lati fi sori ẹrọ awọn idii lọtọ fun ọna kika kọọkan.
+Ṣe itupalẹ CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, ati PDF sinu pandas DataFrames ti iṣeto pẹlu API iṣọkan kan. Ko si ye lati fi sori ẹrọ awọn idii lọtọ fun ọna kika kọọkan.
 
-| Ẹya ara ẹrọ | Parser Gbólóhùn Bank | OSS ọna kika ẹyọkan (mt940, ofxparse) | SaaS (Ocrolus, Parseur) |
+| Ẹya ara ẹrọ | Bank Statement Parser | OSS ọna kika ẹyọkan (mt940, ofxparse) | SaaS (Ocrolus, Parseur) |
 |---|---|---|---|
-| Awọn ọna kika ni atilẹyin | 6, API iṣọkan | 1 kọọkan | Ọpọlọpọ (nipasẹ OCR) |
-| Aṣiri data | 100% agbegbe, awọn ipe nẹtiwọki odo | 100% agbegbe | Data rán ita |
-| Iye owo | Ọfẹ, Apache 2.0 | Ọfẹ | $49-$1,000+/osu |
-| Iyipada ninu owo-owo PII | Ti a ṣe sinu, titan nipasẹ aiyipada | Rara | O yatọ |
+| Awọn ọna kika ti a ṣe atilẹyin | 7, API iṣọkan | 1 kọọkan | Ọpọlọpọ (nipasẹ OCR) |
+| Atilẹyin PDF | Opo gigun aladapọ (ipinnu + LLM + iran) | Rara | Bẹẹni (cloud OCR) |
+| Aṣiri data | 100% agbegbe (awọn LLM n ṣiṣẹ ni agbegbe nipasẹ Ollama) | 100% agbegbe | Data rán si ita |
+| Iye owo | Ọfẹ, Apache 2.0 | Ọfẹ | $49-$1,000+/oṣu |
+| Iṣayẹwo iwọntunwọnsi | Ofin Goolu (iwọntunwọnsi ṣiṣi + awọn kirẹditi − awọn debiti = iwọntunwọnsi ipari) | Rara | O yatọ |
+| Isọdọtun PII | Ti a ṣe sinu, titan nipasẹ aiyipada | Rara | O yatọ |
 | Sisanwọle | Iranti ti o ni opin | Rara | N/A |
-| Aabo ZIP | Ti a ṣe sinu lile | Rara | N/A |
-| Deduplication | Itumọ ti pẹlu igbekele ikun | Rara | Diẹ ninu awọn |
+| REST API | Iṣẹ-kekere FastAPI ti a ṣe sinu | Rara | Bẹẹni |
+| Yiyọ ẹda | Awọn hash idanimọ iṣowo aláìyípadà | Rara | Diẹ ninu |
+| Okeere iwe iroyin | hledger + beancount | Rara | Rara |
 
-## Ti a ṣe fun Iṣilọ ISO 20022
+## Opo Gigun PDF Aladapọ
 
-SWIFT ti ṣeto awọn akoko ipari ti o duro: gbogbo awọn ile-iṣẹ inawo gbọdọ gba CAMT.053 nipasẹ Oṣu kọkanla 2027, ati MT940/MT942/MT950 yoo fẹhinti ni kikun nipasẹ Oṣu kọkanla ọdun 2028. Parser Gbólóhùn Bank ṣe itọju mejeeji julọ MT940 ati awọn ọna kika ISO 20022 ode oni (CAMT.053, PAIN a single001) ni akoko iyipada pipe ati API.
+Bank Statement Parser v0.0.5+ pẹlu opo gigun aladapọ ọna-mẹta fun awọn alaye banki PDF:
 
-## Iṣe
+- **Ọna A (Ipinnu)**: Awọn tabili PDF ti iṣeto ti a ṣe itupalẹ taara — ọfẹ, yara julọ, ko nilo LLM.
+- **Ọna B (Ọrọ-LLM)**: Awọn PDF oni-nọmba pẹlu awọn eto eka ti a yọ jade nipasẹ LLM agbegbe (LiteLLM/Ollama).
+- **Ọna C (Iran-LLM)**: Awọn alaye ti a ṣe scan tabi fọtokopi ti a ṣe ilana pẹlu awọn awoṣe iran olopọ-iru.
 
-- ** 27,000 + lẹkọ / keji ** fun CAMT.053 parsing
-- ** 52,000 + awọn iṣowo / iṣẹju-aaya ** fun PAIN.001 parsing
-- ** <2 ms *** akoko si abajade akọkọ
-- ** Iranti igbagbogbo *** lati 1K si awọn iṣowo 50K + nipasẹ ṣiṣanwọle
-** Awọn idanwo 467 *** pẹlu agbegbe agbegbe 100% kọja Python 3.9 si 3.14
+A ṣe idanwo gbogbo isediwon pẹlu **Ofin Goolu**: `opening balance + credits − debits == closing balance`.
 
-## Kilode ti Iṣayẹwo Gbólóhùn Banki?
+## Ti a Ṣe fun Iṣilọ ISO 20022
 
-- ** Ọna kika-iwari aifọwọyi ***:`detect_statement_format()`ṣe idanimọ awọn faili laifọwọyi ati`create_parser()`pada awọn ọtun parser.
-- ** Ikọkọ akọkọ ***: Atunṣe PII wa ni titan nipasẹ aiyipada. Awọn aaye ifarabalẹ (awọn orukọ, IBANs, awọn adirẹsi) ti wa ni boju-boju ni iṣelọpọ CLI. Jade ni pẹlu`--show-pii`nigbati o nilo.
-- ** Ṣetan iṣelọpọ ***: Gbigbe ZIP to ni aabo (idaabobo bombu, ijusile iwọle ti paroko), afọwọsi titẹ sii, ati idena ipa ọna.
-- ** Ijade Rọ ***: Si ilẹ okeere si CSV, JSON, Tayo, tabi yipada si Polars DataFrames.
-- ** Iṣagbese ni afiwe ***: Ṣe itupalẹ awọn faili lọpọlọpọ nigbakanna pẹlu`parse_files_parallel()`.
+SWIFT ti ṣeto awọn ọjọ ipari to duro ṣinṣin: gbogbo awọn ile-iṣẹ inawo gbọdọ gba CAMT.053 ṣaaju Oṣu kọkanla 2027, ati MT940/MT942/MT950 yoo fẹhinti ni kikun ṣaaju Oṣu kọkanla 2028. Bank Statement Parser ṣe itọju mejeeji MT940 atijọ ati awọn ọna kika ISO 20022 ode oni (CAMT.053, PAIN.001) ninu API kan, nitorinaa opo gigun itupalẹ rẹ yoo ṣiṣẹ lakoko iyipada ati lẹhin rẹ.
+
+## Iṣẹ
+
+- **27,000+ iṣowo/iṣẹju-aaya** fun itupalẹ CAMT.053
+- **52,000+ iṣowo/iṣẹju-aaya** fun itupalẹ PAIN.001
+- **< 2 ms** akoko si abajade akọkọ
+- **Iranti igbagbogbo** lati 1K si awọn iṣowo 50K+ nipasẹ sisanwọle
+- **Awọn idanwo 718** pẹlu agbegbe 100% kọja Python 3.10 si 3.14
+
+## Kilode ti Bank Statement Parser?
+
+- **Isediwon PDF Aladapọ**: `smart_ingest()` ṣe itọju awọn PDF oni-nọmba ati ti a ṣe scan pẹlu itọsọna aifọwọyi ati iṣayẹwo iwọntunwọnsi.
+- **Iwari Ọna Kika Aifọwọyi**: `detect_statement_format()` ṣe idanimọ awọn faili laifọwọyi ati `create_parser()` da parser to tọ padà.
+- **Ikọkọ Ni Akọkọ**: Isọdọtun PII wa ni titan nipasẹ aiyipada. Awọn LLM n ṣiṣẹ ni agbegbe nipasẹ Ollama — ko si data ti o kuro ninu ẹrọ rẹ.
+- **REST API**: Ṣe imuṣiṣẹ gẹgẹbi iṣẹ-kekere FastAPI pẹlu awọn endpoint `/ingest` ati `/health`.
+- **Imudara**: Isọri iṣowo ti LLM ṣe pẹlu awọn ero ti a le ṣe atunṣe (aiyipada ẹka 13 Plaid).
+- **Okeere Iwe Iroyin**: Okeere si awọn ọna kika iwe iroyin hledger ati beancount fun ṣiṣan iṣiro ọrọ-lasan.
+- **Ayẹwo Pupọ**: `scan_and_ingest()` ṣe ilana awọn igi folda pẹlu yiyọ ẹda laifọwọyi kọja awọn faili.
+- **Owo Pupọ**: `verify_balance_multi_currency()` ṣe iṣayẹwo Ofin Goolu fun ẹgbẹ owo kọọkan.
+- **Ṣetan fun Iṣelọpọ**: Gbigbe ZIP to ni aabo, afọwọsi titẹ sii, idena ipa ọna, ati ipo atunyẹwo ifọrọwanilẹnuwo.
+- **Ijade Rọ**: Okeere si CSV, JSON, Excel, Polars, hledger, tabi beancount.
+- **Sisẹ ni Afiwe**: Ṣe itupalẹ awọn faili lọpọlọpọ ni akoko kanna pẹlu `parse_files_parallel()`.
 
 
-## Ti a ṣe fun iṣelọpọ
+## Ti a Ṣe fun Iṣelọpọ
 
-Parser Gbólóhùn Bank jẹ apẹrẹ fun awọn ẹgbẹ ile-iṣura, awọn olupilẹṣẹ fintech, ati awọn oṣiṣẹ ibamu ti n ṣakoso data owo ifura. Ile-ikawe naa ni a lo ni awọn opo gigun ti ijira MT940-si-CAMT, awọn eto ilaja adaṣe, ati ṣiṣan ṣiṣayẹwo ilana ilana kọja awọn ile-iṣẹ inawo.
+Bank Statement Parser jẹ apẹrẹ fun awọn ẹgbẹ ile-iṣura, awọn olupilẹṣẹ fintech, ati awọn oṣiṣẹ ibamu ti n ṣakoso data owo ifura. A lo ile-ikawe naa ninu awọn opo gigun iṣilọ MT940-si-CAMT, awọn eto ilaja adaṣe, gbigbe alaye PDF, ati ṣiṣan ṣiṣayẹwo ilana ofin kọja awọn ile-iṣẹ inawo.
 
-** Awọn idanwo 467 *** pẹlu agbegbe agbegbe 100% kọja Python 3.9 si 3.14
-- **SHA-256 awọn igbẹkẹle titiipa hash ** pẹlu CycloneDX SBOM fun gbogbo idasilẹ
-- ** Ijade ipinnu *** - titẹ sii kanna ṣe awọn abajade baiti-ikankan, ṣiṣe gbogbo
-- ** Apache 2.0 ti ni iwe-aṣẹ *** - lo larọwọto ni awọn eto iṣowo ati inu
+- **Awọn idanwo 718** pẹlu agbegbe 100% kọja Python 3.10 si 3.14
+- **Awọn igbẹkẹle ti SHA-256 hash tiipa** pẹlu CycloneDX SBOM fun gbogbo idasilẹ
+- **Iṣelọpọ ipinnu** — titẹ sii kanna ṣe awọn abajade baiti-kan-naa, gbogbo igba
+- **Apache 2.0 ni iwe-aṣẹ** — lo larọwọto ninu awọn eto iṣowo ati inu
 
-** Ṣiṣayẹwo awọn iyatọ miiran?** [Wo bi Parser Statement Parser ṣe afiwe ❯](/comparison/index.html) | [Ṣawari awọn ọran lilo aye gidi ❯](/use-cases/index.html)
+**Ṣe o n ṣe ayẹwo awọn omiiran?** [Wo bi Bank Statement Parser ṣe afiwe ❯](/comparison/index.html) | [Ṣawari awọn ọran lilo gidi ❯](/use-cases/index.html)
 
 [Bẹrẹ ❯][01] | [Wo lori GitHub ❯][02] | [Wo lori PyPI ❯][03]
 
-[01]: /bibẹrẹ/index.html
-[02]:https://github.com/sebastienrousseau/bankstatementparser
+[01]: /getting-started/index.html
+[02]: https://github.com/sebastienrousseau/bankstatementparser
 [03]: https://pypi.org/project/bankstatementparser/

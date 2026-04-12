@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Architectural photography ng glass building"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/christian-ladewig-T0iFfJw-rB0.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: "bankstatementparser.com"
 copyright: "© 2023-2026 Bank Statement Parser. Lahat ng karapatan ay nakalaan."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Open-source na Python library para i-parse ang CAMT.053, PAIN.001, CSV, OFX, QFX, at MT940 na mga bank statement sa mga pandas DataFrames. 27K+ tx/s, streaming, PII redaction, 100% local."
 download_url: "https://pypi.org/project/bankstatementparser/"
 download_title: "pip install bankstatementparser"
@@ -109,7 +109,7 @@ site_software: "Shokunin, Rust"
 
 ---
 
-Ang **Bank Statement Parser** ay isang open-source na Python library na nag-parse ng mga bank statement mula sa anim na format (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940) sa structured pandas DataFrames. Lahat ng pagpoproseso ay tumatakbo nang lokal — zero na tawag sa network, deterministikong output, at awtomatikong PII redaction.
+Ang **Bank Statement Parser** ay isang open-source na Python library na nag-pa-parse ng mga bank statement mula sa pitong format (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, at PDF) sa structured pandas DataFrames. Lahat ng pagpoproseso ay tumatakbo nang lokal — deterministikong output, awtomatikong PII redaction, at opsyonal na hybrid PDF pipeline na gumagamit ng lokal na mga LLM kapag kinakailangan.
 
 ## Magsimula sa Ilang Segundo
 
@@ -125,62 +125,90 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # pandas DataFrame, ready to use
 ```
 
+```python
+# Parse PDFs with the hybrid pipeline (v0.0.5+)
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+```
+
 <img src="https://img.shields.io/github/stars/sebastienrousseau/bankstatementparser?style=for-the-badge&label=Stars" height="28" alt="GitHub Stars" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/dm/bankstatementparser?style=for-the-badge&label=Downloads" height="28" alt="Monthly Downloads" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/v/bankstatementparser?style=for-the-badge&label=PyPI" height="28" width="119" alt="PyPI Version" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/pyversions/bankstatementparser?style=for-the-badge&label=Python" height="28" width="347" alt="Python" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/pypi/l/bankstatementparser?style=for-the-badge&label=License" height="28" width="292" alt="License" loading="lazy" style="margin:0 .25rem .5rem 0" />
-<img src="https://img.shields.io/badge/tests-467%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
+<img src="https://img.shields.io/badge/tests-718%20passed-brightgreen?style=for-the-badge" height="28" width="168" alt="Tests" loading="lazy" style="margin:0 .25rem .5rem 0" />
 <img src="https://img.shields.io/badge/coverage-100%25-brightgreen?style=for-the-badge" height="28" width="152" alt="Coverage" loading="lazy" style="margin:0 .25rem .5rem 0" />
 
-## Isang Library, Anim na Format
+## Isang Library, Pitong Format
 
-I-parse ang CAMT.053, PAIN.001, CSV, OFX, QFX, at MT940 sa mga structured pandas DataFrames na may iisang, pinag-isang API. Hindi na kailangang mag-install ng hiwalay na mga pakete para sa bawat format.
+I-parse ang CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, at PDF sa mga structured pandas DataFrames gamit ang iisang, pinag-isang API. Hindi na kailangang mag-install ng hiwalay na mga pakete para sa bawat format.
 
-| Tampok | Parser ng Bank Statement | Isang format na OSS (mt940, ofxparse) | SaaS (Ocrolus, Parseur) |
+| Tampok | Bank Statement Parser | Single-format OSS (mt940, ofxparse) | SaaS (Ocrolus, Parseur) |
 |---|---|---|---|
-| Mga format na suportado | 6, pinag-isang API | 1 bawat isa | Marami (sa pamamagitan ng OCR) |
-| Pagkapribado ng data | 100% lokal, walang mga tawag sa network | 100% lokal | Ipinadala ang data sa labas |
+| Mga format na sinusuportahan | 7, pinag-isang API | 1 bawat isa | Marami (sa pamamagitan ng OCR) |
+| Suporta sa PDF | Hybrid pipeline (deterministic + LLM + vision) | Wala | Oo (cloud OCR) |
+| Pagkapribado ng data | 100% lokal (tumatakbo ang mga LLM nang lokal sa pamamagitan ng Ollama) | 100% lokal | Ipinapadala ang data sa labas |
 | Gastos | Libre, Apache 2.0 | Libre | $49-$1,000+/buwan |
-| PII redaction | Built-in, naka-on bilang default | Hindi | Nag-iiba |
-| Streaming | Bounded memory | Hindi | N/A |
-| ZIP seguridad | Built-in na hardening | Hindi | N/A |
-| Deduplikasyon | Built-in na may mga marka ng kumpiyansa | Hindi | Ang ilan |
+| Beripikasyon ng balanse | Golden Rule (opening + credits − debits = closing) | Wala | Nag-iiba |
+| PII redaction | Built-in, naka-on bilang default | Wala | Nag-iiba |
+| Streaming | Bounded memory | Wala | N/A |
+| REST API | Built-in na FastAPI microservice | Wala | Oo |
+| Deduplikasyon | Idempotent na transaction hash | Wala | Bahagya |
+| Ledger export | hledger + beancount | Wala | Wala |
+
+## Hybrid PDF Pipeline
+
+Kasama sa Bank Statement Parser v0.0.5+ ang tatlong-landas na hybrid pipeline para sa mga PDF bank statement:
+
+- **Path A (Deterministic)**: Direktang pine-parse ang mga structured PDF table — libre, pinakamabilis, hindi kailangan ng LLM.
+- **Path B (Text-LLM)**: Kinukuha ang mga digital PDF na may kumplikadong layout sa pamamagitan ng lokal na LLM (LiteLLM/Ollama).
+- **Path C (Vision-LLM)**: Pinoproseso ang mga na-scan o na-photocopy na statement gamit ang multimodal vision model.
+
+Bawat extraction ay bineberipika gamit ang **Golden Rule**: `opening balance + credits − debits == closing balance`.
 
 ## Binuo para sa ISO 20022 Migration
 
-Ang SWIFT ay nagtakda ng matatag na mga deadline: ang lahat ng mga institusyong pampinansyal ay dapat makatanggap ng CAMT.053 bago ang Nobyembre 2027, at ang MT940/MT942/MT950 ay ganap na magretiro sa Nobyembre 2028. Ang Bank Statement Parser ay humahawak sa parehong legacy na MT940 at modernong ISO 20022 na mga format (CAMT.053, PAIN, at PAIN) sa panahon ng iyong paglipat ng pipeline at PAIN.001. sa kabila.
+Nagtakda ang SWIFT ng matatag na mga deadline: lahat ng institusyong pinansyal ay dapat makatanggap ng CAMT.053 bago ang Nobyembre 2027, at ang MT940/MT942/MT950 ay ganap na magre-retire sa Nobyembre 2028. Hinahawakan ng Bank Statement Parser ang parehong legacy na MT940 at modernong ISO 20022 na mga format (CAMT.053, PAIN.001) sa iisang API, kaya gumagana ang iyong parsing pipeline sa panahon ng transisyon at pagkatapos nito.
 
 ## Pagganap
 
 - **27,000+ transaksyon/segundo** para sa pag-parse ng CAMT.053
-- **52,000+ transaksyon/segundo** para sa PAIN.001 na pag-parse
-- *** 2 ms** oras sa unang resulta
+- **52,000+ transaksyon/segundo** para sa pag-parse ng PAIN.001
+- **< 2 ms** oras hanggang sa unang resulta
 - **Constant memory** mula 1K hanggang 50K+ na transaksyon sa pamamagitan ng streaming
-- **467 pagsubok** na may 100% saklaw ng sangay sa Python 3.9 hanggang 3.14
+- **718 pagsubok** na may 100% branch coverage sa Python 3.10 hanggang 3.14
 
 ## Bakit Bank Statement Parser?
 
-- **Format Auto-Detection**:`detect_statement_format()`awtomatikong kinikilala ang mga file at`create_parser()`ibinabalik ang tamang parser.
-- **Privacy First**: Naka-on ang PII redaction bilang default. Ang mga sensitibong field (mga pangalan, IBAN, address) ay naka-mask sa output ng CLI. Mag-opt in gamit ang`--show-pii`kapag kailangan.
-- **Handa na ang Produksyon**: Secure na pag-ingest ng ZIP (proteksyon sa bomba, pagtanggi sa naka-encrypt na entry), validation ng input, at pag-iwas sa pagtawid sa landas.
-- **Flexible Output**: I-export sa CSV, JSON, Excel, o i-convert sa Polars DataFrames.
-- **Parallel Processing**: Mag-parse ng maraming file nang sabay-sabay`parse_files_parallel()`.
+- **Hybrid PDF Extraction**: Hinahawakan ng `smart_ingest()` ang mga digital at na-scan na PDF na may awtomatikong routing at beripikasyon ng balanse.
+- **Format Auto-Detection**: Awtomatikong kinikilala ng `detect_statement_format()` ang mga file at ibinabalik ng `create_parser()` ang tamang parser.
+- **Privacy First**: Naka-on ang PII redaction bilang default. Tumatakbo ang mga LLM nang lokal sa pamamagitan ng Ollama — walang data na umaalis sa iyong makina.
+- **REST API**: I-deploy bilang FastAPI microservice na may `/ingest` at `/health` na mga endpoint.
+- **Enrichment**: LLM-powered na pag-kategorya ng transaksyon na may pluggable na mga schema (Plaid 13-category na default).
+- **Ledger Export**: I-export sa hledger at beancount na mga journal format para sa plaintext-accounting na mga workflow.
+- **Bulk Scanning**: Pinoproseso ng `scan_and_ingest()` ang mga folder tree na may awtomatikong cross-file na deduplikasyon.
+- **Multi-Currency**: Pinapatakbo ng `verify_balance_multi_currency()` ang Golden Rule na beripikasyon sa bawat currency group.
+- **Handa sa Produksyon**: Secure na ZIP ingestion, input validation, path traversal prevention, at interactive review mode.
+- **Flexible Output**: I-export sa CSV, JSON, Excel, Polars, hledger, o beancount.
+- **Parallel Processing**: Mag-parse ng maraming file nang sabay-sabay gamit ang `parse_files_parallel()`.
 
 
 ## Binuo para sa Produksyon
 
-Ang Bank Statement Parser ay idinisenyo para sa mga treasury team, fintech developer, at mga opisyal ng pagsunod na nagpoproseso ng sensitibong data sa pananalapi. Ginagamit ang library sa MT940-to-CAMT migration pipelines, automated reconciliation system, at regulatory audit workflows sa mga financial institution.
+Ang Bank Statement Parser ay idinisenyo para sa mga treasury team, fintech developer, at mga opisyal ng pagsunod na nagpoproseso ng sensitibong data sa pananalapi. Ginagamit ang library sa MT940-to-CAMT migration pipeline, automated reconciliation system, PDF statement ingestion, at regulatory audit workflow sa mga institusyong pinansyal.
 
-- **467 pagsubok** na may 100% saklaw ng sangay sa Python 3.9 hanggang 3.14
+- **718 pagsubok** na may 100% branch coverage sa Python 3.10 hanggang 3.14
 - **SHA-256 hash-locked dependencies** na may CycloneDX SBOM para sa bawat release
 - **Deterministic output** — ang magkaparehong input ay gumagawa ng byte-identical na resulta, bawat run
-- **Lisensyado ng Apache 2.0** — malayang gamitin sa komersyal at panloob na mga sistema
+- **Lisensyadong Apache 2.0** — malayang gamitin sa komersyal at panloob na mga sistema
 
-**Pagsusuri ng mga alternatibo?** [Tingnan kung paano inihahambing ang Bank Statement Parser ❯](/comparison/index.html) | [I-explore ang real-world use case ❯](/use-cases/index.html)
+**Sinusuri ang mga alternatibo?** [Tingnan kung paano naghahambing ang Bank Statement Parser ❯](/comparison/index.html) | [Tuklasin ang mga real-world na use case ❯](/use-cases/index.html)
 
 [Magsimula ❯][01] | [Tingnan sa GitHub ❯][02] | [Tingnan sa PyPI ❯][03]
 
 [01]: /getting-started/index.html
-[02]:https://github.com/sebastienrousseau/bankstatementparser
+[02]: https://github.com/sebastienrousseau/bankstatementparser
 [03]: https://pypi.org/project/bankstatementparser/

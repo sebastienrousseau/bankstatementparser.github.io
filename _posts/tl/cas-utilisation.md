@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Bank Statement Parser Use Cases"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Bank Statement Parser. Lahat ng karapatan ay nakalaan."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Paano ginagamit ng mga treasury team, fintech developer, at mga opisyal ng pagsunod ang Bank Statement Parser para sa MT940-to-CAMT migration, reconciliation, audit pipelines, at multi-bank consolidation."
 download: ""
 format-detection: "telephone=no"
@@ -107,13 +107,41 @@ site_software: "Shokunin, Rust"
 
 ---
 
-Pinangangasiwaan ng Bank Statement Parser ang mga real-world financial workflows: MT940-to-CAMT migration para sa mga treasury team, automated reconciliation, compliance pipelines na may PII redaction, SFTP ingestion, multi-bank consolidation, at secure ZIP batch processing.
+Pinangangasiwaan ng Bank Statement Parser ang mga real-world na financial workflow: PDF bank statement ingestion, MT940-to-CAMT migration, automated reconciliation na may beripikasyon ng balanse, compliance pipeline, plaintext-accounting export, REST API deployment, bulk scanning, at multi-bank consolidation.
+
+## PDF Bank Statement Ingestion
+
+**Resulta:** I-parse ang mga digital at na-scan na PDF bank statement na may awtomatikong beripikasyon ng balanse — walang cloud API, walang data na umaalis sa iyong makina.
+
+Ang hybrid PDF pipeline ay niru-route ang bawat PDF sa pinaka-optimal na extraction path at bineberipika ang bawat resulta.
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+
+# Review discrepancies interactively
+# bankstatementparser --type review --input result.json
+```
+
+## Bulk Statement Processing
+
+**Resulta:** I-scan ang buong folder tree (daan-daang PDF, XML, CSV) na may awtomatikong cross-file deduplikasyon sa isang tawag.
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Files: {len(batch.results)}, Unique txns: {batch.unique_count}")
+```
 
 ## Treasury: MT940 hanggang CAMT.053 Migration
 
-**Resulta:** Isang API call ang humahawak sa MT940 at CAMT.053 sa panahon ng SWIFT migration window (Nobyembre 2025–Nobyembre 2028), na inaalis ang pangangailangan para sa magkahiwalay na mga pipeline ng pag-parse.
+**Resulta:** Isang API call ang humahawak sa MT940 at CAMT.053 sa panahon ng SWIFT migration window (Nobyembre 2025–Nobyembre 2028), na inaalis ang pangangailangan para sa magkahiwalay na parsing pipeline.
 
-Ang mga Treasury team sa buong mundo ay lumilipat mula MT940 patungong CAMT.053 bago ang Nobyembre 2027 SWIFT deadline. Pinangangasiwaan ng Bank Statement Parser ang parehong mga format gamit ang isang API, na ginagawang maayos ang paglipat.
+Ang mga treasury team sa buong mundo ay lumilipat mula MT940 patungong CAMT.053 bago ang Nobyembre 2027 SWIFT deadline. Pinangangasiwaan ng Bank Statement Parser ang parehong format gamit ang iisang API, na ginagawang maayos ang transisyon.
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -126,17 +154,23 @@ for file in daily_statement_files:
     load_to_treasury_system(df)
 ```
 
-## Automated Reconciliation
+## Automated Reconciliation na may Beripikasyon ng Balanse
 
-**Resulta:** Ang Format-agnostic na DataFrame na may built-in na deduplication ay nagbabawas ng manu-manong pagsusumikap sa pagtutugma at nakakakuha ng mga duplicate na entry bago sila makarating sa iyong ledger.
+**Resulta:** Ang format-agnostic na DataFrames na may Golden Rule na beripikasyon at deduplikasyon ay nakakahuli ng mga error at duplicate bago makarating sa iyong ledger.
 
-I-parse ang mga bank statement at awtomatikong itugma sa mga panloob na talaan. Ang pinag-isang output ng DataFrame ay gumagawa ng reconciliation logic format-agnostic.
+I-parse ang mga bank statement, i-verify ang mga balanse, at awtomatikong itugma sa mga panloob na rekord.
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
+from bankstatementparser.hybrid import verify_balance_multi_currency
 
 parser = CamtParser("bank_statement.xml")
 bank_txns = parser.parse()
+
+# Verify balances per currency
+verification = verify_balance_multi_currency(bank_txns)
+for ccy, result in verification.items():
+    assert result.status == "VERIFIED", f"{ccy} balance mismatch!"
 
 # Deduplicate before reconciliation
 dedup = Deduplicator()
@@ -147,11 +181,39 @@ clean_txns = result.unique_transactions
 unmatched = reconcile(clean_txns, internal_ledger)
 ```
 
-## Mga Pipeline ng Pagsunod at Pag-audit
+## Plaintext Accounting (hledger / beancount)
 
-**Resulta:** Ang deterministic na output at awtomatikong PII redaction ay gumagawa ng mga audit-ready na log na nakakatugon sa mga kinakailangan sa reproducibility ng regulasyon nang walang karagdagang tooling.
+**Resulta:** Awtomatikong mag-ingest ng mga PDF bank statement at i-export ang mga naka-kategoryang transaksyon sa hledger o beancount journal format.
 
-Bumuo ng mga pipeline na handa sa pag-audit na may PII redaction at deterministic na output. Ang bawat pagtakbo ay gumagawa ng magkaparehong resulta para sa parehong input, na nakakatugon sa mga kinakailangan sa reproducibility ng regulasyon.
+```python
+from bankstatementparser.hybrid import smart_ingest
+from bankstatementparser.enrichment import Categorizer
+from bankstatementparser.export import to_hledger
+
+result = smart_ingest("statement.pdf")
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(result.transactions)
+journal = to_hledger(enriched, account="Assets:Bank:Checking")
+```
+
+## REST API Deployment
+
+**Resulta:** I-deploy ang Bank Statement Parser bilang microservice na tumatanggap ng statement file sa pamamagitan ng HTTP at nagbabalik ng structured JSON.
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+```
+
+```bash
+# Ingest a statement
+curl -X POST http://localhost:8000/ingest \
+  -F "file=@statement.pdf"
+```
+
+## Mga Compliance at Audit Pipeline
+
+**Resulta:** Ang deterministic na output, awtomatikong PII redaction, at Golden Rule na beripikasyon ay gumagawa ng mga audit-ready na log na nakakatugon sa mga kinakailangan sa regulatory reproducibility.
 
 ```python
 from bankstatementparser import CamtParser
@@ -168,9 +230,7 @@ parser.export_csv("archive/statement.csv")
 
 ## SFTP-to-DataFrame Workflows
 
-**Resulta:** Direktang i-parse mula sa mga byte na may zero disk I/O, na umaangkop nang native sa SFTP at API-driven na bank connectivity workflow.
-
-Maraming mga bangko ang naghahatid ng mga pahayag sa pamamagitan ng SFTP. Direktang i-parse mula sa mga byte nang hindi sumusulat sa disk.
+**Resulta:** Direktang i-parse mula sa mga byte na may zero disk I/O, umaangkop nang native sa SFTP at API-driven na bank connectivity workflow.
 
 ```python
 from bankstatementparser import CamtParser
@@ -182,9 +242,7 @@ df = parser.parse()
 
 ## Multi-Bank Consolidation
 
-**Resulta:** Ang parallel parsing sa kabuuan ng HSBC (CAMT), Barclays (MT940), Revolut (CSV), at Wise (OFX) ay gumagawa ng isang naka-normalize na dataset sa isang tawag.
-
-Pagsama-samahin ang mga pahayag mula sa maraming bangko gamit ang iba't ibang format sa iisang naka-normalize na dataset.
+**Resulta:** Ang parallel parsing sa HSBC (CAMT), Barclays (MT940), Revolut (CSV), Wise (OFX), at Chase (PDF) ay gumagawa ng isang naka-normalise na dataset.
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -201,9 +259,7 @@ all_transactions = pd.concat([r.transactions for r in results if r.status == "su
 
 ## Batch Processing gamit ang ZIP Archives
 
-**Resulta:** Ang built-in na ZIP bomb na proteksyon (100:1 ratio limit, 10 MB entry cap, naka-encrypt na entry rejection) ay nagbibigay-daan sa iyong iproseso nang ligtas ang mga buwanang statement archive.
-
-Iproseso ang mga naka-zip na pahayag na naka-archive nang secure na may built-in na ZIP bomb na proteksyon.
+**Resulta:** Ang built-in na ZIP bomb protection (100:1 ratio limit, 10 MB entry cap, encrypted entry rejection) ay nagbibigay-daan sa iyong ligtas na iproseso ang mga buwanang statement archive.
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
@@ -214,4 +270,4 @@ for entry in iter_secure_xml_entries("monthly_statements.zip"):
     save_to_warehouse(entry.source_name, df)
 ```
 
-[Ihambing sa mga alternatibo ❯](/comparison/index.html) | [Plano ang iyong ISO 20022 migration ❯](/migration/index.html) | [Magsimula ❯](/getting-started/index.html)
+[Ihambing sa mga alternatibo ❯](/comparison/index.html) | [Planuhin ang iyong ISO 20022 migration ❯](/migration/index.html) | [Magsimula ❯](/getting-started/index.html)

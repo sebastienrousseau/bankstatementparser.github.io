@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Fassarar Bayanin Banki vs Alternatives"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Fassarar Bayanin Banki. An kiyaye duk haƙƙoƙi."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Kwatanta Parser Bayanin Banki tare da mt-940, ofxparse, pycamt, pyiso20022, da kayan aikin SaaS kamar Ocrolus da Parseur. Kwatancen fasali, farashi, da jagorar ƙaura."
 download: ""
 format-detection: "telephone=no"
@@ -109,70 +109,82 @@ site_software: "Shokunin, Rust"
 
 ## Dubawa
 
-Parser Statement Parser shine kawai buɗe tushen ɗakin karatu na Python wanda ke nazarin tsarin bayanin banki guda shida tare da haɗin API. Laburare-tsara guda ɗaya (mt-940, ofxparse, pycamt) kowanne yana ɗaukar tsari ɗaya. Kayan aikin SaaS (Ocrolus, Parseur) suna ba da OCR don PDFs amma suna buƙatar aika bayanai a waje kuma farashin $49-$1,000+/wata.
+Bank Statement Parser shine kawai buɗe-tushen ɗakin karatu na Python wanda ke fassara tsarin bayanin banki guda bakwai — ciki har da PDF ta hybrid LLM pipeline — tare da haɗin API. Laburare na tsari guda ɗaya (mt-940, ofxparse, pycamt) kowanne yana sarrafa tsari ɗaya. Kayan aikin SaaS (Ocrolus, Parseur) suna ba da cloud OCR amma suna buƙatar aika bayanai a waje kuma farashin $49–$1,000+/wata.
 
-## Buɗe-Source Madadin
+## Madadin Buɗe-Tushen
 
-### Dakunan karatu guda ɗaya
+### Laburare na Tsari Guda Ɗaya
 
-Yawancin masu binciken bayanan banki na buɗe tushen suna ɗaukar tsari ɗaya kawai. Idan kuna buƙatar nau'i-nau'i da yawa, dole ne ku girka kuma ku kula da ɗakunan karatu daban tare da APIs daban-daban, tsare-tsaren fitarwa, da sabunta hawan keke.
+Yawancin masu fassarar bayanan banki na buɗe tushen suna sarrafa tsari ɗaya kawai. Idan kuna buƙatar tsari da yawa, dole ne ku girka kuma ku kula da ɗakunan karatu daban tare da APIs daban-daban, tsare-tsaren fitarwa, da lokutan sabuntawa daban.
 
-| Laburare | Tsarin | Fitowa | Yawo | PII Gyarawa | Kwafi |
+| Laburare | Tsarin | PDF | Fitarwa | Tabbatar da Balance | Fitar da Ledger |
 |---|---|---|---|---|---|
-| **Masanin Bayanin Banki** | 6 tsari | pandas DataFrame | Ee | Ee (default) | Ee |
-| mt-940 (WoLpH) | MT940 kawai | Python abubuwa | A'a | A'a | A'a |
-| kashewa | OFX kawai | Python abubuwa | A'a | A'a | A'a |
-| pycamt | CAMT.053 kawai | Python abubuwa | A'a | A'a | A'a |
-| ofxtools | OFX v1/v2 kawai | Python abubuwa | A'a | A'a | A'a |
+| **Bank Statement Parser** | 7 tsari | Hybrid pipeline | pandas DataFrame | Golden Rule | hledger, beancount |
+| mt-940 (WoLpH) | MT940 kawai | A'a | Python objects | A'a | A'a |
+| ofxparse | OFX kawai | A'a | Python objects | A'a | A'a |
+| pycamt | CAMT.053 kawai | A'a | Python objects | A'a | A'a |
+| ofxtools | OFX v1/v2 kawai | A'a | Python objects | A'a | A'a |
 
 ### vs pyiso20022
 
-pyiso20022 yana haifar da azuzuwan bayanai na Python daga cikakken kundin tsarin tsarin ISO 20022. Kayan aiki ne na gama-gari na ISO 20022 don aiki tare da PACS, PAIN, CAMT, da saƙonnin ADMI.
+pyiso20022 yana samar da Python dataclasses daga cikakken kundin tsarin ISO 20022. Kayan aiki ne na gama-gari na ISO 20022 don aiki tare da saƙonnin PACS, PAIN, CAMT, da ADMI.
 
-Parser Bayanin Banki an gina shi ne don tantance bayanan banki cikin DataFrames tare da fasalulluka na samarwa:
+Bank Statement Parser an gina shi ne musamman don fassara bayanan banki zuwa DataFrames tare da fasalulluka na samarwa:
 
-| Siffar | Fassarar Bayanin Banki | zafi 20022 |
+| Siffar | Bank Statement Parser | pyiso20022 |
 |---|---|---|
-| Manufar | Bayanin bayanin + fitarwa | ISO 20022 Toolkit Toolkit |
-| Fitowa | pandas/Polars DataFrames | Python data classes |
-| Tsarin tsari | 6 (ciki har da wadanda ba ISO) | ISO 20022 kawai |
-| Yawo | Ee (ƙarfin ƙwaƙwalwar ajiya) | A'a |
-| PII gyara | Gina-ciki | A'a |
-| Kwafi | Gina-ciki | A'a |
-| Tsaro na ZIP | Gina-ciki | A'a |
+| Manufar | Fassara bayani + cirowa + fitarwa | ISO 20022 schema toolkit |
+| Fitarwa | pandas/Polars DataFrames | Python dataclasses |
+| Tsarin | 7 (ciki har da PDF, waɗanda ba ISO ba) | ISO 20022 kawai |
+| Tallafin PDF | Hybrid pipeline (deterministic + LLM + vision) | A'a |
+| Tabbatar da balance | Golden Rule + multi-currency | A'a |
+| REST API | Gina-cikin FastAPI | A'a |
+| Enrichment | Rarraba ta LLM | A'a |
+| Fitar da ledger | hledger + beancount | A'a |
+| Streaming | Ee (ƙwaƙwalwar ajiya mai iyaka) | A'a |
+| Share PII | Gina-ciki | A'a |
+| Cire kwafi | Idempotent transaction hashes | A'a |
 | CLI | Ee | A'a |
 
-Yi amfani da pyiso20022 idan kuna buƙatar aiki tare da cikakken kundin saƙon ISO 20022. Yi amfani da Fassarar Bayanin Banki idan kuna buƙatar rarraba bayanan banki cikin ingantaccen bayanai don bincike, sulhu, ko bayar da rahoto.
+Yi amfani da pyiso20022 idan kuna buƙatar aiki tare da cikakken kundin saƙon ISO 20022. Yi amfani da Bank Statement Parser idan kuna buƙatar fassara bayanan banki zuwa ingantaccen bayanai don bincike, sulhu, ko bayar da rahoto.
 
 ## Madadin SaaS
 
-Kayan aikin SaaS kamar Ocrolus, Parseur, da Sensible suna ba da bayanin bayanin banki azaman sabis na girgije. Yawancin lokaci suna amfani da OCR don sarrafa fayilolin PDF da aka bincika kuma suna tallafawa ɗaruruwan ƙayyadaddun tsarin banki.
+Kayan aikin SaaS kamar Ocrolus, Parseur, da Sensible suna ba da fassarar bayanan banki azaman sabis na girgije. Yawancin lokaci suna amfani da OCR don sarrafa fayilolin PDF da aka bincika kuma suna tallafawa ɗaruruwan ƙayyadaddun tsarin banki.
 
-| Siffar | Fassarar Bayanin Banki | Kayan aikin SaaS |
+| Siffar | Bank Statement Parser | Kayan aikin SaaS |
 |---|---|---|
-| Sirrin bayanai | 100% na gida, sifili kiran cibiyar sadarwa | Bayanan da aka aika zuwa gajimare |
-| Farashin | Kyauta (Apache 2.0) | $49–$1,000+/wata (kamar na Q1 2026) |
-| Tsarin tsari | 6 tsararren tsari | Daruruwan (ta hanyar OCR) |
-| Taimakon PDF | A'a (tsararru kawai) | Ee (na tushen OCR) |
-| Latency | <2 ms sakamako na farko | 1-30 seconds |
-| Kayan aiki | 27,000+ tx/dakika | Ƙimar API iyaka |
+| Sirrin bayanai | 100% na gida (LLMs ta Ollama) | Ana aika bayanai zuwa girgije |
+| Farashi | Kyauta (Apache 2.0) | $49–$1,000+/wata (kamar na Q1 2026) |
+| Tsarin | 7 (tsararru + PDF) | Ɗaruruwa (ta hanyar OCR) |
+| Tallafin PDF | Ee — hybrid pipeline (deterministic + LLM + vision) | Ee (cloud OCR) |
+| Tabbatar da balance | Golden Rule (ta atomatik) | Manual / iyakantacce |
+| Jinkiri | <2 ms (tsararru), daƙiƙu (PDF+LLM) | 1-30 seconds |
+| Ƙarfin aiki | 27,000+ tx/daƙiƙa (tsararru) | API rate-limited |
+| REST API | Gina-cikin FastAPI | Mallakar kamfani |
+| Fitar da ledger | hledger + beancount | A'a |
 | Kulle mai siyarwa | Babu | Ee |
-| Biyayya | Gudanar da gida, SBOM | Ya bambanta ta mai bayarwa |
+| Bin doka | Sarrafa gida, SBOM | Ya bambanta ta mai bayarwa |
 
-## Fassarar tushen LLM
+## Masu Fassara na LLM
 
-Yawan kayan aikin (Rubuta, Ƙarfafawa, Mozilla.ai blueprints) suna amfani da manyan nau'ikan yare don tantance bayanan banki, gami da na'urorin PDF. Lokacin da Chase suka sake fasalin tsarin bayanin mabukaci a ƙarshen 2025, masu fassarori na tushen samfuri sun karye yayin da masu binciken LLM suka daidaita ta atomatik.
+Yawan kayan aikin (Inscribe, Unstract, Mozilla.ai blueprints) suna amfani da manyan ƙirar yare don fassara bayanan banki, ciki har da fayilolin PDF da aka bincika. Lokacin da Chase suka sake fasalin tsarin bayanin mabukaci a ƙarshen 2025, masu fassara na tushen samfuri sun karye amma masu fassara na LLM sun daidaita ta atomatik.
 
-**Lokacin da masu binciken LLM suka yi ma'ana ***: Kuna karɓar fayilolin PDF da aka bincika daga ɗaruruwan bankuna tare da shimfidu marasa fa'ida, kuma an yarda da haɓaka kusan (95-99%).
+**Bank Statement Parser yanzu yana da kansa hybrid LLM pipeline** (v0.0.5+) wanda ke gudana gabaɗaya a gida ta Ollama. Yana haɗa mafi kyawun hanyoyin biyu:
 
-**Lokacin da Fassarar Bayanin Banki shine mafi kyawun zaɓi ***: Kuna buƙatar ƙididdigewa, fitarwar da za'a iya sakewa don dubawa da yarda. Ba za ku iya aika bayanan kuɗi zuwa APIs na waje ba. Kuna buƙatar jinkirin sub-milli seconds (vs 1-30 seconds don LLM APIs). Kuna son farashi mai gudana kuma babu dogaron mai siyarwa.
+- **Tsarin da aka tsara** (XML, CSV, OFX, MT940): Fassara deterministic — daidaito 100%, jinkiri ƙasa da millisecond, babu farashin LLM.
+- **Bayanan PDF**: Turawa ta hanyoyi uku (ciro tebur deterministic → text-LLM → vision-LLM) tare da tabbatar da Golden Rule ta atomatik don kama kurakuran cirowa.
 
-Parser Bayanin Banki da kayan aikin LLM suna magance matsaloli daban-daban. Yi amfani da Fassarar Bayanin Banki don tsarukan tsarukan (XML, CSV, OFX, MT940) inda kuke buƙatar daidaito 100%, sarrafa gida, da sake fasalin dubawa. Yi amfani da kayan aikin LLM don fayilolin PDF da ba a tsara su ba inda aka yarda da haɓaka kusan.
+Ba kamar masu fassara LLM na girgije kawai ba, hybrid pipeline na Bank Statement Parser:
+- Yana gudana 100% a gida (Ollama) — babu bayanan da ke barin injin ku.
+- Yana tabbatar da kowanne cirowa tare da tabbatar da balance (Golden Rule).
+- Yana tallafawa yanayin bita mai hulɗa don bambance-bambance da aka tuta.
+- Yana samar da idempotent transaction hashes don amintaccen shigar da bayani a hankali.
 
-**Hanyoyin ma'auni ***: Ƙididdiga masu aiki da aka auna akan Apple M2, Python 3.12, ta amfani da fayil ɗin CAMT.053-ma'amala 5,000 (2.1 MB). Matsakaicin sakamako ya wuce 100. Maimaita cikin gida:`python -m bankstatementparser.bench`. Latency SaaS dangane da takaddun API da aka buga kamar na Afrilu 2026.
+**Lokacin da za a zaɓi masu fassara SaaS LLM akan Bank Statement Parser**: Kuna karɓar bayanan daga ɗaruruwan bankuna tare da shimfidar PDF daban-daban sosai kuma kuna buƙatar tallafi na nan da nan ba tare da gudanar da kayan aiki na gida ba.
 
-**Lokacin da za a zaɓi Fassarar Bayanin Banki**: Bankin ku yana samar da ingantaccen fitarwa (XML, CSV, OFX, MT940), kuna buƙatar sarrafa gida don bin ƙa'ida, ko kuna son farashi mai gudana.
+**Lokacin da za a zaɓi Bank Statement Parser**: Kuna buƙatar sarrafa gida don bin doka. Kuna son tabbatar da balance. Kuna buƙatar fitar da ledger. Kuna son farashi mai gudana ya zama sifili.
 
-**Lokacin da za a zaɓi SaaS ***: Kuna karɓar bayanan bayanan PDF, kuna buƙatar OCR don ɗaruruwan ƙayyadaddun tsarin banki, ko kuna son mafita mara lamba.
+**Hanyar ma'auni**: An auna ƙididdigar aiki akan Apple M2, Python 3.12, ta amfani da fayil ɗin CAMT.053 mai ma'amaloli 5,000 (2.1 MB). Matsakaicin sakamakon gudu 100. Maimaita a gida: `python -m bankstatementparser.bench`. Jinkirin SaaS dangane da takaddun API da aka buga kamar na Afrilu 2026.
 
-[Duba shari'o'in amfani na zahiri ❯](/use-cases/index.html) | [Shirya ƙaura MT940-zuwa-CAMT ɗinku ❯](/migration/index.html)
+[Duba shari'o'in amfani na ainihi ❯](/use-cases/index.html) | [Shirya ƙaurar MT940-zuwa-CAMT ❯](/migration/index.html)

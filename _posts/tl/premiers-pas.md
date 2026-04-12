@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Isang puting gusali na may itim na bintana"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Bank Statement Parser. Lahat ng karapatan ay nakalaan."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Magsimula sa Bank Statement Parser para sa Python: i-install, i-parse ang mga file ng CAMT/PAIN.001/CSV/OFX/QFX/MT940, at gumamit ng streaming o CLI na mga daloy ng trabaho."
 download: ""
 format-detection: "telephone=no"
@@ -109,24 +109,41 @@ site_software: "Shokunin, Rust"
 
 ## Mga Kinakailangan
 
-- Python 3.9 hanggang 3.14
+- Python 3.10 hanggang 3.14
 - Terminal access (macOS, Linux, o WSL)
 
 ## I-install
 
 ```bash
+# Core install (mga deterministikong parser lamang)
 pip install bankstatementparser
 ```
 
-Para sa suporta ng Polars DataFrame:
+Mga opsyonal na extra para sa karagdagang kakayahan:
 
 ```bash
-pip install bankstatementparser[polars]
+# Text-LLM path para sa mga digital PDF (litellm + pypdf)
+pip install 'bankstatementparser[hybrid]'
+
+# Mas mataas na katumpakan sa table extraction (nagdadagdag ng pdfplumber)
+pip install 'bankstatementparser[hybrid-plus]'
+
+# Vision-LLM path para sa mga na-scan na PDF (nagdadagdag ng pypdfium2)
+pip install 'bankstatementparser[hybrid-vision]'
+
+# LLM-powered na kategorisasyon ng transaksyon
+pip install 'bankstatementparser[enrichment]'
+
+# REST API microservice (FastAPI + uvicorn)
+pip install 'bankstatementparser[api]'
+
+# Opsyonal na suporta sa Polars DataFrame
+pip install 'bankstatementparser[polars]'
 ```
 
 ## Mabilis na Pagsisimula
 
-### Auto-Detect at I-parse ang Anumang Format
+### Auto-Detect at I-parse ang Anumang Structured na Format
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -137,7 +154,7 @@ df = parser.parse()  # pandas DataFrame
 print(df.head())
 ```
 
-Gumagana ito sa`.xml`(CAMT/PAIN.001),`.csv`, `.ofx`, `.qfx`, `.mt940`, at`.sta`mga file.
+Gumagana ito sa `.xml` (CAMT/PAIN.001), `.csv`, `.ofx`, `.qfx`, `.mt940`, at `.sta` na mga file.
 
 ### I-parse ang CAMT.053
 
@@ -148,7 +165,7 @@ parser = CamtParser("statement.xml")
 transactions = parser.parse()
 ```
 
-### Parse PAIN.001
+### I-parse ang PAIN.001
 
 ```python
 from bankstatementparser import Pain001Parser
@@ -157,7 +174,22 @@ parser = Pain001Parser("payment.xml")
 payments = parser.parse()
 ```
 
-## Pag-stream ng Malaking File
+### I-parse ang mga PDF Bank Statement (Hybrid Pipeline)
+
+Matalinong niru-route ng hybrid pipeline ang mga PDF sa tatlong extraction path:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+print(result.transactions)          # List of extracted transactions
+```
+
+Bawat extraction ay bineberipika gamit ang **Golden Rule**: `opening + credits − debits == closing`.
+
+## Pag-stream ng Malalaking File
 
 Para sa mga file na may libu-libong transaksyon, gumamit ng streaming upang panatilihing limitado ang memorya:
 
@@ -169,7 +201,7 @@ for transaction in parser.parse_streaming(redact_pii=True):
 
 ## In-Memory Parsing
 
-I-parse mula sa mga byte na walang disk I/O -- kapaki-pakinabang para sa mga workflow ng SFTP o API:
+I-parse mula sa mga byte na walang disk I/O -- kapaki-pakinabang para sa mga SFTP o API workflow:
 
 ```python
 xml_bytes = download_from_sftp()
@@ -193,9 +225,21 @@ for r in results:
     print(r.path, r.status, len(r.transactions), "rows")
 ```
 
+## Bulk Directory Scanning
+
+Iproseso ang buong folder tree na may awtomatikong deduplikasyon:
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Processed: {len(batch.results)} files")
+print(f"Unique transactions: {batch.unique_count}")
+```
+
 ## Deduplication
 
-Tuklasin ang mga eksaktong duplicate at pinaghihinalaang tugma na may mga marka ng kumpiyansa:
+Idempotent na transaction hash para sa ligtas na incremental ingestion:
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
@@ -209,9 +253,61 @@ print(f"Exact duplicates: {len(result.exact_duplicates)}")
 print(f"Suspected matches: {len(result.suspected_matches)}")
 ```
 
+## Kategorisasyon ng Transaksyon (Enrichment)
+
+Awtomatikong ikategorya ang mga transaksyon gamit ang LLM-powered na klasipikasyon:
+
+```python
+from bankstatementparser.enrichment import Categorizer
+
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(transactions)
+for txn in enriched:
+    print(f"{txn.description}: {txn.category}")
+```
+
+## Ledger Export (hledger / beancount)
+
+I-export ang mga transaksyon sa plaintext-accounting na journal format:
+
+```python
+from bankstatementparser.export import to_hledger, to_beancount
+
+journal = to_hledger(transactions, account="Assets:Bank:Checking")
+beancount_journal = to_beancount(transactions, account="Assets:Bank:Checking")
+```
+
+## Multi-Currency na Beripikasyon ng Balanse
+
+Beripikasyon ng balanse nang independyente sa bawat currency group:
+
+```python
+from bankstatementparser.hybrid import verify_balance_multi_currency
+
+results = verify_balance_multi_currency(transactions)
+for currency, verification in results.items():
+    print(f"{currency}: {verification.status}")
+```
+
+## REST API
+
+I-deploy bilang FastAPI microservice:
+
+```bash
+# Simulan ang API server
+bankstatementparser-api --port 8000
+
+# Para sa mga container deployment
+bankstatementparser-api --host 0.0.0.0 --port 9000
+```
+
+Mga endpoint:
+- `POST /ingest` -- Mag-parse ng bank statement file
+- `GET /health` -- Health check
+
 ## Secure na Pagproseso ng ZIP
 
-Iproseso ang mga naka-zip na XML file na may built-in na mga pagsusuri sa seguridad (proteksyon sa bomba, naka-encrypt na pagtanggi sa pagpasok):
+Iproseso ang mga naka-zip na XML file na may built-in na mga pagsusuri sa seguridad (bomb protection, encrypted entry rejection):
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
@@ -230,29 +326,39 @@ parser.export_json("output.json")
 
 # Polars (requires bankstatementparser[polars])
 polars_df = parser.to_polars()
+
+# Excel
+parser.camt_to_excel("output.xlsx")
 ```
 
 ## Paggamit ng CLI
 
 ```bash
-# Parse and display
-python -m bankstatementparser.cli --type camt --input statement.xml
+# I-parse ang mga structured format
+bankstatementparser --type camt --input statement.xml
+bankstatementparser --type pain001 --input payment.xml
 
-# Export to CSV
-python -m bankstatementparser.cli --type camt --input statement.xml --output transactions.csv
+# Hybrid PDF pipeline
+bankstatementparser --type ingest --input statement.pdf
+bankstatementparser --type ingest --input statement.pdf --output ledger.csv
 
-# Stream with PII visible
-python -m bankstatementparser.cli --type camt --input statement.xml --streaming --show-pii
+# Interactive review mode
+bankstatementparser --type review --input result.json
+bankstatementparser --type review --input result.json --output reviewed.json
+
+# I-export sa CSV gamit ang streaming
+bankstatementparser --type camt --input statement.xml --output transactions.csv
+bankstatementparser --type camt --input statement.xml --streaming --show-pii
 ```
 
 Mga opsyon sa CLI:
 
-- `--type {camt,pain001}`-- uri ng parser
--`--input <path>`-- input file
--`--output <csv_path>`-- i-export sa CSV
--`--streaming`-- stream ng malalaking file
--`--show-pii`-- ipakita ang mga sensitibong field (na-redact bilang default)
--`--max-size <MB>`-- limitasyon sa laki ng file
+- `--type {camt,pain001,ingest,review}` -- uri ng parser o mode
+- `--input <path>` -- input file
+- `--output <path>` -- export file (CSV o JSON)
+- `--streaming` -- stream ng malalaking file
+- `--show-pii` -- ipakita ang mga sensitibong field (na-redact bilang default)
+- `--max-size <MB>` -- limitasyon sa laki ng file
 
 ## Local Development Setup
 
@@ -261,6 +367,7 @@ git clone https://github.com/sebastienrousseau/bankstatementparser.git
 cd bankstatementparser
 python3 -m venv .venv && source .venv/bin/activate
 pip install poetry && poetry install --with dev
+make install-hooks   # pre-commit hook runs `make verify` before every commit
 ```
 
 Patakbuhin ang test suite:
@@ -273,7 +380,7 @@ pytest
 
 ### Mga Klase ng Parser
 
-| Klase | Format | Mag-import |
+| Klase | Format | Import |
 |---|---|---|
 | `CamtParser` | CAMT.053 (ISO 20022) | `from bankstatementparser import CamtParser` |
 | `Pain001Parser` | PAIN.001 (ISO 20022) | `from bankstatementparser import Pain001Parser` |
@@ -281,8 +388,9 @@ pytest
 | `OfxParser` | OFX | `from bankstatementparser import OfxParser` |
 | `QfxParser` | QFX | `from bankstatementparser import QfxParser` |
 | `Mt940Parser` | MT940 | `from bankstatementparser import Mt940Parser` |
+| `smart_ingest()` | PDF (hybrid pipeline) | `from bankstatementparser.hybrid import smart_ingest` |
 
-### Mga Pag-andar ng Utility
+### Mga Utility Function
 
 | Function | Layunin |
 |---|---|
@@ -290,6 +398,11 @@ pytest
 | `create_parser(path, fmt)` | Lumikha ng naaangkop na parser |
 | `parse_files_parallel(paths)` | Mag-parse ng maraming file nang sabay-sabay |
 | `iter_secure_xml_entries(zip_path)` | Ulitin ang mga entry sa ZIP nang secure |
+| `smart_ingest(path)` | Hybrid PDF extraction na may beripikasyon |
+| `scan_and_ingest(dir, pattern)` | Bulk directory scanning |
+| `verify_balance_multi_currency(txns)` | Beripikasyon ng balanse sa bawat currency |
+| `to_hledger(txns, account)` | I-export sa hledger journal format |
+| `to_beancount(txns, account)` | I-export sa beancount journal format |
 
 ### Mga Klase ng Data
 
@@ -298,13 +411,17 @@ pytest
 | `Deduplicator` | I-detect ang mga duplicate na transaksyon |
 | `DeduplicationResult` | Resulta na may natatangi, eksakto, at pinaghihinalaang mga tugma |
 | `InputValidator` | I-validate ang mga path at format ng file |
-| `Transaction` | Normalized na rekord ng transaksyon |
+| `Transaction` | Normalised na rekord ng transaksyon |
 | `FileResult` | Resulta mula sa parallel parsing |
 | `ZipXMLSource` | ZIP member wrapper |
+| `IngestResult` | Resulta ng hybrid pipeline na may beripikasyon |
+| `VerificationResult` | Kinalabasan ng beripikasyon ng balanse |
+| `Categorizer` | LLM-powered na kategorisasyon ng transaksyon |
+| `AccountMapper` | Regex-based na account mapping rule |
 
-### Mga pagbubukod
+### Mga Exception
 
-| Exception | Kapag Itinaas |
+| Exception | Kailan Itinaas |
 |---|---|
 | `ParserError` | Mga pagkabigo sa pag-parse |
 | `ExportError` | Mga pagkabigo sa pag-export (CSV/JSON/Excel) |

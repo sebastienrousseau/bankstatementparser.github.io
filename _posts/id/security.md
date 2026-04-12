@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Keamanan Parser Laporan Bank"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Pengurai Laporan Bank. Semua hak dilindungi undang-undang."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Fitur keamanan Parser Laporan Bank: perlindungan XXE, pengerasan bom ZIP, redaksi PII, keamanan rantai pasokan, keluaran deterministik, dan pembuatan yang ditandatangani."
 download: ""
 format-detection: "telephone=no"
@@ -107,72 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Bank Statement Parser tidak melakukan panggilan jaringan, menyunting PII secara default, memperkuat penguraian XML terhadap serangan XXE, dan dikirimkan dengan dependensi yang dikunci hash SHA-256 dan SBOM CycloneDX.
+**TL;DR:** Bank Statement Parser memproses semua data secara lokal, meredaksi PII secara default, memperkuat penguraian XML terhadap serangan XXE, menjalankan LLM secara lokal via Ollama, dan dikirimkan dengan dependensi dikunci hash SHA-256 dan SBOM CycloneDX.
 
-## Keamanan berdasarkan Desain
+## Keamanan secara Desain
 
-Parser Laporan Bank dibuat untuk memproses data keuangan sensitif. Setiap keputusan desain memprioritaskan keamanan, privasi, dan kemampuan audit.
+Bank Statement Parser dibuat untuk memproses data keuangan sensitif. Setiap keputusan desain memprioritaskan keamanan, privasi, dan kemampuan audit.
 
-## Nol Akses Jaringan
+## Nol Dependensi Cloud
 
-Semua pemrosesan terjadi secara lokal dalam waktu proses Anda. Pustaka ini tidak melakukan panggilan API, tidak melakukan koneksi cloud, dan tidak mengumpulkan telemetri. Parser XML dikonfigurasikan secara eksplisit dengan`no_network=True`, `resolve_entities=False`, Dan`load_dtd=False`untuk mencegah akses keluar.
+Semua pemrosesan terjadi secara lokal dalam runtime Anda. Parser deterministik tidak melakukan panggilan jaringan. Pipeline PDF hibrida menggunakan Ollama untuk inferensi LLM lokal — tidak ada data yang dikirim ke API cloud. Parser XML dikonfigurasikan secara eksplisit dengan `no_network=True`, `resolve_entities=False`, dan `load_dtd=False` untuk mencegah akses keluar apa pun.
 
 ## Redaksi PII
 
-Informasi identitas pribadi (nama, IBAN, alamat pos) secara otomatis disunting dalam keluaran CLI dan mode streaming. Ini aktif secara default.
+Informasi identitas pribadi (nama, IBAN, alamat pos) secara otomatis diredaksi dalam output CLI dan mode streaming. Ini aktif secara default.
 
-- **CLI**: Bidang sensitif ditampilkan sebagai`***REDACTED***`
-- **Mengalir**:`parse_streaming(redact_pii=True)`(bawaan)
+- **CLI**: Bidang sensitif ditampilkan sebagai `***REDACTED***`
+- **Streaming**: `parse_streaming(redact_pii=True)` (default)
 - **Ekspor**: CSV/JSON/Excel menyimpan data lengkap untuk pemrosesan hilir
-- **Ikut serta**: Gunakan`--show-pii`atau`redact_pii=False`ketika Anda membutuhkan keluaran yang belum disunting
+- **Aktifkan**: Gunakan `--show-pii` atau `redact_pii=False` ketika Anda membutuhkan output tanpa redaksi
 
 ## Keamanan XML (Perlindungan XXE)
 
-Semua parsing XML menggunakan`lxml`dengan pengaturan yang diperkeras:
+Semua parsing XML menggunakan `lxml` dengan pengaturan yang diperkeras:
 
-- `resolve_entities=False`-- mencegah serangan ekspansi entitas XML
--`no_network=True`-- memblokir semua akses jaringan keluar dari parser
--`load_dtd=False`-- mencegah serangan berbasis DTD
-- Pengupasan namespace sebelum diproses -- menangani varian CAMT.053 apa pun dengan aman
+- `resolve_entities=False` -- mencegah serangan ekspansi entitas XML
+- `no_network=True` -- memblokir semua akses jaringan keluar dari parser
+- `load_dtd=False` -- mencegah serangan berbasis DTD
+- Stripping namespace sebelum pemrosesan -- menangani varian CAMT.053 apa pun dengan aman
 
 ## Keamanan Arsip ZIP
 
-`iter_secure_xml_entries()`memvalidasi setiap anggota ZIP sebelum ekstraksi:
+`iter_secure_xml_entries()` memvalidasi setiap anggota ZIP sebelum ekstraksi:
 
 - **Batas ukuran entri**: 10 MB per entri (dapat dikonfigurasi)
 - **Batas ukuran total**: total 50 MB tidak terkompresi (dapat dikonfigurasi)
 - **Batas rasio kompresi**: default 100:1 -- mendeteksi bom ZIP
 - **Penolakan entri terenkripsi**: Entri terenkripsi dilewati dengan peringatan
-- **Tidak ada penulisan disk**: byte XML diteruskan langsung ke parser melalui`from_bytes()`
+- **Tanpa penulisan disk**: byte XML diteruskan langsung ke parser via `from_bytes()`
 
-## Pencegahan Traversal Jalur
+## Pencegahan Path Traversal
 
-Validasi masukan memblokir jalur file berbahaya:
+Validasi input memblokir jalur file berbahaya:
 
-- Byte nol, pola traversal direktori (`../`), dan symlink ditolak
+- Null byte, pola traversal direktori (`../`), dan symlink ditolak
 - Validasi ekstensi file terhadap format yang diharapkan
 - Batas ukuran file (default 100 MB, dapat dikonfigurasi)
 
-## Keluaran deterministik
+## Verifikasi Saldo (Golden Rule)
 
-Dengan file masukan yang sama, parser menghasilkan keluaran yang identik dengan byte setiap kali dijalankan. Tidak ada keacakan, tidak ada inferensi model, tidak ada pengambilan sampel heuristik. Ini penting untuk:
+Setiap ekstraksi PDF diverifikasi dengan persamaan: `opening balance + credits − debits == closing balance`. Hasilnya ditandai sebagai VERIFIED, DISCREPANCY, atau FAILED. Ketidaksesuaian dapat ditinjau secara interaktif dengan `--type review`.
 
-- **Reproduksibilitas audit**: Jalankan file yang sama dua kali dan bedakan hasilnya
-- **Kepatuhan terhadap peraturan**: Tunjukkan pemrosesan yang konsisten
-- **Verifikasi CI**: 467 pengujian menerapkan determinisme dengan cakupan cabang 100%.
+## Output Deterministik
+
+Untuk format terstruktur (CAMT, PAIN.001, CSV, OFX, QFX, MT940), dengan file input yang sama, parser menghasilkan output identik byte setiap kali dijalankan. Tidak ada keacakan, tidak ada inferensi model, tidak ada sampling heuristik. Ini penting untuk:
+
+- **Reproduksibilitas audit**: Jalankan file yang sama dua kali dan bandingkan hasilnya
+- **Kepatuhan regulasi**: Tunjukkan pemrosesan yang konsisten
+- **Verifikasi CI**: 718 pengujian menerapkan determinisme dengan cakupan cabang 100%
 
 ## Keamanan Rantai Pasokan
 
-- **Dependensi yang dikunci hash SHA-256**: Setiap paket masuk`poetry.lock`telah memverifikasi hash file
-- **CycloneDX SBOM**: Setiap rilis mencakup Bill of Materials Perangkat Lunak
-- **Asal build GitHub**: Pengesahan menghubungkan setiap artefak ke komitmen sumbernya
-- **Komitmen yang ditandatangani**: Semua komitmen ditandatangani dan diverifikasi oleh SSH di CI
-- **Verifikasi ketergantungan**:`scripts/verify_locked_hashes.py`memvalidasi semua hash secara lokal
+- **Dependensi dikunci hash SHA-256**: Setiap paket dalam `poetry.lock` memiliki hash file terverifikasi
+- **CycloneDX SBOM**: Setiap rilis mencakup Software Bill of Materials
+- **Provenance build GitHub**: Pengesahan menghubungkan setiap artefak ke commit sumbernya
+- **Commit bertanda tangan**: Semua commit ditandatangani SSH dan diverifikasi di CI
+- **Verifikasi dependensi**: `scripts/verify_locked_hashes.py` memvalidasi semua hash secara lokal
 
 ## Verifikasi Secara Lokal
 
 ```bash
-python -m pytest                          # 467 tests, 100% branch coverage
+python -m pytest                          # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py    # SHA-256 hash verification
 git log --show-signature -1               # Verify commit signature
 ```

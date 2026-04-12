@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "銀行取引明細書パーサーの使用例"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 銀行取引明細書パーサー。無断転載を禁じます。"
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "財務チーム、フィンテック開発者、コンプライアンス担当者が MT940 から CAMT への移行、調整、監査パイプライン、および複数銀行の統合のために Bank Statement Parser をどのように使用するか。"
 download: ""
 format-detection: "telephone=no"
@@ -107,13 +107,41 @@ site_software: "Shokunin, Rust"
 
 ---
 
-Bank Statement Parser は、財務チーム向けの MT940 から CAMT への移行、自動調整、PII 秘匿化によるコンプライアンス パイプライン、SFTP 取り込み、複数銀行の統合、安全な ZIP バッチ処理など、実際の財務ワークフローを処理します。
+Bank Statement Parser は、PDF 銀行取引明細書の取り込み、MT940 から CAMT への移行、残高検証付き自動調整、コンプライアンスパイプライン、プレーンテキスト会計エクスポート、REST API デプロイ、一括スキャン、マルチバンク統合など、実際の財務ワークフローを処理します。
 
-## 財務省: MT940 から CAMT.053 への移行
+## PDF 銀行取引明細書の取り込み
 
-**結果:** SWIFT 移行期間中 (2025 年 11 月から 2028 年 11 月まで) 単一の API 呼び出しで MT940 と CAMT.053 の両方が処理されるため、個別の解析パイプラインが不要になります。
+**結果:** デジタルおよびスキャン PDF 銀行取引明細書を自動残高検証で解析します。クラウド API 不要、データがマシンから出ることはありません。
 
-世界中の財務チームは、2027 年 11 月の SWIFT 期限に先立って、MT940 から CAMT.053 への移行を進めています。 Bank Statement Parser は単一の API で両方の形式を処理し、移行をシームレスに行います。
+ハイブリッド PDF パイプラインは、各 PDF を最適な抽出パスに振り分け、すべての結果を検証します。
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+
+# Review discrepancies interactively
+# bankstatementparser --type review --input result.json
+```
+
+## 一括明細書処理
+
+**結果:** フォルダツリー全体（数百の PDF、XML、CSV）を 1 回の呼び出しでファイル間の自動重複排除とともにスキャンします。
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Files: {len(batch.results)}, Unique txns: {batch.unique_count}")
+```
+
+## 財務部門: MT940 から CAMT.053 への移行
+
+**結果:** SWIFT 移行期間中（2025 年 11 月〜2028 年 11 月）、単一の API 呼び出しで MT940 と CAMT.053 の両方を処理し、個別の解析パイプラインが不要になります。
+
+世界中の財務チームが、2027 年 11 月の SWIFT 期限に先立って MT940 から CAMT.053 への移行を進めています。Bank Statement Parser は単一の API で両方の形式を処理し、シームレスな移行を実現します。
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -126,17 +154,23 @@ for file in daily_statement_files:
     load_to_treasury_system(df)
 ```
 
-## 自動調整
+## 残高検証付き自動調整
 
-**結果:** 重複排除機能が組み込まれた形式に依存しない DataFrame により、手動による照合作業が軽減され、台帳に到達する前に重複エントリが検出されます。
+**結果:** ゴールデンルール検証と重複排除を備えた形式非依存の DataFrame が、台帳に到達する前にエラーと重複を検出します。
 
-銀行取引明細書を解析し、内部記録と自動的に照合します。統合された DataFrame 出力により、調整ロジックは形式に依存しません。
+銀行取引明細書を解析し、残高を検証し、内部記録と自動照合します。
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
+from bankstatementparser.hybrid import verify_balance_multi_currency
 
 parser = CamtParser("bank_statement.xml")
 bank_txns = parser.parse()
+
+# Verify balances per currency
+verification = verify_balance_multi_currency(bank_txns)
+for ccy, result in verification.items():
+    assert result.status == "VERIFIED", f"{ccy} balance mismatch!"
 
 # Deduplicate before reconciliation
 dedup = Deduplicator()
@@ -147,11 +181,39 @@ clean_txns = result.unique_transactions
 unmatched = reconcile(clean_txns, internal_ledger)
 ```
 
-## コンプライアンスと監査のパイプライン
+## プレーンテキスト会計（hledger / beancount）
 
-**結果:** 確定的な出力と自動 PII 編集により、追加のツールを使用せずに規制の再現性要件を満たす監査対応ログが生成されます。
+**結果:** PDF 銀行取引明細書を自動取り込みし、分類されたトランザクションを hledger または beancount ジャーナル形式にエクスポートします。
 
-PII 編集と確定的な出力を備えた監査対応パイプラインを構築します。すべての実行で同じ入力に対して同一の結果が生成され、規制の再現性要件を満たします。
+```python
+from bankstatementparser.hybrid import smart_ingest
+from bankstatementparser.enrichment import Categorizer
+from bankstatementparser.export import to_hledger
+
+result = smart_ingest("statement.pdf")
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(result.transactions)
+journal = to_hledger(enriched, account="Assets:Bank:Checking")
+```
+
+## REST API デプロイ
+
+**結果:** Bank Statement Parser を、HTTP 経由で明細書ファイルを受け取り構造化 JSON を返すマイクロサービスとしてデプロイします。
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+```
+
+```bash
+# Ingest a statement
+curl -X POST http://localhost:8000/ingest \
+  -F "file=@statement.pdf"
+```
+
+## コンプライアンスと監査パイプライン
+
+**結果:** 確定的出力、自動 PII 秘匿化、ゴールデンルール検証により、規制の再現性要件を満たす監査対応ログを生成します。
 
 ```python
 from bankstatementparser import CamtParser
@@ -168,9 +230,7 @@ parser.export_csv("archive/statement.csv")
 
 ## SFTP から DataFrame へのワークフロー
 
-**結果:** ディスク I/O を使用せずにバイトから直接解析し、S​​FTP および API 主導の銀行接続ワークフローにネイティブに適合します。
-
-多くの銀行は SFTP 経由で明細書を配信します。ディスクに書き込まずにバイトから直接解析します。
+**結果:** ディスク I/O なしでバイトから直接解析し、SFTP および API 主導の銀行接続ワークフローにネイティブ対応します。
 
 ```python
 from bankstatementparser import CamtParser
@@ -180,11 +240,9 @@ parser = CamtParser.from_bytes(xml_bytes, source_name="daily.xml")
 df = parser.parse()
 ```
 
-## 複数銀行の統合
+## マルチバンク統合
 
-**結果:** HSBC (CAMT)、Barclays (MT940)、Revolut (CSV)、および Wise (OFX) にわたる並列解析により、1 回の呼び出しで単一の正規化されたデータセットが生成されます。
-
-異なる形式を使用する複数の銀行からの明細書を単一の正規化されたデータセットに統合します。
+**結果:** HSBC（CAMT）、Barclays（MT940）、Revolut（CSV）、Wise（OFX）、Chase（PDF）の並列解析で、単一の正規化データセットを生成します。
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -199,11 +257,9 @@ results = parse_files_parallel([
 all_transactions = pd.concat([r.transactions for r in results if r.status == "success"])
 ```
 
-## ZIP アーカイブによるバッチ処理
+## ZIP アーカイブのバッチ処理
 
-**結果:** 組み込みの ZIP 爆弾保護 (100:1 比率制限、10 MB エントリ上限、暗号化されたエントリ拒否) により、月次明細書アーカイブを安全に処理できます。
-
-組み込みの ZIP 爆弾保護機能により、ZIP 形式のステートメント アーカイブを安全に処理します。
+**結果:** 組み込みの ZIP 爆弾保護（100:1 比率制限、10 MB エントリ上限、暗号化エントリ拒否）により、月次明細書アーカイブを安全に処理します。
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
@@ -214,4 +270,4 @@ for entry in iter_secure_xml_entries("monthly_statements.zip"):
     save_to_warehouse(entry.source_name, df)
 ```
 
-[代替案と比較 ❯](/comparison/index.html) | [ISO 20022 への移行を計画する ❯](/migration/index.html) | [始めましょう ❯](/getting-started/index.html)
+[代替案と比較 ❯](/comparison/index.html) | [ISO 20022 への移行を計画する ❯](/migration/index.html) | [はじめる ❯](/getting-started/index.html)

@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Ein weißes Gebäude mit schwarzen Fenstern"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Kontoauszugsparser. Alle Rechte vorbehalten."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Beginnen Sie mit Bank Statement Parser für Python: Installieren, analysieren Sie CAMT/PAIN.001/CSV/OFX/QFX/MT940-Dateien und verwenden Sie Streaming- oder CLI-Workflows."
 download: ""
 format-detection: "telephone=no"
@@ -107,26 +107,43 @@ site_software: "Shokunin, Rust"
 
 ---
 
-## Anforderungen
+## Voraussetzungen
 
-- Python 3.9 bis 3.14
-- Terminalzugriff (macOS, Linux oder WSL)
+- Python 3.10 bis 3.14
+- Terminalzugang (macOS, Linux oder WSL)
 
-## Installieren
+## Installation
 
 ```bash
+# Kerninstallation (nur deterministische Parser)
 pip install bankstatementparser
 ```
 
-Für Polars DataFrame-Unterstützung:
+Optionale Extras für zusätzliche Funktionen:
 
 ```bash
-pip install bankstatementparser[polars]
+# Text-LLM-Pfad für digitale PDFs (litellm + pypdf)
+pip install 'bankstatementparser[hybrid]'
+
+# Genauere Tabellenextraktion (fügt pdfplumber hinzu)
+pip install 'bankstatementparser[hybrid-plus]'
+
+# Vision-LLM-Pfad für gescannte PDFs (fügt pypdfium2 hinzu)
+pip install 'bankstatementparser[hybrid-vision]'
+
+# LLM-gestützte Transaktionskategorisierung
+pip install 'bankstatementparser[enrichment]'
+
+# REST API-Microservice (FastAPI + uvicorn)
+pip install 'bankstatementparser[api]'
+
+# Optionale Polars DataFrame-Unterstützung
+pip install 'bankstatementparser[polars]'
 ```
 
 ## Schnellstart
 
-### Jedes Format automatisch erkennen und analysieren
+### Automatisch erkennen und jedes strukturierte Format parsen
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -137,9 +154,9 @@ df = parser.parse()  # pandas DataFrame
 print(df.head())
 ```
 
-Das funktioniert mit`.xml`(CAMT/PAIN.001),`.csv`, `.ofx`, `.qfx`, `.mt940`, Und`.sta`Dateien.
+Dies funktioniert mit `.xml` (CAMT/PAIN.001), `.csv`, `.ofx`, `.qfx`, `.mt940` und `.sta` Dateien.
 
-### CAMT.053 analysieren
+### CAMT.053 parsen
 
 ```python
 from bankstatementparser import CamtParser
@@ -148,7 +165,7 @@ parser = CamtParser("statement.xml")
 transactions = parser.parse()
 ```
 
-### PAIN.001 analysieren
+### PAIN.001 parsen
 
 ```python
 from bankstatementparser import Pain001Parser
@@ -157,9 +174,24 @@ parser = Pain001Parser("payment.xml")
 payments = parser.parse()
 ```
 
-## Große Dateien streamen
+### PDF-Kontoauszüge parsen (Hybride Pipeline)
 
-Verwenden Sie bei Dateien mit Tausenden von Transaktionen Streaming, um den Speicher zu begrenzen:
+Die hybride Pipeline leitet PDFs intelligent über drei Extraktionspfade:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+print(result.transactions)          # List of extracted transactions
+```
+
+Jede Extraktion wird mit der **Golden Rule** geprüft: `opening + credits − debits == closing`.
+
+## Streaming großer Dateien
+
+Für Dateien mit Tausenden von Transaktionen nutzen Sie Streaming, um den Speicher begrenzt zu halten:
 
 ```python
 parser = CamtParser("large_statement.xml")
@@ -167,9 +199,9 @@ for transaction in parser.parse_streaming(redact_pii=True):
     process(transaction)  # Memory stays constant
 ```
 
-## In-Memory-Analyse
+## In-Memory-Parsing
 
-Analysieren Sie Bytes ohne Festplatten-E/A – nützlich für SFTP- oder API-Workflows:
+Parsen aus Bytes ohne Festplatten-I/O — nützlich für SFTP- oder API-Workflows:
 
 ```python
 xml_bytes = download_from_sftp()
@@ -179,7 +211,7 @@ transactions = parser.parse()
 
 ## Parallele Dateiverarbeitung
 
-Mehrere Dateien gleichzeitig analysieren:
+Mehrere Dateien gleichzeitig parsen:
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -193,9 +225,21 @@ for r in results:
     print(r.path, r.status, len(r.transactions), "rows")
 ```
 
+## Massenverarbeitung ganzer Verzeichnisse
+
+Komplette Ordnerstrukturen mit automatischer Deduplizierung verarbeiten:
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Processed: {len(batch.results)} files")
+print(f"Unique transactions: {batch.unique_count}")
+```
+
 ## Deduplizierung
 
-Erkennen Sie exakte Duplikate und vermutete Übereinstimmungen mit Konfidenzwerten:
+Idempotente Transaktions-Hashes für sichere inkrementelle Aufnahme:
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
@@ -209,9 +253,61 @@ print(f"Exact duplicates: {len(result.exact_duplicates)}")
 print(f"Suspected matches: {len(result.suspected_matches)}")
 ```
 
+## Transaktionskategorisierung (Anreicherung)
+
+Transaktionen automatisch mit LLM-gestützter Klassifizierung kategorisieren:
+
+```python
+from bankstatementparser.enrichment import Categorizer
+
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(transactions)
+for txn in enriched:
+    print(f"{txn.description}: {txn.category}")
+```
+
+## Ledger-Export (hledger / beancount)
+
+Transaktionen in Plaintext-Accounting-Journalformate exportieren:
+
+```python
+from bankstatementparser.export import to_hledger, to_beancount
+
+journal = to_hledger(transactions, account="Assets:Bank:Checking")
+beancount_journal = to_beancount(transactions, account="Assets:Bank:Checking")
+```
+
+## Multi-Währungs-Saldoprüfung
+
+Salden unabhängig pro Währungsgruppe verifizieren:
+
+```python
+from bankstatementparser.hybrid import verify_balance_multi_currency
+
+results = verify_balance_multi_currency(transactions)
+for currency, verification in results.items():
+    print(f"{currency}: {verification.status}")
+```
+
+## REST API
+
+Als FastAPI-Microservice bereitstellen:
+
+```bash
+# API-Server starten
+bankstatementparser-api --port 8000
+
+# Für Container-Deployments
+bankstatementparser-api --host 0.0.0.0 --port 9000
+```
+
+Endpunkte:
+- `POST /ingest` -- Kontoauszugsdatei parsen
+- `GET /health` -- Health-Check
+
 ## Sichere ZIP-Verarbeitung
 
-Verarbeiten Sie gezippte XML-Dateien mit integrierten Sicherheitsprüfungen (Bombenschutz, Ablehnung verschlüsselter Eingaben):
+Gezippte XML-Dateien mit integrierten Sicherheitsprüfungen verarbeiten (Bomb-Schutz, Ablehnung verschlüsselter Einträge):
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
@@ -221,7 +317,7 @@ for entry in iter_secure_xml_entries("statements.zip"):
     print(f"{entry.source_name}: {len(parser.parse())} transactions")
 ```
 
-## Exportieren
+## Export
 
 ```python
 parser = CamtParser("statement.xml")
@@ -230,40 +326,51 @@ parser.export_json("output.json")
 
 # Polars (requires bankstatementparser[polars])
 polars_df = parser.to_polars()
+
+# Excel
+parser.camt_to_excel("output.xlsx")
 ```
 
 ## CLI-Nutzung
 
 ```bash
-# Parse and display
-python -m bankstatementparser.cli --type camt --input statement.xml
+# Strukturierte Formate parsen
+bankstatementparser --type camt --input statement.xml
+bankstatementparser --type pain001 --input payment.xml
 
-# Export to CSV
-python -m bankstatementparser.cli --type camt --input statement.xml --output transactions.csv
+# Hybride PDF-Pipeline
+bankstatementparser --type ingest --input statement.pdf
+bankstatementparser --type ingest --input statement.pdf --output ledger.csv
 
-# Stream with PII visible
-python -m bankstatementparser.cli --type camt --input statement.xml --streaming --show-pii
+# Interaktiver Prüfmodus
+bankstatementparser --type review --input result.json
+bankstatementparser --type review --input result.json --output reviewed.json
+
+# Nach CSV mit Streaming exportieren
+bankstatementparser --type camt --input statement.xml --output transactions.csv
+bankstatementparser --type camt --input statement.xml --streaming --show-pii
 ```
 
 CLI-Optionen:
 
-- `--type {camt,pain001}`-- Parser-Typ
--`--input <path>`-- Eingabedatei
--`--output <csv_path>`- Export in CSV
--`--streaming`- Große Dateien streamen
--`--show-pii`-- sensible Felder anzeigen (standardmäßig geschwärzt)
--`--max-size <MB>`- Dateigrößenbeschränkung
+- `--type {camt,pain001,ingest,review}` -- Parser-Typ oder Modus
+- `--input <path>` -- Eingabedatei
+- `--output <path>` -- Exportdatei (CSV oder JSON)
+- `--streaming` -- Große Dateien streamen
+- `--show-pii` -- Sensible Felder anzeigen (standardmäßig geschwärzt)
+- `--max-size <MB>` -- Dateigrößenlimit
 
-## Lokale Entwicklungseinrichtung
+## Lokale Entwicklungsumgebung
 
 ```bash
 git clone https://github.com/sebastienrousseau/bankstatementparser.git
 cd bankstatementparser
 python3 -m venv .venv && source .venv/bin/activate
 pip install poetry && poetry install --with dev
+make install-hooks   # pre-commit hook runs `make verify` before every commit
 ```
 
-Führen Sie die Testsuite aus:
+Testsuite ausführen:
 
 ```bash
 pytest
@@ -281,32 +388,42 @@ pytest
 | `OfxParser` | OFX | `from bankstatementparser import OfxParser` |
 | `QfxParser` | QFX | `from bankstatementparser import QfxParser` |
 | `Mt940Parser` | MT940 | `from bankstatementparser import Mt940Parser` |
+| `smart_ingest()` | PDF (hybride Pipeline) | `from bankstatementparser.hybrid import smart_ingest` |
 
-### Utility-Funktionen
+### Hilfsfunktionen
 
 | Funktion | Zweck |
 |---|---|
 | `detect_statement_format(path)` | Dateiformat automatisch erkennen |
-| `create_parser(path, fmt)` | Erstellen Sie den entsprechenden Parser |
-| `parse_files_parallel(paths)` | Mehrere Dateien gleichzeitig analysieren |
+| `create_parser(path, fmt)` | Passenden Parser erstellen |
+| `parse_files_parallel(paths)` | Mehrere Dateien gleichzeitig parsen |
 | `iter_secure_xml_entries(zip_path)` | ZIP-Einträge sicher iterieren |
+| `smart_ingest(path)` | Hybride PDF-Extraktion mit Verifizierung |
+| `scan_and_ingest(dir, pattern)` | Massenverarbeitung von Verzeichnissen |
+| `verify_balance_multi_currency(txns)` | Saldoprüfung pro Währung |
+| `to_hledger(txns, account)` | Export im hledger-Journalformat |
+| `to_beancount(txns, account)` | Export im beancount-Journalformat |
 
 ### Datenklassen
 
 | Klasse | Zweck |
 |---|---|
-| `Deduplicator` | Erkennen Sie doppelte Transaktionen |
-| `DeduplicationResult` | Ergebnis mit eindeutigen, genauen und vermuteten Übereinstimmungen |
-| `InputValidator` | Validieren Sie Dateipfade und -formate |
+| `Deduplicator` | Doppelte Transaktionen erkennen |
+| `DeduplicationResult` | Ergebnis mit eindeutigen, exakten und vermuteten Übereinstimmungen |
+| `InputValidator` | Dateipfade und Formate validieren |
 | `Transaction` | Normalisierter Transaktionsdatensatz |
-| `FileResult` | Ergebnis der parallelen Analyse |
-| `ZipXMLSource` | ZIP-Mitglieds-Wrapper |
+| `FileResult` | Ergebnis der parallelen Verarbeitung |
+| `ZipXMLSource` | ZIP-Member-Wrapper |
+| `IngestResult` | Ergebnis der hybriden Pipeline mit Verifizierung |
+| `VerificationResult` | Ergebnis der Saldoprüfung |
+| `Categorizer` | LLM-gestützte Transaktionskategorisierung |
+| `AccountMapper` | Regex-basierte Kontenzuordnungsregeln |
 
 ### Ausnahmen
 
-| Ausnahme | Wenn er erzogen wird |
+| Ausnahme | Wird ausgelöst bei |
 |---|---|
-| `ParserError` | Fehler beim Parsen |
-| `ExportError` | Exportfehler (CSV/JSON/Excel) |
-| `ValidationError` | Fehler bei der Eingabevalidierung |
-| `ZipSecurityError` | Fehler bei der ZIP-Sicherheitsprüfung |
+| `ParserError` | Parsing-Fehlern |
+| `ExportError` | Export-Fehlern (CSV/JSON/Excel) |
+| `ValidationError` | Eingabevalidierungsfehlern |
+| `ZipSecurityError` | ZIP-Sicherheitsprüfungsfehlern |

@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Sicherheit des Kontoauszugsparers"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Kontoauszugsparser. Alle Rechte vorbehalten."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Sicherheitsfunktionen von Bank Statement Parser: XXE-Schutz, ZIP-Bombenhärtung, PII-Redaktion, Lieferkettensicherheit, deterministische Ausgabe und signierte Builds."
 download: ""
 format-detection: "telephone=no"
@@ -107,72 +107,76 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** Bank Statement Parser führt keine Netzwerkaufrufe durch, schwärzt standardmäßig personenbezogene Daten, schützt das XML-Parsing vor XXE-Angriffen und wird mit SHA-256-Hash-gesperrten Abhängigkeiten und einem CycloneDX SBOM ausgeliefert.
+**TL;DR:** Bank Statement Parser verarbeitet alle Daten lokal, schwärzt PII standardmäßig, härtet das XML-Parsing gegen XXE-Angriffe, führt LLMs lokal via Ollama aus und wird mit SHA-256-Hash-gesperrten Abhängigkeiten und einem CycloneDX SBOM ausgeliefert.
 
 ## Sicherheit durch Design
 
-Der Bank Statement Parser wurde für die Verarbeitung sensibler Finanzdaten entwickelt. Bei jeder Designentscheidung stehen Sicherheit, Datenschutz und Überprüfbarkeit im Vordergrund.
+Bank Statement Parser ist für die Verarbeitung sensibler Finanzdaten gebaut. Jede Designentscheidung priorisiert Sicherheit, Datenschutz und Nachvollziehbarkeit.
 
-## Kein Netzwerkzugriff
+## Keine Cloud-Abhängigkeit
 
-Die gesamte Verarbeitung erfolgt lokal innerhalb Ihrer Laufzeit. Die Bibliothek führt keine API-Aufrufe durch, keine Cloud-Verbindungen und erfasst keine Telemetriedaten. XML-Parser werden explizit mit konfiguriert`no_network=True`, `resolve_entities=False`, Und`load_dtd=False`um jeglichen ausgehenden Zugriff zu verhindern.
+Die gesamte Verarbeitung erfolgt lokal in Ihrer Laufzeitumgebung. Die deterministischen Parser führen keine Netzwerkaufrufe durch. Die hybride PDF-Pipeline nutzt Ollama für lokale LLM-Inferenz — keine Daten werden an Cloud-APIs gesendet. XML-Parser sind explizit mit `no_network=True`, `resolve_entities=False` und `load_dtd=False` konfiguriert, um jeglichen ausgehenden Zugriff zu verhindern.
 
-## PII-Redaktion
+## PII-Schwärzung
 
-Persönlich identifizierbare Informationen (Namen, IBANs, Postanschriften) werden im CLI-Ausgabe- und Streaming-Modus automatisch geschwärzt. Dies ist standardmäßig aktiviert.
+Personenbezogene Daten (Namen, IBANs, Postadressen) werden in der CLI-Ausgabe und im Streaming-Modus automatisch geschwärzt. Dies ist standardmäßig aktiviert.
 
-- **CLI**: Sensible Felder werden als angezeigt`***REDACTED***`
-- **Streaming**:`parse_streaming(redact_pii=True)`(Standard)
+- **CLI**: Sensible Felder zeigen `***REDACTED***`
+- **Streaming**: `parse_streaming(redact_pii=True)` (Standard)
 - **Exporte**: CSV/JSON/Excel behalten vollständige Daten für die Weiterverarbeitung
-- **Opt-in**: Verwenden`--show-pii`oder`redact_pii=False`wenn Sie eine unzensierte Ausgabe benötigen
+- **Opt-in**: Verwenden Sie `--show-pii` oder `redact_pii=False`, wenn Sie ungeschwärzte Ausgabe benötigen
 
 ## XML-Sicherheit (XXE-Schutz)
 
-Alle XML-Parsing-Anwendungen`lxml`mit gehärteten Einstellungen:
+Alles XML-Parsing nutzt `lxml` mit gehärteten Einstellungen:
 
-- `resolve_entities=False`– Verhindert Angriffe auf die Erweiterung von XML-Entitäten
--`no_network=True`– Blockiert den gesamten ausgehenden Netzwerkzugriff vom Parser
--`load_dtd=False`– verhindert DTD-basierte Angriffe
-- Namensraumentfernung vor der Verarbeitung – verarbeitet jede CAMT.053-Variante sicher
+- `resolve_entities=False` -- verhindert XML-Entity-Expansion-Angriffe
+- `no_network=True` -- blockiert alle ausgehenden Netzwerkzugriffe vom Parser
+- `load_dtd=False` -- verhindert DTD-basierte Angriffe
+- Namespace-Stripping vor der Verarbeitung -- verarbeitet jede CAMT.053-Variante sicher
 
-## ZIP-Archivsicherheit
+## ZIP-Archiv-Sicherheit
 
-`iter_secure_xml_entries()`validiert jedes ZIP-Mitglied vor der Extraktion:
+`iter_secure_xml_entries()` validiert jedes ZIP-Mitglied vor der Extraktion:
 
-- **Eintragsgrößenbeschränkung**: 10 MB pro Eintrag (konfigurierbar)
-- **Gesamtgrößenbeschränkung**: insgesamt 50 MB unkomprimiert (konfigurierbar)
-- **Grenze für das Komprimierungsverhältnis**: Standardeinstellung 100:1 – erkennt ZIP-Bomben
-- **Ablehnung verschlüsselter Einträge**: Verschlüsselte Einträge werden mit einer Warnung übersprungen
-- **Keine Festplattenschreibvorgänge**: XML-Bytes werden über direkt an den Parser übergeben`from_bytes()`
+- **Eintragsgrößenlimit**: 10 MB pro Eintrag (konfigurierbar)
+- **Gesamtgrößenlimit**: 50 MB unkomprimiert gesamt (konfigurierbar)
+- **Komprimierungsverhältnislimit**: Standard 100:1 — erkennt ZIP-Bomben
+- **Ablehnung verschlüsselter Einträge**: Verschlüsselte Einträge werden mit Warnung übersprungen
+- **Keine Festplattenschreibvorgänge**: XML-Bytes werden direkt via `from_bytes()` an den Parser übergeben
 
-## Path Traversal Prevention
+## Schutz vor Pfad-Traversal
 
 Die Eingabevalidierung blockiert gefährliche Dateipfade:
 
-- Nullbytes, Verzeichnisdurchlaufmuster (`../`) und Symlinks werden abgelehnt
-- Dateierweiterungsvalidierung anhand erwarteter Formate
-- Dateigrößenbeschränkungen (100 MB Standard, konfigurierbar)
+- Null-Bytes, Directory-Traversal-Muster (`../`) und Symlinks werden abgelehnt
+- Dateierweiterungsvalidierung gegen erwartete Formate
+- Dateigrößenlimits (Standard 100 MB, konfigurierbar)
+
+## Saldoprüfung (Golden Rule)
+
+Jede PDF-Extraktion wird mit der Gleichung geprüft: `opening balance + credits − debits == closing balance`. Ergebnisse werden als VERIFIED, DISCREPANCY oder FAILED markiert. Abweichungen können interaktiv mit `--type review` überprüft werden.
 
 ## Deterministische Ausgabe
 
-Bei Verwendung derselben Eingabedatei erzeugt der Parser bei jedem Durchlauf eine byteidentische Ausgabe. Keine Zufälligkeit, keine Modellinferenz, kein heuristisches Sampling. Dies ist entscheidend für:
+Für strukturierte Formate (CAMT, PAIN.001, CSV, OFX, QFX, MT940) erzeugt der Parser bei gleicher Eingabedatei bei jedem Durchlauf byteidentische Ausgabe. Kein Zufall, keine Modellinferenz, kein heuristisches Sampling. Dies ist entscheidend für:
 
-- **Reproduzierbarkeit prüfen**: Führen Sie dieselbe Datei zweimal aus und unterscheiden Sie die Ausgabe
-- **Einhaltung gesetzlicher Vorschriften**: Demonstrieren Sie eine konsistente Verarbeitung
-- **CI-Verifizierung**: 467 Tests erzwingen Determinismus mit 100 % Zweigabdeckung
+- **Audit-Reproduzierbarkeit**: Führen Sie dieselbe Datei zweimal aus und vergleichen Sie die Ausgabe
+- **Regulatorische Compliance**: Konsistente Verarbeitung nachweisen
+- **CI-Verifizierung**: 718 Tests erzwingen Determinismus mit 100 % Branch-Coverage
 
-## Sicherheit der Lieferkette
+## Lieferkettensicherheit
 
-- **SHA-256-Hash-gesperrte Abhängigkeiten**: Jedes Paket in`poetry.lock`hat Datei-Hashes überprüft
-- **CycloneDX SBOM**: Jede Version enthält eine Software-Stückliste
-- **GitHub-Build-Herkunft**: Durch die Bescheinigung wird jedes Artefakt mit seinem Quell-Commit verknüpft
-- **Signierte Commits**: Alle Commits sind SSH-signiert und in CI überprüft
-- **Abhängigkeitsüberprüfung**:`scripts/verify_locked_hashes.py`validiert alle Hashes lokal
+- **SHA-256-Hash-gesperrte Abhängigkeiten**: Jedes Paket in `poetry.lock` hat verifizierte Datei-Hashes
+- **CycloneDX SBOM**: Jede Version enthält eine Software Bill of Materials
+- **GitHub Build-Herkunft**: Attestierung verknüpft jedes Artefakt mit seinem Quell-Commit
+- **Signierte Commits**: Alle Commits sind SSH-signiert und werden in CI verifiziert
+- **Abhängigkeitsverifizierung**: `scripts/verify_locked_hashes.py` validiert alle Hashes lokal
 
-## Lokal überprüfen
+## Lokal verifizieren
 
 ```bash
-python -m pytest                          # 467 tests, 100% branch coverage
+python -m pytest                          # 718 tests, 100% branch coverage
 python scripts/verify_locked_hashes.py    # SHA-256 hash verification
 git log --show-signature -1               # Verify commit signature
 ```

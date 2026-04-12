@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Bank Statement Parser Use Cases"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Bank Statement Parser. All rights reserved."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "How treasury teams, fintech developers, and compliance officers use Bank Statement Parser for MT940-to-CAMT migration, reconciliation, audit pipelines, and multi-bank consolidation."
 download: ""
 format-detection: "telephone=no"
@@ -56,11 +56,11 @@ generator: "Shokunin 🦀 (version 0.0.20)"
 item_description: "How treasury teams, fintech developers, and compliance officers use Bank Statement Parser for MT940-to-CAMT migration, reconciliation, audit pipelines, and multi-bank consolidation."
 item_guid: "https://bankstatementparser.com/use-cases/rss.xml"
 item_link: "https://bankstatementparser.com/use-cases/rss.xml"
-item_pub_date: "2026-04-01T00:00:00+00:00"
+item_pub_date: "2026-04-11T00:00:00+00:00"
 item_title: "Bank Statement Parser Use Cases: Treasury, Reconciliation, and Compliance"
-last_build_date: "2026-04-01T00:00:00+00:00"
+last_build_date: "2026-04-11T00:00:00+00:00"
 managing_editor: "contact@bankstatementparser.com"
-pub_date: "2026-04-01T00:00:00+00:00"
+pub_date: "2026-04-11T00:00:00+00:00"
 ttl: "60"
 type: "website"
 webmaster: "contact@bankstatementparser.com"
@@ -100,14 +100,42 @@ author_website: "https://bankstatementparser.com"
 author_twitter: "@wwdseb"
 author_location: "London, UK"
 thanks: "Thanks for reading!"
-site_last_updated: "2026-04-01"
+site_last_updated: "2026-04-11"
 site_standards: "HTML5, CSS3, RSS, Atom, JSON, XML, YAML, Markdown, TOML"
 site_components: "Shokunin SSG, Shokunin CLI, Shokunin Templates, Shokunin Themes, Kaishi SSG, Kaishi CLI, Kaishi Templates, Kaishi Themes"
 site_software: "Shokunin, Rust"
 
 ---
 
-Bank Statement Parser handles real-world financial workflows: MT940-to-CAMT migration for treasury teams, automated reconciliation, compliance pipelines with PII redaction, SFTP ingestion, multi-bank consolidation, and secure ZIP batch processing.
+Bank Statement Parser handles real-world financial workflows: PDF bank statement ingestion, MT940-to-CAMT migration, automated reconciliation with balance verification, compliance pipelines, plaintext-accounting export, REST API deployments, bulk scanning, and multi-bank consolidation.
+
+## PDF Bank Statement Ingestion
+
+**Result:** Parse digital and scanned PDF bank statements with automatic balance verification — no cloud APIs, no data leaves your machine.
+
+The hybrid PDF pipeline routes each PDF through the optimal extraction path and verifies every result.
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+
+# Review discrepancies interactively
+# bankstatementparser --type review --input result.json
+```
+
+## Bulk Statement Processing
+
+**Result:** Scan entire folder trees (hundreds of PDFs, XMLs, CSVs) with automatic cross-file deduplication in a single call.
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Files: {len(batch.results)}, Unique txns: {batch.unique_count}")
+```
 
 ## Treasury: MT940 to CAMT.053 Migration
 
@@ -126,17 +154,23 @@ for file in daily_statement_files:
     load_to_treasury_system(df)
 ```
 
-## Automated Reconciliation
+## Automated Reconciliation with Balance Verification
 
-**Result:** Format-agnostic DataFrames with built-in deduplication reduce manual matching effort and catch duplicate entries before they reach your ledger.
+**Result:** Format-agnostic DataFrames with Golden Rule verification and deduplication catch errors and duplicates before they reach your ledger.
 
-Parse bank statements and match against internal records automatically. The unified DataFrame output makes reconciliation logic format-agnostic.
+Parse bank statements, verify balances, and match against internal records automatically.
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
+from bankstatementparser.hybrid import verify_balance_multi_currency
 
 parser = CamtParser("bank_statement.xml")
 bank_txns = parser.parse()
+
+# Verify balances per currency
+verification = verify_balance_multi_currency(bank_txns)
+for ccy, result in verification.items():
+    assert result.status == "VERIFIED", f"{ccy} balance mismatch!"
 
 # Deduplicate before reconciliation
 dedup = Deduplicator()
@@ -147,11 +181,39 @@ clean_txns = result.unique_transactions
 unmatched = reconcile(clean_txns, internal_ledger)
 ```
 
+## Plaintext Accounting (hledger / beancount)
+
+**Result:** Automatically ingest PDF bank statements and export categorised transactions to hledger or beancount journal format.
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+from bankstatementparser.enrichment import Categorizer
+from bankstatementparser.export import to_hledger
+
+result = smart_ingest("statement.pdf")
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(result.transactions)
+journal = to_hledger(enriched, account="Assets:Bank:Checking")
+```
+
+## REST API Deployment
+
+**Result:** Deploy Bank Statement Parser as a microservice that accepts statement files via HTTP and returns structured JSON.
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+```
+
+```bash
+# Ingest a statement
+curl -X POST http://localhost:8000/ingest \
+  -F "file=@statement.pdf"
+```
+
 ## Compliance and Audit Pipelines
 
-**Result:** Deterministic output and automatic PII redaction produce audit-ready logs that satisfy regulatory reproducibility requirements without additional tooling.
-
-Build audit-ready pipelines with PII redaction and deterministic output. Every run produces identical results for the same input, satisfying regulatory reproducibility requirements.
+**Result:** Deterministic output, automatic PII redaction, and Golden Rule verification produce audit-ready logs that satisfy regulatory reproducibility requirements.
 
 ```python
 from bankstatementparser import CamtParser
@@ -170,8 +232,6 @@ parser.export_csv("archive/statement.csv")
 
 **Result:** Parse directly from bytes with zero disk I/O, fitting natively into SFTP and API-driven bank connectivity workflows.
 
-Many banks deliver statements via SFTP. Parse directly from bytes without writing to disk.
-
 ```python
 from bankstatementparser import CamtParser
 
@@ -182,9 +242,7 @@ df = parser.parse()
 
 ## Multi-Bank Consolidation
 
-**Result:** Parallel parsing across HSBC (CAMT), Barclays (MT940), Revolut (CSV), and Wise (OFX) produces a single normalised dataset in one call.
-
-Consolidate statements from multiple banks using different formats into a single normalised dataset.
+**Result:** Parallel parsing across HSBC (CAMT), Barclays (MT940), Revolut (CSV), Wise (OFX), and Chase (PDF) produces a single normalised dataset.
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -202,8 +260,6 @@ all_transactions = pd.concat([r.transactions for r in results if r.status == "su
 ## Batch Processing with ZIP Archives
 
 **Result:** Built-in ZIP bomb protection (100:1 ratio limit, 10 MB entry cap, encrypted entry rejection) lets you process monthly statement archives safely.
-
-Process zipped statement archives securely with built-in ZIP bomb protection.
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser

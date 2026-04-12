@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Fassarar Canjin Bayanan Banki"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Fassarar Bayanin Banki. An kiyaye duk haƙƙoƙi."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Saki tarihin da canji na bayanin Bayanan Banki. Bibiyar sabbin fasalulluka, haɓakawa, da gyare-gyaren kwaro a duk nau'ikan."
 download: ""
 format-detection: "telephone=no"
@@ -109,6 +109,35 @@ site_software: "Shokunin, Rust"
 
 Bi Ci gaban Fassarar Bayanin Banki. Biyan kuɗi ta [RSS] (/changelog/rss.xml) ko kalli [majigin GitHub](https://github.com/sebastienrousseau/bankstatementparser) don sanarwar sanarwa.
 
+## v0.0.8 — 2026-04-11 (Latest) — "Full Platform"
+
+- Multi-currency balance verification — `verify_balance_multi_currency()` groups by currency, runs Golden Rule per group.
+- hledger + beancount export — `to_hledger()` and `to_beancount()` in `bankstatementparser.export`.
+- Bulk directory scanner — `scan_and_ingest()` scans folder trees, deduplicates across batch.
+- Account mapping rules — `AccountMapper` with ordered regex rules from JSON config.
+- REST API — FastAPI wrapper with `/ingest` and `/health` endpoints (`[api]` extra).
+
+## v0.0.7 — 2026-04-08 — "Universal Vision"
+
+- Direct Ollama bridge (`ollama_direct_completion`) — bypasses LiteLLM long-prompt hang.
+- Strip mode (`VisionExtractor.strip_rows=True`) — splits dense pages into overlapping bands for small local models.
+- Recommended vision model changed from `llava` to `minicpm-v`.
+
+## v0.0.6 — 2026-04-08 — "Intelligence Layer"
+
+- Dropped Python 3.9 support (now 3.10-3.14).
+- Enrichment module (`Categorizer`, `EnrichedTransaction`, `DEFAULT_CATEGORY_SCHEMA`).
+- Interactive review mode with `--type review` CLI command.
+- Per-row bounding box extraction (`Transaction.source_bbox`).
+
+## v0.0.5 — 2026-04-08 — "Universal Extraction"
+
+- Hybrid PDF pipeline (`smart_ingest()`) with deterministic/text-LLM/vision-LLM routing.
+- `LLMExtractor` for digital PDFs via LiteLLM.
+- `VisionExtractor` for scanned PDFs via multimodal vision models.
+- Golden Rule balance verification (`opening + credits - debits == closing`).
+- Idempotent deduplication via `transaction_hash` (MD5 fingerprint).
+
 ## v0.0.4 - 2026-03-15 (Na baya)
 
 - Ƙara daidaitaccen fayil ɗin bincike tare da`parse_files_parallel()`ta amfani da ProcessPoolExecutor.
@@ -126,7 +155,7 @@ Bi Ci gaban Fassarar Bayanin Banki. Biyan kuɗi ta [RSS] (/changelog/rss.xml) ko
 - Ƙara sabuntawar PII (a kunne ta tsohuwa a cikin CLI da yanayin yawo).
 - Ƙara mataimakan fitarwa zuwa CSV, JSON, da Excel.
 - Ƙara goyon bayan Polars DataFrame na zaɓi.
-- Fadada ɗakin gwaji zuwa gwaje-gwaje 467 tare da ɗaukar hoto 100%.
+- Fadada ɗakin gwaji zuwa gwaje-gwaje 718 tare da ɗaukar hoto 100%.
 
 ## v0.0.2 - 2025-06-10
 
@@ -151,8 +180,8 @@ Duba cikakken tarihin sadaukarwa akan [GitHub](https://github.com/sebastienrouss
   "name": "Mai Fassarar Bayanin Banki",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Cross-platform",
-  "softwareVersion": "0.0.4",
-  "datePublished": "2026-03-15",
+  "softwareVersion": "0.0.8",
+  "datePublished": "2026-04-11",
   "releaseNotes": "Ƙara daidaitawar fayil ɗin layi ɗaya, yawo na gaskiya don PAIN.001, inganta aikin aiki (27K+ tx/s CAMT, 52K+ tx/s PAIN.001), aji Deduplicator, nazarin ƙwaƙwalwar ajiya, amintaccen sarrafa ZIP.",
   "downloadUrl":"https://pypi.org/project/bankstatementparser/",
   "lasisi":"https://opensource.org/licenses/Apache-2.0",

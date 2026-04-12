@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "ISO 20022 Migration Itọsọna"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Itumọ Gbólóhùn Bank. Gbogbo awọn ẹtọ wa ni ipamọ."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Itọsọna to wulo si akoko ijira SWIFT ISO 20022 (2026-2028), MT940 si CAMT.053 iyipada, ati bii Parser Gbólóhùn Bank ṣe iranlọwọ fun awọn ẹgbẹ iṣura lati jade."
 download: ""
 format-detection: "telephone=no"
@@ -107,23 +107,23 @@ site_software: "Shokunin, Rust"
 
 ---
 
-** TL; DR: ** SWIFT yoo ṣe ifẹhinti MT940 nipasẹ Oṣu kọkanla 2028. Parser Gbólóhùn Bank mu mejeeji MT940 ati CAMT.053 pẹlu API kan ṣoṣo, nitorinaa opo gigun ti npasọ rẹ ṣiṣẹ lakoko iyipada ati lẹhin.
+**TL;DR:** SWIFT yoo ṣe ifẹhinti MT940 nipasẹ Oṣu kọkanla 2028. Bank Statement Parser mu mejeeji MT940 ati CAMT.053 pẹlu API kan ṣoṣo, nitorinaa opo gigun itupalẹ rẹ ṣiṣẹ lakoko iyipada ati lẹhin rẹ.
 
-## Kini idi ti Iṣiwa yii ṣe pataki
+## Kini Idi Ti Iṣilọ Yii Ṣe Pataki
 
-SWIFT n ṣe ifẹhinti awọn ọna kika ifiranṣẹ MT julọ ni ojurere ti boṣewa ISO 20022 ọlọrọ. Fun awọn ẹgbẹ iṣura ati iṣuna, eyi tumọ si awọn opo gigun ti n ṣatunṣe alaye banki rẹ gbọdọ wa lati MT940 si CAMT.053 ṣaaju awọn akoko ipari lile.
+SWIFT n ṣe ifẹhinti awọn ọna kika ifiranṣẹ MT atijọ ni ojurere ti boṣewa ISO 20022 ti o ṣe ọlọrọ. Fun awọn ẹgbẹ iṣura ati inawo, eyi tumọ si pe awọn opo gigun ṣiṣe alaye banki rẹ gbọdọ wa lati MT940 si CAMT.053 ṣaaju awọn akoko ipari lile.
 
-## SWIFT Iṣilọ Ago
+## Akoko Iṣilọ SWIFT
 
-| Ọjọ | Ohun pataki | Ipa |
+| Ọjọ | Ohun Pataki | Ipa |
 |---|---|---|
-| *** Oṣu kọkanla ọdun 2025 *** | MT-to-MX ibagbepo pari fun awọn sisanwo-aala | Awọn ifiranṣẹ PACS jẹ ISO 20022 nikan |
-| *** Oṣu kọkanla ọdun 2026 *** | Awọn adirẹsi ti a ṣeto / arabara dandan; MT101 olona-ilana kọ; Ipele Isakoso ọran 1 | Awọn ọna kika adirẹsi gbọdọ wa ni ibamu; diẹ ninu awọn ifiranṣẹ MT yoo kọ |
-| **Ipari ọdun 2026 *** | Ijade-iwọle bẹrẹ fun gbigba CAMT.052/.053/.054 | Awọn ile-iṣẹ inawo le bẹrẹ gbigba awọn alaye ISO abinibi |
-| *** Oṣu kọkanla ọdun 2027 *** | Gbogbo FI gbọdọ gba CAMT.053 ni abinibi | SWIFT da duro iyipada MT kika si ISO; awọn ọna ṣiṣe rẹ gbọdọ ṣe itupalẹ CAMT taara |
-| *** Oṣu kọkanla ọdun 2028 *** | MT940/MT942/MT950/MT900/MT910 ti fẹyìntì ni kikun | Awọn ọna kika alaye Legacy ko si mọ; CAMT.052/.053/.054 nikan ni aṣayan |
+| **Oṣu kọkanla 2025** | Ibagbepọ MT-si-MX pari fun awọn sisanwo agbelebu-aala | Awọn ifiranṣẹ PACS jẹ ISO 20022 nikan ni bayi |
+| **Oṣu kọkanla 2026** | Awọn adirẹsi ti a ṣeto/arabara di dandan; olona-itọnisọna MT101 ni a kọ; Ipele 1 Isakoso Ọran | Awọn ọna kika adirẹsi gbọdọ wa ni ibamu; awọn ifiranṣẹ MT kan yoo jẹ kiko |
+| **Ipari 2026** | Iyan-wọle bẹrẹ fun gbigba CAMT.052/.053/.054 | Awọn ile-iṣẹ inawo le bẹrẹ gbigba awọn alaye ISO abinibi |
+| **Oṣu kọkanla 2027** | Gbogbo awọn ile-iṣẹ inawo gbọdọ gba CAMT.053 ni abinibi | SWIFT da iyipada ọna kika MT si ISO duro; awọn eto rẹ gbọdọ ṣe itupalẹ CAMT taara |
+| **Oṣu kọkanla 2028** | Ifẹhinti ni kikun ti MT940/MT942/MT950/MT900/MT910 | Awọn ọna kika alaye atijọ ko si mọ; CAMT.052/.053/.054 nikan ni aṣayan |
 
-## Kini Awọn iyipada fun koodu rẹ
+## Kini Ti N Yipada Fun Koodu Rẹ
 
 ### Ṣaaju: MT940 Nikan
 
@@ -134,7 +134,7 @@ parser = Mt940Parser("statement.mt940")
 df = parser.parse()
 ```
 
-### Lẹhin: Awọn ọna kika mejeeji pẹlu Wiwa Aifọwọyi
+### Lẹhin: Awọn Ọna Kika Mejeeji Pẹlu Iwari Aifọwọyi
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -144,26 +144,29 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # Same DataFrame schema regardless of format
 ```
 
-Awọn`detect_statement_format()`iṣẹ n ṣe idanimọ boya faili naa jẹ MT940, CAMT.053, PAIN.001, tabi ọna kika atilẹyin miiran. Awọn`create_parser()`iṣẹ pada awọn ti o tọ parser. Koodu isale rẹ n ṣiṣẹ bakanna laibikita ọna kika orisun.
+Iṣẹ `detect_statement_format()` ṣe idanimọ boya faili naa jẹ MT940, CAMT.053, PAIN.001, tabi ọna kika atilẹyin miiran. Iṣẹ `create_parser()` da parser ti o tọ padà. Koodu isalẹ rẹ ṣiṣẹ bakanna laibikita ọna kika orisun.
 
-## CAMT.053 vs MT940: Key Iyato
+## CAMT.053 vs MT940: Awọn Iyatọ Pataki
 
-| Ẹya ara ẹrọ | MT940 | CAMT.053 |
+| Ẹya Ara Ẹrọ | MT940 | CAMT.053 |
 |---|---|---|
-| Ọrọ ọlọrọ data | Awọn aaye to lopin | 3-5x diẹ data fun idunadura |
+| Ọlọrọ data | Awọn aaye to lopin | Data 3-5x sii fun iṣowo kọọkan |
 | Eto kikọ | Lopin (charset SWIFT) | Unicode ni kikun |
 | Ilana | Ọrọ alapin pẹlu awọn afi | XML pẹlu awọn aaye orukọ |
-| Iroyin iwontunwonsi | Nsii/tilekun nikan | Multiple iwontunwonsi orisi |
-| Awọn itọkasi | Nikan aaye itọkasi | Ọpọ itọkasi orisi |
-| Imudani owo | Ipilẹṣẹ | Kikun olona-owo pẹlu awọn oṣuwọn paṣipaarọ |
+| Ijabọ iwọntunwọnsi | Ṣiṣi/pipade nikan | Awọn oriṣi iwọntunwọnsi pupọ |
+| Awọn itọkasi | Aaye itọkasi kan ṣoṣo | Awọn oriṣi itọkasi pupọ |
+| Imuṣiṣẹ owo | Ipilẹṣẹ | Olona-owo ni kikun pẹlu awọn oṣuwọn paṣipaarọ |
 
-## Bawo ni Oluyẹwo Gbólóhùn Bank ṣe Iranlọwọ
+## Bawo Ni Bank Statement Parser Ṣe Ran Ọ Lọwọ
 
-- ** API Iṣọkan ***: Ṣe itupalẹ mejeeji MT940 ati CAMT.053 pẹlu kanna`parse()`ọna, ṣiṣe awọn eto dataFrame kanna.
-- ** Wiwa-laifọwọyi ***: Ko si iwulo lati mọ ọna kika ni ilosiwaju.`detect_statement_format()`ṣe idanimọ rẹ laifọwọyi.
-- ** Namespace-agnostic ***: Mu eyikeyi iyatọ CAMT.053 (001.02, 001.04, tabi awọn murasilẹ ile-ifowopamọ pato) laisi iṣeto ni.
-* Sisanwọle ***: Ṣiṣẹ awọn faili CAMT nla (50 MB+, awọn iṣowo 50K+) pẹlu iranti ti o ni opin.
-- ** Idanwo Iṣiwa ***: Ṣiṣe awọn parsers mejeeji ni ẹgbẹ-ẹgbẹ lori iwọn ọjọ kanna lati jẹrisi aitasera iṣelọpọ ṣaaju iyipada.
+- **API Iṣọkan**: Ṣe itupalẹ MT940, CAMT.053, ati awọn alaye PDF pẹlu ṣiṣan iṣẹ kanna, ti o ṣe agbejade iṣelọpọ DataFrame deede.
+- **Iwari-aifọwọyi**: Ko si iwulo lati mọ ọna kika ni ilosiwaju. `detect_statement_format()` ṣe idanimọ rẹ laifọwọyi.
+- **Opo gigun PDF aladapọ**: Awọn banki ti o pese awọn alaye PDF nikan lakoko iyipada ni a mu nipasẹ `smart_ingest()` pẹlu iṣayẹwo iwọntunwọnsi laifọwọyi.
+- **Aibikita aaye orukọ**: Mu eyikeyi iyatọ CAMT.053 (001.02, 001.04, tabi awọn apoowe pato banki) laisi iṣeto.
+- **Iṣayẹwo owo pupọ**: `verify_balance_multi_currency()` ṣe iṣayẹwo Ofin Goolu fun ẹgbẹ owo kọọkan — pataki fun awọn alaye CAMT olona-owo.
+- **Sisanwọle**: Ṣe ilana awọn faili CAMT nla (50 MB+, awọn iṣowo 50K+) pẹlu iranti ti o ni opin.
+- **Okeere iwe iroyin**: Ṣe okeere taara si ọna kika iwe iroyin hledger tabi beancount fun iṣiro iṣura.
+- **Idanwo iṣilọ**: Ṣiṣe awọn parser mejeeji ni ẹgbẹ-ẹgbẹ lori iwọn ọjọ kanna lati jẹrisi aitasera iṣelọpọ ṣaaju iyipada.
 
 ## Bibẹrẹ
 
@@ -174,7 +177,7 @@ pip install bankstatementparser
 ```python
 from bankstatementparser import create_parser, detect_statement_format
 
-# Works with MT940 today, CAMT.053 tomorrow
+# Works with MT940 today, CAMT.053 tomorrow, PDF anytime
 for file in bank_statement_files:
     fmt = detect_statement_format(file)
     parser = create_parser(file, fmt)
@@ -182,6 +185,15 @@ for file in bank_statement_files:
     process(df)  # Your code doesn't change
 ```
 
-[Ka iwe kikun] (/getting-started/index.html)
+Fun awọn alaye PDF lati awọn banki ti ko tii nfunni ni awọn okeere CAMT ti a ṣeto:
 
-[Fiwe pẹlu awọn omiiran ❯](/comparison/index.html) | [Wo awọn ọran lilo aye gidi ❯](/use-cases/index.html)
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+assert result.verification.status == "VERIFIED"
+```
+
+[Ka iwe kikun ❯](/getting-started/index.html)
+
+[Fiwe pẹlu awọn yiyan ❯](/comparison/index.html) | [Wo awọn ọran lilo aye gidi ❯](/use-cases/index.html)

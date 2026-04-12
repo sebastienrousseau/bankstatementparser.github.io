@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Hướng dẫn chuyển đổi ISO 20022"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Trình phân tích báo cáo ngân hàng. Mọi quyền được bảo lưu."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "Hướng dẫn thực tế về tiến trình di chuyển SWIFT ISO 20022 (2026-2028), chuyển đổi MT940 sang CAMT.053 và cách Trình phân tích bảng sao kê ngân hàng giúp các nhóm ngân quỹ di chuyển."
 download: ""
 format-detection: "telephone=no"
@@ -107,23 +107,23 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**TL;DR:** SWIFT sẽ ngừng hoạt động MT940 trước tháng 11 năm 2028. Trình phân tích bảng kê ngân hàng xử lý cả MT940 và CAMT.053 bằng một API duy nhất, do đó quy trình phân tích cú pháp của bạn hoạt động trong và sau quá trình chuyển đổi.
+**TL;DR:** SWIFT sẽ ngừng MT940 trước tháng 11/2028. Bank Statement Parser xử lý cả MT940 và CAMT.053 với một API duy nhất, giúp pipeline phân tích của bạn hoạt động trong suốt quá trình chuyển đổi và sau đó.
 
-## Tại sao việc di chuyển này lại quan trọng
+## Tại sao cuộc chuyển đổi này quan trọng
 
-SWIFT đang gỡ bỏ các định dạng tin nhắn MT cũ để chuyển sang tiêu chuẩn ISO 20022 phong phú hơn. Đối với các nhóm tài chính và ngân quỹ, điều này có nghĩa là quy trình xử lý bảng sao kê ngân hàng của bạn phải phát triển từ MT940 đến CAMT.053 trước thời hạn cứng nhắc.
+SWIFT đang ngừng các định dạng tin nhắn MT cũ để chuyển sang tiêu chuẩn ISO 20022 phong phú hơn. Với các nhóm tài chính và ngân quỹ, điều này có nghĩa pipeline xử lý sao kê ngân hàng của bạn phải phát triển từ MT940 sang CAMT.053 trước thời hạn chắc chắn.
 
-## Dòng thời gian di chuyển SWIFT
+## Lộ trình chuyển đổi SWIFT
 
-| Ngày | Cột mốc quan trọng | Sự va chạm |
+| Ngày | Cột mốc | Tác động |
 |---|---|---|
-| **Tháng 11 năm 2025** | Sự cùng tồn tại của MT-to-MX đã kết thúc đối với thanh toán xuyên biên giới | Thông báo PACS hiện chỉ có ISO 20022 |
-| **Tháng 11 năm 2026** | Địa chỉ có cấu trúc/kết hợp bắt buộc; Đa lệnh MT101 bị từ chối; Quản lý trường hợp giai đoạn 1 | Các định dạng địa chỉ phải tuân thủ; một số tin nhắn MT sẽ bị từ chối |
-| **Cuối năm 2026** | Việc chọn tham gia bắt đầu nhận CAMT.052/.053/.054 | Các tổ chức tài chính có thể bắt đầu nhận báo cáo ISO gốc |
-| **Tháng 11 năm 2027** | Tất cả các FI phải nhận CAMT.053 nguyên bản | SWIFT ngừng chuyển đổi định dạng MT sang ISO; hệ thống của bạn phải phân tích CAMT trực tiếp |
-| **Tháng 11 năm 2028** | MT940/MT942/MT950/MT900/MT910 đã ngừng hoạt động hoàn toàn | Các định dạng câu lệnh kế thừa không còn khả dụng nữa; CAMT.052/.053/.054 là lựa chọn duy nhất |
+| **Tháng 11/2025** | Kết thúc cùng tồn tại MT-to-MX cho thanh toán xuyên biên giới | Thông báo PACS giờ chỉ là ISO 20022 |
+| **Tháng 11/2026** | Địa chỉ có cấu trúc/kết hợp bắt buộc; MT101 đa lệnh bị từ chối; Quản lý case Giai đoạn 1 | Định dạng địa chỉ phải tuân thủ; một số tin nhắn MT sẽ bị từ chối |
+| **Cuối 2026** | Bắt đầu đăng ký nhận CAMT.052/.053/.054 | Tổ chức tài chính có thể bắt đầu nhận sao kê ISO gốc |
+| **Tháng 11/2027** | Tất cả tổ chức tài chính phải nhận CAMT.053 nguyên bản | SWIFT ngừng chuyển đổi định dạng MT sang ISO; hệ thống của bạn phải phân tích CAMT trực tiếp |
+| **Tháng 11/2028** | MT940/MT942/MT950/MT900/MT910 ngừng hoàn toàn | Định dạng sao kê cũ không còn khả dụng; CAMT.052/.053/.054 là lựa chọn duy nhất |
 
-## Những thay đổi nào đối với mã của bạn
+## Những gì thay đổi trong mã của bạn
 
 ### Trước: Chỉ MT940
 
@@ -134,7 +134,7 @@ parser = Mt940Parser("statement.mt940")
 df = parser.parse()
 ```
 
-### Sau: Cả hai định dạng đều có tính năng Tự động phát hiện
+### Sau: Cả hai định dạng với tự động nhận dạng
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -144,26 +144,29 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # Same DataFrame schema regardless of format
 ```
 
-các`detect_statement_format()`xác định xem tệp là MT940, CAMT.053, PAIN.001 hay bất kỳ định dạng được hỗ trợ nào khác. các`create_parser()`hàm trả về trình phân tích cú pháp chính xác. Mã xuôi dòng của bạn hoạt động giống hệt nhau bất kể định dạng nguồn.
+Hàm `detect_statement_format()` nhận dạng tệp là MT940, CAMT.053, PAIN.001, hay bất kỳ định dạng được hỗ trợ nào khác. Hàm `create_parser()` trả về trình phân tích phù hợp. Mã downstream của bạn hoạt động giống nhau bất kể định dạng nguồn.
 
-## CAMT.053 so với MT940: Sự khác biệt chính
+## CAMT.053 so với MT940: Khác biệt chính
 
 | Tính năng | MT940 | CAMT.053 |
 |---|---|---|
-| Sự phong phú của dữ liệu | Các trường giới hạn | Dữ liệu nhiều hơn 3-5 lần cho mỗi giao dịch |
-| Bộ ký tự | Bị giới hạn (bộ ký tự SWIFT) | Unicode đầy đủ |
-| Kết cấu | Văn bản phẳng có thẻ | XML với các không gian tên |
-| Báo cáo số dư | Chỉ mở/đóng | Nhiều loại số dư |
-| Tài liệu tham khảo | Trường tham chiếu đơn | Nhiều loại tài liệu tham khảo |
-| Xử lý tiền tệ | Nền tảng | Đa tiền tệ đầy đủ với tỷ giá hối đoái |
+| Độ phong phú dữ liệu | Trường hạn chế | Dữ liệu nhiều gấp 3-5 lần mỗi giao dịch |
+| Bộ ký tự | Hạn chế (bộ ký tự SWIFT) | Unicode đầy đủ |
+| Cấu trúc | Văn bản phẳng có thẻ | XML với namespace |
+| Báo cáo số dư | Chỉ đầu kỳ/cuối kỳ | Nhiều loại số dư |
+| Tham chiếu | Một trường tham chiếu | Nhiều loại tham chiếu |
+| Xử lý tiền tệ | Cơ bản | Đa tiền tệ đầy đủ với tỷ giá hối đoái |
 
-## Trình phân tích sao kê ngân hàng trợ giúp như thế nào
+## Bank Statement Parser hỗ trợ như thế nào
 
-- **API hợp nhất**: Phân tích cả MT940 và CAMT.053 giống nhau`parse()`phương thức, tạo ra các lược đồ DataFrame giống hệt nhau.
-- **Tự động phát hiện**: Không cần biết trước định dạng.`detect_statement_format()`nhận diện nó một cách tự động.
-- **Không gian tên bất khả tri**: Xử lý mọi biến thể CAMT.053 (001.02, 001.04 hoặc trình bao bọc dành riêng cho ngân hàng) mà không cần cấu hình.
-- **Truyền phát**: Xử lý các tệp CAMT lớn (50 MB+, 50K+ giao dịch) với bộ nhớ giới hạn.
-- **Thử nghiệm di chuyển**: Chạy song song cả hai trình phân tích cú pháp trong cùng một phạm vi ngày để xác minh tính nhất quán của đầu ra trước khi chuyển đổi.
+- **API thống nhất**: Phân tích MT940, CAMT.053, và sao kê PDF với cùng quy trình, tạo đầu ra DataFrame nhất quán.
+- **Tự động nhận dạng**: Không cần biết trước định dạng. `detect_statement_format()` nhận dạng tự động.
+- **Pipeline PDF hybrid**: Các ngân hàng chỉ cung cấp sao kê PDF trong quá trình chuyển đổi được xử lý bởi `smart_ingest()` với tự động xác minh số dư.
+- **Không phụ thuộc namespace**: Xử lý mọi biến thể CAMT.053 (001.02, 001.04, hoặc wrapper theo ngân hàng) mà không cần cấu hình.
+- **Xác minh đa tiền tệ**: `verify_balance_multi_currency()` chạy Golden Rule theo nhóm tiền tệ — thiết yếu cho sao kê CAMT đa tiền tệ.
+- **Streaming**: Xử lý tệp CAMT lớn (50 MB+, 50K+ giao dịch) với bộ nhớ giới hạn.
+- **Xuất sổ cái**: Xuất trực tiếp sang định dạng hledger hoặc beancount journal cho kế toán ngân quỹ.
+- **Kiểm tra chuyển đổi**: Chạy song song cả hai trình phân tích trong cùng phạm vi ngày để xác minh tính nhất quán đầu ra trước khi chuyển đổi.
 
 ## Bắt đầu
 
@@ -174,7 +177,7 @@ pip install bankstatementparser
 ```python
 from bankstatementparser import create_parser, detect_statement_format
 
-# Works with MT940 today, CAMT.053 tomorrow
+# Works with MT940 today, CAMT.053 tomorrow, PDF anytime
 for file in bank_statement_files:
     fmt = detect_statement_format(file)
     parser = create_parser(file, fmt)
@@ -182,6 +185,15 @@ for file in bank_statement_files:
     process(df)  # Your code doesn't change
 ```
 
+Với sao kê PDF từ các ngân hàng chưa cung cấp xuất CAMT có cấu trúc:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+assert result.verification.status == "VERIFIED"
+```
+
 [Đọc tài liệu đầy đủ](/getting-started/index.html)
 
-[So sánh với các lựa chọn thay thế ❯](/comparison/index.html) | [Xem các trường hợp sử dụng trong thế giới thực ❯](/use-cases/index.html)
+[So sánh với các lựa chọn thay thế ❯](/comparison/index.html) | [Xem các trường hợp sử dụng thực tế ❯](/use-cases/index.html)

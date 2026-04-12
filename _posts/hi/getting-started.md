@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "काली खिड़कियों वाली एक सफेद इमारत"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/daniele-franchi-Vl6YuVBLEys.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 बैंक स्टेटमेंट पार्सर। सर्वाधिकार सुरक्षित।"
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "पायथन के लिए बैंक स्टेटमेंट पार्सर के साथ आरंभ करें: CAMT/PAIN.001/CSV/OFX/QFX/MT940 फ़ाइलों को स्थापित करें, पार्स करें, और स्ट्रीमिंग या सीएलआई वर्कफ़्लो का उपयोग करें।"
 download: ""
 format-detection: "telephone=no"
@@ -109,24 +109,41 @@ site_software: "Shokunin, Rust"
 
 ## आवश्यकताएं
 
-- पायथन 3.9 से 3.14
+- Python 3.10 से 3.14
 - टर्मिनल एक्सेस (macOS, Linux, या WSL)
 
-## स्थापित करना
+## इंस्टॉल करें
 
 ```bash
+# Core install (deterministic parsers only)
 pip install bankstatementparser
 ```
 
-पोलर डेटाफ़्रेम समर्थन के लिए:
+अतिरिक्त क्षमताओं के लिए वैकल्पिक extras:
 
 ```bash
-pip install bankstatementparser[polars]
+# Text-LLM path for digital PDFs (litellm + pypdf)
+pip install 'bankstatementparser[hybrid]'
+
+# Higher-fidelity table extraction (adds pdfplumber)
+pip install 'bankstatementparser[hybrid-plus]'
+
+# Vision-LLM path for scanned PDFs (adds pypdfium2)
+pip install 'bankstatementparser[hybrid-vision]'
+
+# LLM-powered transaction categorisation
+pip install 'bankstatementparser[enrichment]'
+
+# REST API microservice (FastAPI + uvicorn)
+pip install 'bankstatementparser[api]'
+
+# Optional Polars DataFrame support
+pip install 'bankstatementparser[polars]'
 ```
 
 ## त्वरित शुरुआत
 
-### किसी भी प्रारूप का स्वतः पता लगाएं और पार्स करें
+### किसी भी संरचित प्रारूप को ऑटो-डिटेक्ट और पार्स करें
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -137,9 +154,9 @@ df = parser.parse()  # pandas DataFrame
 print(df.head())
 ```
 
-इसके साथ काम करता है`.xml`(CAMT/PAIN.001),`.csv`, `.ofx`, `.qfx`, `.mt940`, और`.sta`फ़ाइलें.
+यह `.xml` (CAMT/PAIN.001), `.csv`, `.ofx`, `.qfx`, `.mt940`, और `.sta` फ़ाइलों के साथ काम करता है।
 
-### पार्स CAMT.053
+### CAMT.053 पार्स करें
 
 ```python
 from bankstatementparser import CamtParser
@@ -148,7 +165,7 @@ parser = CamtParser("statement.xml")
 transactions = parser.parse()
 ```
 
-### पार्स दर्द.001
+### PAIN.001 पार्स करें
 
 ```python
 from bankstatementparser import Pain001Parser
@@ -157,9 +174,24 @@ parser = Pain001Parser("payment.xml")
 payments = parser.parse()
 ```
 
-## बड़ी फ़ाइलों को स्ट्रीम करना
+### PDF बैंक स्टेटमेंट पार्स करें (Hybrid Pipeline)
 
-हजारों लेन-देन वाली फ़ाइलों के लिए, मेमोरी को सीमित रखने के लिए स्ट्रीमिंग का उपयोग करें:
+Hybrid pipeline बुद्धिमानी से PDF को तीन extraction paths से रूट करती है:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+print(result.transactions)          # List of extracted transactions
+```
+
+हर extraction **Golden Rule** से सत्यापित होती है: `opening + credits − debits == closing`।
+
+## बड़ी फ़ाइलें Stream करना
+
+हज़ारों लेनदेन वाली फ़ाइलों के लिए, मेमोरी सीमित रखने हेतु streaming का उपयोग करें:
 
 ```python
 parser = CamtParser("large_statement.xml")
@@ -169,7 +201,7 @@ for transaction in parser.parse_streaming(redact_pii=True):
 
 ## इन-मेमोरी पार्सिंग
 
-डिस्क I/O के बिना बाइट्स से पार्स - एसएफटीपी या एपीआई वर्कफ़्लो के लिए उपयोगी:
+डिस्क I/O के बिना bytes से पार्स करें -- SFTP या API वर्कफ़्लो के लिए उपयोगी:
 
 ```python
 xml_bytes = download_from_sftp()
@@ -177,9 +209,9 @@ parser = CamtParser.from_bytes(xml_bytes, source_name="daily.xml")
 transactions = parser.parse()
 ```
 
-## समानांतर फ़ाइल प्रसंस्करण
+## समानांतर फ़ाइल प्रोसेसिंग
 
-एकाधिक फ़ाइलों को एक साथ पार्स करें:
+कई फ़ाइलें एक साथ पार्स करें:
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -193,9 +225,21 @@ for r in results:
     print(r.path, r.status, len(r.transactions), "rows")
 ```
 
+## बल्क डायरेक्टरी स्कैनिंग
+
+स्वचालित डिडुप्लीकेशन के साथ पूरे फ़ोल्डर ट्री प्रोसेस करें:
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Processed: {len(batch.results)} files")
+print(f"Unique transactions: {batch.unique_count}")
+```
+
 ## डिडुप्लीकेशन
 
-आत्मविश्वास स्कोर के साथ सटीक डुप्लिकेट और संदिग्ध मिलान का पता लगाएं:
+सुरक्षित incremental ingestion के लिए idempotent transaction hashes:
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
@@ -209,9 +253,61 @@ print(f"Exact duplicates: {len(result.exact_duplicates)}")
 print(f"Suspected matches: {len(result.suspected_matches)}")
 ```
 
-## सुरक्षित ज़िप प्रोसेसिंग
+## लेनदेन वर्गीकरण (Enrichment)
 
-अंतर्निहित सुरक्षा जांच (बम सुरक्षा, एन्क्रिप्टेड प्रविष्टि अस्वीकृति) के साथ ज़िपित XML फ़ाइलों को संसाधित करें:
+LLM-संचालित classification से लेनदेन स्वचालित रूप से वर्गीकृत करें:
+
+```python
+from bankstatementparser.enrichment import Categorizer
+
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(transactions)
+for txn in enriched:
+    print(f"{txn.description}: {txn.category}")
+```
+
+## Ledger निर्यात (hledger / beancount)
+
+लेनदेन को plaintext-accounting journal formats में निर्यात करें:
+
+```python
+from bankstatementparser.export import to_hledger, to_beancount
+
+journal = to_hledger(transactions, account="Assets:Bank:Checking")
+beancount_journal = to_beancount(transactions, account="Assets:Bank:Checking")
+```
+
+## Multi-Currency बैलेंस सत्यापन
+
+प्रत्येक currency group के लिए स्वतंत्र रूप से बैलेंस सत्यापित करें:
+
+```python
+from bankstatementparser.hybrid import verify_balance_multi_currency
+
+results = verify_balance_multi_currency(transactions)
+for currency, verification in results.items():
+    print(f"{currency}: {verification.status}")
+```
+
+## REST API
+
+FastAPI माइक्रोसर्विस के रूप में डिप्लॉय करें:
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+
+# For container deployments
+bankstatementparser-api --host 0.0.0.0 --port 9000
+```
+
+Endpoints:
+- `POST /ingest` -- बैंक स्टेटमेंट फ़ाइल पार्स करें
+- `GET /health` -- Health check
+
+## सुरक्षित ZIP प्रोसेसिंग
+
+अंतर्निहित सुरक्षा जाँच (bomb protection, encrypted entry rejection) के साथ ज़िप XML फ़ाइलें प्रोसेस करें:
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
@@ -230,29 +326,39 @@ parser.export_json("output.json")
 
 # Polars (requires bankstatementparser[polars])
 polars_df = parser.to_polars()
+
+# Excel
+parser.camt_to_excel("output.xlsx")
 ```
 
-## सीएलआई उपयोग
+## CLI उपयोग
 
 ```bash
-# Parse and display
-python -m bankstatementparser.cli --type camt --input statement.xml
+# Parse structured formats
+bankstatementparser --type camt --input statement.xml
+bankstatementparser --type pain001 --input payment.xml
 
-# Export to CSV
-python -m bankstatementparser.cli --type camt --input statement.xml --output transactions.csv
+# Hybrid PDF pipeline
+bankstatementparser --type ingest --input statement.pdf
+bankstatementparser --type ingest --input statement.pdf --output ledger.csv
 
-# Stream with PII visible
-python -m bankstatementparser.cli --type camt --input statement.xml --streaming --show-pii
+# Interactive review mode
+bankstatementparser --type review --input result.json
+bankstatementparser --type review --input result.json --output reviewed.json
+
+# Export to CSV with streaming
+bankstatementparser --type camt --input statement.xml --output transactions.csv
+bankstatementparser --type camt --input statement.xml --streaming --show-pii
 ```
 
-सीएलआई विकल्प:
+CLI विकल्प:
 
-- `--type {camt,pain001}`-- पार्सर प्रकार
--`--input <path>`-- इनपुट फ़ाइल
--`--output <csv_path>`- सीएसवी को निर्यात करें
--`--streaming`- बड़ी फ़ाइलों को स्ट्रीम करें
--`--show-pii`- संवेदनशील फ़ील्ड दिखाएं (डिफ़ॉल्ट रूप से संशोधित)
--`--max-size <MB>`--फ़ाइल आकार सीमा
+- `--type {camt,pain001,ingest,review}` -- पार्सर प्रकार या मोड
+- `--input <path>` -- इनपुट फ़ाइल
+- `--output <path>` -- निर्यात फ़ाइल (CSV या JSON)
+- `--streaming` -- बड़ी फ़ाइलें stream करें
+- `--show-pii` -- संवेदनशील फ़ील्ड दिखाएं (डिफ़ॉल्ट रूप से छिपे)
+- `--max-size <MB>` -- फ़ाइल आकार सीमा
 
 ## स्थानीय विकास सेटअप
 
@@ -261,52 +367,63 @@ git clone https://github.com/sebastienrousseau/bankstatementparser.git
 cd bankstatementparser
 python3 -m venv .venv && source .venv/bin/activate
 pip install poetry && poetry install --with dev
+make install-hooks   # pre-commit hook runs `make verify` before every commit
 ```
 
-परीक्षण सूट चलाएँ:
+टेस्ट सूट चलाएं:
 
 ```bash
 pytest
 ```
 
-## एपीआई संदर्भ
+## API संदर्भ
 
-### पार्सर क्लासेस
+### Parser Classes
 
-| कक्षा | प्रारूप | आयात |
+| Class | प्रारूप | Import |
 |---|---|---|
-| `CamtParser` | CAMT.053 (आईएसओ 20022) | `from bankstatementparser import CamtParser` |
-| `Pain001Parser` | दर्द.001 (आईएसओ 20022) | `from bankstatementparser import Pain001Parser` |
-| `CsvStatementParser` | सीएसवी | `from bankstatementparser import CsvStatementParser` |
+| `CamtParser` | CAMT.053 (ISO 20022) | `from bankstatementparser import CamtParser` |
+| `Pain001Parser` | PAIN.001 (ISO 20022) | `from bankstatementparser import Pain001Parser` |
+| `CsvStatementParser` | CSV | `from bankstatementparser import CsvStatementParser` |
 | `OfxParser` | OFX | `from bankstatementparser import OfxParser` |
-| `QfxParser` | क्यूएफएक्स | `from bankstatementparser import QfxParser` |
+| `QfxParser` | QFX | `from bankstatementparser import QfxParser` |
 | `Mt940Parser` | MT940 | `from bankstatementparser import Mt940Parser` |
+| `smart_ingest()` | PDF (hybrid pipeline) | `from bankstatementparser.hybrid import smart_ingest` |
 
-### उपयोगिता कार्य
+### Utility Functions
 
-| समारोह | उद्देश्य |
+| Function | उद्देश्य |
 |---|---|
-| `detect_statement_format(path)` | फ़ाइल स्वरूप का स्वतः पता लगाएं |
-| `create_parser(path, fmt)` | उपयुक्त पार्सर बनाएँ |
-| `parse_files_parallel(paths)` | एकाधिक फ़ाइलों को एक साथ पार्स करें |
-| `iter_secure_xml_entries(zip_path)` | ज़िप प्रविष्टियों को सुरक्षित रूप से पुनरावृत्त करें |
+| `detect_statement_format(path)` | फ़ाइल प्रारूप ऑटो-डिटेक्ट करें |
+| `create_parser(path, fmt)` | उपयुक्त पार्सर बनाएं |
+| `parse_files_parallel(paths)` | कई फ़ाइलें एक साथ पार्स करें |
+| `iter_secure_xml_entries(zip_path)` | ZIP entries सुरक्षित रूप से iterate करें |
+| `smart_ingest(path)` | सत्यापन के साथ Hybrid PDF extraction |
+| `scan_and_ingest(dir, pattern)` | बल्क डायरेक्टरी स्कैनिंग |
+| `verify_balance_multi_currency(txns)` | प्रति-currency बैलेंस सत्यापन |
+| `to_hledger(txns, account)` | hledger journal format में निर्यात |
+| `to_beancount(txns, account)` | beancount journal format में निर्यात |
 
-### डेटा क्लासेस
+### Data Classes
 
-| कक्षा | उद्देश्य |
+| Class | उद्देश्य |
 |---|---|
 | `Deduplicator` | डुप्लिकेट लेनदेन का पता लगाएं |
-| `DeduplicationResult` | अद्वितीय, सटीक और संदिग्ध मिलान वाले परिणाम |
-| `InputValidator` | फ़ाइल पथ और प्रारूप मान्य करें |
-| `Transaction` | सामान्यीकृत लेनदेन रिकॉर्ड |
-| `FileResult` | समानांतर विश्लेषण से परिणाम |
-| `ZipXMLSource` | जिप सदस्य आवरण |
+| `DeduplicationResult` | unique, exact, और suspected matches वाला परिणाम |
+| `InputValidator` | फ़ाइल paths और प्रारूप validate करें |
+| `Transaction` | Normalised लेनदेन रिकॉर्ड |
+| `FileResult` | समानांतर पार्सिंग का परिणाम |
+| `ZipXMLSource` | ZIP member wrapper |
+| `IngestResult` | सत्यापन सहित hybrid pipeline परिणाम |
+| `VerificationResult` | बैलेंस सत्यापन परिणाम |
+| `Categorizer` | LLM-संचालित लेनदेन वर्गीकरण |
+| `AccountMapper` | Regex-आधारित account mapping नियम |
 
-### अपवाद
+### Exceptions
 
-| अपवाद | जब उठाया गया |
+| Exception | कब raise होता है |
 |---|---|
-| `ParserError` | पार्सिंग विफलताएँ |
-| `ExportError` | निर्यात विफलताएँ (CSV/JSON/Excel) |
-| `ValidationError` | इनपुट सत्यापन विफलताएँ |
-| `ZipSecurityError` | ज़िप सुरक्षा जाँच विफलताएँ |
+| `ParserError` | पार्सिंग विफलताएं |
+| `ExportError` | निर्यात विफलताएं (CSV/JSON/Excel) |
+| `ValidationError` | इनपुट validation विफलताएं |
+| `ZipSecurityError` | ZIP सुरक्षा जाँच विफलताएं |

@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "银行对账单解析器与替代方案"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 银行对账单解析器。版权所有。"
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "将银行对账单解析器与 mt-940、ofxparse、pycamt、pyiso20022 以及 Ocrolus 和 Parseur 等 SaaS 工具进行比较。功能比较、定价和迁移指南。"
 download: ""
 format-detection: "telephone=no"
@@ -107,72 +107,84 @@ site_software: "Shokunin, Rust"
 
 ---
 
-＃＃ 概述
+## 概述
 
-Bank Statement Parser 是唯一一个使用统一 API 解析六种银行对账单格式的开源 Python 库。单一格式库（mt-940、ofxparse、pycamt）各自处理一种格式。 SaaS 工具（Ocrolus、Parseur）提供 PDF 的 OCR，但需要向外部发送数据，费用为 49-1,000 美元以上/月。
+Bank Statement Parser 是唯一一个通过统一 API 解析七种银行对账单格式（包括通过混合 LLM 管道处理的 PDF）的开源 Python 库。单格式库（mt-940、ofxparse、pycamt）各自仅处理一种格式。SaaS 工具（Ocrolus、Parseur）提供云端 OCR，但需要将数据发送至外部，费用为 $49–$1,000+/月。
 
 ## 开源替代方案
 
-### 单一格式库
+### 单格式库
 
-大多数开源银行对账单解析器仅处理一种格式。如果您需要多种格式，则必须安装和维护具有不同 API、输出架构和更新周期的单独库。
+大多数开源银行对账单解析器仅处理一种格式。如果需要多种格式，您必须安装和维护多个具有不同 API、输出模式和更新周期的独立库。
 
-| 图书馆 | 格式 | 输出 | 流媒体 | PII 编辑 | 重复数据删除 |
+| 库 | 格式 | PDF | 输出 | 余额校验 | 账本导出 |
 |---|---|---|---|---|---|
-| **银行对账单解析器** | 6种格式 | 熊猫数据框 | 是的 | 是（默认） | 是的 |
-| mt-940 (WoLpH) | 仅限MT940 | Python 对象 | 不 | 不 | 不 |
-| ofx解析 | 仅限 OFX | Python 对象 | 不 | 不 | 不 |
-| 皮卡姆特 | 仅 CAMT.053 | Python 对象 | 不 | 不 | 不 |
-| ofx工具 | 仅限 OFX v1/v2 | Python 对象 | 不 | 不 | 不 |
+| **Bank Statement Parser** | 7 种格式 | 混合管道 | pandas DataFrame | 黄金法则 | hledger, beancount |
+| mt-940 (WoLpH) | 仅 MT940 | 无 | Python 对象 | 无 | 无 |
+| ofxparse | 仅 OFX | 无 | Python 对象 | 无 | 无 |
+| pycamt | 仅 CAMT.053 | 无 | Python 对象 | 无 | 无 |
+| ofxtools | 仅 OFX v1/v2 | 无 | Python 对象 | 无 | 无 |
 
 ### 与 pyiso20022 比较
 
 pyiso20022 从完整的 ISO 20022 模式目录生成 Python 数据类。它是一个通用 ISO 20022 工具包，用于处理 PACS、PAIN、CAMT 和 ADMI 消息。
 
-银行对账单解析器专门用于将银行对账单解析为具有生产功能的 DataFrame：
+Bank Statement Parser 专为将银行对账单解析为 DataFrame 而构建，提供生产级功能：
 
-| 特征 | 银行对账单解析器 | pyiso20022 |
+| 特性 | Bank Statement Parser | pyiso20022 |
 |---|---|---|
-| 目的 | 语句解析+导出 | ISO 20022 架构工具包 |
-| 输出 | pandas/Polars 数据框 | Python 数据类 |
-| 格式 | 6（包括非 ISO） | 仅 ISO 20022 |
-| 流媒体 | 是（有限内存） | 不 |
-| PII 编辑 | 内置 | 不 |
-| 重复数据删除 | 内置 | 不 |
-| 邮政编码安全 | 内置 | 不 |
-| 命令行界面 | 是的 | 不 |
+| 用途 | 对账单解析 + 提取 + 导出 | ISO 20022 模式工具包 |
+| 输出 | pandas/Polars DataFrame | Python 数据类 |
+| 格式 | 7 种（含 PDF 和非 ISO 格式） | 仅 ISO 20022 |
+| PDF 支持 | 混合管道（确定性 + LLM + 视觉） | 无 |
+| 余额校验 | 黄金法则 + 多币种 | 无 |
+| REST API | 内置 FastAPI | 无 |
+| 智能分类 | LLM 驱动的分类 | 无 |
+| 账本导出 | hledger + beancount | 无 |
+| 流式处理 | 有（有界内存） | 无 |
+| PII 脱敏 | 内置 | 无 |
+| 去重 | 幂等交易哈希 | 无 |
+| CLI | 有 | 无 |
 
-如果您需要使用完整的 ISO 20022 消息目录，请使用 pyiso20022。如果您需要将银行对账单解析为结构化数据以进行分析、对账或报告，请使用银行对账单解析器。
+如果您需要使用完整的 ISO 20022 消息目录，请使用 pyiso20022。如果您需要将银行对账单解析为结构化数据以进行分析、对账或报告，请使用 Bank Statement Parser。
 
 ## SaaS 替代方案
 
-Ocrolus、Parseur 和 Sensible 等 SaaS 工具将银行对账单解析作为云服务提供。他们通常使用 OCR 处理扫描的 PDF 并支持数百种银行特定格式。
+Ocrolus、Parseur 和 Sensible 等 SaaS 工具将银行对账单解析作为云服务提供。它们通常使用 OCR 处理扫描的 PDF，并支持数百种银行特定格式。
 
-| 特征 | 银行对账单解析器 | 软件即服务工具 |
+| 特性 | Bank Statement Parser | SaaS 工具 |
 |---|---|---|
-| 数据隐私 | 100%本地，零网络调用 | 数据发送至云端 |
-| 成本 | 免费（阿帕奇2.0） | $49–$1,000+/月（截至 2026 年第一季度） |
-| 格式 | 6 种结构化格式 | 数百（通过 OCR） |
-| PDF 支持 | 否（仅限结构化格式） | 是（基于 OCR） |
-| 延迟 | <2 毫秒第一个结果 | 1-30秒 |
-| 吞吐量 | 每秒 27,000+ 笔交易 | API 速率限制 |
-| 供应商锁定 | 没有任何 | 是的 |
-| 遵守 | 本地处理、SBOM | 因提供商而异 |
+| 数据隐私 | 100% 本地（LLM 通过 Ollama） | 数据发送至云端 |
+| 费用 | 免费（Apache 2.0） | $49–$1,000+/月（截至 2026 年第一季度） |
+| 格式 | 7 种（结构化 + PDF） | 数百种（通过 OCR） |
+| PDF 支持 | 有——混合管道（确定性 + LLM + 视觉） | 有（云端 OCR） |
+| 余额校验 | 黄金法则（自动） | 手动/有限 |
+| 延迟 | < 2 ms（结构化），秒级（PDF+LLM） | 1-30 秒 |
+| 吞吐量 | 27,000+ tx/s（结构化） | API 速率限制 |
+| REST API | 内置 FastAPI | 专有 |
+| 账本导出 | hledger + beancount | 无 |
+| 供应商锁定 | 无 | 有 |
+| 合规 | 本地处理，SBOM | 因供应商而异 |
 
 ## 基于 LLM 的解析器
 
-A growing number of tools (Inscribe, Unstract, Mozilla.ai blueprints) use large language models to parse bank statements, including scanned PDFs.当 Chase 在 2025 年底重新设计其消费者声明格式时，基于模板的解析器崩溃了，而 LLM 解析器则自动适应。
+越来越多的工具（Inscribe、Unstract、Mozilla.ai blueprints）使用大语言模型解析银行对账单，包括扫描的 PDF。当 Chase 在 2025 年底重新设计其消费者对账单格式时，基于模板的解析器失效了，而 LLM 解析器则自动适应。
 
-**当 LLM 解析器有意义时**：您收到来自数百家银行的扫描 PDF，其布局不可预测，并且近似提取（95-99% 的准确度）是可以接受的。
+**Bank Statement Parser 现已内置自有混合 LLM 管道**（v0.0.5+），完全通过 Ollama 在本地运行。它结合了两种方法的优势：
 
-**当银行对账单解析器是更好的选择时**：您需要确定性、可重复的输出来进行审计和合规性。您无法将财务数据发送到外部 API。您需要亚毫秒级延迟（LLM API 需要 1-30 秒）。您希望零持续成本并且不依赖供应商。
+- **结构化格式**（XML、CSV、OFX、MT940）：确定性解析——100% 准确，亚毫秒延迟，零 LLM 成本。
+- **PDF 对账单**：三路路由（确定性表格提取 → 文本 LLM → 视觉 LLM），自动黄金法则校验以捕获提取错误。
 
-Bank Statement Parser and LLM tools solve different problems.对于需要 100% 准确性、本地处理和审计再现性的结构化格式（XML、CSV、OFX、MT940），请使用银行对账单解析器。对于可以接受近似提取的非结构化 PDF，请使用 LLM 工具。
+与纯云端 LLM 解析器不同，Bank Statement Parser 的混合管道：
+- 100% 本地运行（Ollama）——数据不会离开您的机器。
+- 通过余额校验（黄金法则）验证每次提取。
+- 支持交互式审查模式，处理标记的差异。
+- 生成幂等交易哈希，安全支持增量摄取。
 
-**基准方法**：使用 5,000 个事务 CAMT.053 文件 (2.1 MB) 在 Apple M2、Python 3.12 上测量的性能数据。结果平均超过 100 次运行。本地重现：`python -m bankstatementparser.bench`。 SaaS 延迟基于截至 2026 年 4 月发布的 API 文档。
+**何时选择纯 SaaS LLM 解析器**：您收到来自数百家银行的对账单，PDF 布局差异极大，需要开箱即用的覆盖范围且无需运行本地基础设施。
 
-**何时选择银行对账单解析器**：您的银行提供结构化导出（XML、CSV、OFX、MT940），您需要本地处理以实现合规性，或者您希望零持续成本。
+**何时选择 Bank Statement Parser**：您需要本地处理以满足合规要求。您需要余额校验。您需要账本导出。您希望零持续成本。
 
-**何时选择 SaaS**：您收到扫描的 PDF 报表，需要对数百种银行特定格式进行 OCR，或者需要无代码解决方案。
+**基准方法**：性能数据在 Apple M2、Python 3.12 上使用 5,000 笔交易的 CAMT.053 文件（2.1 MB）测量。结果取 100 次运行的平均值。本地复现：`python -m bankstatementparser.bench`。SaaS 延迟基于截至 2026 年 4 月发布的 API 文档。
 
-[查看真实用例❯](/use-cases/index.html) | [规划 MT940 到 CAMT 的迁移❯](/migration/index.html)
+[查看实际使用场景 ❯](/use-cases/index.html) | [规划 MT940 到 CAMT 迁移 ❯](/migration/index.html)

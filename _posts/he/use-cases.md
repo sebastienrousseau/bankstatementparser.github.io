@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "מקרי שימוש בנתח דף חשבון בנק"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
-copyright: "© 2023-2026 מנתח חשבונות בנק. כֹּל הַזְכוּיוֹת שְׁמוּרוֹת."
-date: "Apr 01, 2026"
+copyright: "© 2023-2026 מנתח חשבונות בנק. כֹּל הַזְכוּיוֹת שְׁמוּרוֹת."
+date: "Apr 11, 2026"
 description: "כיצד צוותי אוצר, מפתחי פינטק וקציני ציות משתמשים בנתח חשבונות בנק עבור הגירה, התאמה, צינורות ביקורת ואיחוד רב-בנקאי מ-MT940 ל-CAMT."
 download: ""
 format-detection: "telephone=no"
@@ -107,13 +107,41 @@ site_software: "Shokunin, Rust"
 
 ---
 
-מנתח חשבונות בנק מטפל בזרימות עבודה פיננסיות בעולם האמיתי: העברת MT940 ל-CAMT עבור צוותי משרד האוצר, התאמה אוטומטית, צינורות תאימות עם עריכת PII, הטמעת SFTP, איחוד ריבוי בנקים ועיבוד אצווה ZIP מאובטח.
+Bank Statement Parser מטפל בתהליכי עבודה פיננסיים מהעולם האמיתי: קליטת דפי חשבון PDF, הגירה מ-MT940 ל-CAMT, התאמה אוטומטית עם אימות יתרה, pipelines ציות, ייצוא לחשבונאות בטקסט, פריסות REST API, סריקה בכמות גדולה ואיחוד רב-בנקאי.
 
-## משרד האוצר: MT940 ל-CAMT.053 הגירה
+## קליטת דפי חשבון PDF
 
-**תוצאה:** קריאת API בודדת מטפלת הן ב-MT940 והן ב-CAMT.053 במהלך חלון ההעברה של SWIFT (נובמבר 2025–נובמבר 2028), ומבטלת את הצורך בצינורות ניתוח נפרדים.
+**תוצאה:** ניתוח דפי חשבון PDF דיגיטליים וסרוקים עם אימות יתרה אוטומטי — ללא APIs בענן, שום נתון לא עוזב את המחשב שלך.
 
-צוותי משרד האוצר ברחבי העולם עוברים מ-MT940 ל-CAMT.053 לפני המועד האחרון של SWIFT בנובמבר 2027. מנתח חשבונות בנק מטפל בשני הפורמטים עם API אחד, מה שהופך את המעבר לחלק.
+ה-pipeline ההיברידי ל-PDF מנתב כל PDF דרך נתיב החילוץ האופטימלי ומאמת כל תוצאה.
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+print(result.source_method)         # "deterministic" | "llm" | "vision"
+print(result.verification.status)   # VERIFIED | DISCREPANCY | FAILED
+
+# Review discrepancies interactively
+# bankstatementparser --type review --input result.json
+```
+
+## עיבוד דפי חשבון בכמות גדולה
+
+**תוצאה:** סריקת עצי תיקיות שלמים (מאות קבצי PDF, XML, CSV) עם מניעת כפילויות אוטומטית בין קבצים בקריאה אחת.
+
+```python
+from bankstatementparser.hybrid import scan_and_ingest
+
+batch = scan_and_ingest("statements/2026/", pattern="**/*.pdf")
+print(f"Files: {len(batch.results)}, Unique txns: {batch.unique_count}")
+```
+
+## אוצר: הגירה מ-MT940 ל-CAMT.053
+
+**תוצאה:** קריאת API אחת מטפלת גם ב-MT940 וגם ב-CAMT.053 במהלך חלון ההגירה של SWIFT (נובמבר 2025 - נובמבר 2028), מה שמבטל את הצורך ב-pipelines ניתוח נפרדים.
+
+צוותי אוצר ברחבי העולם עוברים מ-MT940 ל-CAMT.053 לקראת מועד ה-SWIFT של נובמבר 2027. Bank Statement Parser מטפל בשני הפורמטים עם API יחיד, מה שהופך את המעבר לחלק.
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -126,17 +154,23 @@ for file in daily_statement_files:
     load_to_treasury_system(df)
 ```
 
-## פיוס אוטומטי
+## התאמה אוטומטית עם אימות יתרה
 
-**תוצאה:** DataFrames חסרי פורמט עם מניעת כפילויות מובנית מפחיתות את מאמץ ההתאמה הידנית ותפוס ערכים כפולים לפני שהם מגיעים לפנקס החשבונות שלך.
+**תוצאה:** DataFrames אגנוסטיים לפורמט עם אימות כלל הזהב ומניעת כפילויות תופסים שגיאות וכפילויות לפני שהן מגיעות ל-ledger שלך.
 
-נתח דפי בנק והתאמת רשומות פנימיות באופן אוטומטי. הפלט המאוחד של DataFrame הופך את לוגיקת הפיוס לאגנוסטית לפורמט.
+ניתוח דפי חשבון בנק, אימות יתרות והתאמה מול רשומות פנימיות אוטומטית.
 
 ```python
 from bankstatementparser import CamtParser, Deduplicator
+from bankstatementparser.hybrid import verify_balance_multi_currency
 
 parser = CamtParser("bank_statement.xml")
 bank_txns = parser.parse()
+
+# Verify balances per currency
+verification = verify_balance_multi_currency(bank_txns)
+for ccy, result in verification.items():
+    assert result.status == "VERIFIED", f"{ccy} balance mismatch!"
 
 # Deduplicate before reconciliation
 dedup = Deduplicator()
@@ -147,11 +181,39 @@ clean_txns = result.unique_transactions
 unmatched = reconcile(clean_txns, internal_ledger)
 ```
 
-## צנרת ציות וביקורת
+## חשבונאות בטקסט (hledger / beancount)
 
-**תוצאה:** פלט דטרמיניסטי ועיבוד PII אוטומטי מייצרים יומנים מוכנים לביקורת העומדים בדרישות השחזור הרגולטוריות ללא כלים נוספים.
+**תוצאה:** קליטה אוטומטית מדפי חשבון PDF וייצוא עסקאות מסווגות לפורמט יומן hledger או beancount.
 
-בנו צינורות מוכנים לביקורת עם עריכת PII ופלט דטרמיניסטי. כל ריצה מייצרת תוצאות זהות עבור אותו קלט, ועומדת בדרישות השחזור הרגולטוריות.
+```python
+from bankstatementparser.hybrid import smart_ingest
+from bankstatementparser.enrichment import Categorizer
+from bankstatementparser.export import to_hledger
+
+result = smart_ingest("statement.pdf")
+categorizer = Categorizer()
+enriched = categorizer.categorize_batch(result.transactions)
+journal = to_hledger(enriched, account="Assets:Bank:Checking")
+```
+
+## פריסת REST API
+
+**תוצאה:** פריסת Bank Statement Parser כשירות מיקרו שמקבל קבצי דפי חשבון דרך HTTP ומחזיר JSON מובנה.
+
+```bash
+# Start the API server
+bankstatementparser-api --port 8000
+```
+
+```bash
+# Ingest a statement
+curl -X POST http://localhost:8000/ingest \
+  -F "file=@statement.pdf"
+```
+
+## pipelines ציות וביקורת
+
+**תוצאה:** פלט דטרמיניסטי, עריכת PII אוטומטית ואימות כלל הזהב מייצרים יומנים מוכנים לביקורת שעומדים בדרישות רגולטוריות של שחזוריות.
 
 ```python
 from bankstatementparser import CamtParser
@@ -166,11 +228,9 @@ for txn in parser.parse_streaming(redact_pii=True):
 parser.export_csv("archive/statement.csv")
 ```
 
-## זרימות עבודה של SFTP-to-DataFrame
+## תהליכי SFTP ל-DataFrame
 
-**תוצאה:** נתח ישירות מבייטים עם אפס קלט/פלט של דיסק, תוך התאמה מקורית לתהליכי עבודה של קישוריות בנק מונעת על ידי SFTP ו-API.
-
-בנקים רבים מספקים דוחות באמצעות SFTP. ניתוח ישירות מבייטים מבלי לכתוב לדיסק.
+**תוצאה:** ניתוח ישירות מבתים ללא קלט/פלט לדיסק, משתלב באופן טבעי בתהליכי חיבור בנקאי מבוססי SFTP ו-API.
 
 ```python
 from bankstatementparser import CamtParser
@@ -182,9 +242,7 @@ df = parser.parse()
 
 ## איחוד רב-בנקאי
 
-**תוצאה:** ניתוח מקביל על פני HSBC (CAMT), Barclays (MT940), Revolut (CSV) ו-Wise (OFX) מייצר מערך נתונים מנורמל בקריאה אחת.
-
-איחוד הצהרות ממספר בנקים באמצעות פורמטים שונים לתוך מערך נתונים מנורמל אחד.
+**תוצאה:** ניתוח מקבילי עבור HSBC (CAMT), Barclays (MT940), Revolut (CSV), Wise (OFX) ו-Chase (PDF) מייצר מערך נתונים מנורמל אחד.
 
 ```python
 from bankstatementparser import parse_files_parallel
@@ -199,11 +257,9 @@ results = parse_files_parallel([
 all_transactions = pd.concat([r.transactions for r in results if r.status == "success"])
 ```
 
-## עיבוד אצווה עם ארכיון ZIP
+## עיבוד אצווה עם ארכיוני ZIP
 
-**תוצאה:** הגנה מובנית על פצצות ZIP (מגבלת יחס של 100:1, מכסת כניסה של 10 מגה-בייט, דחיית כניסה מוצפנת) מאפשרת לך לעבד בבטחה ארכיוני הצהרות חודשיים.
-
-עבד בצורה מאובטחת ארכיוני הצהרה מכווצים עם הגנת פצצות ZIP מובנית.
+**תוצאה:** הגנת פצצות ZIP מובנית (מגבלת יחס 100:1, תקרת 10 MB לערך, דחיית ערכים מוצפנים) מאפשרת לך לעבד ארכיוני דפי חשבון חודשיים בבטחה.
 
 ```python
 from bankstatementparser import iter_secure_xml_entries, CamtParser
@@ -214,4 +270,4 @@ for entry in iter_secure_xml_entries("monthly_statements.zip"):
     save_to_warehouse(entry.source_name, df)
 ```
 
-[השווה עם חלופות ❯](/comparison/index.html) | [תכנן את העברת ISO 20022 ❯](/migration/index.html) | [התחל ❯](/getting-started/index.html)
+[השוואה עם חלופות ❯](/comparison/index.html) | [תכנן את הגירת ISO 20022 ❯](/migration/index.html) | [התחל ❯](/getting-started/index.html)

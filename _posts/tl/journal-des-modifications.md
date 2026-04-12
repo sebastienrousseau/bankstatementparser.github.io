@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "Bank Statement Parser Changelog"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 Bank Statement Parser. Lahat ng karapatan ay nakalaan."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "History ng release at changelog para sa Bank Statement Parser. Subaybayan ang mga bagong feature, pagpapahusay, at pag-aayos ng bug sa lahat ng bersyon."
 download: ""
 format-detection: "telephone=no"
@@ -109,7 +109,36 @@ site_software: "Shokunin, Rust"
 
 Sundin ang Bank Statement Parser development. Mag-subscribe sa pamamagitan ng [RSS](/changelog/rss.xml) o panoorin ang [GitHub repository](https://github.com/sebastienrousseau/bankstatementparser) para sa mga abiso sa pagpapalabas.
 
-## v0.0.4 — 2026-03-15 (Pinakabago)
+## v0.0.8 — 2026-04-11 (Latest) — "Full Platform"
+
+- Multi-currency balance verification — `verify_balance_multi_currency()` groups by currency, runs Golden Rule per group.
+- hledger + beancount export — `to_hledger()` and `to_beancount()` in `bankstatementparser.export`.
+- Bulk directory scanner — `scan_and_ingest()` scans folder trees, deduplicates across batch.
+- Account mapping rules — `AccountMapper` with ordered regex rules from JSON config.
+- REST API — FastAPI wrapper with `/ingest` and `/health` endpoints (`[api]` extra).
+
+## v0.0.7 — 2026-04-08 — "Universal Vision"
+
+- Direct Ollama bridge (`ollama_direct_completion`) — bypasses LiteLLM long-prompt hang.
+- Strip mode (`VisionExtractor.strip_rows=True`) — splits dense pages into overlapping bands for small local models.
+- Recommended vision model changed from `llava` to `minicpm-v`.
+
+## v0.0.6 — 2026-04-08 — "Intelligence Layer"
+
+- Dropped Python 3.9 support (now 3.10-3.14).
+- Enrichment module (`Categorizer`, `EnrichedTransaction`, `DEFAULT_CATEGORY_SCHEMA`).
+- Interactive review mode with `--type review` CLI command.
+- Per-row bounding box extraction (`Transaction.source_bbox`).
+
+## v0.0.5 — 2026-04-08 — "Universal Extraction"
+
+- Hybrid PDF pipeline (`smart_ingest()`) with deterministic/text-LLM/vision-LLM routing.
+- `LLMExtractor` for digital PDFs via LiteLLM.
+- `VisionExtractor` for scanned PDFs via multimodal vision models.
+- Golden Rule balance verification (`opening + credits - debits == closing`).
+- Idempotent deduplication via `transaction_hash` (MD5 fingerprint).
+
+## v0.0.4 — 2026-03-15
 
 - Idinagdag ang parallel na pag-parse ng file sa`parse_files_parallel()`gamit ang ProcessPoolExecutor.
 - Nagdagdag ng totoong streaming para sa malalaking PAIN.001 na file (50 MB+) na may bounded memory.
@@ -126,7 +155,7 @@ Sundin ang Bank Statement Parser development. Mag-subscribe sa pamamagitan ng [R
 - Nagdagdag ng PII redaction (naka-on bilang default sa CLI at streaming mode).
 - Nagdagdag ng mga katulong sa pag-export para sa CSV, JSON, at Excel.
 - Nagdagdag ng opsyonal na suporta sa Polars DataFrame.
-- Pinalawak na test suite sa 467 na pagsubok na may 100% branch coverage.
+- Pinalawak na test suite sa 718 na pagsubok na may 100% branch coverage.
 
 ## v0.0.2 — 2025-06-10
 
@@ -151,8 +180,8 @@ Tingnan ang buong kasaysayan ng commit sa [GitHub](https://github.com/sebastienr
   "name": "Bank Statement Parser",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Cross-platform",
-  "softwareVersion": "0.0.4",
-  "datePublished": "2026-03-15",
+  "softwareVersion": "0.0.8",
+  "datePublished": "2026-04-11",
   "releaseNotes": "Idinagdag ang parallel na pag-parse ng file, totoong streaming para sa PAIN.001, mga pag-optimize ng pagganap (27K+ tx/s CAMT, 52K+ tx/s PAIN.001), klase ng Deduplicator, in-memory na pag-parse, secure na pagproseso ng ZIP.",
   "downloadUrl": "https://pypi.org/project/bankstatementparser/",
   "lisensya": "https://opensource.org/licenses/Apache-2.0",

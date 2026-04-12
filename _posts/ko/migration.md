@@ -6,13 +6,13 @@ author: "Sebastien Rousseau"
 banner_alt: "ISO 20022 마이그레이션 가이드"
 banner_height: "100vh"
 banner_width: "100vw"
-banner: "https://kura.pro/stock/images/banners/corporate-finance.webp"
+banner: "https://cloudcdn.pro/stock/images/banners/corporate-finance.webp"
 cdn: ""
 changefreq: "weekly"
 charset: "utf-8"
 cname: ""
 copyright: "© 2023-2026 은행 명세서 파서. 모든 권리 보유."
-date: "Apr 01, 2026"
+date: "Apr 11, 2026"
 description: "SWIFT ISO 20022 마이그레이션 타임라인(2026-2028), MT940에서 CAMT.053으로의 전환, Bank 명세서 파서가 재무 팀의 마이그레이션을 돕는 방법에 대한 실무 가이드입니다."
 download: ""
 format-detection: "telephone=no"
@@ -107,21 +107,21 @@ site_software: "Shokunin, Rust"
 
 ---
 
-**요약:** SWIFT는 2028년 11월까지 MT940을 중단할 예정입니다. Bank 명세서 파서는 단일 API로 MT940과 CAMT.053을 모두 처리하므로 구문 분석 파이프라인이 전환 도중과 이후에 작동합니다.
+**요약:** SWIFT는 2028년 11월까지 MT940을 폐기할 예정입니다. Bank Statement Parser는 단일 API로 MT940과 CAMT.053을 모두 처리하므로 파싱 파이프라인이 전환 기간과 그 이후에도 작동합니다.
 
 ## 이 마이그레이션이 중요한 이유
 
-SWIFT는 더욱 풍부한 ISO 20022 표준을 위해 레거시 MT 메시지 형식을 폐기합니다. 재무 및 재무 팀의 경우 이는 확정 기한이 다가오기 전에 은행 명세서 처리 파이프라인이 MT940에서 CAMT.053으로 발전해야 함을 의미합니다.
+SWIFT는 더욱 풍부한 ISO 20022 표준을 위해 레거시 MT 메시지 형식을 폐기하고 있습니다. 재무팀에게 이는 확정 기한 전에 은행 명세서 처리 파이프라인을 MT940에서 CAMT.053으로 전환해야 함을 의미합니다.
 
 ## SWIFT 마이그레이션 타임라인
 
-| 날짜 | 중요한 단계 | 영향 |
+| 날짜 | 주요 이정표 | 영향 |
 |---|---|---|
-| **2025년 11월** | 국경 간 결제에 대한 MT-MX 공존 종료 | PACS 메시지는 이제 ISO 20022 전용입니다. |
-| **2026년 11월** | 구조화된/하이브리드 주소는 필수입니다. MT101 다중 명령이 거부되었습니다. 사례관리 1단계 | 주소 형식은 이를 준수해야 합니다. 일부 MT 메시지는 거부됩니다. |
-| **2026년 후반** | CAMT.052/.053/.054 수신에 대한 옵트인이 시작됩니다. | 금융 기관은 기본 ISO 명세서 수신을 시작할 수 있습니다. |
-| **2027년 11월** | 모든 FI는 기본적으로 CAMT.053을 수신해야 합니다. | SWIFT는 MT 형식을 ISO로 변환하는 것을 중지합니다. 시스템은 CAMT를 직접 구문 분석해야 합니다. |
-| **2028년 11월** | MT940/MT942/MT950/MT900/MT910 완전 단종 | 기존 명세서 형식은 더 이상 사용할 수 없습니다. CAMT.052/.053/.054가 유일한 옵션입니다. |
+| **2025년 11월** | 국경 간 결제에 대한 MT-MX 공존 종료 | PACS 메시지는 이제 ISO 20022 전용입니다 |
+| **2026년 11월** | 구조화/하이브리드 주소 필수; MT101 다중 명령 거부; 사례 관리 1단계 | 주소 형식이 준수해야 하며 일부 MT 메시지가 거부됩니다 |
+| **2026년 후반** | CAMT.052/.053/.054 수신 옵트인 시작 | 금융 기관이 네이티브 ISO 명세서 수신을 시작할 수 있습니다 |
+| **2027년 11월** | 모든 금융 기관은 CAMT.053을 네이티브로 수신해야 합니다 | SWIFT가 MT에서 ISO 형식으로의 변환을 중단합니다. 시스템이 CAMT를 직접 파싱해야 합니다 |
+| **2028년 11월** | MT940/MT942/MT950/MT900/MT910 완전 폐기 | 레거시 명세서 형식을 더 이상 사용할 수 없습니다. CAMT.052/.053/.054만 유일한 옵션입니다 |
 
 ## 코드 변경 사항
 
@@ -134,7 +134,7 @@ parser = Mt940Parser("statement.mt940")
 df = parser.parse()
 ```
 
-### 이후: 두 형식 모두 자동 감지 포함
+### 이후: 자동 감지를 통한 양쪽 형식 지원
 
 ```python
 from bankstatementparser import create_parser, detect_statement_format
@@ -144,26 +144,29 @@ parser = create_parser("statement.xml", fmt)
 df = parser.parse()  # Same DataFrame schema regardless of format
 ```
 
-그만큼`detect_statement_format()`함수는 파일이 MT940, CAMT.053, PAIN.001 또는 기타 지원되는 형식인지 식별합니다. 그만큼`create_parser()`함수는 올바른 파서를 반환합니다. 다운스트림 코드는 소스 형식에 관계없이 동일하게 작동합니다.
+`detect_statement_format()` 함수는 파일이 MT940, CAMT.053, PAIN.001 또는 기타 지원 형식인지 식별합니다. `create_parser()` 함수는 올바른 파서를 반환합니다. 다운스트림 코드는 소스 형식에 관계없이 동일하게 작동합니다.
 
-## CAMT.053 대 MT940: 주요 차이점
+## CAMT.053 vs MT940: 주요 차이점
 
 | 특징 | MT940 | CAMT.053 |
 |---|---|---|
-| 데이터 풍부함 | 제한된 분야 | 거래당 3~5배 더 많은 데이터 |
-| 문자 세트 | 제한적(SWIFT 문자 세트) | 전체 유니코드 |
-| 구조 | 태그가 포함된 일반 텍스트 | 네임스페이스가 있는 XML |
-| 잔액 보고 | 열기/닫기 전용 | 다양한 잔액 유형 |
-| 참고자료 | 단일 참조 필드 | 다양한 참조 유형 |
-| 통화 취급 | 기초적인 | 환율이 포함된 완전한 다중 통화 |
+| 데이터 풍부함 | 제한된 필드 | 트랜잭션당 3~5배 더 많은 데이터 |
+| 문자 집합 | 제한적 (SWIFT 문자 집합) | 전체 유니코드 |
+| 구조 | 태그가 포함된 플랫 텍스트 | 네임스페이스가 있는 XML |
+| 잔액 보고 | 시작/마감만 | 다양한 잔액 유형 |
+| 참조 | 단일 참조 필드 | 다양한 참조 유형 |
+| 통화 처리 | 기본적 | 환율이 포함된 완전한 다중 통화 |
 
-## 은행 계좌 명세서 파서의 도움
+## Bank Statement Parser의 도움
 
-- **통합 API**: MT940과 CAMT.053을 모두 동일하게 구문 분석합니다.`parse()`동일한 DataFrame 스키마를 생성하는 방법입니다.
-- **자동 감지**: 형식을 미리 알 필요가 없습니다.`detect_statement_format()`자동으로 식별합니다.
-- **네임스페이스에 구애받지 않음**: 구성 없이 모든 CAMT.053 변형(001.02, 001.04 또는 은행별 래퍼)을 처리합니다.
-- **스트리밍**: 제한된 메모리를 사용하여 대규모 CAMT 파일(50MB 이상, 50,000개 이상의 트랜잭션)을 처리합니다.
-- **마이그레이션 테스트**: 동일한 날짜 범위에서 두 파서를 나란히 실행하여 전환하기 전에 출력 일관성을 확인합니다.
+- **통합 API**: MT940, CAMT.053, PDF 명세서를 동일한 워크플로로 파싱하며 일관된 DataFrame 출력을 생성합니다.
+- **자동 감지**: 형식을 미리 알 필요가 없습니다. `detect_statement_format()`이 자동으로 식별합니다.
+- **하이브리드 PDF 파이프라인**: 전환 중 PDF 전용 명세서를 제공하는 은행은 자동 잔액 검증이 포함된 `smart_ingest()`로 처리됩니다.
+- **네임스페이스 독립적**: 설정 없이 모든 CAMT.053 변형(001.02, 001.04 또는 은행별 래퍼)을 처리합니다.
+- **다중 통화 검증**: `verify_balance_multi_currency()`가 통화 그룹별로 Golden Rule을 실행합니다 — 다중 통화 CAMT 명세서에 필수적입니다.
+- **스트리밍**: 제한된 메모리로 대규모 CAMT 파일(50MB+, 50K+ 트랜잭션)을 처리합니다.
+- **원장 내보내기**: 재무 회계를 위해 hledger 또는 beancount 저널 형식으로 직접 내보냅니다.
+- **마이그레이션 테스트**: 동일한 날짜 범위에서 두 파서를 나란히 실행하여 전환 전 출력 일관성을 확인합니다.
 
 ## 시작하기
 
@@ -174,12 +177,21 @@ pip install bankstatementparser
 ```python
 from bankstatementparser import create_parser, detect_statement_format
 
-# Works with MT940 today, CAMT.053 tomorrow
+# Works with MT940 today, CAMT.053 tomorrow, PDF anytime
 for file in bank_statement_files:
     fmt = detect_statement_format(file)
     parser = create_parser(file, fmt)
     df = parser.parse()
     process(df)  # Your code doesn't change
+```
+
+아직 구조화된 CAMT 내보내기를 제공하지 않는 은행의 PDF 명세서의 경우:
+
+```python
+from bankstatementparser.hybrid import smart_ingest
+
+result = smart_ingest("statement.pdf")
+assert result.verification.status == "VERIFIED"
 ```
 
 [전체 문서 읽기](/getting-started/index.html)

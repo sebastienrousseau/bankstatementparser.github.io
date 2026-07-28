@@ -1,20 +1,4 @@
-# Build artifacts
-public/
-public.build-tmp/
-docs.build-tmp/
-/tmp/bsp_build/
-
-# Lighthouse CI reports
-.lighthouseci/
-
-# OS files
+node_modules/
 .DS_Store
-Thumbs.db
-Icon?
-
-# Editor
-*.swp
-*.swo
-*~
-.vscode/
-.idea/
+*.log
+.corral-state.json

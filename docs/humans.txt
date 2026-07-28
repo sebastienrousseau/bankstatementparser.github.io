@@ -1,0 +1,12 @@
+/* TEAM */
+	Name: Sebastien Rousseau
+	Website: https://sebastienrousseau.com
+	Location: London, UK
+
+/* SITE */
+	Last update: 2026-07-27
+	Standards: HTML5, CSS3, RSS, JSON-LD, WCAG 2.1 AAA
+	Accessibility: WCAG 2.1 AAA target, full keyboard control, light + dark
+	Software: bankstatementparser (+ loaders, writer, lsp, mcp)
+	Trackers: none
+	Components: hand-written, self-hosted, zero third-party dependencies

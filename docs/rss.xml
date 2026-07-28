@@ -1,39 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Bank Statement Parser</title>
-    <link>https://bankstatementparser.com</link>
-    <description>Open-source Python library to parse CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, and PDF bank statements. 27K+ tx/s, hybrid PDF pipeline, REST API, 100% local.</description>
+    <link>https://bankstatementparser.com/</link>
+    <atom:link href="https://bankstatementparser.com/rss.xml" rel="self" type="application/rss+xml" />
+    <description>Updates from the bankstatementparser suite: the core parser, BAI2 and MT942 loaders, the XLSX writer, and the LSP and MCP servers.</description>
     <language>en-GB</language>
-    <lastBuildDate>Fri, 11 Apr 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://bankstatementparser.com/rss.xml" rel="self" type="application/rss+xml"/>
+    <category>Finance</category>
+    <lastBuildDate>Mon, 27 Jul 2026 09:00:00 +0000</lastBuildDate>
+    <pubDate>Mon, 27 Jul 2026 09:00:00 +0000</pubDate>
+    <ttl>1440</ttl>
     <item>
-      <title>v0.0.8 — Full Platform</title>
-      <link>https://bankstatementparser.com/changelog/</link>
-      <description>Multi-currency balance verification, hledger/beancount export, bulk directory scanner, account mapping rules, REST API microservice.</description>
-      <pubDate>Fri, 11 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://bankstatementparser.com/changelog/#v008</guid>
-    </item>
-    <item>
-      <title>v0.0.7 — Universal Vision</title>
-      <link>https://bankstatementparser.com/changelog/</link>
-      <description>Direct Ollama bridge, strip mode for dense pages, minicpm-v recommendation.</description>
-      <pubDate>Tue, 08 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://bankstatementparser.com/changelog/#v007</guid>
-    </item>
-    <item>
-      <title>v0.0.6 — Intelligence Layer</title>
-      <link>https://bankstatementparser.com/changelog/</link>
-      <description>Enrichment module, interactive review mode, per-row bounding boxes. Python 3.9 dropped.</description>
-      <pubDate>Tue, 08 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://bankstatementparser.com/changelog/#v006</guid>
-    </item>
-    <item>
-      <title>v0.0.5 — Universal Extraction</title>
-      <link>https://bankstatementparser.com/changelog/</link>
-      <description>Hybrid PDF pipeline with deterministic/text-LLM/vision-LLM routing. Golden Rule balance verification.</description>
-      <pubDate>Tue, 08 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>https://bankstatementparser.com/changelog/#v005</guid>
+      <title>The bankstatementparser suite is live on PyPI</title>
+      <link>https://bankstatementparser.com/the-suite/</link>
+      <guid isPermaLink="true">https://bankstatementparser.com/the-suite/</guid>
+      <pubDate>Mon, 27 Jul 2026 09:00:00 +0000</pubDate>
+      <description>Parse CAMT, MT940/942, BAI2, OFX/QFX, CSV and PDF into one auditable Transaction model. Core plus loaders, an XLSX writer, an LSP server and an MCP server — all Apache-2.0.</description>
     </item>
   </channel>
 </rss>

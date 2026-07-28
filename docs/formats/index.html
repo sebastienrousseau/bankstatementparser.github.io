@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Supported bank statement formats — CAMT, MT940/942, BAI2, OFX, CSV, PDF</title>
+  <meta name="description" content="A complete guide to the bank statement formats bankstatementparser supports — CAMT (ISO 20022), PAIN.001, SWIFT MT940/MT942, BAI2, OFX/QFX, CSV and PDFs (digital or scanned) — and how each is normalised into one auditable Transaction model.">
+  <meta name="keywords" content="bank statement formats, CAMT parser, ISO 20022, camt.052, camt.053, camt.054, PAIN.001, MT940, MT942, BAI2, OFX, QFX, CSV bank statement, PDF bank statement, Transaction model, local LLM, Ollama, deterministic parsing">
+  <meta name="author" content="Sebastien Rousseau">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#1c4e9e" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <meta name="generator" content="Handcrafted, self-hosted, zero third-party">
+  <meta name="accessibility" content="ARIA, fullKeyboardControl, structuredNavigation, noFlashingHazard, WCAG-AAA">
+
+  <link rel="canonical" href="https://bankstatementparser.com/formats/">
+  <link rel="alternate" hreflang="en-gb" href="https://bankstatementparser.com/formats/">
+  <link rel="alternate" hreflang="x-default" href="https://bankstatementparser.com/formats/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="alternate" type="application/rss+xml" title="Bank Statement Parser updates" href="/rss.xml">
+  <link rel="preload" as="style" href="/assets/styles.css">
+  <link rel="stylesheet" href="/assets/styles.css">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Bank Statement Parser">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:title" content="Supported bank statement formats — CAMT, MT940/942, BAI2, OFX, CSV, PDF">
+  <meta property="og:description" content="How bankstatementparser turns CAMT, PAIN.001, MT940/MT942, BAI2, OFX/QFX, CSV and PDFs — digital or scanned — into one auditable Transaction model.">
+  <meta property="og:url" content="https://bankstatementparser.com/formats/">
+  <meta property="og:image" content="https://bankstatementparser.com/assets/og.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Bank Statement Parser — bank statement formats into one Transaction model">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Supported bank statement formats — CAMT, MT940/942, BAI2, OFX, CSV, PDF">
+  <meta name="twitter:description" content="How bankstatementparser turns CAMT, PAIN.001, MT940/MT942, BAI2, OFX/QFX, CSV and PDFs — digital or scanned — into one auditable Transaction model.">
+  <meta name="twitter:image" content="https://bankstatementparser.com/assets/og.png">
+  <meta name="twitter:image:alt" content="Bank Statement Parser — bank statement formats into one Transaction model">
+
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; base-uri 'self'; form-action 'self' https://formspree.io; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests">
+
+  <script src="/assets/theme-init.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://bankstatementparser.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Supported formats",
+        "item": "https://bankstatementparser.com/formats/"
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Supported bank statement formats — CAMT, MT940/942, BAI2, OFX, CSV, PDF",
+    "description": "A complete guide to the bank statement formats bankstatementparser supports and how each is normalised into one auditable Transaction model.",
+    "author": {
+      "@type": "Person",
+      "name": "Sebastien Rousseau"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Bank Statement Parser",
+      "logo": "https://bankstatementparser.com/favicon.svg"
+    },
+    "about": "bank statement formats",
+    "mainEntityOfPage": "https://bankstatementparser.com/formats/",
+    "inLanguage": "en-GB"
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <nav class="nav" aria-label="Primary">
+        <a class="brand" href="/">
+          <svg class="brand-mark" width="30" height="30" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+            <rect width="64" height="64" rx="14" fill="currentColor"></rect>
+            <rect x="18" y="12" width="28" height="40" rx="4" fill="#ffffff"></rect>
+            <rect x="23" y="20" width="18" height="3.2" rx="1.6" fill="currentColor"></rect>
+            <rect x="23" y="27" width="18" height="3.2" rx="1.6" fill="currentColor"></rect>
+            <rect x="23" y="34" width="12" height="3.2" rx="1.6" fill="currentColor"></rect>
+            <path d="M34 44l6 6 12-14" fill="none" stroke="#82b4ff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <span>bankstatementparser</span>
+        </a>
+        <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu">
+          <span aria-hidden="true">☰</span> Menu
+        </button>
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="/">Home</a></li>
+          <li><a href="/the-suite/">The suite</a></li>
+          <li><a href="/formats/" aria-current="page">Formats</a></li>
+          <li><a href="/installation/">Install</a></li>
+          <li><a href="/documentation/">Docs</a></li>
+          <li><a href="/contact/">Contact</a></li>
+          <li>
+            <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">
+              <span aria-hidden="true">◐</span>
+              <span class="theme-toggle-label">Dark</span>
+              <span class="visually-hidden"> mode</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li aria-hidden="true">/</li>
+          <li><span aria-current="page">Supported formats</span></li>
+        </ol>
+      </nav>
+    </div>
+
+    <section aria-labelledby="page-title">
+      <div class="container">
+        <h1 id="page-title">Supported bank statement formats</h1>
+        <p class="lead">CAMT, PAIN.001, MT940/MT942, BAI2, OFX/QFX, CSV and PDF — every dialect a bank might send you, normalised into one auditable model.</p>
+
+        <p class="prose">Reconciliation rarely fails because the numbers are wrong. It fails because every bank, payment rail and legacy back-office system speaks a slightly different dialect. One relationship bank sends you a pristine ISO 20022 CAMT file; another still exports a SWIFT MT940; your US cash-management provider drops a BAI2 lockbox file; a personal-finance tool hands you OFX; a regional bank e-mails a CSV with its own column order; and somewhere in the pile is a PDF that someone scanned on a photocopier. Written naively, you end up maintaining a bespoke parser — and a bespoke set of bugs — for each one.</p>
+
+        <p class="prose">bankstatementparser exists to end that. It reads all of these formats and normalises them into a single, typed, auditable <code>Transaction</code> model, so the code you write downstream — reconciliation, ledger posting, reporting — is written once and works everywhere. Under the bonnet there are two complementary pipelines. Structured, machine-readable formats take the <strong>deterministic path</strong>: explicit rules map known fields to known attributes, repeatably and testably, with no guesswork. Unstructured PDFs take a <strong>local model fallback</strong>: a configurable, on-device language model extracts the transactions, with a multimodal vision model handling scans. The sections below explain what each format is, who emits it, and how the toolkit handles it.</p>
+
+        <div class="callout">
+          <p><strong>Privacy by default.</strong> Structured statements are parsed entirely on your machine with deterministic code. The PDF fallback uses a local model — Ollama by default — so your financial data never leaves your infrastructure unless you deliberately configure an external provider. There are no trackers, no telemetry and no phone-home.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-alt" aria-labelledby="camt-title">
+      <div class="container">
+        <h2 id="camt-title" class="mt-0">CAMT (ISO 20022)</h2>
+        <p class="prose">CAMT is the family of cash-management messages defined by the ISO 20022 standard — the modern, XML-based lingua franca that banks and market infrastructures are steadily adopting worldwide. The name is short for <em>Cash Management</em>, and the three members you will meet most often are:</p>
+        <h3>camt.052 — intraday account report</h3>
+        <p class="prose">A report of account activity <em>during</em> the business day, used for near-real-time visibility of balances and movements before the day is closed off.</p>
+        <h3>camt.053 — end-of-day statement</h3>
+        <p class="prose">The definitive bank-to-customer statement for a completed business day, with opening and closing balances and the full set of booked entries. This is the message most reconciliation processes are built around.</p>
+        <h3>camt.054 — debit/credit notification</h3>
+        <p class="prose">A notification of individual debits or credits — often batch payouts or collections — that lets you match settlement to the underlying instructions.</p>
+        <p class="prose">Because CAMT files are well-formed XML with a published schema, bankstatementparser handles them on the deterministic path: it walks the document structure, reads the entry, amount, currency, value date and counterparty elements, and maps them straight onto the unified model. The result is exact and reproducible, with no interpretation involved.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="pain-title">
+      <div class="container">
+        <h2 id="pain-title" class="mt-0">PAIN.001 — customer credit transfer initiation</h2>
+        <p class="prose">PAIN is the ISO 20022 <em>Payments Initiation</em> family, and <code>pain.001</code> is the customer credit transfer initiation message: the instruction a business sends to its bank to make one or many outbound payments. Where CAMT tells you what happened to an account, PAIN.001 records what you asked the bank to do. Including it means the toolkit can reason about both sides — instructions issued and movements booked — which is invaluable when you are matching payment runs against subsequent statements.</p>
+        <p class="prose">Like CAMT, PAIN.001 is structured XML, so it is parsed deterministically. Payment amounts, currencies, requested execution dates, remittance information and creditor details are read directly from their defined elements and folded into the same <code>Transaction</code> shape as every other format.</p>
+      </div>
+    </section>
+
+    <section class="section-alt" aria-labelledby="mt-title">
+      <div class="container">
+        <h2 id="mt-title" class="mt-0">SWIFT MT940 &amp; MT942</h2>
+        <p class="prose">Before ISO 20022, and still ubiquitous today, the SWIFT MT message types carried statement data between banks and their corporate customers. They are flat, tag-delimited text files rather than XML — each line begins with a field tag such as <code>:20:</code>, <code>:25:</code>, <code>:60F:</code> or <code>:61:</code> that identifies what follows.</p>
+        <h3>MT940 — end-of-day statement</h3>
+        <p class="prose">MT940 is the customer statement message: opening balance, a sequence of statement lines, and a closing balance for a completed period. It remains one of the most common formats corporate treasuries receive from their banks. bankstatementparser reads MT940 natively in the core library, parsing each field tag and translating the balances and statement lines into the unified model.</p>
+        <h3>MT942 — interim transaction report</h3>
+        <p class="prose">MT942 is the intraday or interim counterpart — it reports movements that have occurred so far within the current period, before the end-of-day MT940 is produced. It is handled through the dedicated <code>bankstatementparser-loader-mt942</code> package, which reads the interim report and loads its entries into exactly the same <code>Transaction</code> model as everything else, so intraday and end-of-day data sit side by side.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="bai2-title">
+      <div class="container">
+        <h2 id="bai2-title" class="mt-0">BAI2</h2>
+        <p class="prose">BAI2 is the cash-management reporting format defined by the Bank Administration Institute, and it is the workhorse of corporate banking in the United States. It is a structured, record-oriented text format used for balance and transaction reporting and for lockbox files, organised into a hierarchy of file, group, account and transaction records identified by numeric type codes.</p>
+        <p class="prose">bankstatementparser handles BAI2 through the dedicated <code>bankstatementparser-loader-bai2</code> package. The loader parses the record hierarchy and its type and status codes deterministically, resolving balances and individual transactions, and feeds them into the shared <code>Transaction</code> model. That means a US cash-management BAI2 file and a European CAMT file end up in precisely the same shape for downstream processing.</p>
+      </div>
+    </section>
+
+    <section class="section-alt" aria-labelledby="ofx-title">
+      <div class="container">
+        <h2 id="ofx-title" class="mt-0">OFX / QFX</h2>
+        <p class="prose">Open Financial Exchange (OFX) is a data-exchange format used widely for downloading account activity from banks and into personal-finance and accounting software. QFX is a closely related variant produced by some consumer tools. Both encode statement transactions — dates, amounts, types, memos and identifiers — in a tagged, SGML/XML-style structure.</p>
+        <p class="prose">Because OFX and QFX are structured, they take the deterministic path. bankstatementparser reads the transaction list, resolves each posting's amount, date and description, and maps it onto the unified model. This makes it straightforward to bring exports from online banking portals and finance apps into the same reconciliation pipeline as your institutional formats.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="csv-title">
+      <div class="container">
+        <h2 id="csv-title" class="mt-0">CSV — bank exports</h2>
+        <p class="prose">CSV is the lowest common denominator: almost every bank and portal can export a statement as comma-separated values, but no two agree on the columns, their order, the date format or how debits and credits are signed. That flexibility is exactly what makes naive CSV parsing so brittle.</p>
+        <p class="prose">bankstatementparser addresses this with <strong>configurable column mapping</strong>. You tell it which columns correspond to the date, description, amount, balance and any reference fields, and it maps each row into the shared <code>Transaction</code> model. Once a mapping is defined for a given bank's export, the process is deterministic and repeatable — a new file in the same layout simply works.</p>
+      </div>
+    </section>
+
+    <section class="section-alt" aria-labelledby="pdf-title">
+      <div class="container">
+        <h2 id="pdf-title" class="mt-0">PDF — digital &amp; scanned</h2>
+        <p class="prose">PDFs are where the deterministic approach reaches its limit. A bank statement PDF has no reliable machine-readable schema: the transactions are laid out visually, and two banks that both send &ldquo;a PDF&rdquo; may structure their pages completely differently. This is where the local model fallback comes in.</p>
+        <h3>Digital PDFs</h3>
+        <p class="prose">For digital (text-bearing) PDFs, the toolkit extracts the text and passes it to a configurable local language model to identify and structure the transactions. By default this is <a href="https://ollama.com/">Ollama</a> running on your own machine, but because the integration is built on LiteLLM you can point it at any LiteLLM-supported provider if you choose to.</p>
+        <h3>Scanned &amp; photocopied statements</h3>
+        <p class="prose">For scanned or photocopied statements — where there is no extractable text, only an image — a local multimodal vision model reads the page directly and recovers the transactions. This lets the same toolkit cope with everything from a clean bank-issued PDF to a crooked photocopy.</p>
+        <div class="callout">
+          <p><strong>Your data stays on your machine.</strong> The default configuration runs both the language model and the vision model locally, so financial statements are never transmitted anywhere. An external provider is used only if you explicitly configure one. Exact model choices and defaults are configurable, and the descriptions here are illustrative of how the fallback is intended to be run.</p>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="model-title">
+      <div class="container">
+        <h2 id="model-title" class="mt-0">One model out</h2>
+        <p class="prose">Whatever the input — a camt.053 statement, an MT940, a BAI2 lockbox file, an OFX export, a mapped CSV or a scanned PDF — the output is always the same unified <code>Transaction</code> model. Each record carries the essentials in a consistent, typed form: booking and value dates, signed amounts and currencies, counterparties, and references. Balances and statement metadata come through alongside.</p>
+        <p class="prose">Because everything converges on that one shape, your downstream work is written once. Feed the transactions into a reconciliation routine, post them to a ledger, or hand them to the <code>bankstatementparser-writer-xlsx</code> package to produce clean, formatted Excel workbooks for analysts and auditors. The format the bank happened to send stops being your problem.</p>
+        <div class="btn-group">
+          <a class="btn btn-primary" href="/installation/">Install bankstatementparser</a>
+          <a class="btn btn-secondary" href="/the-suite/">Explore the suite</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h2>Suite</h2>
+          <ul>
+            <li><a href="https://pypi.org/project/bankstatementparser/">Core parser</a></li>
+            <li><a href="https://pypi.org/project/bankstatementparser-loader-bai2/">BAI2 loader</a></li>
+            <li><a href="https://pypi.org/project/bankstatementparser-loader-mt942/">MT942 loader</a></li>
+            <li><a href="https://pypi.org/project/bankstatementparser-writer-xlsx/">XLSX writer</a></li>
+            <li><a href="https://pypi.org/project/bankstatementparser-mcp/">MCP server</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Learn</h2>
+          <ul>
+            <li><a href="/formats/">Supported formats</a></li>
+            <li><a href="/documentation/">Documentation</a></li>
+            <li><a href="/installation/">Installation</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Project</h2>
+          <ul>
+            <li><a href="https://github.com/sebastienrousseau/bankstatementparser">GitHub</a></li>
+            <li><a href="/contact/">Contact</a></li>
+            <li><a href="/the-suite/">The suite</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Legal</h2>
+          <ul>
+            <li><a href="/privacy/">Privacy</a></li>
+            <li><a href="/terms/">Terms</a></li>
+            <li><a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0 licence</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Bank Statement Parser. Open source under the Apache&nbsp;2.0 licence.</span>
+        <span>Built accessibility-first · WCAG&nbsp;2.1&nbsp;AAA · no trackers.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/main.js" defer></script>
+</body>
+</html>

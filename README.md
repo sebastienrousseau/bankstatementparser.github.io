@@ -1,82 +1,56 @@
-<!-- markdownlint-disable MD033 MD041 -->
+# bankstatementparser.com — official website 🌍
 
-<img
-  align="right"
-  alt="Logo of Bank Statement Parser"
-  height="261"
-  src="https://cloudcdn.pro/bankstatementparser/images/logos/bankstatementparser.webp"
-  width="261"
-  />
+Marketing and documentation site for the **bankstatementparser** suite —
+open-source Python tooling that parses bank statements across CAMT
+(ISO 20022), PAIN.001, MT940/MT942, BAI2, OFX/QFX, CSV and PDF into one
+auditable `Transaction` model.
 
-<!-- markdownlint-enable MD033 MD041 -->
+The site promotes the published packages:
 
-# bankstatementparser.com - Official Website 🌏
+- [`bankstatementparser`](https://pypi.org/project/bankstatementparser/) — the core parser.
+- [`bankstatementparser-loader-bai2`](https://pypi.org/project/bankstatementparser-loader-bai2/) — BAI2 loader.
+- [`bankstatementparser-loader-mt942`](https://pypi.org/project/bankstatementparser-loader-mt942/) — SWIFT MT942 loader.
+- [`bankstatementparser-writer-xlsx`](https://pypi.org/project/bankstatementparser-writer-xlsx/) — Excel writer.
+- [`bankstatementparser-lsp`](https://pypi.org/project/bankstatementparser-lsp/) — Language Server.
+- [`bankstatementparser-mcp`](https://pypi.org/project/bankstatementparser-mcp/) — MCP server.
 
-Welcome to the repository for [bankstatementparser.com][00], the digital presence of
-Bank Statement Parser, a Python library built for Finance and Treasury Professionals.
+## Design goals
 
-## Quick Start Guide
+- **Zero third-party dependencies at runtime** — no CDN, web fonts,
+  analytics or trackers. Every asset is self-hosted, which is what makes the
+  strict Content-Security-Policy and the privacy posture possible.
+- **WCAG 2.1 AAA** — all colour pairs are verified to at least 7:1 contrast
+  in both light and dark themes (see `audit/`). Full keyboard control,
+  visible focus, skip link, semantic landmarks, reduced-motion support.
+- **SEO-complete** — per-page canonical, Open Graph, Twitter, JSON-LD
+  (`Organization`, `WebSite`, `SoftwareApplication`, `BreadcrumbList`,
+  `FAQPage`, `Article`, `HowTo`), `sitemap.xml`, `robots.txt`, `rss.xml`,
+  `manifest.json` and `humans.txt`.
 
-Setting up and running the website locally is easy and quick with the
-[Shokunin Static Site Generator (SSG)][00].
+## Architecture
 
-### Prerequisites
+A **dependency-free static site** — no build step. The deployable site lives
+entirely in [`docs/`](./docs) and is served as-is by GitHub Pages (Settings →
+Pages → *Deploy from a branch* → `main` / `/docs`), Netlify, or Cloudflare
+Pages.
 
-Ensure you have the **Rust toolchain** installed. If not, follow the guide on
-the [Rust website][01] to set it up.
-
-### Installation & Usage
-
-1. Install Shokunin SSG:
-
-```shell
-cargo install ssg --version 0.0.20
-```
-
-2. Clone the repository
-
-```shell
-git clone https://github.com/sebastienrousseau/bankstatementparser.github.io.git
-```
-
-3. Change into the repository directory:
+## Local preview
 
 ```shell
-cd bankstatementparser.github.io
+npx serve docs
 ```
 
-4. Generate the static site for bankstatementparser.com:
+## Quality checks
 
 ```shell
-ssg -n=docs -c=_posts -t=_layouts -o=docs -s=public
-node tools/fix-pwa-assets.mjs
-cp _layouts/main.js docs/main.js
+npx html-validate "docs/**/*.html"   # config in .htmlvalidate.json
+python3 audit/contrast.py            # WCAG AAA contrast proof
 ```
 
-> **Note:** The `cp _layouts/main.js` step is required because the SSG
-> generates its own `main.js` which does not include the `location.protocol`
-> guard for analytics. The source `_layouts/main.js` only loads Google
-> Analytics on HTTPS, preventing `ERR_UNSAFE_REDIRECT` errors on localhost.
+CI (`.github/workflows/ci.yml`) runs both on every push and pull request,
+plus structure/self-hosting guardrails.
 
-## Lighthouse CI
+## Licence
 
-The repository includes Lighthouse CI in GitHub Actions for both mobile and
-desktop audits.
-
-Run the same checks locally:
-
-```shell
-npx @lhci/cli@0.13.x autorun --config=.lighthouserc.json
-npx @lhci/cli@0.13.x autorun --config=.lighthouserc.json --collect.settings.preset=desktop
-```
-
-The default quality gates fail the run when category scores drop below:
-
-- Performance: `1.00`
-- Accessibility: `1.00`
-- Best Practices: `1.00`
-- SEO: `1.00`
-
-
-[00]: https://bankstatementparser.com "Bank Statement Parser Official Website"
-[01]: https://www.rust-lang.org/learn/get-started "Rust Getting started guide"
+Content and code are released under the [Apache License 2.0](./LICENSE),
+matching the bankstatementparser suite.

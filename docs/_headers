@@ -1,0 +1,10 @@
+# Security headers for hosts that honour a _headers file (Netlify, Cloudflare
+# Pages). GitHub Pages ignores this file; the same policy is also declared in
+# each page's <meta http-equiv="Content-Security-Policy">.
+/*
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; base-uri 'self'; form-action 'self' https://formspree.io; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Frame-Options: DENY

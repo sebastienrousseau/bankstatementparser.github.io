@@ -1,25 +1,16 @@
 {
-  "background_color": "#ffffff",
-  "description": "Open-source Python library to parse CAMT.053, PAIN.001, CSV, OFX, QFX, and MT940 bank statements into pandas DataFrames.",
-  "display": "standalone",
-  "icons": [
-    {
-      "purpose": "any maskable",
-      "sizes": "192x192",
-      "src": "/images/icons/192x192.png",
-      "type": "image/png"
-    },
-    {
-      "purpose": "any maskable",
-      "sizes": "512x512",
-      "src": "/images/icons/512x512.png",
-      "type": "image/png"
-    }
-  ],
   "name": "Bank Statement Parser",
-  "orientation": "portrait-primary",
+  "short_name": "bankstatementparser",
+  "description": "Parse bank statements — CAMT, MT940/942, BAI2, OFX/QFX, CSV and PDF — into one auditable Transaction model. Privacy-first, open source, Python.",
+  "start_url": "/",
   "scope": "/",
-  "short_name": "BSP",
-  "start_url": ".",
-  "theme_color": "#ffffff"
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#1c4e9e",
+  "lang": "en-GB",
+  "categories": ["finance", "developer", "productivity"],
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
 }

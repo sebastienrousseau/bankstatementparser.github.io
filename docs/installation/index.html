@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Install bankstatementparser — Python setup, quick start, loaders &amp; MCP</title>
+  <meta name="description" content="Install bankstatementparser with pip: requirements, quick start, PDF privacy with a local LLM, loaders, the XLSX writer, and the LSP and MCP integrations. Apache-2.0, self-hosted, private by default.">
+  <meta name="keywords" content="install bankstatementparser, pip install, Python 3.10, bank statement parser setup, CAMT, MT940, CSV, PDF local LLM, Ollama, LiteLLM, BAI2 loader, MT942 loader, XLSX writer, LSP, MCP server">
+  <meta name="author" content="Sebastien Rousseau">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#1c4e9e" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <meta name="generator" content="Handcrafted, self-hosted, zero third-party">
+  <meta name="accessibility" content="ARIA, fullKeyboardControl, structuredNavigation, noFlashingHazard, WCAG-AAA">
+
+  <link rel="canonical" href="https://bankstatementparser.com/installation/">
+  <link rel="alternate" hreflang="en-gb" href="https://bankstatementparser.com/installation/">
+  <link rel="alternate" hreflang="x-default" href="https://bankstatementparser.com/installation/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="alternate" type="application/rss+xml" title="Bank Statement Parser updates" href="/rss.xml">
+  <link rel="preload" as="style" href="/assets/styles.css">
+  <link rel="stylesheet" href="/assets/styles.css">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Bank Statement Parser">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:title" content="Install bankstatementparser — Python setup, quick start, loaders &amp; MCP">
+  <meta property="og:description" content="Install bankstatementparser with pip: requirements, quick start, PDF privacy with a local LLM, loaders, the XLSX writer, and the LSP and MCP integrations.">
+  <meta property="og:url" content="https://bankstatementparser.com/installation/">
+  <meta property="og:image" content="https://bankstatementparser.com/assets/og.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Bank Statement Parser — bank statement formats into one Transaction model">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Install bankstatementparser — Python setup, quick start, loaders &amp; MCP">
+  <meta name="twitter:description" content="Install bankstatementparser with pip: requirements, quick start, PDF privacy with a local LLM, loaders, the XLSX writer, and the LSP and MCP integrations.">
+  <meta name="twitter:image" content="https://bankstatementparser.com/assets/og.png">
+  <meta name="twitter:image:alt" content="Bank Statement Parser — bank statement formats into one Transaction model">
+
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; base-uri 'self'; form-action 'self' https://formspree.io; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests">
+
+  <script src="/assets/theme-init.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://bankstatementparser.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Installation",
+            "item": "https://bankstatementparser.com/installation/"
+          }
+        ]
+      },
+      {
+        "@type": "HowTo",
+        "name": "Install and use bankstatementparser",
+        "description": "Install the open-source bankstatementparser toolkit with pip and parse your first bank statement into a unified Transaction model.",
+        "totalTime": "PT5M",
+        "tool": [
+          { "@type": "HowToTool", "name": "Python 3.10 or newer" },
+          { "@type": "HowToTool", "name": "pip" }
+        ],
+        "step": [
+          {
+            "@type": "HowToStep",
+            "name": "Check requirements",
+            "text": "Ensure Python 3.10 or newer and pip are installed on Linux, macOS or Windows.",
+            "url": "https://bankstatementparser.com/installation/#requirements"
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Install the core library",
+            "text": "Run pip install bankstatementparser to install the core parser from PyPI.",
+            "url": "https://bankstatementparser.com/installation/#core"
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Parse a statement",
+            "text": "Import the parser, point it at a CAMT, MT940 or CSV file, and iterate the resulting Transaction objects.",
+            "url": "https://bankstatementparser.com/installation/#quick-start"
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Add suite packages",
+            "text": "Install optional loaders, the XLSX writer, and the LSP and MCP integrations as you need them.",
+            "url": "https://bankstatementparser.com/installation/#loaders"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <nav class="nav" aria-label="Primary">
+        <a class="brand" href="/">
+          <svg class="brand-mark" width="30" height="30" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+            <rect width="64" height="64" rx="14" fill="currentColor"></rect>
+            <rect x="18" y="12" width="28" height="40" rx="4" fill="#ffffff"></rect>
+            <rect x="23" y="20" width="18" height="3.2" rx="1.6" fill="currentColor"></rect>
+            <rect x="23" y="27" width="18" height="3.2" rx="1.6" fill="currentColor"></rect>
+            <rect x="23" y="34" width="12" height="3.2" rx="1.6" fill="currentColor"></rect>
+            <path d="M34 44l6 6 12-14" fill="none" stroke="#82b4ff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <span>bankstatementparser</span>
+        </a>
+        <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu">
+          <span aria-hidden="true">☰</span> Menu
+        </button>
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="/">Home</a></li>
+          <li><a href="/the-suite/">The suite</a></li>
+          <li><a href="/formats/">Formats</a></li>
+          <li><a href="/installation/" aria-current="page">Install</a></li>
+          <li><a href="/documentation/">Docs</a></li>
+          <li><a href="/contact/">Contact</a></li>
+          <li>
+            <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">
+              <span aria-hidden="true">◐</span>
+              <span class="theme-toggle-label">Dark</span>
+              <span class="visually-hidden"> mode</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <nav class="breadcrumb container" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><span aria-hidden="true">/</span> <span aria-current="page">Installation</span></li>
+    </ol>
+  </nav>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="install-title">
+      <div class="container">
+        <p class="eyebrow">Installation · Python 3.10+ · pip · Apache-2.0</p>
+        <h1 id="install-title">Install bankstatementparser and parse your first statement</h1>
+        <p class="lead">Get the core parser from PyPI, run a quick start against a CAMT, MT940 or CSV file, then add loaders, an Excel writer and the LSP/MCP integrations as you need them. Everything is open source and private by default.</p>
+        <div class="btn-group">
+          <a class="btn btn-primary" href="#core">Install the core</a>
+          <a class="btn btn-secondary" href="#quick-start">Jump to quick start</a>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="requirements-title">
+      <div class="container">
+        <h2 id="requirements-title" class="mt-0">Requirements</h2>
+        <p class="prose">bankstatementparser is a pure-Python toolkit that runs wherever Python does.</p>
+        <ul class="prose">
+          <li><strong>Python 3.10 or newer.</strong> Check your version with <code>python --version</code>.</li>
+          <li><strong>pip</strong> (or a compatible installer such as <code>pipx</code> or <code>uv</code>) to install from PyPI.</li>
+          <li><strong>Linux, macOS or Windows.</strong> No system services or network access are required for the deterministic parsers.</li>
+        </ul>
+        <p class="prose">The whole suite is released under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0 licence</a>.</p>
+      </div>
+    </section>
+
+    <section class="section-alt" aria-labelledby="core-title">
+      <div class="container">
+        <h2 id="core-title" class="mt-0" tabindex="-1"><span id="core">Install the core</span></h2>
+        <p class="prose">Install the core parser (currently v0.0.11) from PyPI:</p>
+        <pre><code>pip install bankstatementparser</code></pre>
+        <p class="prose">Optional extras pull in heavier dependencies only when you need them — for example PDF handling or local-LLM support. Extras are declared like this:</p>
+        <pre><code># illustrative — check the README for the exact extra names
+pip install "bankstatementparser[pdf]"</code></pre>
+        <div class="callout">
+          <p>The extra names above are illustrative. The authoritative list of extras lives in the <a href="https://github.com/sebastienrousseau/bankstatementparser">GitHub README</a> and the package metadata on <a href="https://pypi.org/project/bankstatementparser/">PyPI</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="quick-start-title">
+      <div class="container">
+        <h2 id="quick-start-title" class="mt-0" tabindex="-1"><span id="quick-start">Quick start</span></h2>
+        <p class="prose">Point the parser at a statement file — CAMT, MT940 or CSV — and iterate the resulting <code>Transaction</code> objects. Every format collapses to the same shape, so your downstream code is written once.</p>
+        <pre><code>from bankstatementparser import parse
+
+# Works the same way across CAMT, MT940 and CSV inputs.
+statement = parse("statement.camt.xml")
+
+for txn in statement.transactions:
+    print(
+        txn.date,
+        txn.amount,
+        txn.currency,
+        txn.counterparty,
+        txn.reference,
+    )</code></pre>
+        <p class="prose">Each <code>Transaction</code> exposes normalised fields such as <code>date</code>, <code>amount</code>, <code>currency</code>, <code>counterparty</code> and <code>reference</code>. The snippet above is deliberately generic — the exact function and class signatures are documented in the <a href="https://github.com/sebastienrousseau/bankstatementparser">GitHub README</a>.</p>
+      </div>
+    </section>
+
+    <section class="section-alt" aria-labelledby="pdf-title">
+      <div class="container">
+        <h2 id="pdf-title" class="mt-0">PDFs &amp; privacy</h2>
+        <p class="prose">Structured formats are parsed deterministically on-device. PDFs fall through to a configurable local large language model — <a href="https://ollama.com/">Ollama</a> by default, or any provider that <a href="https://github.com/BerriAI/litellm">LiteLLM</a> supports — with a local vision model handling scanned documents. Nothing leaves your machine unless you explicitly configure an external provider.</p>
+        <p class="prose">Configuration is illustrative below; see the README for the current environment variables and options:</p>
+        <pre><code># illustrative environment configuration
+export BSP_LLM_PROVIDER="ollama"
+export BSP_LLM_MODEL="llama3.1"
+export BSP_LLM_BASE_URL="http://localhost:11434"
+
+# a local vision model handles scanned PDFs
+export BSP_VISION_MODEL="llama3.2-vision"</code></pre>
+        <div class="callout">
+          <p>By default your statements never touch a third-party service. Pointing <code>BSP_LLM_BASE_URL</code> at a remote endpoint is an explicit, opt-in choice.</p>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="loaders-title">
+      <div class="container">
+        <h2 id="loaders-title" class="mt-0" tabindex="-1"><span id="loaders">Loaders</span></h2>
+        <p class="prose">Loaders extend the parser to extra statement formats, feeding the same unified <code>Transaction</code> model.</p>
+        <pre><code># BAI2 cash-management and lockbox files
+pip install bankstatementparser-loader-bai2
+
+# SWIFT MT942 interim transaction reports
+pip install bankstatementparser-loader-mt942</code></pre>
+        <ul class="prose">
+          <li><strong>bankstatementparser-loader-bai2</strong> (v0.0.14) — use it for BAI2 cash-management and lockbox files. <a href="https://pypi.org/project/bankstatementparser-loader-bai2/">PyPI</a> · <a href="https://github.com/sebastienrousseau/bankstatementparser-loader-bai2">GitHub</a></li>
+          <li><strong>bankstatementparser-loader-mt942</strong> (v0.0.14) — use it for SWIFT MT942 interim transaction reports. <a href="https://pypi.org/project/bankstatementparser-loader-mt942/">PyPI</a> · <a href="https://github.com/sebastienrousseau/bankstatementparser-loader-mt942">GitHub</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section-alt" aria-labelledby="xlsx-title">
+      <div class="container">
+        <h2 id="xlsx-title" class="mt-0">Export to Excel</h2>
+        <p class="prose">The XLSX writer (v0.0.13) turns parsed statements into clean, formatted workbooks for analysts and auditors.</p>
+        <pre><code>pip install bankstatementparser-writer-xlsx</code></pre>
+        <pre><code>from bankstatementparser import parse
+from bankstatementparser_writer_xlsx import write_xlsx
+
+statement = parse("statement.mt940")
+write_xlsx(statement.transactions, "statement.xlsx")</code></pre>
+        <p class="prose">See the writer on <a href="https://pypi.org/project/bankstatementparser-writer-xlsx/">PyPI</a> and <a href="https://github.com/sebastienrousseau/bankstatementparser-writer-xlsx">GitHub</a>. The exact writer API is documented in its README.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="integrations-title">
+      <div class="container">
+        <h2 id="integrations-title" class="mt-0">Editor &amp; agent integrations</h2>
+        <p class="prose">Two optional packages plug the parser into your editor and your AI agents.</p>
+        <pre><code># Language Server for editor tooling
+pip install bankstatementparser-lsp
+
+# Model Context Protocol server for agents
+pip install bankstatementparser-mcp</code></pre>
+        <ul class="prose">
+          <li><strong>bankstatementparser-lsp</strong> (v0.0.13) — an LSP server for editor tooling over statement files and mappings. <a href="https://pypi.org/project/bankstatementparser-lsp/">PyPI</a> · <a href="https://github.com/sebastienrousseau/bankstatementparser-lsp">GitHub</a></li>
+          <li><strong>bankstatementparser-mcp</strong> (v0.0.14) — an MCP server exposing the parser as tools for agents such as Claude, Cursor and Zed. <a href="https://pypi.org/project/bankstatementparser-mcp/">PyPI</a> · <a href="https://github.com/sebastienrousseau/bankstatementparser-mcp">GitHub</a></li>
+        </ul>
+        <h3>Illustrative MCP client configuration</h3>
+        <p class="prose">Most MCP-aware clients register servers under an <code>mcpServers</code> key. A minimal entry looks like this:</p>
+        <pre><code>{
+  &quot;mcpServers&quot;: {
+    &quot;bankstatementparser&quot;: {
+      &quot;command&quot;: &quot;bankstatementparser-mcp&quot;,
+      &quot;args&quot;: []
+    }
+  }
+}</code></pre>
+        <p class="prose">The exact configuration path and options depend on your client; check the <a href="https://github.com/sebastienrousseau/bankstatementparser-mcp">MCP server README</a> for details.</p>
+      </div>
+    </section>
+
+    <section class="section-alt" aria-labelledby="next-title">
+      <div class="container center">
+        <h2 id="next-title" class="mt-0">Next steps</h2>
+        <p class="lead mx-auto">You are installed and parsing. Dig into the docs, or explore how the suite fits together.</p>
+        <div class="btn-group center">
+          <a class="btn btn-primary" href="/documentation/">Browse the documentation</a>
+          <a class="btn btn-secondary" href="/the-suite/">Explore the suite</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h2>Suite</h2>
+          <ul>
+            <li><a href="https://pypi.org/project/bankstatementparser/">Core parser</a></li>
+            <li><a href="https://pypi.org/project/bankstatementparser-loader-bai2/">BAI2 loader</a></li>
+            <li><a href="https://pypi.org/project/bankstatementparser-loader-mt942/">MT942 loader</a></li>
+            <li><a href="https://pypi.org/project/bankstatementparser-writer-xlsx/">XLSX writer</a></li>
+            <li><a href="https://pypi.org/project/bankstatementparser-mcp/">MCP server</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Learn</h2>
+          <ul>
+            <li><a href="/formats/">Supported formats</a></li>
+            <li><a href="/documentation/">Documentation</a></li>
+            <li><a href="/installation/">Installation</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Project</h2>
+          <ul>
+            <li><a href="https://github.com/sebastienrousseau/bankstatementparser">GitHub</a></li>
+            <li><a href="/contact/">Contact</a></li>
+            <li><a href="/the-suite/">The suite</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Legal</h2>
+          <ul>
+            <li><a href="/privacy/">Privacy</a></li>
+            <li><a href="/terms/">Terms</a></li>
+            <li><a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0 licence</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Bank Statement Parser. Open source under the Apache&nbsp;2.0 licence.</span>
+        <span>Built accessibility-first · WCAG&nbsp;2.1&nbsp;AAA · no trackers.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/main.js" defer></script>
+</body>
+</html>

@@ -1,19 +1,354 @@
-<!doctype html><html lang=en-GB><head><meta charset=utf-8><meta content=2026-04-11T00:00:00+00:00 id=date itemprop=datePublished><meta content=2026-04-11T00:00:00+00:00 id=last-modified itemprop=dateModified><title>Bank Statement Parser: Parse 7 Formats in Python, 100% Local</title><meta content="rgb(73, 214, 251)" name=theme-color><meta content=G-FL9DEBFHN1 name=measurement-id><meta content="Sebastien Rousseau" name=author><meta content="Open-source Python library to parse CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, and PDF bank statements into pandas DataFrames. 27K+ tx/s, hybrid PDF pipeline, REST API, 100% local." name=description><meta content="bank statement parser, ISO 20022 parser python, CAMT.053 python, PAIN.001 parser, MT940 to CAMT migration, parse bank statements locally, OFX QFX parser, PDF bank statement parser, hybrid LLM extraction, REST API bank parser" name=keywords><meta content="width=device-width,initial-scale=1,shrink-to-fit=no" name=viewport><meta content=yes name=mobile-web-app-capable><meta content="ARIA, fullKeyboardControl, noFlashingHazard" name=accessibility><meta content=yes name=apple-mobile-web-app-capable><meta content=black-translucent name=apple-mobile-web-app-status-bar-style><meta content="Bank Statement Parser: Parse 7 Formats Including PDF, 100% Local" name=apple-mobile-web-app-title><meta content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' *.google-analytics.com https://cdn.jsdelivr.net unpkg.com www.googletagmanager.com x.clarity.ms https://www.googletagmanager.com; connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://x.clarity.ms; img-src 'self' data: https: cloudcdn.pro www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; media-src 'self'; upgrade-insecure-requests;" http-equiv=Content-Security-Policy><meta content="rgb(73, 214, 251)" name=msapplication-TileColor><meta content="Bank Statement Parser: Parse 7 Formats in Python, 100% Local" property=og:title><meta content="Open-source Python library to parse CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, and PDF bank statements into pandas DataFrames. 27K+ tx/s, hybrid PDF pipeline, REST API, 100% local." property=og:description><meta content=/images/logos/bankstatementparser.webp property=og:image><meta content=https://bankstatementparser.com property=og:url><meta content=website property=og:type><meta content=en_GB property=og:locale><meta content="Bank Statement Parser" property=og:site_name><meta content=summary_large_image name=twitter:card><meta content="Bank Statement Parser: Parse 7 Formats in Python, 100% Local" name=twitter:title><meta content="Open-source Python library to parse CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, and PDF bank statements. 27K+ tx/s, hybrid PDF pipeline, REST API." name=twitter:description><meta content=/images/logos/bankstatementparser.webp name=twitter:image><meta content=@wwdseb name=twitter:site><link href=https://bankstatementparser.com hreflang=en rel=alternate><link href=https://bankstatementparser.com rel=canonical><link sizes="16x16 32x32" href=/images/favicon.ico rel=icon type=image/x-icon><link href=/bootstrap.min.css rel=stylesheet><link href=/images/icons/192x192.png rel=apple-touch-icon sizes=192x192><link href=/manifest.json rel=manifest><link href=/rss.xml rel=alternate type=application/rss+xml><script>document.addEventListener(`DOMContentLoaded`,(()=>{let f=2000,d=`Copy`,c=`style`,e=`Copied!`,b=`lang`;var a=((a,b)=>{var c=document.createElement(`textarea`);c.value=a;c.style.cssText=`position:fixed;left:-9999px`;document.body.appendChild(c);c.select();try{document.execCommand(`copy`);b.textContent=e;setTimeout((()=>{b.textContent=d}),f)}catch(a){}document.body.removeChild(c)});document.querySelectorAll(`pre[lang]`).forEach((a=>{a.setAttribute(`data-lang`,a.getAttribute(b));a.removeAttribute(b)}));document.querySelectorAll(`pre>code>pre[style]`).forEach((a=>{var b=a.parentElement.parentElement;b.style.cssText=a.getAttribute(c)+ `;border-radius:.5rem;padding:1rem 1.25rem;margin:1.5rem 0;max-width:100%;overflow:auto;border:none`;b.innerHTML=a.innerHTML;b.removeAttribute(`class`)}));document.querySelectorAll(`pre span[style]`).forEach((a=>{var b=a.getAttribute(c);if(b&&b.indexOf(`#65737e`)!==-1){a.style.color=`#8f9aa5`}}));document.querySelectorAll(`pre`).forEach((b=>{var c=document.createElement(`button`);c.className=`copy-btn`;c.textContent=d;c.setAttribute(`aria-label`,`Copy code to clipboard`);c.addEventListener(`click`,(()=>{var g=b.textContent.replace(/^Copy(ed!)?/,``).trim();if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(g).then((()=>{c.textContent=e;setTimeout((()=>{c.textContent=d}),f)})).catch((()=>{a(g,c)}))}else{a(g,c)}}));b.appendChild(c)}))}))</script><style>:root{--theme-color:#49d6fb}*{box-sizing:border-box;margin:0;font-weight:400}pre{background:var(--c-surface);border:1px solid var(--c-border);border-left:3px solid var(--c-accent);max-width:100%;color:var(--c-code);border-radius:.5rem;max-width:100%;margin:1.5rem 0;padding:1rem 1.25rem;font-family:SF Mono,SFMono-Regular,Consolas,monospace;font-size:.8125rem;line-height:1.7;display:block;overflow:auto}</style><style>:root{--c-bg:#fff;--c-text:#1a1a1a;--c-heading:#0a0a0a;--c-secondary:#52525b;--c-accent:#3b33c0;--c-accent-hover:#2d2799;--c-surface:#f4f4f5;--c-border:#e4e4e7;--c-nav-bg:#fff;--c-nav-text:#1a1a1a;--c-nav-muted:#52525b;--c-footer-bg:#18181b;--c-footer-text:#d4d4d8;--c-code:#3a3a4a}@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--c-bg:#09090b;--c-text:#e4e4e7;--c-heading:#fafafa;--c-secondary:#a1a1aa;--c-accent:#a5b4fc;--c-accent-hover:#c7d2fe;--c-surface:#18181b;--c-border:#27272a;--c-nav-bg:#09090b;--c-nav-text:#fafafa;--c-nav-muted:#a1a1aa;--c-footer-bg:#09090b;--c-footer-text:#d4d4d8;--c-code:#c8c8d8}}[data-theme=dark]{--c-bg:#09090b;--c-text:#e4e4e7;--c-heading:#fafafa;--c-secondary:#a1a1aa;--c-accent:#a5b4fc;--c-accent-hover:#c7d2fe;--c-surface:#18181b;--c-border:#27272a;--c-nav-bg:#09090b;--c-nav-text:#fafafa;--c-nav-muted:#a1a1aa;--c-footer-bg:#09090b;--c-footer-text:#d4d4d8;--c-code:#c8c8d8}[data-theme=dark] .site-hero{background:linear-gradient(180deg,#1a0a0a 0%,#120808 30%,#0d0606 60%,var(--c-bg) 100%)}[data-theme=dark] .site-hero h1{color:var(--c-heading)}[data-theme=dark] .site-hero p{color:var(--c-secondary)}[data-theme=dark] .site-nav{background:#09090be6;border-bottom-color:#ffffff0f}[data-theme=dark] .nav-cta{background:var(--c-accent);color:var(--c-bg)!important}@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .site-hero{background:linear-gradient(#1a0a0a 0%,#120808 30%,#0d0606 60%,#09090b 100%)}:root:not([data-theme=light]) .site-hero h1{color:#fafafa}:root:not([data-theme=light]) .site-hero p{color:#a1a1aa}:root:not([data-theme=light]) .site-nav{background:#09090be6;border-bottom-color:#ffffff0f}:root:not([data-theme=light]) .nav-cta{background:#818cf8;color:#09090b!important}}body{color:var(--c-text);background:var(--c-bg);-webkit-font-smoothing:antialiased;font-family:-apple-system,BlinkMacSystemFont,SF Pro Text,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;font-size:17px;line-height:1.47059;transition:background .3s,color .3s}h1,h2,h3,h4,h5,h6{color:var(--c-heading);letter-spacing:-.022em;font-family:-apple-system,BlinkMacSystemFont,SF Pro Display,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;line-height:1.08}a{color:var(--c-accent);text-underline-offset:.15em;text-decoration:underline}a:hover{color:var(--c-accent-hover);text-decoration:underline}strong{font-weight:600}code{background:var(--c-surface);color:var(--c-code);border-radius:.25rem;padding:.125rem .375rem;font-family:SF Mono,SFMono-Regular,Consolas,monospace;font-size:.8125em}pre code{font-size:inherit;color:inherit;background:0 0;padding:0}.site-nav{border-bottom:1px solid var(--c-border);z-index:1000;background:#fff;position:sticky;top:0}.site-nav .nav-inner{align-items:center;max-width:1200px;height:3.75rem;margin:0 auto;padding:0 1.5rem;display:flex}.nav-brand{flex-shrink:0;align-items:center;gap:.5rem;text-decoration:none;display:flex}.nav-brand img{width:32px;height:32px}.nav-brand span{color:var(--c-heading);letter-spacing:-.01em;font-size:14px;font-weight:600}.nav-center{align-items:center;gap:.125rem;margin:0 auto;padding:0;list-style:none;display:flex}.nav-center a,.nav-center button{color:var(--c-nav-muted);cursor:pointer;background:0 0;border:none;border-radius:.375rem;align-items:center;min-height:2.75rem;padding:.625rem 1rem;font-size:12px;font-weight:400;line-height:1.5;text-decoration:none;transition:color .15s,background .15s;display:inline-flex}.nav-center a:hover,.nav-center button:hover{color:var(--c-nav-text);background:var(--c-surface);text-decoration:none}.nav-center .dropdown-toggle:after{vertical-align:.15em;content:"";border-top:.3em solid;border-left:.3em solid #0000;border-right:.3em solid #0000;margin-left:.25em;display:inline-block}.nav-center .dropdown-menu{background:var(--c-bg);border:1px solid var(--c-border);border-radius:.5rem;min-width:10rem;margin-top:.25rem;padding:.375rem;box-shadow:0 4px 24px #00000014}.nav-center .dropdown-item{color:var(--c-nav-muted);border-radius:.25rem;padding:.5rem .75rem;font-size:.8125rem;text-decoration:none;transition:color .15s,background .15s;display:block}.nav-center .dropdown-item:hover{color:var(--c-nav-text);background:var(--c-surface)}.nav-right{flex-shrink:0;align-items:center;gap:.75rem;display:flex}.theme-toggle{color:var(--c-secondary);border:1px solid var(--c-border);cursor:pointer;background:0 0;border-radius:6rem;outline:none;justify-content:center;align-items:center;gap:.3125rem;min-width:2.75rem;min-height:2.75rem;padding:.375rem .625rem;font-size:12px;font-weight:500;transition:border-color .2s;display:inline-flex}.theme-toggle:hover{border-color:var(--c-secondary);color:var(--c-heading)}.theme-toggle svg{fill:currentColor;width:.875rem;height:.875rem}.nav-cta{background:#0a0a0a;border-radius:6rem;padding:.4375rem 1rem;font-size:12px;font-weight:400;transition:opacity .2s;color:#fff!important;text-decoration:none!important}.nav-cta:hover{opacity:.85;color:#fff!important;text-decoration:none!important}.nav-hamburger{color:var(--c-heading);cursor:pointer;background:0 0;border:none;padding:.25rem;display:none}.nav-hamburger svg{fill:currentColor;width:1.5rem;height:1.5rem}@media (width<=991px){.site-nav{border-bottom:1px solid var(--c-border);background:var(--c-bg)!important;position:relative!important}.nav-center,.nav-right{display:none}.nav-hamburger{align-items:center;margin-left:auto;display:flex}.site-nav.open .nav-center{background:var(--c-bg);border-bottom:1px solid var(--c-border);z-index:999;display:block;position:absolute;top:100%;left:0;right:0;box-shadow:0 4px 12px #00000014}.site-nav.open .nav-center li{list-style:none}.site-nav.open .nav-center>li>a,.site-nav.open .nav-center>li>button{text-align:left;color:var(--c-text);border:none;border-bottom:1px solid var(--c-border);cursor:pointer;background:0 0;width:100%;padding:.875rem 1.5rem;font-size:16px;text-decoration:none;display:block}.site-nav.open .nav-center>li>a:hover,.site-nav.open .nav-center>li>button:hover{background:var(--c-surface)}.site-nav.open .nav-center .dropdown-menu{box-shadow:none;background:var(--c-surface);border:none;border-radius:0;min-width:100%;margin:0;padding:0;display:block;position:static}.site-nav.open .nav-center .dropdown-item{color:var(--c-secondary);border-bottom:1px solid var(--c-border);padding:.75rem 2.5rem;font-size:15px;display:block}.site-nav.open .nav-center .dropdown-item:hover{color:var(--c-text);background:var(--c-border)}}.site-hero{text-align:center;background:linear-gradient(#fef2f2 0%,#fff5f5 30%,snow 60%,#fff 100%);padding:4rem 1.5rem}.site-hero h1{color:#1a1a1a;letter-spacing:-.015em;margin-bottom:1.5rem;font-size:clamp(2.5rem,5vw,3.5rem);font-weight:600;line-height:1.07143}.site-hero p{color:#58585e;max-width:580px;margin:0 auto 2rem;font-size:clamp(1rem,2vw,1.125rem);line-height:1.6}.site-hero .hero-cta{color:#fff;background:#312e81;border-radius:6rem;align-items:center;padding:.75rem 2rem;font-size:1rem;font-weight:500;text-decoration:none;transition:background .2s,transform .1s;display:inline-flex}.site-hero .hero-cta:hover{background:var(--c-accent-hover);text-decoration:none;transform:translateY(-1px)}.site-main{max-width:800px;margin:0 auto;padding:3rem 1.5rem 4rem;font-size:17px;line-height:1.47059}.site-main>div>h1:first-child,.site-main>div>h1:first-child+p,.site-main>div>h1:first-child+p+p:empty{clip:rect(0,0,0,0);border:0;width:1px;height:1px;margin:-1px;padding:0;position:absolute;overflow:hidden}.site-main h2{letter-spacing:.007em;margin:2.5rem 0 .8rem;font-size:28px;font-weight:600;line-height:1.14286}.site-main h3{letter-spacing:.01em;margin:1.8rem 0 .4rem;font-size:22px;font-weight:600;line-height:1.18182}.site-main h4{margin:1.5rem 0 .4rem;font-size:19px;font-weight:600;line-height:1.21053}.site-main table{border-collapse:collapse;width:100%;margin:1.5rem 0;font-size:.875rem}.site-main thead{background:var(--c-surface)}.site-main th,.site-main td{border-bottom:1px solid var(--c-border);text-align:left;padding:.75rem 1rem}.site-main th{text-transform:uppercase;letter-spacing:.05em;color:var(--c-secondary);font-size:.75rem;font-weight:600}.site-main tbody tr:hover{background:var(--c-surface)}.site-main ul,.site-main ol{margin:.75rem 0;padding-left:1.5rem}.site-main li{margin-bottom:.375rem}.site-main li:last-child{margin-bottom:0}.site-main>div>p:last-child{margin-top:2rem}.lang-menu{background:var(--c-bg);border:1px solid var(--c-border);z-index:1000;border-radius:.5rem;width:max-content;max-width:90vw;margin-top:.375rem;padding:.5rem;display:none;position:absolute;top:100%;right:0;box-shadow:0 4px 24px #0000001a}.lang-menu-grid{grid-template-columns:repeat(4,minmax(120px,1fr));gap:0;min-width:500px;display:grid}@media (width<=768px){.lang-menu-grid{grid-template-columns:repeat(2,1fr)}}.lang-menu-grid a{color:var(--c-nav-muted);white-space:nowrap;border-radius:.25rem;padding:.375rem .625rem;font-size:12px;text-decoration:none;display:block}.lang-menu-grid a:hover{background:var(--c-surface);color:var(--c-text)}.lang-menu-grid a.active{color:var(--c-text);font-weight:600}.lang-switcher button{min-width:2.75rem;min-height:2.75rem}.lang-switcher button:hover{border-color:var(--c-secondary)}.site-footer{background:var(--c-footer-bg);color:var(--c-footer-text);padding:2.5rem 1.5rem 2rem;font-size:.8125rem}.site-footer .footer-inner{flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;max-width:1200px;margin:0 auto;display:flex}.site-footer a{color:var(--c-footer-text);text-decoration:none;transition:color .15s}.site-footer a:hover{color:#fff}.site-footer .footer-links{flex-wrap:wrap;gap:.5rem 1.5rem;margin:0;padding:0;list-style:none;display:flex}.skip-link{z-index:1100;color:var(--c-accent);border:2px solid var(--c-accent);background:#fff;border-radius:.25rem;padding:.5rem 1rem;position:absolute;top:0;left:-9999px}.skip-link:focus{top:1rem;left:1rem}:focus-visible{outline:2px solid var(--c-accent);outline-offset:2px}@media (prefers-reduced-motion:reduce){*,:before,:after{transition:none!important;animation:none!important}}@media print{body{color:#000!important;background:#fff!important}.site-nav,.site-footer,.skip-link{display:none!important}a{color:#000!important}a[href]:after{content:" (" attr(href) ")"}}.copy-btn{background:var(--c-surface);color:var(--c-secondary);border:1px solid var(--c-border);cursor:pointer;opacity:0;border-radius:.25rem;justify-content:center;align-items:center;min-width:2.75rem;min-height:2.75rem;padding:.25rem .5rem;font-family:inherit;font-size:.75rem;transition:opacity .2s;display:inline-flex;position:absolute;top:.5rem;right:.5rem}pre{position:relative}pre:hover .copy-btn{opacity:1}.copy-btn:hover{background:var(--c-accent);color:#fff;border-color:var(--c-accent)}.search-overlay{z-index:2000;background:#00000080;justify-content:center;align-items:flex-start;padding:15vh 1rem 1rem;display:none;position:fixed;inset:0}.search-overlay.open{display:flex}.search-box{background:var(--c-bg);border:1px solid var(--c-border);border-radius:.75rem;width:100%;max-width:560px;overflow:hidden;box-shadow:0 25px 50px -12px #00000040}.search-input{width:100%;color:var(--c-text);background:0 0;border:none;outline:none;padding:.875rem 1rem;font-family:inherit;font-size:1rem}.search-input::placeholder{color:var(--c-secondary)}.search-results{border-top:1px solid var(--c-border);max-height:50vh;overflow-y:auto}.search-result{color:var(--c-text);border-bottom:1px solid var(--c-border);padding:.75rem 1rem;text-decoration:none;display:block}.search-result:hover,.search-result.active{background:var(--c-surface);color:var(--c-accent);text-decoration:none}.search-result-title{font-size:.9375rem;font-weight:600}.search-result-desc{color:var(--c-secondary);margin-top:.125rem;font-size:.8125rem}.search-empty{text-align:center;color:var(--c-secondary);padding:1.5rem 1rem;font-size:.875rem}.search-footer{border-top:1px solid var(--c-border);color:var(--c-secondary);gap:1rem;padding:.5rem 1rem;font-size:.75rem;display:flex}.search-footer kbd{background:var(--c-surface);border:1px solid var(--c-border);border-radius:.25rem;padding:.125rem .375rem;font-size:.6875rem}</style></head><body id=page-top itemscope itemtype=http://schema.org/WebPage><a class=skip-link href=#main>Skip to main content</a><nav aria-label="Main navigation" class=site-nav itemscope itemtype=http://schema.org/SiteNavigationElement><div class=nav-inner><a class=nav-brand href=/ itemprop=url><img alt="Bank Statement Parser logo" height=32 src=/images/logos/bankstatementparser.webp width=32><span itemprop=name>Bank Statement Parser</span></a><ul class=nav-center><li><a href=/index.html>Home</a></li><li><a href=/about/index.html>About</a></li><li><a href=/getting-started/index.html>Docs</a></li><li><a href=/faq/index.html>FAQ</a></li><li class="nav-item dropdown"><button aria-expanded=false class=dropdown-toggle data-bs-toggle=dropdown id=navbarDropdown type=button>Resources</button><ul class="dropdown-menu dropdown-menu-end" aria-labelledby=navbarDropdown><li><a class=dropdown-item href=/use-cases/index.html>Use Cases</a></li><li><a class=dropdown-item href=/migration/index.html>ISO 20022 Migration</a></li><li><a class=dropdown-item href=/security/index.html>Security</a></li><li><a class=dropdown-item href=/comparison/index.html>Alternatives</a></li><li><a class=dropdown-item href=/changelog/index.html>Changelog</a></li><li><a class=dropdown-item href=/contribute/index.html>Contribute</a></li><li><a rel="noopener noreferrer" class=dropdown-item href=https://github.com/sebastienrousseau/bankstatementparser target=_blank>GitHub</a></li><li><a rel="noopener noreferrer" class=dropdown-item href=https://pypi.org/project/bankstatementparser/ target=_blank>PyPI</a></li></ul></li></ul><div class=nav-right><button aria-label=Search class=theme-toggle id=searchTrigger style=margin-right:.25rem><svg viewbox="0 0 24 24" fill=none height=16 stroke=currentColor stroke-linecap=round stroke-linejoin=round stroke-width=2 width=16><circle cx=11 cy=11 r=8 /><path d="m21 21-4.35-4.35"/></svg> <span aria-hidden=true class=search-shortcut style=opacity:.8;font-size:.6875rem></span></button><button aria-label="Switch to dark mode" class=theme-toggle id=themeToggle type=button><svg viewbox="0 0 24 24" aria-hidden=true class=theme-icon-dark><path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg><svg viewbox="0 0 24 24" aria-hidden=true class=theme-icon-light style=display:none><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zm11.394-5.834a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591zM18 12a.75.75 0 01.75-.75H21a.75.75 0 010 1.5h-2.25A.75.75 0 0118 12zm-.303 5.243a.75.75 0 011.06 1.06l-1.59 1.591a.75.75 0 01-1.061-1.06l1.59-1.591z"/></svg><span class=theme-label>Dark</span></button><div class=lang-switcher style=display:inline-block;position:relative><button aria-label="EN, Change language" style="color:var(--c-nav-muted);border:1px solid var(--c-border);cursor:pointer;background:0 0;border-radius:6rem;outline:none;align-items:center;gap:.25rem;padding:.375rem .625rem;font-size:12px;font-weight:400;display:inline-flex" aria-expanded=false type=button><span style=font-size:14px>🌐</span> EN</button><div class=lang-menu style=max-height:80vh;display:none;overflow-y:auto><div class=lang-menu-grid><a class=active href=/index.html>🇬🇧 English</a><a href=/fr/index.html>🇫🇷 Français</a><a href=/ar/index.html>🇸🇦 العربية</a><a href=/bn/index.html>🇧🇩 বাংলা</a><a href=/cs/index.html>🇨🇿 Čeština</a><a href=/de/index.html>🇩🇪 Deutsch</a><a href=/es/index.html>🇪🇸 Español</a><a href=/ha/index.html>🇳🇬 Hausa</a><a href=/he/index.html>🇮🇱 עברית</a><a href=/hi/index.html>🇮🇳 हिन्दी</a><a href=/id/index.html>🇮🇩 Indonesia</a><a href=/it/index.html>🇮🇹 Italiano</a><a href=/ja/index.html>🇯🇵 日本語</a><a href=/ko/index.html>🇰🇷 한국어</a><a href=/nl/index.html>🇳🇱 Nederlands</a><a href=/pl/index.html>🇵🇱 Polski</a><a href=/pt/index.html>🇧🇷 Português</a><a href=/ro/index.html>🇷🇴 Română</a><a href=/ru/index.html>🇷🇺 Русский</a><a href=/sv/index.html>🇸🇪 Svenska</a><a href=/th/index.html>🇹🇭 ไทย</a><a href=/tl/index.html>🇵🇭 Filipino</a><a href=/tr/index.html>🇹🇷 Türkçe</a><a href=/uk/index.html>🇺🇦 Українська</a><a href=/vi/index.html>🇻🇳 Tiếng Việt</a><a href=/yo/index.html>🇳🇬 Yorùbá</a><a href=/zh/index.html>🇨🇳 简体中文</a><a href=/zh-tw/index.html>🇹🇼 繁體中文</a></div></div></div><a style="color:#fff;background:#0a0a0a;border-radius:6rem;padding:.4375rem 1rem;font-size:12px;font-weight:400;text-decoration:none;display:inline-block" href=/contact/index.html>Contact</a></div><button aria-label="Toggle menu" class=nav-hamburger id=navToggle type=button><svg viewbox="0 0 24 24"><path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/></svg></button></div></nav><header class=site-hero><h1>Bank Statement Parser</h1><p>Parse CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, and PDF into pandas DataFrames. 27K+ tx/s, hybrid PDF pipeline, REST API, zero network calls.</p><a class=hero-cta href=https://pypi.org/project/bankstatementparser/>pip install bankstatementparser</a></header><main aria-label="Page content" class=site-main id=main tabindex=-1><div class=text-start><p><strong>Bank Statement Parser</strong> is an open-source Python library that parses bank statements from seven formats (CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, and PDF) into structured pandas DataFrames. All processing runs locally — deterministic output, automatic PII redaction, and an optional hybrid PDF pipeline that routes through local LLMs when needed.</p><h2>Get Started in Seconds</h2><pre><code class=language-bash><pre style=background-color:#2b303b>
-<span style=color:#8fa1b3>pip</span><span style=color:#c0c5ce> install bankstatementparser
-</span></pre>
-</code></pre><pre><code class=language-python><pre style=background-color:#2b303b>
-<span style=color:#b48ead>from </span><span style=color:#c0c5ce>bankstatementparser </span><span style=color:#b48ead>import </span><span style=color:#c0c5ce>create_parser, detect_statement_format
-</span><span style=color:#c0c5ce>
-</span><span style=color:#c0c5ce>fmt = </span><span style=color:#8fa1b3>detect_statement_format</span><span style=color:#c0c5ce>("</span><span style=color:#a3be8c>statement.xml</span><span style=color:#c0c5ce>")
-</span><span style=color:#c0c5ce>parser = </span><span style=color:#8fa1b3>create_parser</span><span style=color:#c0c5ce>("</span><span style=color:#a3be8c>statement.xml</span><span style=color:#c0c5ce>", fmt)
-</span><span style=color:#c0c5ce>df = parser.</span><span style=color:#8fa1b3>parse</span><span style=color:#c0c5ce>()  </span><span style=color:#65737e># pandas DataFrame, ready to use
-</span></pre>
-</code></pre><pre><code class=language-python><pre style=background-color:#2b303b>
-<span style=color:#65737e># Parse PDFs with the hybrid pipeline (v0.0.5+)
-</span><span style=color:#b48ead>from </span><span style=color:#c0c5ce>bankstatementparser.hybrid </span><span style=color:#b48ead>import </span><span style=color:#c0c5ce>smart_ingest
-</span><span style=color:#c0c5ce>
-</span><span style=color:#c0c5ce>result = </span><span style=color:#8fa1b3>smart_ingest</span><span style=color:#c0c5ce>("</span><span style=color:#a3be8c>statement.pdf</span><span style=color:#c0c5ce>")
-</span><span style=color:#96b5b4>print</span><span style=color:#c0c5ce>(result.source_method)         </span><span style=color:#65737e># "deterministic" | "llm" | "vision"
-</span><span style=color:#96b5b4>print</span><span style=color:#c0c5ce>(result.verification.status)   </span><span style=color:#65737e># VERIFIED | DISCREPANCY | FAILED
-</span></pre>
-</code></pre><img alt="GitHub Stars" src="https://img.shields.io/github/stars/sebastienrousseau/bankstatementparser?style=for-the-badge&label=Stars" style="margin:0 .25rem .5rem 0" height=28 loading=lazy><img alt="Monthly Downloads" src="https://img.shields.io/pypi/dm/bankstatementparser?style=for-the-badge&label=Downloads" style="margin:0 .25rem .5rem 0" height=28 loading=lazy><img alt="PyPI Version" src="https://img.shields.io/pypi/v/bankstatementparser?style=for-the-badge&label=PyPI" style="margin:0 .25rem .5rem 0" height=28 loading=lazy width=119><img src="https://img.shields.io/pypi/pyversions/bankstatementparser?style=for-the-badge&label=Python" style="margin:0 .25rem .5rem 0" alt=Python height=28 loading=lazy width=347><img src="https://img.shields.io/pypi/l/bankstatementparser?style=for-the-badge&label=License" style="margin:0 .25rem .5rem 0" alt=License height=28 loading=lazy width=292><img src="https://img.shields.io/badge/tests-718%20passed-brightgreen?style=for-the-badge" style="margin:0 .25rem .5rem 0" alt=Tests height=28 loading=lazy width=168><img src="https://img.shields.io/badge/coverage-100%25-brightgreen?style=for-the-badge" style="margin:0 .25rem .5rem 0" alt=Coverage height=28 loading=lazy width=152><h2>One Library, Seven Formats</h2><p>Parse CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, and PDF into structured pandas DataFrames with a single, unified API. No need to install separate packages for each format.</p><div class=table-responsive><table class=table><thead><tr><th>Feature</th><th>Bank Statement Parser</th><th>Single-format OSS (mt940, ofxparse)</th><th>SaaS (Ocrolus, Parseur)</th></tr></thead><tbody><tr><td class=text-left>Formats supported</td><td class=text-left>7, unified API</td><td class=text-left>1 each</td><td class=text-left>Many (via OCR)</td></tr><tr><td class=text-left>PDF support</td><td class=text-left>Hybrid pipeline (deterministic + LLM + vision)</td><td class=text-left>No</td><td class=text-left>Yes (cloud OCR)</td></tr><tr><td class=text-left>Data privacy</td><td class=text-left>100% local (LLMs run locally via Ollama)</td><td class=text-left>100% local</td><td class=text-left>Data sent externally</td></tr><tr><td class=text-left>Cost</td><td class=text-left>Free, Apache 2.0</td><td class=text-left>Free</td><td class=text-left>$49-$1,000+/mo</td></tr><tr><td class=text-left>Balance verification</td><td class=text-left>Golden Rule (opening + credits − debits = closing)</td><td class=text-left>No</td><td class=text-left>Varies</td></tr><tr><td class=text-left>PII redaction</td><td class=text-left>Built-in, on by default</td><td class=text-left>No</td><td class=text-left>Varies</td></tr><tr><td class=text-left>Streaming</td><td class=text-left>Bounded memory</td><td class=text-left>No</td><td class=text-left>N/A</td></tr><tr><td class=text-left>REST API</td><td class=text-left>Built-in FastAPI microservice</td><td class=text-left>No</td><td class=text-left>Yes</td></tr><tr><td class=text-left>Deduplication</td><td class=text-left>Idempotent transaction hashes</td><td class=text-left>No</td><td class=text-left>Some</td></tr><tr><td class=text-left>Ledger export</td><td class=text-left>hledger + beancount</td><td class=text-left>No</td><td class=text-left>No</td></tr></tbody></table></div><h2>Hybrid PDF Pipeline</h2><p>Bank Statement Parser v0.0.5+ includes a three-path hybrid pipeline for PDF bank statements:</p><ul><li><strong>Path A (Deterministic)</strong>: Structured PDF tables parsed directly — free, fastest, no LLM needed.</li><li><strong>Path B (Text-LLM)</strong>: Digital PDFs with complex layouts extracted via local LLM (LiteLLM/Ollama).</li><li><strong>Path C (Vision-LLM)</strong>: Scanned or photocopied statements processed with multimodal vision models.</li></ul><p>Every extraction is verified with the <strong>Golden Rule</strong>: <code>opening balance + credits − debits == closing balance</code>.</p><h2>Built for the ISO 20022 Migration</h2><p>SWIFT has set firm deadlines: all financial institutions must receive CAMT.053 by November 2027, and MT940/MT942/MT950 will be fully retired by November 2028. Bank Statement Parser handles both legacy MT940 and modern ISO 20022 formats (CAMT.053, PAIN.001) in a single API, so your parsing pipeline works during the transition and beyond.</p><h2>Performance</h2><ul><li><strong>27,000+ transactions/second</strong> for CAMT.053 parsing</li><li><strong>52,000+ transactions/second</strong> for PAIN.001 parsing</li><li><strong>< 2 ms</strong> time to first result</li><li><strong>Constant memory</strong> from 1K to 50K+ transactions via streaming</li><li><strong>718 tests</strong> with 100% branch coverage across Python 3.10 to 3.14</li></ul><h2>Why Bank Statement Parser?</h2><ul><li><strong>Hybrid PDF Extraction</strong>: <code>smart_ingest()</code> handles digital and scanned PDFs with automatic routing and balance verification.</li><li><strong>Format Auto-Detection</strong>: <code>detect_statement_format()</code> identifies files automatically and <code>create_parser()</code> returns the right parser.</li><li><strong>Privacy First</strong>: PII redaction is on by default. LLMs run locally via Ollama — no data leaves your machine.</li><li><strong>REST API</strong>: Deploy as a FastAPI microservice with <code>/ingest</code> and <code>/health</code> endpoints.</li><li><strong>Enrichment</strong>: LLM-powered transaction categorisation with pluggable schemas (Plaid 13-category default).</li><li><strong>Ledger Export</strong>: Export to hledger and beancount journal formats for plaintext-accounting workflows.</li><li><strong>Bulk Scanning</strong>: <code>scan_and_ingest()</code> processes folder trees with automatic cross-file deduplication.</li><li><strong>Multi-Currency</strong>: <code>verify_balance_multi_currency()</code> runs Golden Rule verification per currency group.</li><li><strong>Production Ready</strong>: Secure ZIP ingestion, input validation, path traversal prevention, and interactive review mode.</li><li><strong>Flexible Output</strong>: Export to CSV, JSON, Excel, Polars, hledger, or beancount.</li><li><strong>Parallel Processing</strong>: Parse multiple files concurrently with <code>parse_files_parallel()</code>.</li></ul><h2>Built for Production</h2><p>Bank Statement Parser is designed for treasury teams, fintech developers, and compliance officers processing sensitive financial data. The library is used in MT940-to-CAMT migration pipelines, automated reconciliation systems, PDF statement ingestion, and regulatory audit workflows across financial institutions.</p><ul><li><strong>718 tests</strong> with 100% branch coverage across Python 3.10 to 3.14</li><li><strong>SHA-256 hash-locked dependencies</strong> with CycloneDX SBOM for every release</li><li><strong>Deterministic output</strong> — identical input produces byte-identical results, every run</li><li><strong>Apache 2.0 licensed</strong> — use freely in commercial and internal systems</li></ul><p><strong>Evaluating alternatives?</strong> <a href=/comparison/index.html>See how Bank Statement Parser compares ❯</a> | <a href=/use-cases/index.html>Explore real-world use cases ❯</a></p><p><a href=/getting-started/index.html>Get started ❯</a> | <a href=https://github.com/sebastienrousseau/bankstatementparser>View on GitHub ❯</a> | <a href=https://pypi.org/project/bankstatementparser/>View on PyPI ❯</a></p></div></main><footer aria-label=footer class=site-footer><div class=footer-inner><span>© 2023-2026 Bank Statement Parser. All rights reserved.</span><ul class=footer-links><li><a rel="noopener noreferrer" href=https://github.com/sebastienrousseau/bankstatementparser target=_blank>GitHub</a></li><li><a rel="noopener noreferrer" href=https://pypi.org/project/bankstatementparser/ target=_blank>PyPI</a></li><li><a href=/contact/index.html>Contact</a></li><li><a href=/privacy/index.html>Privacy</a></li><li><a href=/terms/index.html>Terms</a></li></ul></div></footer><div aria-label="Search documentation" aria-modal=true class=search-overlay id=searchOverlay role=dialog><div class=search-box><input aria-label="Search documentation" placeholder="Search documentation..." autocomplete=off class=search-input id=searchInput type=search><div class=search-results id=searchResults></div><div class=search-footer><span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>↵</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div></div></div><script>(()=>{let u=`click`,p=1,t=`.search-result`,s=`open`,o=`accounting across alternatives apache audit auto automated automatic automatically balance bank beancount beyond both bounded branch built bulk byte camt categorisation category closing cloud commercial complex compliance concurrently constant cost c`,q=``,r=0;var l=((a,b)=>{a=a.toLowerCase();b=b.toLowerCase();if(b.indexOf(a)!==-p)return !0;var c=r;for(var d=r;d<b.length&&c<a.length;d++){if(b[d]===a[c])c++};return c===a.length});var k=(()=>{b.classList.remove(s);c.value=q;d.innerHTML=q;f=-p});var n=(()=>{var a=d.querySelectorAll(t);for(var b=r;b<a.length;b++){a[b].classList.toggle(`active`,b===f)};if(a[f]){a[f].scrollIntoView({block:`nearest`})}});var j=(()=>{b.classList.add(s);c.value=q;c.focus();f=-p;m(q)});var m=(b=>{var c=[];if(b.length>r){for(var e=r;e<a.length;e++){var g=a[e];if(l(b,g.t)||l(b,g.d)||g.k&&l(b,g.k))c.push(g)}};if(b.length===r){d.innerHTML=q;f=-p;return};if(c.length===r){d.innerHTML=`<div class="search-empty">No results for "`+ b.replace(/</g,`&lt;`)+ `"</div>`;f=-p;return};var h=q;for(var i=r;i<c.length;i++){h+=`<a class="search-result`+ (i===r?` active`:q)+ `" href="`+ c[i].u+ `" data-idx="`+ i+ `"><div class="search-result-title">`+ c[i].t+ `</div><div class="search-result-desc">`+ c[i].d+ `</div></a>`};d.innerHTML=h;f=r});var a=[{t:`Home`,d:`Parse 7 bank statement formats including PDF, 100% local`,u:`/index.html`,k:o},{t:`About`,d:`Features, formats, hybrid PDF pipeline, performance overview`,u:`/about/index.html`,k:o},{t:`Getting Started`,d:`Installation, extras, PDF pipeline, REST API, CLI reference`,u:`/getting-started/index.html`,k:o},{t:`FAQ`,d:`Privacy, hybrid PDF, Golden Rule, performance, compliance`,u:`/faq/index.html`,k:o},{t:`Use Cases`,d:`Treasury, PDF ingestion, reconciliation, ledger export, REST API`,u:`/use-cases/index.html`,k:o},{t:`Migration`,d:`ISO 20022 timeline, MT940 to CAMT.053, PDF fallback`,u:`/migration/index.html`,k:o},{t:`Security`,d:`XXE protection, PII redaction, local LLMs, Golden Rule`,u:`/security/index.html`,k:o},{t:`Comparison`,d:`vs mt-940, ofxparse, pyiso20022, SaaS, hybrid LLM pipeline`,u:`/comparison/index.html`,k:o},{t:`Changelog`,d:`Release history: v0.0.8, v0.0.7, v0.0.6, v0.0.5, v0.0.4`,u:`/changelog/index.html`,k:o},{t:`Contribute`,d:`Report issues, submit code, documentation, sponsorship`,u:`/contribute/index.html`,k:o},{t:`Contact`,d:`GitHub issues for open-source, form for business inquiries`,u:`/contact/index.html`,k:o},{t:`Privacy`,d:`Privacy policy, analytics, GDPR, cookies`,u:`/privacy/index.html`,k:o},{t:`Terms`,d:`Terms of use, Apache 2.0 license, disclaimers`,u:`/terms/index.html`,k:o}];var b=document.getElementById(`searchOverlay`);var c=document.getElementById(`searchInput`);var d=document.getElementById(`searchResults`);var e=document.getElementById(`searchTrigger`);var f=-p;var g=/Mac|iPhone|iPad|iPod/.test(navigator.platform||navigator.userAgent||q);var h=document.querySelectorAll(`.search-shortcut`);for(var i=r;i<h.length;i++){h[i].textContent=g?`⌘K`:`Ctrl+K`};if(e){e.addEventListener(u,(a=>{a.preventDefault();j()}))};document.addEventListener(`keydown`,(a=>{if((g?a.metaKey:a.ctrlKey)&&a.key===`k`){a.preventDefault();if(b.classList.contains(s)){k()}else{j()};return};if(!b.classList.contains(s))return;if(a.key===`Escape`){a.preventDefault();k();return};var c=d.querySelectorAll(t);if(a.key===`ArrowDown`){a.preventDefault();if(c.length){f=(f+ p)%c.length;n()};return};if(a.key===`ArrowUp`){a.preventDefault();if(c.length){f=(f- p+ c.length)%c.length;n()};return};if(a.key===`Enter`){a.preventDefault();if(c[f]){window.location.href=c[f].getAttribute(`href`)};return}}));c.addEventListener(`input`,(()=>{f=-p;m(c.value.trim())}));b.addEventListener(u,(a=>{if(a.target===b)k()}))})()</script><script type=application/ld+json>{"@context":"https://schema.org/","@type":"WebPage","author":{"@type":"Person","@id":"Sebastien Rousseau"},"copyrightYear":"2026","dateModified":"2026-04-11T00:00:00+00:00","datePublished":"2026-04-11T00:00:00+00:00","description":"Open-source Python library to parse CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, and PDF bank statements into pandas DataFrames. 27K+ tx/s, hybrid PDF pipeline, REST API, 100% local.","headline":"Parse 7 Bank Statement Formats in Python — Including PDF. No SaaS. No Data Leaves Your Machine.","image":{"@type":"ImageObject","url":"/images/logos/bankstatementparser.webp"},"inLanguage":"en-GB","mainEntityOfPage":"https://bankstatementparser.com","name":"Bank Statement Parser","publisher":{"@type":"Person","@id":"Sebastien Rousseau"}}</script><script type=application/ld+json>{"@context":"https://schema.org/","@type":"SoftwareApplication","name":"Bank Statement Parser","description":"Open-source Python library to parse CAMT.053, PAIN.001, CSV, OFX, QFX, MT940, and PDF bank statements into pandas DataFrames. 27K+ tx/s, hybrid PDF pipeline, REST API, 100% local.","applicationCategory":"DeveloperApplication","operatingSystem":"macOS, Linux, Windows (WSL)","programmingLanguage":"Python","softwareVersion":"0.0.8","license":"https://opensource.org/licenses/Apache-2.0","url":"https://pypi.org/project/bankstatementparser/","codeRepository":"https://github.com/sebastienrousseau/bankstatementparser","author":{"@type":"Person","name":"Sebastien Rousseau"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script><script>(()=>{let c=`none`,a=`click`,b=`block`,d=`aria-expanded`;document.querySelectorAll(`.lang-switcher`).forEach((e=>{var f=e.querySelector(`button`);var g=e.querySelector(`.lang-menu`);if(!f||!g)return;f.addEventListener(a,(a=>{a.stopPropagation();var e=g.style.display===b;g.style.display=e?c:b;f.setAttribute(d,String(!e))}));document.addEventListener(a,(()=>{g.style.display=c;f.setAttribute(d,`false`)}));g.addEventListener(a,(a=>{a.stopPropagation()}))}))})();(()=>{let g=`none`,h=``,d=`data-theme`,e=`theme`,j=`click`,f=`dark`,i=`#themeToggle`;var a=(a=>{document.documentElement.setAttribute(d,a);localStorage.setItem(e,a);document.querySelectorAll(`.theme-icon-dark,.theme-icon-dark-m`).forEach((b=>{b.style.display=a===f?g:h}));document.querySelectorAll(`.theme-icon-light,.theme-icon-light-m`).forEach((b=>{b.style.display=a===f?h:g}));document.querySelectorAll(`.theme-label,.theme-label-m`).forEach((b=>{b.textContent=a===f?`Light`:`Dark`}));document.querySelectorAll(i).forEach((b=>{b.setAttribute(`aria-label`,a===f?`Switch to light mode`:`Switch to dark mode`)}))});var b=localStorage.getItem(e);if(b){a(b)}else if(window.matchMedia(`(prefers-color-scheme:dark)`).matches){a(f)};document.querySelectorAll(i).forEach((b=>{b.addEventListener(j,(()=>{a(document.documentElement.getAttribute(d)===f?`light`:f)}))}));var c=document.getElementById(`navToggle`);if(c){c.addEventListener(j,(()=>{var a=document.querySelector(`.site-nav`);if(a){var b=a.classList.toggle(`open`);c.setAttribute(`aria-expanded`,String(b))}}))}})()</script><script defer src=/main.js></script><script defer src=/bootstrap.bundle.min.js></script></body></html>
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bank Statement Parser — CAMT, MT940/942, BAI2, OFX, CSV &amp; PDF to one model</title>
+  <meta name="description" content="Open-source Python toolkit that parses bank statements — CAMT (ISO 20022), PAIN.001, MT940/MT942, BAI2, OFX/QFX, CSV and PDFs (digital or scanned) — into one auditable Transaction model. Privacy-first: nothing leaves your machine unless you opt in.">
+  <meta name="keywords" content="bank statement parser, CAMT parser, ISO 20022, MT940, MT942, BAI2, OFX, QFX, CSV bank statement, PDF bank statement, statement reconciliation, treasury, Python, Transaction model, local LLM, Ollama">
+  <meta name="author" content="Sebastien Rousseau">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#1c4e9e" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <meta name="generator" content="Handcrafted, self-hosted, zero third-party">
+  <meta name="accessibility" content="ARIA, fullKeyboardControl, structuredNavigation, noFlashingHazard, WCAG-AAA">
+
+  <link rel="canonical" href="https://bankstatementparser.com/">
+  <link rel="alternate" hreflang="en-gb" href="https://bankstatementparser.com/">
+  <link rel="alternate" hreflang="x-default" href="https://bankstatementparser.com/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="alternate" type="application/rss+xml" title="Bank Statement Parser updates" href="/rss.xml">
+  <link rel="preload" as="style" href="/assets/styles.css">
+  <link rel="stylesheet" href="/assets/styles.css">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Bank Statement Parser">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:title" content="Bank Statement Parser — every statement format into one model">
+  <meta property="og:description" content="Parse CAMT, MT940/942, BAI2, OFX/QFX, CSV and PDFs into one auditable Transaction model. Privacy-first, open source, Python.">
+  <meta property="og:url" content="https://bankstatementparser.com/">
+  <meta property="og:image" content="https://bankstatementparser.com/assets/og.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Bank Statement Parser — bank statement formats into one Transaction model">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bank Statement Parser — every statement format into one model">
+  <meta name="twitter:description" content="Parse CAMT, MT940/942, BAI2, OFX/QFX, CSV and PDFs into one auditable Transaction model. Privacy-first, open source, Python.">
+  <meta name="twitter:image" content="https://bankstatementparser.com/assets/og.png">
+  <meta name="twitter:image:alt" content="Bank Statement Parser — bank statement formats into one Transaction model">
+
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; base-uri 'self'; form-action 'self' https://formspree.io; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests">
+
+  <script src="/assets/theme-init.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://bankstatementparser.com/#org",
+        "name": "Bank Statement Parser",
+        "url": "https://bankstatementparser.com/",
+        "logo": "https://bankstatementparser.com/favicon.svg",
+        "sameAs": [
+          "https://github.com/sebastienrousseau/bankstatementparser",
+          "https://pypi.org/project/bankstatementparser/"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://bankstatementparser.com/#website",
+        "url": "https://bankstatementparser.com/",
+        "name": "Bank Statement Parser",
+        "description": "Parse bank statements across CAMT, MT940/942, BAI2, OFX/QFX, CSV and PDF into one auditable Transaction model.",
+        "publisher": { "@id": "https://bankstatementparser.com/#org" },
+        "inLanguage": "en-GB"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "bankstatementparser",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Python 3.10+",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "softwareVersion": "0.0.11",
+        "downloadUrl": "https://pypi.org/project/bankstatementparser/",
+        "description": "Parse bank statements across six structured formats (CAMT, PAIN.001, CSV, OFX/QFX, MT940) and PDFs, digital or scanned, into a single unified Transaction model.",
+        "license": "https://www.apache.org/licenses/LICENSE-2.0"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Which bank statement formats does it parse?",
+            "acceptedAnswer": { "@type": "Answer", "text": "CAMT (ISO 20022), PAIN.001, SWIFT MT940 and MT942, BAI2, OFX/QFX and CSV, plus PDFs — both digital and scanned — all normalised into one Transaction model." }
+          },
+          {
+            "@type": "Question",
+            "name": "Does my financial data leave my machine?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No, not by default. Structured formats are parsed deterministically on-device. PDFs fall through to a configurable local LLM (Ollama by default) and a local vision model for scans; data is only sent to an external provider if you explicitly configure one." }
+          },
+          {
+            "@type": "Question",
+            "name": "Is it free and open source?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. The whole suite is Apache-2.0 licensed and published on PyPI: the core library plus the BAI2 and MT942 loaders, the XLSX writer, an LSP server and an MCP server." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <nav class="nav" aria-label="Primary">
+        <a class="brand" href="/">
+          <svg class="brand-mark" width="30" height="30" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+            <rect width="64" height="64" rx="14" fill="currentColor"></rect>
+            <rect x="18" y="12" width="28" height="40" rx="4" fill="#ffffff"></rect>
+            <rect x="23" y="20" width="18" height="3.2" rx="1.6" fill="currentColor"></rect>
+            <rect x="23" y="27" width="18" height="3.2" rx="1.6" fill="currentColor"></rect>
+            <rect x="23" y="34" width="12" height="3.2" rx="1.6" fill="currentColor"></rect>
+            <path d="M34 44l6 6 12-14" fill="none" stroke="#82b4ff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <span>bankstatementparser</span>
+        </a>
+        <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu">
+          <span aria-hidden="true">☰</span> Menu
+        </button>
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="/" aria-current="page">Home</a></li>
+          <li><a href="/the-suite/">The suite</a></li>
+          <li><a href="/formats/">Formats</a></li>
+          <li><a href="/installation/">Install</a></li>
+          <li><a href="/documentation/">Docs</a></li>
+          <li><a href="/contact/">Contact</a></li>
+          <li>
+            <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">
+              <span aria-hidden="true">◐</span>
+              <span class="theme-toggle-label">Dark</span>
+              <span class="visually-hidden"> mode</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container">
+        <p class="eyebrow">Bank statements · CAMT · MT940/942 · BAI2 · OFX · CSV · PDF</p>
+        <h1 id="hero-title">Every bank statement format, into one clean model.</h1>
+        <p class="lead">bankstatementparser is an open-source Python toolkit that turns CAMT, PAIN.001, MT940/MT942, BAI2, OFX/QFX, CSV — and PDFs, digital or scanned — into a single auditable <code>Transaction</code> model. Structured files take the deterministic path; PDFs fall through to a local model. Nothing leaves your machine unless you opt in.</p>
+        <div class="btn-group">
+          <a class="btn btn-primary" href="/installation/">Get started</a>
+          <a class="btn btn-secondary" href="/formats/">See supported formats</a>
+        </div>
+        <dl class="hero-stats">
+          <div><dt>7+</dt><dd>statement formats, one model</dd></div>
+          <div><dt>PDF</dt><dd>digital &amp; scanned, on-device</dd></div>
+          <div><dt>6</dt><dd>composable suite packages</dd></div>
+          <div><dt>0</dt><dd>data sent out by default</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section aria-labelledby="why-title">
+      <div class="container">
+        <h2 id="why-title" class="mt-0">One <code>Transaction</code> model, whatever the bank sends</h2>
+        <p class="prose">Reconciliation breaks when every bank, rail and legacy system speaks a different dialect — ISO 20022 CAMT here, a SWIFT MT940 there, a BAI2 cash-management file, an OFX export, a CSV dump, or a PDF someone scanned on a photocopier. bankstatementparser normalises all of them into one typed, auditable record set, so your downstream code is written once.</p>
+        <div class="grid">
+          <div class="card">
+            <span class="card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h10"></path></svg>
+            </span>
+            <h3>Deterministic for structured data</h3>
+            <p>CAMT, PAIN.001, MT940/MT942, BAI2, OFX/QFX and CSV are parsed by explicit rules — repeatable, testable, and auditable line by line.</p>
+          </div>
+          <div class="card">
+            <span class="card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </span>
+            <h3>Private by default</h3>
+            <p>PDFs fall through to a configurable local LLM (Ollama) and a local vision model for scans. Your statements only reach an external provider if you explicitly wire one up.</p>
+          </div>
+          <div class="card">
+            <span class="card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+            </span>
+            <h3>Auditable output</h3>
+            <p>Every statement collapses to the same <code>Transaction</code> shape — dates, amounts, counterparties, references — ready for reconciliation, ledgers or export to Excel.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-alt" aria-labelledby="suite-title">
+      <div class="container">
+        <h2 id="suite-title" class="mt-0">A composable suite, not a monolith</h2>
+        <p class="lead">Start with the core parser; add loaders, a writer, and agent/editor integrations as you need them. Every package is Apache-2.0 and on PyPI.</p>
+        <div class="grid">
+          <article class="card suite-card">
+            <p><span class="pkg">bankstatementparser</span> <span class="badge badge-live">v0.0.11 · live</span></p>
+            <h3>Core parser</h3>
+            <p>CAMT, PAIN.001, MT940, OFX/QFX, CSV and PDF into the unified <code>Transaction</code> model, with the deterministic-then-LLM pipeline.</p>
+            <p><a href="https://pypi.org/project/bankstatementparser/">PyPI</a> · <a href="https://github.com/sebastienrousseau/bankstatementparser">Source</a></p>
+          </article>
+          <article class="card suite-card">
+            <p><span class="pkg">bankstatementparser-loader-bai2</span> <span class="badge badge-live">v0.0.14 · live</span></p>
+            <h3>BAI2 loader</h3>
+            <p>Parse BAI2 cash-management and lockbox files straight into the core <code>Transaction</code> model.</p>
+            <p><a href="https://pypi.org/project/bankstatementparser-loader-bai2/">PyPI</a> · <a href="https://github.com/sebastienrousseau/bankstatementparser-loader-bai2">Source</a></p>
+          </article>
+          <article class="card suite-card">
+            <p><span class="pkg">bankstatementparser-loader-mt942</span> <span class="badge badge-live">v0.0.14 · live</span></p>
+            <h3>MT942 loader</h3>
+            <p>SWIFT MT942 interim transaction reports, loaded into the same model as everything else.</p>
+            <p><a href="https://pypi.org/project/bankstatementparser-loader-mt942/">PyPI</a> · <a href="https://github.com/sebastienrousseau/bankstatementparser-loader-mt942">Source</a></p>
+          </article>
+          <article class="card suite-card">
+            <p><span class="pkg">bankstatementparser-writer-xlsx</span> <span class="badge badge-live">v0.0.13 · live</span></p>
+            <h3>Excel writer</h3>
+            <p>Write parsed statements to clean, formatted <code>.xlsx</code> workbooks for analysts and auditors.</p>
+            <p><a href="https://pypi.org/project/bankstatementparser-writer-xlsx/">PyPI</a> · <a href="https://github.com/sebastienrousseau/bankstatementparser-writer-xlsx">Source</a></p>
+          </article>
+          <article class="card suite-card">
+            <p><span class="pkg">bankstatementparser-lsp</span> <span class="badge badge-live">v0.0.13 · live</span></p>
+            <h3>LSP server</h3>
+            <p>A Language Server for editor tooling over statement files and mappings.</p>
+            <p><a href="https://pypi.org/project/bankstatementparser-lsp/">PyPI</a> · <a href="https://github.com/sebastienrousseau/bankstatementparser-lsp">Source</a></p>
+          </article>
+          <article class="card suite-card">
+            <p><span class="pkg">bankstatementparser-mcp</span> <span class="badge badge-live">v0.0.14 · live</span></p>
+            <h3>MCP server</h3>
+            <p>Exposes the parser as Model Context Protocol tools so agents (Claude, Cursor, Zed) can read statements safely.</p>
+            <p><a href="https://pypi.org/project/bankstatementparser-mcp/">PyPI</a> · <a href="https://github.com/sebastienrousseau/bankstatementparser-mcp">Source</a></p>
+          </article>
+        </div>
+        <div class="btn-group">
+          <a class="btn btn-secondary" href="/the-suite/">Compare the suite in detail</a>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="formats-title">
+      <div class="container">
+        <h2 id="formats-title" class="mt-0">Formats it speaks</h2>
+        <p class="prose">One API across the formats finance teams actually receive — from modern ISO 20022 to a scanned PDF from a regional bank.</p>
+        <div class="table-wrap">
+          <table>
+            <caption>Statement formats normalised into the unified <code>Transaction</code> model.</caption>
+            <thead>
+              <tr><th scope="col">Format</th><th scope="col">Origin</th><th scope="col">How it is parsed</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">CAMT (ISO 20022)</th><td>camt.052/053/054</td><td>Deterministic XML parsing.</td></tr>
+              <tr><th scope="row">PAIN.001</th><td>ISO 20022 initiation</td><td>Deterministic XML parsing.</td></tr>
+              <tr><th scope="row">MT940 / MT942</th><td>SWIFT</td><td>Deterministic field parsing (MT942 via the loader).</td></tr>
+              <tr><th scope="row">BAI2</th><td>US cash management</td><td>Deterministic parsing via the BAI2 loader.</td></tr>
+              <tr><th scope="row">OFX / QFX</th><td>Open Financial Exchange</td><td>Deterministic parsing.</td></tr>
+              <tr><th scope="row">CSV</th><td>Bank exports</td><td>Configurable column mapping.</td></tr>
+              <tr><th scope="row">PDF</th><td>Digital &amp; scanned</td><td>Local LLM, then a vision model for scans.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-alt" aria-labelledby="audience-title">
+      <div class="container">
+        <h2 id="audience-title" class="mt-0">For the people who reconcile the money</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>Treasury &amp; finance teams</h3>
+            <p>Consolidate balances and transactions from every bank into one model — no more a spreadsheet per format.</p>
+          </div>
+          <div class="card">
+            <h3>CFOs &amp; controllers</h3>
+            <p>Auditable, on-device extraction with a clear trail — sensitive statements never leave your infrastructure by default.</p>
+          </div>
+          <div class="card">
+            <h3>Fintech founders</h3>
+            <p>Ship account aggregation and reconciliation features without building a parser for every bank format yourself.</p>
+          </div>
+          <div class="card">
+            <h3>Data &amp; platform engineers</h3>
+            <p>A typed Python API, composable loaders/writers, and LSP + MCP integrations for editor and agent workflows.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="cta-title">
+      <div class="container center">
+        <h2 id="cta-title" class="mt-0">Parse your first statement in one command</h2>
+        <p class="lead mx-auto">Install from PyPI and turn a CAMT, MT940 or CSV file into a list of transactions in minutes.</p>
+        <pre><code>pip install bankstatementparser</code></pre>
+        <div class="btn-group center">
+          <a class="btn btn-primary" href="/installation/">Read the install guide</a>
+          <a class="btn btn-secondary" href="/documentation/">Browse the docs</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h2>Suite</h2>
+          <ul>
+            <li><a href="https://pypi.org/project/bankstatementparser/">Core parser</a></li>
+            <li><a href="https://pypi.org/project/bankstatementparser-loader-bai2/">BAI2 loader</a></li>
+            <li><a href="https://pypi.org/project/bankstatementparser-loader-mt942/">MT942 loader</a></li>
+            <li><a href="https://pypi.org/project/bankstatementparser-writer-xlsx/">XLSX writer</a></li>
+            <li><a href="https://pypi.org/project/bankstatementparser-mcp/">MCP server</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Learn</h2>
+          <ul>
+            <li><a href="/formats/">Supported formats</a></li>
+            <li><a href="/documentation/">Documentation</a></li>
+            <li><a href="/installation/">Installation</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Project</h2>
+          <ul>
+            <li><a href="https://github.com/sebastienrousseau/bankstatementparser">GitHub</a></li>
+            <li><a href="/contact/">Contact</a></li>
+            <li><a href="/the-suite/">The suite</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Legal</h2>
+          <ul>
+            <li><a href="/privacy/">Privacy</a></li>
+            <li><a href="/terms/">Terms</a></li>
+            <li><a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0 licence</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Bank Statement Parser. Open source under the Apache&nbsp;2.0 licence.</span>
+        <span>Built accessibility-first · WCAG&nbsp;2.1&nbsp;AAA · no trackers.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/main.js" defer></script>
+</body>
+</html>

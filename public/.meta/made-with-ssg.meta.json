@@ -1,0 +1,17 @@
+{
+  "author": "Sebastien Rousseau",
+  "banner": "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp",
+  "banner_alt": "Bank Statement Parser — High-Throughput Financial Document Parsing Engine",
+  "date": "2026-09-01",
+  "description": "Details on native Rust static site compilation and automated quality gates.",
+  "keywords": "Static Site Generator, SSG, Rust web compilation",
+  "language": "en-GB",
+  "layout": "page",
+  "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
+  "name": "Bank Statement Parser",
+  "permalink": "https://bankstatementparser.com/made-with-ssg/index.html",
+  "reading_time": 1,
+  "short_name": "bankstatementparser",
+  "title": "Made with Static Site Generator (SSG)",
+  "word_count": 63
+}

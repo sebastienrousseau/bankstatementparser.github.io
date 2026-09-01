@@ -1,56 +1,127 @@
-# bankstatementparser.com — official website 🌍
+<!-- SPDX-License-Identifier: Apache-2.0 OR MIT -->
 
-Marketing and documentation site for the **bankstatementparser** suite —
-open-source Python tooling that parses bank statements across CAMT
-(ISO 20022), PAIN.001, MT940/MT942, BAI2, OFX/QFX, CSV and PDF into one
-auditable `Transaction` model.
+<p align="center">
+  <img src="https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg" alt="Bank Statement Parser logo" width="128" />
+</p>
 
-The site promotes the published packages:
+<h1 align="center">Bank Statement Parser</h1>
 
-- [`bankstatementparser`](https://pypi.org/project/bankstatementparser/) — the core parser.
-- [`bankstatementparser-loader-bai2`](https://pypi.org/project/bankstatementparser-loader-bai2/) — BAI2 loader.
-- [`bankstatementparser-loader-mt942`](https://pypi.org/project/bankstatementparser-loader-mt942/) — SWIFT MT942 loader.
-- [`bankstatementparser-writer-xlsx`](https://pypi.org/project/bankstatementparser-writer-xlsx/) — Excel writer.
-- [`bankstatementparser-lsp`](https://pypi.org/project/bankstatementparser-lsp/) — Language Server.
-- [`bankstatementparser-mcp`](https://pypi.org/project/bankstatementparser-mcp/) — MCP server.
+<p align="center">
+  High-throughput financial document parsing engine converting multi-format bank statements (PDF, CSV, OFX) into validated JSON and ISO 20022 messages.
+</p>
 
-## Design goals
+<p align="center">
+  <a href="https://github.com/sebastienrousseau/bankstatementparser.github.io/actions"><img src="https://img.shields.io/github/actions/workflow/status/sebastienrousseau/bankstatementparser.github.io/ci.yml?style=for-the-badge&logo=github" alt="Build" /></a>
+  <a href="https://github.com/sebastienrousseau/bankstatementparser.github.io/releases"><img src="https://img.shields.io/github/v/release/sebastienrousseau/bankstatementparser.github.io?style=for-the-badge&color=fc8d62&logo=git" alt="Release" /></a>
+  <a href="https://static-site-generator.com/"><img src="https://img.shields.io/badge/SSG-0.0.56-66c2a5?style=for-the-badge&labelColor=555555&logo=rust" alt="Built with SSG" /></a>
+  <a href="https://scorecard.dev/viewer/?uri=github.com/sebastienrousseau/bankstatementparser.github.io"><img src="https://img.shields.io/ossf-scorecard/github.com/sebastienrousseau/bankstatementparser.github.io?style=for-the-badge&label=OpenSSF%20Scorecard&logo=openssf" alt="OpenSSF Scorecard" /></a>
+</p>
 
-- **Zero third-party dependencies at runtime** — no CDN, web fonts,
-  analytics or trackers. Every asset is self-hosted, which is what makes the
-  strict Content-Security-Policy and the privacy posture possible.
-- **WCAG 2.1 AAA** — all colour pairs are verified to at least 7:1 contrast
-  in both light and dark themes (see `audit/`). Full keyboard control,
-  visible focus, skip link, semantic landmarks, reduced-motion support.
-- **SEO-complete** — per-page canonical, Open Graph, Twitter, JSON-LD
-  (`Organization`, `WebSite`, `SoftwareApplication`, `BreadcrumbList`,
-  `FAQPage`, `Article`, `HowTo`), `sitemap.xml`, `robots.txt`, `rss.xml`,
-  `manifest.json` and `humans.txt`.
+---
 
-## Architecture
+## Contents
 
-A **dependency-free static site** — no build step. The deployable site lives
-entirely in [`docs/`](./docs) and is served as-is by GitHub Pages (Settings →
-Pages → *Deploy from a branch* → `main` / `/docs`), Netlify, or Cloudflare
-Pages.
+**Getting started**
 
-## Local preview
+- [Overview](#overview) — architecture and design principles
+- [Quick Start](#quick-start) — build and serve locally in minutes
 
-```shell
-npx serve docs
+**Ecosystem & Architecture**
+
+- [Features](#features) — core capabilities and performance highlights
+- [Technology Stack](#technology-stack) — SSG, Rust, and modern web standards
+- [Accessibility & Compliance](#accessibility--compliance) — 100% WCAG 2.1 AAA and Lighthouse scores
+
+**Operational**
+
+- [Development](#development) — make targets, quality gates, and automated testing
+- [Security](#security) — Subresource Integrity (SRI) and Content Security Policy (CSP)
+- [License](#license) — dual Apache-2.0 and MIT licensing
+
+---
+
+## Overview
+
+`bankstatementparser.github.io` is engineered for speed, privacy, and accessibility. Built with **Static Site Generator (SSG)** and the **Skeletonic Design System**, it delivers lightning-fast static page generation, zero third-party tracking cookies, and responsive Apple Human Interface Guidelines (HIG) navigation.
+
+---
+
+## Quick Start
+
+### Prerequisites
+
+Ensure you have `ssg` installed via Cargo:
+
+```bash
+cargo install ssg
 ```
 
-## Quality checks
+### Local Build & Development
 
-```shell
-npx html-validate "docs/**/*.html"   # config in .htmlvalidate.json
-python3 audit/contrast.py            # WCAG AAA contrast proof
+Clone the repository and compile the static assets:
+
+```bash
+git clone https://github.com/sebastienrousseau/bankstatementparser.github.io.git
+cd bankstatementparser.github.io
+
+# Compile with Static Site Generator (SSG)
+ssg build --content _posts --template _layouts --output docs
+
+# Or serve locally using Makefile
+make serve
 ```
 
-CI (`.github/workflows/ci.yml`) runs both on every push and pull request,
-plus structure/self-hosting guardrails.
+---
 
-## Licence
+## Features
 
-Content and code are released under the [Apache License 2.0](./LICENSE),
-matching the bankstatementparser suite.
+- **Static Site Generator (SSG) Compilation**: High-throughput Markdown and Tera template processing with pre-rendered HTML.
+- **Apple HIG Responsive Navigation**: Sticky blur glass header with horizontal/vertical element alignment, squarcle buttons, and mobile hamburger drawer.
+- **Subresource Integrity (SRI)**: SHA-384 cryptographic hashing on all external and internal stylesheets and scripts.
+- **Content Security Policy (CSP)**: Hardened security headers restricting unvetted origins while permitting high-performance execution.
+- **Full Client Search Engine**: Instant multi-term indexing and live modal search via `search-index.json`.
+- **System Theme Auto-Detection**: Instant switching between Light, Dark, and System modes with zero visual flash.
+- **100% WCAG AAA Compliance**: High contrast ratios, full keyboard navigation, ARIA landmarks, and semantic heading hierarchies.
+
+---
+
+## Technology Stack
+
+| Component | Technology | Description |
+|---|---|---|
+| **Static Engine** | [Static Site Generator (SSG)](https://static-site-generator.com/) | High-speed Rust static site generator |
+| **Design Framework** | [Skeletonic CSS](https://skeletonic.io) | Minimalist, zero-dependency layout engine |
+| **Icons & Assets** | [CloudCDN](https://cloudcdn.pro) | Distributed edge CDN for SVG vector assets |
+| **Runtime** | Vanilla ECMAScript | Zero runtime framework overhead |
+
+---
+
+## Development
+
+Run automated regression tests and the 10-pillar quality audit:
+
+```bash
+# Run repository regression test
+python3 scripts/regression-test.py
+
+# Run portfolio master quality gate
+make test
+```
+
+---
+
+## Security
+
+Every deployment adheres to strict security and integrity standards:
+
+- **Zero Inline Code Execution**: All scripts are isolated and digest-verified.
+- **Cryptographic Asset Integrity**: Guaranteed Subresource Integrity via SHA-384 digests.
+- **Privacy by Default**: No user tracking, analytics cookies, or third-party fingerprinting.
+
+---
+
+## License
+
+Copyright © 2024 - 2026 Sebastien Rousseau. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 or the MIT license at your option.

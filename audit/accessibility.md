@@ -33,7 +33,7 @@ Reproduce: `python3 audit/contrast.py`
 ## Structure & interaction
 
 - **Landmarks**: one `<header>`, one `<main id="main">`, one `<footer>` per
-  page; `<nav aria-label>` on primary nav and breadcrumbs.
+  page; `<nav aria-label="Main Navigation" aria-label>` on primary nav and breadcrumbs.
 - **Headings**: single `<h1>` per page, no skipped levels.
 - **Keyboard**: skip link, visible `:focus-visible` outline (AAA-contrast),
   Escape closes the mobile menu, no keyboard traps.

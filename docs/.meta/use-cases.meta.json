@@ -1,0 +1,17 @@
+{
+  "author": "Sebastien Rousseau",
+  "banner": "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp",
+  "banner_alt": "Bank Statement Parser — High-Throughput Financial Document Parsing Engine",
+  "date": "2026-09-01",
+  "description": "Architectural blueprints and deployment patterns for corporate treasuries, fintech lenders, and forensic accounting firms.",
+  "keywords": "bank reconciliation automation, treasury statement ingestion, lending underwriting, AML bank statement parsing",
+  "language": "en-GB",
+  "layout": "page",
+  "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
+  "name": "Bank Statement Parser",
+  "permalink": "https://bankstatementparser.com/use-cases/index.html",
+  "reading_time": 1,
+  "short_name": "bankstatementparser",
+  "title": "Enterprise Use Cases: Treasury, Lending, Reconciliation & Audits",
+  "word_count": 171
+}

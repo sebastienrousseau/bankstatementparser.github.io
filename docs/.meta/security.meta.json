@@ -1,0 +1,17 @@
+{
+  "author": "Sebastien Rousseau",
+  "banner": "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp",
+  "banner_alt": "Bank Statement Parser — High-Throughput Financial Document Parsing Engine",
+  "date": "2026-09-01",
+  "description": "Detailed security specifications, zero-telemetry architecture, memory safety guarantees, and CycloneDX SBOM provenance.",
+  "keywords": "zero telemetry parser, air gapped bank statement parser, memory safe financial software, CycloneDX SBOM",
+  "language": "en-GB",
+  "layout": "page",
+  "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
+  "name": "Bank Statement Parser",
+  "permalink": "https://bankstatementparser.com/security/index.html",
+  "reading_time": 1,
+  "short_name": "bankstatementparser",
+  "title": "Security Architecture: Zero Telemetry, Air-Gapped & Memory Safe",
+  "word_count": 116
+}

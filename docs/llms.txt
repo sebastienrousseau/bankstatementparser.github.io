@@ -1,0 +1,14 @@
+# Bank Statement Parser
+> High-throughput financial document parsing engine converting multi-format bank statements (PDF, CSV, OFX, MT940, CAMT.053) into validated JSON and ISO 20022 messages with zero telemetry.
+
+## Core Documentation & Resources
+- Homepage: https://bankstatementparser.com/
+- Getting Started: https://bankstatementparser.com/getting-started/index.html
+- Supported Formats: https://bankstatementparser.com/formats/index.html
+- Use Cases: https://bankstatementparser.com/use-cases/index.html
+- Performance Benchmarks: https://bankstatementparser.com/benchmarks/index.html
+- Pipeline Architecture: https://bankstatementparser.com/architecture/index.html
+- Security & Zero Telemetry: https://bankstatementparser.com/security/index.html
+- API Reference: https://bankstatementparser.com/api/index.html
+- Frequently Asked Questions: https://bankstatementparser.com/faqs/index.html
+- About Sebastien Rousseau: https://bankstatementparser.com/about/index.html

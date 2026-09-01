@@ -1,0 +1,17 @@
+{
+  "author": "Sebastien Rousseau",
+  "banner": "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp",
+  "banner_alt": "Bank Statement Parser — High-Throughput Financial Document Parsing Engine",
+  "date": "2026-09-01",
+  "description": "Architectural deep-dive into the four-stage parsing pipeline powering Bank Statement Parser.",
+  "keywords": "statement parsing pipeline, document tokenizer, financial data normalization, ISO 20022 validator",
+  "language": "en-GB",
+  "layout": "page",
+  "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
+  "name": "Bank Statement Parser",
+  "permalink": "https://bankstatementparser.com/architecture/index.html",
+  "reading_time": 1,
+  "short_name": "bankstatementparser",
+  "title": "Internal Architecture: Tokenization, Normalization & Validation",
+  "word_count": 99
+}

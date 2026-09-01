@@ -1,0 +1,173 @@
+[
+  {
+    "date": "2026-09-01",
+    "description": "Background, credentials, and 19-year engineering history of Sebastien Rousseau in production financial infrastructure.",
+    "locale": "en-GB",
+    "tags": [],
+    "title": "About Sebastien Rousseau & Bank Statement Parser",
+    "url": "http://127.0.0.1:8000/about/",
+    "wordCount": 128
+  },
+  {
+    "date": "2026-09-01",
+    "description": "Accessibility statement declaring 100% WCAG 2.2 Level AAA compliance and high-contrast color ratios.",
+    "locale": "en-GB",
+    "tags": [],
+    "title": "Accessibility Statement: WCAG 2.2 Level AAA Compliance",
+    "url": "http://127.0.0.1:8000/accessibility/",
+    "wordCount": 72
+  },
+  {
+    "date": "2026-09-01",
+    "description": "Complete API reference for bankstatementparser in Rust and Python with parameter definitions and code examples.",
+    "locale": "en-GB",
+    "tags": [],
+    "title": "API Reference: Rust Crate & Python Package",
+    "url": "http://127.0.0.1:8000/api/",
+    "wordCount": 71
+  },
+  {
+    "date": "2026-09-01",
+    "description": "Architectural deep-dive into the four-stage parsing pipeline powering Bank Statement Parser.",
+    "locale": "en-GB",
+    "tags": [],
+    "title": "Internal Architecture: Tokenization, Normalization & Validation",
+    "url": "http://127.0.0.1:8000/architecture/",
+    "wordCount": 99
+  },
+  {
+    "date": "2026-09-01",
+    "description": "Empirical throughput and memory benchmarks comparing Bank Statement Parser against legacy Python/Java parser engines.",
+    "locale": "en-GB",
+    "tags": [],
+    "title": "Performance Benchmarks & Throughput Specifications",
+    "url": "http://127.0.0.1:8000/benchmarks/",
+    "wordCount": 73
+  },
+  {
+    "date": "2026-09-01",
+    "description": "Release history and version notes for Bank Statement Parser starting at v0.0.1.",
+    "locale": "en-GB",
+    "tags": [],
+    "title": "Changelog & Semantic Version History",
+    "url": "http://127.0.0.1:8000/changelog/",
+    "wordCount": 68
+  },
+  {
+    "date": "2026-09-01",
+    "description": "Get in touch for custom statement dialect support, enterprise integrations, or security inquiries.",
+    "locale": "en-GB",
+    "tags": [],
+    "title": "Contact & Enterprise Inquiries",
+    "url": "http://127.0.0.1:8000/contact/",
+    "wordCount": 90
+  },
+  {
+    "date": "2026-09-01",
+    "description": "How to contribute code, submit bank statement test fixtures, and report issues.",
+    "locale": "en-GB",
+    "tags": [],
+    "title": "Contributing to Bank Statement Parser: Guidelines & Workflow",
+    "url": "http://127.0.0.1:8000/contributing/",
+    "wordCount": 77
+  },
+  {
+    "date": "2026-09-01",
+    "description": "Common questions about formats, privacy, performance, installation, and enterprise deployment.",
+    "locale": "en-GB",
+    "tags": [],
+    "title": "Frequently Asked Questions (FAQ): Bank Statement Parser",
+    "url": "http://127.0.0.1:8000/faqs/",
+    "wordCount": 206
+  },
+  {
+    "date": "2026-09-01",
+    "description": "Comprehensive guide to supported statement formats including PDF, CSV, OFX, QIF, SWIFT MT940, and ISO 20022 CAMT.053.",
+    "locale": "en-GB",
+    "tags": [],
+    "title": "Supported Bank Statement Formats & Specifications",
+    "url": "http://127.0.0.1:8000/formats/",
+    "wordCount": 141
+  },
+  {
+    "date": "2026-09-01",
+    "description": "Installation instructions for Rust (Cargo), Python (Pip), Homebrew, and Docker alongside step-by-step CLI and API quickstarts.",
+    "locale": "en-GB",
+    "tags": [],
+    "title": "Getting Started with Bank Statement Parser: Installation & Quickstart",
+    "url": "http://127.0.0.1:8000/getting-started/",
+    "wordCount": 244
+  },
+  {
+    "date": "2026-09-01",
+    "description": "High-throughput, privacy-first parser converting bank statements (PDF, CSV, OFX, MT940, CAMT.053) into validated JSON and ISO 20022 messages with zero telemetry.",
+    "locale": "en-GB",
+    "tags": [],
+    "title": "Bank Statement Parser: High-Throughput Financial Document Engine",
+    "url": "http://127.0.0.1:8000/index.html",
+    "wordCount": 1104
+  },
+  {
+    "date": "2026-09-01",
+    "description": "Details on native Rust static site compilation and automated quality gates.",
+    "locale": "en-GB",
+    "tags": [],
+    "title": "Made with Static Site Generator (SSG)",
+    "url": "http://127.0.0.1:8000/made-with-ssg/",
+    "wordCount": 63
+  },
+  {
+    "date": "2026-09-01",
+    "description": "Service worker offline fallback page.",
+    "locale": "en-GB",
+    "tags": [],
+    "title": "Offline Access: Bank Statement Parser",
+    "url": "http://127.0.0.1:8000/offline/",
+    "wordCount": 24
+  },
+  {
+    "date": "2026-09-01",
+    "description": "Privacy policy declaring zero tracking cookies, zero analytics, and completely local computation.",
+    "locale": "en-GB",
+    "tags": [],
+    "title": "Privacy Policy: 100% Zero-Telemetry Guarantee",
+    "url": "http://127.0.0.1:8000/privacy/",
+    "wordCount": 85
+  },
+  {
+    "date": "2026-09-01",
+    "description": "Detailed security specifications, zero-telemetry architecture, memory safety guarantees, and CycloneDX SBOM provenance.",
+    "locale": "en-GB",
+    "tags": [],
+    "title": "Security Architecture: Zero Telemetry, Air-Gapped & Memory Safe",
+    "url": "http://127.0.0.1:8000/security/",
+    "wordCount": 116
+  },
+  {
+    "date": "2026-09-01",
+    "description": "Terms governing the use of Bank Statement Parser under Apache-2.0 and MIT licenses.",
+    "locale": "en-GB",
+    "tags": [],
+    "title": "Terms of Use & Dual Open-Source Licensing",
+    "url": "http://127.0.0.1:8000/terms/",
+    "wordCount": 39
+  },
+  {
+    "date": "2026-09-01",
+    "description": "Thank you for your inquiry.",
+    "locale": "en-GB",
+    "tags": [],
+    "title": "Thank You | Bank Statement Parser",
+    "url": "http://127.0.0.1:8000/thanks/",
+    "wordCount": 33
+  },
+  {
+    "date": "2026-09-01",
+    "description": "Architectural blueprints and deployment patterns for corporate treasuries, fintech lenders, and forensic accounting firms.",
+    "locale": "en-GB",
+    "tags": [],
+    "title": "Enterprise Use Cases: Treasury, Lending, Reconciliation & Audits",
+    "url": "http://127.0.0.1:8000/use-cases/",
+    "wordCount": 171
+  }
+]

@@ -1,0 +1,20 @@
+# Generated site-level configuration for bankstatementparser.github.io
+site_name = "Bank Statement Parser"
+site_title = "Bank Statement Parser | Fast, Secure Financial Data Extraction"
+site_description = "Privacy-first, zero-telemetry parser for extracting structured transactions from PDF, CSV, and image bank statements."
+base_url = "https://bankstatementparser.com"
+language = "en-GB"
+
+content_dir = "_posts"
+template_dir = "_layouts"
+output_dir = "docs"
+
+[agents]
+agents_txt = true
+ai_plugin = true
+
+[agents.mcp]
+enabled = true
+
+[edge_headers]
+targets = ["netlify", "cloudflare", "vercel"]

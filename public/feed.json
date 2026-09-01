@@ -1,0 +1,294 @@
+{
+  "feed_url": "http://127.0.0.1:8000/feed.json",
+  "home_page_url": "http://127.0.0.1:8000/",
+  "items": [
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "The requested documentation page could not be found.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "http://127.0.0.1:8000/404/",
+      "language": "en-GB",
+      "tags": [],
+      "title": "Page Not Found (404) | Bank Statement Parser",
+      "url": "http://127.0.0.1:8000/404/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Background, credentials, and 19-year engineering history of Sebastien Rousseau in production financial infrastructure.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "http://127.0.0.1:8000/about/",
+      "language": "en-GB",
+      "tags": [],
+      "title": "About Sebastien Rousseau & Bank Statement Parser",
+      "url": "http://127.0.0.1:8000/about/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Accessibility statement declaring 100% WCAG 2.2 Level AAA compliance and high-contrast color ratios.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "http://127.0.0.1:8000/accessibility/",
+      "language": "en-GB",
+      "tags": [],
+      "title": "Accessibility Statement: WCAG 2.2 Level AAA Compliance",
+      "url": "http://127.0.0.1:8000/accessibility/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Complete API reference for bankstatementparser in Rust and Python with parameter definitions and code examples.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "http://127.0.0.1:8000/api/",
+      "language": "en-GB",
+      "tags": [],
+      "title": "API Reference: Rust Crate & Python Package",
+      "url": "http://127.0.0.1:8000/api/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Architectural deep-dive into the four-stage parsing pipeline powering Bank Statement Parser.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "http://127.0.0.1:8000/architecture/",
+      "language": "en-GB",
+      "tags": [],
+      "title": "Internal Architecture: Tokenization, Normalization & Validation",
+      "url": "http://127.0.0.1:8000/architecture/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Empirical throughput and memory benchmarks comparing Bank Statement Parser against legacy Python/Java parser engines.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "http://127.0.0.1:8000/benchmarks/",
+      "language": "en-GB",
+      "tags": [],
+      "title": "Performance Benchmarks & Throughput Specifications",
+      "url": "http://127.0.0.1:8000/benchmarks/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Release history and version notes for Bank Statement Parser starting at v0.0.1.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "http://127.0.0.1:8000/changelog/",
+      "language": "en-GB",
+      "tags": [],
+      "title": "Changelog & Semantic Version History",
+      "url": "http://127.0.0.1:8000/changelog/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Get in touch for custom statement dialect support, enterprise integrations, or security inquiries.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "http://127.0.0.1:8000/contact/",
+      "language": "en-GB",
+      "tags": [],
+      "title": "Contact & Enterprise Inquiries",
+      "url": "http://127.0.0.1:8000/contact/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "How to contribute code, submit bank statement test fixtures, and report issues.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "http://127.0.0.1:8000/contributing/",
+      "language": "en-GB",
+      "tags": [],
+      "title": "Contributing to Bank Statement Parser: Guidelines & Workflow",
+      "url": "http://127.0.0.1:8000/contributing/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Common questions about formats, privacy, performance, installation, and enterprise deployment.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "http://127.0.0.1:8000/faqs/",
+      "language": "en-GB",
+      "tags": [],
+      "title": "Frequently Asked Questions (FAQ): Bank Statement Parser",
+      "url": "http://127.0.0.1:8000/faqs/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Comprehensive guide to supported statement formats including PDF, CSV, OFX, QIF, SWIFT MT940, and ISO 20022 CAMT.053.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "http://127.0.0.1:8000/formats/",
+      "language": "en-GB",
+      "tags": [],
+      "title": "Supported Bank Statement Formats & Specifications",
+      "url": "http://127.0.0.1:8000/formats/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Installation instructions for Rust (Cargo), Python (Pip), Homebrew, and Docker alongside step-by-step CLI and API quickstarts.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "http://127.0.0.1:8000/getting-started/",
+      "language": "en-GB",
+      "tags": [],
+      "title": "Getting Started with Bank Statement Parser: Installation & Quickstart",
+      "url": "http://127.0.0.1:8000/getting-started/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Details on native Rust static site compilation and automated quality gates.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "http://127.0.0.1:8000/made-with-ssg/",
+      "language": "en-GB",
+      "tags": [],
+      "title": "Made with Static Site Generator (SSG)",
+      "url": "http://127.0.0.1:8000/made-with-ssg/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Service worker offline fallback page.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "http://127.0.0.1:8000/offline/",
+      "language": "en-GB",
+      "tags": [],
+      "title": "Offline Access: Bank Statement Parser",
+      "url": "http://127.0.0.1:8000/offline/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Privacy policy declaring zero tracking cookies, zero analytics, and completely local computation.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "http://127.0.0.1:8000/privacy/",
+      "language": "en-GB",
+      "tags": [],
+      "title": "Privacy Policy: 100% Zero-Telemetry Guarantee",
+      "url": "http://127.0.0.1:8000/privacy/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Detailed security specifications, zero-telemetry architecture, memory safety guarantees, and CycloneDX SBOM provenance.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "http://127.0.0.1:8000/security/",
+      "language": "en-GB",
+      "tags": [],
+      "title": "Security Architecture: Zero Telemetry, Air-Gapped & Memory Safe",
+      "url": "http://127.0.0.1:8000/security/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Terms governing the use of Bank Statement Parser under Apache-2.0 and MIT licenses.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "http://127.0.0.1:8000/terms/",
+      "language": "en-GB",
+      "tags": [],
+      "title": "Terms of Use & Dual Open-Source Licensing",
+      "url": "http://127.0.0.1:8000/terms/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Thank you for your inquiry.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "http://127.0.0.1:8000/thanks/",
+      "language": "en-GB",
+      "tags": [],
+      "title": "Thank You | Bank Statement Parser",
+      "url": "http://127.0.0.1:8000/thanks/"
+    },
+    {
+      "authors": [
+        {
+          "name": "Sebastien Rousseau"
+        }
+      ],
+      "content_html": "Architectural blueprints and deployment patterns for corporate treasuries, fintech lenders, and forensic accounting firms.",
+      "date_modified": "",
+      "date_published": "",
+      "id": "http://127.0.0.1:8000/use-cases/",
+      "language": "en-GB",
+      "tags": [],
+      "title": "Enterprise Use Cases: Treasury, Lending, Reconciliation & Audits",
+      "url": "http://127.0.0.1:8000/use-cases/"
+    }
+  ],
+  "language": "en-GB",
+  "title": "MySsgSite",
+  "version": "https://jsonfeed.org/version/1.1"
+}

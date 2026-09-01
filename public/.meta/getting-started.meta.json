@@ -1,0 +1,17 @@
+{
+  "author": "Sebastien Rousseau",
+  "banner": "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp",
+  "banner_alt": "Bank Statement Parser — High-Throughput Financial Document Parsing Engine",
+  "date": "2026-09-01",
+  "description": "Installation instructions for Rust (Cargo), Python (Pip), Homebrew, and Docker alongside step-by-step CLI and API quickstarts.",
+  "keywords": "install bank statement parser, cargo bankstatementparser, pip bankstatementparser, CLI bank statement parser",
+  "language": "en-GB",
+  "layout": "page",
+  "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
+  "name": "Bank Statement Parser",
+  "permalink": "https://bankstatementparser.com/getting-started/index.html",
+  "reading_time": 1,
+  "short_name": "bankstatementparser",
+  "title": "Getting Started with Bank Statement Parser: Installation & Quickstart",
+  "word_count": 244
+}

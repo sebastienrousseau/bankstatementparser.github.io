@@ -1,0 +1,18 @@
+{
+  "api": {
+    "is_user_authenticated": false,
+    "type": "openapi",
+    "url": "https://bankstatementparser.com/openapi.yaml"
+  },
+  "auth": {
+    "type": "none"
+  },
+  "contact_email": "support@bankstatementparser.com",
+  "description_for_human": "Privacy-first, zero-telemetry parser for extracting structured transactions from PDF, CSV, and image bank statements.",
+  "description_for_model": "Privacy-first, zero-telemetry parser for extracting structured transactions from PDF, CSV, and image bank statements.",
+  "legal_info_url": "https://bankstatementparser.com/legal",
+  "logo_url": "https://bankstatementparser.com/favicon.ico",
+  "name_for_human": "Bank Statement Parser | Fast, Secure Financial Data Extraction",
+  "name_for_model": "bank_statement_parser",
+  "schema_version": "v1"
+}

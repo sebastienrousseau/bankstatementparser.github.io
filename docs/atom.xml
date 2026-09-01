@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>MySsgSite</title>
+  <link href="http://127.0.0.1:8000/atom.xml" rel="self" type="application/atom+xml"/>
+  <link href="http://127.0.0.1:8000"/>
+  <id>http://127.0.0.1:8000</id>
+  <updated></updated>
+  <entry>
+    <title>Page Not Found (404) | Bank Statement Parser</title>
+    <link href="http://127.0.0.1:8000/404/"/>
+    <id>http://127.0.0.1:8000/404/</id>
+    <updated></updated>
+    <published></published>
+    <summary>The requested documentation page could not be found.</summary>
+    <author><name>Sebastien Rousseau</name></author>
+  </entry>
+  <entry>
+    <title>About Sebastien Rousseau &amp; Bank Statement Parser</title>
+    <link href="http://127.0.0.1:8000/about/"/>
+    <id>http://127.0.0.1:8000/about/</id>
+    <updated></updated>
+    <published></published>
+    <summary>Background, credentials, and 19-year engineering history of Sebastien Rousseau in production financial infrastructure.</summary>
+    <author><name>Sebastien Rousseau</name></author>
+  </entry>
+  <entry>
+    <title>Accessibility Statement: WCAG 2.2 Level AAA Compliance</title>
+    <link href="http://127.0.0.1:8000/accessibility/"/>
+    <id>http://127.0.0.1:8000/accessibility/</id>
+    <updated></updated>
+    <published></published>
+    <summary>Accessibility statement declaring 100% WCAG 2.2 Level AAA compliance and high-contrast color ratios.</summary>
+    <author><name>Sebastien Rousseau</name></author>
+  </entry>
+  <entry>
+    <title>API Reference: Rust Crate &amp; Python Package</title>
+    <link href="http://127.0.0.1:8000/api/"/>
+    <id>http://127.0.0.1:8000/api/</id>
+    <updated></updated>
+    <published></published>
+    <summary>Complete API reference for bankstatementparser in Rust and Python with parameter definitions and code examples.</summary>
+    <author><name>Sebastien Rousseau</name></author>
+  </entry>
+  <entry>
+    <title>Internal Architecture: Tokenization, Normalization &amp; Validation</title>
+    <link href="http://127.0.0.1:8000/architecture/"/>
+    <id>http://127.0.0.1:8000/architecture/</id>
+    <updated></updated>
+    <published></published>
+    <summary>Architectural deep-dive into the four-stage parsing pipeline powering Bank Statement Parser.</summary>
+    <author><name>Sebastien Rousseau</name></author>
+  </entry>
+  <entry>
+    <title>Performance Benchmarks &amp; Throughput Specifications</title>
+    <link href="http://127.0.0.1:8000/benchmarks/"/>
+    <id>http://127.0.0.1:8000/benchmarks/</id>
+    <updated></updated>
+    <published></published>
+    <summary>Empirical throughput and memory benchmarks comparing Bank Statement Parser against legacy Python/Java parser engines.</summary>
+    <author><name>Sebastien Rousseau</name></author>
+  </entry>
+  <entry>
+    <title>Changelog &amp; Semantic Version History</title>
+    <link href="http://127.0.0.1:8000/changelog/"/>
+    <id>http://127.0.0.1:8000/changelog/</id>
+    <updated></updated>
+    <published></published>
+    <summary>Release history and version notes for Bank Statement Parser starting at v0.0.1.</summary>
+    <author><name>Sebastien Rousseau</name></author>
+  </entry>
+  <entry>
+    <title>Contact &amp; Enterprise Inquiries</title>
+    <link href="http://127.0.0.1:8000/contact/"/>
+    <id>http://127.0.0.1:8000/contact/</id>
+    <updated></updated>
+    <published></published>
+    <summary>Get in touch for custom statement dialect support, enterprise integrations, or security inquiries.</summary>
+    <author><name>Sebastien Rousseau</name></author>
+  </entry>
+  <entry>
+    <title>Contributing to Bank Statement Parser: Guidelines &amp; Workflow</title>
+    <link href="http://127.0.0.1:8000/contributing/"/>
+    <id>http://127.0.0.1:8000/contributing/</id>
+    <updated></updated>
+    <published></published>
+    <summary>How to contribute code, submit bank statement test fixtures, and report issues.</summary>
+    <author><name>Sebastien Rousseau</name></author>
+  </entry>
+  <entry>
+    <title>Frequently Asked Questions (FAQ): Bank Statement Parser</title>
+    <link href="http://127.0.0.1:8000/faqs/"/>
+    <id>http://127.0.0.1:8000/faqs/</id>
+    <updated></updated>
+    <published></published>
+    <summary>Common questions about formats, privacy, performance, installation, and enterprise deployment.</summary>
+    <author><name>Sebastien Rousseau</name></author>
+  </entry>
+  <entry>
+    <title>Supported Bank Statement Formats &amp; Specifications</title>
+    <link href="http://127.0.0.1:8000/formats/"/>
+    <id>http://127.0.0.1:8000/formats/</id>
+    <updated></updated>
+    <published></published>
+    <summary>Comprehensive guide to supported statement formats including PDF, CSV, OFX, QIF, SWIFT MT940, and ISO 20022 CAMT.053.</summary>
+    <author><name>Sebastien Rousseau</name></author>
+  </entry>
+  <entry>
+    <title>Getting Started with Bank Statement Parser: Installation &amp; Quickstart</title>
+    <link href="http://127.0.0.1:8000/getting-started/"/>
+    <id>http://127.0.0.1:8000/getting-started/</id>
+    <updated></updated>
+    <published></published>
+    <summary>Installation instructions for Rust (Cargo), Python (Pip), Homebrew, and Docker alongside step-by-step CLI and API quickstarts.</summary>
+    <author><name>Sebastien Rousseau</name></author>
+  </entry>
+  <entry>
+    <title>Made with Static Site Generator (SSG)</title>
+    <link href="http://127.0.0.1:8000/made-with-ssg/"/>
+    <id>http://127.0.0.1:8000/made-with-ssg/</id>
+    <updated></updated>
+    <published></published>
+    <summary>Details on native Rust static site compilation and automated quality gates.</summary>
+    <author><name>Sebastien Rousseau</name></author>
+  </entry>
+  <entry>
+    <title>Offline Access: Bank Statement Parser</title>
+    <link href="http://127.0.0.1:8000/offline/"/>
+    <id>http://127.0.0.1:8000/offline/</id>
+    <updated></updated>
+    <published></published>
+    <summary>Service worker offline fallback page.</summary>
+    <author><name>Sebastien Rousseau</name></author>
+  </entry>
+  <entry>
+    <title>Privacy Policy: 100% Zero-Telemetry Guarantee</title>
+    <link href="http://127.0.0.1:8000/privacy/"/>
+    <id>http://127.0.0.1:8000/privacy/</id>
+    <updated></updated>
+    <published></published>
+    <summary>Privacy policy declaring zero tracking cookies, zero analytics, and completely local computation.</summary>
+    <author><name>Sebastien Rousseau</name></author>
+  </entry>
+  <entry>
+    <title>Security Architecture: Zero Telemetry, Air-Gapped &amp; Memory Safe</title>
+    <link href="http://127.0.0.1:8000/security/"/>
+    <id>http://127.0.0.1:8000/security/</id>
+    <updated></updated>
+    <published></published>
+    <summary>Detailed security specifications, zero-telemetry architecture, memory safety guarantees, and CycloneDX SBOM provenance.</summary>
+    <author><name>Sebastien Rousseau</name></author>
+  </entry>
+  <entry>
+    <title>Terms of Use &amp; Dual Open-Source Licensing</title>
+    <link href="http://127.0.0.1:8000/terms/"/>
+    <id>http://127.0.0.1:8000/terms/</id>
+    <updated></updated>
+    <published></published>
+    <summary>Terms governing the use of Bank Statement Parser under Apache-2.0 and MIT licenses.</summary>
+    <author><name>Sebastien Rousseau</name></author>
+  </entry>
+  <entry>
+    <title>Thank You | Bank Statement Parser</title>
+    <link href="http://127.0.0.1:8000/thanks/"/>
+    <id>http://127.0.0.1:8000/thanks/</id>
+    <updated></updated>
+    <published></published>
+    <summary>Thank you for your inquiry.</summary>
+    <author><name>Sebastien Rousseau</name></author>
+  </entry>
+  <entry>
+    <title>Enterprise Use Cases: Treasury, Lending, Reconciliation &amp; Audits</title>
+    <link href="http://127.0.0.1:8000/use-cases/"/>
+    <id>http://127.0.0.1:8000/use-cases/</id>
+    <updated></updated>
+    <published></published>
+    <summary>Architectural blueprints and deployment patterns for corporate treasuries, fintech lenders, and forensic accounting firms.</summary>
+    <author><name>Sebastien Rousseau</name></author>
+  </entry>
+</feed>

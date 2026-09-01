@@ -1,0 +1,17 @@
+{
+  "author": "Sebastien Rousseau",
+  "banner": "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp",
+  "banner_alt": "Bank Statement Parser — High-Throughput Financial Document Parsing Engine",
+  "date": "2026-09-01",
+  "description": "High-throughput, privacy-first parser converting bank statements (PDF, CSV, OFX, MT940, CAMT.053) into validated JSON and ISO 20022 messages with zero telemetry.",
+  "keywords": "bank statement parser, PDF bank statement to CSV, OFX parser, MT940 to JSON, ISO 20022 parser, Rust financial parser, Python bank statement",
+  "language": "en-GB",
+  "layout": "index",
+  "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
+  "name": "Bank Statement Parser",
+  "permalink": "https://bankstatementparser.com/",
+  "reading_time": 5,
+  "short_name": "bankstatementparser",
+  "title": "Bank Statement Parser: High-Throughput Financial Document Engine",
+  "word_count": 1104
+}

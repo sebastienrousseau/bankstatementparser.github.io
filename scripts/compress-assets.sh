@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-# Semantic Version: v0.0.1
+# Semantic Version: v0.0.2
 # Pre-compress static assets using Gzip, Brotli, and Zstandard
 set -euo pipefail
 

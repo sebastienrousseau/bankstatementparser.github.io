@@ -5,17 +5,17 @@
     "topics": 0
   },
   "links": {
-    "index": "http://127.0.0.1:8000/api/agents/index.json",
-    "person": "http://127.0.0.1:8000/api/agents/person.json",
-    "posts": "http://127.0.0.1:8000/api/agents/posts.json",
-    "topics": "http://127.0.0.1:8000/api/agents/topics.json"
+    "index": "https://bankstatementparser.com/api/agents/index.json",
+    "person": "https://bankstatementparser.com/api/agents/person.json",
+    "posts": "https://bankstatementparser.com/api/agents/posts.json",
+    "topics": "https://bankstatementparser.com/api/agents/topics.json"
   },
   "site": {
-    "description": "A site built with SSG",
+    "description": "Privacy-first, zero-telemetry parser for extracting structured transactions from PDF, CSV, and image bank statements.",
     "language": "en-GB",
-    "name": "MySsgSite",
-    "title": "",
-    "url": "http://127.0.0.1:8000"
+    "name": "Bank Statement Parser",
+    "title": "Bank Statement Parser | Fast, Secure Financial Data Extraction",
+    "url": "https://bankstatementparser.com"
   },
-  "version": "0.0.56"
+  "version": "0.0.63"
 }

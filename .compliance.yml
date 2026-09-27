@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: 2024-2026 Sebastien Rousseau
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+tier: L2
+criticality: standard
+owner: sebastienrousseau
+
+not_applicable:
+  C3.L2: Shell completion generation does not apply to a documentation site.
+  C5.L2: Container image and Repology tracking do not apply to static websites.
+  C6.L2: OS test matrix and API docs build do not apply to deterministic SSG runs.

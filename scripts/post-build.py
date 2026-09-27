@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2024-2026 Sebastien Rousseau
+# SPDX-License-Identifier: Apache-2.0 OR MIT
 import os, glob, re, json, html, shutil
 
 def post_build():
@@ -7,6 +9,15 @@ def post_build():
 
     # Clean and sync to docs/
     os.makedirs(docs_dir, exist_ok=True)
+    keep_docs = {"adr", "ARCHITECTURE.md", "packaging.md", "releases", ".git"}
+    for item in os.listdir(docs_dir):
+        if item not in os.listdir(output_dir) and item not in keep_docs:
+            p = os.path.join(docs_dir, item)
+            if os.path.isdir(p):
+                shutil.rmtree(p)
+            else:
+                os.remove(p)
+
     for item in os.listdir(output_dir):
         s = os.path.join(output_dir, item)
         d = os.path.join(docs_dir, item)
@@ -71,13 +82,43 @@ def post_build():
             content = content.replace("http://127.0.0.1:8000", base_url)
             content = content.replace("http://localhost:8000", base_url)
 
-            content = re.sub(r'<pre><code><span class="text plain">(.*?)</span></code></pre>', r'\1', content, flags=re.DOTALL)
-            content = re.sub(r'<pre><code class="language-html">(.*?)</code></pre>', r'\1', content, flags=re.DOTALL)
+            content = re.sub(r'<pre><code><span class="text plain">(.*?)</span></code></pre>', lambda m: m.group(1) if ('<div' in m.group(1) or '<section' in m.group(1) or '<details' in m.group(1) or '<table' in m.group(1)) else m.group(0), content, flags=re.DOTALL)
+            content = re.sub(r'<pre><code class="language-html">(.*?)</code></pre>', lambda m: m.group(1) if ('<div' in m.group(1) or '<section' in m.group(1) or '<details' in m.group(1) or '<table' in m.group(1)) else m.group(0), content, flags=re.DOTALL)
             content = re.sub(r'<pre><code>(.*?)</code></pre>', lambda m: m.group(1) if ('<div' in m.group(1) or '<section' in m.group(1) or '<details' in m.group(1) or '<table' in m.group(1)) else m.group(0), content, flags=re.DOTALL)
 
             if "&lt;details" in content or "&lt;section" in content or "&lt;div" in content:
                 for ent, val in [("&lt;", "<"), ("&gt;", ">"), ("&quot;", '"'), ("&#39;", "'"), ("&#x27;", "'")]:
                     content = content.replace(ent, val)
+
+            # Unescape code block tags produced inside markdown lists
+            content = re.sub(r'<pre>&lt;code class=&quot;(.*?)&quot;&gt;', r'<pre><code class="\1">', content)
+            content = content.replace("<pre>&lt;code&gt;", "<pre><code>")
+            content = content.replace("&lt;code&gt;", "<code>")
+            content = content.replace('&lt;/code&gt;&lt;/pre&gt;', '</code></pre>')
+            content = content.replace('&lt;/code&gt;', '</code>')
+            content = content.replace('&lt;/pre&gt;', '</pre>')
+            content = content.replace('</pre></p>', '</pre>')
+            content = content.replace('</div></p>', '</div>')
+            content = content.replace('<p><div>', '<div>')
+            content = content.replace('<p><div ', '<div ')
+            content = content.replace('<p><pre>', '<pre>')
+            content = content.replace('< 0.8 ms', '&lt; 0.8 ms')
+
+            def clean_pre(m):
+                return m.group(0).replace("<p>", "").replace("</p>", "")
+            content = re.sub(r"<pre><code>.*?</code></pre>", clean_pre, content, flags=re.DOTALL)
+
+            # Ensure footer and heading ampersands are encoded
+            for unencoded, encoded in [
+                ("Documentation & API", "Documentation &amp; API"),
+                ("API & SDK Reference", "API &amp; SDK Reference"),
+                ("Solutions & Workflows", "Solutions &amp; Workflows"),
+                ("Open Source & Trust", "Open Source &amp; Trust"),
+                ("Questions & Answers", "Questions &amp; Answers"),
+                ("Legal & Feeds", "Legal &amp; Feeds"),
+                ("Terms & Privacy", "Terms &amp; Privacy"),
+            ]:
+                content = content.replace(unencoded, encoded)
 
             with open(html_file, "w", encoding="utf-8") as f:
                 f.write(content)

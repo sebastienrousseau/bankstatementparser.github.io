@@ -1,3 +1,5 @@
+/* SPDX-FileCopyrightText: 2024-2026 Sebastien Rousseau */
+/* SPDX-License-Identifier: Apache-2.0 OR MIT */
 // Antigravity ServiceWorker + Theme Switcher + Search Engine + Mobile Nav Drawer
 "use strict";
 class ServiceWorkerSetup {

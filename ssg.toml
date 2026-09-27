@@ -1,4 +1,6 @@
-# Generated site-level configuration for bankstatementparser.github.io
+# SPDX-FileCopyrightText: 2024-2026 Sebastien Rousseau
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+# Site-level configuration for bankstatementparser.github.io
 site_name = "Bank Statement Parser"
 site_title = "Bank Statement Parser | Fast, Secure Financial Data Extraction"
 site_description = "Privacy-first, zero-telemetry parser for extracting structured transactions from PDF, CSV, and image bank statements."
@@ -7,7 +9,7 @@ language = "en-GB"
 
 content_dir = "_posts"
 template_dir = "_layouts"
-output_dir = "docs"
+output_dir = "public"
 
 [agents]
 agents_txt = true

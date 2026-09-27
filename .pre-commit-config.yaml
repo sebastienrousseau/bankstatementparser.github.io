@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: 2024-2026 Sebastien Rousseau
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+repos:
+  - repo: local
+    hooks:
+      - id: repository-version
+        name: repository version consistency
+        entry: scripts/verify_release_version.sh
+        language: script
+        pass_filenames: false
+      - id: validate-readme
+        name: validate readme conformance
+        entry: python3 scripts/validate_readme.py
+        language: system
+        pass_filenames: false

@@ -1,5 +1,5 @@
-# MySsgSite
+# Bank Statement Parser
 
-> A site built with SSG
+> Privacy-first, zero-telemetry parser for extracting structured transactions from PDF, CSV, and image bank statements.
 
 Language: en-GB

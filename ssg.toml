@@ -6,6 +6,7 @@ site_title = "Bank Statement Parser | Fast, Secure Financial Data Extraction"
 site_description = "Privacy-first, zero-telemetry parser for extracting structured transactions from PDF, CSV, and image bank statements."
 base_url = "https://bankstatementparser.com"
 language = "en-GB"
+theme_color = "#5b287b"
 
 content_dir = "_posts"
 template_dir = "_layouts"

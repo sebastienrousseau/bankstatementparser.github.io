@@ -49,7 +49,7 @@
   Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-Kee6N6cP0xk7H5+9SCOFMLXmeIjZzls7FV1dO7Hf2PA='; style-src 'self'; img-src 'self' https: data:; font-src 'self' https:; connect-src 'self'; frame-ancestors 'none'
 
 /faqs/
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-m49TQBzTIMWbbmVj/QY6Ls5zAvurA9xn0AbCNSNbLcY='; style-src 'self'; img-src 'self' https: data:; font-src 'self' https:; connect-src 'self'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-tlq0ubvOhupVcqyozeOY2LxVYZWPLm529sAD/avTMEo='; style-src 'self'; img-src 'self' https: data:; font-src 'self' https:; connect-src 'self'; frame-ancestors 'none'
 
 /formats/
   Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-rcfNDnncOHQbidJAyu7lK1kK0NY/rde7bRvk9gbjXlM='; style-src 'self'; img-src 'self' https: data:; font-src 'self' https:; connect-src 'self'; frame-ancestors 'none'

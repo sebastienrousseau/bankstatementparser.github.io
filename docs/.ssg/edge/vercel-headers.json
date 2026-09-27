@@ -131,7 +131,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'sha256-m49TQBzTIMWbbmVj/QY6Ls5zAvurA9xn0AbCNSNbLcY='; style-src 'self'; img-src 'self' https: data:; font-src 'self' https:; connect-src 'self'; frame-ancestors 'none'"
+          "value": "default-src 'self'; script-src 'self' 'sha256-tlq0ubvOhupVcqyozeOY2LxVYZWPLm529sAD/avTMEo='; style-src 'self'; img-src 'self' https: data:; font-src 'self' https:; connect-src 'self'; frame-ancestors 'none'"
         }
       ],
       "source": "/faqs/"

@@ -10,8 +10,8 @@ language: "en-GB"
 layout: "page"
 permalink: "https://bankstatementparser.com/security/index.html"
 logo: "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg"
-banner: "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp"
-banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsing Engine"
+banner: "https://cloudcdn.pro/stocks/images/block-chain-3055701-1200.webp"
+banner_alt: "Bank Statement Parser — Cryptographic Integrity & Zero Telemetry Verification"
 ---
 
 # Security Architecture & Trust Guarantees

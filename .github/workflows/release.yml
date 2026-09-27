@@ -1,0 +1,112 @@
+# SPDX-FileCopyrightText: 2024-2026 Sebastien Rousseau
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+name: Release
+
+on:
+  push:
+    tags: ["v[0-9]+.[0-9]+.[0-9]+"]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Build and attest without publishing a release"
+        required: true
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+
+env:
+  SSG_VERSION: 0.0.63
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: actions/cache@v4
+        id: cache-ssg
+        with:
+          path: ~/.cargo/bin/ssg
+          key: ssg-${{ env.SSG_VERSION }}-${{ runner.os }}
+
+      - if: steps.cache-ssg.outputs.cache-hit != 'true'
+        run: cargo install ssg --locked --version "$SSG_VERSION"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Verify signed tag and version
+        if: github.ref_type == 'tag'
+        run: |
+          git config gpg.format ssh
+          git config gpg.ssh.allowedSignersFile "$GITHUB_WORKSPACE/.github/allowed_signers"
+          git verify-tag "$GITHUB_REF_NAME"
+          ./scripts/verify_release_version.sh
+          test -f "docs/releases/${GITHUB_REF_NAME}.md"
+          python3 scripts/release_notes.py --check
+
+      - name: Pin build time to commit
+        run: echo "SOURCE_DATE_EPOCH=$(git log -1 --format=%ct)" >> "$GITHUB_ENV"
+
+      - name: Build and audit
+        run: |
+          ssg build --content _posts --template _layouts --output public
+          python3 scripts/post-build.py
+          python3 scripts/regression-test.py
+          ssg audit -f ssg.toml -o public --severity warn --fail-on warn
+
+      - name: Package website, SBOM, and checksums
+        run: |
+          mkdir -p dist
+          version="$(tr -d '[:space:]' < VERSION)"
+          echo "RELEASE_VERSION=$version" >> "$GITHUB_ENV"
+          python3 scripts/release_backfill.py --src . --tag "v${version}" --out dist --mtime "$SOURCE_DATE_EPOCH"
+
+      - name: Prove the archive is reproducible
+        run: |
+          rm -rf public
+          ssg build --content _posts --template _layouts --output public > /dev/null
+          python3 scripts/post-build.py > /dev/null
+          python3 scripts/release_backfill.py --src . --tag "v${RELEASE_VERSION}" --out "$RUNNER_TEMP/rebuild" --mtime "$SOURCE_DATE_EPOCH"
+          diff dist/SHA256SUMS "$RUNNER_TEMP/rebuild/SHA256SUMS"
+          echo "reproducible: two clean builds gave identical release files"
+
+      - name: Attest website provenance
+        uses: actions/attest@v4
+        with:
+          subject-path: "dist/bankstatementparser-site-v*.tar.gz"
+
+      - name: Attest SBOM
+        uses: actions/attest@v4
+        with:
+          subject-path: "dist/bankstatementparser-site-v${{ env.RELEASE_VERSION }}.tar.gz"
+          sbom-path: "dist/bankstatementparser-site-v${{ env.RELEASE_VERSION }}.cdx.json"
+
+      - name: Upload dry-run artefacts
+        if: github.ref_type != 'tag' || inputs.dry_run
+        uses: actions/upload-artifact@v4
+        with:
+          name: bankstatementparser-site-release-candidate
+          path: dist/
+
+      - name: Publish GitHub release
+        if: github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          notes="$RUNNER_TEMP/notes.md"
+          python3 scripts/release_notes.py --tag "$GITHUB_REF_NAME" --sums dist/SHA256SUMS --out "$notes"
+          gh release create "$GITHUB_REF_NAME" dist/* --verify-tag \
+            --title "$(python3 scripts/release_notes.py --tag "$GITHUB_REF_NAME" --title)" \
+            --notes-file "$notes"

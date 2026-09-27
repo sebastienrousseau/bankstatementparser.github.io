@@ -18,6 +18,11 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
 
 All notable changes to **Bank Statement Parser** are documented in this file following strict Semantic Versioning.
 
+## [0.0.2] - 2026-09-27
+### Fixed
+- Fixed CSS entity escape sequence for `.hr-blurred:after` in base layout template.
+- Rebuilt native static site generator assets and synced release version metadata.
+
 ## [0.0.1] - 2026-09-01
 ### Added
 - Initial release of the Bank Statement Parser documentation portal.

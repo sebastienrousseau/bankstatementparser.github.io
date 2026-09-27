@@ -20,4 +20,4 @@ Bank Statement Parser is committed to digital accessibility, conforming strictly
 
 - **Contrast Ratios:** Text colors achieve contrast ratios exceeding 17:1 in light mode and 18:1 in dark mode (well above the 7.0:1 AAA standard).
 - **Keyboard Navigation:** Full keyboard operability with prominent focus indicators across all interactive elements.
-- **Screen Reader Support:** Semantic HTML5 landmarks (`<nav>`, `<main>`, `<article>`, `<footer>`) and ARIA live regions.
+- **Screen Reader Support:** Semantic HTML5 landmarks (`nav`, `main`, `article`, `footer`) and ARIA live regions.

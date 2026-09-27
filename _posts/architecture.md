@@ -10,8 +10,8 @@ language: "en-GB"
 layout: "page"
 permalink: "https://bankstatementparser.com/architecture/index.html"
 logo: "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg"
-banner: "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp"
-banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsing Engine"
+banner: "https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-1200.webp"
+banner_alt: "Bank Statement Parser — Pipeline Architecture & High-Throughput Execution"
 ---
 
 # Architecture & Pipeline Specifications

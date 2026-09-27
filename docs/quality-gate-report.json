@@ -1,0 +1,69 @@
+{
+  "pages_scanned": 20,
+  "passed_pillars": 9,
+  "total_pillars": 10,
+  "pass_rate": 90.0,
+  "total_issues": 19,
+  "pillars": {
+    "1. Output & Essential Files": {
+      "pass": true,
+      "issues": []
+    },
+    "10. Accessibility & Semantic Hierarchy": {
+      "pass": true,
+      "issues": []
+    },
+    "2. Meta Leaks & Content Hygiene": {
+      "pass": true,
+      "issues": []
+    },
+    "3. CSP & Security Integrity": {
+      "pass": true,
+      "issues": []
+    },
+    "4. SRI Hashes Sync": {
+      "pass": true,
+      "issues": []
+    },
+    "5. Hero Banner Subpage Isolation": {
+      "pass": true,
+      "issues": []
+    },
+    "6. Apple HIG Navbar & Footer Hygiene": {
+      "pass": false,
+      "issues": [
+        "404/index.html: Footer missing 'Made with SSG' link",
+        "about/index.html: Footer missing 'Made with SSG' link",
+        "accessibility/index.html: Footer missing 'Made with SSG' link",
+        "api/index.html: Footer missing 'Made with SSG' link",
+        "architecture/index.html: Footer missing 'Made with SSG' link",
+        "benchmarks/index.html: Footer missing 'Made with SSG' link",
+        "changelog/index.html: Footer missing 'Made with SSG' link",
+        "contact/index.html: Footer missing 'Made with SSG' link",
+        "contributing/index.html: Footer missing 'Made with SSG' link",
+        "faqs/index.html: Footer missing 'Made with SSG' link",
+        "formats/index.html: Footer missing 'Made with SSG' link",
+        "getting-started/index.html: Footer missing 'Made with SSG' link",
+        "index.html: Footer missing 'Made with SSG' link",
+        "offline/index.html: Footer missing 'Made with SSG' link",
+        "privacy/index.html: Footer missing 'Made with SSG' link",
+        "security/index.html: Footer missing 'Made with SSG' link",
+        "terms/index.html: Footer missing 'Made with SSG' link",
+        "thanks/index.html: Footer missing 'Made with SSG' link",
+        "use-cases/index.html: Footer missing 'Made with SSG' link"
+      ]
+    },
+    "7. Theme, Search & Lightbox Engines": {
+      "pass": true,
+      "issues": []
+    },
+    "8. Forms & Link Integrity": {
+      "pass": true,
+      "issues": []
+    },
+    "9. CloudCDN Asset Resolution": {
+      "pass": true,
+      "issues": []
+    }
+  }
+}

@@ -4,175 +4,175 @@
     <title>Bank Statement Parser: High-Throughput Financial Document Engine</title>
     <link>https://bankstatementparser.com/</link>
     <description>High-throughput, privacy-first parser converting bank statements (PDF, CSV, OFX, MT940, CAMT.053) into validated JSON and ISO 20022 messages with zero telemetry.</description>
-    <atom:link href="http://127.0.0.1:8000/rss.xml" rel="self" type="application/rss+xml"/>
+    <atom:link href="https://bankstatementparser.com/rss.xml" rel="self" type="application/rss+xml"/>
     <language>en</language>
     <item>
       <title>API Reference: Rust Crate & Python Package</title>
-      <link>http://127.0.0.1:8000/api/</link>
+      <link>https://bankstatementparser.com/api/</link>
       <description>Complete API reference for bankstatementparser in Rust and Python with parameter definitions and code examples.</description>
-      <guid isPermaLink="true">http://127.0.0.1:8000/api/</guid>
+      <guid isPermaLink="true">https://bankstatementparser.com/api/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
       <title>About Sebastien Rousseau & Bank Statement Parser</title>
-      <link>http://127.0.0.1:8000/about/</link>
+      <link>https://bankstatementparser.com/about/</link>
       <description>Background, credentials, and 19-year engineering history of Sebastien Rousseau in production financial infrastructure.</description>
-      <guid isPermaLink="true">http://127.0.0.1:8000/about/</guid>
+      <guid isPermaLink="true">https://bankstatementparser.com/about/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
       <title>Accessibility Statement: WCAG 2.2 Level AAA Compliance</title>
-      <link>http://127.0.0.1:8000/accessibility/</link>
+      <link>https://bankstatementparser.com/accessibility/</link>
       <description>Accessibility statement declaring 100% WCAG 2.2 Level AAA compliance and high-contrast color ratios.</description>
-      <guid isPermaLink="true">http://127.0.0.1:8000/accessibility/</guid>
+      <guid isPermaLink="true">https://bankstatementparser.com/accessibility/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
       <title>Changelog & Semantic Version History</title>
-      <link>http://127.0.0.1:8000/changelog/</link>
+      <link>https://bankstatementparser.com/changelog/</link>
       <description>Release history and version notes for Bank Statement Parser starting at v0.0.1.</description>
-      <guid isPermaLink="true">http://127.0.0.1:8000/changelog/</guid>
+      <guid isPermaLink="true">https://bankstatementparser.com/changelog/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
       <title>Contact & Enterprise Inquiries</title>
-      <link>http://127.0.0.1:8000/contact/</link>
+      <link>https://bankstatementparser.com/contact/</link>
       <description>Get in touch for custom statement dialect support, enterprise integrations, or security inquiries.</description>
-      <guid isPermaLink="true">http://127.0.0.1:8000/contact/</guid>
+      <guid isPermaLink="true">https://bankstatementparser.com/contact/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
       <title>Contributing to Bank Statement Parser: Guidelines & Workflow</title>
-      <link>http://127.0.0.1:8000/contributing/</link>
+      <link>https://bankstatementparser.com/contributing/</link>
       <description>How to contribute code, submit bank statement test fixtures, and report issues.</description>
-      <guid isPermaLink="true">http://127.0.0.1:8000/contributing/</guid>
+      <guid isPermaLink="true">https://bankstatementparser.com/contributing/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
       <title>Enterprise Use Cases: Treasury, Lending, Reconciliation & Audits</title>
-      <link>http://127.0.0.1:8000/use-cases/</link>
+      <link>https://bankstatementparser.com/use-cases/</link>
       <description>Architectural blueprints and deployment patterns for corporate treasuries, fintech lenders, and forensic accounting firms.</description>
-      <guid isPermaLink="true">http://127.0.0.1:8000/use-cases/</guid>
+      <guid isPermaLink="true">https://bankstatementparser.com/use-cases/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
-      <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
+      <enclosure url="https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
       <title>Frequently Asked Questions (FAQ): Bank Statement Parser</title>
-      <link>http://127.0.0.1:8000/faqs/</link>
+      <link>https://bankstatementparser.com/faqs/</link>
       <description>Common questions about formats, privacy, performance, installation, and enterprise deployment.</description>
-      <guid isPermaLink="true">http://127.0.0.1:8000/faqs/</guid>
+      <guid isPermaLink="true">https://bankstatementparser.com/faqs/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
       <title>Getting Started with Bank Statement Parser: Installation & Quickstart</title>
-      <link>http://127.0.0.1:8000/getting-started/</link>
+      <link>https://bankstatementparser.com/getting-started/</link>
       <description>Installation instructions for Rust (Cargo), Python (Pip), Homebrew, and Docker alongside step-by-step CLI and API quickstarts.</description>
-      <guid isPermaLink="true">http://127.0.0.1:8000/getting-started/</guid>
+      <guid isPermaLink="true">https://bankstatementparser.com/getting-started/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
       <title>Internal Architecture: Tokenization, Normalization & Validation</title>
-      <link>http://127.0.0.1:8000/architecture/</link>
+      <link>https://bankstatementparser.com/architecture/</link>
       <description>Architectural deep-dive into the four-stage parsing pipeline powering Bank Statement Parser.</description>
-      <guid isPermaLink="true">http://127.0.0.1:8000/architecture/</guid>
+      <guid isPermaLink="true">https://bankstatementparser.com/architecture/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
-      <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
+      <enclosure url="https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
       <title>Made with Static Site Generator (SSG)</title>
-      <link>http://127.0.0.1:8000/made-with-ssg/</link>
+      <link>https://bankstatementparser.com/made-with-ssg/</link>
       <description>Details on native Rust static site compilation and automated quality gates.</description>
-      <guid isPermaLink="true">http://127.0.0.1:8000/made-with-ssg/</guid>
+      <guid isPermaLink="true">https://bankstatementparser.com/made-with-ssg/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
       <title>Offline Access: Bank Statement Parser</title>
-      <link>http://127.0.0.1:8000/offline/</link>
+      <link>https://bankstatementparser.com/offline/</link>
       <description>Service worker offline fallback page.</description>
-      <guid isPermaLink="true">http://127.0.0.1:8000/offline/</guid>
+      <guid isPermaLink="true">https://bankstatementparser.com/offline/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
       <title>Page Not Found (404) | Bank Statement Parser</title>
-      <link>http://127.0.0.1:8000/404/</link>
+      <link>https://bankstatementparser.com/404/</link>
       <description>The requested documentation page could not be found.</description>
-      <guid isPermaLink="true">http://127.0.0.1:8000/404/</guid>
+      <guid isPermaLink="true">https://bankstatementparser.com/404/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
       <title>Performance Benchmarks & Throughput Specifications</title>
-      <link>http://127.0.0.1:8000/benchmarks/</link>
+      <link>https://bankstatementparser.com/benchmarks/</link>
       <description>Empirical throughput and memory benchmarks comparing Bank Statement Parser against legacy Python/Java parser engines.</description>
-      <guid isPermaLink="true">http://127.0.0.1:8000/benchmarks/</guid>
+      <guid isPermaLink="true">https://bankstatementparser.com/benchmarks/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
       <title>Privacy Policy: 100% Zero-Telemetry Guarantee</title>
-      <link>http://127.0.0.1:8000/privacy/</link>
+      <link>https://bankstatementparser.com/privacy/</link>
       <description>Privacy policy declaring zero tracking cookies, zero analytics, and completely local computation.</description>
-      <guid isPermaLink="true">http://127.0.0.1:8000/privacy/</guid>
+      <guid isPermaLink="true">https://bankstatementparser.com/privacy/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
       <title>Security Architecture: Zero Telemetry, Air-Gapped & Memory Safe</title>
-      <link>http://127.0.0.1:8000/security/</link>
+      <link>https://bankstatementparser.com/security/</link>
       <description>Detailed security specifications, zero-telemetry architecture, memory safety guarantees, and CycloneDX SBOM provenance.</description>
-      <guid isPermaLink="true">http://127.0.0.1:8000/security/</guid>
+      <guid isPermaLink="true">https://bankstatementparser.com/security/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
-      <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
+      <enclosure url="https://cloudcdn.pro/stocks/images/block-chain-3055701-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
       <title>Supported Bank Statement Formats & Specifications</title>
-      <link>http://127.0.0.1:8000/formats/</link>
+      <link>https://bankstatementparser.com/formats/</link>
       <description>Comprehensive guide to supported statement formats including PDF, CSV, OFX, QIF, SWIFT MT940, and ISO 20022 CAMT.053.</description>
-      <guid isPermaLink="true">http://127.0.0.1:8000/formats/</guid>
+      <guid isPermaLink="true">https://bankstatementparser.com/formats/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
       <title>Terms of Use & Dual Open-Source Licensing</title>
-      <link>http://127.0.0.1:8000/terms/</link>
+      <link>https://bankstatementparser.com/terms/</link>
       <description>Terms governing the use of Bank Statement Parser under Apache-2.0 and MIT licenses.</description>
-      <guid isPermaLink="true">http://127.0.0.1:8000/terms/</guid>
+      <guid isPermaLink="true">https://bankstatementparser.com/terms/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
       <title>Thank You | Bank Statement Parser</title>
-      <link>http://127.0.0.1:8000/thanks/</link>
+      <link>https://bankstatementparser.com/thanks/</link>
       <description>Thank you for your inquiry.</description>
-      <guid isPermaLink="true">http://127.0.0.1:8000/thanks/</guid>
+      <guid isPermaLink="true">https://bankstatementparser.com/thanks/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>

@@ -10,8 +10,8 @@ language: "en-GB"
 layout: "page"
 permalink: "https://bankstatementparser.com/use-cases/index.html"
 logo: "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg"
-banner: "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp"
-banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsing Engine"
+banner: "https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp"
+banner_alt: "Bank Statement Parser — Corporate Treasury & Financial Automation"
 ---
 
 # Enterprise Use Cases & Deployment Patterns

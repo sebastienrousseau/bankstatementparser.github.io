@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
 <url>
-  <loc>http://127.0.0.1:8000/404/</loc>
+  <loc>https://bankstatementparser.com/404/</loc>
   <news:news>
     <news:publication>
       <news:name>Sebastien Rousseau</news:name>
@@ -14,7 +14,7 @@
   </news:news>
 </url>
 <url>
-  <loc>http://127.0.0.1:8000/about/</loc>
+  <loc>https://bankstatementparser.com/about/</loc>
   <news:news>
     <news:publication>
       <news:name>Sebastien Rousseau</news:name>
@@ -26,7 +26,7 @@
   </news:news>
 </url>
 <url>
-  <loc>http://127.0.0.1:8000/accessibility/</loc>
+  <loc>https://bankstatementparser.com/accessibility/</loc>
   <news:news>
     <news:publication>
       <news:name>Sebastien Rousseau</news:name>
@@ -38,7 +38,7 @@
   </news:news>
 </url>
 <url>
-  <loc>http://127.0.0.1:8000/api/</loc>
+  <loc>https://bankstatementparser.com/api/</loc>
   <news:news>
     <news:publication>
       <news:name>Sebastien Rousseau</news:name>
@@ -50,7 +50,7 @@
   </news:news>
 </url>
 <url>
-  <loc>http://127.0.0.1:8000/architecture/</loc>
+  <loc>https://bankstatementparser.com/architecture/</loc>
   <news:news>
     <news:publication>
       <news:name>Sebastien Rousseau</news:name>
@@ -62,7 +62,7 @@
   </news:news>
 </url>
 <url>
-  <loc>http://127.0.0.1:8000/benchmarks/</loc>
+  <loc>https://bankstatementparser.com/benchmarks/</loc>
   <news:news>
     <news:publication>
       <news:name>Sebastien Rousseau</news:name>
@@ -74,7 +74,7 @@
   </news:news>
 </url>
 <url>
-  <loc>http://127.0.0.1:8000/changelog/</loc>
+  <loc>https://bankstatementparser.com/changelog/</loc>
   <news:news>
     <news:publication>
       <news:name>Sebastien Rousseau</news:name>
@@ -86,7 +86,7 @@
   </news:news>
 </url>
 <url>
-  <loc>http://127.0.0.1:8000/contact/</loc>
+  <loc>https://bankstatementparser.com/contact/</loc>
   <news:news>
     <news:publication>
       <news:name>Sebastien Rousseau</news:name>
@@ -98,7 +98,7 @@
   </news:news>
 </url>
 <url>
-  <loc>http://127.0.0.1:8000/contributing/</loc>
+  <loc>https://bankstatementparser.com/contributing/</loc>
   <news:news>
     <news:publication>
       <news:name>Sebastien Rousseau</news:name>
@@ -110,7 +110,7 @@
   </news:news>
 </url>
 <url>
-  <loc>http://127.0.0.1:8000/faqs/</loc>
+  <loc>https://bankstatementparser.com/faqs/</loc>
   <news:news>
     <news:publication>
       <news:name>Sebastien Rousseau</news:name>
@@ -122,7 +122,7 @@
   </news:news>
 </url>
 <url>
-  <loc>http://127.0.0.1:8000/formats/</loc>
+  <loc>https://bankstatementparser.com/formats/</loc>
   <news:news>
     <news:publication>
       <news:name>Sebastien Rousseau</news:name>
@@ -134,7 +134,7 @@
   </news:news>
 </url>
 <url>
-  <loc>http://127.0.0.1:8000/getting-started/</loc>
+  <loc>https://bankstatementparser.com/getting-started/</loc>
   <news:news>
     <news:publication>
       <news:name>Sebastien Rousseau</news:name>
@@ -146,7 +146,7 @@
   </news:news>
 </url>
 <url>
-  <loc>http://127.0.0.1:8000/made-with-ssg/</loc>
+  <loc>https://bankstatementparser.com/made-with-ssg/</loc>
   <news:news>
     <news:publication>
       <news:name>Sebastien Rousseau</news:name>
@@ -158,7 +158,7 @@
   </news:news>
 </url>
 <url>
-  <loc>http://127.0.0.1:8000/offline/</loc>
+  <loc>https://bankstatementparser.com/offline/</loc>
   <news:news>
     <news:publication>
       <news:name>Sebastien Rousseau</news:name>
@@ -170,7 +170,7 @@
   </news:news>
 </url>
 <url>
-  <loc>http://127.0.0.1:8000/privacy/</loc>
+  <loc>https://bankstatementparser.com/privacy/</loc>
   <news:news>
     <news:publication>
       <news:name>Sebastien Rousseau</news:name>
@@ -182,7 +182,7 @@
   </news:news>
 </url>
 <url>
-  <loc>http://127.0.0.1:8000/security/</loc>
+  <loc>https://bankstatementparser.com/security/</loc>
   <news:news>
     <news:publication>
       <news:name>Sebastien Rousseau</news:name>
@@ -194,7 +194,7 @@
   </news:news>
 </url>
 <url>
-  <loc>http://127.0.0.1:8000/terms/</loc>
+  <loc>https://bankstatementparser.com/terms/</loc>
   <news:news>
     <news:publication>
       <news:name>Sebastien Rousseau</news:name>
@@ -206,7 +206,7 @@
   </news:news>
 </url>
 <url>
-  <loc>http://127.0.0.1:8000/thanks/</loc>
+  <loc>https://bankstatementparser.com/thanks/</loc>
   <news:news>
     <news:publication>
       <news:name>Sebastien Rousseau</news:name>
@@ -218,7 +218,7 @@
   </news:news>
 </url>
 <url>
-  <loc>http://127.0.0.1:8000/use-cases/</loc>
+  <loc>https://bankstatementparser.com/use-cases/</loc>
   <news:news>
     <news:publication>
       <news:name>Sebastien Rousseau</news:name>

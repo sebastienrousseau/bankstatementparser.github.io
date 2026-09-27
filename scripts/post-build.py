@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2024-2026 Sebastien Rousseau
+# SPDX-License-Identifier: Apache-2.0 OR MIT
 import os, glob, re, json, html, shutil
 
 def post_build():
@@ -7,6 +9,15 @@ def post_build():
 
     # Clean and sync to docs/
     os.makedirs(docs_dir, exist_ok=True)
+    keep_docs = {"adr", "ARCHITECTURE.md", "packaging.md", "releases", ".git"}
+    for item in os.listdir(docs_dir):
+        if item not in os.listdir(output_dir) and item not in keep_docs:
+            p = os.path.join(docs_dir, item)
+            if os.path.isdir(p):
+                shutil.rmtree(p)
+            else:
+                os.remove(p)
+
     for item in os.listdir(output_dir):
         s = os.path.join(output_dir, item)
         d = os.path.join(docs_dir, item)
@@ -71,8 +82,8 @@ def post_build():
             content = content.replace("http://127.0.0.1:8000", base_url)
             content = content.replace("http://localhost:8000", base_url)
 
-            content = re.sub(r'<pre><code><span class="text plain">(.*?)</span></code></pre>', r'\1', content, flags=re.DOTALL)
-            content = re.sub(r'<pre><code class="language-html">(.*?)</code></pre>', r'\1', content, flags=re.DOTALL)
+            content = re.sub(r'<pre><code><span class="text plain">(.*?)</span></code></pre>', lambda m: m.group(1) if ('<div' in m.group(1) or '<section' in m.group(1) or '<details' in m.group(1) or '<table' in m.group(1)) else m.group(0), content, flags=re.DOTALL)
+            content = re.sub(r'<pre><code class="language-html">(.*?)</code></pre>', lambda m: m.group(1) if ('<div' in m.group(1) or '<section' in m.group(1) or '<details' in m.group(1) or '<table' in m.group(1)) else m.group(0), content, flags=re.DOTALL)
             content = re.sub(r'<pre><code>(.*?)</code></pre>', lambda m: m.group(1) if ('<div' in m.group(1) or '<section' in m.group(1) or '<details' in m.group(1) or '<table' in m.group(1)) else m.group(0), content, flags=re.DOTALL)
 
             if "&lt;details" in content or "&lt;section" in content or "&lt;div" in content:

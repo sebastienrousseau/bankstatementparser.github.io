@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you reference the Bank Statement Parser documentation, please cite it as below."
+title: "bankstatementparser.com: Fast, secure financial statement parsing documentation"
+type: software
+version: 0.0.2
+date-released: 2026-09-27
+authors:
+  - family-names: Rousseau
+    given-names: Sebastien
+repository-code: "https://github.com/sebastienrousseau/bankstatementparser.github.io"
+url: "https://bankstatementparser.com/"
+license: "Apache-2.0 OR MIT"

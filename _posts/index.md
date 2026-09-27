@@ -162,24 +162,15 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
         <span class="terminal-dot dot-green"></span>
         <span class="terminal-title">bash — bankstatementparser</span>
       </div>
-      <pre><code>&#35; Install via Cargo (Rust)
-$ cargo install bankstatementparser
-
-&#35; Or install via Pip (Python)
-$ pip install bankstatementparser
-
-&#35; Parse a PDF statement to ISO 20022 JSON
-$ bankstatementparser --input statement.pdf --format json
-
-&#35; Output:
-{
-  "account_number": "GB82BARC20000012345678",
-  "currency": "GBP",
-  "opening_balance": 15420.50,
-  "closing_balance": 18940.20,
-  "transactions_count": 42,
-  "status": "VALIDATED"
-}</code></pre>
+      <div class="terminal-body">
+        <div class="t-line"><span class="t-comment">&#35; 1. Install via Cargo or Pip</span></div>
+        <div class="t-line"><span class="t-prompt">$</span>cargo install bankstatementparser</div>
+        <div class="t-line"><span class="t-prompt">$</span>pip install bankstatementparser</div>
+        <div class="t-line"><span class="t-comment">&#35; 2. Parse statement to validated JSON</span></div>
+        <div class="t-line"><span class="t-prompt">$</span>bankstatementparser --input statement.pdf --format json</div>
+        <div class="t-line"><span class="t-comment">&#35; 3. Deterministic output verification</span></div>
+        <div class="t-line">{ <span class="t-key">&quot;status&quot;</span>: <span class="t-val">&quot;VALIDATED&quot;</span>, <span class="t-key">&quot;balance_proof&quot;</span>: <span class="t-val">&quot;EXACT_MATCH&quot;</span> }</div>
+      </div>
     </div>
   </div>
 </section>

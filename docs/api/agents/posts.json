@@ -73,12 +73,12 @@
   },
   {
     "date": "2026-09-01",
-    "description": "Common questions about formats, privacy, performance, installation, and enterprise deployment.",
+    "description": "Comprehensive technical answers regarding statement parsing throughput, zero-telemetry security, ISO 20022 schemas, and SDK deployment.",
     "locale": "en-GB",
     "tags": [],
     "title": "Frequently Asked Questions (FAQ): Bank Statement Parser",
     "url": "https://bankstatementparser.com/faqs/",
-    "wordCount": 206
+    "wordCount": 1830
   },
   {
     "date": "2026-09-01",

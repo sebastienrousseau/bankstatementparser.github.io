@@ -72,7 +72,7 @@
     <item>
       <title>Frequently Asked Questions (FAQ): Bank Statement Parser</title>
       <link>https://bankstatementparser.com/faqs/</link>
-      <description>Common questions about formats, privacy, performance, installation, and enterprise deployment.</description>
+      <description>Comprehensive technical answers regarding statement parsing throughput, zero-telemetry security, ISO 20022 schemas, and SDK deployment.</description>
       <guid isPermaLink="true">https://bankstatementparser.com/faqs/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>

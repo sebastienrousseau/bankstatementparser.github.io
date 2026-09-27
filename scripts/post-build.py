@@ -79,6 +79,32 @@ def post_build():
                 for ent, val in [("&lt;", "<"), ("&gt;", ">"), ("&quot;", '"'), ("&#39;", "'"), ("&#x27;", "'")]:
                     content = content.replace(ent, val)
 
+            # Unescape code block tags produced inside markdown lists
+            content = re.sub(r'<pre>&lt;code class=&quot;(.*?)&quot;&gt;', r'<pre><code class="\1">', content)
+            content = content.replace("<pre>&lt;code&gt;", "<pre><code>")
+            content = content.replace("&lt;code&gt;", "<code>")
+            content = content.replace('&lt;/code&gt;&lt;/pre&gt;', '</code></pre>')
+            content = content.replace('&lt;/code&gt;', '</code>')
+            content = content.replace('&lt;/pre&gt;', '</pre>')
+            content = content.replace('</pre></p>', '</pre>')
+            content = content.replace('< 0.8 ms', '&lt; 0.8 ms')
+
+            def clean_pre(m):
+                return m.group(0).replace("<p>", "").replace("</p>", "")
+            content = re.sub(r"<pre><code>.*?</code></pre>", clean_pre, content, flags=re.DOTALL)
+
+            # Ensure footer and heading ampersands are encoded
+            for unencoded, encoded in [
+                ("Documentation & API", "Documentation &amp; API"),
+                ("API & SDK Reference", "API &amp; SDK Reference"),
+                ("Solutions & Workflows", "Solutions &amp; Workflows"),
+                ("Open Source & Trust", "Open Source &amp; Trust"),
+                ("Questions & Answers", "Questions &amp; Answers"),
+                ("Legal & Feeds", "Legal &amp; Feeds"),
+                ("Terms & Privacy", "Terms &amp; Privacy"),
+            ]:
+                content = content.replace(unencoded, encoded)
+
             with open(html_file, "w", encoding="utf-8") as f:
                 f.write(content)
 

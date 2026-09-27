@@ -92,7 +92,7 @@
     <id>https://bankstatementparser.com/faqs/</id>
     <updated></updated>
     <published></published>
-    <summary>Common questions about formats, privacy, performance, installation, and enterprise deployment.</summary>
+    <summary>Comprehensive technical answers regarding statement parsing throughput, zero-telemetry security, ISO 20022 schemas, and SDK deployment.</summary>
     <author><name>Sebastien Rousseau</name></author>
   </entry>
   <entry>

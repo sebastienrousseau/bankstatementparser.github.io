@@ -123,6 +123,20 @@ def post_build():
             with open(html_file, "w", encoding="utf-8") as f:
                 f.write(content)
 
+    # 5. Fix manifest.json theme_color and background_color
+    for base_path in [output_dir, docs_dir]:
+        for manifest_file in glob.glob(f"{base_path}/**/manifest.json", recursive=True):
+            try:
+                with open(manifest_file, "r", encoding="utf-8") as f:
+                    m_data = json.load(f)
+                m_data["theme_color"] = "#5b287b"
+                if not m_data.get("background_color"):
+                    m_data["background_color"] = "#ffffff"
+                with open(manifest_file, "w", encoding="utf-8") as f:
+                    json.dump(m_data, f, indent=2)
+            except Exception:
+                pass
+
     print(f"Post-build optimization complete ({len(all_pages)} URLs).")
 
 if __name__ == "__main__":

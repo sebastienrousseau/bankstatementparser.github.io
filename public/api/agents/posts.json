@@ -5,7 +5,7 @@
     "locale": "en-GB",
     "tags": [],
     "title": "About Sebastien Rousseau & Bank Statement Parser",
-    "url": "http://127.0.0.1:8000/about/",
+    "url": "https://bankstatementparser.com/about/",
     "wordCount": 128
   },
   {
@@ -14,7 +14,7 @@
     "locale": "en-GB",
     "tags": [],
     "title": "Accessibility Statement: WCAG 2.2 Level AAA Compliance",
-    "url": "http://127.0.0.1:8000/accessibility/",
+    "url": "https://bankstatementparser.com/accessibility/",
     "wordCount": 72
   },
   {
@@ -23,7 +23,7 @@
     "locale": "en-GB",
     "tags": [],
     "title": "API Reference: Rust Crate & Python Package",
-    "url": "http://127.0.0.1:8000/api/",
+    "url": "https://bankstatementparser.com/api/",
     "wordCount": 71
   },
   {
@@ -32,7 +32,7 @@
     "locale": "en-GB",
     "tags": [],
     "title": "Internal Architecture: Tokenization, Normalization & Validation",
-    "url": "http://127.0.0.1:8000/architecture/",
+    "url": "https://bankstatementparser.com/architecture/",
     "wordCount": 99
   },
   {
@@ -41,7 +41,7 @@
     "locale": "en-GB",
     "tags": [],
     "title": "Performance Benchmarks & Throughput Specifications",
-    "url": "http://127.0.0.1:8000/benchmarks/",
+    "url": "https://bankstatementparser.com/benchmarks/",
     "wordCount": 73
   },
   {
@@ -50,8 +50,8 @@
     "locale": "en-GB",
     "tags": [],
     "title": "Changelog & Semantic Version History",
-    "url": "http://127.0.0.1:8000/changelog/",
-    "wordCount": 68
+    "url": "https://bankstatementparser.com/changelog/",
+    "wordCount": 98
   },
   {
     "date": "2026-09-01",
@@ -59,7 +59,7 @@
     "locale": "en-GB",
     "tags": [],
     "title": "Contact & Enterprise Inquiries",
-    "url": "http://127.0.0.1:8000/contact/",
+    "url": "https://bankstatementparser.com/contact/",
     "wordCount": 90
   },
   {
@@ -68,7 +68,7 @@
     "locale": "en-GB",
     "tags": [],
     "title": "Contributing to Bank Statement Parser: Guidelines & Workflow",
-    "url": "http://127.0.0.1:8000/contributing/",
+    "url": "https://bankstatementparser.com/contributing/",
     "wordCount": 77
   },
   {
@@ -77,7 +77,7 @@
     "locale": "en-GB",
     "tags": [],
     "title": "Frequently Asked Questions (FAQ): Bank Statement Parser",
-    "url": "http://127.0.0.1:8000/faqs/",
+    "url": "https://bankstatementparser.com/faqs/",
     "wordCount": 206
   },
   {
@@ -86,7 +86,7 @@
     "locale": "en-GB",
     "tags": [],
     "title": "Supported Bank Statement Formats & Specifications",
-    "url": "http://127.0.0.1:8000/formats/",
+    "url": "https://bankstatementparser.com/formats/",
     "wordCount": 141
   },
   {
@@ -95,7 +95,7 @@
     "locale": "en-GB",
     "tags": [],
     "title": "Getting Started with Bank Statement Parser: Installation & Quickstart",
-    "url": "http://127.0.0.1:8000/getting-started/",
+    "url": "https://bankstatementparser.com/getting-started/",
     "wordCount": 244
   },
   {
@@ -104,7 +104,7 @@
     "locale": "en-GB",
     "tags": [],
     "title": "Bank Statement Parser: High-Throughput Financial Document Engine",
-    "url": "http://127.0.0.1:8000/index.html",
+    "url": "https://bankstatementparser.com/index.html",
     "wordCount": 1104
   },
   {
@@ -113,7 +113,7 @@
     "locale": "en-GB",
     "tags": [],
     "title": "Made with Static Site Generator (SSG)",
-    "url": "http://127.0.0.1:8000/made-with-ssg/",
+    "url": "https://bankstatementparser.com/made-with-ssg/",
     "wordCount": 63
   },
   {
@@ -122,7 +122,7 @@
     "locale": "en-GB",
     "tags": [],
     "title": "Offline Access: Bank Statement Parser",
-    "url": "http://127.0.0.1:8000/offline/",
+    "url": "https://bankstatementparser.com/offline/",
     "wordCount": 24
   },
   {
@@ -131,7 +131,7 @@
     "locale": "en-GB",
     "tags": [],
     "title": "Privacy Policy: 100% Zero-Telemetry Guarantee",
-    "url": "http://127.0.0.1:8000/privacy/",
+    "url": "https://bankstatementparser.com/privacy/",
     "wordCount": 85
   },
   {
@@ -140,7 +140,7 @@
     "locale": "en-GB",
     "tags": [],
     "title": "Security Architecture: Zero Telemetry, Air-Gapped & Memory Safe",
-    "url": "http://127.0.0.1:8000/security/",
+    "url": "https://bankstatementparser.com/security/",
     "wordCount": 116
   },
   {
@@ -149,7 +149,7 @@
     "locale": "en-GB",
     "tags": [],
     "title": "Terms of Use & Dual Open-Source Licensing",
-    "url": "http://127.0.0.1:8000/terms/",
+    "url": "https://bankstatementparser.com/terms/",
     "wordCount": 39
   },
   {
@@ -158,7 +158,7 @@
     "locale": "en-GB",
     "tags": [],
     "title": "Thank You | Bank Statement Parser",
-    "url": "http://127.0.0.1:8000/thanks/",
+    "url": "https://bankstatementparser.com/thanks/",
     "wordCount": 33
   },
   {
@@ -167,7 +167,7 @@
     "locale": "en-GB",
     "tags": [],
     "title": "Enterprise Use Cases: Treasury, Lending, Reconciliation & Audits",
-    "url": "http://127.0.0.1:8000/use-cases/",
+    "url": "https://bankstatementparser.com/use-cases/",
     "wordCount": 171
   }
 ]

@@ -1,6 +1,7 @@
-/* ==========================================================================
-   Bank Statement Parser — Enterprise Client Interaction Engine
-   ========================================================================== */
+/**
+ * SPDX-License-Identifier: Apache-2.0 OR MIT
+ * Visage Interactive Client Engine — Bank Statement Parser
+ */
 
 'use strict';
 
@@ -21,14 +22,17 @@
     document.documentElement.setAttribute('data-theme', effectiveTheme);
     try {
       localStorage.setItem('theme-mode', mode);
+      localStorage.setItem('theme', effectiveTheme);
     } catch (e) {}
 
     var buttons = document.querySelectorAll('.theme-btn');
     buttons.forEach(function (btn) {
       if (btn.getAttribute('data-theme-mode') === mode) {
         btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
       } else {
         btn.classList.remove('active');
+        btn.setAttribute('aria-pressed', 'false');
       }
     });
   }
@@ -47,7 +51,7 @@
     });
   }
 
-  /* 2. Main Application Initializer */
+  /* 2. Main Initializer */
   function initApp() {
     applyTheme(storedTheme);
 
@@ -69,43 +73,6 @@
         var isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
         navToggle.setAttribute('aria-expanded', String(!isExpanded));
         navMenu.classList.toggle('open');
-      });
-    }
-
-    /* Apple FAQ Accordion Controller */
-    var expandBtn = document.getElementById('faqExpandAllBtn');
-    var faqItems = document.querySelectorAll('.apple-faq-item');
-    if (expandBtn && faqItems.length > 0) {
-      var isAllExpanded = false;
-
-      function updateBtnState() {
-        var allOpen = true;
-        faqItems.forEach(function (item) {
-          if (!item.hasAttribute('open')) allOpen = false;
-        });
-        isAllExpanded = allOpen;
-        expandBtn.setAttribute('aria-expanded', String(isAllExpanded));
-        var label = expandBtn.querySelector('.apple-faq-btn-text');
-        var chevron = expandBtn.querySelector('.apple-faq-expand-chevron');
-        if (label) label.textContent = isAllExpanded ? 'Collapse all' : 'Expand all';
-        if (chevron) chevron.style.transform = isAllExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
-      }
-
-      expandBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        var newState = !isAllExpanded;
-        faqItems.forEach(function (item) {
-          if (newState) {
-            item.setAttribute('open', '');
-          } else {
-            item.removeAttribute('open');
-          }
-        });
-        updateBtnState();
-      });
-
-      faqItems.forEach(function (item) {
-        item.addEventListener('toggle', updateBtnState);
       });
     }
 

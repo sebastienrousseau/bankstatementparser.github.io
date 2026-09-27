@@ -87,6 +87,10 @@ def post_build():
             content = content.replace('&lt;/code&gt;', '</code>')
             content = content.replace('&lt;/pre&gt;', '</pre>')
             content = content.replace('</pre></p>', '</pre>')
+            content = content.replace('</div></p>', '</div>')
+            content = content.replace('<p><div>', '<div>')
+            content = content.replace('<p><div ', '<div ')
+            content = content.replace('<p><pre>', '<pre>')
             content = content.replace('< 0.8 ms', '&lt; 0.8 ms')
 
             def clean_pre(m):

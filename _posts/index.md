@@ -10,136 +10,168 @@ language: "en-GB"
 layout: "index"
 permalink: "https://bankstatementparser.com/"
 logo: "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg"
-banner: "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp"
+banner: "https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp"
 banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsing Engine"
 ---
 
-<section class="hero-editorial">
-<div class="eyebrow-badge">
-<span class="eyebrow-pulse"></span>
-<span>Financial Document Engineering · Open Source · Rust & Python · Updated September 2026</span>
-</div>
-<h1>Parse any bank statement in milliseconds.<br>Zero cloud dependencies. Zero telemetry.</h1>
-<p class="hero-lead">An open-source, high-throughput financial document parsing engine engineered in Rust with native Python bindings. Converts PDF, CSV, OFX, QIF, MT940, and CAMT.053 bank statements into validated, structured JSON and ISO 20022 transaction streams entirely on your own infrastructure.</p>
-<div class="hero-actions">
-<a href="/getting-started/index.html" class="btn-primary-quantum">Get Started (CLI & SDK) →</a>
-<a href="/formats/index.html" class="btn-secondary-quantum">Explore Supported Formats</a>
-</div>
+<section class="visage-intro" aria-labelledby="hero-heading">
+  <div class="wrap">
+    <p class="lilac-label">Financial Document Engineering · Open Source</p>
+    <h1 id="hero-heading">Parse any bank statement in <em>milliseconds.</em><br>Zero cloud dependencies. Zero telemetry.</h1>
+    <p>An open-source, high-throughput financial document parsing engine engineered in Rust with native Python bindings. Converts PDF, CSV, OFX, QIF, MT940, and CAMT.053 bank statements into validated, structured JSON and ISO 20022 transaction streams entirely on your own infrastructure.</p>
+    <div class="actions">
+      <a class="primary" href="/getting-started/index.html">Install CLI &amp; SDK</a>
+      <a href="/formats/index.html">Explore Supported Formats</a>
+    </div>
+    <ul class="hero-assurances">
+      <li>Deterministic Rust Core</li>
+      <li>Zero Cloud Dependencies</li>
+      <li>100% Air-Gapped Privacy</li>
+    </ul>
+  </div>
 </section>
 
-<!-- SECTION 2: KEY STATS TICKER -->
-<section class="clock-ticker-section my-5" aria-label="Performance Benchmarks">
-<div class="row g-3">
-<div class="col-md-4 col-lg-2-4">
-<div class="stat-card">
-<div class="stat-figure">10,000+</div>
-<div class="stat-label">Pages per Minute</div>
-<div class="stat-source">Multi-threaded Rust core · <a href="/benchmarks/index.html">Benchmark Report ↗</a></div>
-</div>
-</div>
-
-<div class="col-md-4 col-lg-2-4">
-<div class="stat-card">
-<div class="stat-figure">&lt; 0.8 ms</div>
-<div class="stat-label">Per-Statement Latency</div>
-<div class="stat-source">Zero-allocation tokenizer · <a href="/benchmarks/index.html">Latency Specs ↗</a></div>
-</div>
-</div>
-
-<div class="col-md-4 col-lg-2-4">
-<div class="stat-card">
-<div class="stat-figure">100%</div>
-<div class="stat-label">Zero Telemetry</div>
-<div class="stat-source">Air-gapped local processing · <a href="/security/index.html">Privacy Guarantee ↗</a></div>
-</div>
-</div>
-
-<div class="col-md-6 col-lg-2-4">
-<div class="stat-card">
-<div class="stat-figure">14+ Formats</div>
-<div class="stat-label">Multi-Standard Ingestion</div>
-<div class="stat-source">PDF, CSV, OFX, MT940, CAMT · <a href="/formats/index.html">Format Matrix ↗</a></div>
-</div>
-</div>
-
-<div class="col-md-6 col-lg-2-4">
-<div class="stat-card">
-<div class="stat-figure">Dual Apache/MIT</div>
-<div class="stat-label">Open Source License</div>
-<div class="stat-source">Enterprise-friendly · <a href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer">GitHub Repo ↗</a></div>
-</div>
-</div>
-</div>
+<section class="trust-strip" aria-label="Platform guarantees">
+  <div class="wrap">
+    <ul>
+      <li>
+        <b>10,000+ Pages/Min</b>
+        <span>Deterministic multi-threaded streaming throughput with zero lock contention.</span>
+      </li>
+      <li>
+        <b>&lt; 0.8 ms Latency</b>
+        <span>Zero-copy tokenization designed for real-time ledger reconciliation.</span>
+      </li>
+      <li>
+        <b>100% Zero Telemetry</b>
+        <span>Runs fully air-gapped on your private VPC or local host with zero network calls.</span>
+      </li>
+      <li>
+        <b>14+ Format Dialects</b>
+        <span>Unified extraction across digital PDF, CSV, OFX, QIF, MT940, and CAMT.053.</span>
+      </li>
+    </ul>
+  </div>
 </section>
 
-<!-- SECTION 3: CORE CAPABILITIES BENTO GRID -->
-<section class="my-5" aria-label="Core Capabilities">
-<div class="text-center mb-4">
-<h2 class="h3 fw-bold">Engineered for Sovereign Financial Infrastructure</h2>
-<p class="text-muted">Built for corporate treasuries, fintech backends, reconciliation engines, and audit firms requiring deterministic extraction.</p>
-</div>
-
-<div class="bento-grid">
-<div class="bento-card bento-col-4">
-<div>
-<div class="bento-tag">Privacy & Security</div>
-<h3 class="bento-title">Air-Gapped Local Computation</h3>
-<p class="bento-desc">Financial statements contain sensitive account numbers, balances, and transaction histories. Bank Statement Parser never phones home, makes no external network calls, and runs entirely in local memory.</p>
-</div>
-<a href="/security/index.html" class="author-link">Read Security Architecture →</a>
-</div>
-
-<div class="bento-card bento-col-4">
-<div>
-<div class="bento-tag">Format Intelligence</div>
-<h3 class="bento-title">Automatic Dialect Detection</h3>
-<p class="bento-desc">Intelligent auto-detection for CSV delimiter variations, date formats (ISO, US, UK, European), debit/credit column layouts, and multi-currency transaction splits without fragile custom regex rules.</p>
-</div>
-<a href="/formats/index.html" class="author-link">Explore Format Dialects →</a>
-</div>
-
-<div class="bento-card bento-col-4">
-<div>
-<div class="bento-tag">Standardization</div>
-<h3 class="bento-title">ISO 20022 & JSON Output</h3>
-<p class="bento-desc">Normalize disparate bank statements directly into canonical ISO 20022 camt.053 XML envelopes or strongly-typed JSON schemas ready for ERP, GL, and accounting database ingestion.</p>
-</div>
-<a href="/architecture/index.html" class="author-link">View Output Schemas →</a>
-</div>
-</div>
+<section class="analysis-stage" id="treasury" aria-labelledby="treasury-heading">
+  <div class="wrap image-shell">
+    <picture>
+      <source media="(max-width: 40rem)" srcset="https://cloudcdn.pro/stocks/images/corporate-finance-320.webp 320w, https://cloudcdn.pro/stocks/images/corporate-finance-640.webp 640w, https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp 1200w" sizes="100vw">
+      <img src="https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp" srcset="https://cloudcdn.pro/stocks/images/corporate-finance-640.webp 640w, https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp 1200w, https://cloudcdn.pro/stocks/images/corporate-finance-1920.webp 1920w" sizes="(max-width: 40rem) 100vw, 80rem" width="1200" height="675" alt="Corporate treasury and financial analytics dashboard in modern financial operations" loading="lazy" decoding="async">
+    </picture>
+    <div class="consultation-card">
+      <p class="lilac-label">Corporate Treasury Automation</p>
+      <h2 id="treasury-heading">Automated Reconciliation for Modern Treasury</h2>
+      <p>Eliminate manual statement keying, error-prone spreadsheets, and expensive cloud OCR APIs. Normalize multi-bank statements directly into your general ledger, ERP, and treasury management workflows with sub-second turnaround.</p>
+      <a class="primary" href="/use-cases/index.html">View Treasury Playbook <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
 </section>
 
-<!-- SECTION 4: TERMINAL QUICKSTART -->
-<section class="my-5" aria-label="Developer Quickstart">
-<div class="card-surface p-4 p-md-5">
-<div class="row align-items-center g-4">
-<div class="col-lg-6">
-<div class="eyebrow-badge">Developer Quickstart</div>
-<h2 class="h3 fw-bold text-headline mb-3">Install via Cargo, Pip or Homebrew in Seconds</h2>
-<p class="text-muted mb-4">Use as a blazing-fast command-line tool, an embedded Rust library in microservices, or a high-level Python package for data engineering pipelines.</p>
-<div class="d-flex gap-3 flex-wrap">
-<a href="/getting-started/index.html" class="btn-primary-quantum">Full Documentation →</a>
-<a href="/api/index.html" class="btn-secondary-quantum">API Reference</a>
-</div>
-</div>
-<div class="col-lg-6">
-<div class="hero-visual-terminal">
-<div class="terminal-header">
-<span class="terminal-dot dot-red"></span>
-<span class="terminal-dot dot-yellow"></span>
-<span class="terminal-dot dot-green"></span>
-<span class="terminal-title">bash — bankstatementparser</span>
-</div>
-<pre><code><span class="text-muted"># Install via Cargo (Rust)</span>
+<section class="visage-features" id="features" aria-labelledby="features-heading">
+  <div class="wrap">
+    <header class="section-heading">
+      <p class="lilac-label">Engine Architecture</p>
+      <h2 id="features-heading">Engineered for absolute accuracy.</h2>
+      <p>Industrial-grade financial parsing combining memory-safe Rust execution, native Python bindings, and dual Apache/MIT licensing.</p>
+    </header>
+    <div class="three-cells">
+      <article>
+        <span>01</span>
+        <h3>Multi-Format Dialect Engine</h3>
+        <p>Deterministic state machines parse digital PDF tables, irregular CSV layouts, SGML-based OFX, and legacy SWIFT MT940 statements without brittle regex or external cloud OCR.</p>
+      </article>
+      <article>
+        <span>02</span>
+        <h3>Arithmetic Balance Verification</h3>
+        <p>Strict mathematical balance validation ensures opening balance plus net credits and debits precisely equals closing balance to the penny before record emission.</p>
+      </article>
+      <article>
+        <span>03</span>
+        <h3>ISO 20022 Harmonization</h3>
+        <p>Normalize disparate bank statements directly into canonical ISO 20022 CAMT.053 XML envelopes or strongly-typed JSON schemas ready for ERP, GL, and accounting ingestion.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="visage-process" id="process" aria-labelledby="process-heading">
+  <div class="wrap">
+    <p class="lilac-label">The Processing Pipeline</p>
+    <h2 id="process-heading">From raw bank document to validated ledger transactions.</h2>
+    <div class="process-grid">
+      <article>
+        <b>1</b>
+        <h3>Ingest</h3>
+        <p>Stream PDF bytes, CSV feeds, or SWIFT MT940 files into memory-safe zero-copy buffers.</p>
+        <small>Sub-millisecond stream loading</small>
+      </article>
+      <article>
+        <b>2</b>
+        <h3>Tokenize</h3>
+        <p>Deterministic lexical analysis identifies account metadata, booking dates, and line items.</p>
+        <small>Deterministic layout analysis</small>
+      </article>
+      <article>
+        <b>3</b>
+        <h3>Verify</h3>
+        <p>Arithmetic balance reconciliation confirms credit/debit integrity and validates IBAN checksums.</p>
+        <small>Mod-97 and balance proofs</small>
+      </article>
+      <article>
+        <b>4</b>
+        <h3>Emit</h3>
+        <p>Output strongly-typed JSON, Apache Arrow tables, or ISO 20022 CAMT.053 XML messages.</p>
+        <small>Ready for ERP &amp; GL ingestion</small>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="analysis-stage" id="architecture-preview" aria-labelledby="arch-heading">
+  <div class="wrap image-shell">
+    <picture>
+      <source media="(max-width: 40rem)" srcset="https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-320.webp 320w, https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-640.webp 640w, https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-1200.webp 1200w" sizes="100vw">
+      <img src="https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-1200.webp" srcset="https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-640.webp 640w, https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-1200.webp 1200w, https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-1920.webp 1920w" sizes="(max-width: 40rem) 100vw, 80rem" width="1200" height="675" alt="Modern corporate office with technological displays and real-time financial pipelines" loading="lazy" decoding="async">
+    </picture>
+    <div class="consultation-card">
+      <p class="lilac-label">High-Performance Pipeline</p>
+      <h2 id="arch-heading">Deterministic Execution at Enterprise Scale</h2>
+      <p>Engineered for high-frequency financial platforms requiring bounded latency, zero-allocation loops, and strict ISO 20022 data models.</p>
+      <a class="primary" href="/architecture/index.html">View Architecture Blueprint <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="terminal-stage" aria-labelledby="quickstart-heading">
+  <div class="wrap terminal-grid">
+    <div>
+      <p class="lilac-label">Developer Quickstart</p>
+      <h2 id="quickstart-heading">Install via Cargo, Pip, or Homebrew in Seconds</h2>
+      <p>Deploy as a standalone CLI tool, embed as a high-assurance Rust crate in your microservices, or integrate into Python data pipelines with zero external runtime overhead.</p>
+      <div class="actions">
+        <a class="primary" href="/getting-started/index.html">Full Documentation →</a>
+        <a href="/api/index.html">API Reference</a>
+      </div>
+    </div>
+    <div class="terminal-box">
+      <div class="terminal-bar">
+        <span class="terminal-dot dot-red"></span>
+        <span class="terminal-dot dot-yellow"></span>
+        <span class="terminal-dot dot-green"></span>
+        <span class="terminal-title">bash — bankstatementparser</span>
+      </div>
+      <pre><code>&#35; Install via Cargo (Rust)
 $ cargo install bankstatementparser
 
-<span class="text-muted"># Or install via Pip (Python)</span>
+&#35; Or install via Pip (Python)
 $ pip install bankstatementparser
 
-<span class="text-muted"># Parse a PDF statement to ISO 20022 JSON</span>
+&#35; Parse a PDF statement to ISO 20022 JSON
 $ bankstatementparser --input statement.pdf --format json
 
-<span class="text-muted"># Output:</span>
+&#35; Output:
 {
   "account_number": "GB82BARC20000012345678",
   "currency": "GBP",
@@ -148,105 +180,81 @@ $ bankstatementparser --input statement.pdf --format json
   "transactions_count": 42,
   "status": "VALIDATED"
 }</code></pre>
-</div>
-</div>
-</div>
-</div>
+    </div>
+  </div>
 </section>
 
-<!-- SECTION 5: USE CASES -->
-<section class="my-5" aria-label="Use Cases">
-<div class="text-center mb-4">
-<h2 class="h3 fw-bold">Built for Mission-Critical Financial Workflows</h2>
-<p class="text-muted">Eliminate manual statement keying, brittle spreadsheets, and opaque proprietary OCR APIs.</p>
-</div>
-
-<div class="bento-grid">
-<div class="bento-card bento-col-4">
-<div class="bento-tag">Corporate Treasury</div>
-<h3 class="bento-title">Automated Bank Reconciliation</h3>
-<p class="bento-desc">Ingest multi-bank end-of-day balances and transaction statements into treasury management systems (TMS) with sub-second turnaround.</p>
-<a href="/use-cases/index.html" class="author-link">Treasury Playbook →</a>
-</div>
-
-<div class="bento-card bento-col-4">
-<div class="bento-tag">Fintech & Lending</div>
-<h3 class="bento-title">Borrower Cashflow Underwriting</h3>
-<p class="bento-desc">Extract, verify, and calculate debt-service coverage ratios (DSCR) and revenue velocity from 24 months of borrower bank statements instantly.</p>
-<a href="/use-cases/index.html" class="author-link">Underwriting Workflows →</a>
-</div>
-
-<div class="bento-card bento-col-4">
-<div class="bento-tag">Audit & Compliance</div>
-<h3 class="bento-title">Forensic AML & Audit Verification</h3>
-<p class="bento-desc">Detect statement tampering, verify arithmetic checksums between opening/closing balances, and extract counterparty IBANs for sanctions screening.</p>
-<a href="/use-cases/index.html" class="author-link">Audit Guidelines →</a>
-</div>
-</div>
+<section class="visage-specialists" id="specialists" aria-labelledby="specialists-heading">
+  <div class="wrap specialist-layout">
+    <header>
+      <p class="lilac-label">Leadership &amp; Engineering</p>
+      <h2 id="specialists-heading">Expertise you can verify.</h2>
+      <p>Bank Statement Parser is built by seasoned systems architects specializing in financial messaging standards, cryptographic assurance, and low-latency infrastructure.</p>
+    </header>
+    <div class="specialist-grid">
+      <article>
+        <span aria-hidden="true">SR</span>
+        <p>Founder &amp; Systems Architect</p>
+        <h3>Sebastien Rousseau</h3>
+        <p>Financial document infrastructure · Rust high-performance computing · ISO 20022 standards · Open-source author</p>
+      </article>
+      <article>
+        <span aria-hidden="true">PI</span>
+        <p>Banking &amp; Economics Advisory</p>
+        <h3>Philip Intallura</h3>
+        <p>HSBC Global Economics &amp; Banking Advisory · Enterprise treasury automation · Financial market infrastructure</p>
+      </article>
+    </div>
+  </div>
 </section>
 
-<!-- SECTION 6: QUESTIONS? ANSWERS. (APPLE AT WORK ACCORDION) -->
-<section class="my-5" aria-label="Frequently Asked Questions">
-<div class="apple-faq-section">
-<div class="apple-faq-header">
-<h2 class="apple-faq-title">Questions? Answers.</h2>
-<button type="button" class="apple-faq-expand-btn" id="faqExpandAllBtn" aria-expanded="false">
-<span class="apple-faq-btn-text">Expand all</span>
-<svg class="apple-faq-expand-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-</button>
-</div>
-
-<div class="apple-faq-list">
-<details class="apple-faq-item">
-<summary class="apple-faq-summary">
-<span class="apple-faq-question">Does Bank Statement Parser send data to the cloud or any external server?</span>
-<span class="apple-faq-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
-</summary>
-<div class="apple-faq-body">
-<p>No. Bank Statement Parser is 100% self-contained and operates entirely on your local machine or private cloud server. It contains zero analytics, zero telemetry, and zero outbound network calls, ensuring complete compliance with GDPR, HIPAA, GLBA, and banking confidentiality regulations.</p>
-</div>
-</details>
-
-<details class="apple-faq-item">
-<summary class="apple-faq-summary">
-<span class="apple-faq-question">Which bank statement file formats are supported?</span>
-<span class="apple-faq-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
-</summary>
-<div class="apple-faq-body">
-<p>Bank Statement Parser supports text-based and digital PDFs, CSV files (with automatic delimiter and header detection), Open Financial Exchange (OFX 1.x & 2.x), Quicken Interchange Format (QIF), SWIFT MT940/MT942 messages, and ISO 20022 CAMT.053 XML statements.</p>
-</div>
-</details>
-
-<details class="apple-faq-item">
-<summary class="apple-faq-summary">
-<span class="apple-faq-question">How does the parser handle scanned or image-based PDFs?</span>
-<span class="apple-faq-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
-</summary>
-<div class="apple-faq-body">
-<p>For vector and digital PDFs, the engine extracts structured text streams directly with zero loss. For scanned image statements, the optional local OCR module utilizes deterministic optical layout parsing with zero external cloud API dependencies.</p>
-</div>
-</details>
-
-<details class="apple-faq-item">
-<summary class="apple-faq-summary">
-<span class="apple-faq-question">Is the project open source and available for commercial use?</span>
-<span class="apple-faq-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
-</summary>
-<div class="apple-faq-body">
-<p>Yes. Bank Statement Parser is dual-licensed under the Apache-2.0 and MIT open-source licenses. You can freely integrate it into commercial SaaS products, enterprise backends, and internal financial pipelines.</p>
-</div>
-</details>
-</div>
-</div>
+<section class="privacy-panel" aria-labelledby="privacy-heading">
+  <div class="wrap privacy-grid">
+    <p class="lilac-label">Zero-Telemetry Privacy</p>
+    <div>
+      <h2 id="privacy-heading">Your financial data never leaves your infrastructure.</h2>
+      <p>Bank Statement Parser is 100% self-contained and operates entirely on your local machine, private VPC, or air-gapped on-premise servers. Zero analytics, zero telemetry, and zero outbound network calls—guaranteeing complete GDPR, GLBA, and banking confidentiality compliance.</p>
+    </div>
+    <a href="/security/index.html">Read Security &amp; Privacy Architecture <span aria-hidden="true">↓</span></a>
+  </div>
 </section>
 
-<!-- SECTION 7: TAKE THE NEXT STEP -->
-<section class="card-surface p-4 p-md-5 my-5 text-center" aria-label="Conversion Next Steps">
-<h2 class="h2 fw-bold text-headline mb-3">Integrate High-Performance Statement Parsing Today</h2>
-<p class="text-muted fs-5 mb-4 max-w-2xl mx-auto">Get started in minutes with the Rust CLI or Python package:</p>
-<div class="d-flex justify-content-center gap-3 flex-wrap">
-<a href="/getting-started/index.html" class="btn-primary-quantum">Install Bank Statement Parser →</a>
-<a href="https://github.com/sebastienrousseau/bankstatementparser" target="_blank" rel="noopener noreferrer" class="btn-secondary-quantum">View on GitHub (Stars & Code) ↗</a>
-<a href="/contact/index.html" class="btn-secondary-quantum">Contact for Custom Formats</a>
-</div>
+<section class="visage-faq" id="faq" aria-labelledby="faq-heading">
+  <div class="wrap faq-layout">
+    <header>
+      <p class="lilac-label">Clear Answers</p>
+      <h2 id="faq-heading">Frequently Asked Questions</h2>
+    </header>
+    <div>
+      <details>
+        <summary>Does Bank Statement Parser send data to the cloud or external servers?</summary>
+        <p>No. Bank Statement Parser is 100% self-contained and operates entirely on your local machine or private cloud server. It contains zero analytics, zero telemetry, and zero outbound network calls, ensuring complete compliance with GDPR, HIPAA, GLBA, and banking confidentiality regulations.</p>
+      </details>
+      <details>
+        <summary>Which bank statement file formats are supported?</summary>
+        <p>Bank Statement Parser supports text-based and digital PDFs, CSV files (with automatic delimiter and header detection), Open Financial Exchange (OFX 1.x &amp; 2.x), Quicken Interchange Format (QIF), SWIFT MT940/MT942 messages, and ISO 20022 CAMT.053 XML statements.</p>
+      </details>
+      <details>
+        <summary>How does the parser handle scanned or image-based statements?</summary>
+        <p>For digital and vector PDFs, the engine extracts structured text streams directly with zero loss. For scanned image statements, an optional local OCR module performs deterministic optical layout parsing with zero external cloud API dependencies.</p>
+      </details>
+      <details>
+        <summary>Is the project open source and available for commercial use?</summary>
+        <p>Yes. Bank Statement Parser is dual-licensed under the Apache-2.0 and MIT open-source licenses. You can freely integrate it into commercial SaaS products, enterprise backends, and internal financial pipelines.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="visage-closing" aria-labelledby="visage-close">
+  <div class="wrap">
+    <div>
+      <p class="lilac-label">Developer Quickstart</p>
+      <h2 id="visage-close">Financial data is mission-critical.<br><em>Your parsing pipeline should be instant.</em></h2>
+    </div>
+    <div>
+      <p>Get started in minutes with the Rust CLI or Python package across Linux, macOS, and Windows.</p>
+      <a class="primary" href="/getting-started/index.html">Install Bank Statement Parser</a>
+    </div>
+  </div>
 </section>

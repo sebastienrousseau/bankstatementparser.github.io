@@ -588,6 +588,8 @@ body:not(:has(.visage-intro)) .lead { color:var(--vi-muted); }
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 0.875em;
   font-weight: 600;
+  white-space: nowrap;
+  word-break: keep-all;
 }
 
 .style-visage .content-body table {

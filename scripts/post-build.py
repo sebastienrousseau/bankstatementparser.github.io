@@ -111,6 +111,7 @@ def post_build():
             content = content.replace('<p><pre>', '<pre>')
             content = content.replace('< 0.8 ms', '&lt; 0.8 ms')
 
+
             def clean_pre(m):
                 return m.group(0).replace("<p>", "").replace("</p>", "")
             content = re.sub(r"<pre><code>.*?</code></pre>", clean_pre, content, flags=re.DOTALL)

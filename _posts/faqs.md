@@ -164,17 +164,9 @@ Comprehensive technical guidance covering high-throughput document parsing, zero
 </summary>
 <div class="faq-answer">
 <p>Add the dependency to your <code>Cargo.toml</code>:</p>
-<pre><code>[dependencies]
-bankstatementparser = "0.0.2"</code></pre>
+<pre><code>[dependencies]&#10;bankstatementparser = &quot;0.0.2&quot;</code></pre>
 <p>Then parse any statement file into strongly-typed structures:</p>
-<pre><code>use bankstatementparser::Parser;
-use std::path::Path;
-fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
-    let parser = Parser::new();
-    let statement = parser.parse_file(Path::new("statement.pdf"))?;
-    println!("Account: {}, Balance: {}", statement.account_id, statement.closing_balance);
-    Ok(())
-}</code></pre>
+<pre><code>use bankstatementparser::Parser;&#10;use std::path::Path;&#10;fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {&#10;    let parser = Parser::new();&#10;    let statement = parser.parse_file(Path::new(&quot;statement.pdf&quot;))?;&#10;    println!(&quot;Account: {}, Balance: {}&quot;, statement.account_id, statement.closing_balance);&#10;    Ok(())&#10;}</code></pre>
 </div>
 </details>
 
@@ -190,9 +182,7 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 <p>Pre-compiled binary wheels (compiled with PyO3 and Maturin) are distributed on PyPI for Linux, macOS (Apple Silicon and Intel), and Windows. No Rust compiler is required on your servers. Install via pip:</p>
 <pre><code>pip install bankstatementparser</code></pre>
 <p>And use it in Python:</p>
-<pre><code>from bankstatementparser import parse_statement
-statement = parse_statement("statement.pdf")
-print(f"Transactions parsed: {len(statement.transactions)}")</code></pre>
+<pre><code>from bankstatementparser import parse_statement&#10;statement = parse_statement(&quot;statement.pdf&quot;)&#10;print(f&quot;Transactions parsed: {len(statement.transactions)}&quot;)</code></pre>
 </div>
 </details>
 
@@ -206,8 +196,7 @@ print(f"Transactions parsed: {len(statement.transactions)}")</code></pre>
 </summary>
 <div class="faq-answer">
 <p>Yes. Minimal, non-root container images are published on GitHub Container Registry. Mount your local statement directory to run extraction in an isolated container:</p>
-<pre><code>docker run --rm -v $(pwd):/data ghcr.io/sebastienrousseau/bankstatementparser:latest \
-  --input /data/statement.pdf --format json</code></pre>
+<pre><code>docker run --rm -v $(pwd):/data ghcr.io/sebastienrousseau/bankstatementparser:latest --input /data/statement.pdf --format json</code></pre>
 </div>
 </details>
 

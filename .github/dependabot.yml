@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2024-2026 Sebastien Rousseau
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    reviewers:
+      - "sebastienrousseau"
+    labels:
+      - "ci/cd"
+      - "automated"
+    groups:
+      github-actions:
+        patterns:
+          - "*"

@@ -12,9 +12,12 @@ permalink: "https://bankstatementparser.com/security/index.html"
 logo: "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg"
 banner: "https://cloudcdn.pro/stocks/images/block-chain-3055701-1200.webp"
 banner_alt: "Bank Statement Parser — Cryptographic Integrity & Zero Telemetry Verification"
+eyebrow: "Zero-Telemetry Model"
+headline: "Security Architecture & Trust Guarantees"
+lead: "Strict zero-telemetry guarantees, memory safety verification, and Sigstore-signed releases for compliance-critical pipelines."
 ---
 
-# Security Architecture & Trust Guarantees
+
 
 Financial statement data requires the highest level of confidentiality and privacy assurance.
 

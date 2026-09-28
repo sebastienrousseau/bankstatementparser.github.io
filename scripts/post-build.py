@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2024-2026 Sebastien Rousseau
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-import os, glob, re, json, html, shutil
+import os, glob, re, json, shutil
 
 def post_build():
     output_dir = "public"
@@ -150,7 +150,7 @@ def post_build():
                     m_data["background_color"] = "#ffffff"
                 with open(manifest_file, "w", encoding="utf-8") as f:
                     json.dump(m_data, f, indent=2)
-            except Exception:
+            except (OSError, json.JSONDecodeError, KeyError):
                 pass
 
     print(f"Post-build optimization complete ({len(all_pages)} URLs).")

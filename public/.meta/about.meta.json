@@ -4,14 +4,17 @@
   "banner_alt": "Bank Statement Parser — High-Throughput Financial Document Parsing Engine",
   "date": "2026-09-01",
   "description": "Background, credentials, and 19-year engineering history of Sebastien Rousseau in production financial infrastructure.",
+  "eyebrow": "Engineering & Leadership",
+  "headline": "About Sebastien Rousseau",
   "keywords": "Sebastien Rousseau, Bank Statement Parser author, financial systems architect, KyberLib, open source",
   "language": "en-GB",
   "layout": "page",
+  "lead": "Principal engineer building high-assurance, privacy-first financial infrastructure and cryptographic document tooling.",
   "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
   "name": "Bank Statement Parser",
   "permalink": "https://bankstatementparser.com/about/index.html",
   "reading_time": 1,
   "short_name": "bankstatementparser",
   "title": "About Sebastien Rousseau & Bank Statement Parser",
-  "word_count": 128
+  "word_count": 124
 }

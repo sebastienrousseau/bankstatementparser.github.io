@@ -4,14 +4,17 @@
   "banner_alt": "Bank Statement Parser — High-Throughput Financial Document Parsing Engine",
   "date": "2026-09-01",
   "description": "Thank you for your inquiry.",
+  "eyebrow": "Message Dispatched",
+  "headline": "Thank You for Your Message",
   "keywords": "thank you",
   "language": "en-GB",
   "layout": "page",
+  "lead": "Your inquiry has been securely routed to our engineering team. We will respond within one business day.",
   "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
   "name": "Bank Statement Parser",
   "permalink": "https://bankstatementparser.com/thanks/index.html",
   "reading_time": 1,
   "short_name": "bankstatementparser",
   "title": "Thank You | Bank Statement Parser",
-  "word_count": 33
+  "word_count": 27
 }

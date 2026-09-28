@@ -4,14 +4,17 @@
   "banner_alt": "Bank Statement Parser — Cryptographic Integrity & Zero Telemetry Verification",
   "date": "2026-09-01",
   "description": "Detailed security specifications, zero-telemetry architecture, memory safety guarantees, and CycloneDX SBOM provenance.",
+  "eyebrow": "Zero-Telemetry Model",
+  "headline": "Security Architecture & Trust Guarantees",
   "keywords": "zero telemetry parser, air gapped bank statement parser, memory safe financial software, CycloneDX SBOM",
   "language": "en-GB",
   "layout": "page",
+  "lead": "Strict zero-telemetry guarantees, memory safety verification, and Sigstore-signed releases for compliance-critical pipelines.",
   "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
   "name": "Bank Statement Parser",
   "permalink": "https://bankstatementparser.com/security/index.html",
   "reading_time": 1,
   "short_name": "bankstatementparser",
   "title": "Security Architecture: Zero Telemetry, Air-Gapped & Memory Safe",
-  "word_count": 116
+  "word_count": 110
 }

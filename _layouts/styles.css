@@ -233,7 +233,7 @@ body.style-visage {
 .style-visage .site-header .site-nav a:hover { color:var(--vi-ink); background:var(--vi-soft); }
 .style-visage .site-nav .nav-cta,.style-visage .site-header .site-nav .nav-cta { border-radius:4px; background:var(--vi-accent) !important; color:var(--vi-bg) !important; font-weight:700; padding:.55rem 1.15rem; margin-inline-start:.5rem; }
 .style-visage .site-nav .nav-cta:hover,.style-visage .site-header .site-nav .nav-cta:hover { background:var(--vi-accent-hover) !important; color:var(--vi-bg) !important; }
-.style-visage #ssg-search-btn { display:none!important; }
+#ssg-search-btn, #ssg-search-widget, .style-visage #ssg-search-btn { display:none!important; }
 .style-visage :focus-visible { outline:3px solid var(--vi-accent); outline-offset:4px; }
 .style-visage .skip-link { background:var(--vi-button); color:var(--vi-button-ink); }
 .lilac-label { max-width:none; color:var(--vi-accent); font-size:.8125rem; font-weight:800; letter-spacing:.12em; line-height:1.35; text-transform:uppercase; }
@@ -1352,6 +1352,139 @@ body:not(:has(.visage-intro)) .lead { color:var(--vi-muted); }
   border-radius: 50%;
   border: 2px solid var(--vi-accent);
   display: block;
+}
+
+/* Getting Started & Documentation Enhancements */
+.install-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  margin-block: 1.5rem 2.5rem;
+}
+
+@media (max-width: 48rem) {
+  .install-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.install-card {
+  padding: 1.35rem 1.5rem;
+  background: var(--vi-surface);
+  border: 1px solid var(--vi-line);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: border-color 0.15s ease;
+}
+
+.install-card:hover {
+  border-color: var(--vi-accent);
+}
+
+.install-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.install-card-title {
+  font-size: 1.05rem;
+  font-weight: 750;
+  color: var(--vi-ink);
+  margin: 0;
+  border: none !important;
+  padding: 0 !important;
+}
+
+.install-card-tag {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--vi-accent);
+  background: var(--vi-soft);
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.install-card-desc {
+  font-size: 0.875rem;
+  color: var(--vi-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.install-card pre {
+  margin: 0 !important;
+}
+
+/* Step Progression */
+.step-item {
+  margin-block: 3rem 2rem;
+}
+
+.step-item:first-of-type {
+  margin-block-start: 1.5rem;
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.step-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  background: var(--vi-accent);
+  color: var(--vi-button-ink);
+  font-size: 0.875rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.step-title {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--vi-ink);
+  margin: 0;
+  letter-spacing: -0.02em;
+  border: none !important;
+  padding: 0 !important;
+}
+
+/* Technical Image Callout */
+.doc-visual-card {
+  margin-block: 2.5rem;
+  border: 1px solid var(--vi-line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--vi-surface);
+}
+
+.doc-visual-card img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+
+.doc-visual-caption {
+  padding: 1rem 1.25rem;
+  font-size: 0.8125rem;
+  color: var(--vi-muted);
+  line-height: 1.45;
+  border-top: 1px solid var(--vi-line);
+  background: var(--vi-soft);
 }
 
 @media(prefers-reduced-motion:reduce){.style-visage *{scroll-behavior:auto!important;transition:none!important}}

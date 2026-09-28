@@ -12,9 +12,12 @@ permalink: "https://bankstatementparser.com/changelog/index.html"
 logo: "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg"
 banner: "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp"
 banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsing Engine"
+eyebrow: "Release History"
+headline: "Changelog"
+lead: "Deterministic versioning history, security audits, and functional enhancements across every release."
 ---
 
-# Changelog
+
 
 All notable changes to **Bank Statement Parser** are documented in this file following strict Semantic Versioning.
 

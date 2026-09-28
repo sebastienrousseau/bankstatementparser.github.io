@@ -108,21 +108,25 @@
 
   <!-- Visage Page Shell -->
   <main id="main" class="style-visage page-shell" aria-label="Main content">
-    <div class="wrap page-container">
-      <div class="page-meta-header">
-        <nav class="breadcrumb" aria-label="Breadcrumb">
-          <ol>
-            <li><a href="/">Home</a></li>
-            <li class="sep" aria-hidden="true">/</li>
-            <li aria-current="page">404 Not Found</li>
-          </ol>
-        </nav>
-        <span class="lilac-label">{{name}} Error</span>
+    <article class="section">
+      <div class="wrap page-grid">
+        <header>
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <ol>
+              <li><a href="/">Home</a></li>
+              <li class="sep" aria-hidden="true">/</li>
+              <li aria-current="page">{{title}}</li>
+            </ol>
+          </nav>
+          <p class="eyebrow">{{eyebrow}}</p>
+          <h1>{{headline}}</h1>
+          <p class="lead">{{lead}}</p>
+        </header>
+        <div class="prose content-body">
+          {{content}}
+        </div>
       </div>
-      <article class="content-body">
-        {{content}}
-      </article>
-    </div>
+    </article>
   </main>
 
   <!-- Visage Footer -->

@@ -12,9 +12,12 @@ permalink: "https://bankstatementparser.com/accessibility/index.html"
 logo: "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg"
 banner: "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp"
 banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsing Engine"
+eyebrow: "Inclusive Engineering"
+headline: "Accessibility Statement"
+lead: "Dedicated to achieving WCAG 2.2 Level AAA compliance across all digital documentation and interactive financial tooling."
 ---
 
-# Accessibility Statement
+
 
 Bank Statement Parser is committed to digital accessibility, conforming strictly to **WCAG 2.2 Level AAA** guidelines:
 

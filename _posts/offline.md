@@ -12,8 +12,11 @@ permalink: "https://bankstatementparser.com/offline/index.html"
 logo: "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg"
 banner: "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp"
 banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsing Engine"
+eyebrow: "Network Disconnected"
+headline: "You Are Currently Offline"
+lead: "Documentation is cached locally via service worker for uninterrupted offline engineering."
 ---
 
-# You Are Currently Offline
+
 
 Bank Statement Parser documentation has been cached for offline availability. Check your internet connection to refresh live data feeds.

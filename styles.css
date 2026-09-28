@@ -233,7 +233,7 @@ body.style-visage {
 .style-visage .site-header .site-nav a:hover { color:var(--vi-ink); background:var(--vi-soft); }
 .style-visage .site-nav .nav-cta,.style-visage .site-header .site-nav .nav-cta { border-radius:4px; background:var(--vi-accent) !important; color:var(--vi-bg) !important; font-weight:700; padding:.55rem 1.15rem; margin-inline-start:.5rem; }
 .style-visage .site-nav .nav-cta:hover,.style-visage .site-header .site-nav .nav-cta:hover { background:var(--vi-accent-hover) !important; color:var(--vi-bg) !important; }
-.style-visage #ssg-search-btn { display:none!important; }
+#ssg-search-btn, #ssg-search-widget, .style-visage #ssg-search-btn { display:none!important; }
 .style-visage :focus-visible { outline:3px solid var(--vi-accent); outline-offset:4px; }
 .style-visage .skip-link { background:var(--vi-button); color:var(--vi-button-ink); }
 .lilac-label { max-width:none; color:var(--vi-accent); font-size:.8125rem; font-weight:800; letter-spacing:.12em; line-height:1.35; text-transform:uppercase; }

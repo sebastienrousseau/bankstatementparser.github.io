@@ -1,0 +1,3 @@
+# Property-based tests for the build scripts (tests/).
+pytest==9.1.1
+hypothesis==6.140.2

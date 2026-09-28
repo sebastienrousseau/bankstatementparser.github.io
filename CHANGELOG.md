@@ -6,7 +6,26 @@ All notable changes to this website are documented here. The format follows
 
 ## [Unreleased]
 
-Nothing yet.
+### Fixed
+
+- Merges to `main` reach the live site again. The Pages source is "GitHub
+  Actions", but no workflow deployed, so nothing merged since 28 July 2026
+  was published. CI now deploys the validated `docs/` tree after its checks
+  pass on `main`, leaving out ssg's build caches.
+- `scripts/validate-frontmatter.py` checks only the frontmatter block. It
+  searched the whole file, so a page missing `title:` passed when its body
+  mentioned "title:".
+
+### Security
+
+- CodeQL scans the JavaScript, Python and workflows on every change and
+  weekly.
+- Dependabot keeps the GitHub Actions and the Python test dependencies
+  current.
+- Every GitHub Action is pinned by commit SHA.
+- Property-based (Hypothesis) tests fuzz the frontmatter validator in CI.
+- `SECURITY.md` sets out supported versions, private reporting, the
+  handling process and credit.
 
 ## [0.0.2] - 2026-09-27
 

@@ -13,8 +13,8 @@
   "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
   "name": "Bank Statement Parser",
   "permalink": "https://bankstatementparser.com/architecture/index.html",
-  "reading_time": 1,
+  "reading_time": 4,
   "short_name": "bankstatementparser",
   "title": "Internal Architecture: Tokenization, Normalization & Validation",
-  "word_count": 94
+  "word_count": 803
 }

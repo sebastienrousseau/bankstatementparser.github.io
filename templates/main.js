@@ -63,12 +63,9 @@ window.serviceWorkerSetup = new ServiceWorkerSetup();
     const closeBtn = document.getElementById("searchClose");
 
     function stripHtml(text) {
-      try {
-        const doc = new DOMParser().parseFromString(text || "", "text/html");
-        return doc.body.textContent || "";
-      } catch (e) {
-        return String(text || "").replace(/<[^>]*>/g, "");
-      }
+      if (!text) return "";
+      const doc = new DOMParser().parseFromString(text, "text/html");
+      return doc.body.textContent || "";
     }
 
     async function loadSearch() {

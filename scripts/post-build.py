@@ -151,6 +151,7 @@ def post_build():
                 with open(manifest_file, "w", encoding="utf-8") as f:
                     json.dump(m_data, f, indent=2)
             except (OSError, json.JSONDecodeError, KeyError):
+                # Manifest file is optional or non-standard during local development; ignore if missing or malformed.
                 pass
 
     print(f"Post-build optimization complete ({len(all_pages)} URLs).")

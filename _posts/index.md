@@ -56,17 +56,33 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
 </div>
 </section>
 
-<section class="analysis-stage" id="treasury" aria-labelledby="treasury-heading">
-<div class="wrap image-shell">
-<picture>
-<source media="(max-width: 40rem)" srcset="https://cloudcdn.pro/stocks/images/corporate-finance-320.webp 320w, https://cloudcdn.pro/stocks/images/corporate-finance-640.webp 640w, https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp 1200w" sizes="100vw">
-<img src="https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp" srcset="https://cloudcdn.pro/stocks/images/corporate-finance-640.webp 640w, https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp 1200w, https://cloudcdn.pro/stocks/images/corporate-finance-1920.webp 1920w" sizes="(max-width: 40rem) 100vw, 80rem" width="1200" height="675" alt="Corporate treasury and financial analytics dashboard in modern financial operations" loading="lazy" decoding="async">
-</picture>
-<div class="consultation-card">
-<p class="lilac-label">Corporate Treasury Automation</p>
-<h2 id="treasury-heading">Automated Reconciliation for Modern Treasury</h2>
-<p>Eliminate manual statement keying, error-prone spreadsheets, and expensive cloud OCR APIs. Normalize multi-bank statements directly into your general ledger, ERP, and treasury management workflows with sub-second turnaround.</p>
-<a class="primary" href="/use-cases/index.html">View Treasury Playbook <span aria-hidden="true">↗</span></a>
+<section class="terminal-stage" aria-labelledby="quickstart-heading">
+<div class="wrap terminal-grid">
+<div>
+<p class="lilac-label">Developer Quickstart</p>
+<h2 id="quickstart-heading">Install via Cargo, Pip, or Homebrew in Seconds</h2>
+<p>Deploy as a standalone CLI tool, embed as a high-assurance Rust crate in your microservices, or integrate into Python data pipelines with zero external runtime overhead.</p>
+<div class="actions">
+<a class="primary" href="/getting-started/index.html">Full Documentation →</a>
+<a href="/api/index.html">API Reference</a>
+</div>
+</div>
+<div class="terminal-box">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">bash — bankstatementparser</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-comment">&#35; 1. Install standalone CLI or Python library</span></div>
+<div class="t-line"><span class="t-prompt">$</span>cargo install bankstatementparser</div>
+<div class="t-line"><span class="t-prompt">$</span>pip install bankstatementparser</div>
+<div class="t-line"><span class="t-comment">&#35; 2. Parse statement with arithmetic balance verification</span></div>
+<div class="t-line"><span class="t-prompt">$</span>bankstatementparser --input statement.pdf --format json</div>
+<div class="t-line"><span class="t-comment">&#35; 3. Deterministic output verification (&lt; 0.8 ms)</span></div>
+<div class="t-line">{ <span class="t-key">&quot;status&quot;</span>: <span class="t-val">&quot;VALIDATED&quot;</span>, <span class="t-key">&quot;duration_ms&quot;</span>: <span class="t-val">0.72</span>, <span class="t-key">&quot;balance_proof&quot;</span>: <span class="t-val">&quot;EXACT_MATCH&quot;</span> }</div>
+</div>
 </div>
 </div>
 </section>
@@ -131,6 +147,21 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
 </div>
 </section>
 
+<section class="analysis-stage" id="treasury" aria-labelledby="treasury-heading">
+<div class="wrap image-shell">
+<picture>
+<source media="(max-width: 40rem)" srcset="https://cloudcdn.pro/stocks/images/corporate-finance-320.webp 320w, https://cloudcdn.pro/stocks/images/corporate-finance-640.webp 640w, https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp 1200w" sizes="100vw">
+<img src="https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp" srcset="https://cloudcdn.pro/stocks/images/corporate-finance-640.webp 640w, https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp 1200w, https://cloudcdn.pro/stocks/images/corporate-finance-1920.webp 1920w" sizes="(max-width: 40rem) 100vw, 80rem" width="1200" height="675" alt="Corporate treasury and financial analytics dashboard in modern financial operations" loading="lazy" decoding="async">
+</picture>
+<div class="consultation-card">
+<p class="lilac-label">Corporate Treasury Automation</p>
+<h2 id="treasury-heading">Automated Reconciliation for Modern Treasury</h2>
+<p>Eliminate manual statement keying, error-prone spreadsheets, and expensive cloud OCR APIs. Normalize multi-bank statements directly into your general ledger, ERP, and treasury management workflows with sub-second turnaround.</p>
+<a class="primary" href="/use-cases/index.html">View Treasury Playbook <span aria-hidden="true">↗</span></a>
+</div>
+</div>
+</section>
+
 <section class="analysis-stage" id="architecture-preview" aria-labelledby="arch-heading">
 <div class="wrap image-shell">
 <picture>
@@ -142,37 +173,6 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
 <h2 id="arch-heading">Deterministic Execution at Enterprise Scale</h2>
 <p>Engineered for high-frequency financial platforms requiring bounded latency, zero-allocation loops, and strict ISO 20022 data models.</p>
 <a class="primary" href="/architecture/index.html">View Architecture Blueprint <span aria-hidden="true">↗</span></a>
-</div>
-</div>
-</section>
-
-<section class="terminal-stage" aria-labelledby="quickstart-heading">
-<div class="wrap terminal-grid">
-<div>
-<p class="lilac-label">Developer Quickstart</p>
-<h2 id="quickstart-heading">Install via Cargo, Pip, or Homebrew in Seconds</h2>
-<p>Deploy as a standalone CLI tool, embed as a high-assurance Rust crate in your microservices, or integrate into Python data pipelines with zero external runtime overhead.</p>
-<div class="actions">
-<a class="primary" href="/getting-started/index.html">Full Documentation →</a>
-<a href="/api/index.html">API Reference</a>
-</div>
-</div>
-<div class="terminal-box">
-<div class="terminal-bar">
-<span class="terminal-dot dot-red"></span>
-<span class="terminal-dot dot-yellow"></span>
-<span class="terminal-dot dot-green"></span>
-<span class="terminal-title">bash — bankstatementparser</span>
-</div>
-<div class="terminal-body">
-<div class="t-line"><span class="t-comment">&#35; 1. Install via Cargo or Pip</span></div>
-<div class="t-line"><span class="t-prompt">$</span>cargo install bankstatementparser</div>
-<div class="t-line"><span class="t-prompt">$</span>pip install bankstatementparser</div>
-<div class="t-line"><span class="t-comment">&#35; 2. Parse statement to validated JSON</span></div>
-<div class="t-line"><span class="t-prompt">$</span>bankstatementparser --input statement.pdf --format json</div>
-<div class="t-line"><span class="t-comment">&#35; 3. Deterministic output verification</span></div>
-<div class="t-line">{ <span class="t-key">&quot;status&quot;</span>: <span class="t-val">&quot;VALIDATED&quot;</span>, <span class="t-key">&quot;balance_proof&quot;</span>: <span class="t-val">&quot;EXACT_MATCH&quot;</span> }</div>
-</div>
 </div>
 </div>
 </section>

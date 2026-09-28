@@ -86,10 +86,6 @@ def post_build():
             content = re.sub(r'<pre><code class="language-html">(.*?)</code></pre>', lambda m: m.group(1) if ('<div' in m.group(1) or '<section' in m.group(1) or '<details' in m.group(1) or '<table' in m.group(1)) else m.group(0), content, flags=re.DOTALL)
             content = re.sub(r'<pre><code>(.*?)</code></pre>', lambda m: m.group(1) if ('<div' in m.group(1) or '<section' in m.group(1) or '<details' in m.group(1) or '<table' in m.group(1)) else m.group(0), content, flags=re.DOTALL)
 
-            if "&lt;details" in content or "&lt;section" in content or "&lt;div" in content:
-                for ent, val in [("&lt;", "<"), ("&gt;", ">"), ("&quot;", '"'), ("&#39;", "'"), ("&#x27;", "'")]:
-                    content = content.replace(ent, val)
-
             # Unescape code block tags produced inside markdown lists
             content = re.sub(r'<pre>&lt;code class=&quot;(.*?)&quot;&gt;', r'<pre><code class="\1">', content)
             content = content.replace("<pre>&lt;code&gt;", "<pre><code>")
@@ -107,6 +103,15 @@ def post_build():
             def clean_pre(m):
                 return m.group(0).replace("<p>", "").replace("</p>", "")
             content = re.sub(r"<pre><code>.*?</code></pre>", clean_pre, content, flags=re.DOTALL)
+
+            def reencode_code_block(match):
+                opening = match.group(1)
+                code_content = match.group(2)
+                closing = match.group(3)
+                code_content = code_content.replace("&lt;", "<").replace("&gt;", ">")
+                code_content = code_content.replace("<", "&lt;").replace(">", "&gt;")
+                return f"{opening}{code_content}{closing}"
+            content = re.sub(r"(<pre><code[^>]*>)(.*?)(</code></pre>)", reencode_code_block, content, flags=re.DOTALL)
 
             # Ensure footer and heading ampersands are encoded
             for unencoded, encoded in [

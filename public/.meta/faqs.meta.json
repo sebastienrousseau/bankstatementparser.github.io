@@ -1,17 +1,19 @@
 {
   "author": "Sebastien Rousseau",
   "banner": "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp",
-  "banner_alt": "Bank Statement Parser — High-Throughput Financial Document Parsing Engine",
   "date": "2026-09-01",
   "description": "Comprehensive technical answers regarding statement parsing throughput, zero-telemetry security, ISO 20022 schemas, and SDK deployment.",
+  "eyebrow": "Questions & Answers",
+  "headline": "FAQs",
   "keywords": "bank statement parser FAQ, statement parser privacy, PDF statement extraction questions, ISO 20022 CAMT.053, MT940",
   "language": "en-GB",
   "layout": "faqs",
+  "lead": "Comprehensive guidance covering specifications, zero-telemetry local execution, performance, and commercial licensing.",
   "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
   "name": "Bank Statement Parser",
   "permalink": "https://bankstatementparser.com/faqs/index.html",
-  "reading_time": 9,
+  "reading_time": 7,
   "short_name": "bankstatementparser",
   "title": "Frequently Asked Questions (FAQ): Bank Statement Parser",
-  "word_count": 1830
+  "word_count": 1445
 }

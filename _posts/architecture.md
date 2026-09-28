@@ -93,10 +93,10 @@ Bank Statement Parser is architected around a deterministic, four-stage extracti
 <li><strong>Multi-line Narrative Stitching:</strong> Heuristically associates wrapped description text back to the initiating transaction row.</li>
 </ul>
 
-<figure class="my-4">
-<img src="https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-1200.webp" alt="Bank Statement Parser — Pipeline Architecture and High-Throughput Engine" width="1200" height="600" style="width:100%; height:auto; border-radius:8px; border:1px solid var(--vi-line);" />
-<figcaption class="text-center mt-2 text-muted"><small>High-assurance statement parsing: zero-copy memory mapping, deterministic tokenization, and ISO 20022 message synthesis.</small></figcaption>
-</figure>
+<div class="doc-visual-card">
+<img src="https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-1200.webp" alt="Bank Statement Parser — Pipeline Architecture and High-Throughput Engine" width="1200" height="675" loading="lazy" />
+<div class="doc-visual-caption">High-assurance statement parsing: zero-copy memory mapping, deterministic tokenization, and ISO 20022 message synthesis.</div>
+</div>
 
 <h2>Stage 3: Field Normalization &amp; Standard Mapping</h2>
 

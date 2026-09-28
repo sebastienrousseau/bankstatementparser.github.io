@@ -20,7 +20,10 @@ def run_regression():
     # standard location and the legacy root path.
     for rel in (".well-known/security.txt", "security.txt"):
         fpath = os.path.join(docs_dir, rel)
-        txt = open(fpath, encoding="utf-8").read() if os.path.isfile(fpath) else ""
+        txt = ""
+        if os.path.isfile(fpath):
+            with open(fpath, encoding="utf-8") as fp:
+                txt = fp.read()
         for field in ("Contact:", "Expires:", "Canonical: https://bankstatementparser.com/.well-known/security.txt"):
             if field not in txt:
                 errors.append(f"{rel} is missing '{field}'")

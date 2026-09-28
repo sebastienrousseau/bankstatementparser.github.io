@@ -6,19 +6,27 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
+
+# One deploy at a time; a newer push to main supersedes a queued one.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   validate:
     name: Validate & audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: "20"
 
@@ -26,7 +34,7 @@ jobs:
         run: npx --yes html-validate@10 "docs/**/*.html"
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.12"
 
@@ -50,3 +58,46 @@ jobs:
           done
           if [ "$fail" -eq 0 ]; then echo "All structure & self-hosting guardrails passed."; fi
           exit $fail
+
+      - name: Frontmatter property tests (Hypothesis)
+        run: |
+          python -m pip install --quiet --require-hashes -r requirements/test.txt
+          python -m pytest tests -q -p no:cacheprovider
+
+  # Publishes the committed, validated docs/ tree to GitHub Pages. The
+  # repository's Pages source is "GitHub Actions", so without this job no
+  # merge to main reaches the live site.
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: validate
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Stage the site without generator caches
+        # docs/ also holds ssg's incremental-build state and host-specific
+        # header files; none of it is part of the website.
+        run: |
+          rsync -a --delete \
+            --exclude '.meta/' --exclude '.ssg/' --exclude '.ssg-cache/' \
+            --exclude '.ssg-plugin-cache.json' --exclude '_csp' --exclude '_headers' \
+            docs/ _site/
+          test -s _site/index.html
+          test "$(cat _site/CNAME)" = "bankstatementparser.com"
+
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

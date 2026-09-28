@@ -3,3 +3,4 @@ node_modules/
 *.log
 .corral-state.json
 dist/
+.hypothesis/

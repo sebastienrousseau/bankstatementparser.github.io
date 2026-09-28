@@ -9,12 +9,12 @@
   "keywords": "bank reconciliation automation, treasury statement ingestion, lending underwriting, AML bank statement parsing",
   "language": "en-GB",
   "layout": "page",
-  "lead": "High-throughput statement extraction powering treasury automation, automated reconciliation, SME credit underwriting, and AML screening.",
+  "lead": "High-throughput statement extraction powering corporate treasury automation, automated reconciliation, SME credit underwriting, and forensic audit screening.",
   "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
   "name": "Bank Statement Parser",
   "permalink": "https://bankstatementparser.com/use-cases/index.html",
-  "reading_time": 1,
+  "reading_time": 5,
   "short_name": "bankstatementparser",
   "title": "Enterprise Use Cases: Treasury, Lending, Reconciliation & Audits",
-  "word_count": 164
+  "word_count": 1001
 }

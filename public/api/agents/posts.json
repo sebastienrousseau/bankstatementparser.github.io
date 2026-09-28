@@ -42,7 +42,7 @@
     "tags": [],
     "title": "Performance Benchmarks & Throughput Specifications",
     "url": "https://bankstatementparser.com/benchmarks/",
-    "wordCount": 57
+    "wordCount": 339
   },
   {
     "date": "2026-09-01",
@@ -69,7 +69,7 @@
     "tags": [],
     "title": "Contributing to Bank Statement Parser: Guidelines & Workflow",
     "url": "https://bankstatementparser.com/contributing/",
-    "wordCount": 71
+    "wordCount": 430
   },
   {
     "date": "2026-09-01",
@@ -141,7 +141,7 @@
     "tags": [],
     "title": "Security Architecture: Zero Telemetry, Air-Gapped & Memory Safe",
     "url": "https://bankstatementparser.com/security/",
-    "wordCount": 110
+    "wordCount": 379
   },
   {
     "date": "2026-09-01",
@@ -168,6 +168,6 @@
     "tags": [],
     "title": "Enterprise Use Cases: Treasury, Lending, Reconciliation & Audits",
     "url": "https://bankstatementparser.com/use-cases/",
-    "wordCount": 164
+    "wordCount": 1001
   }
 ]

@@ -64,23 +64,39 @@ Bank Statement Parser is an open-source, high-throughput financial document engi
 </div>
 <p>The standalone binary provides fast parsing for individual bank statement files across digital PDF, CSV, OFX, and QIF formats, emitting standard JSON, CSV, or ISO 20022 CAMT.053 XML:</p>
 
-```bash
-# Extract statement PDF to standard JSON
-bankstatementparser --input statement.pdf --output statement.json
-
-# Convert OFX banking file to CSV
-bankstatementparser --input statement.ofx --output statement.csv --format csv
-
-# Transform PDF statement into ISO 20022 CAMT.053 XML
-bankstatementparser --input statement.pdf --output statement.xml --format camt053
-```
+<div class="terminal-box my-3">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">bash — cli quickstart</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-comment">&#35; Extract statement PDF to standard JSON</span></div>
+<div class="t-line"><span class="t-prompt">$</span>bankstatementparser --input statement.pdf --output statement.json</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-comment">&#35; Convert OFX banking file to CSV</span></div>
+<div class="t-line"><span class="t-prompt">$</span>bankstatementparser --input statement.ofx --output statement.csv --format csv</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-comment">&#35; Transform PDF statement into ISO 20022 CAMT.053 XML</span></div>
+<div class="t-line"><span class="t-prompt">$</span>bankstatementparser --input statement.pdf --output statement.xml --format camt053</div>
+</div>
+</div>
 
 <p>For high-volume transaction processing, enable multi-threaded batch ingestion to parse entire directories in parallel:</p>
 
-```bash
-# Process all statements in a directory using 8 parallel worker threads
-bankstatementparser --batch-dir ./statements/ --output-dir ./extracted_json/ --threads 8
-```
+<div class="terminal-box my-3">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">bash — batch processing</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-comment">&#35; Process all statements in a directory using 8 parallel worker threads</span></div>
+<div class="t-line"><span class="t-prompt">$</span>bankstatementparser --batch-dir ./statements/ --output-dir ./extracted_json/ --threads 8</div>
+</div>
+</div>
 </div>
 
 <div class="step-item">
@@ -90,31 +106,47 @@ bankstatementparser --batch-dir ./statements/ --output-dir ./extracted_json/ --t
 </div>
 <p>Add the dependency to your <code>Cargo.toml</code>:</p>
 
-```toml
-[dependencies]
-bankstatementparser = "0.0.2"
-```
+<div class="terminal-box my-3">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">Cargo.toml</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-key">[dependencies]</span></div>
+<div class="t-line">bankstatementparser = <span class="t-val">&quot;0.0.2&quot;</span></div>
+</div>
+</div>
 
 <p>Parse any statement into strongly-typed transaction structs with compile-time memory safety:</p>
 
-```rust
-use bankstatementparser::{Parser, StatementFormat};
-use std::path::Path;
-
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let parser = Parser::new();
-    let statement = parser.parse_file(Path::new("statement.pdf"))?;
-
-    println!("Account: {}", statement.account_id);
-    println!("Balance: {} {}", statement.closing_balance, statement.currency);
-
-    for tx in statement.transactions {
-        println!("{} | {} | {}", tx.date, tx.amount, tx.description);
-    }
-
-    Ok(())
-}
-```
+<div class="terminal-box my-3">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">main.rs</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-key">use</span> bankstatementparser::{Parser, StatementFormat};</div>
+<div class="t-line"><span class="t-key">use</span> std::path::Path;</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-key">fn</span> <span class="t-val">main</span>() -&gt; Result&lt;(), Box&lt;<span class="t-key">dyn</span> std::error::Error&gt;&gt; {</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">let</span> parser = Parser::new();</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">let</span> statement = parser.parse_file(Path::new(<span class="t-val">&quot;statement.pdf&quot;</span>))?;</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;println!(<span class="t-val">&quot;Account: {}&quot;</span>, statement.account_id);</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;println!(<span class="t-val">&quot;Balance: {} {}&quot;</span>, statement.closing_balance, statement.currency);</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">for</span> tx <span class="t-key">in</span> statement.transactions {</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;println!(<span class="t-val">&quot;{} | {} | {}&quot;</span>, tx.date, tx.amount, tx.description);</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;Ok(())</div>
+<div class="t-line">}</div>
+</div>
+</div>
 </div>
 
 <div class="step-item">
@@ -124,18 +156,26 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 </div>
 <p>Extract and validate transaction records within your Python data science and finance workflows with zero native compilation:</p>
 
-```python
-from bankstatementparser import parse_statement
-
-# Extract statements directly into typed Python objects
-statement = parse_statement("statement.pdf")
-
-print(f"Account: {statement.account_number}")
-print(f"Closing Balance: {statement.closing_balance} {statement.currency}")
-
-for tx in statement.transactions:
-    print(f"{tx.booking_date} | {tx.amount} | {tx.description}")
-```
+<div class="terminal-box my-3">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">python — main.py</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-key">from</span> bankstatementparser <span class="t-key">import</span> parse_statement</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-comment">&#35; Extract statements directly into typed Python objects</span></div>
+<div class="t-line">statement = parse_statement(<span class="t-val">&quot;statement.pdf&quot;</span>)</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line">print(<span class="t-val">f&quot;Account: {statement.account_number}&quot;</span>)</div>
+<div class="t-line">print(<span class="t-val">f&quot;Closing Balance: {statement.closing_balance} {statement.currency}&quot;</span>)</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-key">for</span> tx <span class="t-key">in</span> statement.transactions:</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;print(<span class="t-val">f&quot;{tx.booking_date} | {tx.amount} | {tx.description}&quot;</span>)</div>
+</div>
+</div>
 </div>
 
 <div class="step-item">

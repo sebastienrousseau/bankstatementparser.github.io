@@ -3329,17 +3329,32 @@ select::picker(select) {
           (item.content && item.content.toLowerCase().includes(query))
         ).slice(0, 8);
 
+        results.textContent = '';
         if (matches.length === 0) {
-          results.innerHTML = '<div class="search-empty">No results found for "' + query + '"</div>';
+          const emptyDiv = document.createElement('div');
+          emptyDiv.className = 'search-empty';
+          emptyDiv.textContent = 'No results found for "' + query + '"';
+          results.appendChild(emptyDiv);
           return;
         }
 
-        results.innerHTML = matches.map(item => `
-          <a class="search-item" href="${item.url}">
-            <div class="search-item-title">${item.title}</div>
-            <div class="search-item-desc">${item.description || item.content || ''}</div>
-          </a>
-        `).join('');
+        matches.forEach(item => {
+          const a = document.createElement('a');
+          a.className = 'search-item';
+          a.href = item.url || '#';
+
+          const titleDiv = document.createElement('div');
+          titleDiv.className = 'search-item-title';
+          titleDiv.textContent = item.title || '';
+
+          const descDiv = document.createElement('div');
+          descDiv.className = 'search-item-desc';
+          descDiv.textContent = item.description || item.content || '';
+
+          a.appendChild(titleDiv);
+          a.appendChild(descDiv);
+          results.appendChild(a);
+        });
       });
     }
   });

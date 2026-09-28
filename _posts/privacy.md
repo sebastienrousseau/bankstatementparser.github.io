@@ -12,9 +12,12 @@ permalink: "https://bankstatementparser.com/privacy/index.html"
 logo: "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg"
 banner: "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp"
 banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsing Engine"
+eyebrow: "Trust & Governance"
+headline: "Privacy Policy"
+lead: "Our foundational commitment: zero tracking, zero analytics, zero external network requests, and complete local processing."
 ---
 
-# Privacy Policy
+
 
 **Last updated:** 1 September 2026
 

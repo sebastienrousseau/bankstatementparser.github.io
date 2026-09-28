@@ -4,14 +4,17 @@
   "banner_alt": "Bank Statement Parser — Corporate Treasury & Financial Automation",
   "date": "2026-09-01",
   "description": "Architectural blueprints and deployment patterns for corporate treasuries, fintech lenders, and forensic accounting firms.",
+  "eyebrow": "Production Blueprints",
+  "headline": "Enterprise Use Cases & Deployment Patterns",
   "keywords": "bank reconciliation automation, treasury statement ingestion, lending underwriting, AML bank statement parsing",
   "language": "en-GB",
   "layout": "page",
+  "lead": "High-throughput statement extraction powering treasury automation, automated reconciliation, SME credit underwriting, and AML screening.",
   "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
   "name": "Bank Statement Parser",
   "permalink": "https://bankstatementparser.com/use-cases/index.html",
   "reading_time": 1,
   "short_name": "bankstatementparser",
   "title": "Enterprise Use Cases: Treasury, Lending, Reconciliation & Audits",
-  "word_count": 171
+  "word_count": 164
 }

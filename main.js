@@ -10,9 +10,7 @@
 
   /* 1. Visage 3-State Theme Engine */
   function applyTheme(mode) {
-    var effectiveTheme = mode;
     if (mode === 'system') {
-      effectiveTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       root.removeAttribute('data-theme');
       try { localStorage.removeItem('theme'); } catch (e) {}
     } else {
@@ -77,6 +75,7 @@
       modal.classList.toggle('active', open);
     }
   }
+  window.searchModal = searchModal;
 
   /* Remove extraneous search button if SSG injects one */
   var searchWidget = document.getElementById('ssg-search-widget');

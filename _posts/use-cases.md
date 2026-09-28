@@ -12,9 +12,12 @@ permalink: "https://bankstatementparser.com/use-cases/index.html"
 logo: "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg"
 banner: "https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp"
 banner_alt: "Bank Statement Parser — Corporate Treasury & Financial Automation"
+eyebrow: "Production Blueprints"
+headline: "Enterprise Use Cases & Deployment Patterns"
+lead: "High-throughput statement extraction powering treasury automation, automated reconciliation, SME credit underwriting, and AML screening."
 ---
 
-# Enterprise Use Cases & Deployment Patterns
+
 
 High-throughput statement extraction powers critical automated financial backends.
 

@@ -12,9 +12,12 @@ permalink: "https://bankstatementparser.com/about/index.html"
 logo: "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg"
 banner: "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp"
 banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsing Engine"
+eyebrow: "Engineering & Leadership"
+headline: "About Sebastien Rousseau"
+lead: "Principal engineer building high-assurance, privacy-first financial infrastructure and cryptographic document tooling."
 ---
 
-# About Sebastien Rousseau
+
 
 <div class="author-pedigree-strip my-4">
 <div class="author-avatar-wrap">

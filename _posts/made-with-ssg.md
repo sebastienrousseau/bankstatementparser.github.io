@@ -12,9 +12,12 @@ permalink: "https://bankstatementparser.com/made-with-ssg/index.html"
 logo: "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg"
 banner: "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp"
 banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsing Engine"
+eyebrow: "Static Architecture"
+headline: "Made with Static Site Generator (SSG)"
+lead: "Why Bank Statement Parser documentation is statically generated for uncompromising security, WCAG AAA accessibility, and instant loading."
 ---
 
-# Made with Static Site Generator (SSG)
+
 
 This site is natively compiled using the high-performance **Static Site Generator (SSG)** written in Rust.
 

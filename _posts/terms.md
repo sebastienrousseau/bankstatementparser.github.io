@@ -12,9 +12,12 @@ permalink: "https://bankstatementparser.com/terms/index.html"
 logo: "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg"
 banner: "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp"
 banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsing Engine"
+eyebrow: "Legal Framework"
+headline: "Terms of Use"
+lead: "Clear, transparent terms governing the use of Bank Statement Parser open source software and enterprise documentation."
 ---
 
-# Terms of Use
+
 
 Bank Statement Parser is distributed under the dual **Apache License 2.0** and **MIT License**.
 

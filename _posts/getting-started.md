@@ -12,9 +12,12 @@ permalink: "https://bankstatementparser.com/getting-started/index.html"
 logo: "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg"
 banner: "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp"
 banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsing Engine"
+eyebrow: "Installation & Guide"
+headline: "Getting Started with Bank Statement Parser"
+lead: "Installation instructions for Rust, Python, Docker, and CLI alongside step-by-step extraction quickstarts."
 ---
 
-# Getting Started with Bank Statement Parser
+
 
 Bank Statement Parser is distributed as a standalone command-line binary (CLI), a high-assurance Rust crate, and a native Python package.
 

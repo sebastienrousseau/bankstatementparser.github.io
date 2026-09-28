@@ -4,7 +4,7 @@
   "date": "2026-09-01",
   "description": "Comprehensive technical answers regarding statement parsing throughput, zero-telemetry security, ISO 20022 schemas, and SDK deployment.",
   "eyebrow": "Questions & Answers",
-  "headline": "FAQs",
+  "headline": "Frequently Asked Questions",
   "keywords": "bank statement parser FAQ, statement parser privacy, PDF statement extraction questions, ISO 20022 CAMT.053, MT940",
   "language": "en-GB",
   "layout": "faqs",
@@ -15,5 +15,5 @@
   "reading_time": 7,
   "short_name": "bankstatementparser",
   "title": "Frequently Asked Questions (FAQ): Bank Statement Parser",
-  "word_count": 1438
+  "word_count": 1416
 }

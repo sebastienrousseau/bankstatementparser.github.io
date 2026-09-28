@@ -27,13 +27,13 @@ jobs:
       id-token: write
       attestations: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
 
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         id: cache-ssg
         with:
           path: ~/.cargo/bin/ssg
@@ -42,7 +42,7 @@ jobs:
       - if: steps.cache-ssg.outputs.cache-hit != 'true'
         run: cargo install ssg --locked --version "$SSG_VERSION"
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.12"
 
@@ -83,19 +83,19 @@ jobs:
           echo "reproducible: two clean builds gave identical release files"
 
       - name: Attest website provenance
-        uses: actions/attest@v4
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
         with:
           subject-path: "dist/bankstatementparser-site-v*.tar.gz"
 
       - name: Attest SBOM
-        uses: actions/attest@v4
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
         with:
           subject-path: "dist/bankstatementparser-site-v${{ env.RELEASE_VERSION }}.tar.gz"
           sbom-path: "dist/bankstatementparser-site-v${{ env.RELEASE_VERSION }}.cdx.json"
 
       - name: Upload dry-run artefacts
         if: github.ref_type != 'tag' || inputs.dry_run
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: bankstatementparser-site-release-candidate
           path: dist/

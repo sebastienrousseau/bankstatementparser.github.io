@@ -4,14 +4,17 @@
   "banner_alt": "Bank Statement Parser — High-Throughput Financial Document Parsing Engine",
   "date": "2026-09-01",
   "description": "Complete API reference for bankstatementparser in Rust and Python with parameter definitions and code examples.",
+  "eyebrow": "Developer Reference",
+  "headline": "API & SDK Reference",
   "keywords": "bankstatementparser API, Rust banking API, Python statement parser SDK",
   "language": "en-GB",
   "layout": "page",
+  "lead": "Complete programming interfaces, types, and error handling for Rust, Python, and CLI pipelines.",
   "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
   "name": "Bank Statement Parser",
   "permalink": "https://bankstatementparser.com/api/index.html",
   "reading_time": 1,
   "short_name": "bankstatementparser",
   "title": "API Reference: Rust Crate & Python Package",
-  "word_count": 71
+  "word_count": 68
 }

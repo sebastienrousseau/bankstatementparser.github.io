@@ -4,14 +4,17 @@
   "banner_alt": "Bank Statement Parser — High-Throughput Financial Document Parsing Engine",
   "date": "2026-09-01",
   "description": "The requested documentation page could not be found.",
+  "eyebrow": "Error 404",
+  "headline": "Page Not Found",
   "keywords": "404 not found",
   "language": "en-GB",
   "layout": "page",
+  "lead": "The financial documentation resource you requested could not be located on this server.",
   "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
   "name": "Bank Statement Parser",
   "permalink": "https://bankstatementparser.com/404/index.html",
   "reading_time": 1,
   "short_name": "bankstatementparser",
   "title": "Page Not Found (404) | Bank Statement Parser",
-  "word_count": 31
+  "word_count": 26
 }

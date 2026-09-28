@@ -112,6 +112,20 @@ def post_build():
             content = content.replace('< 0.8 ms', '&lt; 0.8 ms')
 
 
+            # Fix any escaped HTML tags from Markdown parser
+            content = content.replace("&lt;b&gt;", "<b>")
+            content = content.replace("&lt;/b&gt;", "</b>")
+            content = content.replace("&lt;small&gt;", "<small>")
+            content = content.replace("&lt;/small&gt;", "</small>")
+            content = content.replace("&lt;details&gt;", "<details>")
+            content = content.replace("&lt;/details&gt;", "</details>")
+            content = content.replace("&lt;summary&gt;", "<summary>")
+            content = content.replace("&lt;/summary&gt;", "</summary>")
+
+            # Support FAQ page accordion tags with attributes
+            content = re.sub(r'&lt;details class=&quot;faq-card&quot; data-category=&quot;([^&]+)&quot;&gt;', r'<details class="faq-card" data-category="\1">', content)
+            content = content.replace('&lt;summary class=&quot;faq-summary&quot;&gt;', '<summary class="faq-summary">')
+
             def clean_pre(m):
                 return m.group(0).replace("<p>", "").replace("</p>", "")
             content = re.sub(r"<pre><code>.*?</code></pre>", clean_pre, content, flags=re.DOTALL)
@@ -154,6 +168,16 @@ def post_build():
             except (OSError, json.JSONDecodeError, KeyError):
                 # Manifest file is optional or non-standard during local development; ignore if missing or malformed.
                 pass
+
+    # 6. Ensure search widget is completely suppressed in all compiled CSS
+    search_suppress_css = "\n#ssg-search-widget, #ssg-search-btn, #ssg-search-overlay { display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; }\n"
+    for base_path in [output_dir, docs_dir]:
+        for css_file in glob.glob(f"{base_path}/**/*.css", recursive=True):
+            with open(css_file, "r", encoding="utf-8") as f:
+                css_content = f.read()
+            if "pointer-events: none !important" not in css_content:
+                with open(css_file, "a", encoding="utf-8") as f:
+                    f.write(search_suppress_css)
 
     print(f"Post-build optimization complete ({len(all_pages)} URLs).")
 

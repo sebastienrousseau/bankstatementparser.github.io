@@ -68,3 +68,5 @@
 [data-theme="dark"] .ssg-no-results{color:#cccccf}
 [data-theme="dark"] .ssg-search-footer{border-color:#374151;color:#cccccf}
 [data-theme="dark"] .ssg-search-footer kbd{background:#374151;border-color:#4b5563}
+
+#ssg-search-widget, #ssg-search-btn, #ssg-search-overlay { display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; }

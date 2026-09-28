@@ -177,30 +177,6 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
 </div>
 </section>
 
-<section class="visage-specialists" id="specialists" aria-labelledby="specialists-heading">
-<div class="wrap specialist-layout">
-<header>
-<p class="lilac-label">Leadership &amp; Engineering</p>
-<h2 id="specialists-heading">Expertise you can verify.</h2>
-<p>Bank Statement Parser is built by seasoned systems architects specializing in financial messaging standards, cryptographic assurance, and low-latency infrastructure.</p>
-</header>
-<div class="specialist-grid">
-<article>
-<span aria-hidden="true">SR</span>
-<p>Founder &amp; Systems Architect</p>
-<h3>Sebastien Rousseau</h3>
-<p>Financial document infrastructure · Rust high-performance computing · ISO 20022 standards · Open-source author</p>
-</article>
-<article>
-<span aria-hidden="true">PI</span>
-<p>Banking &amp; Economics Advisory</p>
-<h3>Philip Intallura</h3>
-<p>HSBC Global Economics &amp; Banking Advisory · Enterprise treasury automation · Financial market infrastructure</p>
-</article>
-</div>
-</div>
-</section>
-
 <section class="privacy-panel" aria-labelledby="privacy-heading">
 <div class="wrap privacy-grid">
 <p class="lilac-label">Zero-Telemetry Privacy</p>

@@ -13,8 +13,8 @@
   "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
   "name": "Bank Statement Parser",
   "permalink": "https://bankstatementparser.com/api/index.html",
-  "reading_time": 1,
+  "reading_time": 3,
   "short_name": "bankstatementparser",
   "title": "API Reference: Rust Crate & Python Package",
-  "word_count": 68
+  "word_count": 761
 }

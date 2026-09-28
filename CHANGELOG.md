@@ -20,6 +20,9 @@ All notable changes to this website are documented here. The format follows
   source's `Canonical:` named the old github.io address. The build now
   writes both paths from the one source, and the regression test fails if
   either is missing a required field.
+- The Pages artifact includes `.well-known/`. The upload action drops
+  dot-folders by default, so `/.well-known/security.txt` stayed 404 after
+  the first deploy; the deploy now fails if it is missing.
 
 ### Security
 

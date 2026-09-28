@@ -94,10 +94,14 @@ jobs:
             docs/ _site/
           test -s _site/index.html
           test "$(cat _site/CNAME)" = "bankstatementparser.com"
+          grep -q '^Contact:' _site/.well-known/security.txt
 
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: _site
+          # Keeps .well-known/ (security.txt, ai-plugin.json, mcp.json); the
+          # staging step above has already removed the generator caches.
+          include-hidden-files: true
 
       - id: deployment
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

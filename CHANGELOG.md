@@ -15,6 +15,11 @@ All notable changes to this website are documented here. The format follows
 - `scripts/validate-frontmatter.py` checks only the frontmatter block. It
   searched the whole file, so a page missing `title:` passed when its body
   mentioned "title:".
+- `/.well-known/security.txt` and `/security.txt` are published. The
+  build left an empty `security.txt` and no `.well-known` copy, and the
+  source's `Canonical:` named the old github.io address. The build now
+  writes both paths from the one source, and the regression test fails if
+  either is missing a required field.
 
 ### Security
 

@@ -16,7 +16,7 @@ vulnerability.
 Report it privately, either through GitHub's
 [private vulnerability reporting](https://github.com/sebastienrousseau/bankstatementparser.github.io/security/advisories/new)
 for this repository, or by email to **sebastian.rousseau@gmail.com**.
-Machine-readable disclosure metadata is in [`security.txt`](security.txt),
+Machine-readable disclosure metadata is in [`/.well-known/security.txt`](.well-known/security.txt),
 per [RFC 9116](https://www.rfc-editor.org/rfc/rfc9116).
 
 Include the affected URL or file, the impact, steps to reproduce, and a safe

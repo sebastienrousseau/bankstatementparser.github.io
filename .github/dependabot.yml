@@ -16,3 +16,16 @@ updates:
       github-actions:
         patterns:
           - "*"
+
+  - package-ecosystem: "pip"
+    directory: "/requirements"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "automated"
+    groups:
+      python-test:
+        patterns:
+          - "*"

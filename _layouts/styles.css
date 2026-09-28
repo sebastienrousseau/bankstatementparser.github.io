@@ -1194,6 +1194,8 @@ body:not(:has(.visage-intro)) .lead { color:var(--vi-muted); }
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  min-width: 0;
+  box-sizing: border-box;
 }
 .bento-card.bento-col-12 {
   grid-column: 1 / -1;
@@ -1239,6 +1241,8 @@ body:not(:has(.visage-intro)) .lead { color:var(--vi-muted); }
   background: var(--vi-surface);
   border-radius: 4px;
   text-align: center;
+  min-width: 0;
+  box-sizing: border-box;
 }
 .stat-figure {
   font-size: 2.25rem;
@@ -1357,15 +1361,11 @@ body:not(:has(.visage-intro)) .lead { color:var(--vi-muted); }
 /* Getting Started & Documentation Enhancements */
 .install-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 1.25rem;
   margin-block: 1.5rem 2.5rem;
-}
-
-@media (max-width: 48rem) {
-  .install-grid {
-    grid-template-columns: 1fr;
-  }
+  min-width: 0;
+  max-width: 100%;
 }
 
 .install-card {
@@ -1376,6 +1376,9 @@ body:not(:has(.visage-intro)) .lead { color:var(--vi-muted); }
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
   transition: border-color 0.15s ease;
 }
 
@@ -1419,6 +1422,16 @@ body:not(:has(.visage-intro)) .lead { color:var(--vi-muted); }
 
 .install-card pre {
   margin: 0 !important;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  box-sizing: border-box;
+}
+
+.install-card code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.875rem;
+  white-space: pre;
 }
 
 /* Step Progression */

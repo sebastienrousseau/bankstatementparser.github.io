@@ -48,7 +48,18 @@ def post_build():
         with open(os.path.join(d, "sitemap.xml"), "w", encoding="utf-8") as f:
             f.write(sitemap_xml)
 
-    # 2. Write CNAME
+    # 2. RFC 9116 disclosure file. The repository's .well-known/security.txt
+    # is the single source; ssg leaves an empty security.txt in the output,
+    # so both served paths are written from the source after the build.
+    with open(os.path.join(".well-known", "security.txt"), encoding="utf-8") as f:
+        security_txt = f.read()
+    for d in [output_dir, docs_dir]:
+        os.makedirs(os.path.join(d, ".well-known"), exist_ok=True)
+        for rel in (os.path.join(".well-known", "security.txt"), "security.txt"):
+            with open(os.path.join(d, rel), "w", encoding="utf-8") as f:
+                f.write(security_txt)
+
+    # Write CNAME
     for d in [output_dir, docs_dir]:
         with open(os.path.join(d, "CNAME"), "w", encoding="utf-8") as f:
             f.write("bankstatementparser.com\n")

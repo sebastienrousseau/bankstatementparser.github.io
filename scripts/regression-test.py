@@ -16,6 +16,18 @@ def run_regression():
         if not os.path.isfile(fpath) or os.path.getsize(fpath) == 0:
             errors.append(f"Missing or empty essential file: {rf}")
 
+    # RFC 9116: the disclosure file must be served, complete, at both the
+    # standard location and the legacy root path.
+    for rel in (".well-known/security.txt", "security.txt"):
+        fpath = os.path.join(docs_dir, rel)
+        txt = ""
+        if os.path.isfile(fpath):
+            with open(fpath, encoding="utf-8") as fp:
+                txt = fp.read()
+        for field in ("Contact:", "Expires:", "Canonical: https://bankstatementparser.com/.well-known/security.txt"):
+            if field not in txt:
+                errors.append(f"{rel} is missing '{field}'")
+
     js_files = [f for f in os.listdir(docs_dir) if (f.startswith("main.") and f.endswith(".js")) or f == "main.js"]
     if not js_files:
         errors.append("Missing client engine script (main.js)")

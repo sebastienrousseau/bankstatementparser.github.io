@@ -1,9 +1,6 @@
 # SPDX-FileCopyrightText: 2024-2026 Sebastien Rousseau
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-# CodeQL over the first-party JavaScript every visitor runs (main.js,
-# theme-init.js), the Python build and audit scripts, and the workflows.
-# The generated public/ and docs/ trees are build output, not source.
-name: CodeQL
+name: 🔍 CodeQL
 
 on:
   push:
@@ -27,17 +24,22 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [javascript-typescript, python, actions]
+        include:
+          - language: javascript-typescript
+          - language: python
+          - language: actions
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v4
+        uses: github/codeql-action/init@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v3
         with:
           languages: ${{ matrix.language }}
           queries: +security-and-quality
+          # public/ and docs/ are generated output, not source.
           config: |
             paths-ignore:
               - public
@@ -45,6 +47,6 @@ jobs:
               - node_modules
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v4
+        uses: github/codeql-action/analyze@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v3
         with:
-          category: /language:${{ matrix.language }}
+          category: "/language:${{ matrix.language }}"

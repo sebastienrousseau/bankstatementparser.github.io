@@ -23,14 +23,11 @@ All notable changes to this website are documented here. The format follows
 
 ### Security
 
-- CodeQL scans the JavaScript, Python and workflows on every change and
-  weekly.
-- Dependabot keeps the GitHub Actions and the Python test dependencies
-  current.
+- CodeQL also scans the GitHub Actions workflows, and ignores the
+  generated `public/` and `docs/` trees.
+- Dependabot also keeps the Python test dependencies current.
 - Every GitHub Action is pinned by commit SHA.
 - Property-based (Hypothesis) tests fuzz the frontmatter validator in CI.
-- `SECURITY.md` sets out supported versions, private reporting, the
-  handling process and credit.
 
 ## [0.0.2] - 2026-09-27
 

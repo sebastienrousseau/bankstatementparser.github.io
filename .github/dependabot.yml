@@ -7,6 +7,11 @@ updates:
     schedule:
       interval: "weekly"
       day: "monday"
+    reviewers:
+      - "sebastienrousseau"
+    labels:
+      - "ci/cd"
+      - "automated"
     groups:
       github-actions:
         patterns:
@@ -17,6 +22,9 @@ updates:
     schedule:
       interval: "weekly"
       day: "monday"
+    labels:
+      - "dependencies"
+      - "automated"
     groups:
       python-test:
         patterns:

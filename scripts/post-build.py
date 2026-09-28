@@ -169,15 +169,10 @@ def post_build():
                 # Manifest file is optional or non-standard during local development; ignore if missing or malformed.
                 pass
 
-    # 6. Ensure search widget is completely suppressed in all compiled CSS
-    search_suppress_css = "\n#ssg-search-widget, #ssg-search-btn, #ssg-search-overlay { display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; }\n"
-    for base_path in [output_dir, docs_dir]:
-        for css_file in glob.glob(f"{base_path}/**/*.css", recursive=True):
-            with open(css_file, "r", encoding="utf-8") as f:
-                css_content = f.read()
-            if "pointer-events: none !important" not in css_content:
-                with open(css_file, "a", encoding="utf-8") as f:
-                    f.write(search_suppress_css)
+    # 6. Copy favicon.ico to public and docs if present
+    if os.path.exists("favicon.ico"):
+        for d in [output_dir, docs_dir]:
+            shutil.copy2("favicon.ico", os.path.join(d, "favicon.ico"))
 
     print(f"Post-build optimization complete ({len(all_pages)} URLs).")
 

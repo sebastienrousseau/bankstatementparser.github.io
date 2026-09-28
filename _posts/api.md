@@ -12,9 +12,12 @@ permalink: "https://bankstatementparser.com/api/index.html"
 logo: "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg"
 banner: "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp"
 banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsing Engine"
+eyebrow: "Developer Reference"
+headline: "API & SDK Reference"
+lead: "Complete programming interfaces, types, and error handling for Rust, Python, and CLI pipelines."
 ---
 
-# API Reference
+
 
 Complete programmatic reference for integrating Bank Statement Parser into your application stack.
 

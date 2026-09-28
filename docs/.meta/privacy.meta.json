@@ -4,14 +4,17 @@
   "banner_alt": "Bank Statement Parser — High-Throughput Financial Document Parsing Engine",
   "date": "2026-09-01",
   "description": "Privacy policy declaring zero tracking cookies, zero analytics, and completely local computation.",
+  "eyebrow": "Trust & Governance",
+  "headline": "Privacy Policy",
   "keywords": "bank statement parser privacy, zero telemetry, local privacy",
   "language": "en-GB",
   "layout": "page",
+  "lead": "Our foundational commitment: zero tracking, zero analytics, zero external network requests, and complete local processing.",
   "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
   "name": "Bank Statement Parser",
   "permalink": "https://bankstatementparser.com/privacy/index.html",
   "reading_time": 1,
   "short_name": "bankstatementparser",
   "title": "Privacy Policy: 100% Zero-Telemetry Guarantee",
-  "word_count": 85
+  "word_count": 82
 }

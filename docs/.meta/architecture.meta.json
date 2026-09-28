@@ -4,14 +4,17 @@
   "banner_alt": "Bank Statement Parser — Pipeline Architecture & High-Throughput Execution",
   "date": "2026-09-01",
   "description": "Architectural deep-dive into the four-stage parsing pipeline powering Bank Statement Parser.",
+  "eyebrow": "Engine Internals",
+  "headline": "Architecture & Pipeline Specifications",
   "keywords": "statement parsing pipeline, document tokenizer, financial data normalization, ISO 20022 validator",
   "language": "en-GB",
   "layout": "page",
+  "lead": "High-throughput tokenization, deterministic stream parsing, and ISO 20022 message synthesis with zero runtime allocations.",
   "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
   "name": "Bank Statement Parser",
   "permalink": "https://bankstatementparser.com/architecture/index.html",
   "reading_time": 1,
   "short_name": "bankstatementparser",
   "title": "Internal Architecture: Tokenization, Normalization & Validation",
-  "word_count": 99
+  "word_count": 94
 }

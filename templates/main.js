@@ -60,8 +60,16 @@ window.serviceWorkerSetup = new ServiceWorkerSetup();
     const modal = document.getElementById("searchModal");
     const input = document.getElementById("searchInput");
     const results = document.getElementById("searchResults");
-    const trigger = document.getElementById("searchTrigger") || document.getElementById("searchTriggerMobile");
     const closeBtn = document.getElementById("searchClose");
+
+    function stripHtml(text) {
+      try {
+        const doc = new DOMParser().parseFromString(text || "", "text/html");
+        return doc.body.textContent || "";
+      } catch (e) {
+        return String(text || "").replace(/<[^>]*>/g, "");
+      }
+    }
 
     async function loadSearch() {
       if (!searchIndex) {
@@ -109,7 +117,7 @@ window.serviceWorkerSetup = new ServiceWorkerSetup();
       }
     });
 
-    if (input) {
+    if (input && results) {
       input.addEventListener("input", () => {
         const query = input.value.trim().toLowerCase();
         if (!query || !searchIndex || searchIndex.length === 0) {
@@ -123,17 +131,33 @@ window.serviceWorkerSetup = new ServiceWorkerSetup();
           return t.includes(query) || d.includes(query) || c.includes(query);
         }).slice(0, 8);
 
+        results.textContent = "";
         if (matches.length === 0) {
-          results.innerHTML = "<div class=\"search-empty\">No results found for \"" + query + "\"</div>";
+          const emptyDiv = document.createElement("div");
+          emptyDiv.className = "search-empty";
+          emptyDiv.textContent = 'No results found for "' + query + '"';
+          results.appendChild(emptyDiv);
           return;
         }
 
-        results.innerHTML = matches.map(item => `
-          <a class="search-item" href="${item.url}">
-            <div class="search-item-title">${item.title}</div>
-            <div class="search-item-desc">${(item.description || item.content || "").replace(/<[^>]+>/g, "").slice(0, 100)}...</div>
-          </a>
-        `).join("");
+        matches.forEach(item => {
+          const a = document.createElement("a");
+          a.className = "search-item";
+          a.href = item.url || "#";
+
+          const titleDiv = document.createElement("div");
+          titleDiv.className = "search-item-title";
+          titleDiv.textContent = item.title || "";
+
+          const descDiv = document.createElement("div");
+          descDiv.className = "search-item-desc";
+          const plainDesc = stripHtml(item.description || item.content || "");
+          descDiv.textContent = plainDesc.length > 100 ? plainDesc.slice(0, 100) + "..." : plainDesc;
+
+          a.appendChild(titleDiv);
+          a.appendChild(descDiv);
+          results.appendChild(a);
+        });
       });
     }
   });

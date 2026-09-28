@@ -12,13 +12,11 @@ permalink: "https://bankstatementparser.com/faqs/index.html"
 logo: "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg"
 banner: "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp"
 eyebrow: "Questions & Answers"
-headline: "FAQs"
+headline: "Frequently Asked Questions"
 lead: "Comprehensive guidance covering specifications, zero-telemetry local execution, performance, and commercial licensing."
 ---
 
-# Frequently Asked Questions
 
-Comprehensive technical guidance covering high-throughput document parsing, zero-telemetry local execution, supported banking specifications, SDK integration, and enterprise compliance.
 
 <div class="faq-container">
 <div class="faq-search-box">

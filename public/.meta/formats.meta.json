@@ -4,14 +4,17 @@
   "banner_alt": "Bank Statement Parser — High-Throughput Financial Document Parsing Engine",
   "date": "2026-09-01",
   "description": "Comprehensive guide to supported statement formats including PDF, CSV, OFX, QIF, SWIFT MT940, and ISO 20022 CAMT.053.",
+  "eyebrow": "Specifications Matrix",
+  "headline": "Supported Statement Formats & Specifications",
   "keywords": "PDF bank statement, OFX format, MT940 parser, CAMT.053 XML, bank statement CSV dialect",
   "language": "en-GB",
   "layout": "page",
+  "lead": "Multi-standard document ingestion with deterministic schema normalization across PDF, CSV, OFX, MT940, and CAMT.053.",
   "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
   "name": "Bank Statement Parser",
   "permalink": "https://bankstatementparser.com/formats/index.html",
   "reading_time": 1,
   "short_name": "bankstatementparser",
   "title": "Supported Bank Statement Formats & Specifications",
-  "word_count": 141
+  "word_count": 133
 }

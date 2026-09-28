@@ -4,14 +4,17 @@
   "banner_alt": "Bank Statement Parser — High-Throughput Financial Document Parsing Engine",
   "date": "2026-09-01",
   "description": "How to contribute code, submit bank statement test fixtures, and report issues.",
+  "eyebrow": "Community & Code",
+  "headline": "Contributing to Bank Statement Parser",
   "keywords": "contribute bank statement parser, open source financial contribution",
   "language": "en-GB",
   "layout": "page",
+  "lead": "Guidelines for bug reporting, code contributions, DCO sign-offs, and test-driven verification.",
   "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
   "name": "Bank Statement Parser",
   "permalink": "https://bankstatementparser.com/contributing/index.html",
   "reading_time": 1,
   "short_name": "bankstatementparser",
   "title": "Contributing to Bank Statement Parser: Guidelines & Workflow",
-  "word_count": 77
+  "word_count": 71
 }

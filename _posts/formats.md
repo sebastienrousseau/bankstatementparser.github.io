@@ -12,14 +12,17 @@ permalink: "https://bankstatementparser.com/formats/index.html"
 logo: "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg"
 banner: "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp"
 banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsing Engine"
+eyebrow: "Specifications Matrix"
+headline: "Supported Statement Formats & Specifications"
+lead: "Multi-standard document ingestion with deterministic schema normalization across PDF, CSV, OFX, MT940, and CAMT.053."
 ---
 
-# Supported Statement Formats & Specifications
+
 
 Bank Statement Parser features multi-standard document ingestion with deterministic schema normalization.
 
 <div class="table-responsive my-4">
-<table class="table table-dark table-striped">
+<table class="visage-table">
 <thead>
 <tr>
 <th>Format</th>

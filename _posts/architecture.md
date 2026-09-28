@@ -12,9 +12,12 @@ permalink: "https://bankstatementparser.com/architecture/index.html"
 logo: "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg"
 banner: "https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-1200.webp"
 banner_alt: "Bank Statement Parser — Pipeline Architecture & High-Throughput Execution"
+eyebrow: "Engine Internals"
+headline: "Architecture & Pipeline Specifications"
+lead: "High-throughput tokenization, deterministic stream parsing, and ISO 20022 message synthesis with zero runtime allocations."
 ---
 
-# Architecture & Pipeline Specifications
+
 
 Bank Statement Parser implements a deterministic, four-stage extraction and validation pipeline.
 

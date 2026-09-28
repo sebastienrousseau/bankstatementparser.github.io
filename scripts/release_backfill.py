@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """Package a release assets reproducibly."""
 from __future__ import annotations
-import argparse, gzip, hashlib, io, json, re, sys, tarfile, uuid
+import argparse, gzip, hashlib, io, json, sys, tarfile, uuid
 from pathlib import Path
 
 NAMESPACE = "https://bankstatementparser.com/sbom.cdx.json"

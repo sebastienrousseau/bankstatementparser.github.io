@@ -4,14 +4,17 @@
   "banner_alt": "Bank Statement Parser — High-Throughput Financial Document Parsing Engine",
   "date": "2026-09-01",
   "description": "Service worker offline fallback page.",
+  "eyebrow": "Network Disconnected",
+  "headline": "You Are Currently Offline",
   "keywords": "offline bank statement parser",
   "language": "en-GB",
   "layout": "page",
+  "lead": "Documentation is cached locally via service worker for uninterrupted offline engineering.",
   "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
   "name": "Bank Statement Parser",
   "permalink": "https://bankstatementparser.com/offline/index.html",
   "reading_time": 1,
   "short_name": "bankstatementparser",
   "title": "Offline Access: Bank Statement Parser",
-  "word_count": 24
+  "word_count": 19
 }

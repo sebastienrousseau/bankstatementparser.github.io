@@ -4,14 +4,17 @@
   "banner_alt": "Bank Statement Parser — High-Throughput Financial Document Parsing Engine",
   "date": "2026-09-01",
   "description": "Accessibility statement declaring 100% WCAG 2.2 Level AAA compliance and high-contrast color ratios.",
+  "eyebrow": "Inclusive Engineering",
+  "headline": "Accessibility Statement",
   "keywords": "WCAG AAA accessibility, accessible financial documentation",
   "language": "en-GB",
   "layout": "page",
+  "lead": "Dedicated to achieving WCAG 2.2 Level AAA compliance across all digital documentation and interactive financial tooling.",
   "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
   "name": "Bank Statement Parser",
   "permalink": "https://bankstatementparser.com/accessibility/index.html",
   "reading_time": 1,
   "short_name": "bankstatementparser",
   "title": "Accessibility Statement: WCAG 2.2 Level AAA Compliance",
-  "word_count": 72
+  "word_count": 69
 }

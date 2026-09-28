@@ -12,9 +12,12 @@ permalink: "https://bankstatementparser.com/contributing/index.html"
 logo: "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg"
 banner: "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp"
 banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsing Engine"
+eyebrow: "Community & Code"
+headline: "Contributing to Bank Statement Parser"
+lead: "Guidelines for bug reporting, code contributions, DCO sign-offs, and test-driven verification."
 ---
 
-# Contributing to Bank Statement Parser
+
 
 Thank you for your interest in contributing to Bank Statement Parser. We welcome pull requests for new bank dialect parsers, performance optimizations, and documentation improvements.
 

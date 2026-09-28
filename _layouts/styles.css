@@ -1974,3 +1974,13 @@ html { scroll-padding-block-start: 5.5rem; }
     color: #090a0f;
   }
 }
+
+/* Suppress floating search widget and trigger button */
+#ssg-search-widget,
+#ssg-search-btn,
+#ssg-search-overlay {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}

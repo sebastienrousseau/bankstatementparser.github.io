@@ -130,15 +130,6 @@ def post_build():
                 return m.group(0).replace("<p>", "").replace("</p>", "")
             content = re.sub(r"<pre><code>.*?</code></pre>", clean_pre, content, flags=re.DOTALL)
 
-            def reencode_code_block(match):
-                opening = match.group(1)
-                code_content = match.group(2)
-                closing = match.group(3)
-                code_content = code_content.replace("&lt;", "<").replace("&gt;", ">")
-                code_content = code_content.replace("<", "&lt;").replace(">", "&gt;")
-                return f"{opening}{code_content}{closing}"
-            content = re.sub(r"(<pre><code[^>]*>)(.*?)(</code></pre>)", reencode_code_block, content, flags=re.DOTALL)
-
             # Ensure footer and heading ampersands are encoded
             for unencoded, encoded in [
                 ("Documentation & API", "Documentation &amp; API"),

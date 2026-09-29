@@ -1,8 +1,8 @@
 ---
 name: "Bank Statement Parser"
 short_name: "bankstatementparser"
-title: "Enterprise Use Cases: Treasury, Lending, Reconciliation & Audits"
-description: "Architectural blueprints and deployment patterns for corporate treasuries, fintech lenders, and forensic accounting firms."
+title: "Fintech Use Cases: Treasury & Reconciliation"
+description: "Discover enterprise deployment architectures for corporate treasury automation, lending underwriting, ledger reconciliation, and forensic accounting pipelines."
 keywords: "bank reconciliation automation, treasury statement ingestion, lending underwriting, AML bank statement parsing"
 author: "Sebastien Rousseau"
 date: "2026-09-01"

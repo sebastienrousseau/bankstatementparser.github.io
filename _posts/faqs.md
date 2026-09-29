@@ -1,8 +1,8 @@
 ---
 name: "Bank Statement Parser"
 short_name: "bankstatementparser"
-title: "Frequently Asked Questions (FAQ): Bank Statement Parser"
-description: "Comprehensive technical answers regarding statement parsing throughput, zero-telemetry security, ISO 20022 schemas, and SDK deployment."
+title: "Frequently Asked Questions: Bank Statement Parser FAQ"
+description: "Get clear answers regarding Bank Statement Parser format dialects, zero-telemetry security, ISO 20022 schemas, local OCR modules, and enterprise SDK licensing."
 keywords: "bank statement parser FAQ, statement parser privacy, PDF statement extraction questions, ISO 20022 CAMT.053, MT940"
 author: "Sebastien Rousseau"
 date: "2026-09-01"

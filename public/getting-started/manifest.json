@@ -1,6 +1,6 @@
 {
   "background_color": "#ffffff",
-  "description": "Installation instructions for Rust (Cargo), Python (Pip), Homebrew, and Docker alongside step-by-step CLI and API quicks",
+  "description": "Step-by-step installation instructions for Bank Statement Parser via Cargo, Pip, Homebrew, and Docker with immediate CLI",
   "display": "standalone",
   "icons": [
     {

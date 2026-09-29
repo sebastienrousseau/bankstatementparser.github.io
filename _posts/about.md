@@ -1,8 +1,8 @@
 ---
 name: "Bank Statement Parser"
 short_name: "bankstatementparser"
-title: "About Sebastien Rousseau & Bank Statement Parser"
-description: "Background, credentials, and 19-year engineering history of Sebastien Rousseau in production financial infrastructure."
+title: "About Sebastien Rousseau | Bank Statement Parser Author"
+description: "Read the background and 19-year financial systems architecture history of Sebastien Rousseau, creator of the open-source Bank Statement Parser engine and tools."
 keywords: "Sebastien Rousseau, Bank Statement Parser author, financial systems architect, KyberLib, open source"
 author: "Sebastien Rousseau"
 date: "2026-09-01"
@@ -26,7 +26,7 @@ lead: "Principal engineer building high-assurance, privacy-first financial infra
 <div class="author-bio-content">
 <h2 class="author-name mb-1">Sebastien Rousseau</h2>
 <div class="author-role">Principal Financial Systems Architect · 19 Years in Production Banking Infrastructure</div>
-<p class="author-text">Sebastien Rousseau has spent nearly two decades architecting, building, and securing high-volume transaction processing systems, institutional payment rails, and cryptographic protocols across global financial centres.</p>
+<p class="author-text">Sebastien Rousseau has spent nearly two decades architecting, building, and securing high-volume transaction processing systems, institutional payment rails, and cryptographic protocols across global financial centres. Explore his work, publications, and advisory at <a href="https://sebastienrousseau.com/">sebastienrousseau.com</a>.</p>
 </div>
 </div>
 
@@ -34,4 +34,5 @@ lead: "Principal engineer building high-assurance, privacy-first financial infra
 
 - **19 Years in Production Finance:** Extensive experience across Corporate & Investment Banking (CIB), SWIFT payment gateways, and clearing networks.
 - **Author of Open-Source Financial Tools:** Author of Bank Statement Parser, KyberLib (FIPS 203 ML-KEM), hsh, and ISO 20022 message parsers with over 45.7M+ total downloads.
+- **Personal Website & Publications:** Visit [sebastienrousseau.com](https://sebastienrousseau.com/) for technical essays, research notes, and keynote presentations.
 - **Dual Apache-2.0 / MIT Licensing:** Committed to sovereign, open, and vendor-neutral financial infrastructure.

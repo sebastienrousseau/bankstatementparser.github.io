@@ -2,7 +2,7 @@
 name: "Bank Statement Parser"
 short_name: "bankstatementparser"
 title: "Accessibility Statement: WCAG 2.2 Level AAA Compliance"
-description: "Accessibility statement declaring 100% WCAG 2.2 Level AAA compliance and high-contrast color ratios."
+description: "Official accessibility statement confirming full WCAG 2.2 Level AAA compliance, high-contrast color ratios, and keyboard-first navigation across all platforms."
 keywords: "WCAG AAA accessibility, accessible financial documentation"
 author: "Sebastien Rousseau"
 date: "2026-09-01"

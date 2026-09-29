@@ -1,8 +1,8 @@
 ---
 name: "Bank Statement Parser"
 short_name: "bankstatementparser"
-title: "Privacy Policy: 100% Zero-Telemetry Guarantee"
-description: "Privacy policy declaring zero tracking cookies, zero analytics, and completely local computation."
+title: "Zero-Telemetry Privacy Guarantee & Data Protection"
+description: "Official privacy policy confirming Bank Statement Parser collects zero telemetry, uses zero cookies, and executes completely air-gapped on your infrastructure."
 keywords: "bank statement parser privacy, zero telemetry, local privacy"
 author: "Sebastien Rousseau"
 date: "2026-09-01"

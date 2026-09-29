@@ -1,6 +1,6 @@
 {
   "background_color": "#ffffff",
-  "description": "How to contribute code, submit bank statement test fixtures, and report issues.",
+  "description": "Contributor guidelines for Bank Statement Parser covering Rust code conventions, mod-97 sample data verification, DCO si",
   "display": "standalone",
   "icons": [
     {

@@ -11,4 +11,4 @@
 - Security & Zero Telemetry: https://bankstatementparser.com/security/index.html
 - API Reference: https://bankstatementparser.com/api/index.html
 - Frequently Asked Questions: https://bankstatementparser.com/faqs/index.html
-- About Sebastien Rousseau: https://bankstatementparser.com/about/index.html
+- About Sebastien Rousseau: https://sebastienrousseau.com/

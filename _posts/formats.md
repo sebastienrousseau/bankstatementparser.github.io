@@ -1,8 +1,8 @@
 ---
 name: "Bank Statement Parser"
 short_name: "bankstatementparser"
-title: "Supported Bank Statement Formats & Specifications"
-description: "Comprehensive guide to supported statement formats including PDF, CSV, OFX, QIF, SWIFT MT940, and ISO 20022 CAMT.053."
+title: "Supported Statement Formats: PDF, CSV, OFX, MT940, CAMT"
+description: "Detailed format specifications for supported financial documents including text PDF, delimited CSV, OFX 1.x/2.x, SWIFT MT940, and canonical ISO 20022 CAMT.053."
 keywords: "PDF bank statement, OFX format, MT940 parser, CAMT.053 XML, bank statement CSV dialect"
 author: "Sebastien Rousseau"
 date: "2026-09-01"

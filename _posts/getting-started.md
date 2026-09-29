@@ -1,8 +1,8 @@
 ---
 name: "Bank Statement Parser"
 short_name: "bankstatementparser"
-title: "Getting Started with Bank Statement Parser: Installation & Quickstart"
-description: "Installation instructions for Rust (Cargo), Python (Pip), Homebrew, and Docker alongside step-by-step CLI and API quickstarts."
+title: "Getting Started: Install CLI & Native Python/Rust SDK"
+description: "Step-by-step installation instructions for Bank Statement Parser via Cargo, Pip, Homebrew, and Docker with immediate CLI execution and Python code examples."
 keywords: "install bank statement parser, cargo bankstatementparser, pip bankstatementparser, CLI bank statement parser"
 author: "Sebastien Rousseau"
 date: "2026-09-01"

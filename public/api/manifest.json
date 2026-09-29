@@ -1,6 +1,6 @@
 {
   "background_color": "#ffffff",
-  "description": "Complete API reference for bankstatementparser in Rust and Python with parameter definitions and code examples.",
+  "description": "Complete API reference for Bank Statement Parser in Rust and Python with parameter schemas, zero-copy buffers, balance p",
   "display": "standalone",
   "icons": [
     {

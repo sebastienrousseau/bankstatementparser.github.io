@@ -9,7 +9,7 @@
       <news:language>en-GB</news:language>
     </news:publication>
     <news:publication_date></news:publication_date>
-    <news:title>Page Not Found (404) | Bank Statement Parser</news:title>
+    <news:title>Page Not Found (404 Error) | Bank Statement Parser</news:title>
     <news:keywords>404 not found</news:keywords>
   </news:news>
 </url>
@@ -21,7 +21,7 @@
       <news:language>en-GB</news:language>
     </news:publication>
     <news:publication_date></news:publication_date>
-    <news:title>About Sebastien Rousseau & Bank Statement Parser</news:title>
+    <news:title>About Sebastien Rousseau | Bank Statement Parser Author</news:title>
     <news:keywords>Sebastien Rousseau, Bank Statement Parser author, financial systems architect, KyberLib, open source</news:keywords>
   </news:news>
 </url>
@@ -45,7 +45,7 @@
       <news:language>en-GB</news:language>
     </news:publication>
     <news:publication_date></news:publication_date>
-    <news:title>API Reference: Rust Crate & Python Package</news:title>
+    <news:title>API Reference: Rust Crate & Python SDK Guide</news:title>
     <news:keywords>bankstatementparser API, Rust banking API, Python statement parser SDK</news:keywords>
   </news:news>
 </url>
@@ -57,7 +57,7 @@
       <news:language>en-GB</news:language>
     </news:publication>
     <news:publication_date></news:publication_date>
-    <news:title>Internal Architecture: Tokenization, Normalization & Validation</news:title>
+    <news:title>Architecture Blueprint: Deterministic Financial Parsing</news:title>
     <news:keywords>statement parsing pipeline, document tokenizer, financial data normalization, ISO 20022 validator</news:keywords>
   </news:news>
 </url>
@@ -69,7 +69,7 @@
       <news:language>en-GB</news:language>
     </news:publication>
     <news:publication_date></news:publication_date>
-    <news:title>Performance Benchmarks & Throughput Specifications</news:title>
+    <news:title>Performance Benchmarks: Latency & Throughput</news:title>
     <news:keywords>bank statement parser benchmark, high throughput statement parsing, Rust financial performance</news:keywords>
   </news:news>
 </url>
@@ -81,7 +81,7 @@
       <news:language>en-GB</news:language>
     </news:publication>
     <news:publication_date></news:publication_date>
-    <news:title>Changelog & Semantic Version History</news:title>
+    <news:title>Changelog & Semantic Version History: Release Notes</news:title>
     <news:keywords>bankstatementparser changelog, release history, semantic versioning</news:keywords>
   </news:news>
 </url>
@@ -93,7 +93,7 @@
       <news:language>en-GB</news:language>
     </news:publication>
     <news:publication_date></news:publication_date>
-    <news:title>Contact & Enterprise Inquiries</news:title>
+    <news:title>Contact & Enterprise Inquiries | Bank Statement Parser</news:title>
     <news:keywords>bank statement parser contact, custom bank parser, enterprise support</news:keywords>
   </news:news>
 </url>
@@ -105,7 +105,7 @@
       <news:language>en-GB</news:language>
     </news:publication>
     <news:publication_date></news:publication_date>
-    <news:title>Contributing to Bank Statement Parser: Guidelines & Workflow</news:title>
+    <news:title>Contributing Guide: Code Standards & Testing</news:title>
     <news:keywords>contribute bank statement parser, open source financial contribution</news:keywords>
   </news:news>
 </url>
@@ -117,7 +117,7 @@
       <news:language>en-GB</news:language>
     </news:publication>
     <news:publication_date></news:publication_date>
-    <news:title>Frequently Asked Questions (FAQ): Bank Statement Parser</news:title>
+    <news:title>Frequently Asked Questions: Bank Statement Parser FAQ</news:title>
     <news:keywords>bank statement parser FAQ, statement parser privacy, PDF statement extraction questions, ISO 20022 CAMT.053, MT940</news:keywords>
   </news:news>
 </url>
@@ -129,7 +129,7 @@
       <news:language>en-GB</news:language>
     </news:publication>
     <news:publication_date></news:publication_date>
-    <news:title>Supported Bank Statement Formats & Specifications</news:title>
+    <news:title>Supported Statement Formats: PDF, CSV, OFX, MT940, CAMT</news:title>
     <news:keywords>PDF bank statement, OFX format, MT940 parser, CAMT.053 XML, bank statement CSV dialect</news:keywords>
   </news:news>
 </url>
@@ -141,7 +141,7 @@
       <news:language>en-GB</news:language>
     </news:publication>
     <news:publication_date></news:publication_date>
-    <news:title>Getting Started with Bank Statement Parser: Installation & Quickstart</news:title>
+    <news:title>Getting Started: Install CLI & Native Python/Rust SDK</news:title>
     <news:keywords>install bank statement parser, cargo bankstatementparser, pip bankstatementparser, CLI bank statement parser</news:keywords>
   </news:news>
 </url>
@@ -153,7 +153,7 @@
       <news:language>en-GB</news:language>
     </news:publication>
     <news:publication_date></news:publication_date>
-    <news:title>Made with Static Site Generator (SSG)</news:title>
+    <news:title>Made with Static Site Generator (SSG) | Web Platform</news:title>
     <news:keywords>Static Site Generator, SSG, Rust web compilation</news:keywords>
   </news:news>
 </url>
@@ -165,7 +165,7 @@
       <news:language>en-GB</news:language>
     </news:publication>
     <news:publication_date></news:publication_date>
-    <news:title>Offline Access: Bank Statement Parser</news:title>
+    <news:title>Offline Documentation Access | Bank Statement Parser</news:title>
     <news:keywords>offline bank statement parser</news:keywords>
   </news:news>
 </url>
@@ -177,7 +177,7 @@
       <news:language>en-GB</news:language>
     </news:publication>
     <news:publication_date></news:publication_date>
-    <news:title>Privacy Policy: 100% Zero-Telemetry Guarantee</news:title>
+    <news:title>Zero-Telemetry Privacy Guarantee & Data Protection</news:title>
     <news:keywords>bank statement parser privacy, zero telemetry, local privacy</news:keywords>
   </news:news>
 </url>
@@ -189,7 +189,7 @@
       <news:language>en-GB</news:language>
     </news:publication>
     <news:publication_date></news:publication_date>
-    <news:title>Security Architecture: Zero Telemetry, Air-Gapped & Memory Safe</news:title>
+    <news:title>Security Architecture: Air-Gapped & Memory-Safe Parsing</news:title>
     <news:keywords>zero telemetry parser, air gapped bank statement parser, memory safe financial software, CycloneDX SBOM</news:keywords>
   </news:news>
 </url>
@@ -201,7 +201,7 @@
       <news:language>en-GB</news:language>
     </news:publication>
     <news:publication_date></news:publication_date>
-    <news:title>Terms of Use & Dual Open-Source Licensing</news:title>
+    <news:title>Terms of Use & Dual Open-Source License Specifications</news:title>
     <news:keywords>terms of use, Apache 2.0 license, MIT license</news:keywords>
   </news:news>
 </url>
@@ -213,7 +213,7 @@
       <news:language>en-GB</news:language>
     </news:publication>
     <news:publication_date></news:publication_date>
-    <news:title>Thank You | Bank Statement Parser</news:title>
+    <news:title>Thank You for Your Inquiry | Bank Statement Parser</news:title>
     <news:keywords>thank you</news:keywords>
   </news:news>
 </url>
@@ -225,7 +225,7 @@
       <news:language>en-GB</news:language>
     </news:publication>
     <news:publication_date></news:publication_date>
-    <news:title>Enterprise Use Cases: Treasury, Lending, Reconciliation & Audits</news:title>
+    <news:title>Fintech Use Cases: Treasury & Reconciliation</news:title>
     <news:keywords>bank reconciliation automation, treasury statement ingestion, lending underwriting, AML bank statement parsing</news:keywords>
   </news:news>
 </url>

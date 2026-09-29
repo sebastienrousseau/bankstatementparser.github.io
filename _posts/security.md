@@ -1,8 +1,8 @@
 ---
 name: "Bank Statement Parser"
 short_name: "bankstatementparser"
-title: "Security Architecture: Zero Telemetry, Air-Gapped & Memory Safe"
-description: "Detailed security specifications, zero-telemetry architecture, memory safety guarantees, and CycloneDX SBOM provenance."
+title: "Security Architecture: Air-Gapped & Memory-Safe Parsing"
+description: "Examine the zero-telemetry security model of Bank Statement Parser: memory-safe Rust execution, air-gapped processing, Sigstore signing, and CycloneDX SBOMs."
 keywords: "zero telemetry parser, air gapped bank statement parser, memory safe financial software, CycloneDX SBOM"
 author: "Sebastien Rousseau"
 date: "2026-09-01"

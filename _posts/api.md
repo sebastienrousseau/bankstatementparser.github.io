@@ -1,8 +1,8 @@
 ---
 name: "Bank Statement Parser"
 short_name: "bankstatementparser"
-title: "API Reference: Rust Crate & Python Package"
-description: "Complete API reference for bankstatementparser in Rust and Python with parameter definitions and code examples."
+title: "API Reference: Rust Crate & Python SDK Guide"
+description: "Complete API reference for Bank Statement Parser in Rust and Python with parameter schemas, zero-copy buffers, balance proofs, and transaction stream examples."
 keywords: "bankstatementparser API, Rust banking API, Python statement parser SDK"
 author: "Sebastien Rousseau"
 date: "2026-09-01"

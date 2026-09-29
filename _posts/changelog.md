@@ -1,8 +1,8 @@
 ---
 name: "Bank Statement Parser"
 short_name: "bankstatementparser"
-title: "Changelog & Semantic Version History"
-description: "Release history and version notes for Bank Statement Parser starting at v0.0.1."
+title: "Changelog & Semantic Version History: Release Notes"
+description: "Comprehensive release notes and semantic versioning history for Bank Statement Parser, detailing new format dialects, performance fixes, and security patches."
 keywords: "bankstatementparser changelog, release history, semantic versioning"
 author: "Sebastien Rousseau"
 date: "2026-09-01"

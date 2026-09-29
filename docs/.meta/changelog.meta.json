@@ -3,7 +3,7 @@
   "banner": "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp",
   "banner_alt": "Bank Statement Parser — High-Throughput Financial Document Parsing Engine",
   "date": "2026-09-01",
-  "description": "Release history and version notes for Bank Statement Parser starting at v0.0.1.",
+  "description": "Comprehensive release notes and semantic versioning history for Bank Statement Parser, detailing new format dialects, performance fixes, and security patches.",
   "eyebrow": "Release History",
   "headline": "Changelog",
   "keywords": "bankstatementparser changelog, release history, semantic versioning",
@@ -15,6 +15,6 @@
   "permalink": "https://bankstatementparser.com/changelog/index.html",
   "reading_time": 1,
   "short_name": "bankstatementparser",
-  "title": "Changelog & Semantic Version History",
+  "title": "Changelog & Semantic Version History: Release Notes",
   "word_count": 96
 }

@@ -1,6 +1,6 @@
 {
   "background_color": "#ffffff",
-  "description": "High-throughput, privacy-first parser converting bank statements (PDF, CSV, OFX, MT940, CAMT.053) into validated JSON and ISO 20022 messages with zero telemetry.",
+  "description": "High-throughput financial parser converting PDF, CSV, OFX, MT940, and CAMT.053 statements into validated JSON and ISO 20022 records with 100% zero telemetry.",
   "display": "standalone",
   "name": "Bank Statement Parser",
   "orientation": "portrait-primary",

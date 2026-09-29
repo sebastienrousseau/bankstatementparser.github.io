@@ -2,7 +2,7 @@
   "author": "Sebastien Rousseau",
   "banner": "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp",
   "date": "2026-09-01",
-  "description": "Comprehensive technical answers regarding statement parsing throughput, zero-telemetry security, ISO 20022 schemas, and SDK deployment.",
+  "description": "Get clear answers regarding Bank Statement Parser format dialects, zero-telemetry security, ISO 20022 schemas, local OCR modules, and enterprise SDK licensing.",
   "eyebrow": "Questions & Answers",
   "headline": "Frequently Asked Questions",
   "keywords": "bank statement parser FAQ, statement parser privacy, PDF statement extraction questions, ISO 20022 CAMT.053, MT940",
@@ -14,6 +14,6 @@
   "permalink": "https://bankstatementparser.com/faqs/index.html",
   "reading_time": 7,
   "short_name": "bankstatementparser",
-  "title": "Frequently Asked Questions (FAQ): Bank Statement Parser",
+  "title": "Frequently Asked Questions: Bank Statement Parser FAQ",
   "word_count": 1416
 }

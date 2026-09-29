@@ -1,6 +1,6 @@
 {
   "background_color": "#ffffff",
-  "description": "Details on native Rust static site compilation and automated quality gates.",
+  "description": "Learn how the Bank Statement Parser documentation site is built using Rust Static Site Generator (SSG), featuring strict",
   "display": "standalone",
   "icons": [
     {

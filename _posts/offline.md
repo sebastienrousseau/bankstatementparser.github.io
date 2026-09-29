@@ -1,8 +1,8 @@
 ---
 name: "Bank Statement Parser"
 short_name: "bankstatementparser"
-title: "Offline Access: Bank Statement Parser"
-description: "Service worker offline fallback page."
+title: "Offline Documentation Access | Bank Statement Parser"
+description: "Offline documentation fallback for Bank Statement Parser. Access cached developer guides, format specifications, and API references with zero network access."
 keywords: "offline bank statement parser"
 author: "Sebastien Rousseau"
 date: "2026-09-01"

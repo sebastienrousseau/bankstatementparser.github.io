@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Bank Statement Parser: High-Throughput Financial Document Engine</title>
+    <title>Bank Statement Parser: High-Throughput Financial Engine</title>
     <link>https://bankstatementparser.com/</link>
-    <description>High-throughput, privacy-first parser converting bank statements (PDF, CSV, OFX, MT940, CAMT.053) into validated JSON and ISO 20022 messages with zero telemetry.</description>
+    <description>High-throughput financial parser converting PDF, CSV, OFX, MT940, and CAMT.053 statements into validated JSON and ISO 20022 records with 100% zero telemetry.</description>
     <atom:link href="https://bankstatementparser.com/rss.xml" rel="self" type="application/rss+xml"/>
     <language>en</language>
     <item>
-      <title>API Reference: Rust Crate & Python Package</title>
+      <title>API Reference: Rust Crate & Python SDK Guide</title>
       <link>https://bankstatementparser.com/api/</link>
-      <description>Complete API reference for bankstatementparser in Rust and Python with parameter definitions and code examples.</description>
+      <description>Complete API reference for Bank Statement Parser in Rust and Python with parameter schemas, zero-copy buffers, balance proofs, and transaction stream examples.</description>
       <guid isPermaLink="true">https://bankstatementparser.com/api/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
-      <title>About Sebastien Rousseau & Bank Statement Parser</title>
+      <title>About Sebastien Rousseau | Bank Statement Parser Author</title>
       <link>https://bankstatementparser.com/about/</link>
-      <description>Background, credentials, and 19-year engineering history of Sebastien Rousseau in production financial infrastructure.</description>
+      <description>Read the background and 19-year financial systems architecture history of Sebastien Rousseau, creator of the open-source Bank Statement Parser engine and tools.</description>
       <guid isPermaLink="true">https://bankstatementparser.com/about/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
@@ -27,152 +27,152 @@
     <item>
       <title>Accessibility Statement: WCAG 2.2 Level AAA Compliance</title>
       <link>https://bankstatementparser.com/accessibility/</link>
-      <description>Accessibility statement declaring 100% WCAG 2.2 Level AAA compliance and high-contrast color ratios.</description>
+      <description>Official accessibility statement confirming full WCAG 2.2 Level AAA compliance, high-contrast color ratios, and keyboard-first navigation across all platforms.</description>
       <guid isPermaLink="true">https://bankstatementparser.com/accessibility/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
-      <title>Changelog & Semantic Version History</title>
-      <link>https://bankstatementparser.com/changelog/</link>
-      <description>Release history and version notes for Bank Statement Parser starting at v0.0.1.</description>
-      <guid isPermaLink="true">https://bankstatementparser.com/changelog/</guid>
-      <pubDate></pubDate>
-      <author>Sebastien Rousseau</author>
-      <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
-    </item>
-    <item>
-      <title>Contact & Enterprise Inquiries</title>
-      <link>https://bankstatementparser.com/contact/</link>
-      <description>Get in touch for custom statement dialect support, enterprise integrations, or security inquiries.</description>
-      <guid isPermaLink="true">https://bankstatementparser.com/contact/</guid>
-      <pubDate></pubDate>
-      <author>Sebastien Rousseau</author>
-      <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
-    </item>
-    <item>
-      <title>Contributing to Bank Statement Parser: Guidelines & Workflow</title>
-      <link>https://bankstatementparser.com/contributing/</link>
-      <description>How to contribute code, submit bank statement test fixtures, and report issues.</description>
-      <guid isPermaLink="true">https://bankstatementparser.com/contributing/</guid>
-      <pubDate></pubDate>
-      <author>Sebastien Rousseau</author>
-      <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
-    </item>
-    <item>
-      <title>Enterprise Use Cases: Treasury, Lending, Reconciliation & Audits</title>
-      <link>https://bankstatementparser.com/use-cases/</link>
-      <description>Architectural blueprints and deployment patterns for corporate treasuries, fintech lenders, and forensic accounting firms.</description>
-      <guid isPermaLink="true">https://bankstatementparser.com/use-cases/</guid>
-      <pubDate></pubDate>
-      <author>Sebastien Rousseau</author>
-      <enclosure url="https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp" type="image/webp" length="0"/>
-    </item>
-    <item>
-      <title>Frequently Asked Questions (FAQ): Bank Statement Parser</title>
-      <link>https://bankstatementparser.com/faqs/</link>
-      <description>Comprehensive technical answers regarding statement parsing throughput, zero-telemetry security, ISO 20022 schemas, and SDK deployment.</description>
-      <guid isPermaLink="true">https://bankstatementparser.com/faqs/</guid>
-      <pubDate></pubDate>
-      <author>Sebastien Rousseau</author>
-      <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
-    </item>
-    <item>
-      <title>Getting Started with Bank Statement Parser: Installation & Quickstart</title>
-      <link>https://bankstatementparser.com/getting-started/</link>
-      <description>Installation instructions for Rust (Cargo), Python (Pip), Homebrew, and Docker alongside step-by-step CLI and API quickstarts.</description>
-      <guid isPermaLink="true">https://bankstatementparser.com/getting-started/</guid>
-      <pubDate></pubDate>
-      <author>Sebastien Rousseau</author>
-      <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
-    </item>
-    <item>
-      <title>Internal Architecture: Tokenization, Normalization & Validation</title>
+      <title>Architecture Blueprint: Deterministic Financial Parsing</title>
       <link>https://bankstatementparser.com/architecture/</link>
-      <description>Architectural deep-dive into the four-stage parsing pipeline powering Bank Statement Parser.</description>
+      <description>Explore the four-stage streaming architecture of Bank Statement Parser: zero-copy ingestion, lexical tokenization, balance proofs, and ISO 20022 emission.</description>
       <guid isPermaLink="true">https://bankstatementparser.com/architecture/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
-      <title>Made with Static Site Generator (SSG)</title>
+      <title>Changelog & Semantic Version History: Release Notes</title>
+      <link>https://bankstatementparser.com/changelog/</link>
+      <description>Comprehensive release notes and semantic versioning history for Bank Statement Parser, detailing new format dialects, performance fixes, and security patches.</description>
+      <guid isPermaLink="true">https://bankstatementparser.com/changelog/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
+    </item>
+    <item>
+      <title>Contact & Enterprise Inquiries | Bank Statement Parser</title>
+      <link>https://bankstatementparser.com/contact/</link>
+      <description>Get in touch with the Bank Statement Parser engineering team for custom bank dialect support, private cloud deployments, advisory, and enterprise integrations.</description>
+      <guid isPermaLink="true">https://bankstatementparser.com/contact/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
+    </item>
+    <item>
+      <title>Contributing Guide: Code Standards & Testing</title>
+      <link>https://bankstatementparser.com/contributing/</link>
+      <description>Contributor guidelines for Bank Statement Parser covering Rust code conventions, mod-97 sample data verification, DCO signoffs, and automated test execution.</description>
+      <guid isPermaLink="true">https://bankstatementparser.com/contributing/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
+    </item>
+    <item>
+      <title>Fintech Use Cases: Treasury & Reconciliation</title>
+      <link>https://bankstatementparser.com/use-cases/</link>
+      <description>Discover enterprise deployment architectures for corporate treasury automation, lending underwriting, ledger reconciliation, and forensic accounting pipelines.</description>
+      <guid isPermaLink="true">https://bankstatementparser.com/use-cases/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp" type="image/webp" length="0"/>
+    </item>
+    <item>
+      <title>Frequently Asked Questions: Bank Statement Parser FAQ</title>
+      <link>https://bankstatementparser.com/faqs/</link>
+      <description>Get clear answers regarding Bank Statement Parser format dialects, zero-telemetry security, ISO 20022 schemas, local OCR modules, and enterprise SDK licensing.</description>
+      <guid isPermaLink="true">https://bankstatementparser.com/faqs/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
+    </item>
+    <item>
+      <title>Getting Started: Install CLI & Native Python/Rust SDK</title>
+      <link>https://bankstatementparser.com/getting-started/</link>
+      <description>Step-by-step installation instructions for Bank Statement Parser via Cargo, Pip, Homebrew, and Docker with immediate CLI execution and Python code examples.</description>
+      <guid isPermaLink="true">https://bankstatementparser.com/getting-started/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
+    </item>
+    <item>
+      <title>Made with Static Site Generator (SSG) | Web Platform</title>
       <link>https://bankstatementparser.com/made-with-ssg/</link>
-      <description>Details on native Rust static site compilation and automated quality gates.</description>
+      <description>Learn how the Bank Statement Parser documentation site is built using Rust Static Site Generator (SSG), featuring strict CSP, WCAG AAA audits, and fast builds.</description>
       <guid isPermaLink="true">https://bankstatementparser.com/made-with-ssg/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
-      <title>Offline Access: Bank Statement Parser</title>
+      <title>Offline Documentation Access | Bank Statement Parser</title>
       <link>https://bankstatementparser.com/offline/</link>
-      <description>Service worker offline fallback page.</description>
+      <description>Offline documentation fallback for Bank Statement Parser. Access cached developer guides, format specifications, and API references with zero network access.</description>
       <guid isPermaLink="true">https://bankstatementparser.com/offline/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
-      <title>Page Not Found (404) | Bank Statement Parser</title>
+      <title>Page Not Found (404 Error) | Bank Statement Parser</title>
       <link>https://bankstatementparser.com/404/</link>
-      <description>The requested documentation page could not be found.</description>
+      <description>The requested financial documentation page could not be located. Browse the documentation index, supported format specifications, or return to the homepage.</description>
       <guid isPermaLink="true">https://bankstatementparser.com/404/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
-      <title>Performance Benchmarks & Throughput Specifications</title>
+      <title>Performance Benchmarks: Latency & Throughput</title>
       <link>https://bankstatementparser.com/benchmarks/</link>
-      <description>Empirical throughput and memory benchmarks comparing Bank Statement Parser against legacy Python/Java parser engines.</description>
+      <description>Empirical latency and throughput benchmarks demonstrating 10,000+ pages per minute and sub-millisecond bank statement parsing with zero memory leak overhead.</description>
       <guid isPermaLink="true">https://bankstatementparser.com/benchmarks/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
-      <title>Privacy Policy: 100% Zero-Telemetry Guarantee</title>
-      <link>https://bankstatementparser.com/privacy/</link>
-      <description>Privacy policy declaring zero tracking cookies, zero analytics, and completely local computation.</description>
-      <guid isPermaLink="true">https://bankstatementparser.com/privacy/</guid>
-      <pubDate></pubDate>
-      <author>Sebastien Rousseau</author>
-      <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
-    </item>
-    <item>
-      <title>Security Architecture: Zero Telemetry, Air-Gapped & Memory Safe</title>
+      <title>Security Architecture: Air-Gapped & Memory-Safe Parsing</title>
       <link>https://bankstatementparser.com/security/</link>
-      <description>Detailed security specifications, zero-telemetry architecture, memory safety guarantees, and CycloneDX SBOM provenance.</description>
+      <description>Examine the zero-telemetry security model of Bank Statement Parser: memory-safe Rust execution, air-gapped processing, Sigstore signing, and CycloneDX SBOMs.</description>
       <guid isPermaLink="true">https://bankstatementparser.com/security/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/block-chain-3055701-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
-      <title>Supported Bank Statement Formats & Specifications</title>
+      <title>Supported Statement Formats: PDF, CSV, OFX, MT940, CAMT</title>
       <link>https://bankstatementparser.com/formats/</link>
-      <description>Comprehensive guide to supported statement formats including PDF, CSV, OFX, QIF, SWIFT MT940, and ISO 20022 CAMT.053.</description>
+      <description>Detailed format specifications for supported financial documents including text PDF, delimited CSV, OFX 1.x/2.x, SWIFT MT940, and canonical ISO 20022 CAMT.053.</description>
       <guid isPermaLink="true">https://bankstatementparser.com/formats/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
-      <title>Terms of Use & Dual Open-Source Licensing</title>
+      <title>Terms of Use & Dual Open-Source License Specifications</title>
       <link>https://bankstatementparser.com/terms/</link>
-      <description>Terms governing the use of Bank Statement Parser under Apache-2.0 and MIT licenses.</description>
+      <description>Terms of use and dual open-source licensing guidelines governing Bank Statement Parser under Apache-2.0 and MIT terms for community and enterprise developers.</description>
       <guid isPermaLink="true">https://bankstatementparser.com/terms/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
-      <title>Thank You | Bank Statement Parser</title>
+      <title>Thank You for Your Inquiry | Bank Statement Parser</title>
       <link>https://bankstatementparser.com/thanks/</link>
-      <description>Thank you for your inquiry.</description>
+      <description>Thank you for contacting Bank Statement Parser. Our financial infrastructure engineering team will review your statement dialect requirements and respond soon.</description>
       <guid isPermaLink="true">https://bankstatementparser.com/thanks/</guid>
+      <pubDate></pubDate>
+      <author>Sebastien Rousseau</author>
+      <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>
+    </item>
+    <item>
+      <title>Zero-Telemetry Privacy Guarantee & Data Protection</title>
+      <link>https://bankstatementparser.com/privacy/</link>
+      <description>Official privacy policy confirming Bank Statement Parser collects zero telemetry, uses zero cookies, and executes completely air-gapped on your infrastructure.</description>
+      <guid isPermaLink="true">https://bankstatementparser.com/privacy/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>
       <enclosure url="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" type="image/webp" length="0"/>

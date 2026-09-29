@@ -1,8 +1,8 @@
 ---
 name: "Bank Statement Parser"
 short_name: "bankstatementparser"
-title: "Internal Architecture: Tokenization, Normalization & Validation"
-description: "Architectural deep-dive into the four-stage parsing pipeline powering Bank Statement Parser."
+title: "Architecture Blueprint: Deterministic Financial Parsing"
+description: "Explore the four-stage streaming architecture of Bank Statement Parser: zero-copy ingestion, lexical tokenization, balance proofs, and ISO 20022 emission."
 keywords: "statement parsing pipeline, document tokenizer, financial data normalization, ISO 20022 validator"
 author: "Sebastien Rousseau"
 date: "2026-09-01"

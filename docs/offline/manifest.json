@@ -1,6 +1,6 @@
 {
   "background_color": "#ffffff",
-  "description": "Service worker offline fallback page.",
+  "description": "Offline documentation fallback for Bank Statement Parser. Access cached developer guides, format specifications, and API",
   "display": "standalone",
   "icons": [
     {

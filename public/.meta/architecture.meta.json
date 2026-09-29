@@ -1,6 +1,6 @@
 {
   "author": "Sebastien Rousseau",
-  "banner": "https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-1200.webp",
+  "banner": "https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1200.webp",
   "banner_alt": "Bank Statement Parser — Pipeline Architecture & High-Throughput Execution",
   "date": "2026-09-01",
   "description": "Explore the four-stage streaming architecture of Bank Statement Parser: zero-copy ingestion, lexical tokenization, balance proofs, and ISO 20022 emission.",
@@ -16,5 +16,5 @@
   "reading_time": 4,
   "short_name": "bankstatementparser",
   "title": "Architecture Blueprint: Deterministic Financial Parsing",
-  "word_count": 803
+  "word_count": 815
 }

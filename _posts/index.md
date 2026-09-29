@@ -176,8 +176,8 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
 <section class="analysis-stage" id="architecture-preview" aria-labelledby="arch-heading">
 <div class="wrap image-shell">
 <picture>
-<source media="(max-width: 40rem)" srcset="https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-320.webp 320w, https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-640.webp 640w, https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-1200.webp 1200w" sizes="100vw">
-<img src="https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-1200.webp" srcset="https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-640.webp 640w, https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-1200.webp 1200w, https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-1920.webp 1920w" sizes="(max-width: 40rem) 100vw, 80rem" width="1200" height="675" alt="Modern corporate office with technological displays and real-time financial pipelines" loading="lazy" decoding="async">
+<source media="(max-width: 40rem)" srcset="https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-320.webp 320w, https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-640.webp 640w, https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1200.webp 1200w" sizes="100vw">
+<img src="https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1200.webp" srcset="https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-640.webp 640w, https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1200.webp 1200w, https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1920.webp 1920w" sizes="(max-width: 40rem) 100vw, 80rem" width="1200" height="675" alt="Iconic financial architecture of London at night, highlighting high-assurance parsing infrastructure" loading="lazy" decoding="async">
 </picture>
 <div class="consultation-card">
 <p class="lilac-label">High-Performance Pipeline</p>

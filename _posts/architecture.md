@@ -10,7 +10,7 @@ language: "en-GB"
 layout: "page"
 permalink: "https://bankstatementparser.com/architecture/index.html"
 logo: "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg"
-banner: "https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-1200.webp"
+banner: "https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1200.webp"
 banner_alt: "Bank Statement Parser — Pipeline Architecture & High-Throughput Execution"
 eyebrow: "Engine Internals"
 headline: "Architecture & Pipeline Specifications"
@@ -94,7 +94,10 @@ Bank Statement Parser is architected around a deterministic, four-stage extracti
 </ul>
 
 <div class="doc-visual-card">
-<img src="https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-1200.webp" alt="Bank Statement Parser — Pipeline Architecture and High-Throughput Engine" width="1200" height="675" loading="lazy" />
+<picture>
+<source media="(max-width: 40rem)" srcset="https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-320.webp 320w, https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-640.webp 640w, https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1200.webp 1200w" sizes="100vw">
+<img src="https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1200.webp" alt="Bank Statement Parser — Pipeline Architecture and High-Throughput Engine" width="1200" height="675" loading="lazy" />
+</picture>
 <div class="doc-visual-caption">High-assurance statement parsing: zero-copy memory mapping, deterministic tokenization, and ISO 20022 message synthesis.</div>
 </div>
 

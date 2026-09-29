@@ -232,6 +232,34 @@ body.style-visage {
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   border-bottom: 1px solid color-mix(in srgb, var(--vi-line) 40%, transparent);
+  transition: background 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              backdrop-filter 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              -webkit-backdrop-filter 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body:has(.hero-spatial) .site-header {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid transparent;
+}
+
+body:has(.hero-spatial) .site-header.scrolled,
+.style-visage .site-header.scrolled {
+  background: color-mix(in srgb, var(--vi-bg) 82%, transparent) !important;
+  backdrop-filter: blur(28px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--vi-line) 35%, transparent) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08) !important;
+}
+
+:root[data-theme="dark"] body:has(.hero-spatial) .site-header.scrolled,
+:root[data-theme="dark"] .style-visage .site-header.scrolled {
+  background: color-mix(in srgb, var(--vi-bg) 85%, transparent) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
 }
 .style-visage .brand-mark { display:none; }
 .style-visage .site-header .brand { color:var(--vi-ink); font-weight:800; font-size:1.15rem; gap:.75rem; text-decoration:none; }
@@ -291,6 +319,7 @@ body.style-visage {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
+/* Visage Standard Intro */
 .visage-intro { padding:clamp(4rem,6vw,6rem) 0 clamp(3rem,5vw,4.5rem); text-align:center; }
 .visage-intro .wrap { display:grid; justify-items:center; }
 .visage-intro h1 { max-width:22ch; margin:.9rem 0 0; font-size:clamp(3rem,5.5vw,5.25rem); line-height:1; letter-spacing:-.06em; }
@@ -324,6 +353,331 @@ body.style-visage {
 }
 .hero-assurances { display:flex; flex-wrap:wrap; justify-content:center; gap:.65rem 1.75rem; margin:2rem 0 0; padding:0; color:var(--vi-muted); font-size:.875rem; font-weight:700; list-style:none; }
 .hero-assurances li::before { margin-right:.55rem; color:var(--vi-accent); content:"✓"; }
+
+/* ==========================================================================
+   Apple Vision Pro Spatial Hero & Frosted Glass Layering
+   ========================================================================== */
+.visage-intro.hero-spatial {
+  position: relative;
+  min-height: 100svh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: -4.5rem;
+  padding: clamp(6.5rem, 12vw, 9rem) 0 clamp(4rem, 6vw, 5.5rem);
+  overflow: hidden;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.hero-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-bg-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 32%;
+  transform: scale(1.03);
+  transform-origin: center center;
+  will-change: transform, opacity;
+  transition: transform 0.15s ease-out;
+}
+
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 95% 75% at 50% 45%, rgba(10, 8, 14, 0.42) 0%, rgba(10, 8, 14, 0.85) 68%, rgba(10, 8, 14, 0.98) 100%),
+    linear-gradient(to bottom, rgba(10, 8, 14, 0.6) 0%, transparent 20%, transparent 60%, var(--vi-bg) 100%);
+  pointer-events: none;
+}
+
+:root[data-theme="light"] .hero-scrim {
+  background:
+    radial-gradient(ellipse 95% 75% at 50% 45%, rgba(14, 11, 18, 0.48) 0%, rgba(14, 11, 18, 0.86) 68%, rgba(14, 11, 18, 0.98) 100%),
+    linear-gradient(to bottom, rgba(14, 11, 18, 0.65) 0%, transparent 20%, transparent 60%, var(--vi-bg) 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 64rem;
+  padding-inline: 1.5rem;
+  margin-inline: auto;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 1.15rem;
+  margin-bottom: 0.5rem;
+  border-radius: 9999px;
+  background: rgba(225, 196, 243, 0.14) !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(225, 196, 243, 0.35);
+  color: #f5e8fc !important;
+  font-size: 0.8125rem;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.visage-intro.hero-spatial h1 {
+  max-width: 24ch;
+  margin: 0.75rem auto 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+  font-size: clamp(2.75rem, 5.5vw, 5.25rem);
+  font-weight: 850;
+  letter-spacing: -0.05em;
+  line-height: 1.05;
+  color: #ffffff !important;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.6);
+}
+
+.visage-intro.hero-spatial h1 em {
+  color: #e5ccf8 !important;
+  font-style: normal;
+  text-shadow: 0 0 32px rgba(225, 196, 243, 0.45);
+}
+
+.hero-lead {
+  max-width: 58ch;
+  margin: 1.5rem auto 2.25rem !important;
+  color: #e8e2ef !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  font-size: clamp(1.05rem, 1.45vw, 1.25rem);
+  line-height: 1.62;
+  font-weight: 450;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.hero-actions .secondary-glass {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.65rem 1.85rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.09) !important;
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #ffffff !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.hero-actions .secondary-glass:hover {
+  background: rgba(255, 255, 255, 0.18) !important;
+  border-color: rgba(255, 255, 255, 0.55);
+  transform: translateY(-1.5px);
+  box-shadow: 
+    0 8px 28px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0.5px rgba(255, 255, 255, 0.7);
+}
+
+.hero-actions .secondary-glass:active {
+  transform: scale(0.975);
+}
+
+.hero-spatial .hero-assurances {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem 2rem;
+  margin: 0;
+  padding: 0;
+  color: #dcd3e5 !important;
+  font-size: 0.875rem;
+  font-weight: 650;
+  list-style: none;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
+
+.hero-spatial .hero-assurances li::before {
+  margin-right: 0.5rem;
+  color: #d8b5f8 !important;
+  content: "✓";
+  font-weight: 800;
+}
+
+/* Apple-style Scroll Indicator */
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 2;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.hero-scroll-indicator .scroll-label {
+  font-size: 0.6875rem;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.68);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.scroll-mouse {
+  width: 20px;
+  height: 32px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  position: relative;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.scroll-wheel {
+  width: 3px;
+  height: 6px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.9);
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: mouseScroll 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes mouseScroll {
+  0% { opacity: 1; transform: translate(-50%, 0); }
+  50% { opacity: 0.2; transform: translate(-50%, 9px); }
+  100% { opacity: 0; transform: translate(-50%, 14px); }
+}
+
+/* Parallax zoom & fade via CSS scroll timeline when supported */
+@supports (animation-timeline: scroll()) {
+  @keyframes heroZoomFade {
+    0% {
+      transform: scale(1.03);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1.16);
+      opacity: 0.25;
+    }
+  }
+  @keyframes heroContentShift {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(50px);
+      opacity: 0.1;
+    }
+  }
+  .hero-spatial .hero-bg-photo {
+    animation: heroZoomFade linear both;
+    animation-timeline: scroll();
+    animation-range: 0 100vh;
+  }
+  .hero-spatial .hero-content {
+    animation: heroContentShift linear both;
+    animation-timeline: scroll();
+    animation-range: 0 85vh;
+  }
+}
+
+/* VisionOS Specular Sheen on Frosted Glass Surfaces */
+.trust-strip li,
+.three-cells article,
+.process-grid article,
+.consultation-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.trust-strip li::before,
+.three-cells article::before,
+.process-grid article::before,
+.consultation-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 0.12),
+    transparent 50%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 1;
+}
+
+.trust-strip li:hover::before,
+.three-cells article:hover::before,
+.process-grid article:hover::before,
+.consultation-card:hover::before {
+  opacity: 1;
+}
+
+/* Scroll Reveal Dynamics */
+.js-ready .scroll-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.js-ready .scroll-reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-wheel {
+    animation: none !important;
+  }
+  .hero-spatial .hero-bg-photo,
+  .hero-spatial .hero-content {
+    animation: none !important;
+  }
+  .js-ready .scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
 
 .trust-strip {
   border-block: 1px solid color-mix(in srgb, var(--vi-line) 30%, transparent);

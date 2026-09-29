@@ -278,8 +278,8 @@ High-throughput statement extraction powers critical automated financial backend
 
 <div class="doc-visual-card">
 <picture>
-<source media="(max-width: 40rem)" srcset="https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-320.webp 320w, https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-640.webp 640w, https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-1200.webp 1200w" sizes="100vw">
-<img src="https://cloudcdn.pro/stocks/images/modern-corporate-office-with-technological-displays-1200.webp" alt="Enterprise corporate treasury and automated banking workflow architecture" width="1200" height="675" loading="lazy" />
+<source media="(max-width: 40rem)" srcset="https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-320.webp 320w, https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-640.webp 640w, https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1200.webp 1200w" sizes="100vw">
+<img src="https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1200.webp" alt="Enterprise corporate treasury and automated banking workflow architecture" width="1200" height="675" loading="lazy" />
 </picture>
 <div class="doc-visual-caption">Enterprise orchestration: zero-network document ingestion for real-time treasury and audit operations.</div>
 </div>

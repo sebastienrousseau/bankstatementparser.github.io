@@ -3,7 +3,7 @@
   "public/about/index.html": 5203950219468664409,
   "public/accessibility/index.html": 9590281303639603223,
   "public/api/index.html": 16182129204154460073,
-  "public/architecture/index.html": 10828764402188419306,
+  "public/architecture/index.html": 12050084648429346089,
   "public/benchmarks/index.html": 9754332462420298117,
   "public/changelog/index.html": 751052585207023711,
   "public/contact/index.html": 3102296873708540730,
@@ -11,12 +11,12 @@
   "public/faqs/index.html": 4685035173490170113,
   "public/formats/index.html": 16081136893258822082,
   "public/getting-started/index.html": 15024881929168385136,
-  "public/index.html": 13614563220167637286,
+  "public/index.html": 2212816485012747927,
   "public/made-with-ssg/index.html": 12784758120990922642,
   "public/offline/index.html": 10811914519375704091,
   "public/privacy/index.html": 4213224969427475665,
   "public/security/index.html": 13761300889272840395,
   "public/terms/index.html": 15995377341423312495,
   "public/thanks/index.html": 1560508286240567906,
-  "public/use-cases/index.html": 2379010823904998918
+  "public/use-cases/index.html": 15201812226343479652
 }

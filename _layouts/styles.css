@@ -239,16 +239,59 @@ body.style-visage {
               box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-body:has(.hero-spatial) .site-header {
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border-bottom: 1px solid transparent;
+/* Unscrolled state over spatial hero: high-contrast AAA white typography & dark scrim */
+body:has(.hero-spatial) .site-header:not(.scrolled),
+.site-header.on-hero:not(.scrolled) {
+  background: linear-gradient(to bottom, rgba(8, 6, 12, 0.85) 0%, rgba(8, 6, 12, 0.45) 70%, transparent 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+body:has(.hero-spatial) .site-header:not(.scrolled) .brand,
+.site-header.on-hero:not(.scrolled) .brand {
+  color: #ffffff !important;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+}
+
+body:has(.hero-spatial) .site-header:not(.scrolled) .site-nav a:not(.nav-cta),
+.site-header.on-hero:not(.scrolled) .site-nav a:not(.nav-cta) {
+  color: #ffffff !important;
+  font-weight: 650;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+}
+
+body:has(.hero-spatial) .site-header:not(.scrolled) .site-nav a:not(.nav-cta):hover,
+.site-header.on-hero:not(.scrolled) .site-nav a:not(.nav-cta):hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.18) !important;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+}
+
+body:has(.hero-spatial) .site-header:not(.scrolled) .theme-toggle,
+.site-header.on-hero:not(.scrolled) .theme-toggle {
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+body:has(.hero-spatial) .site-header:not(.scrolled) .nav-toggle,
+.site-header.on-hero:not(.scrolled) .nav-toggle {
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+body:has(.hero-spatial) .site-header:not(.scrolled) .nav-toggle svg path,
+.site-header.on-hero:not(.scrolled) .nav-toggle svg path {
+  stroke: #ffffff !important;
+}
+
+/* Scrolled state: visionOS frosted glass navbar with automatic light/dark ink */
 body:has(.hero-spatial) .site-header.scrolled,
 .style-visage .site-header.scrolled {
-  background: color-mix(in srgb, var(--vi-bg) 82%, transparent) !important;
+  background: color-mix(in srgb, var(--vi-bg) 84%, transparent) !important;
   backdrop-filter: blur(28px) saturate(190%) !important;
   -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
   border-bottom: 1px solid color-mix(in srgb, var(--vi-line) 35%, transparent) !important;
@@ -260,6 +303,38 @@ body:has(.hero-spatial) .site-header.scrolled,
   background: color-mix(in srgb, var(--vi-bg) 85%, transparent) !important;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45) !important;
   border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.site-header.scrolled .brand {
+  color: var(--vi-ink) !important;
+  text-shadow: none !important;
+}
+
+.site-header.scrolled .site-nav a:not(.nav-cta) {
+  color: var(--vi-muted) !important;
+  text-shadow: none !important;
+}
+
+.site-header.scrolled .site-nav a:not(.nav-cta):hover {
+  color: var(--vi-ink) !important;
+  background: var(--vi-soft) !important;
+}
+
+.site-header.scrolled .theme-toggle {
+  color: var(--vi-ink) !important;
+  border-color: color-mix(in srgb, var(--vi-line) 40%, transparent) !important;
+  background: color-mix(in srgb, var(--vi-surface) 80%, transparent) !important;
+  box-shadow: none !important;
+}
+
+.site-header.scrolled .nav-toggle {
+  color: var(--vi-ink) !important;
+  border-color: color-mix(in srgb, var(--vi-line) 40%, transparent) !important;
+  background: color-mix(in srgb, var(--vi-surface) 80%, transparent) !important;
+}
+
+.site-header.scrolled .nav-toggle svg path {
+  stroke: var(--vi-ink) !important;
 }
 .style-visage .brand-mark { display:none; }
 .style-visage .site-header .brand { color:var(--vi-ink); font-weight:800; font-size:1.15rem; gap:.75rem; text-decoration:none; }

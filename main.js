@@ -219,10 +219,15 @@
 
     // A. Sticky Header Frost & Scroll Indicator Controller
     var header = document.querySelector('.site-header');
+    var isHeroPage = !!document.querySelector('.hero-spatial');
     var scrollIndicator = document.querySelector('.hero-scroll-indicator');
     var heroPhoto = document.querySelector('.hero-bg-photo');
     var heroContent = document.querySelector('.hero-spatial .hero-content');
     var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (header && isHeroPage) {
+      header.classList.add('on-hero');
+    }
 
     var ticking = false;
     function onScroll() {
@@ -231,8 +236,10 @@
       if (header) {
         if (scrollY > 20) {
           header.classList.add('scrolled');
+          if (isHeroPage) header.classList.remove('on-hero');
         } else {
           header.classList.remove('scrolled');
+          if (isHeroPage) header.classList.add('on-hero');
         }
       }
 

@@ -213,9 +213,118 @@
     }
   }
 
+  /* 5. Apple Vision Pro Spatial Dynamics & Scroll Effects */
+  function initSpatialEffects() {
+    root.classList.add('js-ready');
+
+    // A. Sticky Header Frost & Scroll Indicator Controller
+    var header = document.querySelector('.site-header');
+    var scrollIndicator = document.querySelector('.hero-scroll-indicator');
+    var heroPhoto = document.querySelector('.hero-bg-photo');
+    var heroContent = document.querySelector('.hero-spatial .hero-content');
+    var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var ticking = false;
+    function onScroll() {
+      var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+
+      if (header) {
+        if (scrollY > 20) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      }
+
+      if (scrollIndicator) {
+        if (scrollY > 50) {
+          scrollIndicator.style.opacity = '0';
+          scrollIndicator.style.pointerEvents = 'none';
+        } else {
+          scrollIndicator.style.opacity = '';
+          scrollIndicator.style.pointerEvents = '';
+        }
+      }
+
+      // Parallax scroll fallback if CSS scroll-timeline is unsupported and motion allowed
+      var hasCssScrollTimeline = window.CSS && window.CSS.supports && window.CSS.supports('animation-timeline', 'scroll()');
+      if (!prefersReducedMotion && heroPhoto && !hasCssScrollTimeline) {
+        var vh = window.innerHeight || 800;
+        if (scrollY <= vh) {
+          var ratio = scrollY / vh;
+          heroPhoto.style.transform = 'scale(' + (1.03 + ratio * 0.12) + ') translate3d(0, ' + (scrollY * 0.25) + 'px, 0)';
+          if (heroContent) {
+            heroContent.style.opacity = String(1 - ratio * 0.85);
+            heroContent.style.transform = 'translate3d(0, ' + (scrollY * 0.35) + 'px, 0)';
+          }
+        }
+      }
+
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        window.requestAnimationFrame(onScroll);
+        ticking = true;
+      }
+    }, { passive: true });
+    onScroll();
+
+    // B. VisionOS Specular Cursor Tracking
+    var glassElements = document.querySelectorAll(
+      '.trust-strip li, .three-cells article, .process-grid article, .consultation-card, .terminal-box'
+    );
+
+    glassElements.forEach(function (el) {
+      el.addEventListener('pointermove', function (e) {
+        var rect = el.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        el.style.setProperty('--mouse-x', x + 'px');
+        el.style.setProperty('--mouse-y', y + 'px');
+      }, { passive: true });
+    });
+
+    // C. Scroll-Reveal via IntersectionObserver
+    var revealTargets = document.querySelectorAll(
+      '.trust-strip li, .terminal-box, .three-cells article, .process-grid article, .consultation-card'
+    );
+
+    if ('IntersectionObserver' in window && !prefersReducedMotion) {
+      var revealObserver = new IntersectionObserver(function (entries, observer) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        rootMargin: '0px 0px -40px 0px',
+        threshold: 0.15
+      });
+
+      revealTargets.forEach(function (el, index) {
+        el.classList.add('scroll-reveal');
+        // Gentle stagger for adjacent grid items
+        var delay = (index % 4) * 0.08;
+        el.style.transitionDelay = delay + 's';
+        revealObserver.observe(el);
+      });
+    } else {
+      revealTargets.forEach(function (el) {
+        el.classList.add('scroll-reveal', 'in-view');
+      });
+    }
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initFaqController);
+    document.addEventListener('DOMContentLoaded', function () {
+      initFaqController();
+      initSpatialEffects();
+    });
   } else {
     initFaqController();
+    initSpatialEffects();
   }
 })();

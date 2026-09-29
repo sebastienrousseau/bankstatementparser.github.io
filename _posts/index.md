@@ -16,20 +16,31 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
 
 
 
-<section class="visage-intro" aria-labelledby="hero-heading">
-<div class="wrap">
-<p class="lilac-label">Financial Document Engineering · Open Source</p>
+<section class="visage-intro hero-spatial" aria-labelledby="hero-heading">
+<div class="hero-backdrop" aria-hidden="true">
+<picture>
+<source media="(max-width: 40rem)" srcset="https://cloudcdn.pro/stocks/images/corporate-finance-640.webp 640w, https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp 1200w" sizes="100vw">
+<img src="https://cloudcdn.pro/stocks/images/corporate-finance-1920.webp" srcset="https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp 1200w, https://cloudcdn.pro/stocks/images/corporate-finance-1920.webp 1920w" sizes="100vw" width="1920" height="1080" alt="" class="hero-bg-photo" loading="eager" fetchpriority="high">
+</picture>
+<div class="hero-scrim"></div>
+</div>
+<div class="wrap hero-content">
+<p class="lilac-label hero-badge">Financial Document Engineering · Open Source</p>
 <h1 id="hero-heading">Parse any bank statement in <em>milliseconds.</em><br>Zero cloud dependencies. Zero telemetry.</h1>
-<p>An open-source, high-throughput financial document parsing engine engineered in Rust with native Python bindings. Converts PDF, CSV, OFX, QIF, MT940, and CAMT.053 bank statements into validated, structured JSON and ISO 20022 transaction streams entirely on your own infrastructure.</p>
-<div class="actions">
+<p class="hero-lead">An open-source, high-throughput financial document parsing engine engineered in Rust with native Python bindings. Converts PDF, CSV, OFX, QIF, MT940, and CAMT.053 bank statements into validated, structured JSON and ISO 20022 transaction streams entirely on your own infrastructure.</p>
+<div class="actions hero-actions">
 <a class="primary" href="/getting-started/index.html">Install CLI &amp; SDK</a>
-<a href="/formats/index.html">Explore Supported Formats</a>
+<a class="secondary-glass" href="/formats/index.html">Explore Supported Formats</a>
 </div>
 <ul class="hero-assurances">
 <li>Deterministic Rust Core</li>
 <li>Zero Cloud Dependencies</li>
 <li>100% Air-Gapped Privacy</li>
 </ul>
+</div>
+<div class="hero-scroll-indicator" aria-hidden="true">
+<span class="scroll-mouse"><span class="scroll-wheel"></span></span>
+<span class="scroll-label">Scroll to explore</span>
 </div>
 </section>
 

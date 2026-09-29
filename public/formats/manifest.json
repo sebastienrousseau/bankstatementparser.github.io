@@ -1,6 +1,6 @@
 {
   "background_color": "#ffffff",
-  "description": "Comprehensive guide to supported statement formats including PDF, CSV, OFX, QIF, SWIFT MT940, and ISO 20022 CAMT.053.",
+  "description": "Detailed format specifications for supported financial documents including text PDF, delimited CSV, OFX 1.x/2.x, SWIFT M",
   "display": "standalone",
   "icons": [
     {

@@ -3,7 +3,7 @@
   "banner": "https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp",
   "banner_alt": "Bank Statement Parser — High-Throughput Financial Document Parsing Engine",
   "date": "2026-09-01",
-  "description": "High-throughput, privacy-first parser converting bank statements (PDF, CSV, OFX, MT940, CAMT.053) into validated JSON and ISO 20022 messages with zero telemetry.",
+  "description": "High-throughput financial parser converting PDF, CSV, OFX, MT940, and CAMT.053 statements into validated JSON and ISO 20022 records with 100% zero telemetry.",
   "keywords": "bank statement parser, PDF bank statement to CSV, OFX parser, MT940 to JSON, ISO 20022 parser, Rust financial parser, Python bank statement",
   "language": "en-GB",
   "layout": "index",
@@ -12,6 +12,6 @@
   "permalink": "https://bankstatementparser.com/",
   "reading_time": 5,
   "short_name": "bankstatementparser",
-  "title": "Bank Statement Parser: High-Throughput Financial Document Engine",
+  "title": "Bank Statement Parser: High-Throughput Financial Engine",
   "word_count": 1065
 }

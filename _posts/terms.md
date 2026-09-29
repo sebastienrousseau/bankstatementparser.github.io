@@ -1,8 +1,8 @@
 ---
 name: "Bank Statement Parser"
 short_name: "bankstatementparser"
-title: "Terms of Use & Dual Open-Source Licensing"
-description: "Terms governing the use of Bank Statement Parser under Apache-2.0 and MIT licenses."
+title: "Terms of Use & Dual Open-Source License Specifications"
+description: "Terms of use and dual open-source licensing guidelines governing Bank Statement Parser under Apache-2.0 and MIT terms for community and enterprise developers."
 keywords: "terms of use, Apache 2.0 license, MIT license"
 author: "Sebastien Rousseau"
 date: "2026-09-01"

@@ -1,6 +1,6 @@
 {
   "background_color": "#ffffff",
-  "description": "Architectural deep-dive into the four-stage parsing pipeline powering Bank Statement Parser.",
+  "description": "Explore the four-stage streaming architecture of Bank Statement Parser: zero-copy ingestion, lexical tokenization, balan",
   "display": "standalone",
   "icons": [
     {

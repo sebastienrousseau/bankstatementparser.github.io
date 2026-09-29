@@ -78,7 +78,7 @@ def post_build():
 - Security & Zero Telemetry: {base_url}/security/index.html
 - API Reference: {base_url}/api/index.html
 - Frequently Asked Questions: {base_url}/faqs/index.html
-- About Sebastien Rousseau: {base_url}/about/index.html
+- About Sebastien Rousseau: https://sebastienrousseau.com/
 """
     for d in [output_dir, docs_dir]:
         with open(os.path.join(d, "llms.txt"), "w", encoding="utf-8") as f:

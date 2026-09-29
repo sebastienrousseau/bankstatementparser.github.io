@@ -942,10 +942,10 @@ body:has(.hero-spatial) .site-header.scrolled,
   white-space: pre;
   min-width: fit-content;
 }
-.t-comment { color: #9d8aa8; }
-.t-prompt { color: var(--vi-accent); font-weight: 700; margin-right: 0.45rem; }
+.t-comment { color: #c2b1d0; }
+.t-prompt { color: #d8b5f8; font-weight: 700; margin-right: 0.45rem; }
 .t-key { color: #e1c4f3; }
-.t-val { color: #82b4ff; }
+.t-val { color: #9bc0ff; }
 
 
 .visage-features { padding: clamp(5rem, 9vw, 8rem) 0; background: var(--vi-surface); }

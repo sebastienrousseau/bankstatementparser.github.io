@@ -1,6 +1,6 @@
 {
   "background_color": "#ffffff",
-  "description": "Detailed security specifications, zero-telemetry architecture, memory safety guarantees, and CycloneDX SBOM provenance.",
+  "description": "Examine the zero-telemetry security model of Bank Statement Parser: memory-safe Rust execution, air-gapped processing, S",
   "display": "standalone",
   "icons": [
     {

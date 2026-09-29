@@ -3,7 +3,7 @@
   "banner": "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp",
   "banner_alt": "Bank Statement Parser — High-Throughput Financial Document Parsing Engine",
   "date": "2026-09-01",
-  "description": "How to contribute code, submit bank statement test fixtures, and report issues.",
+  "description": "Contributor guidelines for Bank Statement Parser covering Rust code conventions, mod-97 sample data verification, DCO signoffs, and automated test execution.",
   "eyebrow": "Community & Code",
   "headline": "Contributing to Bank Statement Parser",
   "keywords": "contribute bank statement parser, open source financial contribution",
@@ -15,6 +15,6 @@
   "permalink": "https://bankstatementparser.com/contributing/index.html",
   "reading_time": 2,
   "short_name": "bankstatementparser",
-  "title": "Contributing to Bank Statement Parser: Guidelines & Workflow",
+  "title": "Contributing Guide: Code Standards & Testing",
   "word_count": 430
 }

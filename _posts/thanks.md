@@ -1,8 +1,8 @@
 ---
 name: "Bank Statement Parser"
 short_name: "bankstatementparser"
-title: "Thank You | Bank Statement Parser"
-description: "Thank you for your inquiry."
+title: "Thank You for Your Inquiry | Bank Statement Parser"
+description: "Thank you for contacting Bank Statement Parser. Our financial infrastructure engineering team will review your statement dialect requirements and respond soon."
 keywords: "thank you"
 author: "Sebastien Rousseau"
 date: "2026-09-01"

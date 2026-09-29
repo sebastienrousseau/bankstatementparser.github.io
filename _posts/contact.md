@@ -1,8 +1,8 @@
 ---
 name: "Bank Statement Parser"
 short_name: "bankstatementparser"
-title: "Contact & Enterprise Inquiries"
-description: "Get in touch for custom statement dialect support, enterprise integrations, or security inquiries."
+title: "Contact & Enterprise Inquiries | Bank Statement Parser"
+description: "Get in touch with the Bank Statement Parser engineering team for custom bank dialect support, private cloud deployments, advisory, and enterprise integrations."
 keywords: "bank statement parser contact, custom bank parser, enterprise support"
 author: "Sebastien Rousseau"
 date: "2026-09-01"

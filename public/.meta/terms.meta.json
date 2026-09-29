@@ -3,7 +3,7 @@
   "banner": "https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp",
   "banner_alt": "Bank Statement Parser — High-Throughput Financial Document Parsing Engine",
   "date": "2026-09-01",
-  "description": "Terms governing the use of Bank Statement Parser under Apache-2.0 and MIT licenses.",
+  "description": "Terms of use and dual open-source licensing guidelines governing Bank Statement Parser under Apache-2.0 and MIT terms for community and enterprise developers.",
   "eyebrow": "Legal Framework",
   "headline": "Terms of Use",
   "keywords": "terms of use, Apache 2.0 license, MIT license",
@@ -15,6 +15,6 @@
   "permalink": "https://bankstatementparser.com/terms/index.html",
   "reading_time": 1,
   "short_name": "bankstatementparser",
-  "title": "Terms of Use & Dual Open-Source Licensing",
+  "title": "Terms of Use & Dual Open-Source License Specifications",
   "word_count": 35
 }

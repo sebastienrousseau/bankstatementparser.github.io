@@ -1,16 +1,16 @@
 [
   {
     "date": "2026-09-01",
-    "description": "Background, credentials, and 19-year engineering history of Sebastien Rousseau in production financial infrastructure.",
+    "description": "Read the background and 19-year financial systems architecture history of Sebastien Rousseau, creator of the open-source Bank Statement Parser engine and tools.",
     "locale": "en-GB",
     "tags": [],
-    "title": "About Sebastien Rousseau & Bank Statement Parser",
+    "title": "About Sebastien Rousseau | Bank Statement Parser Author",
     "url": "https://bankstatementparser.com/about/",
-    "wordCount": 124
+    "wordCount": 148
   },
   {
     "date": "2026-09-01",
-    "description": "Accessibility statement declaring 100% WCAG 2.2 Level AAA compliance and high-contrast color ratios.",
+    "description": "Official accessibility statement confirming full WCAG 2.2 Level AAA compliance, high-contrast color ratios, and keyboard-first navigation across all platforms.",
     "locale": "en-GB",
     "tags": [],
     "title": "Accessibility Statement: WCAG 2.2 Level AAA Compliance",
@@ -19,154 +19,154 @@
   },
   {
     "date": "2026-09-01",
-    "description": "Complete API reference for bankstatementparser in Rust and Python with parameter definitions and code examples.",
+    "description": "Complete API reference for Bank Statement Parser in Rust and Python with parameter schemas, zero-copy buffers, balance proofs, and transaction stream examples.",
     "locale": "en-GB",
     "tags": [],
-    "title": "API Reference: Rust Crate & Python Package",
+    "title": "API Reference: Rust Crate & Python SDK Guide",
     "url": "https://bankstatementparser.com/api/",
     "wordCount": 761
   },
   {
     "date": "2026-09-01",
-    "description": "Architectural deep-dive into the four-stage parsing pipeline powering Bank Statement Parser.",
+    "description": "Explore the four-stage streaming architecture of Bank Statement Parser: zero-copy ingestion, lexical tokenization, balance proofs, and ISO 20022 emission.",
     "locale": "en-GB",
     "tags": [],
-    "title": "Internal Architecture: Tokenization, Normalization & Validation",
+    "title": "Architecture Blueprint: Deterministic Financial Parsing",
     "url": "https://bankstatementparser.com/architecture/",
     "wordCount": 803
   },
   {
     "date": "2026-09-01",
-    "description": "Empirical throughput and memory benchmarks comparing Bank Statement Parser against legacy Python/Java parser engines.",
+    "description": "Empirical latency and throughput benchmarks demonstrating 10,000+ pages per minute and sub-millisecond bank statement parsing with zero memory leak overhead.",
     "locale": "en-GB",
     "tags": [],
-    "title": "Performance Benchmarks & Throughput Specifications",
+    "title": "Performance Benchmarks: Latency & Throughput",
     "url": "https://bankstatementparser.com/benchmarks/",
     "wordCount": 339
   },
   {
     "date": "2026-09-01",
-    "description": "Release history and version notes for Bank Statement Parser starting at v0.0.1.",
+    "description": "Comprehensive release notes and semantic versioning history for Bank Statement Parser, detailing new format dialects, performance fixes, and security patches.",
     "locale": "en-GB",
     "tags": [],
-    "title": "Changelog & Semantic Version History",
+    "title": "Changelog & Semantic Version History: Release Notes",
     "url": "https://bankstatementparser.com/changelog/",
     "wordCount": 96
   },
   {
     "date": "2026-09-01",
-    "description": "Get in touch for custom statement dialect support, enterprise integrations, or security inquiries.",
+    "description": "Get in touch with the Bank Statement Parser engineering team for custom bank dialect support, private cloud deployments, advisory, and enterprise integrations.",
     "locale": "en-GB",
     "tags": [],
-    "title": "Contact & Enterprise Inquiries",
+    "title": "Contact & Enterprise Inquiries | Bank Statement Parser",
     "url": "https://bankstatementparser.com/contact/",
     "wordCount": 85
   },
   {
     "date": "2026-09-01",
-    "description": "How to contribute code, submit bank statement test fixtures, and report issues.",
+    "description": "Contributor guidelines for Bank Statement Parser covering Rust code conventions, mod-97 sample data verification, DCO signoffs, and automated test execution.",
     "locale": "en-GB",
     "tags": [],
-    "title": "Contributing to Bank Statement Parser: Guidelines & Workflow",
+    "title": "Contributing Guide: Code Standards & Testing",
     "url": "https://bankstatementparser.com/contributing/",
     "wordCount": 430
   },
   {
     "date": "2026-09-01",
-    "description": "Comprehensive technical answers regarding statement parsing throughput, zero-telemetry security, ISO 20022 schemas, and SDK deployment.",
+    "description": "Get clear answers regarding Bank Statement Parser format dialects, zero-telemetry security, ISO 20022 schemas, local OCR modules, and enterprise SDK licensing.",
     "locale": "en-GB",
     "tags": [],
-    "title": "Frequently Asked Questions (FAQ): Bank Statement Parser",
+    "title": "Frequently Asked Questions: Bank Statement Parser FAQ",
     "url": "https://bankstatementparser.com/faqs/",
     "wordCount": 1416
   },
   {
     "date": "2026-09-01",
-    "description": "Comprehensive guide to supported statement formats including PDF, CSV, OFX, QIF, SWIFT MT940, and ISO 20022 CAMT.053.",
+    "description": "Detailed format specifications for supported financial documents including text PDF, delimited CSV, OFX 1.x/2.x, SWIFT MT940, and canonical ISO 20022 CAMT.053.",
     "locale": "en-GB",
     "tags": [],
-    "title": "Supported Bank Statement Formats & Specifications",
+    "title": "Supported Statement Formats: PDF, CSV, OFX, MT940, CAMT",
     "url": "https://bankstatementparser.com/formats/",
     "wordCount": 133
   },
   {
     "date": "2026-09-01",
-    "description": "Installation instructions for Rust (Cargo), Python (Pip), Homebrew, and Docker alongside step-by-step CLI and API quickstarts.",
+    "description": "Step-by-step installation instructions for Bank Statement Parser via Cargo, Pip, Homebrew, and Docker with immediate CLI execution and Python code examples.",
     "locale": "en-GB",
     "tags": [],
-    "title": "Getting Started with Bank Statement Parser: Installation & Quickstart",
+    "title": "Getting Started: Install CLI & Native Python/Rust SDK",
     "url": "https://bankstatementparser.com/getting-started/",
     "wordCount": 692
   },
   {
     "date": "2026-09-01",
-    "description": "High-throughput, privacy-first parser converting bank statements (PDF, CSV, OFX, MT940, CAMT.053) into validated JSON and ISO 20022 messages with zero telemetry.",
+    "description": "High-throughput financial parser converting PDF, CSV, OFX, MT940, and CAMT.053 statements into validated JSON and ISO 20022 records with 100% zero telemetry.",
     "locale": "en-GB",
     "tags": [],
-    "title": "Bank Statement Parser: High-Throughput Financial Document Engine",
+    "title": "Bank Statement Parser: High-Throughput Financial Engine",
     "url": "https://bankstatementparser.com/index.html",
     "wordCount": 1065
   },
   {
     "date": "2026-09-01",
-    "description": "Details on native Rust static site compilation and automated quality gates.",
+    "description": "Learn how the Bank Statement Parser documentation site is built using Rust Static Site Generator (SSG), featuring strict CSP, WCAG AAA audits, and fast builds.",
     "locale": "en-GB",
     "tags": [],
-    "title": "Made with Static Site Generator (SSG)",
+    "title": "Made with Static Site Generator (SSG) | Web Platform",
     "url": "https://bankstatementparser.com/made-with-ssg/",
     "wordCount": 56
   },
   {
     "date": "2026-09-01",
-    "description": "Service worker offline fallback page.",
+    "description": "Offline documentation fallback for Bank Statement Parser. Access cached developer guides, format specifications, and API references with zero network access.",
     "locale": "en-GB",
     "tags": [],
-    "title": "Offline Access: Bank Statement Parser",
+    "title": "Offline Documentation Access | Bank Statement Parser",
     "url": "https://bankstatementparser.com/offline/",
     "wordCount": 19
   },
   {
     "date": "2026-09-01",
-    "description": "Privacy policy declaring zero tracking cookies, zero analytics, and completely local computation.",
+    "description": "Official privacy policy confirming Bank Statement Parser collects zero telemetry, uses zero cookies, and executes completely air-gapped on your infrastructure.",
     "locale": "en-GB",
     "tags": [],
-    "title": "Privacy Policy: 100% Zero-Telemetry Guarantee",
+    "title": "Zero-Telemetry Privacy Guarantee & Data Protection",
     "url": "https://bankstatementparser.com/privacy/",
     "wordCount": 82
   },
   {
     "date": "2026-09-01",
-    "description": "Detailed security specifications, zero-telemetry architecture, memory safety guarantees, and CycloneDX SBOM provenance.",
+    "description": "Examine the zero-telemetry security model of Bank Statement Parser: memory-safe Rust execution, air-gapped processing, Sigstore signing, and CycloneDX SBOMs.",
     "locale": "en-GB",
     "tags": [],
-    "title": "Security Architecture: Zero Telemetry, Air-Gapped & Memory Safe",
+    "title": "Security Architecture: Air-Gapped & Memory-Safe Parsing",
     "url": "https://bankstatementparser.com/security/",
     "wordCount": 379
   },
   {
     "date": "2026-09-01",
-    "description": "Terms governing the use of Bank Statement Parser under Apache-2.0 and MIT licenses.",
+    "description": "Terms of use and dual open-source licensing guidelines governing Bank Statement Parser under Apache-2.0 and MIT terms for community and enterprise developers.",
     "locale": "en-GB",
     "tags": [],
-    "title": "Terms of Use & Dual Open-Source Licensing",
+    "title": "Terms of Use & Dual Open-Source License Specifications",
     "url": "https://bankstatementparser.com/terms/",
     "wordCount": 35
   },
   {
     "date": "2026-09-01",
-    "description": "Thank you for your inquiry.",
+    "description": "Thank you for contacting Bank Statement Parser. Our financial infrastructure engineering team will review your statement dialect requirements and respond soon.",
     "locale": "en-GB",
     "tags": [],
-    "title": "Thank You | Bank Statement Parser",
+    "title": "Thank You for Your Inquiry | Bank Statement Parser",
     "url": "https://bankstatementparser.com/thanks/",
     "wordCount": 27
   },
   {
     "date": "2026-09-01",
-    "description": "Architectural blueprints and deployment patterns for corporate treasuries, fintech lenders, and forensic accounting firms.",
+    "description": "Discover enterprise deployment architectures for corporate treasury automation, lending underwriting, ledger reconciliation, and forensic accounting pipelines.",
     "locale": "en-GB",
     "tags": [],
-    "title": "Enterprise Use Cases: Treasury, Lending, Reconciliation & Audits",
+    "title": "Fintech Use Cases: Treasury & Reconciliation",
     "url": "https://bankstatementparser.com/use-cases/",
     "wordCount": 1001
   }

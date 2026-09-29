@@ -1,8 +1,8 @@
 ---
 name: "Bank Statement Parser"
 short_name: "bankstatementparser"
-title: "Made with Static Site Generator (SSG)"
-description: "Details on native Rust static site compilation and automated quality gates."
+title: "Made with Static Site Generator (SSG) | Web Platform"
+description: "Learn how the Bank Statement Parser documentation site is built using Rust Static Site Generator (SSG), featuring strict CSP, WCAG AAA audits, and fast builds."
 keywords: "Static Site Generator, SSG, Rust web compilation"
 author: "Sebastien Rousseau"
 date: "2026-09-01"

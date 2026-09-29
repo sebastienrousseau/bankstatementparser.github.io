@@ -1,8 +1,8 @@
 ---
 name: "Bank Statement Parser"
 short_name: "bankstatementparser"
-title: "Contributing to Bank Statement Parser: Guidelines & Workflow"
-description: "How to contribute code, submit bank statement test fixtures, and report issues."
+title: "Contributing Guide: Code Standards & Testing"
+description: "Contributor guidelines for Bank Statement Parser covering Rust code conventions, mod-97 sample data verification, DCO signoffs, and automated test execution."
 keywords: "contribute bank statement parser, open source financial contribution"
 author: "Sebastien Rousseau"
 date: "2026-09-01"

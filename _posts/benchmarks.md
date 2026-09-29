@@ -1,8 +1,8 @@
 ---
 name: "Bank Statement Parser"
 short_name: "bankstatementparser"
-title: "Performance Benchmarks & Throughput Specifications"
-description: "Empirical throughput and memory benchmarks comparing Bank Statement Parser against legacy Python/Java parser engines."
+title: "Performance Benchmarks: Latency & Throughput"
+description: "Empirical latency and throughput benchmarks demonstrating 10,000+ pages per minute and sub-millisecond bank statement parsing with zero memory leak overhead."
 keywords: "bank statement parser benchmark, high throughput statement parsing, Rust financial performance"
 author: "Sebastien Rousseau"
 date: "2026-09-01"

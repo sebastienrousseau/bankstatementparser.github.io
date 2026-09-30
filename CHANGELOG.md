@@ -6,6 +6,12 @@ All notable changes to this website are documented here. The format follows
 
 ## [Unreleased]
 
+### Changed
+
+- The footer reads "© 2026 Sebastien Rousseau. Bank Statement Parser.",
+  with the name linked to https://sebastienrousseau.com/ (`rel="author"`),
+  on every page.
+
 ### Fixed
 
 - Merges to `main` reach the live site again. The Pages source is "GitHub

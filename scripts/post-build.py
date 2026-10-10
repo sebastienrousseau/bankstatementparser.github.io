@@ -66,7 +66,23 @@ def post_build():
 
     # 3. Generate llms.txt
     llms_txt = f"""# Bank Statement Parser
-> High-throughput financial document parsing engine converting multi-format bank statements (PDF, CSV, OFX, MT940, CAMT.053) into validated JSON and ISO 20022 messages with zero telemetry.
+> High-throughput financial document parsing engine converting multi-format bank statements (CAMT.052/053/054, PAIN.001, SWIFT MT940/MT942, OFX/QFX, BAI2, CSV, and PDF) into unified Transactions, streaming Apache Parquet, and Plain-Text Ledgers (hledger, beancount) with 100% zero telemetry.
+
+## Supported Financial Formats
+- ISO 20022 CAMT: Bank-to-Customer Statement (camt.053), Account Report (camt.052), Debit/Credit Notification (camt.054)
+- ISO 20022 PAIN.001: Customer Credit Transfer Initiation for two-way automated statement reconciliation
+- SWIFT MT940 & MT942: End-of-Day and Interim Statements with structured Field :86: sub-tag parsing
+- BAI2: North American Corporate Cash Management reporting standard (Records 01-99)
+- OFX & QFX: Open Financial Exchange SGML (1.x) and XML (2.x) banking statements
+- Delimited CSV: Automatic delimiter, date dialect, and decimal statistical detection
+- PDF Statements: Native layout text coordinate extraction and local offline OCR/vision fallback
+
+## Export & Integration Targets
+- Columnar Apache Parquet: High-throughput streaming via ParquetStreamWriter with Snappy/Zstd compression
+- Plain-Text Accounting: Native exports for hledger, beancount, and ledger-cli double-entry systems
+- Analytical Models: Cash flow summaries, average daily balances, NSF fee detection, and recurring transactions
+- Two-Way Reconciliation: Automated matching of payment instructions (PAIN.001) against statement entries
+- PDF Forensics: Font anomaly inspection, metadata tampering detection, and audit verdicts
 
 ## Core Documentation & Resources
 - Homepage: {base_url}/
@@ -78,7 +94,8 @@ def post_build():
 - Security & Zero Telemetry: {base_url}/security/index.html
 - API Reference: {base_url}/api/index.html
 - Frequently Asked Questions: {base_url}/faqs/index.html
-- About Sebastien Rousseau: https://sebastienrousseau.com/
+- Author & Pedigree: {base_url}/about/index.html
+- Sebastien Rousseau: https://sebastienrousseau.com/
 """
     for d in [output_dir, docs_dir]:
         with open(os.path.join(d, "llms.txt"), "w", encoding="utf-8") as f:
@@ -130,17 +147,15 @@ def post_build():
                 return m.group(0).replace("<p>", "").replace("</p>", "")
             content = re.sub(r"<pre><code>.*?</code></pre>", clean_pre, content, flags=re.DOTALL)
 
-            # Ensure footer and heading ampersands are encoded
-            for unencoded, encoded in [
-                ("Documentation & API", "Documentation &amp; API"),
-                ("API & SDK Reference", "API &amp; SDK Reference"),
-                ("Solutions & Workflows", "Solutions &amp; Workflows"),
-                ("Open Source & Trust", "Open Source &amp; Trust"),
-                ("Questions & Answers", "Questions &amp; Answers"),
-                ("Legal & Feeds", "Legal &amp; Feeds"),
-                ("Terms & Privacy", "Terms &amp; Privacy"),
-            ]:
-                content = content.replace(unencoded, encoded)
+            # Ensure all raw ampersands outside <script> tags are validly encoded as &amp;
+            def encode_raw_amp(html):
+                parts = re.split(r'(<script\b[^>]*>.*?</script>)', html, flags=re.DOTALL | re.IGNORECASE)
+                amp_re = re.compile(r'&(?!(?:[a-zA-Z][a-zA-Z0-9]+|#\d+|#[xX][0-9a-fA-F]+);)')
+                for i in range(0, len(parts), 2):
+                    parts[i] = amp_re.sub('&amp;', parts[i])
+                return ''.join(parts)
+
+            content = encode_raw_amp(content)
 
             with open(html_file, "w", encoding="utf-8") as f:
                 f.write(content)

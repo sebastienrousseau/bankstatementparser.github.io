@@ -158,13 +158,13 @@
           "name": "Sebastien Rousseau"
         }
       ],
-      "content_html": "Detailed format specifications for supported financial documents including text PDF, delimited CSV, OFX 1.x/2.x, SWIFT MT940, and canonical ISO 20022 CAMT.053.",
+      "content_html": "Comprehensive format specifications for 8 structured financial formats: CAMT (052/053/054), PAIN.001, MT940, MT942, OFX/QFX, BAI2, CSV, and PDF statements.",
       "date_modified": "",
       "date_published": "",
       "id": "https://bankstatementparser.com/formats/",
       "language": "en-GB",
       "tags": [],
-      "title": "Supported Statement Formats: PDF, CSV, OFX, MT940, CAMT",
+      "title": "Supported Statement Formats: PDF, CSV, OFX, MT940, CAMT, BAI2",
       "url": "https://bankstatementparser.com/formats/"
     },
     {

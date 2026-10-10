@@ -3,7 +3,7 @@
   <channel>
     <title>Bank Statement Parser: High-Throughput Financial Engine</title>
     <link>https://bankstatementparser.com/</link>
-    <description>High-throughput financial parser converting PDF, CSV, OFX, MT940, and CAMT.053 statements into validated JSON and ISO 20022 records with 100% zero telemetry.</description>
+    <description>High-throughput financial parser converting CAMT, PAIN.001, MT940, MT942, OFX, BAI2, CSV, and PDF statements into validated JSON, Parquet, and ISO 20022 records with 100% zero telemetry.</description>
     <atom:link href="https://bankstatementparser.com/rss.xml" rel="self" type="application/rss+xml"/>
     <language>en</language>
     <item>
@@ -142,9 +142,9 @@
       <enclosure url="https://cloudcdn.pro/stocks/images/block-chain-3055701-1200.webp" type="image/webp" length="0"/>
     </item>
     <item>
-      <title>Supported Statement Formats: PDF, CSV, OFX, MT940, CAMT</title>
+      <title>Supported Statement Formats: PDF, CSV, OFX, MT940, CAMT, BAI2</title>
       <link>https://bankstatementparser.com/formats/</link>
-      <description>Detailed format specifications for supported financial documents including text PDF, delimited CSV, OFX 1.x/2.x, SWIFT MT940, and canonical ISO 20022 CAMT.053.</description>
+      <description>Comprehensive format specifications for 8 structured financial formats: CAMT (052/053/054), PAIN.001, MT940, MT942, OFX/QFX, BAI2, CSV, and PDF statements.</description>
       <guid isPermaLink="true">https://bankstatementparser.com/formats/</guid>
       <pubDate></pubDate>
       <author>Sebastien Rousseau</author>

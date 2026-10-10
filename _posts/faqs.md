@@ -63,13 +63,16 @@ lead: "Comprehensive guidance covering specifications, zero-telemetry local exec
 <span class="faq-icon" aria-hidden="true"></span>
 </summary>
 <div class="faq-answer">
-<p>The parser provides native, deterministic parsers for the primary banking standards worldwide:</p>
+<p>The parser provides native, deterministic parsers for eight primary banking standards worldwide:</p>
 <ul>
-<li><strong>PDF Statements:</strong> Digital PDF 1.4–2.0 native layout coordinate mapping and multi-column transaction extraction.</li>
-<li><strong>CSV &amp; Delimited:</strong> RFC 4180 auto-detecting delimiters (comma, semicolon, tab), date ordering (DMY, MDY, YMD), and decimal notations.</li>
-<li><strong>OFX / QFX:</strong> Open Financial Exchange SGML (1.x) and XML (2.x) banking and credit card formats.</li>
-<li><strong>SWIFT MT940 / MT942:</strong> Tagged financial statement messages with field 61 sub-fields and balance reconciliation.</li>
-<li><strong>ISO 20022 CAMT.053:</strong> XML cash management customer statement messages conforming to SEPA rulebooks.</li>
+<li><strong>PDF Statements:</strong> Digital and scanned PDF 1.4–2.0 coordinate mapping, table boundaries, and offline OCR fallback.</li>
+<li><strong>CSV &amp; Delimited:</strong> RFC 4180 auto-detecting delimiters (comma, semicolon, tab), date ordering, and decimal notations.</li>
+<li><strong>BAI2 Cash Management:</strong> North American standard (Records 01–99) with status codes and record 88 continuation lines.</li>
+<li><strong>SWIFT MT940 / MT942:</strong> End-of-day and interim intraday statements with structured field :86: sub-tag parsing.</li>
+<li><strong>ISO 20022 CAMT (052/053/054):</strong> Bank-to-customer statements, intraday reports, and credit/debit notifications.</li>
+<li><strong>ISO 20022 PAIN.001:</strong> Customer credit transfer initiation messages parsed for automated two-way reconciliation.</li>
+<li><strong>OFX / QFX:</strong> Open Financial Exchange SGML (1.x) and XML (2.x) banking and credit card statements.</li>
+<li><strong>Parquet &amp; Ledger Exports:</strong> Columnar Apache Parquet streaming, and plain-text ledgers (hledger, beancount, ledger-cli).</li>
 </ul>
 </div>
 </details>

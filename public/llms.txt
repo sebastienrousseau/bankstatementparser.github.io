@@ -1,5 +1,21 @@
 # Bank Statement Parser
-> High-throughput financial document parsing engine converting multi-format bank statements (PDF, CSV, OFX, MT940, CAMT.053) into validated JSON and ISO 20022 messages with zero telemetry.
+> High-throughput financial document parsing engine converting multi-format bank statements (CAMT.052/053/054, PAIN.001, SWIFT MT940/MT942, OFX/QFX, BAI2, CSV, and PDF) into unified Transactions, streaming Apache Parquet, and Plain-Text Ledgers (hledger, beancount) with 100% zero telemetry.
+
+## Supported Financial Formats
+- ISO 20022 CAMT: Bank-to-Customer Statement (camt.053), Account Report (camt.052), Debit/Credit Notification (camt.054)
+- ISO 20022 PAIN.001: Customer Credit Transfer Initiation for two-way automated statement reconciliation
+- SWIFT MT940 & MT942: End-of-Day and Interim Statements with structured Field :86: sub-tag parsing
+- BAI2: North American Corporate Cash Management reporting standard (Records 01-99)
+- OFX & QFX: Open Financial Exchange SGML (1.x) and XML (2.x) banking statements
+- Delimited CSV: Automatic delimiter, date dialect, and decimal statistical detection
+- PDF Statements: Native layout text coordinate extraction and local offline OCR/vision fallback
+
+## Export & Integration Targets
+- Columnar Apache Parquet: High-throughput streaming via ParquetStreamWriter with Snappy/Zstd compression
+- Plain-Text Accounting: Native exports for hledger, beancount, and ledger-cli double-entry systems
+- Analytical Models: Cash flow summaries, average daily balances, NSF fee detection, and recurring transactions
+- Two-Way Reconciliation: Automated matching of payment instructions (PAIN.001) against statement entries
+- PDF Forensics: Font anomaly inspection, metadata tampering detection, and audit verdicts
 
 ## Core Documentation & Resources
 - Homepage: https://bankstatementparser.com/
@@ -11,4 +27,5 @@
 - Security & Zero Telemetry: https://bankstatementparser.com/security/index.html
 - API Reference: https://bankstatementparser.com/api/index.html
 - Frequently Asked Questions: https://bankstatementparser.com/faqs/index.html
-- About Sebastien Rousseau: https://sebastienrousseau.com/
+- Author & Pedigree: https://bankstatementparser.com/about/index.html
+- Sebastien Rousseau: https://sebastienrousseau.com/

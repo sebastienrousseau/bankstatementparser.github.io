@@ -11,11 +11,11 @@
     "topics": "https://bankstatementparser.com/api/agents/topics.json"
   },
   "site": {
-    "description": "Privacy-first, zero-telemetry parser for extracting structured transactions from PDF, CSV, and image bank statements.",
+    "description": "Privacy-first, zero-telemetry parser extracting structured transactions from CAMT, PAIN.001, MT940, MT942, OFX, BAI2, CSV, and PDF bank statements.",
     "language": "en-GB",
     "name": "Bank Statement Parser",
     "title": "Bank Statement Parser | Fast, Secure Financial Data Extraction",
     "url": "https://bankstatementparser.com"
   },
-  "version": "0.0.63"
+  "version": "0.0.67"
 }

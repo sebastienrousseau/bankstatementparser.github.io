@@ -6,6 +6,20 @@ All notable changes to this website are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.0.5] - 2026-10-11
+
+### Changed
+
+- Upgraded SSG compiler pin in release automation to v0.0.67.
+- Standardized release workflow build and audit sequencing to ensure byte-for-byte
+  reproducible release archives.
+
+### Fixed
+
+- Resolved CodeQL code scanning alert 39 (py/bad-tag-filter) in
+  `scripts/post-build.py` by permitting whitespace and attributes in closing
+  script tags.
+
 ## [0.0.4] - 2026-10-11
 
 ### Added
@@ -106,7 +120,8 @@ All notable changes to this website are documented here. The format follows
 - Self-hosted asset delivery and zero third-party telemetry (#1).
 - Dual licensing under Apache-2.0 OR MIT (#2, #3).
 
-[Unreleased]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.4...HEAD
+[Unreleased]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.5...HEAD
+[0.0.5]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.1...v0.0.2

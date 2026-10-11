@@ -204,7 +204,7 @@ def post_build():
 
             # Ensure all raw ampersands outside <script> tags are validly encoded as &amp;
             def encode_raw_amp(html):
-                parts = re.split(r'(<script\b[^>]*>.*?</script>)', html, flags=re.DOTALL | re.IGNORECASE)
+                parts = re.split(r'(<script\b[^>]*>.*?</script\b[^>]*>)', html, flags=re.DOTALL | re.IGNORECASE)
                 amp_re = re.compile(r'&(?!(?:[a-zA-Z][a-zA-Z0-9]+|#\d+|#[xX][0-9a-fA-F]+);)')
                 for i in range(0, len(parts), 2):
                     parts[i] = amp_re.sub('&amp;', parts[i])

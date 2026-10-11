@@ -15,7 +15,7 @@ HEADING = "## Highlights ⭐️"
 BULLET = re.compile(r"^\* \*\*[^*]+\*\*: \S")
 
 def fail(msg: str) -> None: raise SystemExit(f"[release-notes] {msg}")
-def title(tag: str) -> str: return f"{PROJECT} {tag[1:]}"
+def title(tag: str) -> str: return f"BSP {tag}"
 
 def highlights(tag: str) -> str:
     path = NOTES / f"{tag}.md"

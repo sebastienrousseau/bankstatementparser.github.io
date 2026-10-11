@@ -12,7 +12,7 @@
   "lead": "High-throughput tokenization, deterministic stream parsing, and ISO 20022 message synthesis with zero runtime allocations.",
   "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
   "name": "Bank Statement Parser",
-  "permalink": "https://bankstatementparser.com/architecture/index.html",
+  "permalink": "https://bankstatementparser.com/architecture/",
   "reading_time": 4,
   "short_name": "bankstatementparser",
   "title": "Architecture Blueprint: Deterministic Financial Parsing",

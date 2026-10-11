@@ -6,6 +6,28 @@ All notable changes to this website are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.0.4] - 2026-10-11
+
+### Added
+
+- Injected Schema.org `BreadcrumbList` structured data across all subpages to
+  enable hierarchical rich snippets in Google search results.
+
+### Changed
+
+- Standardized `sitemap.xml` generation to strictly emit canonical directory
+  permalinks without `index.html` suffixes, eliminating Google Search Console
+  redirect and alternate page warnings.
+- Unified OpenGraph (`og:url`), international hreflang (`hreflang="en"`), and
+  canonical URLs across all layouts and markdown frontmatter to trailing slashes.
+- Upgraded `robots.txt` distribution across `public/` and `docs/` build targets.
+
+### Fixed
+
+- Eliminated soft-404 indexing errors in Google Search Console by tagging `404/`
+  and `offline/` with `<meta name="robots" content="noindex, follow">`,
+  excluding them from `sitemap.xml`, and disallowing them in `robots.txt`.
+
 ## [0.0.3] - 2026-10-10
 
 ### Added
@@ -84,7 +106,8 @@ All notable changes to this website are documented here. The format follows
 - Self-hosted asset delivery and zero third-party telemetry (#1).
 - Dual licensing under Apache-2.0 OR MIT (#2, #3).
 
-[Unreleased]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.3...HEAD
+[Unreleased]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.4...HEAD
+[0.0.4]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/sebastienrousseau/bankstatementparser.github.io/releases/tag/v0.0.1

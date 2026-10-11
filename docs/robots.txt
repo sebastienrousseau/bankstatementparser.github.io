@@ -1,2 +1,8 @@
 User-agent: *
+Allow: /
+
+# Prevent crawl waste on error pages and offline fallback
+Disallow: /404/
+Disallow: /offline/
+
 Sitemap: https://bankstatementparser.com/sitemap.xml

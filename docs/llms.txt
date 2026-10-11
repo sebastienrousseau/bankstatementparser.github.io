@@ -19,13 +19,13 @@
 
 ## Core Documentation & Resources
 - Homepage: https://bankstatementparser.com/
-- Getting Started: https://bankstatementparser.com/getting-started/index.html
-- Supported Formats: https://bankstatementparser.com/formats/index.html
-- Use Cases: https://bankstatementparser.com/use-cases/index.html
-- Performance Benchmarks: https://bankstatementparser.com/benchmarks/index.html
-- Pipeline Architecture: https://bankstatementparser.com/architecture/index.html
-- Security & Zero Telemetry: https://bankstatementparser.com/security/index.html
-- API Reference: https://bankstatementparser.com/api/index.html
-- Frequently Asked Questions: https://bankstatementparser.com/faqs/index.html
-- Author & Pedigree: https://bankstatementparser.com/about/index.html
+- Getting Started: https://bankstatementparser.com/getting-started/
+- Supported Formats: https://bankstatementparser.com/formats/
+- Use Cases: https://bankstatementparser.com/use-cases/
+- Performance Benchmarks: https://bankstatementparser.com/benchmarks/
+- Pipeline Architecture: https://bankstatementparser.com/architecture/
+- Security & Zero Telemetry: https://bankstatementparser.com/security/
+- API Reference: https://bankstatementparser.com/api/
+- Frequently Asked Questions: https://bankstatementparser.com/faqs/
+- Author & Pedigree: https://bankstatementparser.com/about/
 - Sebastien Rousseau: https://sebastienrousseau.com/

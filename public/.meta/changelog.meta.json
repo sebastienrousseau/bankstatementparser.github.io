@@ -12,7 +12,7 @@
   "lead": "Deterministic versioning history, security audits, and functional enhancements across every release.",
   "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
   "name": "Bank Statement Parser",
-  "permalink": "https://bankstatementparser.com/changelog/index.html",
+  "permalink": "https://bankstatementparser.com/changelog/",
   "reading_time": 1,
   "short_name": "bankstatementparser",
   "title": "Changelog & Semantic Version History: Release Notes",

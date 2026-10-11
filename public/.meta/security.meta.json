@@ -12,7 +12,7 @@
   "lead": "Strict zero-telemetry guarantees, memory safety verification, and Sigstore-signed releases for compliance-critical pipelines.",
   "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
   "name": "Bank Statement Parser",
-  "permalink": "https://bankstatementparser.com/security/index.html",
+  "permalink": "https://bankstatementparser.com/security/",
   "reading_time": 1,
   "short_name": "bankstatementparser",
   "title": "Security Architecture: Air-Gapped & Memory-Safe Parsing",

@@ -1,6 +1,6 @@
 {
   "background_color": "#ffffff",
-  "description": "Detailed format specifications for supported financial documents including text PDF, delimited CSV, OFX 1.x/2.x, SWIFT M",
+  "description": "Comprehensive format specifications for 8 structured financial formats: CAMT (052/053/054), PAIN.001, MT940, MT942, OFX/",
   "display": "standalone",
   "icons": [
     {

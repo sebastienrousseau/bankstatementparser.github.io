@@ -5,7 +5,7 @@ title: "About Sebastien Rousseau | Bank Statement Parser Author"
 description: "Read the background and 19-year financial systems architecture history of Sebastien Rousseau, creator of the open-source Bank Statement Parser engine and tools."
 keywords: "Sebastien Rousseau, Bank Statement Parser author, financial systems architect, KyberLib, open source"
 author: "Sebastien Rousseau"
-date: "2026-09-01"
+date: "2026-10-10"
 language: "en-GB"
 layout: "page"
 permalink: "https://bankstatementparser.com/about/index.html"
@@ -16,8 +16,6 @@ eyebrow: "Engineering & Leadership"
 headline: "About Sebastien Rousseau"
 lead: "Principal engineer building high-assurance, privacy-first financial infrastructure and cryptographic document tooling."
 ---
-
-
 
 <div class="author-pedigree-strip my-4">
 <div class="author-avatar-wrap">
@@ -30,9 +28,14 @@ lead: "Principal engineer building high-assurance, privacy-first financial infra
 </div>
 </div>
 
-## Background & Pedigree
+<h2>Engineering Pedigree &amp; Domain Expertise</h2>
 
-- **19 Years in Production Finance:** Extensive experience across Corporate & Investment Banking (CIB), SWIFT payment gateways, and clearing networks.
-- **Author of Open-Source Financial Tools:** Author of Bank Statement Parser, KyberLib (FIPS 203 ML-KEM), hsh, and ISO 20022 message parsers with over 45.7M+ total downloads.
-- **Personal Website & Publications:** Visit [sebastienrousseau.com](https://sebastienrousseau.com/) for technical essays, research notes, and keynote presentations.
-- **Dual Apache-2.0 / MIT Licensing:** Committed to sovereign, open, and vendor-neutral financial infrastructure.
+<p>With nineteen years of hands-on systems engineering across tier-1 investment banking, clearing gateways, and treasury infrastructures in London and international financial hubs, Sebastien specializes in high-throughput document tokenization, payment message harmonization, and post-quantum cryptographic security.</p>
+
+<ul>
+<li><strong>19 Years in Production Finance:</strong> Architecture of mission-critical systems across Corporate &amp; Investment Banking (CIB), SWIFT payment gateways, SEPA clearing schemes, and real-time treasury ledger reconciliation.</li>
+<li><strong>Author of Sovereign Open-Source Libraries:</strong> Creator of Bank Statement Parser, KyberLib (FIPS 203 ML-KEM module lattice-based key encapsulation), hsh, and ISO 20022 message engines with over 45.7M+ total package downloads.</li>
+<li><strong>Standards &amp; Protocol Conformance:</strong> Deep domain mastery of SWIFT Standards Release 2026 (MT940, MT942, field :86: sub-tags), ISO 20022 cash management (CAMT.052, CAMT.053, CAMT.054), payment initiation (PAIN.001), and North American BAI2 cash reporting.</li>
+<li><strong>Zero-Telemetry Sovereign Architecture:</strong> Committed to building air-gapped, sovereign financial tools that execute locally with zero telemetry, preserving absolute banking confidentiality and data sovereignty.</li>
+<li><strong>Personal Website &amp; Keynotes:</strong> Visit <a href="https://sebastienrousseau.com/">sebastienrousseau.com</a> for technical white papers, research monographs, and conference addresses on financial engineering and cryptographic assurance.</li>
+</ul>

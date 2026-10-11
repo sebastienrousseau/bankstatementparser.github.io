@@ -21,6 +21,16 @@ lead: "Deterministic versioning history, security audits, and functional enhance
 
 All notable changes to **Bank Statement Parser** are documented in this file following strict Semantic Versioning.
 
+## [0.0.3] - 2026-10-10
+### Added
+- Expanded format specifications covering all 8 banking formats: CAMT (052/053/054), PAIN.001, MT940, MT942, OFX/QFX, BAI2, CSV, and PDF.
+- Documented Apache Parquet streaming (`ParquetStreamWriter`) and batch export alongside plain-text ledger models (hledger, beancount, ledger-cli).
+- Implemented Generative Engine Optimization (GEO) architecture with direct-answer BLUF headers and entity-based knowledge graphs.
+- Documented two-way bank reconciliation (`reconcile_payments_and_statements`), treasury analytics, and PDF forensics.
+### Changed
+- Upgraded Static Site Generator (SSG) compilation and audit pipeline to the latest local version.
+- Linked copyright notice directly to author Sebastien Rousseau at https://sebastienrousseau.com/ across all layouts.
+
 ## [0.0.2] - 2026-09-27
 ### Fixed
 - Fixed CSS entity escape sequence for `.hr-blurred:after` in base layout template.

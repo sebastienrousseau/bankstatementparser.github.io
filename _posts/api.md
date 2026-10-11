@@ -112,57 +112,82 @@ Bank Statement Parser exposes deterministic, zero-allocation interfaces across b
 <span class="terminal-title">python — sdk quickstart</span>
 </div>
 <div class="terminal-body">
-<div class="t-line"><span class="t-key">from</span> bankstatementparser <span class="t-key">import</span> parse_statement, parse_bytes, OutputFormat</div>
+<div class="t-line"><span class="t-key">from</span> bankstatementparser <span class="t-key">import</span> (</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;BankStatementParser, CamtParser, Bai2Parser, Mt940Parser,</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;ParquetStreamWriter, reconcile_payments_and_statements,</div>
+<div class="t-line">)</div>
 <div class="t-line">&nbsp;</div>
-<div class="t-line"><span class="t-comment">&#35; Parse statement file directly into structured Python objects</span></div>
-<div class="t-line">statement = parse_statement(<span class="t-val">&quot;statement.pdf&quot;</span>, format=OutputFormat.JSON)</div>
+<div class="t-line"><span class="t-comment">&#35; 1. Parse statement into strongly-typed Transaction models</span></div>
+<div class="t-line">parser = BankStatementParser()</div>
+<div class="t-line">statement = parser.parse_file(<span class="t-val">&quot;statement.pdf&quot;</span>)</div>
 <div class="t-line">&nbsp;</div>
-<div class="t-line"><span class="t-comment">&#35; Inspect normalized metadata and verified balances</span></div>
-<div class="t-line">print(<span class="t-val">f&quot;Account Number: {statement.account_number}&quot;</span>)</div>
+<div class="t-line"><span class="t-comment">&#35; 2. Stream transactions directly to Apache Parquet</span></div>
+<div class="t-line"><span class="t-key">with</span> ParquetStreamWriter(<span class="t-val">&quot;transactions.parquet&quot;</span>) <span class="t-key">as</span> writer:</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;writer.write_batch(statement.transactions)</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-comment">&#35; 3. Inspect verified balance proof</span></div>
 <div class="t-line">print(<span class="t-val">f&quot;Closing Balance: {statement.closing_balance} {statement.currency}&quot;</span>)</div>
-<div class="t-line">&nbsp;</div>
-<div class="t-line"><span class="t-comment">&#35; Iterate over strongly typed transaction records</span></div>
 <div class="t-line"><span class="t-key">for</span> tx <span class="t-key">in</span> statement.transactions:</div>
-<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;print(<span class="t-val">f&quot;{tx.booking_date} | {tx.amount:&gt;10.2f} {statement.currency} | {tx.description}&quot;</span>)</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;print(<span class="t-val">f&quot;{tx.date} | {tx.amount:&gt;10.2f} | {tx.description}&quot;</span>)</div>
 </div>
 </div>
 
-<p>High-level methods exported by the Python module:</p>
+<p>Core parsers and analytical tools exported by the module:</p>
 
 <div class="table-responsive my-3">
 <table class="visage-table">
 <thead>
 <tr>
-<th>Function / Attribute</th>
-<th>Signature</th>
-<th>Return Type</th>
-<th>Description</th>
+<th>Symbol</th>
+<th>Type / Signature</th>
+<th>Purpose &amp; Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>parse_statement</code></td>
-<td><code>(path: str | Path, format: OutputFormat)</code></td>
-<td><code>StatementRecord</code></td>
-<td>Parses statement file on disk with dialect detection.</td>
+<td><code>BankStatementParser</code></td>
+<td><code>Class</code></td>
+<td>Primary document engine for PDF layout extraction, OCR fallback, and multi-format routing.</td>
 </tr>
 <tr>
-<td><code>parse_bytes</code></td>
-<td><code>(data: bytes, format: OutputFormat)</code></td>
-<td><code>StatementRecord</code></td>
-<td>Parses in-memory byte buffers from cloud storage or HTTP uploads.</td>
+<td><code>Bai2Parser</code></td>
+<td><code>Class</code></td>
+<td>Dedicated state machine parser for BAI2 corporate cash management files.</td>
 </tr>
 <tr>
-<td><code>OutputFormat</code></td>
-<td><code>Enum: JSON, CSV, CAMT053, OFX</code></td>
-<td><code>Enum</code></td>
-<td>Specifies destination formatting dialect for output synthesis.</td>
+<td><code>CamtParser</code></td>
+<td><code>Class</code></td>
+<td>High-speed XML parser for ISO 20022 CAMT.052, CAMT.053, and CAMT.054 statements.</td>
 </tr>
 <tr>
-<td><code>validate_invariants</code></td>
-<td><code>(statement: StatementRecord)</code></td>
-<td><code>bool</code></td>
-<td>Validates arithmetic balance equation across all transaction items.</td>
+<td><code>Pain001Parser</code></td>
+<td><code>Class</code></td>
+<td>Parser for ISO 20022 PAIN.001 customer credit transfer payment instructions.</td>
+</tr>
+<tr>
+<td><code>Mt940Parser</code> / <code>Mt942Parser</code></td>
+<td><code>Class</code></td>
+<td>SWIFT MT940 end-of-day and MT942 intraday tag-based message parsers.</td>
+</tr>
+<tr>
+<td><code>ParquetStreamWriter</code></td>
+<td><code>ContextManager</code></td>
+<td>Streams batches of transactions directly to Apache Parquet with Snappy/Zstd compression.</td>
+</tr>
+<tr>
+<td><code>reconcile_payments_and_statements</code></td>
+<td><code>Function</code></td>
+<td>Two-way automated reconciliation matching payment orders against statement postings.</td>
+</tr>
+<tr>
+<td><code>inspect_pdf_forensics</code></td>
+<td><code>Function</code></td>
+<td>Audits PDF statements for font discrepancies, metadata modifications, and tampering findings.</td>
+</tr>
+<tr>
+<td><code>analyze_statement_transactions</code></td>
+<td><code>Function</code></td>
+<td>Computes cash flow summaries, average daily balances, NSF fees, and recurring cadences.</td>
 </tr>
 </tbody>
 </table>

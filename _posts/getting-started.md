@@ -23,7 +23,7 @@ Bank Statement Parser is an open-source, high-throughput financial document engi
 <div class="install-card">
 <div class="install-card-header">
 <h2 class="install-card-title">Rust (Cargo)</h2>
-<span class="install-card-tag">Crate v0.0.2</span>
+<span class="install-card-tag">Crate v0.0.28</span>
 </div>
 <p class="install-card-desc">Native library integration and standalone CLI compiled directly from source for maximum CPU throughput.</p>
 <pre><code>cargo install bankstatementparser</code></pre>
@@ -32,10 +32,13 @@ Bank Statement Parser is an open-source, high-throughput financial document engi
 <div class="install-card">
 <div class="install-card-header">
 <h2 class="install-card-title">Python (Pip)</h2>
-<span class="install-card-tag">PyPI Wheels</span>
+<span class="install-card-tag">PyPI v0.0.28</span>
 </div>
-<p class="install-card-desc">Pre-compiled PyO3 binary wheels for Linux, macOS (Apple Silicon and Intel), and Windows with zero compiler setup.</p>
-<pre><code>pip install bankstatementparser</code></pre>
+<p class="install-card-desc">Pre-compiled PyO3 binary wheels for Linux, macOS (Apple Silicon and Intel), and Windows with optional Parquet extras.</p>
+<pre><code>pip install bankstatementparser
+# Optional: Apache Parquet and Polars streaming support
+pip install "bankstatementparser[parquet]"
+pip install "bankstatementparser[polars]"</code></pre>
 </div>
 
 <div class="install-card">
@@ -115,7 +118,7 @@ Bank Statement Parser is an open-source, high-throughput financial document engi
 </div>
 <div class="terminal-body">
 <div class="t-line"><span class="t-key">[dependencies]</span></div>
-<div class="t-line">bankstatementparser = <span class="t-val">&quot;0.0.2&quot;</span></div>
+<div class="t-line">bankstatementparser = <span class="t-val">&quot;0.0.28&quot;</span></div>
 </div>
 </div>
 
@@ -164,16 +167,19 @@ Bank Statement Parser is an open-source, high-throughput financial document engi
 <span class="terminal-title">python — main.py</span>
 </div>
 <div class="terminal-body">
-<div class="t-line"><span class="t-key">from</span> bankstatementparser <span class="t-key">import</span> parse_statement</div>
+<div class="t-line"><span class="t-key">from</span> bankstatementparser <span class="t-key">import</span> (</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;BankStatementParser, CamtParser, Bai2Parser, ParquetStreamWriter,</div>
+<div class="t-line">)</div>
 <div class="t-line">&nbsp;</div>
-<div class="t-line"><span class="t-comment">&#35; Extract statements directly into typed Python objects</span></div>
-<div class="t-line">statement = parse_statement(<span class="t-val">&quot;statement.pdf&quot;</span>)</div>
+<div class="t-line"><span class="t-comment">&#35; 1. Parse statement into strongly-typed Transaction models</span></div>
+<div class="t-line">parser = BankStatementParser()</div>
+<div class="t-line">statement = parser.parse_file(<span class="t-val">&quot;statement.pdf&quot;</span>)</div>
 <div class="t-line">&nbsp;</div>
-<div class="t-line">print(<span class="t-val">f&quot;Account: {statement.account_number}&quot;</span>)</div>
-<div class="t-line">print(<span class="t-val">f&quot;Closing Balance: {statement.closing_balance} {statement.currency}&quot;</span>)</div>
+<div class="t-line"><span class="t-comment">&#35; 2. Stream transactions directly to Apache Parquet</span></div>
+<div class="t-line"><span class="t-key">with</span> ParquetStreamWriter(<span class="t-val">&quot;transactions.parquet&quot;</span>) <span class="t-key">as</span> writer:</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;writer.write_batch(statement.transactions)</div>
 <div class="t-line">&nbsp;</div>
-<div class="t-line"><span class="t-key">for</span> tx <span class="t-key">in</span> statement.transactions:</div>
-<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;print(<span class="t-val">f&quot;{tx.booking_date} | {tx.amount} | {tx.description}&quot;</span>)</div>
+<div class="t-line">print(<span class="t-val">f&quot;Extracted {len(statement.transactions)} transactions into Parquet.&quot;</span>)</div>
 </div>
 </div>
 </div>

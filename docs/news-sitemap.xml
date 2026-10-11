@@ -129,8 +129,8 @@
       <news:language>en-GB</news:language>
     </news:publication>
     <news:publication_date></news:publication_date>
-    <news:title>Supported Statement Formats: PDF, CSV, OFX, MT940, CAMT</news:title>
-    <news:keywords>PDF bank statement, OFX format, MT940 parser, CAMT.053 XML, bank statement CSV dialect</news:keywords>
+    <news:title>Supported Statement Formats: PDF, CSV, OFX, MT940, CAMT, BAI2</news:title>
+    <news:keywords>PDF bank statement, BAI2 parser, ISO 20022 CAMT.053, PAIN.001 credit transfer, SWIFT MT940 MT942, OFX QFX, Apache Parquet export</news:keywords>
   </news:news>
 </url>
 <url>

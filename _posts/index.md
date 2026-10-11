@@ -2,10 +2,10 @@
 name: "Bank Statement Parser"
 short_name: "bankstatementparser"
 title: "Bank Statement Parser: High-Throughput Financial Engine"
-description: "High-throughput financial parser converting PDF, CSV, OFX, MT940, and CAMT.053 statements into validated JSON and ISO 20022 records with 100% zero telemetry."
-keywords: "bank statement parser, PDF bank statement to CSV, OFX parser, MT940 to JSON, ISO 20022 parser, Rust financial parser, Python bank statement"
+description: "High-throughput financial parser converting CAMT, PAIN.001, MT940, MT942, OFX, BAI2, CSV, and PDF statements into validated JSON, Parquet, and ISO 20022 records with 100% zero telemetry."
+keywords: "bank statement parser, PDF bank statement to CSV, BAI2 parser, PAIN.001, OFX parser, MT940 MT942, ISO 20022 CAMT.053, Apache Parquet export, Python bank statement"
 author: "Sebastien Rousseau"
-date: "2026-09-01"
+date: "2026-10-10"
 language: "en-GB"
 layout: "index"
 permalink: "https://bankstatementparser.com/"
@@ -20,14 +20,14 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
 <div class="hero-backdrop" aria-hidden="true">
 <picture>
 <source media="(max-width: 40rem)" srcset="https://cloudcdn.pro/stocks/images/corporate-finance-640.webp 640w, https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp 1200w" sizes="100vw">
-<img src="https://cloudcdn.pro/stocks/images/corporate-finance-1920.webp" srcset="https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp 1200w, https://cloudcdn.pro/stocks/images/corporate-finance-1920.webp 1920w" sizes="100vw" width="1920" height="1080" alt="" class="hero-bg-photo" loading="eager" fetchpriority="high">
+<img src="https://cloudcdn.pro/stocks/images/corporate-finance-1920.webp" srcset="https://cloudcdn.pro/stocks/images/corporate-finance-1200.webp 1200w, https://cloudcdn.pro/stocks/images/corporate-finance-1920.webp 1920w" sizes="100vw" width="1920" height="1080" alt="Corporate finance executive reviewing automated bank statement reconciliation streams and ISO 20022 ledger analytics" class="hero-bg-photo" loading="eager" fetchpriority="high">
 </picture>
 <div class="hero-scrim"></div>
 </div>
 <div class="wrap hero-content">
 <p class="lilac-label hero-badge">Financial Document Engineering · Open Source</p>
 <h1 id="hero-heading">Parse any bank statement in <em>milliseconds.</em><br>Zero cloud dependencies. Zero telemetry.</h1>
-<p class="hero-lead">An open-source, high-throughput financial document parsing engine engineered in Rust with native Python bindings. Converts PDF, CSV, OFX, QIF, MT940, and CAMT.053 bank statements into validated, structured JSON and ISO 20022 transaction streams entirely on your own infrastructure.</p>
+<p class="hero-lead">An open-source, high-throughput financial document parsing engine engineered in Rust with native Python bindings. Converts CAMT, PAIN.001, MT940, MT942, OFX/QFX, BAI2, CSV, and PDF bank statements into validated JSON, Apache Parquet, and ISO 20022 transaction streams entirely on your own infrastructure.</p>
 <div class="actions hero-actions">
 <a class="primary" href="/getting-started/index.html">Install CLI &amp; SDK</a>
 <a class="secondary-glass" href="/formats/index.html">Explore Supported Formats</a>
@@ -60,8 +60,8 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
 <span>Runs fully air-gapped on your private VPC or local host with zero network calls.</span>
 </li>
 <li>
-<b>14+ Format Dialects</b>
-<span>Unified extraction across digital PDF, CSV, OFX, QIF, MT940, and CAMT.053.</span>
+<b>8 Banking Standards</b>
+<span>Unified extraction across CAMT (052/053/054), PAIN.001, MT940, MT942, OFX/QFX, BAI2, CSV, and PDF.</span>
 </li>
 </ul>
 </div>
@@ -109,7 +109,7 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
 <article>
 <span>01</span>
 <h3>Multi-Format Dialect Engine</h3>
-<p>Deterministic state machines parse digital PDF tables, irregular CSV layouts, SGML-based OFX, and legacy SWIFT MT940 statements without brittle regex or external cloud OCR.</p>
+<p>Deterministic state machines parse digital and scanned PDFs, irregular CSV layouts, SGML OFX/QFX, BAI2 cash management, and SWIFT MT940/MT942 messages without brittle regex or external cloud OCR.</p>
 </article>
 <article>
 <span>02</span>
@@ -119,7 +119,7 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
 <article>
 <span>03</span>
 <h3>ISO 20022 Harmonization</h3>
-<p>Normalize disparate bank statements directly into canonical ISO 20022 CAMT.053 XML envelopes or strongly-typed JSON schemas ready for ERP, GL, and accounting ingestion.</p>
+<p>Normalize disparate bank statements directly into canonical ISO 20022 CAMT.053 XML envelopes, Apache Parquet streams, or strongly-typed JSON schemas ready for ERP, GL, and accounting ingestion.</p>
 </article>
 </div>
 </div>
@@ -133,26 +133,26 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
 <article>
 <b>1</b>
 <h3>Ingest</h3>
-<p>Stream PDF bytes, CSV feeds, or SWIFT MT940 files into memory-safe zero-copy buffers.</p>
+<p>Stream PDF bytes, CSV feeds, BAI2 files, or SWIFT MT940/MT942 messages into memory-safe zero-copy buffers.</p>
 <small>Sub-millisecond stream loading</small>
 </article>
 <article>
 <b>2</b>
 <h3>Tokenize</h3>
-<p>Deterministic lexical analysis identifies account metadata, booking dates, and line items.</p>
+<p>Deterministic lexical analysis identifies account metadata, booking dates, line items, and structured :86: sub-tags.</p>
 <small>Deterministic layout analysis</small>
 </article>
 <article>
 <b>3</b>
 <h3>Verify</h3>
-<p>Arithmetic balance reconciliation confirms credit/debit integrity and validates IBAN checksums.</p>
+<p>Arithmetic balance reconciliation confirms credit/debit integrity, checks PDF forensics, and validates IBAN checksums.</p>
 <small>Mod-97 and balance proofs</small>
 </article>
 <article>
 <b>4</b>
 <h3>Emit</h3>
-<p>Output strongly-typed JSON, Apache Arrow tables, or ISO 20022 CAMT.053 XML messages.</p>
-<small>Ready for ERP &amp; GL ingestion</small>
+<p>Output strongly-typed JSON, streaming Apache Parquet, Plain-Text Ledgers (hledger, beancount), or ISO 20022 messages.</p>
+<small>Ready for ERP, Lakehouse &amp; GL</small>
 </article>
 </div>
 </div>
@@ -212,7 +212,7 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
 </details>
 <details>
 <summary>Which bank statement file formats are supported?</summary>
-<p>Bank Statement Parser supports text-based and digital PDFs, CSV files (with automatic delimiter and header detection), Open Financial Exchange (OFX 1.x &amp; 2.x), Quicken Interchange Format (QIF), SWIFT MT940/MT942 messages, and ISO 20022 CAMT.053 XML statements.</p>
+<p>Bank Statement Parser natively supports eight primary banking formats: ISO 20022 CAMT (camt.052, camt.053, camt.054), ISO 20022 PAIN.001 (Credit Transfer), SWIFT MT940 and MT942 messages, BAI2 (Bank Administration Institute), Open Financial Exchange (OFX 1.x/2.x and QFX), CSV files (with automatic delimiter and date detection), and digital/scanned PDF statements.</p>
 </details>
 <details>
 <summary>How does the parser handle scanned or image-based statements?</summary>

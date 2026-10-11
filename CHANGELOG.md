@@ -6,6 +6,26 @@ All notable changes to this website are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.0.3] - 2026-10-10
+
+### Added
+
+- Documented complete support across all 8 structured banking formats:
+  CAMT (052/053/054), PAIN.001, MT940, MT942, OFX/QFX, BAI2, CSV, and PDF.
+- Documented Apache Parquet streaming (`ParquetStreamWriter`) and batch export
+  alongside plain-text ledger accounting models (hledger, beancount, ledger-cli).
+- Generative Engine Optimization (GEO) architecture with direct-answer BLUF
+  headers, structured entity graphs, and voice-search FAQ cards.
+- Documented two-way bank reconciliation (`reconcile_payments_and_statements`),
+  treasury analytics (`analyze_statement_transactions`), and PDF forensics.
+
+### Changed
+
+- Upgraded compilation and audit pipeline to the latest local SSG generator.
+- The footer reads "© 2026 Sebastien Rousseau. Bank Statement Parser.",
+  with the name linked to https://sebastienrousseau.com/ (`rel="author"`),
+  across all layouts.
+
 ### Fixed
 
 - Merges to `main` reach the live site again. The Pages source is "GitHub
@@ -64,6 +84,7 @@ All notable changes to this website are documented here. The format follows
 - Self-hosted asset delivery and zero third-party telemetry (#1).
 - Dual licensing under Apache-2.0 OR MIT (#2, #3).
 
-[Unreleased]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.2...HEAD
+[Unreleased]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.3...HEAD
+[0.0.3]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/sebastienrousseau/bankstatementparser.github.io/releases/tag/v0.0.1

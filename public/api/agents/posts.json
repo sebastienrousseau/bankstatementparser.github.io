@@ -1,12 +1,12 @@
 [
   {
-    "date": "2026-09-01",
+    "date": "2026-10-10",
     "description": "Read the background and 19-year financial systems architecture history of Sebastien Rousseau, creator of the open-source Bank Statement Parser engine and tools.",
     "locale": "en-GB",
     "tags": [],
     "title": "About Sebastien Rousseau | Bank Statement Parser Author",
     "url": "https://bankstatementparser.com/about/",
-    "wordCount": 148
+    "wordCount": 245
   },
   {
     "date": "2026-09-01",
@@ -24,7 +24,7 @@
     "tags": [],
     "title": "API Reference: Rust Crate & Python SDK Guide",
     "url": "https://bankstatementparser.com/api/",
-    "wordCount": 761
+    "wordCount": 844
   },
   {
     "date": "2026-09-01",
@@ -51,7 +51,7 @@
     "tags": [],
     "title": "Changelog & Semantic Version History: Release Notes",
     "url": "https://bankstatementparser.com/changelog/",
-    "wordCount": 96
+    "wordCount": 194
   },
   {
     "date": "2026-09-01",
@@ -78,16 +78,16 @@
     "tags": [],
     "title": "Frequently Asked Questions: Bank Statement Parser FAQ",
     "url": "https://bankstatementparser.com/faqs/",
-    "wordCount": 1416
+    "wordCount": 1456
   },
   {
-    "date": "2026-09-01",
-    "description": "Detailed format specifications for supported financial documents including text PDF, delimited CSV, OFX 1.x/2.x, SWIFT MT940, and canonical ISO 20022 CAMT.053.",
+    "date": "2026-10-10",
+    "description": "Comprehensive format specifications for 8 structured financial formats: CAMT (052/053/054), PAIN.001, MT940, MT942, OFX/QFX, BAI2, CSV, and PDF statements.",
     "locale": "en-GB",
     "tags": [],
-    "title": "Supported Statement Formats: PDF, CSV, OFX, MT940, CAMT",
+    "title": "Supported Statement Formats: PDF, CSV, OFX, MT940, CAMT, BAI2",
     "url": "https://bankstatementparser.com/formats/",
-    "wordCount": 133
+    "wordCount": 916
   },
   {
     "date": "2026-09-01",
@@ -96,16 +96,16 @@
     "tags": [],
     "title": "Getting Started: Install CLI & Native Python/Rust SDK",
     "url": "https://bankstatementparser.com/getting-started/",
-    "wordCount": 692
+    "wordCount": 720
   },
   {
-    "date": "2026-09-01",
-    "description": "High-throughput financial parser converting PDF, CSV, OFX, MT940, and CAMT.053 statements into validated JSON and ISO 20022 records with 100% zero telemetry.",
+    "date": "2026-10-10",
+    "description": "High-throughput financial parser converting CAMT, PAIN.001, MT940, MT942, OFX, BAI2, CSV, and PDF statements into validated JSON, Parquet, and ISO 20022 records with 100% zero telemetry.",
     "locale": "en-GB",
     "tags": [],
     "title": "Bank Statement Parser: High-Throughput Financial Engine",
     "url": "https://bankstatementparser.com/index.html",
-    "wordCount": 1066
+    "wordCount": 1112
   },
   {
     "date": "2026-09-01",

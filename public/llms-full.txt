@@ -1,5 +1,5 @@
 # Bank Statement Parser
 
-> Privacy-first, zero-telemetry parser for extracting structured transactions from PDF, CSV, and image bank statements.
+> Privacy-first, zero-telemetry parser extracting structured transactions from CAMT, PAIN.001, MT940, MT942, OFX, BAI2, CSV, and PDF bank statements.
 
 Language: en-GB

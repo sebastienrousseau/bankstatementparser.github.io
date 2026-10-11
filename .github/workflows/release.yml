@@ -17,7 +17,7 @@ permissions:
   contents: read
 
 env:
-  SSG_VERSION: 0.0.63
+  SSG_VERSION: 0.0.67
 
 jobs:
   release:
@@ -62,9 +62,9 @@ jobs:
       - name: Build and audit
         run: |
           ssg build --content _posts --template _layouts --output public
+          ssg audit -f ssg.toml -o public --severity warn --fail-on warn
           python3 scripts/post-build.py
           python3 scripts/regression-test.py
-          ssg audit -f ssg.toml -o public --severity warn --fail-on warn
 
       - name: Package website, SBOM, and checksums
         run: |
@@ -77,6 +77,7 @@ jobs:
         run: |
           rm -rf public
           ssg build --content _posts --template _layouts --output public > /dev/null
+          ssg audit -f ssg.toml -o public --severity warn --fail-on warn > /dev/null
           python3 scripts/post-build.py > /dev/null
           python3 scripts/release_backfill.py --src . --tag "v${RELEASE_VERSION}" --out "$RUNNER_TEMP/rebuild" --mtime "$SOURCE_DATE_EPOCH"
           diff dist/SHA256SUMS "$RUNNER_TEMP/rebuild/SHA256SUMS"

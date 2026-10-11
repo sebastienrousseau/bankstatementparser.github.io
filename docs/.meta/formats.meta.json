@@ -12,7 +12,7 @@
   "lead": "Deterministic multi-standard document ingestion with automated schema normalization across 8 financial formats, Parquet streaming, and ledger exports.",
   "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
   "name": "Bank Statement Parser",
-  "permalink": "https://bankstatementparser.com/formats/index.html",
+  "permalink": "https://bankstatementparser.com/formats/",
   "reading_time": 4,
   "short_name": "bankstatementparser",
   "title": "Supported Statement Formats: PDF, CSV, OFX, MT940, CAMT, BAI2",

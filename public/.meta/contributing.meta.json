@@ -12,7 +12,7 @@
   "lead": "Guidelines for bug reporting, code contributions, DCO sign-offs, and test-driven verification.",
   "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
   "name": "Bank Statement Parser",
-  "permalink": "https://bankstatementparser.com/contributing/index.html",
+  "permalink": "https://bankstatementparser.com/contributing/",
   "reading_time": 2,
   "short_name": "bankstatementparser",
   "title": "Contributing Guide: Code Standards & Testing",

@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2024-2026 Sebastien Rousseau
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-import os, glob, re, json, shutil
+import os, glob, re, json, shutil, datetime
 
 def post_build():
     output_dir = "public"
@@ -28,25 +28,75 @@ def post_build():
         else:
             shutil.copy2(s, d)
 
-    # 1. Build aggregated sitemap.xml
-    all_pages = set()
+    # 1. Build aggregated sitemap.xml strictly for indexable canonical pages
+    excluded_prefixes = ("404", "offline")
+    core_docs = {"getting-started", "formats", "api", "architecture", "benchmarks", "security", "use-cases", "faqs"}
+    info_docs = {"about", "contact", "changelog"}
+    legal_docs = {"privacy", "terms", "accessibility", "contributing", "thanks", "made-with-ssg"}
+    today_iso = datetime.date.today().isoformat()
+
+    urls = []
+    seen = set()
     for root, dirs, files in os.walk(output_dir):
         for f in files:
             if f.endswith(".html"):
                 rel_path = os.path.relpath(os.path.join(root, f), output_dir)
-                if rel_path == "index.html":
-                    all_pages.add(f"{base_url}/")
-                else:
-                    all_pages.add(f"{base_url}/{rel_path}")
+                if any(rel_path.startswith(ex) for ex in excluded_prefixes):
+                    continue
 
+                if rel_path == "index.html":
+                    loc = f"{base_url}/"
+                    priority = "1.0"
+                    changefreq = "daily"
+                elif rel_path.endswith("/index.html") or rel_path.endswith("\\index.html"):
+                    rel_dir = os.path.dirname(rel_path).replace("\\", "/")
+                    loc = f"{base_url}/{rel_dir}/"
+                    if rel_dir in core_docs:
+                        priority = "0.9"
+                        changefreq = "weekly"
+                    elif rel_dir in info_docs:
+                        priority = "0.8"
+                        changefreq = "weekly"
+                    elif rel_dir in legal_docs:
+                        priority = "0.5"
+                        changefreq = "monthly"
+                    else:
+                        priority = "0.7"
+                        changefreq = "weekly"
+                else:
+                    loc = f"{base_url}/{rel_path}"
+                    priority = "0.7"
+                    changefreq = "weekly"
+
+                if loc not in seen:
+                    seen.add(loc)
+                    urls.append((loc, priority, changefreq))
+
+    urls.sort(key=lambda x: x[0])
     sitemap_xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    for p in sorted(all_pages):
-        sitemap_xml += f'  <url>\n    <loc>{p}</loc>\n    <lastmod>2026-09-01</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>\n'
+    for loc, priority, changefreq in urls:
+        sitemap_xml += (
+            f"  <url>\n"
+            f"    <loc>{loc}</loc>\n"
+            f"    <lastmod>{today_iso}</lastmod>\n"
+            f"    <changefreq>{changefreq}</changefreq>\n"
+            f"    <priority>{priority}</priority>\n"
+            f"  </url>\n"
+        )
     sitemap_xml += '</urlset>\n'
 
     for d in [output_dir, docs_dir]:
         with open(os.path.join(d, "sitemap.xml"), "w", encoding="utf-8") as f:
             f.write(sitemap_xml)
+
+    # Remove unwanted news-sitemap.xml generated for non-news pages
+    for d in [output_dir, docs_dir]:
+        for ns in glob.glob(f"{d}/**/news-sitemap.xml", recursive=True):
+            try:
+                os.remove(ns)
+            except OSError:
+                # News sitemap removal is optional; ignore if already deleted or inaccessible.
+                pass
 
     # 2. RFC 9116 disclosure file. The repository's .well-known/security.txt
     # is the single source; ssg leaves an empty security.txt in the output,
@@ -63,6 +113,11 @@ def post_build():
     for d in [output_dir, docs_dir]:
         with open(os.path.join(d, "CNAME"), "w", encoding="utf-8") as f:
             f.write("bankstatementparser.com\n")
+
+    # Copy root robots.txt
+    if os.path.exists("robots.txt"):
+        for d in [output_dir, docs_dir]:
+            shutil.copy2("robots.txt", os.path.join(d, "robots.txt"))
 
     # 3. Generate llms.txt
     llms_txt = f"""# Bank Statement Parser
@@ -86,15 +141,15 @@ def post_build():
 
 ## Core Documentation & Resources
 - Homepage: {base_url}/
-- Getting Started: {base_url}/getting-started/index.html
-- Supported Formats: {base_url}/formats/index.html
-- Use Cases: {base_url}/use-cases/index.html
-- Performance Benchmarks: {base_url}/benchmarks/index.html
-- Pipeline Architecture: {base_url}/architecture/index.html
-- Security & Zero Telemetry: {base_url}/security/index.html
-- API Reference: {base_url}/api/index.html
-- Frequently Asked Questions: {base_url}/faqs/index.html
-- Author & Pedigree: {base_url}/about/index.html
+- Getting Started: {base_url}/getting-started/
+- Supported Formats: {base_url}/formats/
+- Use Cases: {base_url}/use-cases/
+- Performance Benchmarks: {base_url}/benchmarks/
+- Pipeline Architecture: {base_url}/architecture/
+- Security & Zero Telemetry: {base_url}/security/
+- API Reference: {base_url}/api/
+- Frequently Asked Questions: {base_url}/faqs/
+- Author & Pedigree: {base_url}/about/
 - Sebastien Rousseau: https://sebastienrousseau.com/
 """
     for d in [output_dir, docs_dir]:
@@ -180,7 +235,7 @@ def post_build():
         for d in [output_dir, docs_dir]:
             shutil.copy2("favicon.ico", os.path.join(d, "favicon.ico"))
 
-    print(f"Post-build optimization complete ({len(all_pages)} URLs).")
+    print(f"Post-build optimization complete ({len(urls)} URLs).")
 
 if __name__ == "__main__":
     post_build()

@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """Package a release assets reproducibly."""
 from __future__ import annotations
-import argparse, gzip, hashlib, io, json, sys, tarfile, uuid
+import argparse, datetime, gzip, hashlib, io, json, sys, tarfile, uuid
 from pathlib import Path
 
 NAMESPACE = "https://bankstatementparser.com/sbom.cdx.json"
@@ -15,22 +15,35 @@ def site_tree(src: Path) -> Path:
     raise SystemExit(f"[backfill] no built site in {src}/public, site, or docs")
 
 def serial_for(version: str) -> str:
-    return f"urn:uuid:{uuid.uuid5(uuid.NAMESPACE_URL, f"{NAMESPACE}#{version}")}"
+    return f"urn:uuid:{uuid.uuid5(uuid.NAMESPACE_URL, f'{NAMESPACE}#{version}')}"
 
-def sbom_for(site: Path, version: str) -> dict:
+def sbom_for(site: Path, version: str, mtime: int = 0) -> dict:
     path = site / "sbom.cdx.json"
     if path.is_file():
         sbom = json.loads(path.read_text(encoding="utf-8"))
-        sbom.setdefault("serialNumber", serial_for(version))
+        sbom["serialNumber"] = serial_for(version)
+        if mtime:
+            sbom.setdefault("metadata", {})["timestamp"] = (
+                datetime.datetime.fromtimestamp(mtime, tz=datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+            )
+        path.write_text(json.dumps(sbom, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     else:
+        timestamp = (
+            datetime.datetime.fromtimestamp(mtime, tz=datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+            if mtime
+            else "1970-01-01T00:00:00Z"
+        )
         sbom = {
             "bomFormat": "CycloneDX", "specVersion": "1.5",
             "serialNumber": serial_for(version), "version": 1,
-            "metadata": {"component": {
-                "type": "application", "bom-ref": f"bankstatementparser.com@{version}",
-                "name": "bankstatementparser.com", "version": version,
-                "description": "Static documentation website compiled with Rust static-site-generator (ssg)."
-            }}, "components": []
+            "metadata": {
+                "timestamp": timestamp,
+                "component": {
+                    "type": "application", "bom-ref": f"bankstatementparser.com@{version}",
+                    "name": "bankstatementparser.com", "version": version,
+                    "description": "Static documentation website compiled with Rust static-site-generator (ssg)."
+                }
+            }, "components": []
         }
     return sbom
 
@@ -48,6 +61,8 @@ def package(src: Path, site: Path, out: Path, name: str, mtime: int) -> Path:
     with tarfile.open(fileobj=raw, mode="w", format=tarfile.PAX_FORMAT) as tar:
         add(tar, site, "site", mtime)
         for path in sorted(site.rglob("*")):
+            if path.name == ".DS_Store" or path.name == "news-sitemap.xml":
+                continue
             add(tar, path, "site/" + path.relative_to(site).as_posix(), mtime)
         for licence in LICENCE_FILES:
             if (src / licence).is_file(): add(tar, src / licence, licence, mtime)
@@ -66,9 +81,10 @@ def main(argv: list[str]) -> int:
     version = args.tag[1:]
     site = site_tree(args.src)
     args.out.mkdir(parents=True, exist_ok=True)
+    sbom_dict = sbom_for(site, version, args.mtime)
     archive = package(args.src, site, args.out, f"bankstatementparser-site-v{version}.tar.gz", args.mtime)
     sbom = args.out / f"bankstatementparser-site-v{version}.cdx.json"
-    sbom.write_text(json.dumps(sbom_for(site, version), indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    sbom.write_text(json.dumps(sbom_dict, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     sums = "".join(f"{hashlib.sha256(p.read_bytes()).hexdigest()}  ./{p.name}\n" for p in sorted((archive, sbom)))
     (args.out / "SHA256SUMS").write_text(sums, encoding="utf-8")
     print(f"[backfill] {args.tag}: {archive.name}, {sbom.name}, SHA256SUMS")

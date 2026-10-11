@@ -95,6 +95,7 @@ def post_build():
             try:
                 os.remove(ns)
             except OSError:
+                # News sitemap removal is optional; ignore if already deleted or inaccessible.
                 pass
 
     # 2. RFC 9116 disclosure file. The repository's .well-known/security.txt

@@ -61,6 +61,7 @@ jobs:
 
       - name: Build and audit
         run: |
+          rm -rf public
           ssg build --content _posts --template _layouts --output public
           ssg audit -f ssg.toml -o public --severity warn --fail-on warn
           python3 scripts/post-build.py
@@ -80,7 +81,11 @@ jobs:
           ssg audit -f ssg.toml -o public --severity warn --fail-on warn > /dev/null
           python3 scripts/post-build.py > /dev/null
           python3 scripts/release_backfill.py --src . --tag "v${RELEASE_VERSION}" --out "$RUNNER_TEMP/rebuild" --mtime "$SOURCE_DATE_EPOCH"
-          diff dist/SHA256SUMS "$RUNNER_TEMP/rebuild/SHA256SUMS"
+          if ! diff dist/SHA256SUMS "$RUNNER_TEMP/rebuild/SHA256SUMS"; then
+            echo "::error::Release build is not reproducible. Diff in SHA256SUMS:"
+            diff -u dist/SHA256SUMS "$RUNNER_TEMP/rebuild/SHA256SUMS"
+            exit 1
+          fi
           echo "reproducible: two clean builds gave identical release files"
 
       - name: Attest website provenance

@@ -6,6 +6,20 @@ All notable changes to this website are documented here. The format follows
 
 ## [Unreleased]
 
+### Fixed
+
+- `KEYS.asc` is now in OpenSSH allowed-signers format, so
+  `git -c gpg.ssh.allowedSignersFile=KEYS.asc tag -v <tag>` verifies release
+  tags. It previously held a bare public-key line that Git rejected as
+  "invalid key". `KEYS.md` documents the command and lists each key's
+  fingerprint.
+
+### Changed
+
+- `KEYS.asc` and `.github/allowed_signers` trust a second maintainer signing
+  key, `SHA256:kIOPAavp1TCEauTr1tTIN3cv+tSs6F9m/4lZjuM9tqk` (rousseau-mbp-m1),
+  so release tags can be signed on either maintainer machine.
+
 ## [0.0.5] - 2026-10-11
 
 ### Changed

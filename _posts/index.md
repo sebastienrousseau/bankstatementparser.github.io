@@ -25,7 +25,7 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
 <a class="primary" href="/getting-started/index.html">Install CLI &amp; SDK</a>
 <a href="/formats/index.html">Explore Supported Formats</a>
 </div>
-<ul class="hero-assurances" aria-label="Platform principles">
+<ul class="hero-assurances">
 <li>Deterministic Rust Core</li>
 <li>Zero Cloud Dependencies</li>
 <li>100% Air-Gapped Privacy</li>

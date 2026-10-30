@@ -73,7 +73,18 @@
     });
   }
 
-  /* 3. Search Modal & Index Controller */
+  /* 3. Search Slot & Modal Controller */
+  function placeSearch() {
+    var nav = document.getElementById('navMenu');
+    var slot = nav ? nav.querySelector('[data-ssg-search]') : null;
+    var btn = document.getElementById('ssg-search-btn');
+    if (slot && btn && btn !== slot) {
+      slot.replaceWith(btn);
+    } else if (nav && btn && btn.parentElement !== nav) {
+      nav.appendChild(btn);
+    }
+  }
+
   function loadSearchIndex() {
     if (searchIndex || typeof fetch !== 'function') return;
     fetch('/search-index.json')
@@ -83,7 +94,7 @@
   }
 
   function searchModal(open) {
-    var modal = document.getElementById('searchModal');
+    var modal = document.getElementById('ssg-search-overlay') || document.getElementById('searchModal');
     if (open) loadSearchIndex();
     if (modal) {
       modal.classList.toggle('active', open);
@@ -91,13 +102,7 @@
   }
   window.searchModal = searchModal;
 
-  /* Remove extraneous search button if SSG injects one */
-  var searchWidget = document.getElementById('ssg-search-widget');
-  var searchButton = document.getElementById('ssg-search-btn');
-  if (searchWidget) searchWidget.remove();
-  else if (searchButton) searchButton.remove();
-
-  /* 4. Apple-Grade Interactive FAQ Controller */
+  /* 4. Interactive FAQ Controller */
   function updateFaqCountLabel(countLabel, visibleCount, totalCount, query, currentCategory) {
     if (!countLabel) return;
     if (query) {
@@ -198,11 +203,13 @@
   }
 
   function init() {
+    placeSearch();
     initThemeToggle();
     initNavigationDrawer();
     initFaqController();
   }
 
+  placeSearch();
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {

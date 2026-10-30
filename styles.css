@@ -233,7 +233,6 @@ body.style-visage {
 .style-visage .site-header .site-nav a:hover { color:var(--vi-ink); background:var(--vi-soft); }
 .style-visage .site-nav .nav-cta,.style-visage .site-header .site-nav .nav-cta { border-radius:4px; background:var(--vi-accent) !important; color:var(--vi-bg) !important; font-weight:700; padding:.55rem 1.15rem; margin-inline-start:.5rem; }
 .style-visage .site-nav .nav-cta:hover,.style-visage .site-header .site-nav .nav-cta:hover { background:var(--vi-accent-hover) !important; color:var(--vi-bg) !important; }
-#ssg-search-btn, #ssg-search-widget, .style-visage #ssg-search-btn { display:none!important; }
 .style-visage :focus-visible { outline:3px solid var(--vi-accent); outline-offset:4px; }
 .style-visage .skip-link { background:var(--vi-button); color:var(--vi-button-ink); }
 .lilac-label { max-width:none; color:var(--vi-accent); font-size:.8125rem; font-weight:800; letter-spacing:.12em; line-height:1.35; text-transform:uppercase; }
@@ -1994,12 +1993,33 @@ html { scroll-padding-block-start: 5.5rem; }
   }
 }
 
-/* Suppress floating search widget and trigger button */
-#ssg-search-widget,
-#ssg-search-btn,
-#ssg-search-overlay {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
+/* Reserve the search slot before script execution, then keep the generated
+   trigger in the same 44px navigation cell on every supported SSG release. */
+:root[data-theme="light"] #ssg-search-btn { color: #505057 !important; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) #ssg-search-btn { color: #505057 !important; }
 }
+#ssg-search-btn { --ssg-search-top: 18px; }
+#ssg-search-btn kbd { margin-block: 0; }
+.site-nav > [data-ssg-search] {
+  flex: 0 0 2.75rem;
+  width: 2.75rem;
+  height: 2.75rem;
+}
+.site-nav > #ssg-search-btn {
+  position: static;
+  inset: auto;
+  flex: 0 0 2.75rem;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  margin-inline-start: 0.35rem;
+  padding: 0;
+  border-radius: 50%;
+  box-shadow: none;
+}
+.site-nav > #ssg-search-btn span,
+.site-nav > #ssg-search-btn kbd { display: none; }
+.made-with-ssg { color: inherit; }

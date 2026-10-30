@@ -252,6 +252,24 @@ def write_static_meta(output_dir: str, base_url: str) -> None:
     if os.path.exists("favicon.ico"):
         shutil.copy2("favicon.ico", os.path.join(output_dir, "favicon.ico"))
 
+    if os.path.exists("sw.js"):
+        shutil.copy2("sw.js", os.path.join(output_dir, "sw.js"))
+
+    humans_txt = (
+        "/* TEAM */\n"
+        "Author: Sebastien Rousseau\n"
+        "Site: https://sebastienrousseau.com/\n"
+        "Location: London, United Kingdom\n\n"
+        "/* SITE */\n"
+        f"URL: {base_url}/\n"
+        "Standards: HTML5, CSS4, WCAG 2.2 AAA, ISO 20022\n"
+        "Generator: Static Site Generator (ssg) + Skeletonic CSS (Visage)\n"
+    )
+    with open(
+        os.path.join(output_dir, "humans.txt"), "w", encoding="utf-8"
+    ) as handle:
+        handle.write(humans_txt)
+
 
 def _unwrap_block(match: re.Match[str]) -> str:
     inner = match.group(1)

@@ -34,7 +34,7 @@ High-throughput statement extraction powers critical automated financial backend
 </div>
 </div>
 
-<div class="step-item" id="treasury">
+<div class="step-item">
 <div class="step-header">
 <span class="step-badge">01</span>
 <h2 class="step-title">Corporate Treasury Automation</h2>
@@ -93,7 +93,7 @@ High-throughput statement extraction powers critical automated financial backend
 </div>
 </div>
 
-<div class="step-item" id="reconciliation">
+<div class="step-item">
 <div class="step-header">
 <span class="step-badge">02</span>
 <h2 class="step-title">Automated Bank Reconciliation</h2>
@@ -153,7 +153,7 @@ High-throughput statement extraction powers critical automated financial backend
 </div>
 </div>
 
-<div class="step-item" id="underwriting">
+<div class="step-item">
 <div class="step-header">
 <span class="step-badge">03</span>
 <h2 class="step-title">Fintech SME Credit Underwriting</h2>

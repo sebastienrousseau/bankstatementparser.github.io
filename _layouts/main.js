@@ -39,43 +39,12 @@
       var next = order[(order.indexOf(currentMode()) + 1) % order.length];
       applyTheme(next);
     });
-    document.addEventListener('keydown', function (e) {
-      if (e.target.matches && e.target.matches('input, textarea, select, [contenteditable]')) return;
-      if (e.key === 't' && !e.metaKey && !e.ctrlKey && !e.altKey) {
-        var next = order[(order.indexOf(currentMode()) + 1) % order.length];
-        applyTheme(next);
-      }
-    });
   }
 
-  /* 2. Header Scroll & Active Navigation Wayfinding */
-  function initHeaderScroll() {
-    var header = document.querySelector('.site-header');
-    if (!header) return;
-    function syncScroll() {
-      header.classList.toggle('scrolled', window.scrollY > 24);
-    }
-    syncScroll();
-    window.addEventListener('scroll', syncScroll, { passive: true });
-  }
-
-  function markActiveNavLink(navMenu) {
-    if (!navMenu) return;
-    var path = window.location.pathname || '/';
-    var links = navMenu.querySelectorAll('a:not(.nav-cta)');
-    links.forEach(function (link) {
-      var href = link.getAttribute('href') || '';
-      var route = href.replace(/index\.html$/, '');
-      if (route && route !== '/' && path.indexOf(route) === 0) {
-        link.setAttribute('aria-current', 'page');
-      }
-    });
-  }
-
+  /* 2. Responsive Navigation Drawer */
   function initNavigationDrawer() {
     var navToggle = document.getElementById('navToggle') || document.getElementById('navbarToggle');
     var navMenu = document.getElementById('navMenu') || document.getElementById('navbarMenu');
-    markActiveNavLink(navMenu);
     function navbarToggle(open) {
       if (!navToggle || !navMenu) return;
       navToggle.setAttribute('aria-expanded', String(open));
@@ -105,184 +74,30 @@
   }
 
   /* 3. Search Modal & Index Controller */
-  function renderSearchResults(listEl, query) {
-    if (!listEl) return;
-    listEl.innerHTML = '';
-    var entries = Array.isArray(searchIndex) ? searchIndex : (searchIndex && searchIndex.entries) || [];
-    var q = (query || '').trim().toLowerCase();
-    var matches = entries.filter(function (item) {
-      if (!q) return true;
-      var hay = ((item.title || '') + ' ' + (item.description || '') + ' ' + (item.keywords || '')).toLowerCase();
-      return hay.indexOf(q) !== -1;
-    }).slice(0, 8);
-
-    matches.forEach(function (item) {
-      var li = document.createElement('li');
-      var a = document.createElement('a');
-      a.className = 'search-result-link';
-      a.href = item.url || '/';
-      var title = document.createElement('span');
-      title.className = 'search-result-title';
-      title.textContent = item.title || item.url || 'Documentation';
-      var desc = document.createElement('span');
-      desc.className = 'search-result-desc';
-      desc.textContent = item.description || '';
-      a.appendChild(title);
-      if (item.description) a.appendChild(desc);
-      li.appendChild(a);
-      listEl.appendChild(li);
-    });
-  }
-
-  function ensureSearchDialog() {
-    var dialog = document.getElementById('search-modal');
-    if (dialog) return dialog;
-    dialog = document.createElement('div');
-    dialog.id = 'search-modal';
-    dialog.setAttribute('role', 'dialog');
-    dialog.setAttribute('aria-modal', 'true');
-    dialog.setAttribute('aria-label', 'Search documentation');
-    dialog.hidden = true;
-    dialog.innerHTML =
-      '<div class="search-modal-panel">' +
-        '<div class="search-modal-header">' +
-          '<input type="search" class="search-modal-input" id="searchModalInput" placeholder="Search formats, API, benchmarks, ISO 20022..." aria-label="Search documentation" />' +
-          '<button type="button" class="search-modal-close" id="searchModalClose">Esc</button>' +
-        '</div>' +
-        '<ul class="search-modal-results" id="searchModalResults"></ul>' +
-      '</div>';
-    document.body.appendChild(dialog);
-    dialog.addEventListener('click', function (e) {
-      if (e.target === dialog) searchModal(false);
-    });
-    var closeBtn = document.getElementById('searchModalClose');
-    if (closeBtn) closeBtn.addEventListener('click', function () { searchModal(false); });
-    var input = document.getElementById('searchModalInput');
-    var list = document.getElementById('searchModalResults');
-    if (input) {
-      input.addEventListener('input', function () { renderSearchResults(list, input.value); });
-    }
-    return dialog;
-  }
-
-  function loadSearchIndex(callback) {
-    if (searchIndex) {
-      if (callback) callback();
-      return;
-    }
-    if (typeof fetch !== 'function') return;
+  function loadSearchIndex() {
+    if (searchIndex || typeof fetch !== 'function') return;
     fetch('/search-index.json')
       .then(function (res) { return res.ok ? res.json() : []; })
-      .then(function (data) {
-        searchIndex = data;
-        if (callback) callback();
-      })
+      .then(function (data) { searchIndex = data; })
       .catch(function () { searchIndex = []; });
   }
 
   function searchModal(open) {
-    var dialog = ensureSearchDialog();
-    dialog.hidden = !open;
-    if (open) {
-      loadSearchIndex(function () {
-        var input = document.getElementById('searchModalInput');
-        var list = document.getElementById('searchModalResults');
-        renderSearchResults(list, input ? input.value : '');
-        if (input) input.focus();
-      });
+    var modal = document.getElementById('searchModal');
+    if (open) loadSearchIndex();
+    if (modal) {
+      modal.classList.toggle('active', open);
     }
   }
   window.searchModal = searchModal;
 
-  function initSearchTriggers() {
-    var trigger = document.getElementById('searchTrigger');
-    if (trigger) {
-      trigger.addEventListener('click', function () { searchModal(true); });
-    }
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') {
-        var dialog = document.getElementById('search-modal');
-        if (dialog && !dialog.hidden) searchModal(false);
-        return;
-      }
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        searchModal(true);
-        return;
-      }
-      if (e.target.matches && e.target.matches('input, textarea, select, [contenteditable]')) return;
-      if (e.key === '/') {
-        e.preventDefault();
-        searchModal(true);
-      }
-    });
-  }
+  /* Remove extraneous search button if SSG injects one */
+  var searchWidget = document.getElementById('ssg-search-widget');
+  var searchButton = document.getElementById('ssg-search-btn');
+  if (searchWidget) searchWidget.remove();
+  else if (searchButton) searchButton.remove();
 
-  /* 4. One-Click Code & Terminal Copy Engine */
-  function copyTextToClipboard(btn, text) {
-    if (!navigator.clipboard || !text) return;
-    navigator.clipboard.writeText(text.trim()).then(function () {
-      var orig = btn.getAttribute('data-orig-label') || btn.textContent;
-      btn.setAttribute('data-orig-label', orig);
-      btn.setAttribute('data-copied', 'true');
-      btn.textContent = 'Copied ✓';
-      setTimeout(function () {
-        btn.removeAttribute('data-copied');
-        btn.textContent = orig;
-      }, 1800);
-    }).catch(function () {});
-  }
-
-  function extractTerminalCommands(box) {
-    var lines = box.querySelectorAll('.t-line');
-    var out = [];
-    lines.forEach(function (line) {
-      var clone = line.cloneNode(true);
-      var ignored = clone.querySelectorAll('.t-comment, .t-prompt');
-      ignored.forEach(function (el) { el.remove(); });
-      var txt = (clone.textContent || '').replace(/\u00a0/g, ' ').trim();
-      if (txt) out.push(txt);
-    });
-    return out.join('\n');
-  }
-
-  function initCopyButtons() {
-    document.querySelectorAll('.hero-copy-btn').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        copyTextToClipboard(btn, btn.getAttribute('data-copy') || '');
-      });
-    });
-
-    document.querySelectorAll('.terminal-box').forEach(function (box) {
-      var bar = box.querySelector('.terminal-bar');
-      if (!bar || bar.querySelector('.copy-code-btn')) return;
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'copy-code-btn';
-      btn.setAttribute('aria-label', 'Copy terminal commands');
-      btn.textContent = 'Copy';
-      btn.addEventListener('click', function () {
-        copyTextToClipboard(btn, extractTerminalCommands(box));
-      });
-      bar.appendChild(btn);
-    });
-
-    document.querySelectorAll('.content-body pre').forEach(function (pre) {
-      if (pre.closest('.install-card') || pre.querySelector('.copy-code-btn')) return;
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'copy-code-btn';
-      btn.setAttribute('aria-label', 'Copy code snippet');
-      btn.textContent = 'Copy';
-      btn.addEventListener('click', function () {
-        var code = pre.querySelector('code');
-        copyTextToClipboard(btn, code ? code.textContent : pre.textContent);
-      });
-      pre.appendChild(btn);
-    });
-  }
-
-  /* 5. Apple-Grade Interactive FAQ Controller */
+  /* 4. Apple-Grade Interactive FAQ Controller */
   function updateFaqCountLabel(countLabel, visibleCount, totalCount, query, currentCategory) {
     if (!countLabel) return;
     if (query) {
@@ -384,10 +199,7 @@
 
   function init() {
     initThemeToggle();
-    initHeaderScroll();
     initNavigationDrawer();
-    initSearchTriggers();
-    initCopyButtons();
     initFaqController();
   }
 

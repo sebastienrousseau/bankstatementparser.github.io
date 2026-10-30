@@ -32,6 +32,11 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
 <a class="primary" href="/getting-started/index.html">Install CLI &amp; SDK</a>
 <a class="secondary-glass" href="/formats/index.html">Explore Supported Formats</a>
 </div>
+<div class="hero-install-pill" role="region" aria-label="Quick install command">
+<span class="hero-install-prompt" aria-hidden="true">$</span>
+<code class="hero-install-cmd">pip install bankstatementparser</code>
+<button type="button" class="hero-copy-btn" data-copy="pip install bankstatementparser" aria-label="Copy pip install command">Copy</button>
+</div>
 <ul class="hero-assurances">
 <li>Deterministic Rust Core</li>
 <li>Zero Cloud Dependencies</li>

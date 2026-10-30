@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you reference the Bank Statement Parser documentation, please cite it as below."
 title: "bankstatementparser.com: Fast, secure financial statement parsing documentation"
 type: software
-version: 0.0.6
+version: 0.0.7
 date-released: 2026-10-30
 authors:
   - family-names: Rousseau

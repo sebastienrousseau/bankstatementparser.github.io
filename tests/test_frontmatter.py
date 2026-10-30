@@ -87,3 +87,22 @@ def test_classify_url_excludes_utility_routes():
 def test_encode_raw_amp_preserves_script_blocks():
     html = '<p>A & B &amp; C</p><script>if (a && b) {}</script>'
     assert pb.encode_raw_amp(html) == '<p>A &amp; B &amp; C</p><script>if (a && b) {}</script>'
+
+
+def test_write_sitemap_removes_news_sitemaps_and_update_manifests_normalizes(tmp_path):
+    (tmp_path / "index.html").write_text("<html></html>", encoding="utf-8")
+    news_sm = tmp_path / "news-sitemap.xml"
+    news_sm.write_text("<urlset/>", encoding="utf-8")
+    manifest = tmp_path / "manifest.json"
+    manifest.write_text('{"name": "BSP"}', encoding="utf-8")
+
+    count = pb.write_sitemap(str(tmp_path), "https://bankstatementparser.com")
+    assert count == 1
+    assert not news_sm.exists()
+
+    pb.update_manifests(str(tmp_path))
+    import json
+    data = json.loads(manifest.read_text(encoding="utf-8"))
+    assert data["theme_color"] == "#5b287b"
+    assert data["background_color"] == "#ffffff"
+

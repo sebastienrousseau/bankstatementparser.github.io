@@ -8,6 +8,7 @@ import datetime
 import glob
 import json
 import os
+from pathlib import Path
 import re
 import shutil
 
@@ -147,10 +148,7 @@ def write_sitemap(output_dir: str, base_url: str) -> int:
 
     # Remove unwanted news-sitemap.xml generated for non-news pages
     for ns in glob.glob(f"{output_dir}/**/news-sitemap.xml", recursive=True):
-        try:
-            os.remove(ns)
-        except OSError:
-            pass
+        Path(ns).unlink(missing_ok=True)
     return len(urls)
 
 
@@ -333,16 +331,13 @@ def update_manifests(output_dir: str) -> None:
     for manifest_file in glob.glob(
         f"{output_dir}/**/manifest.json", recursive=True
     ):
-        try:
-            with open(manifest_file, "r", encoding="utf-8") as handle:
-                m_data = json.load(handle)
-            m_data["theme_color"] = "#5b287b"
-            if not m_data.get("background_color"):
-                m_data["background_color"] = "#ffffff"
-            with open(manifest_file, "w", encoding="utf-8") as handle:
-                json.dump(m_data, handle, indent=2)
-        except (OSError, json.JSONDecodeError, KeyError):
-            pass
+        with open(manifest_file, "r", encoding="utf-8") as handle:
+            m_data = json.load(handle)
+        m_data["theme_color"] = "#5b287b"
+        if not m_data.get("background_color"):
+            m_data["background_color"] = "#ffffff"
+        with open(manifest_file, "w", encoding="utf-8") as handle:
+            json.dump(m_data, handle, indent=2)
 
 
 def sync_to_docs(output_dir: str, docs_dir: str) -> None:

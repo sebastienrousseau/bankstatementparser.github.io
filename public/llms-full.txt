@@ -1716,6 +1716,10 @@ Financial statement data demands strict confidentiality, rigorous boundary isola
 
 All notable changes to **Bank Statement Parser** are documented in this file following strict Semantic Versioning.
 
+## [0.0.7] - 2026-10-30
+### Fixed
+- Resolved CodeQL code scanning alerts 41 and 42 (`py/empty-except`) in `scripts/post-build.py` and tightened exception handling in `scripts/validate_spdx_headers.py`.
+
 ## [0.0.6] - 2026-10-30
 ### Added
 - Generated `llms-full.txt` alongside `llms.txt` for single-request LLM and coding agent ingestion.

@@ -22,10 +22,8 @@ def tracked() -> list[str]:
     return [f for f in out.splitlines() if SOURCE.search(f) and not EXEMPT.search(f)]
 
 def missing(path: str) -> list[str]:
-    try:
-        with open(path, encoding="utf-8", errors="replace") as h:
-            head = "".join(h.readline() for _ in range(10))
-    except Exception: return []
+    with open(path, encoding="utf-8", errors="replace") as h:
+        head = "".join(h.readline() for _ in range(10))
     return [t.rstrip(":") for t in TAGS if t not in head]
 
 def main() -> int:

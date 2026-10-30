@@ -6,6 +6,16 @@ All notable changes to this website are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.0.7] - 2026-10-30
+
+### Fixed
+
+- Resolved CodeQL code scanning alerts 41 and 42 (`py/empty-except`) in
+  `scripts/post-build.py` by using `Path.unlink(missing_ok=True)` for optional
+  news sitemap cleanup and failing fast on malformed `manifest.json` payloads.
+- Removed broad `try ... except Exception` suppression in
+  `scripts/validate_spdx_headers.py`.
+
 ## [0.0.6] - 2026-10-30
 
 ### Added

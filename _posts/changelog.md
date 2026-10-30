@@ -21,6 +21,28 @@ lead: "Deterministic versioning history, security audits, and functional enhance
 
 All notable changes to **Bank Statement Parser** are documented in this file following strict Semantic Versioning.
 
+## [0.0.6] - 2026-10-30
+### Added
+- Generated `llms-full.txt` alongside `llms.txt` for single-request LLM and coding agent ingestion.
+- Expanded property-based test coverage for deterministic `SOURCE_DATE_EPOCH` builds and URL classification.
+### Changed
+- Trusted second maintainer SSH signing key (`rousseau-mbp-m1`) in `KEYS.asc` and `.github/allowed_signers`.
+- Upgraded CI to Node.js 24 and `ssg` 0.0.69, and pruned 40 unused legacy template files.
+### Fixed
+- Reformatted `KEYS.asc` into valid OpenSSH allowed-signers format and honoured `SOURCE_DATE_EPOCH` in `sitemap.xml` generation.
+
+## [0.0.5] - 2026-10-11
+### Changed
+- Upgraded SSG compiler pin in release automation and standardized build and audit sequencing for byte-for-byte reproducible release archives.
+### Fixed
+- Resolved CodeQL alert 39 in `scripts/post-build.py` by permitting whitespace and attributes in closing script tags.
+
+## [0.0.4] - 2026-10-11
+### Added
+- Injected Schema.org `BreadcrumbList` structured data across all subpages.
+### Changed
+- Standardized `sitemap.xml` and canonical permalinks to trailing directory slashes and excluded `404/` and `offline/` utility routes.
+
 ## [0.0.3] - 2026-10-10
 ### Added
 - Expanded format specifications covering all 8 banking formats: CAMT (052/053/054), PAIN.001, MT940, MT942, OFX/QFX, BAI2, CSV, and PDF.

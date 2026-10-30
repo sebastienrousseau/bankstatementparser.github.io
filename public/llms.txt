@@ -19,6 +19,7 @@
 
 ## Core Documentation & Resources
 - Homepage: https://bankstatementparser.com/
+- Full LLM Context Bundle: https://bankstatementparser.com/llms-full.txt
 - Getting Started: https://bankstatementparser.com/getting-started/
 - Supported Formats: https://bankstatementparser.com/formats/
 - Use Cases: https://bankstatementparser.com/use-cases/

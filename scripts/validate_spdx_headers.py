@@ -9,8 +9,6 @@ EXEMPT = re.compile(
     r"^public/"
     r"|^_posts/"
     r"|^docs/"
-    r"|^templates/tera/"
-    r"|^templates/[^/]+\.html$"
     r"|.*\.min\.(css|js)$"
     r"|^skeletonic"
     r"|^_layouts/skeletonic"

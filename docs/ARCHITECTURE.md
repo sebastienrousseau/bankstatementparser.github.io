@@ -5,7 +5,7 @@
 Bankstatementparser.com is a static documentation website for the Bank Statement
 Parser financial document parsing engine. Authors edit Markdown content in
 `_posts/` and Tera templates in `_layouts/`. The Static Site Generator (ssg)
-0.0.63 compiles HTML, sitemaps, feeds, search indexes, and accessibility audits.
+0.0.69 compiles HTML, sitemaps, feeds, search indexes, and accessibility audits.
 Deterministic post-build processing ensures valid entity encoding, canonical links,
 and search indexing. GitHub Actions runs quality gates and deploys the generated
 Pages artifact.
@@ -16,7 +16,7 @@ Pages artifact.
 _posts/ + _layouts/ + ssg.toml
               |
               v
-          ssg 0.0.63
+          ssg 0.0.69
               |
               v
          public/ tree

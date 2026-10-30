@@ -6,7 +6,7 @@ AUR, Nix) and runtime completions therefore do not apply to this repository.
 
 To reproduce the deployable static site locally:
 
-1. Install the Rust toolchain and Static Site Generator: `cargo install ssg --locked --version 0.0.63`
+1. Install the Rust toolchain and Static Site Generator: `cargo install ssg --locked --version 0.0.69`
 2. Install Python 3.10 or later.
 3. Run `make build`.
 

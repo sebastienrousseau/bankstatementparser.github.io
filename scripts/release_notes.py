@@ -47,7 +47,10 @@ def generated(tag: str, previous: str | None) -> str:
 
 def first_release_changes(tag: str) -> str:
     commits = json.loads(gh("api", f"repos/{REPO}/commits?sha={tag}&per_page=100"))
-    lines = [f"* {c[commit][message].splitlines()[0]} by @{(c.get(author) or {}).get(login, unknown)} in https://github.com/{REPO}/commit/{c[sha]}" for c in reversed(commits)]
+    lines = [
+        f"* {c['commit']['message'].splitlines()[0]} by @{(c.get('author') or {}).get('login', 'unknown')} in https://github.com/{REPO}/commit/{c['sha']}"
+        for c in reversed(commits)
+    ]
     return "## What's Changed\n" + "\n".join(lines) + "\n"
 
 def compose(tag: str, sums: str) -> str:

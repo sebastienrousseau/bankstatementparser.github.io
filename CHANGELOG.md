@@ -6,6 +6,27 @@ All notable changes to this website are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.0.6] - 2026-10-30
+
+### Added
+
+- Generated `llms-full.txt` alongside `llms.txt` in `scripts/post-build.py` to
+  provide single-request full documentation context for AI coding agents.
+- Added property-based and unit tests in `tests/test_frontmatter.py` covering
+  `SOURCE_DATE_EPOCH` resolution, URL classification, and script-safe entity
+  encoding.
+
+### Changed
+
+- `KEYS.asc` and `.github/allowed_signers` trust a second maintainer signing
+  key, `SHA256:kIOPAavp1TCEauTr1tTIN3cv+tSs6F9m/4lZjuM9tqk` (rousseau-mbp-m1),
+  so release tags can be signed on either maintainer machine.
+- Upgraded CI workflows to Node.js 24 (npm 11) and `ssg` 0.0.69, and bumped
+  GitHub Actions and `hypothesis` (`6.170.8`) dependencies (#38, #39, #41, #42).
+- Refactored `scripts/post-build.py` and `_layouts/main.js` into modular
+  functions adhering strictly to complexity ceilings, removing 40 unused legacy
+  template files.
+
 ### Fixed
 
 - `KEYS.asc` is now in OpenSSH allowed-signers format, so
@@ -13,12 +34,12 @@ All notable changes to this website are documented here. The format follows
   tags. It previously held a bare public-key line that Git rejected as
   "invalid key". `KEYS.md` documents the command and lists each key's
   fingerprint.
-
-### Changed
-
-- `KEYS.asc` and `.github/allowed_signers` trust a second maintainer signing
-  key, `SHA256:kIOPAavp1TCEauTr1tTIN3cv+tSs6F9m/4lZjuM9tqk` (rousseau-mbp-m1),
-  so release tags can be signed on either maintainer machine.
+- `scripts/post-build.py` now honours `SOURCE_DATE_EPOCH` when emitting
+  `<lastmod>` in `sitemap.xml`, ensuring reproducible builds across arbitrary
+  dates.
+- Fixed unquoted dictionary keys in `scripts/release_notes.py`
+  (`first_release_changes`) and hardened template Content Security Policy
+  headers by removing `'unsafe-inline'`.
 
 ## [0.0.5] - 2026-10-11
 
@@ -134,7 +155,8 @@ All notable changes to this website are documented here. The format follows
 - Self-hosted asset delivery and zero third-party telemetry (#1).
 - Dual licensing under Apache-2.0 OR MIT (#2, #3).
 
-[Unreleased]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.5...HEAD
+[Unreleased]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.6...HEAD
+[0.0.6]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.2...v0.0.3

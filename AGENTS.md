@@ -2,7 +2,7 @@
 
 - Read `README.md`, `DEVELOPMENT.md`, and `/Users/seb/Code/REPO-STANDARD.md`
   before modifying this repository.
-- Use locally installed `ssg` 0.0.63 for every build.
+- Use locally installed `ssg` 0.0.69 for every build.
 - Never edit generated output in `public/` directly. Source of truth is
   `_posts/` for content and `_layouts/` for Tera templates.
 - Preserve WCAG 2.2 AAA accessibility, zero findings, and 100 Lighthouse

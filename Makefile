@@ -17,17 +17,20 @@ help:
 	@echo "  make clean      - Remove build artifacts and temporary files"
 
 build:
+	@rm -rf public
 	@ssg build --content _posts --template _layouts --output public
 	@python3 scripts/post-build.py
 
 test:
 	@python3 scripts/regression-test.py
+	@node --test tests/property.test.js
 
 audit: contrast validate
 	ssg audit -f ssg.toml -o public --severity warn --fail-on warn
 
 contrast:
 	@python3 scripts/audit-contrast.py
+	@python3 audit/contrast.py
 
 validate:
 	@python3 scripts/validate-frontmatter.py

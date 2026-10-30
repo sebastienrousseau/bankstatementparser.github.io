@@ -39,12 +39,11 @@ jobs:
         with:
           languages: ${{ matrix.language }}
           queries: +security-and-quality
-          # public/ and docs/ are generated output, templates/ is unreferenced legacy.
+          # public/ and docs/ are generated output.
           config: |
             paths-ignore:
               - public
               - docs
-              - templates
               - node_modules
 
       - name: Perform CodeQL Analysis

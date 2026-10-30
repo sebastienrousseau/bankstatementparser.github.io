@@ -10,7 +10,7 @@ def run_regression():
 
     print(f"Running Automated Regression Test on: {repo_path}")
 
-    required_files = ["robots.txt", "sitemap.xml", "manifest.json", "rss.xml", "search-index.json", "CNAME", "llms.txt"]
+    required_files = ["robots.txt", "sitemap.xml", "manifest.json", "rss.xml", "search-index.json", "CNAME", "llms.txt", "llms-full.txt", "sw.js", "humans.txt"]
     for rf in required_files:
         fpath = os.path.join(docs_dir, rf)
         if not os.path.isfile(fpath) or os.path.getsize(fpath) == 0:

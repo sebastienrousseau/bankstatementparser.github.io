@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!-- SPDX-FileCopyrightText: 2024-2026 Sebastien Rousseau -->
+<!-- SPDX-License-Identifier: Apache-2.0 OR MIT -->
+<html lang="en-GB" data-theme-mode="system" class="no-js">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>{{title}}</title>
+  <meta name="author" content="Sebastien Rousseau">
+  <meta name="description" content="{{description}}">
+  {{#block "meta_robots"}}<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">{{/block}}
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://formspree.io; img-src 'self' data: https: https://cloudcdn.pro; style-src 'self' https://cdn.jsdelivr.net; font-src 'self'; form-action 'self' https://formspree.io;" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Bank Statement Parser">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:title" content="{{title}} | Bank Statement Parser">
+  <meta property="og:description" content="{{description}}">
+  <meta property="og:image" content="{{banner}}">
+  <meta property="og:url" content="{{permalink}}">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{title}} | Bank Statement Parser">
+  <meta name="twitter:description" content="{{description}}">
+  <meta name="twitter:image" content="{{banner}}">
+
+  <link rel="alternate" href="{{permalink}}" hreflang="en" />
+  <link rel="canonical" href="{{permalink}}" />
+  <link rel="icon" type="image/svg+xml" href="{{logo}}" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="16x16 32x32" />
+  <link rel="apple-touch-icon" href="https://cloudcdn.pro/cmn/v1/icons/192x192.png" sizes="192x192" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
+  <link rel="stylesheet" href="/skeletonic.min.css">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/theme-init.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://bankstatementparser.com/#software",
+        "name": "Bank Statement Parser",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Linux, macOS, Windows",
+        "license": "https://opensource.org/licenses/Apache-2.0",
+        "author": {
+          "@type": "Person",
+          "name": "Sebastien Rousseau",
+          "url": "https://sebastienrousseau.com"
+        },
+        "url": "https://bankstatementparser.com/",
+        "logo": "https://cloudcdn.pro/bankstatementparser/v1/logos/bankstatementparser.svg",
+        "description": "High-throughput, privacy-first parser converting bank statements (CAMT, PAIN.001, MT940, MT942, OFX, BAI2, CSV, and PDF) into unified transactions with zero telemetry."
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://bankstatementparser.com/#website",
+        "url": "https://bankstatementparser.com/",
+        "name": "Bank Statement Parser",
+        "description": "{{description}}",
+        "inLanguage": "en-GB"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "{{permalink}}#webpage",
+        "url": "{{permalink}}",
+        "name": "{{title}}",
+        "description": "{{description}}",
+        "inLanguage": "en-GB",
+        "isPartOf": { "@id": "https://bankstatementparser.com/#website" }
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="style-visage">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  {{> header}}
+  <main id="main" class="style-visage" aria-label="Main content">{{#block "main"}}{{/block}}</main>
+  {{> footer}}
+  <script src="/main.js" defer></script>
+</body>
+</html>

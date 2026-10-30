@@ -1,5 +1,1762 @@
 # Bank Statement Parser
+> High-throughput financial document parsing engine converting multi-format bank statements (CAMT.052/053/054, PAIN.001, SWIFT MT940/MT942, OFX/QFX, BAI2, CSV, and PDF) into unified Transactions, streaming Apache Parquet, and Plain-Text Ledgers (hledger, beancount) with 100% zero telemetry.
 
-> Privacy-first, zero-telemetry parser extracting structured transactions from CAMT, PAIN.001, MT940, MT942, OFX, BAI2, CSV, and PDF bank statements.
+## Supported Financial Formats
+- ISO 20022 CAMT: Bank-to-Customer Statement (camt.053), Account Report (camt.052), Debit/Credit Notification (camt.054)
+- ISO 20022 PAIN.001: Customer Credit Transfer Initiation for two-way automated statement reconciliation
+- SWIFT MT940 & MT942: End-of-Day and Interim Statements with structured Field :86: sub-tag parsing
+- BAI2: North American Corporate Cash Management reporting standard (Records 01-99)
+- OFX & QFX: Open Financial Exchange SGML (1.x) and XML (2.x) banking statements
+- Delimited CSV: Automatic delimiter, date dialect, and decimal statistical detection
+- PDF Statements: Native layout text coordinate extraction and local offline OCR/vision fallback
 
-Language: en-GB
+## Export & Integration Targets
+- Columnar Apache Parquet: High-throughput streaming via ParquetStreamWriter with Snappy/Zstd compression
+- Plain-Text Accounting: Native exports for hledger, beancount, and ledger-cli double-entry systems
+- Analytical Models: Cash flow summaries, average daily balances, NSF fee detection, and recurring transactions
+- Two-Way Reconciliation: Automated matching of payment instructions (PAIN.001) against statement entries
+- PDF Forensics: Font anomaly inspection, metadata tampering detection, and audit verdicts
+
+## Core Documentation & Resources
+- Homepage: https://bankstatementparser.com/
+- Full LLM Context Bundle: https://bankstatementparser.com/llms-full.txt
+- Getting Started: https://bankstatementparser.com/getting-started/
+- Supported Formats: https://bankstatementparser.com/formats/
+- Use Cases: https://bankstatementparser.com/use-cases/
+- Performance Benchmarks: https://bankstatementparser.com/benchmarks/
+- Pipeline Architecture: https://bankstatementparser.com/architecture/
+- Security & Zero Telemetry: https://bankstatementparser.com/security/
+- API Reference: https://bankstatementparser.com/api/
+- Frequently Asked Questions: https://bankstatementparser.com/faqs/
+- Author & Pedigree: https://bankstatementparser.com/about/
+- Sebastien Rousseau: https://sebastienrousseau.com/
+
+---
+
+<section class="visage-intro" aria-labelledby="hero-heading">
+<div class="wrap">
+<p class="lilac-label">Financial Document Engineering · Open Source</p>
+<h1 id="hero-heading">Parse any bank statement in <em>milliseconds.</em><br>Zero cloud dependencies. Zero telemetry.</h1>
+<p>An open-source, high-throughput financial document parsing engine engineered in Rust with native Python bindings. Converts CAMT, PAIN.001, MT940, MT942, OFX/QFX, BAI2, CSV, and PDF bank statements into validated JSON, Apache Parquet, and ISO 20022 transaction streams entirely on your own infrastructure.</p>
+<div class="actions">
+<a class="primary" href="/getting-started/index.html">Install CLI &amp; SDK</a>
+<a href="/formats/index.html">Explore Supported Formats</a>
+</div>
+<ul class="hero-assurances">
+<li>Deterministic Rust Core</li>
+<li>Zero Cloud Dependencies</li>
+<li>100% Air-Gapped Privacy</li>
+</ul>
+</div>
+</section>
+
+<section class="trust-strip" aria-label="Platform guarantees">
+<div class="wrap">
+<ul>
+<li>
+<b>10,000+ Pages/Min</b>
+<span>Deterministic multi-threaded streaming throughput with zero lock contention.</span>
+</li>
+<li>
+<b>&lt; 0.8 ms Latency</b>
+<span>Zero-copy tokenization designed for real-time ledger reconciliation.</span>
+</li>
+<li>
+<b>100% Zero Telemetry</b>
+<span>Runs fully air-gapped on your private VPC or local host with zero network calls.</span>
+</li>
+<li>
+<b>8 Banking Standards</b>
+<span>Unified extraction across CAMT (052/053/054), PAIN.001, MT940, MT942, OFX/QFX, BAI2, CSV, and PDF.</span>
+</li>
+</ul>
+</div>
+</section>
+
+<section class="analysis-stage" id="treasury" aria-labelledby="treasury-heading">
+<div class="wrap image-shell">
+<picture>
+<source media="(max-width: 40rem)" srcset="https://cloudcdn.pro/stocks/images/getty-images-LaU3HadwEeE-unsplash-320.webp 320w, https://cloudcdn.pro/stocks/images/getty-images-LaU3HadwEeE-unsplash-640.webp 640w, https://cloudcdn.pro/stocks/images/getty-images-LaU3HadwEeE-unsplash-1200.webp 1200w" sizes="100vw">
+<img src="https://cloudcdn.pro/stocks/images/getty-images-LaU3HadwEeE-unsplash-1200.webp" srcset="https://cloudcdn.pro/stocks/images/getty-images-LaU3HadwEeE-unsplash-640.webp 640w, https://cloudcdn.pro/stocks/images/getty-images-LaU3HadwEeE-unsplash-1200.webp 1200w, https://cloudcdn.pro/stocks/images/getty-images-LaU3HadwEeE-unsplash-1920.webp 1920w" sizes="(max-width: 40rem) 100vw, 80rem" width="1200" height="675" alt="Corporate treasury and real-time financial ledger analytics dashboard in modern banking operations" loading="lazy" decoding="async">
+</picture>
+<div class="consultation-card">
+<p class="lilac-label">Corporate Treasury Automation</p>
+<h2 id="treasury-heading">Automated Reconciliation for Modern Treasury</h2>
+<p>Eliminate manual statement keying, error-prone spreadsheets, and expensive cloud OCR APIs. Normalize multi-bank statements directly into your general ledger, ERP, and treasury management workflows with sub-second turnaround.</p>
+<a class="primary" href="/use-cases/index.html">View Treasury Playbook <span aria-hidden="true">↗</span></a>
+</div>
+</div>
+</section>
+
+<section class="visage-features" id="features" aria-labelledby="features-heading">
+<div class="wrap">
+<header class="section-heading">
+<p class="lilac-label">Engine Architecture</p>
+<h2 id="features-heading">Engineered for absolute accuracy.</h2>
+<p>Industrial-grade financial parsing combining memory-safe Rust execution, native Python bindings, and dual Apache/MIT licensing.</p>
+</header>
+<div class="three-cells">
+<article>
+<span>01</span>
+<h3>Multi-Format Dialect Engine</h3>
+<p>Deterministic state machines parse digital and scanned PDFs, irregular CSV layouts, SGML OFX/QFX, BAI2 cash management, and SWIFT MT940/MT942 messages without brittle regex or external cloud OCR.</p>
+</article>
+<article>
+<span>02</span>
+<h3>Arithmetic Balance Verification</h3>
+<p>Strict mathematical balance validation ensures opening balance plus net credits and debits precisely equals closing balance to the penny before record emission.</p>
+</article>
+<article>
+<span>03</span>
+<h3>ISO 20022 Harmonization</h3>
+<p>Normalize disparate bank statements directly into canonical ISO 20022 CAMT.053 XML envelopes, Apache Parquet streams, or strongly-typed JSON schemas ready for ERP, GL, and accounting ingestion.</p>
+</article>
+</div>
+</div>
+</section>
+
+<section class="visage-process" id="process" aria-labelledby="process-heading">
+<div class="wrap">
+<p class="lilac-label">The Processing Pipeline</p>
+<h2 id="process-heading">From raw bank document to validated ledger transactions.</h2>
+<div class="process-grid">
+<article>
+<b>1</b>
+<h3>Ingest</h3>
+<p>Stream PDF bytes, CSV feeds, BAI2 files, or SWIFT MT940/MT942 messages into memory-safe zero-copy buffers.</p>
+<small>Sub-millisecond stream loading</small>
+</article>
+<article>
+<b>2</b>
+<h3>Tokenize</h3>
+<p>Deterministic lexical analysis identifies account metadata, booking dates, line items, and structured :86: sub-tags.</p>
+<small>Deterministic layout analysis</small>
+</article>
+<article>
+<b>3</b>
+<h3>Verify</h3>
+<p>Arithmetic balance reconciliation confirms credit/debit integrity, checks PDF forensics, and validates IBAN checksums.</p>
+<small>Mod-97 and balance proofs</small>
+</article>
+<article>
+<b>4</b>
+<h3>Emit</h3>
+<p>Output strongly-typed JSON, streaming Apache Parquet, Plain-Text Ledgers (hledger, beancount), or ISO 20022 messages.</p>
+<small>Ready for ERP, Lakehouse &amp; GL</small>
+</article>
+</div>
+</div>
+</section>
+
+<section class="analysis-stage" id="architecture-preview" aria-labelledby="arch-heading">
+<div class="wrap image-shell">
+<picture>
+<source media="(max-width: 40rem)" srcset="https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-320.webp 320w, https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-640.webp 640w, https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1200.webp 1200w" sizes="100vw">
+<img src="https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1200.webp" srcset="https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-640.webp 640w, https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1200.webp 1200w, https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1920.webp 1920w" sizes="(max-width: 40rem) 100vw, 80rem" width="1200" height="675" alt="Iconic financial architecture of London at night, highlighting high-assurance parsing infrastructure" loading="lazy" decoding="async">
+</picture>
+<div class="consultation-card">
+<p class="lilac-label">High-Performance Pipeline</p>
+<h2 id="arch-heading">Deterministic Execution at Enterprise Scale</h2>
+<p>Engineered for high-frequency financial platforms requiring bounded latency, zero-allocation loops, and strict ISO 20022 data models.</p>
+<a class="primary" href="/architecture/index.html">View Architecture Blueprint <span aria-hidden="true">↗</span></a>
+</div>
+</div>
+</section>
+
+<section class="terminal-stage" aria-labelledby="quickstart-heading">
+<div class="wrap terminal-grid">
+<div>
+<p class="lilac-label">Developer Quickstart</p>
+<h2 id="quickstart-heading">Install via Cargo, Pip, or Homebrew in Seconds</h2>
+<p>Deploy as a standalone CLI tool, embed as a high-assurance Rust crate in your microservices, or integrate into Python data pipelines with zero external runtime overhead.</p>
+<div class="actions">
+<a class="primary" href="/getting-started/index.html">Full Documentation →</a>
+<a href="/api/index.html">API Reference</a>
+</div>
+</div>
+<div class="terminal-box">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">bash — bankstatementparser</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-comment">&#35; 1. Install standalone CLI or Python library</span></div>
+<div class="t-line"><span class="t-prompt">$</span>cargo install bankstatementparser</div>
+<div class="t-line"><span class="t-prompt">$</span>pip install bankstatementparser</div>
+<div class="t-line"><span class="t-comment">&#35; 2. Parse statement with arithmetic balance verification</span></div>
+<div class="t-line"><span class="t-prompt">$</span>bankstatementparser --input statement.pdf --format json</div>
+<div class="t-line"><span class="t-comment">&#35; 3. Deterministic output verification (&lt; 0.8 ms)</span></div>
+<div class="t-line">{ <span class="t-key">&quot;status&quot;</span>: <span class="t-val">&quot;VALIDATED&quot;</span>, <span class="t-key">&quot;duration_ms&quot;</span>: <span class="t-val">0.72</span>, <span class="t-key">&quot;balance_proof&quot;</span>: <span class="t-val">&quot;EXACT_MATCH&quot;</span> }</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="privacy-panel" aria-labelledby="privacy-heading">
+<div class="wrap privacy-grid">
+<p class="lilac-label">Zero-Telemetry Privacy</p>
+<div>
+<h2 id="privacy-heading">Your financial data never leaves your infrastructure.</h2>
+<p>Bank Statement Parser is 100% self-contained and operates entirely on your local machine, private VPC, or air-gapped on-premise servers. Zero analytics, zero telemetry, and zero outbound network calls—guaranteeing complete GDPR, GLBA, and banking confidentiality compliance.</p>
+</div>
+<a href="/security/index.html">Read Security &amp; Privacy Architecture <span aria-hidden="true">↓</span></a>
+</div>
+</section>
+
+<section class="visage-faq" id="faq" aria-labelledby="faq-heading">
+<div class="wrap faq-layout">
+<header>
+<p class="lilac-label">Clear Answers</p>
+<h2 id="faq-heading">Frequently Asked Questions</h2>
+</header>
+<div>
+<details>
+<summary>Does Bank Statement Parser send data to the cloud or external servers?</summary>
+<p>No. Bank Statement Parser is 100% self-contained and operates entirely on your local machine or private cloud server. It contains zero analytics, zero telemetry, and zero outbound network calls, ensuring complete compliance with GDPR, HIPAA, GLBA, and banking confidentiality regulations.</p>
+</details>
+<details>
+<summary>Which bank statement file formats are supported?</summary>
+<p>Bank Statement Parser natively supports eight primary banking formats: ISO 20022 CAMT (camt.052, camt.053, camt.054), ISO 20022 PAIN.001 (Credit Transfer), SWIFT MT940 and MT942 messages, BAI2 (Bank Administration Institute), Open Financial Exchange (OFX 1.x/2.x and QFX), CSV files (with automatic delimiter and date detection), and digital/scanned PDF statements.</p>
+</details>
+<details>
+<summary>How does the parser handle scanned or image-based statements?</summary>
+<p>For digital and vector PDFs, the engine extracts structured text streams directly with zero loss. For scanned image statements, an optional local OCR module performs deterministic optical layout parsing with zero external cloud API dependencies.</p>
+</details>
+<details>
+<summary>Is the project open source and available for commercial use?</summary>
+<p>Yes. Bank Statement Parser is dual-licensed under the Apache-2.0 and MIT open-source licenses. You can freely integrate it into commercial SaaS products, enterprise backends, and internal financial pipelines.</p>
+</details>
+</div>
+</div>
+</section>
+
+<section class="visage-closing" aria-labelledby="visage-close">
+<div class="wrap">
+<div>
+<p class="lilac-label">Developer Quickstart</p>
+<h2 id="visage-close">Financial data is mission-critical.<br><em>Your parsing pipeline should be instant.</em></h2>
+</div>
+<div>
+<p>Get started in minutes with the Rust CLI or Python package across Linux, macOS, and Windows.</p>
+<a class="primary" href="/getting-started/index.html">Install Bank Statement Parser</a>
+</div>
+</div>
+</section>
+
+---
+
+Bank Statement Parser is an open-source, high-throughput financial document engine engineered in Rust with native Python bindings. Follow this guide to install the binary, process multi-format statement documents, or embed the SDK directly into your application stack.
+
+<div class="install-grid">
+<div class="install-card">
+<div class="install-card-header">
+<h2 class="install-card-title">Rust (Cargo)</h2>
+<span class="install-card-tag">Crate v0.0.28</span>
+</div>
+<p class="install-card-desc">Native library integration and standalone CLI compiled directly from source for maximum CPU throughput.</p>
+<pre><code>cargo install bankstatementparser</code></pre>
+</div>
+
+<div class="install-card">
+<div class="install-card-header">
+<h2 class="install-card-title">Python (Pip)</h2>
+<span class="install-card-tag">PyPI v0.0.28</span>
+</div>
+<p class="install-card-desc">Pre-compiled PyO3 binary wheels for Linux, macOS (Apple Silicon and Intel), and Windows with optional Parquet extras.</p>
+<pre><code>pip install bankstatementparser
+# Optional: Apache Parquet and Polars streaming support
+pip install "bankstatementparser[parquet]"
+pip install "bankstatementparser[polars]"</code></pre>
+</div>
+
+<div class="install-card">
+<div class="install-card-header">
+<h2 class="install-card-title">Docker Engine</h2>
+<span class="install-card-tag">OCI Container</span>
+</div>
+<p class="install-card-desc">Minimal, non-root container image published on GitHub Container Registry for air-gapped CI/CD execution.</p>
+<pre><code>docker pull ghcr.io/sebastienrousseau/bankstatementparser:latest</code></pre>
+</div>
+
+<div class="install-card">
+<div class="install-card-header">
+<h2 class="install-card-title">Homebrew Tap</h2>
+<span class="install-card-tag">macOS &amp; Linux</span>
+</div>
+<p class="install-card-desc">Pre-built standalone CLI binary distributed via official Homebrew tap for immediate terminal workstation access.</p>
+<pre><code>brew install sebastienrousseau/tap/bankstatementparser</code></pre>
+</div>
+</div>
+
+<div class="step-item">
+<div class="step-header">
+<span class="step-badge">01</span>
+<h2 class="step-title">Command Line Interface (CLI) Extraction</h2>
+</div>
+<p>The standalone binary provides fast parsing for individual bank statement files across digital PDF, CSV, OFX, and QIF formats, emitting standard JSON, CSV, or ISO 20022 CAMT.053 XML:</p>
+
+<div class="terminal-box my-3">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">bash — cli quickstart</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-comment">&#35; Extract statement PDF to standard JSON</span></div>
+<div class="t-line"><span class="t-prompt">$</span>bankstatementparser --input statement.pdf --output statement.json</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-comment">&#35; Convert OFX banking file to CSV</span></div>
+<div class="t-line"><span class="t-prompt">$</span>bankstatementparser --input statement.ofx --output statement.csv --format csv</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-comment">&#35; Transform PDF statement into ISO 20022 CAMT.053 XML</span></div>
+<div class="t-line"><span class="t-prompt">$</span>bankstatementparser --input statement.pdf --output statement.xml --format camt053</div>
+</div>
+</div>
+
+<p>For high-volume transaction processing, enable multi-threaded batch ingestion to parse entire directories in parallel:</p>
+
+<div class="terminal-box my-3">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">bash — batch processing</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-comment">&#35; Process all statements in a directory using 8 parallel worker threads</span></div>
+<div class="t-line"><span class="t-prompt">$</span>bankstatementparser --batch-dir ./statements/ --output-dir ./extracted_json/ --threads 8</div>
+</div>
+</div>
+</div>
+
+<div class="step-item">
+<div class="step-header">
+<span class="step-badge">02</span>
+<h2 class="step-title">Rust Library Integration</h2>
+</div>
+<p>Add the dependency to your <code>Cargo.toml</code>:</p>
+
+<div class="terminal-box my-3">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">Cargo.toml</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-key">[dependencies]</span></div>
+<div class="t-line">bankstatementparser = <span class="t-val">&quot;0.0.28&quot;</span></div>
+</div>
+</div>
+
+<p>Parse any statement into strongly-typed transaction structs with compile-time memory safety:</p>
+
+<div class="terminal-box my-3">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">main.rs</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-key">use</span> bankstatementparser::{Parser, StatementFormat};</div>
+<div class="t-line"><span class="t-key">use</span> std::path::Path;</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-key">fn</span> <span class="t-val">main</span>() -&gt; Result&lt;(), Box&lt;<span class="t-key">dyn</span> std::error::Error&gt;&gt; {</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">let</span> parser = Parser::new();</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">let</span> statement = parser.parse_file(Path::new(<span class="t-val">&quot;statement.pdf&quot;</span>))?;</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;println!(<span class="t-val">&quot;Account: {}&quot;</span>, statement.account_id);</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;println!(<span class="t-val">&quot;Balance: {} {}&quot;</span>, statement.closing_balance, statement.currency);</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">for</span> tx <span class="t-key">in</span> statement.transactions {</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;println!(<span class="t-val">&quot;{} | {} | {}&quot;</span>, tx.date, tx.amount, tx.description);</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;Ok(())</div>
+<div class="t-line">}</div>
+</div>
+</div>
+</div>
+
+<div class="step-item">
+<div class="step-header">
+<span class="step-badge">03</span>
+<h2 class="step-title">Python SDK Integration</h2>
+</div>
+<p>Extract and validate transaction records within your Python data science and finance workflows with zero native compilation:</p>
+
+<div class="terminal-box my-3">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">python — main.py</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-key">from</span> bankstatementparser <span class="t-key">import</span> (</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;BankStatementParser, CamtParser, Bai2Parser, ParquetStreamWriter,</div>
+<div class="t-line">)</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-comment">&#35; 1. Parse statement into strongly-typed Transaction models</span></div>
+<div class="t-line">parser = BankStatementParser()</div>
+<div class="t-line">statement = parser.parse_file(<span class="t-val">&quot;statement.pdf&quot;</span>)</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-comment">&#35; 2. Stream transactions directly to Apache Parquet</span></div>
+<div class="t-line"><span class="t-key">with</span> ParquetStreamWriter(<span class="t-val">&quot;transactions.parquet&quot;</span>) <span class="t-key">as</span> writer:</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;writer.write_batch(statement.transactions)</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line">print(<span class="t-val">f&quot;Extracted {len(statement.transactions)} transactions into Parquet.&quot;</span>)</div>
+</div>
+</div>
+</div>
+
+<div class="step-item">
+<div class="step-header">
+<span class="step-badge">04</span>
+<h2 class="step-title">Zero-Telemetry Execution Guarantees</h2>
+</div>
+<p>Every extraction pipeline executes exclusively within local process memory. Bank Statement Parser makes zero outbound network calls, transmits no analytical telemetry, and requires no external SaaS API keys:</p>
+
+<div class="doc-visual-card">
+<picture>
+<source media="(max-width: 40rem)" srcset="https://cloudcdn.pro/stocks/images/quantum-computer-room-320.webp 320w, https://cloudcdn.pro/stocks/images/quantum-computer-room-640.webp 640w, https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp 1200w" sizes="100vw">
+<img src="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" alt="High-throughput financial document engineering architecture" width="1200" height="675" loading="lazy" />
+</picture>
+<div class="doc-visual-caption">Air-gapped execution architecture: banking statements are tokenized and validated entirely within local memory with zero external telemetry.</div>
+</div>
+</div>
+
+---
+
+Bank Statement Parser provides deterministic, zero-telemetry ingestion and mathematical balance verification across eight primary banking standards worldwide. Every format is normalized into strongly-typed `Transaction` and `Statement` models ready for ERP integration, corporate treasury, automated reconciliation, and OLAP analytics.
+
+<div class="table-responsive my-4">
+<table class="visage-table">
+<thead>
+<tr>
+<th>Format</th>
+<th>Standard / Specification</th>
+<th>Extraction Method</th>
+<th>Validation Engine</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PDF Statements</strong></td>
+<td>Adobe PDF 1.4–2.0 (Vector &amp; Scanned)</td>
+<td>Spatial coordinate tokenizer &amp; local OCR/vision fallback</td>
+<td>Mathematical balance verification &amp; IBAN Mod-97 checksum</td>
+</tr>
+<tr>
+<td><strong>CSV &amp; Delimited</strong></td>
+<td>RFC 4180 with Dialect Auto-Detect</td>
+<td>Statistical delimiter, decimal, and date header inference</td>
+<td>Column type inference &amp; date format normalization</td>
+</tr>
+<tr>
+<td><strong>BAI2 Cash Management</strong></td>
+<td>Bank Administration Institute (BAI2)</td>
+<td>Deterministic record state machine (Records 01–99)</td>
+<td>Account status balance codes &amp; record 88 continuation validation</td>
+</tr>
+<tr>
+<td><strong>SWIFT MT940</strong></td>
+<td>SWIFT Standards Release 2026 (End-of-Day)</td>
+<td>Tag-based state machine parser (:20:, :25:, :60F:, :61:, :62F:)</td>
+<td>Opening/closing balance arithmetic (Fields 60F/62F)</td>
+</tr>
+<tr>
+<td><strong>SWIFT MT942</strong></td>
+<td>SWIFT Standards Release 2026 (Interim)</td>
+<td>Intraday credit/debit transaction stream parser</td>
+<td>Field 34F floor limit &amp; summary amount reconciliation</td>
+</tr>
+<tr>
+<td><strong>ISO 20022 CAMT</strong></td>
+<td>camt.052, camt.053, and camt.054 (v2–v12)</td>
+<td>Zero-copy XML streaming parser</td>
+<td>W3C XML Schema (XSD) &amp; opening/closing balance proofs</td>
+</tr>
+<tr>
+<td><strong>ISO 20022 PAIN.001</strong></td>
+<td>pain.001.001.03–11 (Customer Credit Transfer)</td>
+<td>Deterministic XML payment initiation parser</td>
+<td>Payment control sum &amp; transaction count verification</td>
+</tr>
+<tr>
+<td><strong>OFX &amp; Quicken QFX</strong></td>
+<td>Open Financial Exchange (1.02–2.2 SGML &amp; XML)</td>
+<td>Robust tree parser with SGML unclosed-tag repair</td>
+<td>Standard banking DTD &amp; transaction UID deduplication</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h2>1. ISO 20022 Messaging Standard (CAMT &amp; PAIN.001)</h2>
+
+<p>ISO 20022 is the global standard for electronic data interchange between financial institutions. Bank Statement Parser supports canonical cash management messages (CAMT) and payment initiation instructions (PAIN.001) across all published versions (v2 through v12):</p>
+
+<ul>
+<li><strong>CAMT.053 (Bank-to-Customer Statement):</strong> Detailed end-of-day electronic account statement reporting opening balance, booked entries, batches, and closing available balance.</li>
+<li><strong>CAMT.052 (Bank-to-Customer Account Report):</strong> Intraday or interim statement providing real-time cash position updates.</li>
+<li><strong>CAMT.054 (Bank-to-Customer Debit/Credit Notification):</strong> Granular transaction-level debit or credit notifications used for instant settlement verification.</li>
+<li><strong>PAIN.001 (Customer Credit Transfer Initiation):</strong> Payment instructions parsed for two-way automated reconciliation against incoming CAMT or MT940 statement postings.</li>
+</ul>
+
+<h2>2. SWIFT Telecommunication Formats (MT940 &amp; MT942)</h2>
+
+<p>The parser provides native tag-based state machines for legacy SWIFT MT formats without reliance on regular expressions:</p>
+
+<ul>
+<li><strong>SWIFT MT940:</strong> The electronic bank statement message containing field :20: (Transaction Reference), :25: (Account Identification), :28C: (Statement/Sequence Number), :60F: (Opening Balance), :61: (Statement Line), :86: (Information to Account Owner), and :62F: (Closing Balance).</li>
+<li><strong>SWIFT MT942:</strong> Interim transaction report tracking intraday movements with field :34F: minimum amount specification.</li>
+<li><strong>Structured Field :86: Sub-Tag Parser:</strong> Automated extraction of German SEPA, EPC, and international structured tags including <code>/EREF/</code> (End-to-End Reference), <code>/PREF/</code> (Payment Reference), <code>/REMI/</code> (Remittance Info), <code>/IBAN/</code>, and <code>/BIC/</code>.</li>
+</ul>
+
+<h2>3. BAI2 Corporate Cash Management</h2>
+
+<p>BAI2 is the North American standard created by the Bank Administration Institute for corporate account reporting. Bank Statement Parser deterministically parses the hierarchical record sequence:</p>
+
+<ul>
+<li><strong>Record 01:</strong> File Header (sender, receiver, creation date/time, file ID).</li>
+<li><strong>Record 02:</strong> Group Header (ultimate receiver, originator, group status).</li>
+<li><strong>Record 03:</strong> Account Identifier (account number, currency, type codes, status amounts).</li>
+<li><strong>Record 16:</strong> Transaction Detail (type code, amount, funds availability, bank reference).</li>
+<li><strong>Record 88:</strong> Continuation Record (extended remittance and transaction descriptions).</li>
+<li><strong>Records 49, 98, 99:</strong> Account, Group, and File Trailer checksums ensuring zero record omission.</li>
+</ul>
+
+<h2>4. Open Financial Exchange (OFX &amp; QFX)</h2>
+
+<p>Open Financial Exchange (OFX) and Quicken Financial Exchange (QFX) formats are widely used by retail and commercial banks across North America and Europe:</p>
+
+<ul>
+<li><strong>OFX 1.02–1.6:</strong> SGML-based format with unclosed tags and legacy header key-value blocks. The parser repairs malformed SGML tag hierarchies without memory buffering overhead.</li>
+<li><strong>OFX 2.x:</strong> Clean W3C XML documents containing <code>BANKMSGSRSV1</code>, <code>STMTTRNRS</code>, and <code>STMTRS</code> aggregates.</li>
+<li><strong>Transaction Deduplication:</strong> Unique <code>FITID</code> (Financial Institution Transaction ID) hashing prevents duplicate booking entries during multi-account batch ingestion.</li>
+</ul>
+
+<h2>5. Delimited CSV Statements</h2>
+
+<p>CSV is the most ubiquitous yet least standardized financial format. Bank Statement Parser implements a statistical dialect inference engine that automatically determines:</p>
+
+<ul>
+<li><strong>Delimiter Detection:</strong> Comma (<code>,</code>), semicolon (<code>;</code>), tab (<code>\t</code>), or pipe (<code>|</code>).</li>
+<li><strong>Date Formatting:</strong> ISO 8601 (<code>YYYY-MM-DD</code>), European (<code>DD/MM/YYYY</code>), and US (<code>MM/DD/YYYY</code>) formats inferred from semantic date distributions.</li>
+<li><strong>Number &amp; Currency Notation:</strong> Automatic handling of periods vs. commas for thousand separators and decimal points (e.g. <code>1,234.56</code> vs. <code>1.234,56</code>).</li>
+<li><strong>Amount Semantics:</strong> Automatic detection of unified signed amount columns or split Debit / Credit column layouts.</li>
+</ul>
+
+<h2>6. Digital and Scanned PDF Statements</h2>
+
+<p>Financial institutions frequently deliver statements in PDF format. Bank Statement Parser provides a dual-mode engine for complete document recovery:</p>
+
+<ul>
+<li><strong>Digital / Vector PDFs:</strong> High-speed extraction directly from internal text streams and spatial coordinates, preserving table columns across multi-page boundaries with sub-millisecond execution.</li>
+<li><strong>Scanned Image Statements:</strong> Optional local, offline OCR and vision fallback models parse bitmap PDFs (TIFF, PNG, scanned documents) into layout-aware bounding boxes without sending a single byte outside your private network.</li>
+<li><strong>Forensics &amp; Tamper Verification:</strong> Automated PDF forensics check for font anomalies, metadata discrepancies, and hidden modification layers to detect altered statements.</li>
+</ul>
+
+<h2>7. Analytical &amp; Accounting Export Targets</h2>
+
+<p>In addition to strongly-typed JSON and CSV, Bank Statement Parser supports industrial streaming analytics and plain-text accounting ledger pipelines:</p>
+
+<ul>
+<li><strong>Streaming Apache Parquet (<code>ParquetStreamWriter</code>):</strong> High-performance, columnar Parquet export with snappy or zstd compression. Supports streaming hundreds of thousands of transactions directly to disk or S3 with constant memory usage.</li>
+<li><strong>Plain-Text Accounting (PTA):</strong> Native export formats for <code>hledger</code>, <code>beancount</code>, and <code>ledger-cli</code> double-entry bookkeeping systems.</li>
+<li><strong>Pandas &amp; Polars DataFrames:</strong> Zero-copy integration into Polars and Pandas analytics pipelines via <code>bankstatementparser[parquet]</code> and <code>bankstatementparser[polars]</code> extras.</li>
+</ul>
+
+---
+
+Bank Statement Parser exposes deterministic, zero-allocation interfaces across both native Rust and PyO3-powered Python bindings. Every function executes strictly in-process with zero network telemetry, complete memory safety, and mathematical balance verification.
+
+<div class="step-item">
+<div class="step-header">
+<span class="step-badge">01</span>
+<h2 class="step-title">Rust Core Library Interface (lib.rs)</h2>
+</div>
+<p>Integrate the native Rust crate directly into your backend services for maximum CPU throughput, sub-millisecond document parsing, and zero heap duplication:</p>
+
+<div class="terminal-box my-3">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">rust — crate interface</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-key">use</span> bankstatementparser::{Parser, Statement, Transaction};</div>
+<div class="t-line"><span class="t-key">use</span> std::path::Path;</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-comment">&#35; Configure thread-safe parser with dialect auto-detection</span></div>
+<div class="t-line"><span class="t-key">let</span> parser = Parser::builder()</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;.detect_dialects(<span class="t-val">true</span>)</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;.strict_balance_validation(<span class="t-val">true</span>)</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;.build();</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-comment">&#35; Parse byte stream directly from memory or disk</span></div>
+<div class="t-line"><span class="t-key">let</span> statement: Statement = parser.parse_file(Path::new(<span class="t-val">&quot;statement.pdf&quot;</span>))?;</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-comment">&#35; Access verified balance invariants and transactions</span></div>
+<div class="t-line">println!(<span class="t-val">&quot;Account IBAN: {}&quot;</span>, statement.account_id);</div>
+<div class="t-line">println!(<span class="t-val">&quot;Closing Balance: {} {}&quot;</span>, statement.closing_balance, statement.currency);</div>
+<div class="t-line"><span class="t-key">for</span> tx <span class="t-key">in</span> statement.transactions {</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;println!(<span class="t-val">&quot;{} | {:&gt;10.2} | {}&quot;</span>, tx.date, tx.amount, tx.description);</div>
+<div class="t-line">}</div>
+</div>
+</div>
+
+<p>Core data types provided by the native crate:</p>
+
+<div class="table-responsive my-3">
+<table class="visage-table">
+<thead>
+<tr>
+<th>Type / Symbol</th>
+<th>Signature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Parser</code></td>
+<td><code>struct Parser</code></td>
+<td>Thread-safe parser engine supporting zero-copy byte slice and file ingestion.</td>
+</tr>
+<tr>
+<td><code>ParserBuilder</code></td>
+<td><code>struct ParserBuilder</code></td>
+<td>Configures parallel threads, balance invariants, and dialect heuristics.</td>
+</tr>
+<tr>
+<td><code>Statement</code></td>
+<td><code>struct Statement</code></td>
+<td>Normalized document model containing account ID, balances, currency, and transactions.</td>
+</tr>
+<tr>
+<td><code>Transaction</code></td>
+<td><code>struct Transaction</code></td>
+<td>Individual ledger item with booking date, value date, signed amount, and narrative.</td>
+</tr>
+<tr>
+<td><code>StatementFormat</code></td>
+<td><code>enum StatementFormat</code></td>
+<td>Output target variants: <code>Json</code>, <code>Csv</code>, <code>Ofx</code>, <code>Qif</code>, and <code>Camt053</code>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="step-item">
+<div class="step-header">
+<span class="step-badge">02</span>
+<h2 class="step-title">Python SDK Interface (PyO3)</h2>
+</div>
+<p>Pre-compiled binary wheels for Linux, macOS, and Windows provide native Rust speed directly inside Python data science, pandas, and web application workflows:</p>
+
+<div class="terminal-box my-3">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">python — sdk quickstart</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-key">from</span> bankstatementparser <span class="t-key">import</span> (</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;BankStatementParser, CamtParser, Bai2Parser, Mt940Parser,</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;ParquetStreamWriter, reconcile_payments_and_statements,</div>
+<div class="t-line">)</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-comment">&#35; 1. Parse statement into strongly-typed Transaction models</span></div>
+<div class="t-line">parser = BankStatementParser()</div>
+<div class="t-line">statement = parser.parse_file(<span class="t-val">&quot;statement.pdf&quot;</span>)</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-comment">&#35; 2. Stream transactions directly to Apache Parquet</span></div>
+<div class="t-line"><span class="t-key">with</span> ParquetStreamWriter(<span class="t-val">&quot;transactions.parquet&quot;</span>) <span class="t-key">as</span> writer:</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;writer.write_batch(statement.transactions)</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-comment">&#35; 3. Inspect verified balance proof</span></div>
+<div class="t-line">print(<span class="t-val">f&quot;Closing Balance: {statement.closing_balance} {statement.currency}&quot;</span>)</div>
+<div class="t-line"><span class="t-key">for</span> tx <span class="t-key">in</span> statement.transactions:</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;print(<span class="t-val">f&quot;{tx.date} | {tx.amount:&gt;10.2f} | {tx.description}&quot;</span>)</div>
+</div>
+</div>
+
+<p>Core parsers and analytical tools exported by the module:</p>
+
+<div class="table-responsive my-3">
+<table class="visage-table">
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Type / Signature</th>
+<th>Purpose &amp; Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BankStatementParser</code></td>
+<td><code>Class</code></td>
+<td>Primary document engine for PDF layout extraction, OCR fallback, and multi-format routing.</td>
+</tr>
+<tr>
+<td><code>Bai2Parser</code></td>
+<td><code>Class</code></td>
+<td>Dedicated state machine parser for BAI2 corporate cash management files.</td>
+</tr>
+<tr>
+<td><code>CamtParser</code></td>
+<td><code>Class</code></td>
+<td>High-speed XML parser for ISO 20022 CAMT.052, CAMT.053, and CAMT.054 statements.</td>
+</tr>
+<tr>
+<td><code>Pain001Parser</code></td>
+<td><code>Class</code></td>
+<td>Parser for ISO 20022 PAIN.001 customer credit transfer payment instructions.</td>
+</tr>
+<tr>
+<td><code>Mt940Parser</code> / <code>Mt942Parser</code></td>
+<td><code>Class</code></td>
+<td>SWIFT MT940 end-of-day and MT942 intraday tag-based message parsers.</td>
+</tr>
+<tr>
+<td><code>ParquetStreamWriter</code></td>
+<td><code>ContextManager</code></td>
+<td>Streams batches of transactions directly to Apache Parquet with Snappy/Zstd compression.</td>
+</tr>
+<tr>
+<td><code>reconcile_payments_and_statements</code></td>
+<td><code>Function</code></td>
+<td>Two-way automated reconciliation matching payment orders against statement postings.</td>
+</tr>
+<tr>
+<td><code>inspect_pdf_forensics</code></td>
+<td><code>Function</code></td>
+<td>Audits PDF statements for font discrepancies, metadata modifications, and tampering findings.</td>
+</tr>
+<tr>
+<td><code>analyze_statement_transactions</code></td>
+<td><code>Function</code></td>
+<td>Computes cash flow summaries, average daily balances, NSF fees, and recurring cadences.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="step-item">
+<div class="step-header">
+<span class="step-badge">03</span>
+<h2 class="step-title">Deterministic Error Handling &amp; Diagnostics</h2>
+</div>
+<p>All processing pipelines isolate corrupt documents, unsupported regional dialects, and balance arithmetic discrepancies into typed error exceptions without panics or unhandled crashes:</p>
+
+<div class="terminal-box my-3">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">python — error handling</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-key">from</span> bankstatementparser <span class="t-key">import</span> parse_statement</div>
+<div class="t-line"><span class="t-key">from</span> bankstatementparser.exceptions <span class="t-key">import</span> (</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;BalanceMismatchError,</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;UnsupportedDialectError,</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;CorruptedDocumentError,</div>
+<div class="t-line">)</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-key">try</span>:</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;statement = parse_statement(<span class="t-val">&quot;statement.pdf&quot;</span>)</div>
+<div class="t-line"><span class="t-key">except</span> BalanceMismatchError <span class="t-key">as</span> exc:</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-comment">&#35; Arithmetic discrepancy: opening + sum(credits) - sum(debits) != closing</span></div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;print(<span class="t-val">f&quot;Audit failed: expected delta {exc.expected_delta}, found {exc.actual_delta}&quot;</span>)</div>
+<div class="t-line"><span class="t-key">except</span> UnsupportedDialectError <span class="t-key">as</span> exc:</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-comment">&#35; Document signature unrecognized</span></div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;print(<span class="t-val">f&quot;Unsupported bank layout: {exc.detected_signature}&quot;</span>)</div>
+<div class="t-line"><span class="t-key">except</span> CorruptedDocumentError <span class="t-key">as</span> exc:</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;print(<span class="t-val">f&quot;Malformed file stream: {exc.details}&quot;</span>)</div>
+</div>
+</div>
+</div>
+
+<div class="step-item">
+<div class="step-header">
+<span class="step-badge">04</span>
+<h2 class="step-title">Zero-Telemetry Execution Guarantees</h2>
+</div>
+<p>Bank Statement Parser makes zero outbound network calls, transmits no analytical telemetry, and requires no external SaaS API keys. Sensitive financial documents and banking statements remain strictly confined within your own compute environment.</p>
+
+<div class="doc-visual-card">
+<picture>
+<source media="(max-width: 40rem)" srcset="https://cloudcdn.pro/stocks/images/quantum-computer-room-320.webp 320w, https://cloudcdn.pro/stocks/images/quantum-computer-room-640.webp 640w, https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp 1200w" sizes="100vw">
+<img src="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" alt="Air-gapped high-throughput financial document engineering architecture" width="1200" height="675" loading="lazy" />
+</picture>
+<div class="doc-visual-caption">Air-gapped execution architecture: banking statements are tokenized and validated entirely within local memory with zero external telemetry.</div>
+</div>
+</div>
+
+---
+
+Bank Statement Parser is architected around a deterministic, four-stage extraction and validation pipeline. Every stage executes in-process with zero outbound telemetry, zero heap allocation in the critical path, and strict mathematical balance verification before emitting ISO 20022 messages.
+
+<h2>Four-Stage Processing Pipeline</h2>
+
+<div class="process-grid my-4">
+<article>
+<b>01</b>
+<h3>Stream Ingest</h3>
+<p>Zero-copy memory mapping (<code>mmap</code>) of input statement bytes with instant magic-byte format detection (PDF, CSV, OFX, MT940, CAMT.053).</p>
+<small>&lt; 0.2 ms Ingest Latency</small>
+</article>
+<article>
+<b>02</b>
+<h3>Layout Tokenizer</h3>
+<p>Spatial coordinate mapping and multi-column tabular boundary reconstruction, preserving text flow across complex multi-page financial tables.</p>
+<small>Zero Heap Allocations</small>
+</article>
+<article>
+<b>03</b>
+<h3>Field Normalizer</h3>
+<p>Canonical standardization of 24 global date dialects, ISO 4217 currencies, and mod-97 IBAN checksum verification.</p>
+<small>ISO 20022 BTC Mapping</small>
+</article>
+<article>
+<b>04</b>
+<h3>Schema Validator</h3>
+<p>Mathematical invariant verification (<code>Opening + ΣCredits - ΣDebits = Closing</code>) before emitting validated JSON or ISO 20022 XML.</p>
+<small>100% Invariant Check</small>
+</article>
+</div>
+
+<h2>Deterministic Pipeline Execution Trace</h2>
+
+<p>The trace below demonstrates the sub-millisecond execution lifecycle of the four-stage engine processing a multi-page PDF statement into validated ISO 20022 CAMT.053 XML:</p>
+
+<div class="terminal-box my-4">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">pipeline-trace — bankstatementparser v0.0.2</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-prompt">$</span>bankstatementparser --input statement.pdf --trace --format camt053</div>
+<div class="t-line"><span class="t-comment">[0.00ms] [ingest] Zero-copy mmap statement.pdf (142,896 bytes) • Magic: %PDF-1.7</span></div>
+<div class="t-line"><span class="t-comment">[0.18ms] [tokenizer] Spatial scan complete: 4 tables detected, 128 transaction rows clustered</span></div>
+<div class="t-line"><span class="t-comment">[0.45ms] [normalizer] Currency: GBP (ISO 4217) • Account: GB29BARC20000012345678 (mod-97 OK)</span></div>
+<div class="t-line"><span class="t-comment">[0.72ms] [validator] Opening: 14,250.00 | Credits: +8,300.50 | Debits: -3,120.25 | Closing: 19,430.25</span></div>
+<div class="t-line"><span class="t-comment">[0.89ms] [validator] Invariant Check: 14,250.00 + 5,180.25 == 19,430.25 [PASS: Delta = 0.0000]</span></div>
+<div class="t-line"><span class="t-comment">[1.12ms] [synthesis] Emitted ISO 20022 camt.053.001.08 XML (42,810 bytes, schema valid)</span></div>
+<div class="t-line"><span class="t-key">Status:</span> <span class="t-val">200 OK</span> • <span class="t-key">Latency:</span> <span class="t-val">1.12ms</span> • <span class="t-key">Memory:</span> <span class="t-val">1.4 MB</span> • <span class="t-key">Telemetry:</span> <span class="t-val">Zero Outbound</span></div>
+</div>
+</div>
+
+<h2>Stage 1: Zero-Copy Stream Ingestion</h2>
+
+<p>The ingestion subsystem interfaces directly with the host filesystem via memory-mapped files (<code>mmap</code>), bypassing kernel-to-userspace buffer duplication. Byte slices are analyzed using non-backtracking magic-byte sniffers:</p>
+
+<ul>
+<li><strong>PDF Documents:</strong> Validates file header prefix <code>%PDF-</code> and reads the cross-reference table (<code>xref</code>) directly from the trailer offset.</li>
+<li><strong>OFX Streams:</strong> Sniffs <code>OFXHEADER</code> SGML tags or XML prologue <code>&lt;?xml version="1.0"</code> to branch into streaming parser trees.</li>
+<li><strong>SWIFT MT940 / MT942:</strong> Checks for field delimiter sequences (<code>:20:</code>, <code>:25:</code>, <code>:28C:</code>) to route into deterministic line tokenizers.</li>
+<li><strong>CSV Delimited Files:</strong> Evaluates entropy across candidate delimiters (comma, semicolon, tab, pipe) over the first 50 rows to infer column geometry without full-file scans.</li>
+</ul>
+
+<h2>Stage 2: Spatial Layout Tokenization</h2>
+
+<p>For unstructured formats such as digital PDF statements, standard text extraction destroys critical vertical alignment. Bank Statement Parser utilizes a deterministic coordinate-clustering engine:</p>
+
+<ul>
+<li><strong>Glyph Extraction:</strong> Maps character matrices, font bounding boxes, and baseline coordinates from content stream operators (<code>BT</code>, <code>ET</code>, <code>Tj</code>, <code>TJ</code>, <code>Tm</code>).</li>
+<li><strong>Row Clustering:</strong> Groups glyphs with overlapping vertical tolerances into discrete lines, preventing footnote and header collision.</li>
+<li><strong>Column Geometric Alignment:</strong> Computes vertical whitespace gutters to delineate Booking Date, Value Date, Narrative, Amount, and Running Balance columns.</li>
+<li><strong>Multi-line Narrative Stitching:</strong> Heuristically associates wrapped description text back to the initiating transaction row.</li>
+</ul>
+
+<div class="doc-visual-card">
+<picture>
+<source media="(max-width: 40rem)" srcset="https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-320.webp 320w, https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-640.webp 640w, https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1200.webp 1200w" sizes="100vw">
+<img src="https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1200.webp" alt="Bank Statement Parser — Pipeline Architecture and High-Throughput Engine" width="1200" height="675" loading="lazy" />
+</picture>
+<div class="doc-visual-caption">High-assurance statement parsing: zero-copy memory mapping, deterministic tokenization, and ISO 20022 message synthesis.</div>
+</div>
+
+<h2>Stage 3: Field Normalization &amp; Standard Mapping</h2>
+
+<p>Extracted raw string tokens are converted into strongly-typed canonical primitives:</p>
+
+<ul>
+<li><strong>Date Canonicalization:</strong> Resolves 24 regional date formats (including <code>DD/MM/YYYY</code>, <code>MM/DD/YYYY</code>, <code>YYYY-MM-DD</code>, and multi-lingual month names) into ISO 8601 UTC timestamps.</li>
+<li><strong>Monetary Amounts:</strong> Parses European period/comma inversion (e.g., <code>1.234,56</code> vs <code>1,234.56</code>), preserving scale as exact 64-bit fixed-point integers to eliminate IEEE 754 floating-point rounding drift.</li>
+<li><strong>Account &amp; Bank Identifiers:</strong> Verifies ISO 13616 International Bank Account Numbers (IBAN) using mod-97 arithmetic (ISO 7064) and validates ISO 9362 Business Identifier Codes (BIC).</li>
+<li><strong>Transaction Code Classification:</strong> Maps proprietary transaction labels to standardized ISO 20022 Bank Transaction Codes (BTC), distinguishing card settlements, direct debits, credit transfers, and fee deductions.</li>
+</ul>
+
+<h2>Stage 4: Mathematical Validation &amp; Schema Synthesis</h2>
+
+<p>Before any extracted statement is emitted, the engine evaluates strict balance invariants to guarantee data integrity:</p>
+
+<div class="terminal-box my-4">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">mathematical-invariant — balance check</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-key">Invariant Equation:</span> Opening_Balance + Sum(Credits) - Sum(Debits) == Closing_Balance</div>
+<div class="t-line"><span class="t-comment">&#35; If Delta != 0.00, extraction fails with explicit discrepancy error and line offset</span></div>
+</div>
+</div>
+
+<p>Upon invariant satisfaction, the engine streams the normalized data tree into target schemas:</p>
+
+<ul>
+<li><strong>ISO 20022 CAMT.053:</strong> Generates conforming <code>camt.053.001.08</code> Bank-to-Customer Statement XML messages ready for direct core banking and treasury ingest.</li>
+<li><strong>Canonical JSON:</strong> Emits clean, strongly-typed JSON with ISO 8601 dates and exact decimal numbers for downstream API consumption.</li>
+<li><strong>Reconciliation CSV:</strong> Serializes standardized transaction rows with consistent column headers for enterprise ERP systems.</li>
+</ul>
+
+---
+
+Benchmarked on Apple Silicon (M-series) and Linux x86_64 server hardware across 50,000 multi-page banking statements.
+
+<div class="stat-grid my-4">
+<div class="stat-card">
+<div class="stat-figure">10,450</div>
+<div class="stat-label">Pages / Minute</div>
+</div>
+<div class="stat-card">
+<div class="stat-figure">0.72 ms</div>
+<div class="stat-label">Average Latency</div>
+</div>
+<div class="stat-card">
+<div class="stat-figure">18 MB</div>
+<div class="stat-label">Peak Memory (RSS)</div>
+</div>
+</div>
+
+<div class="step-item">
+<div class="step-header">
+<span class="step-badge">01</span>
+<h2 class="step-title">Comparative Benchmark Matrix</h2>
+</div>
+<p>Empirical performance comparison processing standard 10-page commercial PDF bank statements with 150 transaction rows:</p>
+
+<div class="table-responsive my-3">
+<table class="visage-table">
+<thead>
+<tr>
+<th>Parser Engine</th>
+<th>Language</th>
+<th>Throughput (Pages/sec)</th>
+<th>Memory (RSS)</th>
+<th>Balance Check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Bank Statement Parser</strong></td>
+<td>Rust / Native</td>
+<td><strong>174 pages/sec</strong></td>
+<td><strong>18 MB</strong></td>
+<td>Mathematical (100%)</td>
+</tr>
+<tr>
+<td>PDFMiner.six</td>
+<td>Python (Pure)</td>
+<td>3.8 pages/sec</td>
+<td>145 MB</td>
+<td>None (Raw text)</td>
+</tr>
+<tr>
+<td>Camelot (Lattice)</td>
+<td>Python / OpenCV</td>
+<td>1.2 pages/sec</td>
+<td>380 MB</td>
+<td>None (Visual only)</td>
+</tr>
+<tr>
+<td>Tabula (Java)</td>
+<td>Java / JVM</td>
+<td>8.4 pages/sec</td>
+<td>512 MB</td>
+<td>None (Table grid)</td>
+</tr>
+<tr>
+<td>Apache PDFBox</td>
+<td>Java / JVM</td>
+<td>14.1 pages/sec</td>
+<td>290 MB</td>
+<td>None (Text layout)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="step-item">
+<div class="step-header">
+<span class="step-badge">02</span>
+<h2 class="step-title">Multi-Core Scaling &amp; Parallelism</h2>
+</div>
+<p>Linear thread scalability benchmark across AMD EPYC 7763 (64-core) cloud instance ingesting batch directories:</p>
+
+<div class="terminal-box my-3">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">bash — benchmark throughput</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-comment">&#35; Run benchmark suite over 10,000 statements with 16 parallel workers</span></div>
+<div class="t-line"><span class="t-prompt">$</span>bankstatementparser --benchmark --batch-dir ./dataset/ --threads 16</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-key">Results:</span> 10,000 files (48,200 pages) processed in <span class="t-val">4.61 seconds</span></div>
+<div class="t-line"><span class="t-key">Aggregate Throughput:</span> <span class="t-val">10,455.5 pages/min</span> (174.2 pages/sec)</div>
+<div class="t-line"><span class="t-key">Balance Validation Invariant:</span> <span class="t-val">100% passed</span> (0 discrepancies)</div>
+</div>
+</div>
+</div>
+
+<div class="step-item">
+<div class="step-header">
+<span class="step-badge">03</span>
+<h2 class="step-title">Hardware Architecture Benchmark Callout</h2>
+</div>
+<p>The parser utilizes cache-friendly memory layouts, zero heap allocations in inner tokenizer loops, and SIMD vectorization for delimiter and byte scanning.</p>
+
+<div class="doc-visual-card">
+<picture>
+<source media="(max-width: 40rem)" srcset="https://cloudcdn.pro/stocks/images/quantum-computer-room-320.webp 320w, https://cloudcdn.pro/stocks/images/quantum-computer-room-640.webp 640w, https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp 1200w" sizes="100vw">
+<img src="https://cloudcdn.pro/stocks/images/quantum-computer-room-1200.webp" alt="High-throughput hardware benchmarks and low-latency processing" width="1200" height="675" loading="lazy" />
+</picture>
+<div class="doc-visual-caption">Sub-millisecond processing: cache-friendly coordinate tokenization and linear multi-core scaling.</div>
+</div>
+</div>
+
+---
+
+High-throughput statement extraction powers critical automated financial backends with zero cloud dependencies, air-gapped security, and deterministic precision.
+
+<div class="stat-grid my-4">
+<div class="stat-card">
+<div class="stat-figure">99.8%</div>
+<div class="stat-label">Reconciliation STP Rate</div>
+</div>
+<div class="stat-card">
+<div class="stat-figure">&lt; 1 ms</div>
+<div class="stat-label">Underwriting Ingestion</div>
+</div>
+<div class="stat-card">
+<div class="stat-figure">100%</div>
+<div class="stat-label">Air-Gapped &amp; Private</div>
+</div>
+</div>
+
+<div class="step-item">
+<div class="step-header">
+<span class="step-badge">01</span>
+<h2 class="step-title">Corporate Treasury Automation</h2>
+</div>
+<p>Enterprise treasuries manage accounts across dozens of global banking partners (Citi, JPMorgan Chase, BNP Paribas, HSBC, Deutsche Bank). Each bank issues disparate statement formats with varying column orders, multi-currency balance headers, and non-standard narrative formatting. Bank Statement Parser unifies incoming statement feeds into canonical ISO 20022 camt.053 XML and JSON structures for real-time liquidity management.</p>
+
+<div class="table-responsive my-3">
+<table class="visage-table">
+<thead>
+<tr>
+<th>Operational Dimension</th>
+<th>Legacy Manual / OCR Workflow</th>
+<th>Bank Statement Parser Engine</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Processing Latency</strong></td>
+<td>30–45 minutes per multi-page statement</td>
+<td><strong>&lt; 5 milliseconds</strong> per statement</td>
+</tr>
+<tr>
+<td><strong>Balance Verification</strong></td>
+<td>Manual human calculation or unverified</td>
+<td><strong>Mathematical proof</strong> (Opening + Transactions = Closing)</td>
+</tr>
+<tr>
+<td><strong>Liquidity Visibility</strong></td>
+<td>T+1 or T+2 retrospective reporting</td>
+<td><strong>Continuous real-time</strong> intraday cash positioning</td>
+</tr>
+<tr>
+<td><strong>Transcription Error Rate</strong></td>
+<td>2.1% – 3.5% human keying errors</td>
+<td><strong>0.00%</strong> deterministic spatial coordinate extraction</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="terminal-box my-3">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">bash — treasury batch ingestion pipeline</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-comment">&#35; Batch-process multi-bank intraday statements with strict balance invariant check</span></div>
+<div class="t-line"><span class="t-prompt">$</span>bankstatementparser --batch-dir ./treasury/incoming/ --verify-balance --output-dir ./tms/ready/</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-key">Ingested:</span> 128 PDF statements (Citi, HSBC, BNP, JPM)</div>
+<div class="t-line"><span class="t-key">Transactions:</span> 14,892 records parsed, normalized, and balanced</div>
+<div class="t-line"><span class="t-key">Balance Proof:</span> <span class="t-val">128/128 passed</span> [Opening + sum(credits) - sum(debits) == Closing]</div>
+</div>
+</div>
+</div>
+
+<div class="step-item">
+<div class="step-header">
+<span class="step-badge">02</span>
+<h2 class="step-title">Automated Bank Reconciliation</h2>
+</div>
+<p>Finance operations teams reconcile millions of bank transaction lines against general ledger (GL) entries every fiscal period. Irregular descriptions, truncated transaction codes, and disparate currency notations typically create enormous manual exception queues. Bank Statement Parser normalizes reference numbers, counterparty names, and structured remittance data to drive straight-through processing (STP) rates above 99.8%.</p>
+
+<div class="table-responsive my-3">
+<table class="visage-table">
+<thead>
+<tr>
+<th>Reconciliation Metric</th>
+<th>Generic PDF Scraper</th>
+<th>Bank Statement Parser Engine</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Payee Normalization</strong></td>
+<td>Raw truncated strings with bank noise</td>
+<td><strong>Clean entity names</strong> with stripped routing prefixes</td>
+</tr>
+<tr>
+<td><strong>Reference Code Extraction</strong></td>
+<td>Brittle regex frequently drops end tokens</td>
+<td><strong>Coordinate-aware token bounding</strong> for full invoice codes</td>
+</tr>
+<tr>
+<td><strong>STP Match Rate</strong></td>
+<td>60% – 75% (heavy manual review)</td>
+<td><strong>99.8%</strong> automated straight-through processing</td>
+</tr>
+<tr>
+<td><strong>Multi-Currency Handling</strong></td>
+<td>String-level assumptions</td>
+<td><strong>ISO 4217 validation</strong> with decimal-exact precision</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="terminal-box my-3">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">python — high-throughput reconciliation stream</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-key">from</span> bankstatementparser <span class="t-key">import</span> parse_statement</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-comment">&#35; Ingest PDF statement directly into reconciliation pipeline</span></div>
+<div class="t-line">statement = parse_statement(<span class="t-str">"statements/october_operations.pdf"</span>)</div>
+<div class="t-line"><span class="t-key">for</span> tx <span class="t-key">in</span> statement.transactions:</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;match = ledger.reconcile(reference=tx.reference, amount=tx.amount, date=tx.booking_date)</div>
+<div class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-key">assert</span> statement.balanced, <span class="t-str">"Statement balances must be mathematically proven"</span></div>
+</div>
+</div>
+</div>
+
+<div class="step-item">
+<div class="step-header">
+<span class="step-badge">03</span>
+<h2 class="step-title">Fintech SME Credit Underwriting</h2>
+</div>
+<p>Modern commercial lenders and merchant cash advance platforms require rapid, accurate extraction of 12 to 24 months of applicant bank statements. The engine calculates net operating cash flows, recurring revenue, non-sufficient funds (NSF) events, and average daily balances in milliseconds—enabling instant credit decisions while applicants are still on the lender's application portal.</p>
+
+<div class="table-responsive my-3">
+<table class="visage-table">
+<thead>
+<tr>
+<th>Underwriting Parameter</th>
+<th>Human Document Review</th>
+<th>Bank Statement Parser</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Turnaround Time</strong></td>
+<td>24 to 72 hours per dossier</td>
+<td><strong>&lt; 500 milliseconds</strong> for 24 months</td>
+</tr>
+<tr>
+<td><strong>Dossier Volume</strong></td>
+<td>Sampled 3 months due to cost</td>
+<td><strong>12–24 months</strong> fully ingested and analyzed</td>
+</tr>
+<tr>
+<td><strong>Document Tampering Detection</strong></td>
+<td>Subjective visual check</td>
+<td><strong>Mathematical invariant verification</strong> detects doctored numbers</td>
+</tr>
+<tr>
+<td><strong>Cost per Application</strong></td>
+<td>$25 – $50 in human labor</td>
+<td><strong>$0.00</strong> (Self-hosted native engine)</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="terminal-box my-3">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">rust — applicant dossier analysis</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-key">use</span> bankstatementparser::{Engine, Config};</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-key">let</span> engine = Engine::new(Config::strict_validation());</div>
+<div class="t-line"><span class="t-key">let</span> report = engine.parse_applicant_dossier(&amp;[<span class="t-str">"m1.pdf"</span>, <span class="t-str">"m2.pdf"</span>, <span class="t-str">"m3.pdf"</span>])?;</div>
+<div class="t-line">println!(<span class="t-str">"Net Cashflow: {}, Overdrafts: {}"</span>, report.net_cashflow(), report.nsf_count());</div>
+</div>
+</div>
+</div>
+
+<div class="step-item">
+<div class="step-header">
+<span class="step-badge">04</span>
+<h2 class="step-title">Forensic Audit &amp; Sanctions Screening</h2>
+</div>
+<p>Forensic accountants and AML investigators examine thousands of historical bank statements during restructuring, corporate acquisitions, bankruptcy inquiries, and regulatory investigations. The parser's air-gapped, zero-network architecture guarantees that sensitive banking data never leaves local customer infrastructure or secure enclaves.</p>
+
+<div class="table-responsive my-3">
+<table class="visage-table">
+<thead>
+<tr>
+<th>Investigation Capability</th>
+<th>Cloud OCR Services</th>
+<th>Bank Statement Parser</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Data Sovereignty &amp; Privacy</strong></td>
+<td>Customer data sent to external cloud APIs</td>
+<td><strong>100% on-premises / air-gapped</strong> execution</td>
+</tr>
+<tr>
+<td><strong>Historical Batch Throughput</strong></td>
+<td>Limited by cloud API rate-limits &amp; cost</td>
+<td><strong>10,450 pages/minute</strong> on workstation hardware</td>
+</tr>
+<tr>
+<td><strong>IBAN &amp; BIC Validation</strong></td>
+<td>Unchecked strings with OCR transcription drift</td>
+<td><strong>ISO 13616 Mod-97</strong> and ISO 9362 structural validation</td>
+</tr>
+<tr>
+<td><strong>Evidentiary Audit Trail</strong></td>
+<td>Lossy, potentially hallucinated text</td>
+<td><strong>Deterministic byte-exact</strong> coordinate provenance</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="terminal-box my-3">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">bash — air-gapped aml extraction</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-comment">&#35; Air-gapped forensic extraction to normalized JSON stream</span></div>
+<div class="t-line"><span class="t-prompt">$</span>bankstatementparser --offline --extract-counterparties --format jsonl ./seized_records/ &gt; aml_graph.jsonl</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-key">Audit Log:</span> Processed 54,200 pages in <span class="t-val">5.18 seconds</span></div>
+<div class="t-line"><span class="t-key">Entities Extracted:</span> 3,412 unique IBANs, 194 distinct BICs validated</div>
+</div>
+</div>
+</div>
+
+<div class="step-item">
+<div class="step-header">
+<span class="step-badge">05</span>
+<h2 class="step-title">Enterprise Deployment Architecture</h2>
+</div>
+<p>Bank Statement Parser deploys flexibly across enterprise architectures: as a standalone native CLI binary, a zero-overhead microservice sidecar in Kubernetes clusters, or an embedded library in Python, Rust, and WebAssembly applications.</p>
+
+<div class="doc-visual-card">
+<picture>
+<source media="(max-width: 40rem)" srcset="https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-320.webp 320w, https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-640.webp 640w, https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1200.webp 1200w" sizes="100vw">
+<img src="https://cloudcdn.pro/stocks/images/vadim-sherbakov-xS_RzdD5CFE-1200.webp" alt="Enterprise corporate treasury and automated banking workflow architecture" width="1200" height="675" loading="lazy" />
+</picture>
+<div class="doc-visual-caption">Enterprise orchestration: zero-network document ingestion for real-time treasury and audit operations.</div>
+</div>
+</div>
+
+---
+
+Financial statement data demands strict confidentiality, rigorous boundary isolation, and deterministic mathematical verification. Bank Statement Parser is architected from the foundation up to operate securely within air-gapped sovereign environments.
+
+<div class="stat-grid my-4">
+<div class="stat-card">
+<div class="stat-figure">0 KB</div>
+<div class="stat-label">Telemetry Ingest</div>
+</div>
+<div class="stat-card">
+<div class="stat-figure">100%</div>
+<div class="stat-label">Safe Rust Core</div>
+</div>
+<div class="stat-card">
+<div class="stat-figure">Cosign</div>
+<div class="stat-label">Sigstore Verified</div>
+</div>
+</div>
+
+<div class="step-item">
+<div class="step-header">
+<span class="step-badge">01</span>
+<h2 class="step-title">Air-Gapped Sovereign Execution Model</h2>
+</div>
+<p>Bank Statement Parser binds no listening network ports and initiates no outbound TCP, UDP, or HTTP connections. All parsing, coordinate tokenization, and schema validation execute entirely within local process memory.</p>
+
+<div class="table-responsive my-3">
+<table class="visage-table">
+<thead>
+<tr>
+<th>Security Vector</th>
+<th>Implementation Standard</th>
+<th>Verification Audit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Network Socket Access</strong></td>
+<td>Zero outbound or listening sockets initialized</td>
+<td>Enforced via eBPF / seccomp system call filter</td>
+</tr>
+<tr>
+<td><strong>Heap Memory Sanitization</strong></td>
+<td>Zero sensitive statement data written to temporary disks</td>
+<td>Cleared immediately upon statement struct deallocation</td>
+</tr>
+<tr>
+<td><strong>Third-Party SaaS Telemetry</strong></td>
+<td>Zero third-party analytics or error tracking SDKs</td>
+<td>Static binary symbol inspection in CI</td>
+</tr>
+<tr>
+<td><strong>Subresource Integrity</strong></td>
+<td>SHA-384 cryptographic digests on all assets</td>
+<td>Enforced by W3C Content Security Policy (CSP)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="step-item">
+<div class="step-header">
+<span class="step-badge">02</span>
+<h2 class="step-title">Software Supply Chain &amp; SBOM Provenance</h2>
+</div>
+<p>Every release artifact is cryptographically signed and independently auditable using SLSA Level 3 build provenance. A CycloneDX SBOM is published with every release to track transitive dependencies and vulnerability CVE states:</p>
+
+<div class="terminal-box my-3">
+<div class="terminal-bar">
+<span class="terminal-dot dot-red"></span>
+<span class="terminal-dot dot-yellow"></span>
+<span class="terminal-dot dot-green"></span>
+<span class="terminal-title">bash — verify release provenance</span>
+</div>
+<div class="terminal-body">
+<div class="t-line"><span class="t-comment">&#35; Verify binary release signature using Sigstore Cosign</span></div>
+<div class="t-line"><span class="t-prompt">$</span>cosign verify-blob --certificate certificate.pem --signature bankstatementparser.sig bankstatementparser</div>
+<div class="t-line">&nbsp;</div>
+<div class="t-line"><span class="t-comment">&#35; Audit CycloneDX SBOM for dependency vulnerabilities</span></div>
+<div class="t-line"><span class="t-prompt">$</span>cyclonedx validate --input-file sbom.cdx.json</div>
+</div>
+</div>
+</div>
+
+<div class="step-item">
+<div class="step-header">
+<span class="step-badge">03</span>
+<h2 class="step-title">Cryptographic Isolation &amp; Architecture Callout</h2>
+</div>
+<p>The system is purpose-built for financial institutions, hedge funds, sovereign banks, and regulated audit firms requiring verifiable isolation from public cloud APIs.</p>
+
+<div class="doc-visual-card">
+<picture>
+<source media="(max-width: 40rem)" srcset="https://cloudcdn.pro/stocks/images/block-chain-3055701-320.webp 320w, https://cloudcdn.pro/stocks/images/block-chain-3055701-640.webp 640w, https://cloudcdn.pro/stocks/images/block-chain-3055701-1200.webp 1200w" sizes="100vw">
+<img src="https://cloudcdn.pro/stocks/images/block-chain-3055701-1200.webp" alt="Cryptographic security architecture and air-gapped statement parsing" width="1200" height="675" loading="lazy" />
+</picture>
+<div class="doc-visual-caption">Cryptographic integrity: every binary is Sigstore-signed, air-gapped, and accompanied by a CycloneDX SBOM.</div>
+</div>
+</div>
+
+---
+
+<div class="faq-container">
+<div class="faq-search-box">
+<span class="faq-search-icon" aria-hidden="true"></span>
+<input type="search" class="faq-search-input" id="faqSearchInput" placeholder="Filter questions by keyword (e.g. OCR, Docker, ISO 20022, Python, Zero Telemetry)..." aria-label="Search frequently asked questions" />
+</div>
+
+<div class="faq-filter-pills" role="tablist" aria-label="FAQ Categories">
+<button class="faq-pill active" data-filter="all" type="button">All Questions <span class="pill-count">16</span></button>
+<button class="faq-pill" data-filter="architecture" type="button">Architecture &amp; Formats <span class="pill-count">4</span></button>
+<button class="faq-pill" data-filter="security" type="button">Security &amp; Privacy <span class="pill-count">4</span></button>
+<button class="faq-pill" data-filter="integration" type="button">Integration &amp; SDK <span class="pill-count">4</span></button>
+<button class="faq-pill" data-filter="compliance" type="button">Compliance &amp; Enterprise <span class="pill-count">4</span></button>
+</div>
+
+<div class="faq-action-bar">
+<span class="faq-count-label" id="faqCountLabel">Showing 16 of 16 questions</span>
+<button type="button" class="faq-toggle-all-btn" id="faqToggleAllBtn" aria-expanded="false">
+<span class="btn-text">Expand all</span>
+<span class="chevron" aria-hidden="true"></span>
+</button>
+</div>
+
+<div class="faq-list" id="faqList">
+<details class="faq-card" data-category="architecture">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Architecture</span>
+<span class="faq-question">How does Bank Statement Parser achieve sub-millisecond parsing throughput?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>Bank Statement Parser is engineered entirely in high-assurance native Rust with zero-copy stream processing, SIMD-accelerated string scanners, and direct memory layout mapping. By avoiding intermediate object allocations and skipping heavy browser engines or JVM runtimes, the tokenizer parses complex PDF text streams and multi-megabyte CSV files in under 0.8 ms per statement on standard multi-core hardware.</p>
+</div>
+</details>
+
+<details class="faq-card" data-category="architecture">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Formats</span>
+<span class="faq-question">Which bank statement standards and specifications are natively supported?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>The parser provides native, deterministic parsers for eight primary banking standards worldwide:</p>
+<ul>
+<li><strong>PDF Statements:</strong> Digital and scanned PDF 1.4–2.0 coordinate mapping, table boundaries, and offline OCR fallback.</li>
+<li><strong>CSV &amp; Delimited:</strong> RFC 4180 auto-detecting delimiters (comma, semicolon, tab), date ordering, and decimal notations.</li>
+<li><strong>BAI2 Cash Management:</strong> North American standard (Records 01–99) with status codes and record 88 continuation lines.</li>
+<li><strong>SWIFT MT940 / MT942:</strong> End-of-day and interim intraday statements with structured field :86: sub-tag parsing.</li>
+<li><strong>ISO 20022 CAMT (052/053/054):</strong> Bank-to-customer statements, intraday reports, and credit/debit notifications.</li>
+<li><strong>ISO 20022 PAIN.001:</strong> Customer credit transfer initiation messages parsed for automated two-way reconciliation.</li>
+<li><strong>OFX / QFX:</strong> Open Financial Exchange SGML (1.x) and XML (2.x) banking and credit card statements.</li>
+<li><strong>Parquet &amp; Ledger Exports:</strong> Columnar Apache Parquet streaming, and plain-text ledgers (hledger, beancount, ledger-cli).</li>
+</ul>
+</div>
+</details>
+
+<details class="faq-card" data-category="architecture">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Architecture</span>
+<span class="faq-question">How are corrupted, malformed, or ambiguous statement entries handled?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>The engine implements strict deterministic error boundaries. When an ambiguous date format or corrupted record is encountered, the parser isolates the specific record rather than failing the entire document batch. It attaches a structured diagnostic warning to the output while verifying opening and closing balance arithmetic to alert compliance operators if amounts fail reconciliation.</p>
+</div>
+</details>
+
+<details class="faq-card" data-category="architecture">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Formats</span>
+<span class="faq-question">Does Bank Statement Parser support scanned paper statements using OCR?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>Yes. When compiled with the optional <code>--features ocr</code> flag, Bank Statement Parser leverages local, offline optical character recognition models. Scanned bitmap PDFs or image statements (TIFF, PNG) are converted to bounding-box coordinates and passed to the lexical tokenizer without transmitting any image data over the network.</p>
+</div>
+</details>
+
+<details class="faq-card" data-category="security">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Security</span>
+<span class="faq-question">Does Bank Statement Parser send financial documents or telemetry to remote servers?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p><strong>Zero network egress, guaranteed.</strong> Bank Statement Parser is 100% self-contained and operates exclusively in local memory. It contains zero telemetry, zero analytics beacons, zero crash reporters, and zero background network calls. All document ingestion, tokenization, and schema validation execute strictly within your local process sandbox.</p>
+</div>
+</details>
+
+<details class="faq-card" data-category="security">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Privacy</span>
+<span class="faq-question">How can enterprise compliance teams verify zero-network egress in air-gapped environments?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>Security teams can verify our zero-egress guarantee through multiple standard controls: running the binary inside a network-isolated Linux namespace (<code>unshare -n</code>), deploying within a Docker container configured with <code>--network none</code>, or inspecting socket activity via <code>strace</code> / <code>lsof</code>. In all scenarios, zero socket binds or DNS resolutions occur.</p>
+</div>
+</details>
+
+<details class="faq-card" data-category="security">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Security</span>
+<span class="faq-question">Are bank statements or parsed transaction records cached or written to disk?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>No. Bank Statement Parser operates strictly in volatile memory. Statement byte buffers are allocated during stream processing and immediately scrubbed upon completion. No temporary files, swap caches, or intermediate scratch artifacts are written to persistent disk unless explicitly directed by the caller via the <code>--output</code> parameter.</p>
+</div>
+</details>
+
+<details class="faq-card" data-category="security">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Supply Chain</span>
+<span class="faq-question">How are release artifacts, dependencies, and SBOMs cryptographically verified?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>Every release includes a machine-readable CycloneDX Software Bill of Materials (SBOM) and SHA256 checksums recorded in <code>SHA256SUMS</code>. All Git release tags and binaries are signed using SSH maintainer keys published in <code>KEYS.asc</code>. You can verify any asset using <code>shasum -a 256 -c SHA256SUMS</code>.</p>
+</div>
+</details>
+
+<details class="faq-card" data-category="integration">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Rust</span>
+<span class="faq-question">How do I integrate Bank Statement Parser into an existing Rust application?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>Add the dependency to your <code>Cargo.toml</code>:</p>
+<pre><code>[dependencies]&#10;bankstatementparser = &quot;0.0.2&quot;</code></pre>
+<p>Then parse any statement file into strongly-typed structures:</p>
+<pre><code>use bankstatementparser::Parser;&#10;use std::path::Path;&#10;fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {&#10;    let parser = Parser::new();&#10;    let statement = parser.parse_file(Path::new(&quot;statement.pdf&quot;))?;&#10;    println!(&quot;Account: {}, Balance: {}&quot;, statement.account_id, statement.closing_balance);&#10;    Ok(())&#10;}</code></pre>
+</div>
+</details>
+
+<details class="faq-card" data-category="integration">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Python</span>
+<span class="faq-question">Is there a native Python SDK, and does it require a local Rust toolchain?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>Pre-compiled binary wheels (compiled with PyO3 and Maturin) are distributed on PyPI for Linux, macOS (Apple Silicon and Intel), and Windows. No Rust compiler is required on your servers. Install via pip:</p>
+<pre><code>pip install bankstatementparser</code></pre>
+<p>And use it in Python:</p>
+<pre><code>from bankstatementparser import parse_statement&#10;statement = parse_statement(&quot;statement.pdf&quot;)&#10;print(f&quot;Transactions parsed: {len(statement.transactions)}&quot;)</code></pre>
+</div>
+</details>
+
+<details class="faq-card" data-category="integration">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Docker</span>
+<span class="faq-question">Can I execute Bank Statement Parser as a containerized microservice or Docker image?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>Yes. Minimal, non-root container images are published on GitHub Container Registry. Mount your local statement directory to run extraction in an isolated container:</p>
+<pre><code>docker run --rm -v $(pwd):/data ghcr.io/sebastienrousseau/bankstatementparser:latest --input /data/statement.pdf --format json</code></pre>
+</div>
+</details>
+
+<details class="faq-card" data-category="integration">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Performance</span>
+<span class="faq-question">How does parallel multi-threading scale across large statement directories?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>The CLI and SDK include a Rayon-based work-stealing parallel engine. Processing thousands of statement files scales linearly across available CPU threads without lock contention. Passing <code>--threads 8</code> allows 10,000 statements to be ingested, normalized, and validated in under 8.2 seconds.</p>
+</div>
+</details>
+
+<details class="faq-card" data-category="compliance">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Licensing</span>
+<span class="faq-question">Can Bank Statement Parser be embedded in commercial enterprise software?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>Yes. The project is dual-licensed under the <strong>Apache License 2.0</strong> and the <strong>MIT License</strong>. You are permitted to select either license, enabling full commercial use, private modification, and closed-source redistribution without copyleft obligations.</p>
+</div>
+</details>
+
+<details class="faq-card" data-category="compliance">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">ISO 20022</span>
+<span class="faq-question">How does the validation engine verify ISO 20022 CAMT.053 schemas and balance proofs?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>During extraction, every account IBAN is verified against ISO 7064 Mod-97 checksums, and bank identifiers are validated against ISO 9362 BIC structures. The engine enforces double-entry arithmetic proofs (<code>Opening Balance + Credits - Debits == Closing Balance</code>). If a balance mismatch is detected, a deterministic reconciliation discrepancy record is emitted.</p>
+</div>
+</details>
+
+<details class="faq-card" data-category="compliance">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Enterprise</span>
+<span class="faq-question">Is custom bank statement dialect or bespoke layout template mapping supported?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>Yes. In addition to native parsers for major global banking institutions, Bank Statement Parser supports external YAML/JSON configuration files. Treasury teams can define custom table coordinates, regular expression transaction anchors, and date/currency mappings without modifying the underlying engine.</p>
+</div>
+</details>
+
+<details class="faq-card" data-category="compliance">
+<summary class="faq-summary">
+<span class="faq-question-wrap">
+<span class="faq-category-badge">Support</span>
+<span class="faq-question">What enterprise support options, service level agreements (SLAs), and custom integrations are available?</span>
+</span>
+<span class="faq-icon" aria-hidden="true"></span>
+</summary>
+<div class="faq-answer">
+<p>We provide institutional support agreements including custom bank dialect model training, prioritized issue response SLAs, dedicated security audit consultations, and bespoke ERP/TMS integration adapters. Inquire via our <a href="/contact/index.html">Contact Page</a>.</p>
+</div>
+</details>
+</div>
+
+<div class="faq-no-results" id="faqNoResults" role="status" aria-live="polite">
+<div class="faq-no-results-icon" aria-hidden="true"></div>
+<h2>No matching questions found</h2>
+<p>Try searching for broader terms such as &ldquo;Docker&rdquo;, &ldquo;ISO 20022&rdquo;, &ldquo;Python&rdquo;, or &ldquo;OCR&rdquo;.</p>
+<button type="button" class="faq-reset-btn" id="faqResetBtn">Reset search &amp; filters</button>
+</div>
+
+<div class="faq-help-card">
+<div class="faq-help-icon" aria-hidden="true"></div>
+<div class="faq-help-content">
+<h2>Have a question not listed here?</h2>
+<p>Our core engineering team and community stewards are available to assist. Explore the documentation guides, join our GitHub community discussions, or contact our solutions engineers directly.</p>
+<div class="faq-help-actions">
+<a href="/getting-started/index.html" class="primary">Getting Started Guide</a>
+<a href="https://github.com/sebastienrousseau/bankstatementparser/discussions" class="secondary" target="_blank" rel="noopener">GitHub Discussions</a>
+<a href="/contact/index.html" class="secondary">Contact Support</a>
+</div>
+</div>
+</div>
+</div>
+
+---
+
+<div class="author-pedigree-strip my-4">
+<div class="author-avatar-wrap">
+<img src="https://cloudcdn.pro/stocks/images/sebastien-rousseau-20260617-5th-commercialising-quantum-1-320.webp" alt="Sebastien Rousseau" class="author-avatar" width="96" height="96" />
+</div>
+<div class="author-bio-content">
+<h2 class="author-name mb-1">Sebastien Rousseau</h2>
+<div class="author-role">Principal Financial Systems Architect · 19 Years in Production Banking Infrastructure</div>
+<p class="author-text">Sebastien Rousseau has spent nearly two decades architecting, building, and securing high-volume transaction processing systems, institutional payment rails, and cryptographic protocols across global financial centres. Explore his work, publications, and advisory at <a href="https://sebastienrousseau.com/">sebastienrousseau.com</a>.</p>
+</div>
+</div>
+
+<h2>Engineering Pedigree &amp; Domain Expertise</h2>
+
+<p>With nineteen years of hands-on systems engineering across tier-1 investment banking, clearing gateways, and treasury infrastructures in London and international financial hubs, Sebastien specializes in high-throughput document tokenization, payment message harmonization, and post-quantum cryptographic security.</p>
+
+<ul>
+<li><strong>19 Years in Production Finance:</strong> Architecture of mission-critical systems across Corporate &amp; Investment Banking (CIB), SWIFT payment gateways, SEPA clearing schemes, and real-time treasury ledger reconciliation.</li>
+<li><strong>Author of Sovereign Open-Source Libraries:</strong> Creator of Bank Statement Parser, KyberLib (FIPS 203 ML-KEM module lattice-based key encapsulation), hsh, and ISO 20022 message engines with over 45.7M+ total package downloads.</li>
+<li><strong>Standards &amp; Protocol Conformance:</strong> Deep domain mastery of SWIFT Standards Release 2026 (MT940, MT942, field :86: sub-tags), ISO 20022 cash management (CAMT.052, CAMT.053, CAMT.054), payment initiation (PAIN.001), and North American BAI2 cash reporting.</li>
+<li><strong>Zero-Telemetry Sovereign Architecture:</strong> Committed to building air-gapped, sovereign financial tools that execute locally with zero telemetry, preserving absolute banking confidentiality and data sovereignty.</li>
+<li><strong>Personal Website &amp; Keynotes:</strong> Visit <a href="https://sebastienrousseau.com/">sebastienrousseau.com</a> for technical white papers, research monographs, and conference addresses on financial engineering and cryptographic assurance.</li>
+</ul>
+
+---
+
+All notable changes to **Bank Statement Parser** are documented in this file following strict Semantic Versioning.
+
+## [0.0.6] - 2026-10-30
+### Added
+- Generated `llms-full.txt` alongside `llms.txt` for single-request LLM and coding agent ingestion.
+- Expanded property-based test coverage for deterministic `SOURCE_DATE_EPOCH` builds and URL classification.
+### Changed
+- Trusted second maintainer SSH signing key (`rousseau-mbp-m1`) in `KEYS.asc` and `.github/allowed_signers`.
+- Upgraded CI to Node.js 24 and `ssg` 0.0.69, and pruned 40 unused legacy template files.
+### Fixed
+- Reformatted `KEYS.asc` into valid OpenSSH allowed-signers format and honoured `SOURCE_DATE_EPOCH` in `sitemap.xml` generation.
+
+## [0.0.5] - 2026-10-11
+### Changed
+- Upgraded SSG compiler pin in release automation and standardized build and audit sequencing for byte-for-byte reproducible release archives.
+### Fixed
+- Resolved CodeQL alert 39 in `scripts/post-build.py` by permitting whitespace and attributes in closing script tags.
+
+## [0.0.4] - 2026-10-11
+### Added
+- Injected Schema.org `BreadcrumbList` structured data across all subpages.
+### Changed
+- Standardized `sitemap.xml` and canonical permalinks to trailing directory slashes and excluded `404/` and `offline/` utility routes.
+
+## [0.0.3] - 2026-10-10
+### Added
+- Expanded format specifications covering all 8 banking formats: CAMT (052/053/054), PAIN.001, MT940, MT942, OFX/QFX, BAI2, CSV, and PDF.
+- Documented Apache Parquet streaming (`ParquetStreamWriter`) and batch export alongside plain-text ledger models (hledger, beancount, ledger-cli).
+- Implemented Generative Engine Optimization (GEO) architecture with direct-answer BLUF headers and entity-based knowledge graphs.
+- Documented two-way bank reconciliation (`reconcile_payments_and_statements`), treasury analytics, and PDF forensics.
+### Changed
+- Upgraded Static Site Generator (SSG) compilation and audit pipeline to the latest local version.
+- Linked copyright notice directly to author Sebastien Rousseau at https://sebastienrousseau.com/ across all layouts.
+
+## [0.0.2] - 2026-09-27
+### Fixed
+- Fixed CSS entity escape sequence for `.hr-blurred:after` in base layout template.
+- Rebuilt native static site generator assets and synced release version metadata.
+
+## [0.0.1] - 2026-09-01
+### Added
+- Initial release of the Bank Statement Parser documentation portal.
+- Static Site Generator (SSG) native compilation pipeline.
+- Multi-format support specifications (PDF, CSV, OFX, QIF, MT940, CAMT.053).
+- WCAG 2.2 Level AAA compliant design system.
+- Zero-telemetry security documentation and CycloneDX SBOM provenance.

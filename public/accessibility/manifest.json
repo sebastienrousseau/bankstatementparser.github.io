@@ -2,14 +2,7 @@
   "background_color": "#ffffff",
   "description": "Official accessibility statement confirming full WCAG 2.2 Level AAA compliance, high-contrast color ratios, and keyboard",
   "display": "standalone",
-  "icons": [
-    {
-      "purpose": "any maskable",
-      "sizes": "512x512",
-      "src": "",
-      "type": "image/svg+xml"
-    }
-  ],
+  "icons": [],
   "name": "Bank Statement Parser",
   "orientation": "portrait-primary",
   "scope": "/",

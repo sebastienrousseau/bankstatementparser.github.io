@@ -1,10 +1,10 @@
 {
   "$schema": "https://raw.githubusercontent.com/sebastienrousseau/static-site-generator/main/ssg.schema.json",
-  "site_name": "Bankstatementparser",
-  "site_title": "Bankstatementparser \u2014 High Performance Zero-JS System",
-  "site_description": "Zero-JavaScript static documentation and platform for Bankstatementparser, conforming strictly to WCAG 2.2 Level AAA.",
+  "site_name": "Bank Statement Parser",
+  "site_title": "Bank Statement Parser | Fast, Secure Financial Data Extraction",
+  "site_description": "Privacy-first, zero-telemetry parser extracting structured transactions from CAMT, PAIN.001, MT940, MT942, OFX, BAI2, CSV, and PDF bank statements.",
   "language": "en-GB",
-  "base_url": "https://bankstatementparser.github.io",
+  "base_url": "https://bankstatementparser.com",
   "content_dir": "_posts",
   "output_dir": "public",
   "template_dir": "_layouts",
@@ -18,7 +18,7 @@
       "vercel"
     ],
     "overrides": {
-      "Content-Security-Policy": "default-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'none';",
+      "Content-Security-Policy": "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://formspree.io; img-src 'self' data: https: https://cloudcdn.pro; style-src 'self' https://cdn.jsdelivr.net; font-src 'self'; form-action 'self' https://formspree.io; frame-ancestors 'none'; base-uri 'self';",
       "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
       "X-Content-Type-Options": "nosniff",
       "X-Frame-Options": "DENY",

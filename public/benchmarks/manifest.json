@@ -2,14 +2,7 @@
   "background_color": "#ffffff",
   "description": "Empirical latency and throughput benchmarks demonstrating 10,000+ pages per minute and sub-millisecond bank statement pa",
   "display": "standalone",
-  "icons": [
-    {
-      "purpose": "any maskable",
-      "sizes": "512x512",
-      "src": "",
-      "type": "image/svg+xml"
-    }
-  ],
+  "icons": [],
   "name": "Bank Statement Parser",
   "orientation": "portrait-primary",
   "scope": "/",

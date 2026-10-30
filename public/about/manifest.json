@@ -2,14 +2,7 @@
   "background_color": "#ffffff",
   "description": "Read the background and 19-year financial systems architecture history of Sebastien Rousseau, creator of the open-source",
   "display": "standalone",
-  "icons": [
-    {
-      "purpose": "any maskable",
-      "sizes": "512x512",
-      "src": "",
-      "type": "image/svg+xml"
-    }
-  ],
+  "icons": [],
   "name": "Bank Statement Parser",
   "orientation": "portrait-primary",
   "scope": "/",

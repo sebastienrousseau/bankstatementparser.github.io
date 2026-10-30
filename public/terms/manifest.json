@@ -2,14 +2,7 @@
   "background_color": "#ffffff",
   "description": "Terms of use and dual open-source licensing guidelines governing Bank Statement Parser under Apache-2.0 and MIT terms fo",
   "display": "standalone",
-  "icons": [
-    {
-      "purpose": "any maskable",
-      "sizes": "512x512",
-      "src": "",
-      "type": "image/svg+xml"
-    }
-  ],
+  "icons": [],
   "name": "Bank Statement Parser",
   "orientation": "portrait-primary",
   "scope": "/",

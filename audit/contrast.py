@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2024-2026 Sebastien Rousseau
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-"""Verify every pacs008.com colour pair meets WCAG 2.1 AAA (>= 7:1).
+"""Verify every bankstatementparser.com colour pair meets WCAG 2.2 AAA (>= 7:1).
 
 Run: python3 audit/contrast.py
 Exits non-zero if any text/UI pair falls below 7:1.

@@ -46,6 +46,44 @@ def test_a_page_without_a_frontmatter_block_is_rejected(text):
     assert vf.check(text.lstrip("-")) != []
 
 
+_PB_SPEC = importlib.util.spec_from_file_location(
+    "post_build", Path(__file__).resolve().parents[1] / "scripts" / "post-build.py"
+)
+pb = importlib.util.module_from_spec(_PB_SPEC)
+_PB_SPEC.loader.exec_module(pb)
+
+
 @given(text=st.text(max_size=400))
 def test_check_never_raises(text):
     assert isinstance(vf.check(text), list)
+
+
+import os
+from unittest.mock import patch
+
+
+@given(epoch=st.integers(min_value=0, max_value=4102444800))
+def test_resolve_build_date_honours_source_date_epoch(epoch):
+    with patch.dict(os.environ, {"SOURCE_DATE_EPOCH": str(epoch)}):
+        iso = pb.resolve_build_date()
+    assert len(iso) == 10 and iso[4] == "-" and iso[7] == "-"
+
+
+def test_classify_url_excludes_utility_routes():
+    assert pb.classify_url("https://bankstatementparser.com", "404/index.html") is None
+    assert pb.classify_url("https://bankstatementparser.com", "offline/index.html") is None
+    assert pb.classify_url("https://bankstatementparser.com", "index.html") == (
+        "https://bankstatementparser.com/",
+        "1.0",
+        "daily",
+    )
+    assert pb.classify_url("https://bankstatementparser.com", "formats/index.html") == (
+        "https://bankstatementparser.com/formats/",
+        "0.9",
+        "weekly",
+    )
+
+
+def test_encode_raw_amp_preserves_script_blocks():
+    html = '<p>A & B &amp; C</p><script>if (a && b) {}</script>'
+    assert pb.encode_raw_amp(html) == '<p>A &amp; B &amp; C</p><script>if (a && b) {}</script>'

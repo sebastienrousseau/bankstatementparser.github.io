@@ -1,0 +1,9 @@
+/* TEAM */
+Author: Sebastien Rousseau
+Site: https://sebastienrousseau.com/
+Location: London, United Kingdom
+
+/* SITE */
+URL: https://bankstatementparser.com/
+Standards: HTML5, CSS4, WCAG 2.2 AAA, ISO 20022
+Generator: Static Site Generator (ssg) + Skeletonic CSS (Visage)

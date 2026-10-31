@@ -232,6 +232,7 @@ def write_static_meta(output_dir: str, base_url: str) -> None:
 
     with open(os.path.join(output_dir, "CNAME"), "w", encoding="utf-8") as handle:
         handle.write("bankstatementparser.com\n")
+    Path(output_dir, ".nojekyll").write_text("", encoding="utf-8")
 
     if os.path.exists("robots.txt"):
         shutil.copy2("robots.txt", os.path.join(output_dir, "robots.txt"))

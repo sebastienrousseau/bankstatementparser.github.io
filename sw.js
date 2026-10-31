@@ -6,7 +6,7 @@
 
 'use strict';
 
-var CACHE_NAME = 'bsp-docs-v0.0.6';
+var CACHE_NAME = 'bsp-docs-v0.0.8';
 var OFFLINE_URL = '/offline/index.html';
 var PRECACHE_URLS = [
   '/',

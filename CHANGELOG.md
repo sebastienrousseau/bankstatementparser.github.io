@@ -6,6 +6,21 @@ All notable changes to this website are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.0.8] - 2026-10-31
+
+### Fixed
+
+- Preserved `docs/_csp/` assets and emitted `.nojekyll` during GitHub Pages
+  staging in `.github/workflows/ci.yml` and `scripts/post-build.py` so the
+  extracted search widget stylesheet and script no longer return HTTP 404 in
+  production.
+- Embedded `#ssg-search-btn` and `#ssg-search-overlay` rules directly in
+  `styles.css` and `_layouts/styles.css` to prevent unstyled SVG search icons
+  and modal overlays from appearing in the page flow.
+- Updated `.footer-grid` in `styles.css` and `_layouts/styles.css` from 3
+  columns to 4 columns (`1.4fr 1fr 1fr 1fr`) to match the 4-column footer
+  layout in `_layouts/footer.html`.
+
 ## [0.0.7] - 2026-10-30
 
 ### Fixed

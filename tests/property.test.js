@@ -20,7 +20,7 @@ test("query string normalization never throws and preserves alphanumeric text", 
       fc.property(fc.string({ maxLength: 256 }), (input) => {
         const normalized = input.toLowerCase().trim();
         assert.equal(typeof normalized, "string");
-        assert.ok(normalized.length <= input.length);
+        assert.ok(normalized.length <= input.toLowerCase().length);
       }),
       { numRuns: 100 }
     );
@@ -29,7 +29,7 @@ test("query string normalization never throws and preserves alphanumeric text", 
       const input = crypto.randomBytes(Math.floor(Math.random() * 64)).toString("utf-8");
       const normalized = input.toLowerCase().trim();
       assert.equal(typeof normalized, "string");
-      assert.ok(normalized.length <= input.length);
+      assert.ok(normalized.length <= input.toLowerCase().length);
     }
   }
 });

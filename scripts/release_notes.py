@@ -15,7 +15,7 @@ HEADING = "## Highlights ⭐️"
 BULLET = re.compile(r"^\* \*\*[^*]+\*\*: \S")
 
 def fail(msg: str) -> None: raise SystemExit(f"[release-notes] {msg}")
-def title(tag: str) -> str: return f"BSP {tag}"
+def title(tag: str) -> str: return f"{PROJECT} {tag.removeprefix('v')}"
 
 def highlights(tag: str) -> str:
     path = NOTES / f"{tag}.md"
@@ -53,17 +53,21 @@ def first_release_changes(tag: str) -> str:
     ]
     return "## What's Changed\n" + "\n".join(lines) + "\n"
 
+def checksums(sums: str) -> str:
+    intro = "SHA-256 of every asset attached to this release:"
+    return f"## Checksums\n\n{intro}\n\n```text\n{sums.strip()}\n```\n"
+
 def compose(tag: str, sums: str) -> str:
     prev = previous_tag(tag)
     body = generated(tag, prev)
     cl = re.search(r"^\*\*Full Changelog\*\*: \S+$", body, re.MULTILINE)
-    if not cl: fail(f"missing Full Changelog in generated notes")
+    if not cl: fail("missing Full Changelog in generated notes")
     sections = body[:cl.start()].strip()
     if not sections.startswith("## What's Changed"):
         if sections: fail(f"unexpected generated notes: {sections[:60]!r}")
         sections = first_release_changes(tag).strip()
     parts = [highlights(tag), sections + "\n"]
-    if sums.strip(): parts.append("## Checksums\n\n```\n" + sums.strip() + "\n```\n")
+    if sums.strip(): parts.append(checksums(sums))
     parts.append(cl.group(0) + "\n")
     return "\n".join(parts)
 

@@ -16,7 +16,7 @@
   <a href="https://bankstatementparser.com"><img src="https://img.shields.io/badge/docs-bankstatementparser.com-blue?style=for-the-badge&labelColor=555555&logo=googlechrome" alt="Docs" height="28" /></a>
   <a href="https://scorecard.dev/viewer/?uri=github.com/sebastienrousseau/bankstatementparser.github.io"><img src="https://img.shields.io/ossf-scorecard/github.com/sebastienrousseau/bankstatementparser.github.io?style=for-the-badge&label=OpenSSF%20Scorecard&logo=openssf" alt="OpenSSF Scorecard" height="28" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-blue.svg?style=for-the-badge" alt="License: Apache-2.0 OR MIT" height="28" /></a>
-  <a href="https://static-site-generator.com/"><img src="https://img.shields.io/badge/SSG-0.0.63-93450a.svg?style=for-the-badge&logo=rust" alt="Built with Rust SSG" height="28" /></a>
+  <a href="https://static-site-generator.com/"><img src="https://img.shields.io/badge/SSG-0.0.72-93450a.svg?style=for-the-badge&logo=rust" alt="Built with Rust SSG" height="28" /></a>
 </p>
 
 ---
@@ -118,7 +118,7 @@ The `bankstatementparser` suite provides end-to-end tooling for financial docume
 
 | Area | Capability | Status |
 | :--- | :--- | :--- |
-| Static Generation | Rust SSG v0.0.63 + Tera template compilation | Active |
+| Static Generation | Rust SSG v0.0.72 + Tera template compilation | Active |
 | Accessibility | 100% WCAG 2.2 Level AAA compliance (>= 7.0:1 contrast) | Verified |
 | Content Security | Strict Content-Security-Policy (CSP) with zero inline scripts | Enforced |
 | Integrity | SHA-384 Subresource Integrity (SRI) on all scripts and styles | Active |
@@ -143,7 +143,7 @@ Audit and regression suites are executed continuously on every commit:
 
 | Scenario | Result | Environment |
 | :--- | ---: | :--- |
-| Full Site Compilation (20 Pages) | < 2.0s | Rust `ssg` 0.0.63, 32 plugins |
+| Full Site Compilation (20 Pages) | < 2.0s | Rust `ssg` 0.0.72, 32 plugins |
 | Worst Light Mode Contrast Ratio | 17.79:1 | WCAG 2.2 AAA (Threshold >= 7.0:1) |
 | Worst Dark Mode Contrast Ratio | 8.08:1 | WCAG 2.2 AAA (Threshold >= 7.0:1) |
 | Lighthouse Performance / A11y | 100 / 100 | Clean ECMAScript, zero heavy runtimes |

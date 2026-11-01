@@ -9,5 +9,5 @@
       "version": "24"
     }
   },
-  "postCreateCommand": "cargo install ssg --locked --version 0.0.69 && make verify"
+  "postCreateCommand": "cargo install ssg --locked --version 0.0.72 && make verify"
 }

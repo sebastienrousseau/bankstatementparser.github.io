@@ -8,7 +8,7 @@ This directory documents the supply-chain controls enforced across `bankstatemen
 
 * **GitHub Actions**: Every workflow under [`.github/workflows/`](../.github/workflows/) pins third-party actions to full 40-character commit SHAs.
 * **Python Verification Environment**: Pinned with SHA-256 hashes in [`requirements/ci.txt`](../requirements/ci.txt).
-* **Static Site Generator**: Deterministically built with `ssg --locked --version 0.0.69`.
+* **Static Site Generator**: Deterministically built with `ssg --locked --version 0.0.72`.
 
 ---
 

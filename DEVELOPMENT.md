@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- Rust and `ssg` 0.0.69: `cargo install ssg --locked --version 0.0.69`
+- Rust and `ssg` 0.0.72: `cargo install ssg --locked --version 0.0.72`
 - Python 3.12 or later
 - Node.js 24 or later
 

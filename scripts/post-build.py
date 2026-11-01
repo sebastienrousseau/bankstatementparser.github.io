@@ -34,6 +34,39 @@ LEGAL_DOCS = {
     "made-with-ssg",
 }
 KEEP_DOCS = {"adr", "ARCHITECTURE.md", "packaging.md", "releases", ".git"}
+REDIRECTS_FILE = os.path.join("config", "redirects.json")
+CANONICAL_RE = re.compile(r'<link rel="canonical" href="([^"]+)"')
+NOT_INDEXABLE_RE = re.compile(
+    r'<meta name="robots" content="[^"]*noindex|<meta http-equiv="refresh"'
+)
+CSP_META_RE = re.compile(r'<meta http-equiv="Content-Security-Policy"[^>]*>')
+OG_IMAGE_RE = re.compile(r'<meta property="og:image" content="([^"]+)"')
+REDIRECT_PAGE = """<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page moved | Bank Statement Parser</title>
+<meta name="description" content="This page has moved to {target}">
+{csp}
+<meta property="og:type" content="website">
+<meta property="og:title" content="Page moved | Bank Statement Parser">
+<meta property="og:image" content="{image}">
+<meta property="og:url" content="{target}">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="{target}">
+<meta http-equiv="refresh" content="0; url={target}">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<nav aria-label="Primary Navigation"><a href="/">Bank Statement Parser home</a></nav>
+<main id="main">
+<h1>This page has moved</h1>
+<p>Continue to <a href="{target}">{target}</a>.</p>
+</main>
+</body>
+</html>
+"""
 
 UNWRAP_TAGS = ("<div", "<section", "<details", "<table")
 AMP_RE = re.compile(r"&(?!(?:[a-zA-Z][a-zA-Z0-9]+|#\d+|#[xX][0-9a-fA-F]+);)")
@@ -102,6 +135,16 @@ def classify_url(base_url: str, rel_path: str) -> tuple[str, str, str] | None:
     return (f"{base_url}/{norm_path}", "0.7", "weekly")
 
 
+def is_indexable(html_path: str, loc: str) -> bool:
+    """True when a page is neither noindex nor a redirect and is its own canonical."""
+    with open(html_path, encoding="utf-8") as handle:
+        html = handle.read()
+    canonical = CANONICAL_RE.search(html)
+    if NOT_INDEXABLE_RE.search(html) or not canonical:
+        return False
+    return canonical.group(1) == loc
+
+
 def collect_sitemap_urls(
     output_dir: str, base_url: str
 ) -> list[tuple[str, str, str]]:
@@ -112,9 +155,12 @@ def collect_sitemap_urls(
         for fname in files:
             if not fname.endswith(".html"):
                 continue
-            rel_path = os.path.relpath(os.path.join(root, fname), output_dir)
+            html_path = os.path.join(root, fname)
+            rel_path = os.path.relpath(html_path, output_dir)
             entry = classify_url(base_url, rel_path)
-            if entry and entry[0] not in seen:
+            if not entry or entry[0] in seen:
+                continue
+            if is_indexable(html_path, entry[0]):
                 seen.add(entry[0])
                 urls.append(entry)
     urls.sort(key=lambda item: item[0])
@@ -341,6 +387,40 @@ def update_manifests(output_dir: str) -> None:
             json.dump(m_data, handle, indent=2)
 
 
+def write_redirects(output_dir: str, base_url: str) -> int:
+    """Write a meta-refresh page at each moved URL listed in REDIRECTS_FILE.
+
+    GitHub Pages cannot send HTTP redirects; Google treats an immediate meta
+    refresh as a permanent redirect and the canonical names the new URL.
+    """
+    with open(REDIRECTS_FILE, encoding="utf-8") as handle:
+        redirects = json.load(handle)
+    # Reuse the home page's CSP and share image so every page stays uniform.
+    home = Path(output_dir, "index.html").read_text(encoding="utf-8")
+    shared = {
+        "csp": CSP_META_RE.search(home).group(0),
+        "image": OG_IMAGE_RE.search(home).group(1),
+    }
+    for source, target in redirects.items():
+        page_dir = os.path.join(output_dir, source.strip("/"))
+        if os.path.exists(os.path.join(page_dir, "index.html")):
+            raise SystemExit(f"redirect source {source} is a built page")
+        os.makedirs(page_dir, exist_ok=True)
+        Path(page_dir, "index.html").write_text(
+            REDIRECT_PAGE.format(target=f"{base_url}{target}", **shared),
+            encoding="utf-8",
+        )
+    return len(redirects)
+
+
+def write_root_404(output_dir: str) -> None:
+    """Publish the 404 page at /404.html, the path GitHub Pages serves."""
+    shutil.copy2(
+        os.path.join(output_dir, "404", "index.html"),
+        os.path.join(output_dir, "404.html"),
+    )
+
+
 def sync_to_docs(output_dir: str, docs_dir: str) -> None:
     """Synchronize compiled output_dir into docs_dir while preserving KEEP_DOCS."""
     os.makedirs(docs_dir, exist_ok=True)
@@ -366,9 +446,11 @@ def sync_to_docs(output_dir: str, docs_dir: str) -> None:
 
 def post_build(output_dir: str = "public", docs_dir: str = "docs") -> None:
     """Run all post-build optimizations on output_dir and sync once to docs_dir."""
-    url_count = write_sitemap(output_dir, BASE_URL)
     write_static_meta(output_dir, BASE_URL)
+    write_redirects(output_dir, BASE_URL)
+    write_root_404(output_dir)
     process_html_files(output_dir, BASE_URL)
+    url_count = write_sitemap(output_dir, BASE_URL)
     update_manifests(output_dir)
     sync_to_docs(output_dir, docs_dir)
     print(f"Post-build optimization complete ({url_count} URLs).")

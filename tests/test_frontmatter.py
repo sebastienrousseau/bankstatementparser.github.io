@@ -90,7 +90,9 @@ def test_encode_raw_amp_preserves_script_blocks():
 
 
 def test_write_sitemap_removes_news_sitemaps_and_update_manifests_normalizes(tmp_path):
-    (tmp_path / "index.html").write_text("<html></html>", encoding="utf-8")
+    (tmp_path / "index.html").write_text(
+        '<link rel="canonical" href="https://bankstatementparser.com/">', encoding="utf-8"
+    )
     news_sm = tmp_path / "news-sitemap.xml"
     news_sm.write_text("<urlset/>", encoding="utf-8")
     manifest = tmp_path / "manifest.json"
@@ -106,3 +108,19 @@ def test_write_sitemap_removes_news_sitemaps_and_update_manifests_normalizes(tmp
     assert data["theme_color"] == "#5b287b"
     assert data["background_color"] == "#ffffff"
 
+
+
+def test_sitemap_skips_noindex_redirect_and_non_canonical_pages(tmp_path):
+    base = "https://bankstatementparser.com"
+    pages = {
+        "kept": f'<link rel="canonical" href="{base}/kept/">',
+        "noindex": f'<meta name="robots" content="noindex, follow"><link rel="canonical" href="{base}/noindex/">',
+        "moved": f'<link rel="canonical" href="{base}/kept/"><meta http-equiv="refresh" content="0; url={base}/kept/">',
+        "alias": f'<link rel="canonical" href="{base}/kept/">',
+        "bare": "<html></html>",
+    }
+    for name, html in pages.items():
+        (tmp_path / name).mkdir()
+        (tmp_path / name / "index.html").write_text(html, encoding="utf-8")
+    urls = [loc for loc, _, _ in pb.collect_sitemap_urls(str(tmp_path), base)]
+    assert urls == [f"{base}/kept/"]

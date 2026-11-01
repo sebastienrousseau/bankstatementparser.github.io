@@ -262,7 +262,7 @@ lead: "Comprehensive guidance covering specifications, zero-telemetry local exec
 <span class="faq-icon" aria-hidden="true"></span>
 </summary>
 <div class="faq-answer">
-<p>We provide institutional support agreements including custom bank dialect model training, prioritized issue response SLAs, dedicated security audit consultations, and bespoke ERP/TMS integration adapters. Inquire via our <a href="/contact/index.html">Contact Page</a>.</p>
+<p>We provide institutional support agreements including custom bank dialect model training, prioritized issue response SLAs, dedicated security audit consultations, and bespoke ERP/TMS integration adapters. Inquire via our <a href="/contact/">Contact Page</a>.</p>
 </div>
 </details>
 </div>
@@ -280,9 +280,9 @@ lead: "Comprehensive guidance covering specifications, zero-telemetry local exec
 <h2>Have a question not listed here?</h2>
 <p>Our core engineering team and community stewards are available to assist. Explore the documentation guides, join our GitHub community discussions, or contact our solutions engineers directly.</p>
 <div class="faq-help-actions">
-<a href="/getting-started/index.html" class="primary">Getting Started Guide</a>
+<a href="/getting-started/" class="primary">Getting Started Guide</a>
 <a href="https://github.com/sebastienrousseau/bankstatementparser/discussions" class="secondary" target="_blank" rel="noopener">GitHub Discussions</a>
-<a href="/contact/index.html" class="secondary">Contact Support</a>
+<a href="/contact/" class="secondary">Contact Support</a>
 </div>
 </div>
 </div>

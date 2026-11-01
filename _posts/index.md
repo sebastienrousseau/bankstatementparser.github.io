@@ -22,8 +22,8 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
 <h1 id="hero-heading">Parse any bank statement in <em>milliseconds.</em><br>Zero cloud dependencies. Zero telemetry.</h1>
 <p>An open-source, high-throughput financial document parsing engine engineered in Rust with native Python bindings. Converts CAMT, PAIN.001, MT940, MT942, OFX/QFX, BAI2, CSV, and PDF bank statements into validated JSON, Apache Parquet, and ISO 20022 transaction streams entirely on your own infrastructure.</p>
 <div class="actions">
-<a class="primary" href="/getting-started/index.html">Install CLI &amp; SDK</a>
-<a href="/formats/index.html">Explore Supported Formats</a>
+<a class="primary" href="/getting-started/">Install CLI &amp; SDK</a>
+<a href="/formats/">Explore Supported Formats</a>
 </div>
 <ul class="hero-assurances">
 <li>Deterministic Rust Core</li>
@@ -66,7 +66,7 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
 <p class="lilac-label">Corporate Treasury Automation</p>
 <h2 id="treasury-heading">Automated Reconciliation for Modern Treasury</h2>
 <p>Eliminate manual statement keying, error-prone spreadsheets, and expensive cloud OCR APIs. Normalize multi-bank statements directly into your general ledger, ERP, and treasury management workflows with sub-second turnaround.</p>
-<a class="primary" href="/use-cases/index.html">View Treasury Playbook <span aria-hidden="true">↗</span></a>
+<a class="primary" href="/use-cases/">View Treasury Playbook <span aria-hidden="true">↗</span></a>
 </div>
 </div>
 </section>
@@ -141,7 +141,7 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
 <p class="lilac-label">High-Performance Pipeline</p>
 <h2 id="arch-heading">Deterministic Execution at Enterprise Scale</h2>
 <p>Engineered for high-frequency financial platforms requiring bounded latency, zero-allocation loops, and strict ISO 20022 data models.</p>
-<a class="primary" href="/architecture/index.html">View Architecture Blueprint <span aria-hidden="true">↗</span></a>
+<a class="primary" href="/architecture/">View Architecture Blueprint <span aria-hidden="true">↗</span></a>
 </div>
 </div>
 </section>
@@ -153,8 +153,8 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
 <h2 id="quickstart-heading">Install via Cargo, Pip, or Homebrew in Seconds</h2>
 <p>Deploy as a standalone CLI tool, embed as a high-assurance Rust crate in your microservices, or integrate into Python data pipelines with zero external runtime overhead.</p>
 <div class="actions">
-<a class="primary" href="/getting-started/index.html">Full Documentation →</a>
-<a href="/api/index.html">API Reference</a>
+<a class="primary" href="/getting-started/">Full Documentation →</a>
+<a href="/api/">API Reference</a>
 </div>
 </div>
 <div class="terminal-box">
@@ -184,7 +184,7 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
 <h2 id="privacy-heading">Your financial data never leaves your infrastructure.</h2>
 <p>Bank Statement Parser is 100% self-contained and operates entirely on your local machine, private VPC, or air-gapped on-premise servers. Zero analytics, zero telemetry, and zero outbound network calls—guaranteeing complete GDPR, GLBA, and banking confidentiality compliance.</p>
 </div>
-<a href="/security/index.html">Read Security &amp; Privacy Architecture <span aria-hidden="true">↓</span></a>
+<a href="/security/">Read Security &amp; Privacy Architecture <span aria-hidden="true">↓</span></a>
 </div>
 </section>
 
@@ -223,7 +223,7 @@ banner_alt: "Bank Statement Parser — High-Throughput Financial Document Parsin
 </div>
 <div>
 <p>Get started in minutes with the Rust CLI or Python package across Linux, macOS, and Windows.</p>
-<a class="primary" href="/getting-started/index.html">Install Bank Statement Parser</a>
+<a class="primary" href="/getting-started/">Install Bank Statement Parser</a>
 </div>
 </div>
 </section>

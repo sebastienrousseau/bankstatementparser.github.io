@@ -21,6 +21,16 @@ lead: "Deterministic versioning history, security audits, and functional enhance
 
 All notable changes to **Bank Statement Parser** are documented in this file following strict Semantic Versioning.
 
+## [0.0.9] - 2026-11-01
+### Fixed
+- Linked pages by their canonical URLs, kept non-indexable pages out of `sitemap.xml`, redirected `/faq/` and `/contribute/` to `/faqs/` and `/contributing/`, and served the 404 page for missing URLs.
+### Changed
+- Built the site with `ssg` 0.0.72.
+
+## [0.0.8] - 2026-10-31
+### Fixed
+- Restored the search widget assets and styles, and aligned the footer on a four-column grid.
+
 ## [0.0.7] - 2026-10-30
 ### Fixed
 - Resolved CodeQL code scanning alerts 41 and 42 (`py/empty-except`) in `scripts/post-build.py` and tightened exception handling in `scripts/validate_spdx_headers.py`.

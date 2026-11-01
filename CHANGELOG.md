@@ -6,6 +6,32 @@ All notable changes to this website are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.0.9] - 2026-11-01
+
+### Fixed
+
+- Linked every page by its canonical URL (`/formats/`, not
+  `/formats/index.html`) in `_layouts/header.html`, `_layouts/footer.html`
+  and `_posts/`, so internal links no longer point at duplicates of
+  canonical pages.
+- Made `scripts/post-build.py` list only indexable pages in `sitemap.xml`:
+  a page that is `noindex`, a redirect, or not its own canonical is left
+  out.
+- Redirected the moved pages `/faq/` and `/contribute/` to `/faqs/` and
+  `/contributing/` with meta-refresh pages generated from
+  `config/redirects.json`, and published the 404 page at `/404.html`,
+  the path GitHub Pages serves for a missing URL.
+- Titled releases `bankstatementparser.com <version>` and introduced the
+  checksum block in `scripts/release_notes.py`, per the release format.
+
+### Changed
+
+- Built the site with `ssg` 0.0.72 locally, in the release workflow and in
+  the devcontainer.
+- Split `scripts/regression-test.py` and `scripts/validate_readme.py` into
+  small checks, and added `tests/test_complexity.py` so CI holds every
+  Python function to the complexity ceilings.
+
 ## [0.0.8] - 2026-10-31
 
 ### Fixed

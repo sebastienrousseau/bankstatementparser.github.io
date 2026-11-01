@@ -39,8 +39,8 @@
 <h1 id="hero-heading">Parse any bank statement in <em>milliseconds.</em><br>Zero cloud dependencies. Zero telemetry.</h1>
 <p>An open-source, high-throughput financial document parsing engine engineered in Rust with native Python bindings. Converts CAMT, PAIN.001, MT940, MT942, OFX/QFX, BAI2, CSV, and PDF bank statements into validated JSON, Apache Parquet, and ISO 20022 transaction streams entirely on your own infrastructure.</p>
 <div class="actions">
-<a class="primary" href="/getting-started/index.html">Install CLI &amp; SDK</a>
-<a href="/formats/index.html">Explore Supported Formats</a>
+<a class="primary" href="/getting-started/">Install CLI &amp; SDK</a>
+<a href="/formats/">Explore Supported Formats</a>
 </div>
 <ul class="hero-assurances">
 <li>Deterministic Rust Core</li>
@@ -83,7 +83,7 @@
 <p class="lilac-label">Corporate Treasury Automation</p>
 <h2 id="treasury-heading">Automated Reconciliation for Modern Treasury</h2>
 <p>Eliminate manual statement keying, error-prone spreadsheets, and expensive cloud OCR APIs. Normalize multi-bank statements directly into your general ledger, ERP, and treasury management workflows with sub-second turnaround.</p>
-<a class="primary" href="/use-cases/index.html">View Treasury Playbook <span aria-hidden="true">↗</span></a>
+<a class="primary" href="/use-cases/">View Treasury Playbook <span aria-hidden="true">↗</span></a>
 </div>
 </div>
 </section>
@@ -158,7 +158,7 @@
 <p class="lilac-label">High-Performance Pipeline</p>
 <h2 id="arch-heading">Deterministic Execution at Enterprise Scale</h2>
 <p>Engineered for high-frequency financial platforms requiring bounded latency, zero-allocation loops, and strict ISO 20022 data models.</p>
-<a class="primary" href="/architecture/index.html">View Architecture Blueprint <span aria-hidden="true">↗</span></a>
+<a class="primary" href="/architecture/">View Architecture Blueprint <span aria-hidden="true">↗</span></a>
 </div>
 </div>
 </section>
@@ -170,8 +170,8 @@
 <h2 id="quickstart-heading">Install via Cargo, Pip, or Homebrew in Seconds</h2>
 <p>Deploy as a standalone CLI tool, embed as a high-assurance Rust crate in your microservices, or integrate into Python data pipelines with zero external runtime overhead.</p>
 <div class="actions">
-<a class="primary" href="/getting-started/index.html">Full Documentation →</a>
-<a href="/api/index.html">API Reference</a>
+<a class="primary" href="/getting-started/">Full Documentation →</a>
+<a href="/api/">API Reference</a>
 </div>
 </div>
 <div class="terminal-box">
@@ -201,7 +201,7 @@
 <h2 id="privacy-heading">Your financial data never leaves your infrastructure.</h2>
 <p>Bank Statement Parser is 100% self-contained and operates entirely on your local machine, private VPC, or air-gapped on-premise servers. Zero analytics, zero telemetry, and zero outbound network calls—guaranteeing complete GDPR, GLBA, and banking confidentiality compliance.</p>
 </div>
-<a href="/security/index.html">Read Security &amp; Privacy Architecture <span aria-hidden="true">↓</span></a>
+<a href="/security/">Read Security &amp; Privacy Architecture <span aria-hidden="true">↓</span></a>
 </div>
 </section>
 
@@ -240,7 +240,7 @@
 </div>
 <div>
 <p>Get started in minutes with the Rust CLI or Python package across Linux, macOS, and Windows.</p>
-<a class="primary" href="/getting-started/index.html">Install Bank Statement Parser</a>
+<a class="primary" href="/getting-started/">Install Bank Statement Parser</a>
 </div>
 </div>
 </section>
@@ -1661,7 +1661,7 @@ Financial statement data demands strict confidentiality, rigorous boundary isola
 <span class="faq-icon" aria-hidden="true"></span>
 </summary>
 <div class="faq-answer">
-<p>We provide institutional support agreements including custom bank dialect model training, prioritized issue response SLAs, dedicated security audit consultations, and bespoke ERP/TMS integration adapters. Inquire via our <a href="/contact/index.html">Contact Page</a>.</p>
+<p>We provide institutional support agreements including custom bank dialect model training, prioritized issue response SLAs, dedicated security audit consultations, and bespoke ERP/TMS integration adapters. Inquire via our <a href="/contact/">Contact Page</a>.</p>
 </div>
 </details>
 </div>
@@ -1679,9 +1679,9 @@ Financial statement data demands strict confidentiality, rigorous boundary isola
 <h2>Have a question not listed here?</h2>
 <p>Our core engineering team and community stewards are available to assist. Explore the documentation guides, join our GitHub community discussions, or contact our solutions engineers directly.</p>
 <div class="faq-help-actions">
-<a href="/getting-started/index.html" class="primary">Getting Started Guide</a>
+<a href="/getting-started/" class="primary">Getting Started Guide</a>
 <a href="https://github.com/sebastienrousseau/bankstatementparser/discussions" class="secondary" target="_blank" rel="noopener">GitHub Discussions</a>
-<a href="/contact/index.html" class="secondary">Contact Support</a>
+<a href="/contact/" class="secondary">Contact Support</a>
 </div>
 </div>
 </div>
@@ -1715,6 +1715,16 @@ Financial statement data demands strict confidentiality, rigorous boundary isola
 ---
 
 All notable changes to **Bank Statement Parser** are documented in this file following strict Semantic Versioning.
+
+## [0.0.9] - 2026-11-01
+### Fixed
+- Linked pages by their canonical URLs, kept non-indexable pages out of `sitemap.xml`, redirected `/faq/` and `/contribute/` to `/faqs/` and `/contributing/`, and served the 404 page for missing URLs.
+### Changed
+- Built the site with `ssg` 0.0.72.
+
+## [0.0.8] - 2026-10-31
+### Fixed
+- Restored the search widget assets and styles, and aligned the footer on a four-column grid.
 
 ## [0.0.7] - 2026-10-30
 ### Fixed

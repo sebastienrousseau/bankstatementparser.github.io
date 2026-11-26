@@ -8,6 +8,15 @@ All notable changes to this website are documented here. The format follows
 
 ## [0.0.35] - 2026-11-26
 
+### Added
+
+- `scripts/check_complexity.py`, the suite's standard-library
+  complexity gate, copied unchanged from core. It holds every Python
+  function under cyclomatic 10, cognitive 15, Halstead difficulty 30
+  and 60 lines (500 lines per file); no function is over a ceiling, so
+  `scripts/complexity_baseline.json` is empty and must stay so. CI and
+  `make verify` run it.
+
 ### Changed
 
 - Moved the version from 0.0.10 to 0.0.35 so the website joins the

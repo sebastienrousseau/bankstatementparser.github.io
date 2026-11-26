@@ -108,8 +108,20 @@ The `bankstatementparser` suite provides end-to-end tooling for financial docume
 
 | Component | Purpose | Use case |
 | :--- | :--- | :--- |
-| [bankstatementparser](https://github.com/sebastienrousseau/bankstatementparser) | Core Rust engine & Python bindings | Financial document parsing (PDF, CSV, OFX, MT940, CAMT.053) |
-| [bankstatementparser-cli](https://github.com/sebastienrousseau/bankstatementparser) | Standalone CLI binary | Batch file transformation and terminal automation |
+| [bankstatementparser](https://github.com/sebastienrousseau/bankstatementparser) | Core Python library and CLI | Parsing CAMT (052/053/054), PAIN.001, CSV, OFX, QFX, MT940, MT942, BAI2 and PDF statements |
+| [bankstatementparser-mcp](https://github.com/sebastienrousseau/bankstatementparser-mcp) | Model Context Protocol server | Exposing statement tools to LLMs and AI agents |
+| [bankstatementparser-lsp](https://github.com/sebastienrousseau/bankstatementparser-lsp) | Language Server Protocol server | Live SWIFT MT940 statement validation and diagnostics in editors |
+| [bankstatementparser-loader-bai2](https://github.com/sebastienrousseau/bankstatementparser-loader-bai2) | Input loader | BAI2 cash-management and account balance statements |
+| [bankstatementparser-loader-mt942](https://github.com/sebastienrousseau/bankstatementparser-loader-mt942) | Input loader | SWIFT MT942 interim transaction reports |
+| [bankstatementparser-loader-bacs](https://github.com/sebastienrousseau/bankstatementparser-loader-bacs) | Input loader | UK BACS Standard 18 / Faster Payments fixed-width files |
+| [bankstatementparser-loader-camt054](https://github.com/sebastienrousseau/bankstatementparser-loader-camt054) | Input loader | ISO 20022 CAMT.054 debit/credit notifications |
+| [bankstatementparser-loader-cfonb](https://github.com/sebastienrousseau/bankstatementparser-loader-cfonb) | Input loader | French CFONB 120 / AFB120 fixed-width statements |
+| [bankstatementparser-loader-sepa](https://github.com/sebastienrousseau/bankstatementparser-loader-sepa) | Input loader | ISO 20022 SEPA PAIN.002 status reports and PAIN.008 mandates |
+| [bankstatementparser-writer-xlsx](https://github.com/sebastienrousseau/bankstatementparser-writer-xlsx) | Output writer | Styled Microsoft Excel (.xlsx) workbooks |
+| [bankstatementparser-writer-ofx](https://github.com/sebastienrousseau/bankstatementparser-writer-ofx) | Output writer | Open Financial Exchange (.ofx) files |
+| [bankstatementparser-writer-qif](https://github.com/sebastienrousseau/bankstatementparser-writer-qif) | Output writer | Quicken Interchange Format (.qif) files |
+| [bankstatementparser-writer-swift](https://github.com/sebastienrousseau/bankstatementparser-writer-swift) | Output writer | SWIFT MT940 statements and MT942 interim reports |
+| [bankstatementparser-transport-ebics](https://github.com/sebastienrousseau/bankstatementparser-transport-ebics) | Transport | EBICS 3.0 / 2.5 request builder and statement payload parser |
 | [bankstatementparser.github.io](https://github.com/sebastienrousseau/bankstatementparser.github.io) | Static documentation portal | Sovereign, zero-telemetry documentation and architectural guides |
 
 ---

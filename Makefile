@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2024-2026 Sebastien Rousseau
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-.PHONY: all build audit contrast validate lint complexity test verify serve clean help
+.PHONY: all build audit contrast validate lint complexity test lighthouse verify serve clean help
 
 all: verify
 
@@ -13,6 +13,7 @@ help:
 	@echo "  make lint       - Validate README, release versions, notes, and SPDX headers"
 	@echo "  make complexity - Hold Python functions under the complexity ceilings"
 	@echo "  make test       - Run automated regression tests"
+	@echo "  make lighthouse - Run Lighthouse CI over every built page (needs Chrome)"
 	@echo "  make verify     - Run full gate: lint, complexity, test, audit"
 	@echo "  make serve      - Serve compiled site locally from public/"
 	@echo "  make clean      - Remove build artifacts and temporary files"
@@ -48,6 +49,13 @@ lint:
 # `python3 scripts/check_complexity.py --update`.
 complexity:
 	python3 scripts/check_complexity.py
+
+# Lighthouse CI over every page of docs/, as the quality-gate workflow runs
+# it; .lighthouserc.cjs holds the page list and the assertions.
+LHCI = npx --yes @lhci/cli@0.16.1
+lighthouse:
+	@$(LHCI) collect --config=.lighthouserc.cjs
+	@$(LHCI) assert --config=.lighthouserc.cjs
 
 verify: lint complexity test audit
 

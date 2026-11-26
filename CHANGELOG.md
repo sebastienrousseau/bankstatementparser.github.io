@@ -49,6 +49,12 @@ All notable changes to this website are documented here. The format follows
   900 ms: `scripts/asset_bundle.py` merges the four render-blocking
   stylesheets ssg links into one fingerprinted file with its own SRI
   hash, and defers the search script.
+- Made the "WCAG 2.2 AAA & Lighthouse Quality Gate" check run
+  Lighthouse CI: it installed `pa11y-ci` and `@lhci/cli` but ran
+  neither. It now runs `make lighthouse` (`@lhci/cli` 0.16.1) over every
+  page of `docs/` with `.lighthouserc.cjs`, which replaces
+  `.lighthouserc.json`, skips the redirect stubs and checks the noindex
+  404 and offline pages' SEO audit by audit.
 
 ## [0.0.9] - 2026-11-01
 

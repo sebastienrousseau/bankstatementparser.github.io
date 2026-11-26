@@ -21,6 +21,11 @@ lead: "Deterministic versioning history, security audits, and functional enhance
 
 All notable changes to **Bank Statement Parser** are documented in this file following strict Semantic Versioning.
 
+## [0.0.35] - 2026-11-26
+### Changed
+- Joined the bankstatementparser suite's lockstep release: the website moves from 0.0.10 to 0.0.35, the version core and its thirteen satellite packages ship together.
+- Built the site with `ssg` 0.0.76.
+
 ## [0.0.9] - 2026-11-01
 ### Fixed
 - Linked pages by their canonical URLs, kept non-indexable pages out of `sitemap.xml`, redirected `/faq/` and `/contribute/` to `/faqs/` and `/contributing/`, and served the 404 page for missing URLs.

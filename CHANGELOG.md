@@ -6,6 +6,25 @@ All notable changes to this website are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.0.35] - 2026-11-26
+
+### Changed
+
+- Moved the version from 0.0.10 to 0.0.35 so the website joins the
+  bankstatementparser suite's lockstep release: core, its thirteen
+  satellite packages and bankstatementparser.com now share one
+  version. The maintainer authorised the jump. 0.0.10 was merged to
+  `main` but never tagged, so its changes ship in this release.
+- Built the site with `ssg` 0.0.76 locally, in the release workflow
+  and in the devcontainer.
+- Bumped the test requirements (the python-test group in #46, then
+  `hypothesis` 6.170.15 in #48 and 6.170.17 in #51) and the GitHub
+  Actions group: `github/codeql-action` 4.39.3 in #49, then 4.39.4 and
+  `ossf/scorecard-action` 2.6.0 in #52.
+- Listed 0.0.35 as the supported version in `SECURITY.md` and
+  `.github/SECURITY.md`, which still named 0.0.2.
+- Ignored `.lighthouseci/`, the Lighthouse CI report directory.
+
 ## [0.0.9] - 2026-11-01
 
 ### Fixed
@@ -206,7 +225,11 @@ All notable changes to this website are documented here. The format follows
 - Self-hosted asset delivery and zero third-party telemetry (#1).
 - Dual licensing under Apache-2.0 OR MIT (#2, #3).
 
-[Unreleased]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.6...HEAD
+[Unreleased]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.35...HEAD
+[0.0.35]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.9...v0.0.35
+[0.0.9]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.8...v0.0.9
+[0.0.8]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.7...v0.0.8
+[0.0.7]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.3...v0.0.4

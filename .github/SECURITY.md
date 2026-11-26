@@ -7,10 +7,10 @@
 
 Only the current production deployment and latest source on `main` receive security fixes. Historical website tags are immutable records and are not maintained deployments.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| v0.0.2  | :white_check_mark: |
-| < 0.0.2 | :x:                |
+| Version  | Supported          |
+| -------- | ------------------ |
+| v0.0.35  | :white_check_mark: |
+| < 0.0.35 | :x:                |
 
 ## Reporting a Vulnerability
 

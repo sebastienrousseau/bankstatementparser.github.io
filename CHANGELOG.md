@@ -25,6 +25,17 @@ All notable changes to this website are documented here. The format follows
   `.github/SECURITY.md`, which still named 0.0.2.
 - Ignored `.lighthouseci/`, the Lighthouse CI report directory.
 
+### Fixed
+
+- Gave the 404 and thanks page buttons their own text colour again:
+  the content link rule painted them in the accent on the button
+  background (1.14:1 in dark mode).
+- Made the active FAQ filter pill readable in system dark mode
+  (1.56:1 before, 12.29:1 now), replaced the pills' `role="tablist"`
+  with `role="group"` and `aria-pressed`, and cropped the About page
+  avatar instead of squashing it, restoring Lighthouse 100 on those
+  pages.
+
 ## [0.0.9] - 2026-11-01
 
 ### Fixed

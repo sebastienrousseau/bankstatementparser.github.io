@@ -24,12 +24,12 @@ lead: "Comprehensive guidance covering specifications, zero-telemetry local exec
 <input type="search" class="faq-search-input" id="faqSearchInput" placeholder="Filter questions by keyword (e.g. OCR, Docker, ISO 20022, Python, Zero Telemetry)..." aria-label="Search frequently asked questions" />
 </div>
 
-<div class="faq-filter-pills" role="tablist" aria-label="FAQ Categories">
-<button class="faq-pill active" data-filter="all" type="button">All Questions <span class="pill-count">16</span></button>
-<button class="faq-pill" data-filter="architecture" type="button">Architecture &amp; Formats <span class="pill-count">4</span></button>
-<button class="faq-pill" data-filter="security" type="button">Security &amp; Privacy <span class="pill-count">4</span></button>
-<button class="faq-pill" data-filter="integration" type="button">Integration &amp; SDK <span class="pill-count">4</span></button>
-<button class="faq-pill" data-filter="compliance" type="button">Compliance &amp; Enterprise <span class="pill-count">4</span></button>
+<div class="faq-filter-pills" role="group" aria-label="FAQ Categories">
+<button class="faq-pill active" data-filter="all" type="button" aria-pressed="true">All Questions <span class="pill-count">16</span></button>
+<button class="faq-pill" data-filter="architecture" type="button" aria-pressed="false">Architecture &amp; Formats <span class="pill-count">4</span></button>
+<button class="faq-pill" data-filter="security" type="button" aria-pressed="false">Security &amp; Privacy <span class="pill-count">4</span></button>
+<button class="faq-pill" data-filter="integration" type="button" aria-pressed="false">Integration &amp; SDK <span class="pill-count">4</span></button>
+<button class="faq-pill" data-filter="compliance" type="button" aria-pressed="false">Compliance &amp; Enterprise <span class="pill-count">4</span></button>
 </div>
 
 <div class="faq-action-bar">

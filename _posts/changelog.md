@@ -25,6 +25,8 @@ All notable changes to **Bank Statement Parser** are documented in this file fol
 ### Changed
 - Joined the bankstatementparser suite's lockstep release: the website moves from 0.0.10 to 0.0.35, the version core and its thirteen satellite packages ship together.
 - Built the site with `ssg` 0.0.76.
+### Fixed
+- Restored readable button and FAQ filter colours in dark mode, gave the FAQ filters proper button semantics, and stopped the About page avatar from being squashed.
 
 ## [0.0.9] - 2026-11-01
 ### Fixed

@@ -508,13 +508,13 @@ body:not(:has(.visage-intro)) .lead { color:var(--vi-muted); }
   max-width: 100%;
 }
 
-.style-visage .content-body a {
+.style-visage .content-body a:not(.btn-primary-quantum, .btn-secondary-quantum) {
   color: var(--vi-accent);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
-.style-visage .content-body a:hover {
+.style-visage .content-body a:not(.btn-primary-quantum, .btn-secondary-quantum):hover {
   color: var(--vi-accent-hover);
 }
 
@@ -762,12 +762,8 @@ body:not(:has(.visage-intro)) .lead { color:var(--vi-muted); }
 .faq-pill.active {
   background: var(--vi-accent);
   border-color: var(--vi-accent);
-  color: #ffffff;
+  color: var(--vi-bg);
   box-shadow: 0 2px 8px color-mix(in srgb, var(--vi-accent) 40%, transparent);
-}
-
-:root[data-theme="dark"] .faq-pill.active {
-  color: #100d14;
 }
 
 .faq-pill .pill-count {
@@ -1358,6 +1354,7 @@ body:not(:has(.visage-intro)) .lead { color:var(--vi-muted); }
   flex-shrink: 0;
 }
 .author-avatar {
+  object-fit: cover;
   border-radius: 50%;
   border: 2px solid var(--vi-accent);
   display: block;

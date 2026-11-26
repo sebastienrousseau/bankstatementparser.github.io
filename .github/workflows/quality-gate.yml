@@ -28,9 +28,22 @@ jobs:
         with:
           node-version: "24"
 
-      - name: Install Audit Tooling
-        run: |
-          npm install -g pa11y-ci @lhci/cli
+      # Lighthouse 100 in every category (SEO audit by audit on the noindex
+      # 404 and offline pages), FCP <= 1000 ms and LCP <= 1200 ms under
+      # simulated mobile throttling, on every page of the committed docs/
+      # tree the CI deploy job publishes. `make lighthouse` runs the pinned
+      # @lhci/cli with .lighthouserc.cjs, exactly as it runs locally.
+      - name: Lighthouse CI (every page, mobile)
+        run: make lighthouse
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/
+          include-hidden-files: true
+          retention-days: 14
 
       - name: Verify SSG Manifest Conformance
         run: |

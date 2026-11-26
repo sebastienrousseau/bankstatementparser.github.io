@@ -12,6 +12,8 @@ from pathlib import Path
 import re
 import shutil
 
+from asset_bundle import bundle_site
+
 BASE_URL = "https://bankstatementparser.com"
 EXCLUDED_PREFIXES = ("404", "offline")
 CORE_DOCS = {
@@ -452,8 +454,12 @@ def post_build(output_dir: str = "public", docs_dir: str = "docs") -> None:
     process_html_files(output_dir, BASE_URL)
     url_count = write_sitemap(output_dir, BASE_URL)
     update_manifests(output_dir)
+    bundle_count = bundle_site(output_dir)
     sync_to_docs(output_dir, docs_dir)
-    print(f"Post-build optimization complete ({url_count} URLs).")
+    print(
+        f"Post-build optimization complete ({url_count} URLs,"
+        f" {bundle_count} stylesheet bundle(s))."
+    )
 
 
 if __name__ == "__main__":

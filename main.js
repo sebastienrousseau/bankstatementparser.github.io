@@ -134,6 +134,14 @@
     return visibleCount;
   }
 
+  function setActivePill(pills, filter) {
+    pills.forEach(function (p) {
+      var on = p.getAttribute('data-filter') === filter;
+      p.classList.toggle('active', on);
+      p.setAttribute('aria-pressed', String(on));
+    });
+  }
+
   function bindFaqToggleAll(toggleAllBtn, faqCards) {
     if (!toggleAllBtn) return;
     toggleAllBtn.addEventListener('click', function () {
@@ -180,9 +188,8 @@
 
     filterPills.forEach(function (pill) {
       pill.addEventListener('click', function () {
-        filterPills.forEach(function (p) { p.classList.remove('active'); });
-        pill.classList.add('active');
         state.category = pill.getAttribute('data-filter') || 'all';
+        setActivePill(filterPills, state.category);
         applyFilters();
       });
     });
@@ -194,9 +201,7 @@
         if (searchInput) searchInput.value = '';
         state.query = '';
         state.category = 'all';
-        filterPills.forEach(function (p) {
-          p.classList.toggle('active', p.getAttribute('data-filter') === 'all');
-        });
+        setActivePill(filterPills, 'all');
         applyFilters();
       });
     }

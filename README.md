@@ -16,7 +16,7 @@
   <a href="https://bankstatementparser.com"><img src="https://img.shields.io/badge/docs-bankstatementparser.com-blue?style=for-the-badge&labelColor=555555&logo=googlechrome" alt="Docs" height="28" /></a>
   <a href="https://scorecard.dev/viewer/?uri=github.com/sebastienrousseau/bankstatementparser.github.io"><img src="https://img.shields.io/ossf-scorecard/github.com/sebastienrousseau/bankstatementparser.github.io?style=for-the-badge&label=OpenSSF%20Scorecard&logo=openssf" alt="OpenSSF Scorecard" height="28" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-blue.svg?style=for-the-badge" alt="License: Apache-2.0 OR MIT" height="28" /></a>
-  <a href="https://static-site-generator.com/"><img src="https://img.shields.io/badge/SSG-0.0.72-93450a.svg?style=for-the-badge&logo=rust" alt="Built with Rust SSG" height="28" /></a>
+  <a href="https://static-site-generator.com/"><img src="https://img.shields.io/badge/SSG-0.0.76-93450a.svg?style=for-the-badge&logo=rust" alt="Built with Rust SSG" height="28" /></a>
 </p>
 
 ---
@@ -108,8 +108,20 @@ The `bankstatementparser` suite provides end-to-end tooling for financial docume
 
 | Component | Purpose | Use case |
 | :--- | :--- | :--- |
-| [bankstatementparser](https://github.com/sebastienrousseau/bankstatementparser) | Core Rust engine & Python bindings | Financial document parsing (PDF, CSV, OFX, MT940, CAMT.053) |
-| [bankstatementparser-cli](https://github.com/sebastienrousseau/bankstatementparser) | Standalone CLI binary | Batch file transformation and terminal automation |
+| [bankstatementparser](https://github.com/sebastienrousseau/bankstatementparser) | Core Python library and CLI | Parsing CAMT (052/053/054), PAIN.001, CSV, OFX, QFX, MT940, MT942, BAI2 and PDF statements |
+| [bankstatementparser-mcp](https://github.com/sebastienrousseau/bankstatementparser-mcp) | Model Context Protocol server | Exposing statement tools to LLMs and AI agents |
+| [bankstatementparser-lsp](https://github.com/sebastienrousseau/bankstatementparser-lsp) | Language Server Protocol server | Live SWIFT MT940 statement validation and diagnostics in editors |
+| [bankstatementparser-loader-bai2](https://github.com/sebastienrousseau/bankstatementparser-loader-bai2) | Input loader | BAI2 cash-management and account balance statements |
+| [bankstatementparser-loader-mt942](https://github.com/sebastienrousseau/bankstatementparser-loader-mt942) | Input loader | SWIFT MT942 interim transaction reports |
+| [bankstatementparser-loader-bacs](https://github.com/sebastienrousseau/bankstatementparser-loader-bacs) | Input loader | UK BACS Standard 18 / Faster Payments fixed-width files |
+| [bankstatementparser-loader-camt054](https://github.com/sebastienrousseau/bankstatementparser-loader-camt054) | Input loader | ISO 20022 CAMT.054 debit/credit notifications |
+| [bankstatementparser-loader-cfonb](https://github.com/sebastienrousseau/bankstatementparser-loader-cfonb) | Input loader | French CFONB 120 / AFB120 fixed-width statements |
+| [bankstatementparser-loader-sepa](https://github.com/sebastienrousseau/bankstatementparser-loader-sepa) | Input loader | ISO 20022 SEPA PAIN.002 status reports and PAIN.008 mandates |
+| [bankstatementparser-writer-xlsx](https://github.com/sebastienrousseau/bankstatementparser-writer-xlsx) | Output writer | Styled Microsoft Excel (.xlsx) workbooks |
+| [bankstatementparser-writer-ofx](https://github.com/sebastienrousseau/bankstatementparser-writer-ofx) | Output writer | Open Financial Exchange (.ofx) files |
+| [bankstatementparser-writer-qif](https://github.com/sebastienrousseau/bankstatementparser-writer-qif) | Output writer | Quicken Interchange Format (.qif) files |
+| [bankstatementparser-writer-swift](https://github.com/sebastienrousseau/bankstatementparser-writer-swift) | Output writer | SWIFT MT940 statements and MT942 interim reports |
+| [bankstatementparser-transport-ebics](https://github.com/sebastienrousseau/bankstatementparser-transport-ebics) | Transport | EBICS 3.0 / 2.5 request builder and statement payload parser |
 | [bankstatementparser.github.io](https://github.com/sebastienrousseau/bankstatementparser.github.io) | Static documentation portal | Sovereign, zero-telemetry documentation and architectural guides |
 
 ---
@@ -118,7 +130,7 @@ The `bankstatementparser` suite provides end-to-end tooling for financial docume
 
 | Area | Capability | Status |
 | :--- | :--- | :--- |
-| Static Generation | Rust SSG v0.0.72 + Tera template compilation | Active |
+| Static Generation | Rust SSG v0.0.76 + Tera template compilation | Active |
 | Accessibility | 100% WCAG 2.2 Level AAA compliance (>= 7.0:1 contrast) | Verified |
 | Content Security | Strict Content-Security-Policy (CSP) with zero inline scripts | Enforced |
 | Integrity | SHA-384 Subresource Integrity (SRI) on all scripts and styles | Active |
@@ -143,7 +155,7 @@ Audit and regression suites are executed continuously on every commit:
 
 | Scenario | Result | Environment |
 | :--- | ---: | :--- |
-| Full Site Compilation (20 Pages) | < 2.0s | Rust `ssg` 0.0.72, 32 plugins |
+| Full Site Compilation (20 Pages) | < 2.0s | Rust `ssg` 0.0.76, 32 plugins |
 | Worst Light Mode Contrast Ratio | 17.79:1 | WCAG 2.2 AAA (Threshold >= 7.0:1) |
 | Worst Dark Mode Contrast Ratio | 8.08:1 | WCAG 2.2 AAA (Threshold >= 7.0:1) |
 | Lighthouse Performance / A11y | 100 / 100 | Clean ECMAScript, zero heavy runtimes |

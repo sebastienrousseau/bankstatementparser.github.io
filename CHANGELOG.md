@@ -6,6 +6,56 @@ All notable changes to this website are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.0.35] - 2026-11-26
+
+### Added
+
+- `scripts/check_complexity.py`, the suite's standard-library
+  complexity gate, copied unchanged from core. It holds every Python
+  function under cyclomatic 10, cognitive 15, Halstead difficulty 30
+  and 60 lines (500 lines per file); no function is over a ceiling, so
+  `scripts/complexity_baseline.json` is empty and must stay so. CI and
+  `make verify` run it.
+
+### Changed
+
+- Moved the version from 0.0.10 to 0.0.35 so the website joins the
+  bankstatementparser suite's lockstep release: core, its thirteen
+  satellite packages and bankstatementparser.com now share one
+  version. The maintainer authorised the jump. 0.0.10 was merged to
+  `main` but never tagged, so its changes ship in this release.
+- Built the site with `ssg` 0.0.76 locally, in the release workflow
+  and in the devcontainer.
+- Bumped the test requirements (the python-test group in #46, then
+  `hypothesis` 6.170.15 in #48 and 6.170.17 in #51) and the GitHub
+  Actions group: `github/codeql-action` 4.39.3 in #49, then 4.39.4 and
+  `ossf/scorecard-action` 2.6.0 in #52.
+- Listed 0.0.35 as the supported version in `SECURITY.md` and
+  `.github/SECURITY.md`, which still named 0.0.2.
+- Ignored `.lighthouseci/`, the Lighthouse CI report directory.
+
+### Fixed
+
+- Gave the 404 and thanks page buttons their own text colour again:
+  the content link rule painted them in the accent on the button
+  background (1.14:1 in dark mode).
+- Made the active FAQ filter pill readable in system dark mode
+  (1.56:1 before, 12.29:1 now), replaced the pills' `role="tablist"`
+  with `role="group"` and `aria-pressed`, and cropped the About page
+  avatar instead of squashing it, restoring Lighthouse 100 on those
+  pages.
+- Brought first paint under the 1000 ms Lighthouse budget (simulated
+  mobile throttling) on every page, from about 1200 ms to about
+  900 ms: `scripts/asset_bundle.py` merges the four render-blocking
+  stylesheets ssg links into one fingerprinted file with its own SRI
+  hash, and defers the search script.
+- Made the "WCAG 2.2 AAA & Lighthouse Quality Gate" check run
+  Lighthouse CI: it installed `pa11y-ci` and `@lhci/cli` but ran
+  neither. It now runs `make lighthouse` (`@lhci/cli` 0.16.1) over every
+  page of `docs/` with `.lighthouserc.cjs`, which replaces
+  `.lighthouserc.json`, skips the redirect stubs and checks the noindex
+  404 and offline pages' SEO audit by audit.
+
 ## [0.0.9] - 2026-11-01
 
 ### Fixed
@@ -206,7 +256,11 @@ All notable changes to this website are documented here. The format follows
 - Self-hosted asset delivery and zero third-party telemetry (#1).
 - Dual licensing under Apache-2.0 OR MIT (#2, #3).
 
-[Unreleased]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.6...HEAD
+[Unreleased]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.35...HEAD
+[0.0.35]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.9...v0.0.35
+[0.0.9]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.8...v0.0.9
+[0.0.8]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.7...v0.0.8
+[0.0.7]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/sebastienrousseau/bankstatementparser.github.io/compare/v0.0.3...v0.0.4

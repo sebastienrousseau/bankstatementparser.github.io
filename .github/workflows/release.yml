@@ -17,7 +17,7 @@ permissions:
   contents: read
 
 env:
-  SSG_VERSION: 0.0.72
+  SSG_VERSION: 0.0.76
 
 jobs:
   release:

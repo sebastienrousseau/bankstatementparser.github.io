@@ -15,7 +15,7 @@
   "resources": [],
   "serverInfo": {
     "name": "Bank Statement Parser",
-    "version": "0.0.72"
+    "version": "0.0.76"
   },
   "tools": [],
   "transport": {

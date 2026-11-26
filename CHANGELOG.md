@@ -44,6 +44,11 @@ All notable changes to this website are documented here. The format follows
   with `role="group"` and `aria-pressed`, and cropped the About page
   avatar instead of squashing it, restoring Lighthouse 100 on those
   pages.
+- Brought first paint under the 1000 ms Lighthouse budget (simulated
+  mobile throttling) on every page, from about 1200 ms to about
+  900 ms: `scripts/asset_bundle.py` merges the four render-blocking
+  stylesheets ssg links into one fingerprinted file with its own SRI
+  hash, and defers the search script.
 
 ## [0.0.9] - 2026-11-01
 

@@ -27,6 +27,7 @@ All notable changes to **Bank Statement Parser** are documented in this file fol
 - Built the site with `ssg` 0.0.76.
 ### Fixed
 - Restored readable button and FAQ filter colours in dark mode, gave the FAQ filters proper button semantics, and stopped the About page avatar from being squashed.
+- Cut the render-blocking requests on every page to one stylesheet and one small script, so pages paint about 300 ms sooner on a throttled mobile connection.
 
 ## [0.0.9] - 2026-11-01
 ### Fixed

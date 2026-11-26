@@ -4,3 +4,4 @@ node_modules/
 .corral-state.json
 dist/
 .hypothesis/
+.lighthouseci/

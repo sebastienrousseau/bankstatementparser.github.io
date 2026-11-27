@@ -22,66 +22,100 @@ lead: "Deterministic versioning history, security audits, and functional enhance
 All notable changes to **Bank Statement Parser** are documented in this file following strict Semantic Versioning.
 
 ## [0.0.35] - 2026-11-26
+
 ### Changed
+
 - Joined the bankstatementparser suite's lockstep release: the website moves from 0.0.10 to 0.0.35, the version core and its thirteen satellite packages ship together.
 - Built the site with `ssg` 0.0.76.
+
 ### Fixed
+
 - Restored readable button and FAQ filter colours in dark mode, gave the FAQ filters proper button semantics, and stopped the About page avatar from being squashed.
 - Cut the render-blocking requests on every page to one stylesheet and one small script, so pages paint about 300 ms sooner on a throttled mobile connection.
 
 ## [0.0.9] - 2026-11-01
+
 ### Fixed
+
 - Linked pages by their canonical URLs, kept non-indexable pages out of `sitemap.xml`, redirected `/faq/` and `/contribute/` to `/faqs/` and `/contributing/`, and served the 404 page for missing URLs.
+
 ### Changed
+
 - Built the site with `ssg` 0.0.72.
 
 ## [0.0.8] - 2026-10-31
+
 ### Fixed
+
 - Restored the search widget assets and styles, and aligned the footer on a four-column grid.
 
 ## [0.0.7] - 2026-10-30
+
 ### Fixed
+
 - Resolved CodeQL code scanning alerts 41 and 42 (`py/empty-except`) in `scripts/post-build.py` and tightened exception handling in `scripts/validate_spdx_headers.py`.
 
 ## [0.0.6] - 2026-10-30
+
 ### Added
+
 - Generated `llms-full.txt` alongside `llms.txt` for single-request LLM and coding agent ingestion.
 - Expanded property-based test coverage for deterministic `SOURCE_DATE_EPOCH` builds and URL classification.
+
 ### Changed
+
 - Trusted second maintainer SSH signing key (`rousseau-mbp-m1`) in `KEYS.asc` and `.github/allowed_signers`.
 - Upgraded CI to Node.js 24 and `ssg` 0.0.69, and pruned 40 unused legacy template files.
+
 ### Fixed
+
 - Reformatted `KEYS.asc` into valid OpenSSH allowed-signers format and honoured `SOURCE_DATE_EPOCH` in `sitemap.xml` generation.
 
 ## [0.0.5] - 2026-10-11
+
 ### Changed
+
 - Upgraded SSG compiler pin in release automation and standardized build and audit sequencing for byte-for-byte reproducible release archives.
+
 ### Fixed
+
 - Resolved CodeQL alert 39 in `scripts/post-build.py` by permitting whitespace and attributes in closing script tags.
 
 ## [0.0.4] - 2026-10-11
+
 ### Added
+
 - Injected Schema.org `BreadcrumbList` structured data across all subpages.
+
 ### Changed
+
 - Standardized `sitemap.xml` and canonical permalinks to trailing directory slashes and excluded `404/` and `offline/` utility routes.
 
 ## [0.0.3] - 2026-10-10
+
 ### Added
+
 - Expanded format specifications covering all 8 banking formats: CAMT (052/053/054), PAIN.001, MT940, MT942, OFX/QFX, BAI2, CSV, and PDF.
 - Documented Apache Parquet streaming (`ParquetStreamWriter`) and batch export alongside plain-text ledger models (hledger, beancount, ledger-cli).
 - Implemented Generative Engine Optimization (GEO) architecture with direct-answer BLUF headers and entity-based knowledge graphs.
 - Documented two-way bank reconciliation (`reconcile_payments_and_statements`), treasury analytics, and PDF forensics.
+
 ### Changed
+
 - Upgraded Static Site Generator (SSG) compilation and audit pipeline to the latest local version.
-- Linked copyright notice directly to author Sebastien Rousseau at https://sebastienrousseau.com/ across all layouts.
+- Linked copyright notice directly to author Sebastien Rousseau at <https://sebastienrousseau.com/> across all layouts.
 
 ## [0.0.2] - 2026-09-27
+
 ### Fixed
+
 - Fixed CSS entity escape sequence for `.hr-blurred:after` in base layout template.
 - Rebuilt native static site generator assets and synced release version metadata.
 
 ## [0.0.1] - 2026-09-01
+
 ### Added
+
 - Initial release of the Bank Statement Parser documentation portal.
 - Static Site Generator (SSG) native compilation pipeline.
 - Multi-format support specifications (PDF, CSV, OFX, QIF, MT940, CAMT.053).

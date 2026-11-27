@@ -264,4 +264,4 @@ Versions follow strict Semantic Versioning (`0.0.1` -> `0.0.2` -> ...), advancin
 
 ## License
 
-Dual-licensed under [Apache-2.0](LICENSE-APACHE) OR [MIT](LICENSE-MIT), at your option. See [LICENSE](LICENSE).
+Dual-licensed under [Apache-2.0](LICENSE-APACHE) OR [MIT](LICENSE-MIT), at your option (`SPDX-License-Identifier: Apache-2.0 OR MIT`). `LICENSE` carries the Apache-2.0 text so licence scanners recognise it; the MIT option stands unchanged in `LICENSE-MIT`.

@@ -1716,6 +1716,13 @@ Financial statement data demands strict confidentiality, rigorous boundary isola
 
 All notable changes to **Bank Statement Parser** are documented in this file following strict Semantic Versioning.
 
+## [0.0.36] - 2026-11-27
+
+### Changed
+
+- Signed every release file with keyless cosign and attached SLSA provenance, and listed every attached file in the release notes' checksums.
+- Built the site with `ssg` 0.0.77 and moved more of the quality gate into CI: Markdown and README lint, Python lint and format, coverage, dependency advisory audits and fuzzing of the front-matter validator.
+
 ## [0.0.35] - 2026-11-26
 
 ### Changed

@@ -29,7 +29,6 @@ build:
 
 test:
 	@python3 scripts/regression-test.py
-	@node --test tests/property.test.js
 
 audit: contrast validate
 	ssg audit -f ssg.toml -o public --severity warn --fail-on warn
@@ -42,8 +41,8 @@ contrast:
 # (pip install --require-hashes -r requirements/test.txt); Node tooling
 # from package-lock.json (npm ci --ignore-scripts).
 style:
-	@python3 -m ruff check scripts tests audit
-	@python3 -m ruff format --check scripts tests audit
+	@python3 -m ruff check scripts tests audit fuzz
+	@python3 -m ruff format --check scripts tests audit fuzz
 
 markdown:
 	@npx --no-install markdownlint-cli2

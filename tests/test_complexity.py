@@ -15,7 +15,7 @@ from radon.complexity import cc_visit
 from radon.metrics import h_visit
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCES = sorted(p for d in ("scripts", "tests", "audit") for p in (ROOT / d).glob("*.py"))
+SOURCES = sorted(p for d in ("scripts", "tests", "audit", "fuzz") for p in (ROOT / d).glob("*.py"))
 MAX_CYCLOMATIC = 10
 MAX_HALSTEAD_DIFFICULTY = 30
 MAX_FUNCTION_LINES = 60

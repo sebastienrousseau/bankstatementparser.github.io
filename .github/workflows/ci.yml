@@ -51,10 +51,10 @@ jobs:
 
       # ruff.toml holds the settings; `make style` runs the same two checks.
       - name: Lint (ruff check)
-        run: python -m ruff check scripts tests audit
+        run: python -m ruff check scripts tests audit fuzz
 
       - name: Format (ruff format --check)
-        run: python -m ruff format --check scripts tests audit
+        run: python -m ruff format --check scripts tests audit fuzz
 
       - name: README, version, release notes and SPDX lint
         run: make lint
@@ -62,7 +62,7 @@ jobs:
       - name: pip-audit (locked requirements, fails on any advisory)
         run: |
           python -m pip install --quiet --require-hashes -r requirements/audit.txt
-          for lock in requirements/test.txt requirements/audit.txt; do
+          for lock in requirements/test.txt requirements/audit.txt requirements/fuzz.txt; do
             python -m pip_audit --require-hashes --disable-pip -r "$lock"
           done
 
@@ -92,6 +92,41 @@ jobs:
 
       - name: Tests with coverage floor (pytest, Hypothesis)
         run: make coverage
+
+  fuzz:
+    # Coverage-guided fuzzing of the front-matter validator with Atheris
+    # (libFuzzer), as bankstatementparser-mcp fuzzes its tools. The
+    # target fails when check() raises or disagrees with the keys it
+    # parsed, so a crash here is a real defect.
+    name: Fuzz (Atheris)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+
+      - name: Install locked fuzzing dependencies
+        run: python -m pip install --quiet --require-hashes -r requirements/fuzz.txt
+
+      - name: Fuzz the front-matter validator
+        run: |
+          mkdir -p "$RUNNER_TEMP/corpus" "$RUNNER_TEMP/crashes"
+          python fuzz/fuzz_frontmatter.py "$RUNNER_TEMP/corpus" \
+            -max_total_time=120 -timeout=25 \
+            -artifact_prefix="$RUNNER_TEMP/crashes/"
+
+      - name: Upload crash reproducers
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: fuzz-crashes
+          path: ${{ runner.temp }}/crashes/
 
   # Publishes the committed, validated docs/ tree to GitHub Pages. The
   # repository's Pages source is "GitHub Actions", so without this job no

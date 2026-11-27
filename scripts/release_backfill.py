@@ -2,20 +2,34 @@
 # SPDX-FileCopyrightText: 2024-2026 Sebastien Rousseau
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """Package a release assets reproducibly."""
+
 from __future__ import annotations
-import argparse, datetime, gzip, hashlib, io, json, sys, tarfile, uuid
+
+import argparse
+import datetime
+import gzip
+import hashlib
+import io
+import json
+import sys
+import tarfile
+import uuid
 from pathlib import Path
 
 NAMESPACE = "https://bankstatementparser.com/sbom.cdx.json"
 LICENCE_FILES = ("LICENSE", "LICENSE-APACHE", "LICENSE-MIT")
 
+
 def site_tree(src: Path) -> Path:
     for candidate in (src / "public", src / "site", src / "docs"):
-        if (candidate / "index.html").is_file(): return candidate
+        if (candidate / "index.html").is_file():
+            return candidate
     raise SystemExit(f"[backfill] no built site in {src}/public, site, or docs")
+
 
 def serial_for(version: str) -> str:
     return f"urn:uuid:{uuid.uuid5(uuid.NAMESPACE_URL, f'{NAMESPACE}#{version}')}"
+
 
 def sbom_for(site: Path, version: str, mtime: int = 0) -> dict:
     path = site / "sbom.cdx.json"
@@ -23,29 +37,35 @@ def sbom_for(site: Path, version: str, mtime: int = 0) -> dict:
         sbom = json.loads(path.read_text(encoding="utf-8"))
         sbom["serialNumber"] = serial_for(version)
         if mtime:
-            sbom.setdefault("metadata", {})["timestamp"] = (
-                datetime.datetime.fromtimestamp(mtime, tz=datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-            )
+            sbom.setdefault("metadata", {})["timestamp"] = datetime.datetime.fromtimestamp(
+                mtime, tz=datetime.UTC
+            ).strftime("%Y-%m-%dT%H:%M:%SZ")
         path.write_text(json.dumps(sbom, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     else:
         timestamp = (
-            datetime.datetime.fromtimestamp(mtime, tz=datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+            datetime.datetime.fromtimestamp(mtime, tz=datetime.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
             if mtime
             else "1970-01-01T00:00:00Z"
         )
         sbom = {
-            "bomFormat": "CycloneDX", "specVersion": "1.5",
-            "serialNumber": serial_for(version), "version": 1,
+            "bomFormat": "CycloneDX",
+            "specVersion": "1.5",
+            "serialNumber": serial_for(version),
+            "version": 1,
             "metadata": {
                 "timestamp": timestamp,
                 "component": {
-                    "type": "application", "bom-ref": f"bankstatementparser.com@{version}",
-                    "name": "bankstatementparser.com", "version": version,
-                    "description": "Static documentation website compiled with Rust static-site-generator (ssg)."
-                }
-            }, "components": []
+                    "type": "application",
+                    "bom-ref": f"bankstatementparser.com@{version}",
+                    "name": "bankstatementparser.com",
+                    "version": version,
+                    "description": "Static documentation website compiled with Rust static-site-generator (ssg).",
+                },
+            },
+            "components": [],
         }
     return sbom
+
 
 def add(tar: tarfile.TarFile, path: Path, arcname: str, mtime: int) -> None:
     info = tar.gettarinfo(str(path), arcname)
@@ -53,8 +73,11 @@ def add(tar: tarfile.TarFile, path: Path, arcname: str, mtime: int) -> None:
     info.uname = info.gname = ""
     info.mtime = mtime
     if info.isfile():
-        with path.open("rb") as handle: tar.addfile(info, handle)
-    else: tar.addfile(info)
+        with path.open("rb") as handle:
+            tar.addfile(info, handle)
+    else:
+        tar.addfile(info)
+
 
 def package(src: Path, site: Path, out: Path, name: str, mtime: int) -> Path:
     raw = io.BytesIO()
@@ -65,11 +88,16 @@ def package(src: Path, site: Path, out: Path, name: str, mtime: int) -> Path:
                 continue
             add(tar, path, "site/" + path.relative_to(site).as_posix(), mtime)
         for licence in LICENCE_FILES:
-            if (src / licence).is_file(): add(tar, src / licence, licence, mtime)
+            if (src / licence).is_file():
+                add(tar, src / licence, licence, mtime)
     target = out / name
-    with target.open("wb") as handle, gzip.GzipFile(fileobj=handle, mode="wb", mtime=0, filename="") as gz:
+    with (
+        target.open("wb") as handle,
+        gzip.GzipFile(fileobj=handle, mode="wb", mtime=0, filename="") as gz,
+    ):
         gz.write(raw.getvalue())
     return target
+
 
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser()
@@ -82,12 +110,19 @@ def main(argv: list[str]) -> int:
     site = site_tree(args.src)
     args.out.mkdir(parents=True, exist_ok=True)
     sbom_dict = sbom_for(site, version, args.mtime)
-    archive = package(args.src, site, args.out, f"bankstatementparser-site-v{version}.tar.gz", args.mtime)
+    archive = package(
+        args.src, site, args.out, f"bankstatementparser-site-v{version}.tar.gz", args.mtime
+    )
     sbom = args.out / f"bankstatementparser-site-v{version}.cdx.json"
     sbom.write_text(json.dumps(sbom_dict, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    sums = "".join(f"{hashlib.sha256(p.read_bytes()).hexdigest()}  ./{p.name}\n" for p in sorted((archive, sbom)))
+    sums = "".join(
+        f"{hashlib.sha256(p.read_bytes()).hexdigest()}  ./{p.name}\n"
+        for p in sorted((archive, sbom))
+    )
     (args.out / "SHA256SUMS").write_text(sums, encoding="utf-8")
     print(f"[backfill] {args.tag}: {archive.name}, {sbom.name}, SHA256SUMS")
     return 0
 
-if __name__ == "__main__": sys.exit(main(sys.argv[1:]))
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

@@ -1,11 +1,31 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2024-2026 Sebastien Rousseau
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-import os, sys
+import os
+import sys
 
-REQUIRED_FILES = ["robots.txt", "sitemap.xml", "manifest.json", "rss.xml", "search-index.json", "CNAME", "llms.txt", "llms-full.txt", "sw.js", "humans.txt"]
-SECURITY_FIELDS = ("Contact:", "Expires:", "Canonical: https://bankstatementparser.com/.well-known/security.txt")
-CLIENT_FEATURES = {"applyTheme": "Theme Switcher", "searchModal": "Search Engine", "navbarToggle": "Mobile Nav toggle"}
+REQUIRED_FILES = [
+    "robots.txt",
+    "sitemap.xml",
+    "manifest.json",
+    "rss.xml",
+    "search-index.json",
+    "CNAME",
+    "llms.txt",
+    "llms-full.txt",
+    "sw.js",
+    "humans.txt",
+]
+SECURITY_FIELDS = (
+    "Contact:",
+    "Expires:",
+    "Canonical: https://bankstatementparser.com/.well-known/security.txt",
+)
+CLIENT_FEATURES = {
+    "applyTheme": "Theme Switcher",
+    "searchModal": "Search Engine",
+    "navbarToggle": "Mobile Nav toggle",
+}
 
 
 def read_text(path):
@@ -44,7 +64,11 @@ def check_client_script(docs_dir):
     errors = []
     for js_f in js_files:
         txt = read_text(os.path.join(docs_dir, js_f))
-        errors += [f"{js_f} is missing {label}" for marker, label in CLIENT_FEATURES.items() if marker not in txt]
+        errors += [
+            f"{js_f} is missing {label}"
+            for marker, label in CLIENT_FEATURES.items()
+            if marker not in txt
+        ]
     return errors
 
 
@@ -78,6 +102,7 @@ def run_regression():
     else:
         print("\n[✅ PASSED]: 100% regression tests passed with zero errors!\n")
 
+
 def glob_html(d):
     res = []
     for r, _, files in os.walk(d):
@@ -85,6 +110,7 @@ def glob_html(d):
             if f.endswith(".html"):
                 res.append(os.path.join(r, f))
     return res
+
 
 if __name__ == "__main__":
     run_regression()

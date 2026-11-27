@@ -150,10 +150,7 @@ class _Cognitive:
     def _expression(self, node: ast.AST, depth: int) -> None:
         if isinstance(node, ast.BoolOp):
             self.total += 1 + _operator_switches(node)
-        elif (
-            isinstance(node, ast.Call)
-            and _callee(node, self.method) == self.name
-        ):
+        elif isinstance(node, ast.Call) and _callee(node, self.method) == self.name:
             self.total += 1
         for child in ast.iter_child_nodes(node):
             self.visit(child, depth)
@@ -291,9 +288,7 @@ def halstead(func: FuncNode) -> float:
 # ---------------------------------------------------------------------------
 # Collection
 # ---------------------------------------------------------------------------
-def _functions(
-    tree: ast.AST, prefix: str = ""
-) -> Iterator[tuple[str, FuncNode]]:
+def _functions(tree: ast.AST, prefix: str = "") -> Iterator[tuple[str, FuncNode]]:
     for node in ast.iter_child_nodes(tree):
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             name = f"{prefix}{node.name}"
@@ -341,9 +336,7 @@ def offenders(roots: list[Path]) -> Metrics:
         tree = ast.parse(source, filename=rel)
         for name, func in _functions(tree):
             over = {
-                metric: value
-                for metric, value in measure(func).items()
-                if value > CEILINGS[metric]
+                metric: value for metric, value in measure(func).items() if value > CEILINGS[metric]
             }
             if over:
                 key = _unique(found, f"{rel}::{name}")
@@ -364,15 +357,11 @@ def _unique(found: Metrics, key: str) -> str:
 # ---------------------------------------------------------------------------
 def _flatten(table: Metrics) -> dict[tuple[str, str], float]:
     return {
-        (key, metric): value
-        for key, metrics in table.items()
-        for metric, value in metrics.items()
+        (key, metric): value for key, metrics in table.items() for metric, value in metrics.items()
     }
 
 
-def compare(
-    current: Metrics, baseline: Metrics
-) -> tuple[list[str], list[str]]:
+def compare(current: Metrics, baseline: Metrics) -> tuple[list[str], list[str]]:
     """Return (regressions, improvements) of ``current`` vs ``baseline``."""
     now = _flatten(current)
     allowed = _flatten(baseline)
@@ -405,9 +394,7 @@ def _write(path: Path, data: Metrics) -> None:
 
 def _report(current: Metrics) -> int:
     def weight(item: tuple[str, dict[str, float]]) -> float:
-        return max(
-            v / CEILINGS.get(m, FILE_CEILING) for m, v in item[1].items()
-        )
+        return max(v / CEILINGS.get(m, FILE_CEILING) for m, v in item[1].items())
 
     for key, metrics in sorted(current.items(), key=weight, reverse=True):
         shown = ", ".join(f"{m} {v}" for m, v in sorted(metrics.items()))

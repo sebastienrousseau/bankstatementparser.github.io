@@ -15,9 +15,7 @@ from radon.complexity import cc_visit
 from radon.metrics import h_visit
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCES = sorted(
-    p for d in ("scripts", "tests", "audit") for p in (ROOT / d).glob("*.py")
-)
+SOURCES = sorted(p for d in ("scripts", "tests", "audit") for p in (ROOT / d).glob("*.py"))
 MAX_CYCLOMATIC = 10
 MAX_HALSTEAD_DIFFICULTY = 30
 MAX_FUNCTION_LINES = 60
@@ -36,11 +34,19 @@ def function_lengths(source: str) -> dict[str, int]:
 def test_functions_stay_within_complexity_ceilings(path):
     source = path.read_text(encoding="utf-8")
     assert len(source.splitlines()) <= MAX_FILE_LINES
-    over = [f"{b.name}: cyclomatic {b.complexity}" for b in cc_visit(source) if b.complexity > MAX_CYCLOMATIC]
+    over = [
+        f"{b.name}: cyclomatic {b.complexity}"
+        for b in cc_visit(source)
+        if b.complexity > MAX_CYCLOMATIC
+    ]
     over += [
         f"{name}: Halstead difficulty {rep.difficulty:.1f}"
         for name, rep in h_visit(source).functions
         if rep.difficulty > MAX_HALSTEAD_DIFFICULTY
     ]
-    over += [f"{name}: {n} lines" for name, n in function_lengths(source).items() if n > MAX_FUNCTION_LINES]
+    over += [
+        f"{name}: {n} lines"
+        for name, n in function_lengths(source).items()
+        if n > MAX_FUNCTION_LINES
+    ]
     assert not over, over

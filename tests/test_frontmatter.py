@@ -9,13 +9,16 @@ from hypothesis import given
 from hypothesis import strategies as st
 
 _SPEC = importlib.util.spec_from_file_location(
-    "validate_frontmatter", Path(__file__).resolve().parents[1] / "scripts" / "validate-frontmatter.py"
+    "validate_frontmatter",
+    Path(__file__).resolve().parents[1] / "scripts" / "validate-frontmatter.py",
 )
 vf = importlib.util.module_from_spec(_SPEC)
 _SPEC.loader.exec_module(vf)
 
 REQUIRED = vf.REQUIRED_KEYS
-value = st.text(alphabet=st.characters(blacklist_characters="\r\n", blacklist_categories=("Cs",)), max_size=40)
+value = st.text(
+    alphabet=st.characters(blacklist_characters="\r\n", blacklist_categories=("Cs",)), max_size=40
+)
 body = st.text(max_size=400)
 
 
@@ -85,8 +88,8 @@ def test_classify_url_excludes_utility_routes():
 
 
 def test_encode_raw_amp_preserves_script_blocks():
-    html = '<p>A & B &amp; C</p><script>if (a && b) {}</script>'
-    assert pb.encode_raw_amp(html) == '<p>A &amp; B &amp; C</p><script>if (a && b) {}</script>'
+    html = "<p>A & B &amp; C</p><script>if (a && b) {}</script>"
+    assert pb.encode_raw_amp(html) == "<p>A &amp; B &amp; C</p><script>if (a && b) {}</script>"
 
 
 def test_write_sitemap_removes_news_sitemaps_and_update_manifests_normalizes(tmp_path):
@@ -104,10 +107,10 @@ def test_write_sitemap_removes_news_sitemaps_and_update_manifests_normalizes(tmp
 
     pb.update_manifests(str(tmp_path))
     import json
+
     data = json.loads(manifest.read_text(encoding="utf-8"))
     assert data["theme_color"] == "#5b287b"
     assert data["background_color"] == "#ffffff"
-
 
 
 def test_sitemap_skips_noindex_redirect_and_non_canonical_pages(tmp_path):

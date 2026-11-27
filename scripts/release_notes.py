@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """Compose a GitHub release title and notes in the portfolio format."""
 from __future__ import annotations
-import argparse, json, re, subprocess, sys
+import argparse, hashlib, json, re, subprocess, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -54,8 +54,10 @@ def first_release_changes(tag: str) -> str:
     return "## What's Changed\n" + "\n".join(lines) + "\n"
 
 def checksums(sums: str) -> str:
+    # SHA256SUMS is attached too, so list its own hash after its contents.
     intro = "SHA-256 of every asset attached to this release:"
-    return f"## Checksums\n\n{intro}\n\n```text\n{sums.strip()}\n```\n"
+    own = f"{hashlib.sha256(sums.encode('utf-8')).hexdigest()}  ./SHA256SUMS"
+    return f"## Checksums\n\n{intro}\n\n```text\n{sums.strip()}\n{own}\n```\n"
 
 def compose(tag: str, sums: str) -> str:
     prev = previous_tag(tag)
@@ -88,7 +90,7 @@ def main(argv: list[str]) -> int:
     if args.title:
         print(title(args.tag))
         return 0
-    notes = compose(args.tag, args.sums.read_text(encoding="utf-8") if args.sums else "")
+    notes = compose(args.tag, args.sums.read_bytes().decode("utf-8") if args.sums else "")
     if args.out: args.out.write_text(notes, encoding="utf-8")
     else: sys.stdout.write(notes)
     return 0

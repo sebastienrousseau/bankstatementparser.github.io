@@ -14,7 +14,6 @@ import re
 from pathlib import Path
 
 import pytest
-
 from asset_bundle import bundle_page, sri
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -61,7 +60,7 @@ def test_bundle_carries_a_valid_integrity_hash(site):
 
 def test_bundle_replaces_the_first_stylesheet_in_place(site):
     html = bundle_page(PAGE, site, {})
-    assert html.index("<link rel=\"stylesheet\"") < html.index("/theme-init.js")
+    assert html.index('<link rel="stylesheet"') < html.index("/theme-init.js")
 
 
 def test_body_search_script_is_deferred_and_theme_init_is_not(site):

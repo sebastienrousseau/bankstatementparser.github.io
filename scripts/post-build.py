@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2024-2026 Sebastien Rousseau
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """Post-build optimization, metadata synthesis, and deterministic docs/ sync."""
@@ -8,9 +9,9 @@ import datetime
 import glob
 import json
 import os
-from pathlib import Path
 import re
 import shutil
+from pathlib import Path
 
 from asset_bundle import bundle_site
 
@@ -107,13 +108,7 @@ def resolve_build_date() -> str:
     """Return ISO-8601 build date from SOURCE_DATE_EPOCH or wall-clock today."""
     epoch = os.environ.get("SOURCE_DATE_EPOCH", "").strip()
     if epoch.isdigit():
-        return (
-            datetime.datetime.fromtimestamp(
-                int(epoch), tz=datetime.timezone.utc
-            )
-            .date()
-            .isoformat()
-        )
+        return datetime.datetime.fromtimestamp(int(epoch), tz=datetime.UTC).date().isoformat()
     return datetime.date.today().isoformat()
 
 
@@ -147,9 +142,7 @@ def is_indexable(html_path: str, loc: str) -> bool:
     return canonical.group(1) == loc
 
 
-def collect_sitemap_urls(
-    output_dir: str, base_url: str
-) -> list[tuple[str, str, str]]:
+def collect_sitemap_urls(output_dir: str, base_url: str) -> list[tuple[str, str, str]]:
     """Collect sorted, deduplicated canonical URLs from compiled HTML files."""
     urls: list[tuple[str, str, str]] = []
     seen: set[str] = set()
@@ -189,9 +182,7 @@ def write_sitemap(output_dir: str, base_url: str) -> int:
             ]
         )
     lines.append("</urlset>\n")
-    with open(
-        os.path.join(output_dir, "sitemap.xml"), "w", encoding="utf-8"
-    ) as handle:
+    with open(os.path.join(output_dir, "sitemap.xml"), "w", encoding="utf-8") as handle:
         handle.write("\n".join(lines))
 
     # Remove unwanted news-sitemap.xml generated for non-news pages
@@ -267,15 +258,11 @@ def build_llms_full(posts_dir: str, base_url: str) -> str:
 
 def write_static_meta(output_dir: str, base_url: str) -> None:
     """Write RFC 9116 security.txt, CNAME, robots.txt, llms.txt, and favicon."""
-    with open(
-        os.path.join(".well-known", "security.txt"), encoding="utf-8"
-    ) as handle:
+    with open(os.path.join(".well-known", "security.txt"), encoding="utf-8") as handle:
         security_txt = handle.read()
     os.makedirs(os.path.join(output_dir, ".well-known"), exist_ok=True)
     for rel in (os.path.join(".well-known", "security.txt"), "security.txt"):
-        with open(
-            os.path.join(output_dir, rel), "w", encoding="utf-8"
-        ) as handle:
+        with open(os.path.join(output_dir, rel), "w", encoding="utf-8") as handle:
             handle.write(security_txt)
 
     with open(os.path.join(output_dir, "CNAME"), "w", encoding="utf-8") as handle:
@@ -285,15 +272,11 @@ def write_static_meta(output_dir: str, base_url: str) -> None:
     if os.path.exists("robots.txt"):
         shutil.copy2("robots.txt", os.path.join(output_dir, "robots.txt"))
 
-    with open(
-        os.path.join(output_dir, "llms.txt"), "w", encoding="utf-8"
-    ) as handle:
+    with open(os.path.join(output_dir, "llms.txt"), "w", encoding="utf-8") as handle:
         handle.write(build_llms_txt(base_url))
 
     if os.path.isdir("_posts"):
-        with open(
-            os.path.join(output_dir, "llms-full.txt"), "w", encoding="utf-8"
-        ) as handle:
+        with open(os.path.join(output_dir, "llms-full.txt"), "w", encoding="utf-8") as handle:
             handle.write(build_llms_full("_posts", base_url))
 
     if os.path.exists("favicon.ico"):
@@ -312,9 +295,7 @@ def write_static_meta(output_dir: str, base_url: str) -> None:
         "Standards: HTML5, CSS4, WCAG 2.2 AAA, ISO 20022\n"
         "Generator: Static Site Generator (ssg) + Skeletonic CSS (Visage)\n"
     )
-    with open(
-        os.path.join(output_dir, "humans.txt"), "w", encoding="utf-8"
-    ) as handle:
+    with open(os.path.join(output_dir, "humans.txt"), "w", encoding="utf-8") as handle:
         handle.write(humans_txt)
 
 
@@ -377,9 +358,7 @@ def process_html_files(output_dir: str, base_url: str) -> None:
 
 def update_manifests(output_dir: str) -> None:
     """Ensure manifest.json sets canonical theme_color and background_color."""
-    for manifest_file in glob.glob(
-        f"{output_dir}/**/manifest.json", recursive=True
-    ):
+    for manifest_file in glob.glob(f"{output_dir}/**/manifest.json", recursive=True):
         with open(manifest_file, "r", encoding="utf-8") as handle:
             m_data = json.load(handle)
         m_data["theme_color"] = "#5b287b"
@@ -457,8 +436,7 @@ def post_build(output_dir: str = "public", docs_dir: str = "docs") -> None:
     bundle_count = bundle_site(output_dir)
     sync_to_docs(output_dir, docs_dir)
     print(
-        f"Post-build optimization complete ({url_count} URLs,"
-        f" {bundle_count} stylesheet bundle(s))."
+        f"Post-build optimization complete ({url_count} URLs, {bundle_count} stylesheet bundle(s))."
     )
 
 

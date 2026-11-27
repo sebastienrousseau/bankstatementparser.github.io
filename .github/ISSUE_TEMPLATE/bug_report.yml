@@ -1,0 +1,60 @@
+# SPDX-FileCopyrightText: 2024-2026 Sebastien Rousseau
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+name: Bug Report
+description: Report a reproducible problem on bankstatementparser.com
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page URL
+      placeholder: "https://bankstatementparser.com/getting-started/"
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: bankstatementparser.github.io Version
+      description: The release in the site footer or VERSION file, if you know it.
+      placeholder: "0.0.36"
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and Version
+      placeholder: "Firefox 140"
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      options:
+        - Linux
+        - macOS
+        - Windows
+        - Android
+        - iOS
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened and what did you expect instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps To Reproduce
+      description: |
+        The steps that show the problem: page, theme (light or dark),
+        assistive technology, viewport size, as applicable.
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything Else
+      description: Screenshots, console output, Lighthouse or axe reports, etc.

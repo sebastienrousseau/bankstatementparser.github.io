@@ -28,10 +28,13 @@ jobs:
         with:
           node-version: "24"
 
+      - name: Install locked Node tooling
+        run: npm ci --ignore-scripts
+
       # Lighthouse 100 in every category (SEO audit by audit on the noindex
       # 404 and offline pages), FCP <= 1000 ms and LCP <= 1200 ms under
       # simulated mobile throttling, on every page of the committed docs/
-      # tree the CI deploy job publishes. `make lighthouse` runs the pinned
+      # tree the CI deploy job publishes. `make lighthouse` runs the locked
       # @lhci/cli with .lighthouserc.cjs, exactly as it runs locally.
       - name: Lighthouse CI (every page, mobile)
         run: make lighthouse

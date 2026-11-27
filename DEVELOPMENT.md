@@ -2,9 +2,11 @@
 
 ## Prerequisites
 
-- Rust and `ssg` 0.0.76: `cargo install ssg --locked --version 0.0.76`
+- Rust and `ssg` 0.0.77: `cargo install ssg --locked --version 0.0.77`
 - Python 3.12 or later
-- Node.js 24 or later
+- Node.js 24 or later (or 22.22+)
+- Locked tooling: `npm ci --ignore-scripts` and
+  `python3 -m pip install --require-hashes -r requirements/test.txt`
 
 ## Build and test
 
@@ -13,7 +15,10 @@ make build      # compile static site with ssg and post-build optimization
 make test       # run regression tests
 make audit      # run WCAG AAA checks and SSG audit
 make lint       # verify README, release versions, notes, and SPDX headers
-make verify     # run all gates: lint, test, audit
+make style      # ruff lint and format check of the Python scripts
+make coverage   # pytest suite with its coverage floor
+make verify     # run all gates: lint, style, markdown, html, complexity,
+                # test, coverage, audit
 make serve      # serve compiled site locally from public/
 ```
 

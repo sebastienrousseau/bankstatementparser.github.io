@@ -15,7 +15,7 @@ def _lin(c: float) -> float:
 
 def _luminance(hex_colour: str) -> float:
     h = hex_colour.lstrip("#")
-    r, g, b = (int(h[i:i + 2], 16) for i in (0, 2, 4))
+    r, g, b = (int(h[i : i + 2], 16) for i in (0, 2, 4))
     return 0.2126 * _lin(r) + 0.7152 * _lin(g) + 0.0722 * _lin(b)
 
 
@@ -27,18 +27,18 @@ def ratio(fg: str, bg: str) -> float:
 
 PAIRS = [
     # (label, foreground, background)
-    ("light body text",     "#14181f", "#ffffff"),
-    ("light muted / bg",    "#41474f", "#ffffff"),
-    ("light muted / surf",  "#41474f", "#eef2f6"),
-    ("light brand / bg",    "#1c4e9e", "#ffffff"),
-    ("light brand / surf",  "#1c4e9e", "#eef2f6"),
-    ("light btn text",      "#ffffff", "#173f86"),
-    ("dark body text",      "#e8eef4", "#0d1117"),
-    ("dark muted / bg",     "#aeb9c5", "#0d1117"),
-    ("dark muted / surf",   "#aeb9c5", "#161c26"),
-    ("dark brand / bg",     "#82b4ff", "#0d1117"),
-    ("dark brand / surf",   "#82b4ff", "#161c26"),
-    ("dark btn text",       "#0d1117", "#82b4ff"),
+    ("light body text", "#14181f", "#ffffff"),
+    ("light muted / bg", "#41474f", "#ffffff"),
+    ("light muted / surf", "#41474f", "#eef2f6"),
+    ("light brand / bg", "#1c4e9e", "#ffffff"),
+    ("light brand / surf", "#1c4e9e", "#eef2f6"),
+    ("light btn text", "#ffffff", "#173f86"),
+    ("dark body text", "#e8eef4", "#0d1117"),
+    ("dark muted / bg", "#aeb9c5", "#0d1117"),
+    ("dark muted / surf", "#aeb9c5", "#161c26"),
+    ("dark brand / bg", "#82b4ff", "#0d1117"),
+    ("dark brand / surf", "#82b4ff", "#161c26"),
+    ("dark btn text", "#0d1117", "#82b4ff"),
 ]
 
 AAA = 7.0

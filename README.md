@@ -16,7 +16,7 @@
   <a href="https://bankstatementparser.com"><img src="https://img.shields.io/badge/docs-bankstatementparser.com-blue?style=for-the-badge&labelColor=555555&logo=googlechrome" alt="Docs" height="28" /></a>
   <a href="https://scorecard.dev/viewer/?uri=github.com/sebastienrousseau/bankstatementparser.github.io"><img src="https://img.shields.io/ossf-scorecard/github.com/sebastienrousseau/bankstatementparser.github.io?style=for-the-badge&label=OpenSSF%20Scorecard&logo=openssf" alt="OpenSSF Scorecard" height="28" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-blue.svg?style=for-the-badge" alt="License: Apache-2.0 OR MIT" height="28" /></a>
-  <a href="https://static-site-generator.com/"><img src="https://img.shields.io/badge/SSG-0.0.76-93450a.svg?style=for-the-badge&logo=rust" alt="Built with Rust SSG" height="28" /></a>
+  <a href="https://static-site-generator.com/"><img src="https://img.shields.io/badge/SSG-0.0.77-93450a.svg?style=for-the-badge&logo=rust" alt="Built with Rust SSG" height="28" /></a>
 </p>
 
 ---
@@ -68,10 +68,11 @@ git clone https://github.com/sebastienrousseau/bankstatementparser.github.io.git
 cd bankstatementparser.github.io
 ```
 
-Optional audit tooling includes `html-validate`, `pa11y-ci`, and `@lhci/cli` for CI conformance testing:
+The gate's tooling is locked: `html-validate`, `markdownlint-cli2` and `@lhci/cli` in `package-lock.json`, and the Python test, lint and audit tools in hash-pinned `requirements/*.txt`. Install both before `make verify`:
 
 ```bash
-npm install -g html-validate pa11y-ci @lhci/cli
+npm ci --ignore-scripts
+python3 -m pip install --require-hashes -r requirements/test.txt
 ```
 
 ---
@@ -79,7 +80,7 @@ npm install -g html-validate pa11y-ci @lhci/cli
 ## Requirements
 
 - **Rust Toolchain**: Rust 1.75+ (for compiling `ssg` static site generator).
-- **Node.js**: Node 20+ (for HTML validation and accessibility CI suites).
+- **Node.js**: Node 22.22+ or 24.8+ (for HTML validation, Markdown lint and Lighthouse CI; CI runs Node 24).
 - **Python**: Python 3.12+ (for contrast ratios and regression testing).
 - **Target Platforms**: Linux, macOS, Windows (cross-platform static deployment).
 
@@ -130,7 +131,7 @@ The `bankstatementparser` suite provides end-to-end tooling for financial docume
 
 | Area | Capability | Status |
 | :--- | :--- | :--- |
-| Static Generation | Rust SSG v0.0.76 + Tera template compilation | Active |
+| Static Generation | Rust SSG v0.0.77 + Tera template compilation | Active |
 | Accessibility | 100% WCAG 2.2 Level AAA compliance (>= 7.0:1 contrast) | Verified |
 | Content Security | Strict Content-Security-Policy (CSP) with zero inline scripts | Enforced |
 | Integrity | SHA-384 Subresource Integrity (SRI) on all scripts and styles | Active |
@@ -155,7 +156,7 @@ Audit and regression suites are executed continuously on every commit:
 
 | Scenario | Result | Environment |
 | :--- | ---: | :--- |
-| Full Site Compilation (20 Pages) | < 2.0s | Rust `ssg` 0.0.76, 32 plugins |
+| Full Site Compilation (20 Pages) | < 2.0s | Rust `ssg` 0.0.77, 32 plugins |
 | Worst Light Mode Contrast Ratio | 17.79:1 | WCAG 2.2 AAA (Threshold >= 7.0:1) |
 | Worst Dark Mode Contrast Ratio | 8.08:1 | WCAG 2.2 AAA (Threshold >= 7.0:1) |
 | Lighthouse Performance / A11y | 100 / 100 | Clean ECMAScript, zero heavy runtimes |
@@ -264,4 +265,4 @@ Versions follow strict Semantic Versioning (`0.0.1` -> `0.0.2` -> ...), advancin
 
 ## License
 
-Dual-licensed under [Apache-2.0](LICENSE-APACHE) OR [MIT](LICENSE-MIT), at your option. See [LICENSE](LICENSE).
+Dual-licensed under [Apache-2.0](LICENSE-APACHE) OR [MIT](LICENSE-MIT), at your option (`SPDX-License-Identifier: Apache-2.0 OR MIT`). `LICENSE` carries the Apache-2.0 text so licence scanners recognise it; the MIT option stands unchanged in `LICENSE-MIT`.

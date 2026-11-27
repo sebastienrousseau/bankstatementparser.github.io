@@ -9,14 +9,15 @@ Only the current production deployment and latest source on `main` receive secur
 
 | Version  | Supported          |
 | -------- | ------------------ |
-| v0.0.35  | :white_check_mark: |
-| < 0.0.35 | :x:                |
+| v0.0.36  | :white_check_mark: |
+| < 0.0.36 | :x:                |
 
 ## Reporting a Vulnerability
 
-Report vulnerabilities privately to **sebastian.rousseau@gmail.com** or use GitHub's private vulnerability reporting for this repository. Machine-readable disclosure metadata lives at [`/.well-known/security.txt`](.well-known/security.txt) per [RFC 9116](https://www.rfc-editor.org/rfc/rfc9116).
+Report vulnerabilities privately to **<sebastian.rousseau@gmail.com>** or use GitHub's private vulnerability reporting for this repository. Machine-readable disclosure metadata lives at [`/.well-known/security.txt`](.well-known/security.txt) per [RFC 9116](https://www.rfc-editor.org/rfc/rfc9116).
 
 Please include:
+
 - A description of the issue and its potential impact.
 - Step-by-step reproduction instructions or a minimal proof of concept.
 - Affected URLs or repository files.

@@ -6,6 +6,58 @@ All notable changes to this website are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.0.36] - 2026-11-27
+
+### Added
+
+- Signed releases: the release workflow signs the archive, the SBOM
+  and `SHA256SUMS` with keyless cosign (`.sig` and `.pem` per file),
+  attaches SLSA Build Level 3 provenance from slsa-github-generator's
+  generic generator (`bankstatementparser-site-v<version>.intoto.jsonl`),
+  and publishes in a last job so the notes cover every asset.
+- Atheris fuzzing of `scripts/validate-frontmatter.py`
+  (`fuzz/fuzz_frontmatter.py`, locked in `requirements/fuzz.txt`), run
+  for two minutes by a new CI job.
+- A Docs Lint workflow: the README template gate
+  (`scripts/validate_readme.py`) and markdownlint with the suite's
+  `.markdownlint-cli2.jsonc`.
+- CI runs `ruff check`, `ruff format --check`, `make lint`, `npm audit`,
+  `pip-audit` on every locked requirements file, and pytest with a
+  coverage floor of 20% (measured 20.9%). `make verify` runs the same
+  gates.
+- `package.json` and `package-lock.json` lock the Node tooling
+  (`html-validate` 11.21.1, `markdownlint-cli2` 0.24.2, `@lhci/cli`
+  0.16.1); Dependabot watches npm too.
+- The suite's issue forms, pull request template and Contributor
+  Covenant `CODE_OF_CONDUCT.md`.
+
+### Changed
+
+- Built the site with `ssg` 0.0.77, the latest release.
+- `LICENSE` carries the Apache-2.0 text (as `LICENSE-APACHE` does), so
+  licence scanners recognise it; the site stays Apache-2.0 OR MIT.
+- Formatted the Python with ruff (`ruff.toml`) and adopted the suite's
+  Scorecard workflow.
+- Moved `html-validate` from 10 to 11.21.1, clearing the glob and
+  minimatch advisories, and held markdownlint's `katex` at 0.19.1 with
+  an npm override (GHSA-238p-pmpm-9mq7).
+- Listed 0.0.36 as the supported version in `SECURITY.md` and
+  `.github/SECURITY.md`.
+
+### Fixed
+
+- Listed `SHA256SUMS` itself in the release notes' Checksums section:
+  the release attaches it, but only its contents were listed.
+- Corrected the README's Node floor from 20+ to 22.22+ or 24.8+, what
+  the locked tools require.
+- Fixed the Markdown lint findings: blank lines around the changelog
+  page's headings and lists, and bare URLs and email addresses.
+
+### Removed
+
+- `tests/property.test.js`, which tested inline copies of string
+  handling rather than the site, with `fast-check` never installed.
+
 ## [0.0.35] - 2026-11-26
 
 ### Added
@@ -195,7 +247,7 @@ All notable changes to this website are documented here. The format follows
 
 - Upgraded compilation and audit pipeline to the latest local SSG generator.
 - The footer reads "© 2026 Sebastien Rousseau. Bank Statement Parser.",
-  with the name linked to https://sebastienrousseau.com/ (`rel="author"`),
+  with the name linked to <https://sebastienrousseau.com/> (`rel="author"`),
   across all layouts.
 
 ### Fixed

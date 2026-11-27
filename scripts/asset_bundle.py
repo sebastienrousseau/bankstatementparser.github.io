@@ -54,7 +54,7 @@ def bundle_page(html: str, output_dir: Path, cache: dict[tuple[str, ...], str]) 
         if hrefs not in cache:
             cache[hrefs] = write_bundle(output_dir, hrefs)
         first = STYLESHEET_RE.search(head)
-        head = head[: first.start()] + cache[hrefs] + STYLESHEET_RE.sub("", head[first.start():])
+        head = head[: first.start()] + cache[hrefs] + STYLESHEET_RE.sub("", head[first.start() :])
     return head + BODY_CSP_SCRIPT_RE.sub(r"\1 defer", body)
 
 

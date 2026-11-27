@@ -68,10 +68,11 @@ git clone https://github.com/sebastienrousseau/bankstatementparser.github.io.git
 cd bankstatementparser.github.io
 ```
 
-Optional audit tooling includes `html-validate`, `pa11y-ci`, and `@lhci/cli` for CI conformance testing:
+The gate's tooling is locked: `html-validate`, `markdownlint-cli2` and `@lhci/cli` in `package-lock.json`, and the Python test, lint and audit tools in hash-pinned `requirements/*.txt`. Install both before `make verify`:
 
 ```bash
-npm install -g html-validate pa11y-ci @lhci/cli
+npm ci --ignore-scripts
+python3 -m pip install --require-hashes -r requirements/test.txt
 ```
 
 ---
@@ -79,7 +80,7 @@ npm install -g html-validate pa11y-ci @lhci/cli
 ## Requirements
 
 - **Rust Toolchain**: Rust 1.75+ (for compiling `ssg` static site generator).
-- **Node.js**: Node 20+ (for HTML validation and accessibility CI suites).
+- **Node.js**: Node 22.22+ or 24.8+ (for HTML validation, Markdown lint and Lighthouse CI; CI runs Node 24).
 - **Python**: Python 3.12+ (for contrast ratios and regression testing).
 - **Target Platforms**: Linux, macOS, Windows (cross-platform static deployment).
 

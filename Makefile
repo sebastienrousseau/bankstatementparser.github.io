@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2024-2026 Sebastien Rousseau
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-.PHONY: all build audit contrast validate lint complexity test lighthouse verify serve clean help
+.PHONY: all build audit contrast validate lint style markdown html complexity test coverage lighthouse verify serve clean help
 
 all: verify
 
@@ -11,10 +11,14 @@ help:
 	@echo "  make contrast   - Verify color tokens against WCAG 2.2 AAA math ratios"
 	@echo "  make validate   - Validate Markdown frontmatter schema integrity"
 	@echo "  make lint       - Validate README, release versions, notes, and SPDX headers"
+	@echo "  make style      - Lint and format-check the Python scripts with ruff"
+	@echo "  make markdown   - Lint every Markdown file with markdownlint-cli2"
+	@echo "  make html       - Validate every page of docs/ with html-validate"
 	@echo "  make complexity - Hold Python functions under the complexity ceilings"
 	@echo "  make test       - Run automated regression tests"
+	@echo "  make coverage   - Run the pytest suite with its coverage floor"
 	@echo "  make lighthouse - Run Lighthouse CI over every built page (needs Chrome)"
-	@echo "  make verify     - Run full gate: lint, complexity, test, audit"
+	@echo "  make verify     - Run full gate: lint, style, markdown, html, complexity, test, coverage, audit"
 	@echo "  make serve      - Serve compiled site locally from public/"
 	@echo "  make clean      - Remove build artifacts and temporary files"
 
@@ -34,6 +38,24 @@ contrast:
 	@python3 scripts/audit-contrast.py
 	@python3 audit/contrast.py
 
+# Python tooling comes from requirements/test.txt
+# (pip install --require-hashes -r requirements/test.txt); Node tooling
+# from package-lock.json (npm ci --ignore-scripts).
+style:
+	@python3 -m ruff check scripts tests audit
+	@python3 -m ruff format --check scripts tests audit
+
+markdown:
+	@npx --no-install markdownlint-cli2
+
+html:
+	@npx --no-install html-validate "docs/**/*.html"
+
+# The floor is the measured line coverage of scripts/ and audit/ (20.9%
+# when it was set); raise it as tests grow, never lower it.
+coverage:
+	@python3 -m pytest tests -q -p no:cacheprovider --cov=scripts --cov=audit --cov-report=term --cov-fail-under=20
+
 validate:
 	@python3 scripts/validate-frontmatter.py
 
@@ -50,14 +72,14 @@ lint:
 complexity:
 	python3 scripts/check_complexity.py
 
-# Lighthouse CI over every page of docs/, as the quality-gate workflow runs
-# it; .lighthouserc.cjs holds the page list and the assertions.
-LHCI = npx --yes @lhci/cli@0.16.1
+# Lighthouse CI (the locked @lhci/cli) over every page of docs/, as the
+# quality-gate workflow runs it; .lighthouserc.cjs holds the page list and the assertions.
+LHCI = npx --no-install lhci
 lighthouse:
 	@$(LHCI) collect --config=.lighthouserc.cjs
 	@$(LHCI) assert --config=.lighthouserc.cjs
 
-verify: lint complexity test audit
+verify: lint style markdown html complexity test coverage audit
 
 serve: build
 	@cd public && python3 -m http.server 8000 --bind 127.0.0.1

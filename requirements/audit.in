@@ -1,0 +1,2 @@
+# Advisory audit of the locked Python requirements (CI).
+pip-audit==2.10.1

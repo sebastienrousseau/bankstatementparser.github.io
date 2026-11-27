@@ -1,4 +1,6 @@
-# Property-based tests for the build scripts (tests/).
+# Tests, lint and format for the build scripts (scripts/, tests/, audit/).
 pytest==9.2.0
+pytest-cov==7.1.0
 hypothesis==6.170.17
 radon==6.0.1
+ruff==0.17.6

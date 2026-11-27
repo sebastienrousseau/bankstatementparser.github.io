@@ -1,0 +1,17 @@
+{
+  "name": "bankstatementparser.github.io",
+  "private": true,
+  "description": "Build and audit tooling for bankstatementparser.com, locked for CI and local runs.",
+  "license": "Apache-2.0 OR MIT",
+  "engines": {
+    "node": "^22.22.0 || >=24.8.0"
+  },
+  "devDependencies": {
+    "@lhci/cli": "0.16.1",
+    "html-validate": "11.21.1",
+    "markdownlint-cli2": "0.24.2"
+  },
+  "overrides": {
+    "katex": "0.19.1"
+  }
+}

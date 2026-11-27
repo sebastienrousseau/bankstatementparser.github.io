@@ -37,3 +37,24 @@ def test_checksums_block_lists_the_sums_file_itself():
     lines = rn.checksums(SUMS).split("```text\n")[1].split("\n```")[0].splitlines()
     assert lines[-1] == f"{digest}  ./SHA256SUMS"
     assert len(lines) == 3
+
+
+def test_checksums_block_lists_signatures_and_provenance_too():
+    others = {"x.tar.gz.sig": b"sig", "x.intoto.jsonl": b"{}"}
+    lines = rn.checksums(SUMS, others).split("```text\n")[1].split("\n```")[0].splitlines()
+    assert f"{hashlib.sha256(b'sig').hexdigest()}  ./x.tar.gz.sig" in lines
+    assert f"{hashlib.sha256(b'{}').hexdigest()}  ./x.intoto.jsonl" in lines
+    assert len(lines) == 5
+
+
+def test_release_assets_splits_the_sums_file_from_every_other_asset(tmp_path):
+    for name in ("a.tar.gz", "a.cdx.json", "a.tar.gz.sig", "a.tar.gz.pem", "a.intoto.jsonl"):
+        (tmp_path / name).write_bytes(name.encode())
+    sums = "".join(
+        f"{hashlib.sha256(n.encode()).hexdigest()}  ./{n}\n" for n in ("a.cdx.json", "a.tar.gz")
+    )
+    (tmp_path / "SHA256SUMS").write_bytes(sums.encode())
+    got_sums, others = rn.release_assets(tmp_path)
+    assert got_sums == sums
+    assert sorted(others) == ["a.intoto.jsonl", "a.tar.gz.pem", "a.tar.gz.sig"]
+    assert others["a.tar.gz.sig"] == b"a.tar.gz.sig"

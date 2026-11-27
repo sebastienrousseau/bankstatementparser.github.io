@@ -79,14 +79,30 @@ def first_release_changes(tag: str) -> str:
     return "## What's Changed\n" + "\n".join(lines) + "\n"
 
 
-def checksums(sums: str) -> str:
-    # SHA256SUMS is attached too, so list its own hash after its contents.
+def sha256_line(name: str, data: bytes) -> str:
+    return f"{hashlib.sha256(data).hexdigest()}  ./{name}"
+
+
+def checksums(sums: str, others: dict[str, bytes] | None = None) -> str:
+    # SHA256SUMS is attached too, so list its own hash after its contents,
+    # then the assets it does not cover (signatures, certificates and the
+    # SLSA provenance, made after it).
     intro = "SHA-256 of every asset attached to this release:"
-    own = f"{hashlib.sha256(sums.encode('utf-8')).hexdigest()}  ./SHA256SUMS"
-    return f"## Checksums\n\n{intro}\n\n```text\n{sums.strip()}\n{own}\n```\n"
+    lines = [sums.strip(), sha256_line("SHA256SUMS", sums.encode("utf-8"))]
+    lines += [sha256_line(n, b) for n, b in sorted((others or {}).items())]
+    body = "\n".join(lines)
+    return f"## Checksums\n\n{intro}\n\n```text\n{body}\n```\n"
 
 
-def compose(tag: str, sums: str) -> str:
+def release_assets(folder: Path) -> tuple[str, dict[str, bytes]]:
+    """SHA256SUMS's text, and every other file in folder it does not list."""
+    sums = (folder / "SHA256SUMS").read_bytes().decode("utf-8")
+    listed = {line.split("  ./", 1)[-1] for line in sums.splitlines()} | {"SHA256SUMS"}
+    files = sorted(p for p in folder.iterdir() if p.is_file() and p.name not in listed)
+    return sums, {p.name: p.read_bytes() for p in files}
+
+
+def compose(tag: str, sums: str, others: dict[str, bytes] | None = None) -> str:
     prev = previous_tag(tag)
     body = generated(tag, prev)
     cl = re.search(r"^\*\*Full Changelog\*\*: \S+$", body, re.MULTILINE)
@@ -99,9 +115,15 @@ def compose(tag: str, sums: str) -> str:
         sections = first_release_changes(tag).strip()
     parts = [highlights(tag), sections + "\n"]
     if sums.strip():
-        parts.append(checksums(sums))
+        parts.append(checksums(sums, others))
     parts.append(cl.group(0) + "\n")
     return "\n".join(parts)
+
+
+def notes_inputs(args: argparse.Namespace) -> tuple[str, dict[str, bytes]]:
+    if args.assets:
+        return release_assets(args.assets)
+    return (args.sums.read_bytes().decode("utf-8") if args.sums else ""), {}
 
 
 def main(argv: list[str]) -> int:
@@ -109,6 +131,7 @@ def main(argv: list[str]) -> int:
     parser.add_argument("--tag")
     parser.add_argument("--title", action="store_true")
     parser.add_argument("--sums", type=Path)
+    parser.add_argument("--assets", type=Path, help="folder of every asset to attach")
     parser.add_argument("--out", type=Path)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args(argv)
@@ -123,7 +146,7 @@ def main(argv: list[str]) -> int:
     if args.title:
         print(title(args.tag))
         return 0
-    notes = compose(args.tag, args.sums.read_bytes().decode("utf-8") if args.sums else "")
+    notes = compose(args.tag, *notes_inputs(args))
     if args.out:
         args.out.write_text(notes, encoding="utf-8")
     else:

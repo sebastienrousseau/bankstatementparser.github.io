@@ -6,11 +6,20 @@ All notable changes to this website are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.0.37] - 2026-11-28
+
 ### Changed
 
 - CI: four pinned actions move to their latest releases:
   codeql-action 4.39.5, markdownlint-cli2-action 25.1.0,
   cosign-installer 4.1.4 and sbom-action 0.24.4.
+- Listed 0.0.37 as the supported version in `SECURITY.md` and
+  `.github/SECURITY.md`.
+
+### Fixed
+
+- `codeql.yml` labelled its v4 CodeQL pin `# v3`; the comment now
+  names the release, v4.39.5.
 
 ## [0.0.36] - 2026-11-27
 

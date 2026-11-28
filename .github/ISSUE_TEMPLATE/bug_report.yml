@@ -17,7 +17,7 @@ body:
     attributes:
       label: bankstatementparser.github.io Version
       description: The release in the site footer or VERSION file, if you know it.
-      placeholder: "0.0.36"
+      placeholder: "0.0.37"
   - type: input
     id: browser
     attributes:

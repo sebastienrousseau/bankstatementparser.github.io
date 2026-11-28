@@ -9,8 +9,8 @@ Only the current production deployment and latest source on `main` receive secur
 
 | Version  | Supported          |
 | -------- | ------------------ |
-| v0.0.36  | :white_check_mark: |
-| < 0.0.36 | :x:                |
+| v0.0.37  | :white_check_mark: |
+| < 0.0.37 | :x:                |
 
 ## Reporting a Vulnerability
 

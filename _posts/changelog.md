@@ -21,6 +21,12 @@ lead: "Deterministic versioning history, security audits, and functional enhance
 
 All notable changes to **Bank Statement Parser** are documented in this file following strict Semantic Versioning.
 
+## [0.0.37] - 2026-11-28
+
+### Changed
+
+- Moved the site's CI to the latest releases of its pinned GitHub Actions (CodeQL, markdownlint, cosign installer and SBOM), in lockstep with the suite's 0.0.37 release.
+
 ## [0.0.36] - 2026-11-27
 
 ### Changed
